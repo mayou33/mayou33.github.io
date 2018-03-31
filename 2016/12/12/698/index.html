@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux-3.14.12内存管理笔记【构建内存管理框架（5）】</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/12/12/698/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux-3.14.12内存管理笔记【构建内存管理框架（5）】</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-12-12</span>
+      
+      <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4848269.html" target="_blank" rel="external"><font color="#0066cc">http://blog.chinaunix.net/uid-26859697-id-4848269.html</font></a></p>
+<div class="Blog_wz1" style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br><br>        前面已经分析了内存管理框架的构建实现过程，有部分内容未完全呈现出来，这里主要做个补充。<br><br>        如下图，这是前面已经看到过的<span style="-ms-word-wrap: break-word;">linux</span>物理内存管理框架的层次关系。<br><br>    &gt; <img src="http://blog.chinaunix.net/attachment/201502/28/26859697_14250557017787.png" alt=""><br><br>        &nbsp;<br><br>        <span style="line-height: 1.5; text-indent: 21pt; -ms-word-wrap: break-word;">现着重分析一下各个管理结构体的成员功能作用。</span><br><br>    <div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; letter-spacing: 0.1px; overflow: auto; -ms-word-break: break-all; -ms-word-wrap: break-word; font-size-adjust: none; font-stretch: normal;"><br><br>1.  <span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file：<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>include<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>linux<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mmzone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h】</span><br>2.  typedef struct pglist_data <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>3.  &nbsp;&nbsp;&nbsp;&nbsp;struct zone node_zones<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>MAX_NR_ZONES<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>4.  &nbsp;&nbsp;&nbsp;&nbsp;struct zonelist node_zonelists<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>MAX_ZONELISTS<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>5.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> nr_zones<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>6.  #ifdef CONFIG_FLAT_NODE_MEM_MAP <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> means <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span>SPARSEMEM <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>7.  &nbsp;&nbsp;&nbsp;&nbsp;struct page <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>node_mem_map<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>8.  #ifdef CONFIG_MEMCG<br>9.  &nbsp;&nbsp;&nbsp;&nbsp;struct page_cgroup <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span>node_page_cgroup<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>10.  #endif<br>11.  #endif<br>12.  #ifndef CONFIG_NO_BOOTMEM<br>13.  &nbsp;&nbsp;&nbsp;&nbsp;struct bootmem_data <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>bdata<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>14.  #endif<br>15.  #ifdef CONFIG_MEMORY_HOTPLUG<br>16.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>17.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Must be held any <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">time</span> you expect node_start_pfn<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> node_present_pages<br>18.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">or</span> node_spanned_pages stay constant<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Holding this will also<br>19.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> guarantee that any pfn_valid<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> stays that way<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>20.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>21.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> pgdat_resize_lock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> pgdat_resize_unlock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> are provided <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span><br>22.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> manipulate node_size_lock without checking <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> CONFIG_MEMORY_HOTPLUG<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>23.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><br>24.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> Nests above zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>lock <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>span_seqlock<br>25.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>26.  &nbsp;&nbsp;&nbsp;&nbsp;spinlock_t node_size_lock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>27.  #endif<br>28.  &nbsp;&nbsp;&nbsp;&nbsp;unsigned long node_start_pfn<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>29.  &nbsp;&nbsp;&nbsp;&nbsp;unsigned long node_present_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> total number of physical pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>30.  &nbsp;&nbsp;&nbsp;&nbsp;unsigned long node_spanned_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> total size of physical page<br>31.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;range<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> including holes <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>32.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> node_id<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>33.  &nbsp;&nbsp;&nbsp;&nbsp;nodemask_t reclaim_nodes<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> Nodes allowed <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> reclaim from <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>34.  &nbsp;&nbsp;&nbsp;&nbsp;wait_queue_head_t kswapd_wait<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>35.  &nbsp;&nbsp;&nbsp;&nbsp;wait_queue_head_t pfmemalloc_wait<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>36.  &nbsp;&nbsp;&nbsp;&nbsp;struct task_struct <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span>kswapd<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Protected by lock_memory_hotplug<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>37.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> kswapd_max_order<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>38.  &nbsp;&nbsp;&nbsp;&nbsp;enum zone_type classzone_idx<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>39.  #ifdef CONFIG_NUMA_BALANCING<br>40.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Lock serializing the migrate rate limiting <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">window</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>41.  &nbsp;&nbsp;&nbsp;&nbsp;spinlock_t numabalancing_migrate_lock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>42.  &nbsp;<br>43.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Rate limiting <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">time</span> interval <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>44.  &nbsp;&nbsp;&nbsp;&nbsp;unsigned long numabalancing_migrate_next_window<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>45.  &nbsp;<br>46.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Number of pages migrated during the rate limiting <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">time</span> interval <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>47.  &nbsp;&nbsp;&nbsp;&nbsp;unsigned long numabalancing_migrate_nr_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>48.  #endif<br>49.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span> pg_data_t<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>    </div>
+
+<pre><code>    truct zone node_zones[MAX_NR_ZONES];
+
+    &amp;mdash;&amp;mdash;存放该&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;pg_data_t&lt;/span&gt;里面的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;zone&lt;/span&gt;；
+
+    struct zonelist node_zonelists[MAX_ZONELISTS];
+
+    &amp;mdash;&amp;mdash;其用于管理备用节点及内存域的列表，该列表表示内存分配策略。该链表将&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;node_zones&lt;/span&gt;串联起来，其串联&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;zone&lt;/span&gt;的顺序就是各区的内存申请顺序，例如&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;normal-&amp;gt;dma-&amp;gt;highmem&lt;/span&gt;，申请时也将会是先从&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;normal&lt;/span&gt;区中申请，如果申请不到，再依序到从&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;dma&lt;/span&gt;区、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;highmem&lt;/span&gt;区去申请；
+
+    int nr_zones;
+
+    &amp;mdash;&amp;mdash;用于记录&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;zone&lt;/span&gt;的个数；
+
+    struct page *node_mem_map;
+
+    &amp;mdash;&amp;mdash;其指向一个&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;page&lt;/span&gt;结构的数组，数组中的每个成员为该节点中的一个物理页面，于是整个数组就对应了该节点中所有的物理页面；
+
+    struct page_cgroup *node_page_cgroup;
+
+    &amp;mdash;&amp;mdash;用于管理&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;page_cgroup&lt;/span&gt;，原来的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;page_cgroup&lt;/span&gt;是&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;page&lt;/span&gt;页面管理结构的一个成员，现在移到这里了，它将会在初始化时所有的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;page_cgroup&lt;/span&gt;都将申请下来；
+
+    struct bootmem_data *bdata;
+
+    &amp;mdash;&amp;mdash;该数据指向&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;bootmem_node_data&lt;/span&gt;，可以通过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;system.map&lt;/span&gt;查到。原是用于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;bootmem&lt;/span&gt;内存分配器的信息存储，当前改用&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;memblock&lt;/span&gt;算法，则不存在该成员；
+
+    unsigned long node_start_pfn;
+
+    &amp;mdash;&amp;mdash;指向当前&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;pg_data_t&lt;/span&gt;结构管理的物理起始页面；
+
+    unsigned long node_present_pages;
+
+    &amp;mdash;&amp;mdash;记录物理页面数总量，除开内存空洞的物理页面数；
+
+    unsigned long node_spanned_pages;
+
+    &amp;mdash;&amp;mdash;最大和最小页面号的差值，包括内存空洞的总的物理页面大小；
+
+    int node_id;
+
+    &amp;mdash;&amp;mdash;&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;pg_data_t&lt;/span&gt;对应的索引号，非&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;NUMA&lt;/span&gt;架构下该值为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;0&lt;/span&gt;；
+
+    nodemask_t reclaim_nodes;
+
+    &amp;mdash;&amp;mdash;用于记录可回收的内存管理节点&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;node&lt;/span&gt;信息；
+
+    wait_queue_head_t kswapd_wait;
+
+    &amp;mdash;&amp;mdash;&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kswapd&lt;/span&gt;是页面交换守护线程，该线程会阻塞在这个等待队列，当满足条件后，调用&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;wake_up_interruptible()&lt;/span&gt;唤醒该队列进行相关操作；
+
+    wait_queue_head_t pfmemalloc_wait;
+
+    &amp;mdash;&amp;mdash;用于减缓内存直接回收；
+
+    struct task_struct *kswapd;
+
+    &amp;mdash;&amp;mdash;指向&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kswapd&lt;/span&gt;守护线程的任务指针；
+
+    int kswapd_max_order;
+
+    &amp;mdash;&amp;mdash;用于表示&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kswapd&lt;/span&gt;守护线程每次回收的页面个数；
+
+    enum zone_type classzone_idx;
+
+    &amp;mdash;&amp;mdash;该成员与&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kswapd&lt;/span&gt;有关；
+
+&lt;div class=&quot;codeText&quot; id=&quot;codeText&quot; style=&quot;background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; letter-spacing: 0.1px; overflow: auto; -ms-word-break: break-all; -ms-word-wrap: break-word; font-size-adjust: none; font-stretch: normal;&quot;&gt;
+</code></pre><ol>
+<li><span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file：<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>include<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>linux<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mmzone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h】</span></li>
+<li>struct zone <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Fields commonly accessed by the page allocator <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> zone watermarks<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> access with <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span>_wmark_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> macros <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long watermark<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>NR_WMARK<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> When free pages are below this point<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> additional steps are taken</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> when reading the number of free pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> avoid per<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>cpu counter</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> drift allowing watermarks <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> be breached</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long percpu_drift_mark<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> We don<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>t know <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> the memory that we<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>re going <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> allocate will be freeable</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">or</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> it will be released eventually<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> so <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> avoid totally wasting several</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> GB of ram we must reserve some of the lower zone memory <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>otherwise we risk</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> run OOM <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> the lower zones despite there<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>s tons of freeable ram</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> the higher zones<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> This <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">array</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> recalculated at runtime <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> the</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> sysctl_lowmem_reserve_ratio sysctl changes<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long lowmem_reserve<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>MAX_NR_ZONES<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> This <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> a per<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>zone reserve of pages that should <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> be</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> considered dirtyable memory<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long dirty_balance_reserve<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>#ifdef CONFIG_NUMA</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> node<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> zone reclaim becomes active <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> more unmapped pages exist<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long min_unmapped_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long min_slab_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;struct per_cpu_pageset __percpu <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>pageset<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> free areas of different sizes</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;spinlock_t lock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> defined CONFIG_COMPACTION <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">|</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">|</span> defined CONFIG_CMA</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">Set</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">true</span> when the PG_migrate_skip bits should be cleared <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;bool compact_blockskip_flush<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> pfns where compaction scanners should start <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long compact_cached_free_pfn<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long compact_cached_migrate_pfn<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li>#ifdef CONFIG_MEMORY_HOTPLUG</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> see spanned<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>present_pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> more description <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;seqlock_t span_seqlock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;struct free_area free_area<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>MAX_ORDER<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>#ifndef CONFIG_SPARSEMEM</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Flags <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> a pageblock_nr_pages block<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> See pageblock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">In</span> SPARSEMEM<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> this map <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> stored <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> struct mem_section</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>pageblock_flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> CONFIG_SPARSEMEM <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;</li>
+<li>#ifdef CONFIG_COMPACTION</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">On</span> compaction failure<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> 1<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&lt;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&lt;</span>compact_defer_shift compactions</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> are skipped before trying again<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> The number attempted since</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> last failure <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> tracked with compact_considered<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> compact_considered<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> compact_defer_shift<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> compact_order_failed<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;ZONE_PADDING<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><em>pad1</em><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Fields commonly accessed by the page reclaim scanner <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;spinlock_t lru_lock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;struct lruvec lruvec<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long pages_scanned<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> since last reclaim <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> zone flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> see below <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Zone statistics <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;atomic_long_t vm_stat<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>NR_VM_ZONE_STAT_ITEMS<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> The target ratio of ACTIVE_ANON <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> INACTIVE_ANON pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> this zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>s LRU<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Maintained by the pageout code<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> inactive_ratio<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;ZONE_PADDING<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><em>pad2</em><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Rarely used <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">or</span> read<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>mostly fields <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> wait_table <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> the <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">array</span> holding the hash table</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> wait_table_hash_nr_entries <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> the size of the hash table <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">array</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> wait_table_bits <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> wait_table_size <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>1 <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&lt;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&lt;</span> wait_table_bits<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> The purpose of all these <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> keep track of the people</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> waiting <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> a page <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> become available <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> make them</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> runnable again when possible<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> The trouble <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> that this</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> consumes a lot of <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">space</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> especially when so few things</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> wait <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> pages at a given <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">time</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> So instead of using</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> per<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>page waitqueues<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> we use a waitqueue hash table<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> The bucket discipline <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> sleep <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> the same queue when</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> colliding <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> wake all <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> that wait queue when removing<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> When something wakes<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> it must check <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> be sure its page <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> truly available<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> a la thundering herd<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> The cost of a</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> collision <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> great<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> but given the expected load of the</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> table<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> they should be so rare as <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> be outweighed by the</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> benefits from the saved <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">space</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> __wait_on_page_locked<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> unlock_page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> mm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>filemap<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> are the</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> primary users of these fields<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> mm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>page_alloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> free_area_init_core<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> performs the initialization of them<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;wait_queue_head_t <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> wait_table<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long wait_table_hash_nr_entries<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long wait_table_bits<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Discontig memory support fields<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;struct pglist_data <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>zone_pgdat<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> zone_start_pfn <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> zone_start_paddr <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span> PAGE_SHIFT <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long zone_start_pfn<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> spanned_pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> the total pages spanned by the zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> including</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> holes<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> which <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> calculated as<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> spanned_pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> zone_end_pfn <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> zone_start_pfn<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> present_pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> physical pages existing within the zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> which</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> calculated as<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> present_pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> spanned_pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> absent_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> holes<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> managed_pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> present pages managed by the buddy system<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> which</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> calculated as <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>reserved_pages includes pages allocated by the</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> bootmem allocator<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> managed_pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> present_pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> reserved_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> So present_pages may be used by memory hotplug <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">or</span> memory power</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> management logic <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> figure out unmanaged pages by checking</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>present_pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> managed_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">And</span> managed_pages should be used</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> by page allocator <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> vm scanner <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> calculate all kinds of watermarks</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> thresholds<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Locking rules<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> zone_start_pfn <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> spanned_pages are protected by span_seqlock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> It <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> a seqlock because it has <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> be read outside of zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>lock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> it <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> done <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> the main allocator path<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> But<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> it <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> written</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> quite infrequently<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> The span_seq lock <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> declared along with zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>lock because it <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> frequently read <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> proximity <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>lock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> It<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>s good <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> give them a chance of being <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> the same cacheline<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Write access <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> present_pages at runtime should be protected by</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> lock_memory_hotplug<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>unlock_memory_hotplug<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Any reader who can<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>t</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> tolerant drift of present_pages should hold memory hotplug lock <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">get</span> a stable value<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Read access <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> managed_pages should be safe because it<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>s unsigned</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> long<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Write access <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>managed_pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> totalram_pages are</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> protected by managed_page_count_lock at runtime<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Idealy only</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> adjust_managed_page_count<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> should be used instead of directly</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> touching zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>managed_pages <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> totalram_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long spanned_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long present_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long managed_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Number of MIGRATE_RESEVE page block<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">To</span> maintain <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> just</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> optimization<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Protected by zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>lock<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> nr_migrate_reserve_block<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> rarely used fields<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">const</span> char <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>name<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li><p><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span> ____cacheline_internodealigned_in_smp<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br></p></li></ol></div><p></p>
+<p>  unsigned long watermark[NR_WMARK];</p>
+<p>  &mdash;&mdash;该数组有三个值<span style="-ms-word-wrap: break-word;">WMARK_MIN</span>、<span style="-ms-word-wrap: break-word;">WMARK_LOW</span>、<span style="-ms-word-wrap: break-word;">WMARK_HIGH</span>，如命名所标识，<span style="-ms-word-wrap: break-word;">min</span>最小，<span style="-ms-word-wrap: break-word;">low</span>居中，<span style="-ms-word-wrap: break-word;">high</span>最大。内存分配过程中，当空闲页面达到<span style="-ms-word-wrap: break-word;">low</span>时，内存分配器会唤醒<span style="-ms-word-wrap: break-word;">kswapd</span>守护进程来回收物理页面；当空闲页面达到<span style="-ms-word-wrap: break-word;">min</span>时，内存分配器就会唤醒<span style="-ms-word-wrap: break-word;">kswapd</span>以同步方式回收；如果<span style="-ms-word-wrap: break-word;">kswapd</span>被唤醒后，空闲页面达到<span style="-ms-word-wrap: break-word;">high</span>时，则会使<span style="-ms-word-wrap: break-word;">kswapd</span>再次休眠；</p>
+<p>  unsigned long percpu_drift_mark;</p>
+<p>  &mdash;&mdash;当空闲页面低于该值，将会引发附加操作的执行，用于避免前面的<span style="-ms-word-wrap: break-word;">watermark</span>被冲破；</p>
+<p>  unsigned long lowmem_reserve[MAX_NR_ZONES];</p>
+<p>  &mdash;&mdash;记录每个管理区中必须保留的物理页面数，以用于紧急状况下的内存分配；</p>
+<p>  unsigned long dirty_balance_reserve;</p>
+<p>  &mdash;&mdash;用于表示不会被内存分配器分配出去的空闲页面部分的近似值；</p>
+<p>  struct per_cpu_pageset __percpu *pageset;</p>
+<p>  &mdash;&mdash;该数组里面的成员<span style="-ms-word-wrap: break-word;">pcp</span>用于实现冷热页面的管理；</p>
+<p>  spinlock_t lock;</p>
+<p>  &mdash;&mdash;<span style="-ms-word-wrap: break-word;">spinlock</span>锁，用于解决该管理区的并发问题；</p>
+<p>  struct free_area free_area[MAX_ORDER];</p>
+<p>  &mdash;&mdash;主要用于<span style="-ms-word-wrap: break-word;">Buddy</span>内存管理算法（伙伴算法）；</p>
+<p>  unsigned long *pageblock_flags;</p>
+<p>  &mdash;&mdash;与伙伴算法的碎片迁移算法有关；</p>
+<p>  spinlock_t lru_lock;</p>
+<p>  &mdash;&mdash;用于保护<span style="-ms-word-wrap: break-word;">lruvec</span>结构数据；</p>
+<p>  struct lruvec lruvec;</p>
+<p>  &mdash;&mdash;<span style="-ms-word-wrap: break-word;">lruvec</span>该数组里面有一个<span style="-ms-word-wrap: break-word;">lists</span>是用于<span style="-ms-word-wrap: break-word;">lru</span>管理的链表，另外有一个<span style="-ms-word-wrap: break-word;">reclaim_stat</span>用于页面回收的状态标示；</p>
+<p>  unsigned long pages_scanned;</p>
+<p>  &mdash;&mdash;用于记录上次物理页面回收时，扫描过的页描述符总数；</p>
+<p>  unsigned long flags;</p>
+<p>  &mdash;&mdash;用于表示当前内存管理区的状态；</p>
+<p>  atomic_long_t vm_stat[NR_VM_ZONE_STAT_ITEMS];</p>
+<p>  &mdash;&mdash;用于统计该内存管理区中各项状态的数值；</p>
+<p>  unsigned int inactive_ratio;</p>
+<p>  &mdash;&mdash;不活跃的页面比例；</p>
+<p>  wait_queue_head_t *wait_table;</p>
+<p>  unsigned long wait_table_hash_nr_entries;</p>
+<p>  unsigned long wait_table_bits;</p>
+<p>  &mdash;&mdash;当多个进程同时访问同一页面时，必然会有进程先行访问操作，此时该页面不可用，因此其他的则需阻塞等待。当页面不可用时，则会将页面进行<span style="-ms-word-wrap: break-word;">hash</span>运算加入到该管理区<span style="-ms-word-wrap: break-word;">wait_table</span>的哈希表中，当页面可用时将会把里面任务列表中等待的进程进行唤醒。如果存在多个页面有相同的<span style="-ms-word-wrap: break-word;">hash</span>值，那么这些等待不同页面的任务仍然会睡眠在同一个<span style="-ms-word-wrap: break-word;">hash</span>表节点下，当相同<span style="-ms-word-wrap: break-word;">hash</span>值的某个页面可用时，将会唤醒所有进程，当进程在唤醒时需要检查是否是自己所等待的页面。其中<span style="-ms-word-wrap: break-word;">wait_table_hash_nr_entries</span>表示该哈希表中等待队列的数量，</p>
+<p>  struct pglist_data&nbsp; *zone_pgdat;</p>
+<p>  &mdash;&mdash;指向该内存管理区的<span style="-ms-word-wrap: break-word;">pg_data_list</span>；</p>
+<p>  unsigned long zone_start_pfn;</p>
+<p>  &mdash;&mdash;记录当前内存管理区中最小的物理页面号；</p>
+<p>  unsigned long spanned_pages;</p>
+<p>  &mdash;&mdash;记录内存管理区的总页面数，包括内存空洞的页面数，实则上是管理区末尾页面号和起始页面号的差值；</p>
+<p>  unsigned long present_pages;</p>
+<p>  &mdash;&mdash;除去内存空洞后的内存管理区实际有效的总页面数；</p>
+<p>  unsigned long managed_pages;</p>
+<p>  &mdash;&mdash;用于记录被内存管理算法管理的物理页面数，这是除去了在初始化阶段被申请的页面；</p>
+<p>  int nr_migrate_reserve_block;</p>
+<p>  &mdash;&mdash;用于优化的，记录内存迁移保留的页面数；</p>
+<p>  const char *name;</p>
+<p>  &mdash;&mdash;用于记录该管理区的名字；</p>
+<div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; letter-spacing: 0.1px; overflow: auto; -ms-word-break: break-all; -ms-word-wrap: break-word; font-size-adjust: none; font-stretch: normal;">
+
+<li><p><span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file：<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>include<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>linux<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mmzone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h】</span></p>
+</li>
+<li><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">Each</span> physical page <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> the system has a struct page associated with</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> it <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> keep track of whatever it <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> we are using the page <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> at the</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> moment<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Note that we have no way <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> track which tasks are using</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> a page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> though <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> it <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> a pagecache page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> rmap structures can tell us</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> who <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> mapping it<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> The objects <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> struct page are organized <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> double word blocks <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span></li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> order <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> allows us <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> use atomic double word operations <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> portions</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> of struct page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> That <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> currently only used by slub but the arrangement</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> allows the use of atomic double word operations <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> the flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mapping</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> lru list pointers also<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>struct page <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> First double word block <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Atomic flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> some possibly</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> updated asynchronously <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;union <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct address_space <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>mapping<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">If</span> low bit clear<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> points <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> inode address_space<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">or</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">NULL</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">If</span> page mapped as anonymous</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> memory<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> low bit <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">set</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> it points <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> anon_vma object<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> see PAGE_MAPPING_ANON below<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>s_mem<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> slab first object <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">Second</span> double word <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;struct <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;union <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pgoff_t index<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Our offset within mapping<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>freelist<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> sl<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>aou<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span>b first free object <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool pfmemalloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">If</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">set</span> by the page allocator<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> ALLOC_NO_WATERMARKS was <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">set</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> the low watermark was <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> met implying that the system</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> under some pressure<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> The</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> caller should try ensure</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> this page <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> only used <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> free other pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;union <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> defined<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>CONFIG_HAVE_CMPXCHG_DOUBLE<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">\</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;defined<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>CONFIG_HAVE_ALIGNED_STRUCT_PAGE<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Used <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> cmpxchg_double <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> slub <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned long counters<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">else</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Keep _count separate from slub cmpxchg_double data<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> As the rest of the double word <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> protected by</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> slab_lock but _count <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned counters<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;union <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Count of ptes mapped <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> mms<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> show when page <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> mapped <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span> limit reverse map</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> searches<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Used also <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> tail pages</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> refcounting instead of</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> _count<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Tail pages cannot</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> be mapped <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> keeping the</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> tail page _count zero at</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> all times guarantees</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> get_page_unless_zero<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> will</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> never succeed <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> tail</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomic_t _mapcount<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> SLUB <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned inuse<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span>16<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned objects<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span>15<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned frozen<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span>1<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> units<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> SLOB <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomic_t _count<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Usage count<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> see below<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> active<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> SLAB <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Third double word block <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;union <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct list_head lru<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Pageout list<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> eg<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> active_list</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> protected by zone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>lru_lock <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> slub per cpu partial pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct page <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">next</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">Next</span> partial slab <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#ifdef CONFIG_64BIT</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Nr of partial slabs <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">left</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> pobjects<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Approximate # of objects <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">else</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;short <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;short <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> pobjects<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct list_head list<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> slobs list of pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct slab <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>slab_page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> slab fields <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct rcu_head rcu_head<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Used by SLAB</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> when destroying via RCU</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> defined<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>CONFIG_TRANSPARENT_HUGEPAGE<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span> USE_SPLIT_PMD_PTLOCKS</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pgtable_t pmd_huge_pte<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> protected by page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>ptl <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#endif</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Remainder <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> double word aligned <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;union <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned long <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">private</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Mapping<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">private</span> opaque data<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> usually used <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> buffer_heads</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> PagePrivate <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">set</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> used <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> swp_entry_t <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> PageSwapCache<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> indicates order <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> the buddy</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> system <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> PG_buddy <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">set</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> USE_SPLIT_PTE_PTLOCKS</li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> ALLOC_SPLIT_PTLOCKS</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spinlock_t <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>ptl<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">else</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spinlock_t ptl<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li>#endif</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct kmem_cache <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>slab_cache<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> SL<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>AU<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span>B<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span> Pointer <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> slab <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct page <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>first_page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> Compound tail pages <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">On</span> machines where all RAM <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> mapped into kernel address <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">space</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> we can simply calculate the virtual address<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">On</span> machines with</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> highmem some memory <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> mapped into kernel virtual memory</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> dynamically<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> so we need a place <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> store that address<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Note that this field could be 16 bits <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> x86 <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Architectures with slow multiplication can define</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> WANT_PAGE_VIRTUAL <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> asm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> defined<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>WANT_PAGE_VIRTUAL<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>virtual<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> Kernel virtual address <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">NULL</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> kmapped<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> ie<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> highmem<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#endif <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> WANT_PAGE_VIRTUAL <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#ifdef CONFIG_WANT_PAGE_DEBUG_FLAGS</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long debug_flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Use atomic bitops <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> this <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>#endif</li>
+<li>&nbsp;</li>
+<li>#ifdef CONFIG_KMEMCHECK</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> kmemcheck wants <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> track the status of <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">each</span> byte <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> a page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> this</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> a pointer <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> such a status block<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">NULL</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> tracked<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>shadow<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li>&nbsp;</li>
+<li>#ifdef LAST_CPUPID_NOT_IN_PAGE_FLAGS</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> _last_cpupid<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>#endif</li>
+<li><p><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br></p></li></div><p></p>
+<p>  （该结构很多<span style="-ms-word-wrap: break-word;">union</span>结构，主要是用于各种算法不同数据的空间复用，暂时记录部分常见的数据成员）</p>
+<p>  unsigned long flags;</p>
+<p>  &mdash;&mdash;用于记录页框的类型；</p>
+<p>  struct address_space *mapping;</p>
+<p>  &mdash;&mdash;用于区分该页是映射页框还是匿名页框；</p>
+<p>  atomic_t _mapcount;</p>
+<p>  &mdash;&mdash;记录了系统中页表有多少项指向该页；</p>
+<p>  atomic_t _count;</p>
+<p>  &mdash;&mdash;当前系统对该页面的引用次数；</p>
+<p>  struct list_head lru;</p>
+<p>  &mdash;&mdash;当页框处于分配状态时，该成员用于<span style="-ms-word-wrap: break-word;">zone</span>的<span style="-ms-word-wrap: break-word;">lruvec</span>里面的<span style="-ms-word-wrap: break-word;">list</span>，当页框未被分配时则用于伙伴算法；</p>
+<p>  unsigned long private;</p>
+<p>  &mdash;&mdash;指向&ldquo;私有&rdquo;数据的指针。根据页的用途，可以用不同的方式使用该指针，通常用于与数据缓冲区关联起来；</p>
+<p>  void *virtual;</p>
+<p>  &mdash;&mdash;用于高端内存区域的页，即用于无法直接映射的页，该成员用于存储该页的虚拟地址；</p>
+
+
+<p></p>
+<div class="Blog_con2_1 Blog_con3_2" style="text-align: left; color: rgb(102, 102, 102); text-transform: none; line-height: 22px; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 12px; font-style: normal; font-weight: normal; margin-top: 50px; word-spacing: 0px; white-space: normal; position: relative; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <div style="height: 30px; -ms-word-wrap: break-word;"><br>        &nbsp;<br>    </div><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

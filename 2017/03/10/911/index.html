@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>CentOS安装PPTP VPN Client</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/03/10/911/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">CentOS安装PPTP VPN Client</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-03-10</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/vpn/"" title="vpn" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>vpn</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>#安装pptpd 官方支持的源：</p>
+<pre><code>###centos7就不能安装这个rpm了
+
+#rpm -ivh [http://poptop.sourceforge.net/yum/stable/pptp-release-current.noarch.rpm](http://poptop.sourceforge.net/yum/stable/pptp-release-current.noarch.rpm)
+
+测试ip：172.172.177.231
+
+默认网关：172.172.177.254
+
+1 安装软件
+
+注意：pptpd 是服务器端
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; pptp是客户端
+
+yum install -y&amp;nbsp; pptp ppp pptp-setup
+
+2.注册ppp_mppe 内核模块
+
+modprobe ppp_mppe
+
+#判断系统内核是否支持MPPE（点对点隧道协议）等于0 是ok。
+
+[root@test232 ~]# modprobe ppp-compress-18 &amp;amp;&amp;amp; echo $?
+
+0
+
+#判断PPP是否支持MPPE，若输出0，则代表不支持，若结果大于30 则表示支持
+
+[root@test232 ~]# strings &amp;#39;/usr/sbin/pppd&amp;#39; |grep -i mppe|wc -l
+
+47
+
+3、#配置pptpd 账号密码
+
+# pptpsetup --create vpn --server xxx.xxx.xxx.xxx--username 用户名 --password 密码
+
+pptpsetup --create myvpn --server 23.108.31.90 --username&amp;nbsp;zhangsan --password&amp;nbsp;zhangsan111 --encrypt --start
+
+创建一个叫myvpn的连接，远程服务器ip23.108.31.90、是用户名[zhangsan](mailto:lindatmanning919@gmail.com1)、密码zhangsan111 。encrypt是支持加密，start是创建后马上连接
+
+&amp;nbsp;
+
+上面数据写在了# vim /etc/ppp/chap-secrets
+
+也会在/etc/ppp/peers生成myvpn文件
+
+查看是否已经 使用MPPE加密require-mppe-128
+
+cat /etc/ppp/peers/myvpn
+
+# written by pptpsetup
+
+pty &amp;quot;pptp 23.108.31.90 --nolaunchpppd&amp;quot;
+
+lock
+
+noauth
+
+nobsdcomp
+
+nodeflate
+
+name zhangsan
+
+remotename myvpn
+
+ipparam myvpn
+
+file /etc/ppp/options.pptp
+
+require-mppe-128
+
+&amp;nbsp;######
+
+&amp;nbsp;4 添加
+
+&amp;nbsp; echo &amp;quot;require-mppe-128&amp;quot; &amp;gt;&amp;gt; /etc/ppp/options.pptp
+
+&amp;nbsp;
+
+vi /etc/resolv.conf
+
+nameserver 8.8.8.8
+
+nameserver 223.5.5.5
+
+&amp;nbsp;
+
+5连接vpn
+
+# pppd call myvpn
+
+检查网卡 ifconfig -a
+
+&amp;nbsp;检查连接状态
+
+&amp;nbsp;tail -fn 50 /var/log/messages
+
+检查网卡 ifconfig -a
+
+配置路由表
+
+连接成功后，通过route命令可查看路由表信息：
+
+先添加自己的路由
+
+ip route add 你ssh客户端的公网IP /32 via 你Centos的网关
+
+ip route add 192.168.1.18/32 via 172.172.177.254
+
+(因为所有操作是通过Putty远程连接到Centos系统上操作的，所以以上路由一定要加，不然执行下面删除路由后你就被断开连接了)
+
+全部流量都通过VPN
+
+如果您想连接VPN后，全部流量都通过VPN出去（翻墙），比如默认网关为172.172.177.254
+
+需要先让访问VPN服务端的流量可通过，然后才能转发其他的数据包。
+
+&amp;nbsp;*这里有三个IP
+
+&amp;nbsp;*23.108.31.90:公网IP
+
+&amp;nbsp;*172.172.177.254 :局域网网关
+
+&amp;nbsp;*172.172.177.231:本机的局域网IP
+
+# ip route replace 23.108.31.90 via 172.172.177.254 dev eth0 src 172.172.177.231
+
+# ip route replace default dev ppp0
+
+跟踪路由看看：traceroute [www.baidu.com](http://www.baidu.com)
+
+&amp;nbsp;
+
+当然要关闭连接时，也是需要恢复默认网关的：
+
+ip route del default dev ppp0
+
+ip route del 23.108.31.90 via 172.172.177.254 dev eth0 src 172.172.177.231
+
+&amp;nbsp;ip route add default via 172.172.177.254
+
+&amp;nbsp;正确关闭连接
+
+※ 注意：启动连接很简单，但停止不能使用ifconfig pp0 down，否则只是禁用了ppp0网卡，后台连接还是存在的。当然，可以杀进程来断开连接。不过，ppp工具包提供了更好用的脚本 。
+
+# cp /usr/share/doc/ppp-2.4.5/scripts/pon /usr/sbin/
+
+# cp /usr/share/doc/ppp-2.4.5/scripts/poff /usr/sbin/
+
+# chmod +x /usr/sbin/pon
+
+# chmod +x /usr/sbin/poff
+
+然后使用下面的命令启动和关闭连接即可：
+
+# pon myvpn
+
+# poff myvpn
+
+&amp;nbsp;断开连接
+
+&amp;nbsp;# killall pppd
+
+To start this connection on boot, add &amp;ldquo;pppd call myVPN&amp;rdquo; in rc.local.
+
+&amp;nbsp;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

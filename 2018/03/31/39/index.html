@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>58到家MySQL军规升级版</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/03/31/39/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">58到家MySQL军规升级版</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-03-31</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>查看原文：<a href="https://mp.weixin.qq.com/s/YfCORbcCX1hymXBCrZbAZg" target="_blank" rel="external">https://mp.weixin.qq.com/s/YfCORbcCX1hymXBCrZbAZg</a><br> 2018-03-30 58到家DBA 架构师之路</p>
+<p><strong>一、基础规范</strong></p>
+<p>表存储引擎必须使用InnoDB</p>
+<p>表字符集默认使用utf8，必要时候使用utf8mb4</p>
+<p>解读：<br>（1）通用，无乱码风险，汉字3字节，英文1字节<br>（2）utf8mb4是utf8的超集，有存储4字节例如表情符号时，使用它</p>
+<p>禁止使用存储过程，视图，触发器，Event</p>
+<p>解读：<br>（1）对数据库性能影响较大，互联网业务，能让站点层和服务层干的事情，不要交到数据库层<br>（2）调试，排错，迁移都比较困难，扩展性较差</p>
+<p>禁止在数据库中存储大文件，例如照片，可以将大文件存储在对象存储系统，数据库中存储路径<br>禁止在线上环境做数据库压力测试<br>测试，开发，线上数据库环境必须隔离</p>
+<p><strong>二、命名规范</strong></p>
+<p>库名，表名，列名必须用小写，采用下划线分隔<br>解读：abc，Abc，ABC都是给自己埋坑</p>
+<p>库名，表名，列名必须见名知义，长度不要超过32字符<br>解读：tmp，wushan谁TM知道这些库是干嘛的</p>
+<p>库备份必须以bak为前缀，以日期为后缀</p>
+<p>从库必须以-s为后缀</p>
+<p>备库必须以-ss为后缀</p>
+<p><strong>三、表设计规范</strong></p>
+<p>单实例表个数必须控制在2000个以内</p>
+<p>单表分表个数必须控制在1024个以内</p>
+<p>表必须有主键，推荐使用UNSIGNED整数为主键</p>
+<p>潜在坑：删除无主键的表，如果是row模式的主从架构，从库会挂住</p>
+<p>禁止使用外键，如果要保证完整性，应由应用程式实现<br>解读：外键使得表之间相互耦合，影响update/delete等SQL性能，有可能造成死锁，高并发情况下容易成为数据库瓶颈</p>
+<p>建议将大字段，访问频度低的字段拆分到单独的表中存储，分离冷热数据</p>
+<p>解读：具体参加《如何实施数据库垂直拆分》</p>
+<p><strong>四、列设计规范</strong></p>
+<p>根据业务区分使用tinyint/int/bigint，分别会占用1/4/8字节</p>
+<p>根据业务区分使用char/varchar</p>
+<p>解读：</p>
+<p>（1）字段长度固定，或者长度近似的业务场景，适合使用char，能够减少碎片，查询性能高</p>
+<p>（2）字段长度相差较大，或者更新较少的业务场景，适合使用varchar，能够减少空间</p>
+<p>根据业务区分使用datetime/timestamp</p>
+<p>解读：前者占用5个字节，后者占用4个字节，存储年使用YEAR，存储日期使用DATE，存储时间使用datetime</p>
+<p>必须把字段定义为NOT NULL并设默认值</p>
+<p>解读：</p>
+<p>（1）NULL的列使用索引，索引统计，值都更加复杂，MySQL更难优化</p>
+<p>（2）NULL需要更多的存储空间</p>
+<p>（3）NULL只能采用IS NULL或者IS NOT NULL，而在=/!=/in/not in时有大坑</p>
+<p>使用INT UNSIGNED存储IPv4，不要用char(15)</p>
+<p>使用varchar(20)存储手机号，不要使用整数</p>
+<p>解读：</p>
+<p>（1）牵扯到国家代号，可能出现+/-/()等字符，例如+86<br>（2）手机号不会用来做数学运算</p>
+<p>（3）varchar可以模糊查询，例如like ‘138%’</p>
+<p>使用TINYINT来代替ENUM</p>
+<p>解读：ENUM增加新值要进行DDL操作</p>
+<p><strong>五、索引规范</strong></p>
+<p>唯一索引使用uniq_[字段名]来命名</p>
+<p>非唯一索引使用idx_[字段名]来命名</p>
+<p>单张表索引数量建议控制在5个以内</p>
+<p>解读：</p>
+<p>（1）互联网高并发业务，太多索引会影响写性能</p>
+<p>（2）生成执行计划时，如果索引太多，会降低性能，并可能导致MySQL选择不到最优索引</p>
+<p>（3）异常复杂的查询需求，可以选择ES等更为适合的方式存储</p>
+<p>组合索引字段数不建议超过5个</p>
+<p>解读：如果5个字段还不能极大缩小row范围，八成是设计有问题</p>
+<p>不建议在频繁更新的字段上建立索引</p>
+<p>非必要不要进行JOIN查询，如果要进行JOIN查询，被JOIN的字段必须类型相同，并建立索引</p>
+<p>解读：踩过因为JOIN字段类型不一致，而导致全表扫描的坑么？</p>
+<p>理解组合索引最左前缀原则，避免重复建设索引，如果建立了(a,b,c)，相当于建立了(a), (a,b), (a,b,c)</p>
+<p><strong>六、SQL规范</strong></p>
+<p>禁止使用select *，只获取必要字段</p>
+<p>解读：</p>
+<p>（1）select *会增加cpu/io/内存/带宽的消耗</p>
+<p>（2）指定字段能有效利用索引覆盖</p>
+<p>（3）指定字段查询，在表结构变更时，能保证对应用程序无影响</p>
+<p>insert必须指定字段，禁止使用insert into T values()</p>
+<p>解读：<br>指定字段插入，在表结构变更时，能保证对应用程序无影响</p>
+<p>隐式类型转换会使索引失效，导致全表扫描</p>
+<p>禁止在where条件列使用函数或者表达式</p>
+<p>解读：导致不能命中索引，全表扫描</p>
+<p>禁止负向查询以及%开头的模糊查询</p>
+<p>解读：导致不能命中索引，全表扫描</p>
+<p>禁止大表JOIN和子查询</p>
+<p>同一个字段上的OR必须改写问IN，IN的值必须少于50个<br>应用程序必须捕获SQL异常</p>
+<p>解读：方便定位线上问题</p>
+<p>说明：本军规适用于并发量大，数据量大的典型互联网业务，可直接带走参考，不谢。</p>
+<p>军规练习：为什么下列SQL不能命中phone索引？</p>
+<p>select uid from user where phone=13811223344</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>linux程序内存使用情况ps_mem.py--神器必备</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/07/14/9/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">linux程序内存使用情况ps_mem.py--神器必备</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-07-14</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p> <a href="http://www.pixelbeat.org/scripts/" target="_blank" rel="external">http://www.pixelbeat.org/scripts/</a><br>Try to determine how much RAM is currently being used per program.<br> Note per <em>program</em>, not per process.<br> So for example this script  will report RAM used by all httpd process together.<br> In detail it reports: sum(private RAM for program processes) + sum(Shared RAM for program processes)<br> The shared RAM is problematic to calculate, and this script automatically selects the most accurate method available for your kernel.</p>
+<p>方案1：<br>V3.9   – 07 Mar 2017<br>wget <a href="https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py" target="_blank" rel="external">https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py</a><br>chmod +x ps_mem.py<br> ./ps_mem.py </p>
+<p>方案2：<br>git clone <a href="https://github.com/pixelb/ps_mem.git" target="_blank" rel="external">https://github.com/pixelb/ps_mem.git</a></p>
+<p>cd ps_mem</p>
+<h2 id="ps-mem-py"><a href="#ps-mem-py" class="headerlink" title="./ps_mem.py"></a>./ps_mem.py</h2><p> Private  +   Shared  =  RAM used       Program</p>
+<p>  4.0 KiB +  11.5 KiB =  15.5 KiB       uuidd<br> 25.4 MiB + 882.5 KiB =  26.3 MiB       salt-minion<br>  1.2 GiB + 473.5 KiB =   1.2 GiB       mysqld<br>  2.7 GiB +  12.6 MiB =   2.8 GiB       java (2)</p>
+<pre><code>4.0 GiB
+</code></pre><hr>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ps-mem-py"><span class="toc-text">./ps_mem.py</span></a></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

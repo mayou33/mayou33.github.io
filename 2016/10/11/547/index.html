@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>mysql只读模式的设置方法</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/10/11/547/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">mysql只读模式的设置方法</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-10-11</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="font-size: 18px; background-color: inherit;">&nbsp; 在<font color="#df3434" style="background-color: inherit;"><strong>MySQL数据库</strong></font>中，在进行数据迁移和从库只读状态设置时，都会涉及到只读状态和Master-slave的设置和关系。</span></p>
+<pre><code>&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;经过实际测试，对于MySQL单实例数据库和master库，如果需要设置为只读状态，需要进行如下操作和设置：
+
+&amp;nbsp; &amp;nbsp; &amp;nbsp; 将MySQL设置为只读状态的命令：
+
+# mysql -uroot -p
+
+mysql&amp;gt; show global variables like &amp;quot;%read_only%&amp;quot;;
+
+mysql&amp;gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;flush tables with read lock;&lt;/span&gt;
+
+mysql&amp;gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;set global read_only=1;&lt;/span&gt;
+
+mysql&amp;gt; show global variables like &amp;quot;%read_only%&amp;quot;;
+
+将MySQL从只读设置为读写状态的命令：
+
+mysql&amp;gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: inherit;&quot;&gt;unlock tables;&lt;/span&gt;
+
+mysql&amp;gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;set global read_only=0;&lt;/span&gt;
+
+&amp;nbsp; &amp;nbsp; &amp;nbsp; 对于需要保证master-slave主从同步的salve库，如果要设置为只读状态，需要执行的命令为：
+
+mysql&amp;gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: inherit;&quot;&gt;set global read_only=1;&lt;/span&gt;
+
+&amp;nbsp; &amp;nbsp; &amp;nbsp;将salve库从只读状态变为读写状态，需要执行的命令是：
+
+mysql&amp;gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: inherit;&quot;&gt;set global read_only=0;&lt;/span&gt;
+
+&amp;nbsp; &amp;nbsp; &amp;nbsp;对于数据库读写状态，主要靠 &amp;ldquo;read_only&amp;rdquo;全局参数来设定；默认情况下，数据库是用于读写操作的，所以read_only参数也是0或faluse状态，这时候不论是本地用户还是远程访问数据库的用户，都可以进行读写操作；如需设置为只读状态，将该read_only参数设置为1或TRUE状态，但设置 read_only=1 状态有两个需要注意的地方：
+
+&amp;nbsp; &amp;nbsp; &amp;nbsp; 1.read_only=1只读模式，不会影响slave同步复制的功能，所以在MySQL slave库中设定了read_only=1后，通过 show slave status\G 命令查看salve状态，可以看到salve仍然会读取master上的日志，并且在slave库中应用日志，保证主从数据库同步一致；
+
+&amp;nbsp; &amp;nbsp; &amp;nbsp; 2.read_only=1只读模式，可以限定普通用户进行数据修改的操作，但不会限定具有super权限的用户的数据修改操作；在MySQL中设置read_only=1后，普通的应用用户进行insert、update、delete等会产生数据变化的DML操作时，都会报出数据库处于只读模式不能发生数据变化的错误，但具有super权限的用户，例如在本地或远程通过root用户登录到数据库，还是可以进行数据变化的DML操作；&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 18px; background-color: inherit;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; 为了确保所有用户，包括具有super权限的用户也不能进行读写操作，就需要执行给所有的表加读锁的命令 &amp;ldquo;flush tables with read lock;&amp;rdquo;，这样使用具有super权限的用户登录数据库，想要发生数据变化的操作时，也会提示表被锁定不能修改的报错。&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 18px; background-color: inherit;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 这样通过 设置&amp;ldquo;read_only=1&amp;rdquo;和&amp;ldquo;flush tables with read lock;&amp;rdquo;两条命令，就可以确保数据库处于只读模式，不会发生任何数据改变，在MySQL进行数据库迁移时，限定master主库不能有任何数据变化，就可以通过这种方式来设定。&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 18px; background-color: inherit;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;但同时由于加表锁的命令对数据库表限定非常严格，如果再slave从库上执行这个命令后，slave库可以从master读取binlog日志，但不能够应用日志，slave库不能发生数据改变，当然也不能够实现主从同步了，这时如果使用 &amp;ldquo;unlock tables;&amp;rdquo;解除全局的表读锁，slave就会应用从master读取到的binlog日志，继续保证主从库数据库一致同步。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 18px; background-color: inherit;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;为了保证主从同步可以一直进行，在slave库上要保证具有super权限的root等用户只能在本地登录，不会发生数据变化，其他远程连接的应用用户只按需分配为select,insert,update,delete等权限，保证没有super权限，则只需要将salve设定&amp;ldquo;read_only=1&amp;rdquo;模式，即可保证主从同步，又可以实现从库只读。
+
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;相对的，设定&amp;ldquo;read_only=1&amp;rdquo;只读模式开启的解锁命令为设定&amp;ldquo;read_only=0&amp;rdquo;;设定全局锁&amp;ldquo;flush tables with read lock;&amp;rdquo;，对应的解锁模式命令为：&amp;ldquo;unlock tables;&amp;rdquo;.&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 18px; background-color: inherit;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; 当然设定了read_only=1后，所有的select查询操作都是可以正常进行的。&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

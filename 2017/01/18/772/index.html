@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>第三篇：漫谈数据中心运维自动化</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/18/772/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">第三篇：漫谈数据中心运维自动化</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-18</span>
+      
+      <a href="/categories/数据中心运维/" title="数据中心运维" class="post-categories">数据中心运维</a>
+      
+      
+      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53562&amp;extra=page%3D1" target="_blank" rel="external">http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53562&amp;extra=page%3D1</a></p>
+<pre><code>**&lt;font color=&quot;#444444&quot; face=&quot;Tahoma&quot; size=&quot;3&quot;&gt;原创文章，转载时请写明&amp;ldquo;vmsky论坛&amp;rdquo;和作者&amp;ldquo;老同志lawson&amp;rdquo;。&lt;/font&gt;**
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;运维自动化是从2010年以后起来的一个运维需求，10年之前，运维项目主要集中在监控和ITIL流程上，当时也有BMC Control-M等产品在推，但是客户接受程度和影响力不如监控和流程。10年之后，运维自动化提上日程，建行开始招运维自动化的标，IBM、BMC、HP都纷纷参与，测了三轮，最后HP opsware中标，只能说一句厉害！工商银行也在自己组织服务商做自己特色的运维自动化平台，做了3、4年，基本成型，服务商也做出了自己的运维自动化产品，正式推向市场。当时运维自动化的主要功能是五项：自动化巡检、配置管理、软件管理、合规审计、任务调度。配置管理主要是对网络设备配置的自动备份、恢复、配置比对等功能，和CMDB不是一回事！&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp; 在金融行业中，实际上对于运维自动化需求最迫切的是证券行业。每天券商都要重复做两件事，开市和闭市。这两件事要按照固定流程在不同的机器上启动不同的应用，固定重复，有专人来做。但是问题来了，由于步骤比较多，人来做就容易错，券商错了可不得了，估计IT老大跳楼的心都会有！所以券商的自动化需求比银行还有火热。这时候有两家自动化产品提供商开始提供这方面的产品，说出来都是大公司：神州数码和宇信恒升（宇信易诚的子公司）。在自动化的江湖上斗得你死我活！话说回来，对于券商开市闭市，自动化产品可以代替人来实现，串行和并行流程、判断执行结果（甚至可以监控页面上小图标颜色的变化来判断执行成功与否）、动作回滚、出错告警、图形化展现流程进度和过程，图形化设定流程等。券商在上生产的时候很谨慎，先是一部分软件做，一部分人工作，发现准确无误后，开始软件做，人盯着，因为安全规定，人必须跟着。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;实际上每个行业对于运维自动化的需求都是不一样的。比如银行对于运维自动化的要求是配合运维保证业务的稳定性；券商对于运维自动化的需求是代替人执行重复性强的机械工作，以防止出现错误；当下很多企业在做运维自动化，使用免费的自动化工具，例如puppet等，实际上puppet功能很强大，但是相比商业自动化工具软件，缺少技术支持、代码无人负责来说，对于用puppet来说，需要几个条件才能用的很大：很好的学习能力；深入的不断探索精神；很强的代码能力；生产环境上允许容错和尝试。这几个条件对于互联网公司来说都不是问题，所以开源自动化工具在互联网行业是用的最好的。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;对于当前云时代来说，实际上企业面对的基本上都是私有云，&lt;/span&gt;虚拟化&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;产品可能是虚机，也可能是docker，所以没法一言而盖之。但是要干的活归纳起来无外乎这些：部署测试环境，新业务上线、业务主机维护、保证业务主机的可用性和连续性、业务主机下线等。因为技术的不同，所以使用自动化的技术是千差万别的，不过在企业数据中心提供的服务生命周期中的位置是差不多的，这可以看做共性吧！：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201512/30/145754z1hw330fzq1h3zvm.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;如何来在企业中实现运维自动化呢？我的建议是这样：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 首先梳理运维的所有工作，那些工作可以纳入运维自动化范围，那些不能，做到心中有数，如图是我梳理的数据中心运维体系：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/11/141322c7cuz4cvv399ccmm.png)&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;梳理完，整体考虑运维自动化如何来做！&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 在运维体系梳理的基础上，对能够运维自动化的操作进行标准化归纳，归纳出的操作规范就是未来自动化要执行的标准步骤&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3&amp;nbsp;&amp;nbsp;根据企业实际，选择合适的运维自动化工具软件&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;4 与研发的密切配合，找到更多的可以纳入自动化的运维内容&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;5&amp;nbsp;&amp;nbsp;运维自动化实施的谨慎和专注&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp; 根据企业业务的发展特点，使用符合运维实际的运维自动化工具来提供运维的能力和水平，但是万万不可着急，尤其是准备在生产中使用。至于用商业软件还是开源软件，就看您的了！&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

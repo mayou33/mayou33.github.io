@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>vmware 产品架构图</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/26/335/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">vmware 产品架构图</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-26</span>
+      
+      <a href="/categories/vmware/" title="vmware" class="post-categories">vmware</a>
+      
+      
+      <a href="/tags/架构/"" title="架构" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>架构</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://www.hypervizor.com/diagrams/" target="_blank" rel="external">http://www.hypervizor.com/diagrams/</a></p>
+<div class="container" style="margin: 0px auto; padding: 0px; border: 0px currentColor; border-image: none; width: 960px; color: rgb(102, 102, 102); text-transform: none; line-height: normal; text-indent: 0px; letter-spacing: normal; font-family: Arial, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; position: relative; orphans: 2; widows: 2; font-stretch: inherit; font-variant-ligatures: normal; font-variant-caps: normal; font-variant-numeric: inherit; -webkit-text-stroke-width: 0px;"><br>    <div class="sixteen columns" style="font: inherit; margin: 0px 10px; padding: 0px; border: 0px currentColor; border-image: none; width: 940px; vertical-align: baseline; float: left; display: inline; font-size-adjust: inherit; font-stretch: inherit;"><br>        <div id="page-title" style="border-width: 0px 0px 1px; font: inherit; margin: 0px 0px 25px; padding: 0px; vertical-align: baseline; border-bottom-color: rgb(233, 233, 233); border-bottom-style: solid; display: block; font-size-adjust: inherit; font-stretch: inherit;"><br><br>#<br>                Architectures<br><br>            <div id="bolded-line" style="background: rgb(135, 173, 0); font: inherit; margin: 0px 0px -2px; padding: 0px; border: 0px currentColor; border-image: none; width: 100px; height: 3px; text-indent: -9999px; vertical-align: baseline; display: block; font-size-adjust: inherit; font-stretch: inherit;"><br>                &nbsp;<br>            </div><br>        </div><br>    </div><br></div>
+
+<div class="container" style="margin: 0px auto; padding: 0px; border: 0px currentColor; border-image: none; width: 960px; color: rgb(102, 102, 102); text-transform: none; line-height: normal; text-indent: 0px; letter-spacing: normal; font-family: Arial, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; position: relative; orphans: 2; widows: 2; font-stretch: inherit; font-variant-ligatures: normal; font-variant-caps: normal; font-variant-numeric: inherit; -webkit-text-stroke-width: 0px;"><br>    <div class="twelve columns" style="font: inherit; margin: 0px 10px; padding: 0px; border: 0px currentColor; border-image: none; width: 700px; vertical-align: baseline; float: left; display: inline; font-size-adjust: inherit; font-stretch: inherit;"><br>        <div class="post post-10 page type-page status-publish hentry" id="post-10" style="border-width: 0px 0px medium; border-color: currentColor; font: inherit; margin: 5px 0px 0px; padding: 0px; vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;"><br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=19" target="_blank" rel="external"><img src="http://www.hypervizor.com/imgs/vCS5Diaggif.gif" alt=""></a><br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                <strong>&nbsp;</strong><br><br>                &nbsp;<br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=4" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2009/08/081009-1011-diagramvmwa1.gif" alt=""></a><br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                &nbsp;<br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=15" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2010/09/092110_1542_DesigningYo1.gif" alt="A Private Cloud Architecture Design"></a><br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=13" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2010/09/090910_0607_DiagramVMwa1.gif" alt="VMware vCloud Director Networking Architecture"></a><br><br>                <strong>VMware vCloud Director Networking Architecture</strong><br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=11" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2010/04/033110_2123_VMwarevSphe12.gif" alt="vSphere on BladeCenter H"></a><br><br>                <strong>vSphere on BladeCenter H</strong><br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=8" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2010/01/012210_0938_DiagramESXM11.gif" alt="ESX Memory Management and Monitoring"></a><br><br>                <strong>ESX Memory Management and Monitoring</strong><br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=7" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2009/12/121109_1739_DiagramVMwa1.gif" alt="vSphere 4.0 Fault Tolerance Architecture Diagram"></a><br><br>                <strong>VMware High Availability</strong><br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=2" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2009/10/100909-2159-vsphere40vn2.gif" alt="vSphere 4.0 Fault Tolerance Architecture Diagram"></a><br><br>                <strong>vSphere 4.0 vNetwork Distributed Switch (vDS) Architecture Diagram</strong><br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=3" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2009/09/092309-1349-vsphere40fa1.gif" alt="vSphere 4.0 Fault Tolerance Architecture Diagram"></a><br><br>                <strong>vSphere 4.0 Fault Tolerance Architecture Diagram</strong><br><br>                <a href="http://www.hypervizor.com/wp-content/plugins/download-monitor/download.php?id=5" target="_blank" rel="external"><img src="http://www.hypervizor.com/imgs/vCenterLab-thumbv11.gif" alt="vSphere In A Box"></a><br><br>                <strong>vSphere in a Box: A &ldquo;Virtual Private Cloud&rdquo; Blueprint</strong><br><br>                <a href="http://www.hypervizor.com/diags/HyperViZor-Diags-vS4-LM4-Automation-v1-0.pdf" target="_blank" rel="external"><img src="http://www.hypervizor.com/wp-content/uploads/2009/07/072409-1120-vsphereinab1.gif" alt="vSphere In A Box Automation"></a><br><br>                <strong>vSphere in a Box: The Lab Manager 4.0 Automation</strong><br><br>        </div><br>    </div><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

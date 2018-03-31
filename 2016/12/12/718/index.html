@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux-3.14.12内存管理笔记【SLUB分配算法（2）】</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/12/12/718/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux-3.14.12内存管理笔记【SLUB分配算法（2）】</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-12-12</span>
+      
+      <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-5473255.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-26859697-id-5473255.html</a></p>
+<pre><code>先由slub分配算法初始化进入分析。
+
+回到mm_init()函数中，在调用mem_init()初始化伙伴管理算法后，紧接着调用的kmem_cache_init()便是slub分配算法的入口。其中该函数在/mm目录下有三处实现slab.c、slob.c和slub.c，表示不同算法下其初始化各异，分析slub分配算法则主要分析slub.c的实现。
+
+该函数具体实现：
+</code></pre><div id="codeText"><br><br>1.  【file:/mm/slub.c】<br>2.  void <strong>init kmem_cache_init(void)<br>3.  {<br>4.  &nbsp;&nbsp;&nbsp;&nbsp;static </strong>initdata struct kmem_cache boot_kmem_cache,<br>5.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boot_kmem_cache_node;<br>6.  &nbsp;<br>7.  &nbsp;&nbsp;&nbsp;&nbsp;if (debug_guardpage_minorder())<br>8.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;slub_max_order = 0;<br>9.  &nbsp;<br>10.  &nbsp;&nbsp;&nbsp;&nbsp;kmem_cache_node = &amp;boot_kmem_cache_node;<br>11.  &nbsp;&nbsp;&nbsp;&nbsp;kmem_cache = &amp;boot_kmem_cache;<br>12.  &nbsp;<br>13.  &nbsp;&nbsp;&nbsp;&nbsp;create_boot_cache(kmem_cache_node, &quot;kmem_cache_node&quot;,<br>14.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sizeof(struct kmem_cache_node), SLAB_HWCACHE_ALIGN);<br>15.  &nbsp;<br>16.  &nbsp;&nbsp;&nbsp;&nbsp;register_hotmemory_notifier(&amp;slab_memory_callback_nb);<br>17.  &nbsp;<br>18.  &nbsp;&nbsp;&nbsp;&nbsp;/<em> Able to allocate the per node structures </em>/<br>19.  &nbsp;&nbsp;&nbsp;&nbsp;slab_state = PARTIAL;<br>20.  &nbsp;<br>21.  &nbsp;&nbsp;&nbsp;&nbsp;create_boot_cache(kmem_cache, &quot;kmem_cache&quot;,<br>22.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offsetof(struct kmem_cache, node) +<br>23.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nr_node_ids <em> sizeof(struct kmem_cache_node </em>),<br>24.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SLAB_HWCACHE_ALIGN);<br>25.  &nbsp;<br>26.  &nbsp;&nbsp;&nbsp;&nbsp;kmem_cache = bootstrap(&amp;boot_kmem_cache);<br>27.  &nbsp;<br>28.  &nbsp;&nbsp;&nbsp;&nbsp;/<em><br>29.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> Allocate kmem_cache_node properly from the kmem_cache slab.<br>30.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> kmem_cache_node is separately allocated so no need to<br>31.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> update any list pointers.<br>32.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>/<br>33.  &nbsp;&nbsp;&nbsp;&nbsp;kmem_cache_node = bootstrap(&amp;boot_kmem_cache_node);<br>34.  &nbsp;<br>35.  &nbsp;&nbsp;&nbsp;&nbsp;/</em> Now we can use the kmem_cache to allocate kmalloc slabs */<br>36.  &nbsp;&nbsp;&nbsp;&nbsp;create_kmalloc_caches(0);<br>37.  &nbsp;<br>38.  #ifdef CONFIG_SMP<br>39.  &nbsp;&nbsp;&nbsp;&nbsp;register_cpu_notifier(&amp;slab_notifier);<br>40.  #endif<br>41.  &nbsp;<br>42.  &nbsp;&nbsp;&nbsp;&nbsp;printk(KERN_INFO<br>43.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;SLUB: HWalign=%d, Order=%d-%d, MinObjects=%d,&quot;<br>44.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot; CPUs=%d, Nodes=%d\n&quot;,<br>45.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache_line_size(),<br>46.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;slub_min_order, slub_max_order, slub_min_objects,<br>47.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nr_cpu_ids, nr_node_ids);<br>48.  }<br></div>
+
+<pre><code>&amp;nbsp; &amp;nbsp; 浏览该函数整体结构，很容易就可以辨认出来register_hotmemory_notifier()和register_cpu_notifier()主要是用于注册内核通知链回调的；除此之外，主要涉及的函数分别为create_boot_cache()、bootstrap()和create_kmalloc_caches()。为了了解具体实现，逐一分析这三个函数。
+
+首先是create_boot_cache()：
+</code></pre><div id="codeText"><br><br>1.  【file:/mm/slub.c】<br>2.  /<em> Create a cache during boot when no slab services are available yet </em>/<br>3.  void <strong>init create_boot_cache(struct kmem_cache <em>s, const char </em>name, size_t size,<br>4.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned long flags)<br>5.  {<br>6.  &nbsp;&nbsp;&nbsp;&nbsp;int err;<br>7.  &nbsp;<br>8.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;name = name;<br>9.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;size = s-&gt;object_size = size;<br>10.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;align = calculate_alignment(flags, ARCH_KMALLOC_MINALIGN, size);<br>11.  &nbsp;&nbsp;&nbsp;&nbsp;err = </strong>kmem_cache_create(s, flags);<br>12.  &nbsp;<br>13.  &nbsp;&nbsp;&nbsp;&nbsp;if (err)<br>14.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panic(&quot;Creation of kmalloc slab %s size=%zu failed. Reason %d\n&quot;,<br>15.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name, size, err);<br>16.  &nbsp;<br>17.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;refcount = -1; /<em> Exempt from merging for now </em>/<br>18.  }<br></div>
+
+<pre><code>该函数用于创建分配算法缓存，主要是把boot_kmem_cache_node结构初始化了。其内部的calculate_alignment()主要用于计算内存对齐值，而__kmem_cache_create()则是创建缓存的核心函数，其主要是把kmem_cache结构初始化了。具体的__kmem_cache_create()实现将在后面的slab创建部分进行详细分析。
+
+至此，create_boot_cache()函数创建kmem_cache_node对象缓冲区完毕，往下register_hotmemory_notifier()注册内核通知链回调之后，同样是通过create_boot_cache()创建kmem_cache对象缓冲区。接续往下走，可以看到bootstrap()函数调用，bootstrap(&amp;amp;boot_kmem_cache)及bootstrap(&amp;amp;boot_kmem_cache_node)。
+
+bootstrap()函数主要是将临时kmem_cache向最终kmem_cache迁移，并修正相关指针，使其指向最终的kmem_cache。具体实现：
+</code></pre><div id="codeText"><br><br>1.  【file:/mm/slub.c】<br>2.  /<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>3.  &nbsp;<em> Basic setup of slabs<br>4.  &nbsp;<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em>/<br>5.  &nbsp;<br>6.  /<em><br>7.  &nbsp;</em> Used for early kmem_cache structures that were allocated using<br>8.  &nbsp;<em> the page allocator. Allocate them properly then fix up the pointers<br>9.  &nbsp;</em> that may be pointing to the wrong kmem_cache structure.<br>10.  &nbsp;<em>/<br>11.  &nbsp;<br>12.  static struct kmem_cache </em> <strong>init bootstrap(struct kmem_cache <em>static_cache)<br>13.  {<br>14.  &nbsp;&nbsp;&nbsp;&nbsp;int node;<br>15.  &nbsp;&nbsp;&nbsp;&nbsp;struct kmem_cache </em>s = kmem_cache_zalloc(kmem_cache, GFP_NOWAIT);<br>16.  &nbsp;<br>17.  &nbsp;&nbsp;&nbsp;&nbsp;memcpy(s, static_cache, kmem_cache-&gt;object_size);<br>18.  &nbsp;<br>19.  &nbsp;&nbsp;&nbsp;&nbsp;/<em><br>20.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> This runs very early, and only the boot processor is supposed to be<br>21.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> up. Even if it weren&#39;t true, IRQs are not up so we couldn&#39;t fire<br>22.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> IPIs around.<br>23.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br>24.  &nbsp;&nbsp;&nbsp;&nbsp;</strong>flush_cpu_slab(s, smp_processor_id());<br>25.  &nbsp;&nbsp;&nbsp;&nbsp;for_each_node_state(node, N_NORMAL_MEMORY) {<br>26.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct kmem_cache_node <em>n = get_node(s, node);<br>27.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct page </em>p;<br>28.  &nbsp;<br>29.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n) {<br>30.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list_for_each_entry(p, &amp;n-&gt;partial, lru)<br>31.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;slab_cache = s;<br>32.  &nbsp;<br>33.  #ifdef CONFIG_SLUB_DEBUG<br>34.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list_for_each_entry(p, &amp;n-&gt;full, lru)<br>35.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;slab_cache = s;<br>36.  #endif<br>37.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>38.  &nbsp;&nbsp;&nbsp;&nbsp;}<br>39.  &nbsp;&nbsp;&nbsp;&nbsp;list_add(&amp;s-&gt;list, &amp;slab_caches);<br>40.  &nbsp;&nbsp;&nbsp;&nbsp;return s;<br>41.  }<br></div>
+
+<pre><code>首先将会通过kmem_cache_zalloc()申请kmem_cache空间，值得注意的是该函数申请调用kmem_cache_zalloc()-&amp;gt;kmem_cache_alloc()-&amp;gt;slab_alloc()，其最终将会通过前面create_boot_cache()初始化创建的kmem_cache来申请slub空间来使用；继而将bootstrap()入参的kmem_cache结构数据memcpy()至申请的空间中，再接着会__flush_cpu_slab()刷新cpu的slab信息；然后回通过for_each_node_state()遍历各个内存管理节点node,在通过get_node()获取对应节点的slab，如果slab不为空这回遍历部分满slab链，修正每个slab指向kmem_cache的指针，如果开启CONFIG_SLUB_DEBUG，则会遍历满slab链，设置每个slab指向kmem_cache的指针；最后将kmem_cache添加到全局slab_caches链表中。
+
+由此可以看到linux内核代码的精简设计，通过临时空间创建初始化了slab的管理框架，然后再将临时空间的数据迁移至管理框架中，实现高度自管理，不轻易浪费丝毫内存空间。
+
+kmem_cache_init()函数再往下则是create_kmalloc_caches()：
+</code></pre><div id="codeText"><br><br>1.  【file:/mm/slab_common.c】<br>2.  /<em><br>3.  &nbsp;</em> Create the kmalloc array. Some of the regular kmalloc arrays<br>4.  &nbsp;<em> may already have been created because they were needed to<br>5.  &nbsp;</em> enable allocations for slab creation.<br>6.  &nbsp;<em>/<br>7.  void __init create_kmalloc_caches(unsigned long flags)<br>8.  {<br>9.  &nbsp;&nbsp;&nbsp;&nbsp;int i;<br>10.  &nbsp;<br>11.  &nbsp;&nbsp;&nbsp;&nbsp;/</em><br>12.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> Patch up the size_index table if we have strange large alignment<br>13.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> requirements for the kmalloc array. This is only the case for<br>14.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> MIPS it seems. The standard arches will not generate any code here.<br>15.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em><br>16.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> Largest permitted alignment is 256 bytes due to the way we<br>17.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> handle the index determination for the smaller caches.<br>18.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em><br>19.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> Make sure that nothing crazy happens if someone starts tinkering<br>20.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> around with ARCH_KMALLOC_MINALIGN<br>21.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em>/<br>22.  &nbsp;&nbsp;&nbsp;&nbsp;BUILD_BUG_ON(KMALLOC_MIN_SIZE &gt; 256 ||<br>23.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(KMALLOC_MIN_SIZE &amp; (KMALLOC_MIN_SIZE - 1)));<br>24.  &nbsp;<br>25.  &nbsp;&nbsp;&nbsp;&nbsp;for (i = 8; i &lt; KMALLOC_MIN_SIZE; i += 8) {<br>26.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int elem = size_index_elem(i);<br>27.  &nbsp;<br>28.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (elem &gt;= ARRAY_SIZE(size_index))<br>29.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>30.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size_index[elem] = KMALLOC_SHIFT_LOW;<br>31.  &nbsp;&nbsp;&nbsp;&nbsp;}<br>32.  &nbsp;<br>33.  &nbsp;&nbsp;&nbsp;&nbsp;if (KMALLOC_MIN_SIZE &gt;= 64) {<br>34.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/<em><br>35.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> The 96 byte size cache is not used if the alignment<br>36.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> is 64 byte.<br>37.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em>/<br>38.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i = 64 + 8; i &lt;= 96; i += 8)<br>39.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size_index[size_index_elem(i)] = 7;<br>40.  &nbsp;<br>41.  &nbsp;&nbsp;&nbsp;&nbsp;}<br>42.  &nbsp;<br>43.  &nbsp;&nbsp;&nbsp;&nbsp;if (KMALLOC_MIN_SIZE &gt;= 128) {<br>44.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/<em><br>45.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> The 192 byte sized cache is not used if the alignment<br>46.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> is 128 byte. Redirect kmalloc to use the 256 byte cache<br>47.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> instead.<br>48.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>/<br>49.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i = 128 + 8; i &lt;= 192; i += 8)<br>50.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size_index[size_index_elem(i)] = 8;<br>51.  &nbsp;&nbsp;&nbsp;&nbsp;}<br>52.  &nbsp;&nbsp;&nbsp;&nbsp;for (i = KMALLOC_SHIFT_LOW; i &lt;= KMALLOC_SHIFT_HIGH; i++) {<br>53.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!kmalloc_caches[i]) {<br>54.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kmalloc_caches[i] = create_kmalloc_cache(NULL,<br>55.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 &lt;&lt; i, flags);<br>56.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>57.  &nbsp;<br>58.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</em><br>59.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> Caches that are not of the two-to-the-power-of size.<br>60.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> These have to be created immediately after the<br>61.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em> earlier power of two caches<br>62.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em>/<br>63.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (KMALLOC_MIN_SIZE &lt;= 32 &amp;&amp; !kmalloc_caches[1] &amp;&amp; i == 6)<br>64.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kmalloc_caches[1] = create_kmalloc_cache(NULL, 96, flags);<br>65.  &nbsp;<br>66.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (KMALLOC_MIN_SIZE &lt;= 64 &amp;&amp; !kmalloc_caches[2] &amp;&amp; i == 7)<br>67.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kmalloc_caches[2] = create_kmalloc_cache(NULL, 192, flags);<br>68.  &nbsp;&nbsp;&nbsp;&nbsp;}<br>69.  &nbsp;<br>70.  &nbsp;&nbsp;&nbsp;&nbsp;/<em> Kmalloc array is now usable </em>/<br>71.  &nbsp;&nbsp;&nbsp;&nbsp;slab_state = UP;<br>72.  &nbsp;<br>73.  &nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt;= KMALLOC_SHIFT_HIGH; i++) {<br>74.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct kmem_cache <em>s = kmalloc_caches[i];<br>75.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char </em>n;<br>76.  &nbsp;<br>77.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s) {<br>78.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = kasprintf(GFP_NOWAIT, &quot;kmalloc-%d&quot;, kmalloc_size(i));<br>79.  &nbsp;<br>80.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUG_ON(!n);<br>81.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s-&gt;name = n;<br>82.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>83.  &nbsp;&nbsp;&nbsp;&nbsp;}<br>84.  &nbsp;<br>85.  #ifdef CONFIG_ZONE_DMA<br>86.  &nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt;= KMALLOC_SHIFT_HIGH; i++) {<br>87.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct kmem_cache <em>s = kmalloc_caches[i];<br>88.  &nbsp;<br>89.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s) {<br>90.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int size = kmalloc_size(i);<br>91.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char </em>n = kasprintf(GFP_NOWAIT,<br>92.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;dma-kmalloc-%d&quot;, size);<br>93.  &nbsp;<br>94.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUG_ON(!n);<br>95.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kmalloc_dma_caches[i] = create_kmalloc_cache(n,<br>96.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size, SLAB_CACHE_DMA | flags);<br>97.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>98.  &nbsp;&nbsp;&nbsp;&nbsp;}<br>99.  #endif<br>100.  }<br></div>
+
+<pre><code>函数入口处的BUILD_BUG_ON()主要是做检查，保证kmalloc允许的最小对象大小不能大于256，且该值必须是2的整数幂；接着的for循环，主要是对大小在8byte与KMALLOC_MIN_SIZE之间的对象，将其在size_index数组的索引设置为KMALLOC_SHIFT_LOW；接着的KMALLOC_MIN_SIZE与64及128的比较判断分支则主要是对64byte至96byte及128byte至192byte之间的对象，将其在size_index数组的索引值进行设置；而对于slub分配算法而言，KMALLOC_MIN_SIZE为1 &amp;lt;&amp;lt; KMALLOC_SHIFT_LOW，其中KMALLOC_SHIFT_LOW为3，则KMALLOC_MIN_SIZE为8，故上述几个分支都不会进入，即size_index定义数据未变，仍为其在/mm/slab_common.c的原始定义数值；再往下至KMALLOC_SHIFT_LOW到KMALLOC_SHIFT_HIGH的for循环主要是调用create_kmalloc_cache()来初始化kmalloc_caches表，其最终创建的kmalloc_caches是以{0,96,192,8,16,32,64,128,256,512,1024,2046,4096，8196}为大小的slab表；创建完之后，将设置slab_state为UP，然后将kmem_cache的name成员进行初始化；最后如果配置了CONFIG_ZONE_DMA，将会初始化创建kmalloc_dma_caches表。
+
+根据这里的信息，可以得到size_index与kmalloc_caches的对应关系：
+
+![](http://blog.chinaunix.net/attachment/201511/18/26859697_1447780750j9QJ.png)
+
+&amp;nbsp;
+
+进而分析create_kmalloc_cache()的实现：
+</code></pre><div id="codeText"><br><br>1.  【file:/mm/slab_common.c】<br>2.  struct kmem_cache <em>__init create_kmalloc_cache(const char </em>name, size_t size,<br>3.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned long flags)<br>4.  {<br>5.  &nbsp;&nbsp;&nbsp;&nbsp;struct kmem_cache *s = kmem_cache_zalloc(kmem_cache, GFP_NOWAIT);<br>6.  &nbsp;<br>7.  &nbsp;&nbsp;&nbsp;&nbsp;if (!s)<br>8.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panic(&quot;Out of memory when creating slab %s\n&quot;, name);<br>9.  &nbsp;<br>10.  &nbsp;&nbsp;&nbsp;&nbsp;create_boot_cache(s, name, size, flags);<br>11.  &nbsp;&nbsp;&nbsp;&nbsp;list_add(&amp;s-&gt;list, &amp;slab_caches);<br>12.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;refcount = 1;<br>13.  &nbsp;&nbsp;&nbsp;&nbsp;return s;<br>14.  }<br></div>
+
+<pre><code>其先经kmem_cache_zalloc()申请一个kmem_cache对象，完了create_boot_cache()创建slab并将其添加到slab_caches列表中。而create_boot_cache()的实现：
+</code></pre><div id="codeText"><br><br>1.  【file:/mm/slab_common.c】<br>2.  /<em> Create a cache during boot when no slab services are available yet </em>/<br>3.  void <strong>init create_boot_cache(struct kmem_cache <em>s, const char </em>name, size_t size,<br>4.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned long flags)<br>5.  {<br>6.  &nbsp;&nbsp;&nbsp;&nbsp;int err;<br>7.  &nbsp;<br>8.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;name = name;<br>9.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;size = s-&gt;object_size = size;<br>10.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;align = calculate_alignment(flags, ARCH_KMALLOC_MINALIGN, size);<br>11.  &nbsp;&nbsp;&nbsp;&nbsp;err = </strong>kmem_cache_create(s, flags);<br>12.  &nbsp;<br>13.  &nbsp;&nbsp;&nbsp;&nbsp;if (err)<br>14.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panic(&quot;Creation of kmalloc slab %s size=%zu failed. Reason %d\n&quot;,<br>15.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name, size, err);<br>16.  &nbsp;<br>17.  &nbsp;&nbsp;&nbsp;&nbsp;s-&gt;refcount = -1; /<em> Exempt from merging for now </em>/<br>18.  }<br></div>
+
+<pre><code>很清楚可以看到该函数主要是通过__kmem_cache_create()来创建各种大小的slab以满足后期内存分配时使用。
+
+至此，Slub分配框架初始化完毕。稍微总结一下kmem_cache_init()函数流程，该函数首先是create_boot_cache()创建kmem_cache_node对象的slub管理框架，然后register_hotmemory_notifier()注册热插拔内存内核通知链回调函数用于热插拔内存处理；值得关注的是此时slab_state设置为PARTIAL，表示将分配算法状态改为PARTIAL，意味着已经可以分配kmem_cache_node对象了；再往下则是create_boot_cache()创建kmem_cache对象的slub管理框架，至此整个slub分配算法所需的管理结构对象的slab已经初始化完毕；不过由于前期的管理很多都是借用临时变量空间的，所以将会通过bootstrap()将kmem_cache_node和kmem_cache的管理结构迁入到slub管理框架的对象空间中，实现自管理；最后就是通过create_kmalloc_caches()初始化一批后期内存分配中需要使用到的不同大小的slab缓存。
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

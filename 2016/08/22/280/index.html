@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>CentOS6.8搭建Docker私有仓库</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/22/280/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">CentOS6.8搭建Docker私有仓库</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-22</span>
+      
+      <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
+      
+      
+      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="background-color: inherit;">环境准备</span></p>
+<pre><code>&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;Docker私有仓库地址：192.168.184.40&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;Docker客户端地址：&lt;span style=&quot;background-color: inherit;&quot;&gt;192.168.184.15&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(44, 44, 44); line-height: 1.5; font-family: 宋体, &amp;quot;Arial Narrow&amp;quot;, arial, serif; background-color: rgb(255, 255, 255);&quot;&gt;关闭本地&lt;/span&gt;&lt;span style=&quot;color: rgb(44, 44, 44); line-height: 1.5; font-family: 宋体, &amp;quot;Arial Narrow&amp;quot;, arial, serif; background-color: rgb(255, 255, 255);&quot;&gt;selinux、&lt;/span&gt;&lt;span style=&quot;color: rgb(44, 44, 44); line-height: 1.5; font-family: 宋体, &amp;quot;Arial Narrow&amp;quot;, arial, serif; background-color: rgb(255, 255, 255);&quot;&gt;防火墙并设置开机不自启动&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;一、在&lt;span style=&quot;text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;192.168.184.40上&lt;/span&gt;&lt;/font&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;1、安装Docker-&lt;/span&gt;
+</code></pre><pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="line-height: 1.5; font-family: 微软雅黑; background-color: inherit;">rpm -Uvh&nbsp;</span><span style="line-height: 1.5; font-family: 微软雅黑; background-color: inherit;">rpm&nbsp;-ivh&nbsp;</span><span style="line-height: 1.5; font-family: 微软雅黑; background-color: inherit;">https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span></pre>
+
+<pre><code>&lt;span style=&quot;background-color: inherit;&quot;&gt;yum -y install docker-io&lt;/span&gt;
+</code></pre><pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="background-color: inherit;">service docker start
+</span></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="background-color: inherit;"><span style="background-color: inherit;">chkconfig docker on</span></span></pre>
+
+<pre><code>&amp;nbsp;
+</code></pre><div style="background-color: inherit;"><br><br>        <span style="color: rgb(0, 0, 0); background-color: inherit;"><span style="color: rgb(0, 0, 0); font-family: Consolas, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">2、本地私有仓库registry</span></span></span><br><br>    <div style="background-color: inherit;"><br>        docker&nbsp;pull&nbsp;registry:2.5.0<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    [<span style="background-color: inherit;">root@localhost</span>&nbsp;~]#&nbsp;docker&nbsp;images<br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        REPOSITORY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMAGE&nbsp;ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIRTUAL&nbsp;SIZE<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    registry&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2.5.0&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ad8da6d14f6d&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3&amp;nbsp;weeks&amp;nbsp;ago&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;33.28&amp;nbsp;MB
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">3、基于私有仓库镜像运行容器</span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            默认情况下，会将仓库存放于容器内的/tmp/registry目录下，这样如果容器被删除，则存放于容器中的镜像也会丢失，<br>        </div>
+
+<pre><code>        所以我们一般情况下会指定本地一个目录挂载到容器内的/tmp/registry下，如下：
+
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;pre style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgba(128, 128, 128, 0.047058);&quot;&gt;
+</code></pre><p>docker&nbsp;run&nbsp;-d&nbsp;-p&nbsp;5000:5000&nbsp;-v&nbsp;/data/registry:/tmp/registry&nbsp;registry:2.5.0</p>
+<pre><code>        [root@localhost&amp;nbsp;~]#&amp;nbsp;&amp;nbsp;docker&amp;nbsp;ps&amp;nbsp;-a
+
+        CONTAINER&amp;nbsp;ID&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;IMAGE&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;COMMAND&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CREATED&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;STATUS&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;PORTS&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NAMES
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;">53941899601b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;registry:2.5.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;/entrypoint.sh&nbsp;/etc&nbsp;&nbsp;&nbsp;13&nbsp;seconds&nbsp;ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Up&nbsp;11&nbsp;seconds&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.0.0.0:5000-&gt;5000/tcp&nbsp;&nbsp;&nbsp;tender_payne&nbsp;</span><span style="line-height: 1.5; background-color: inherit;">&nbsp;&nbsp;</span><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">4、访问私有仓库默认使用的是v2</span></span></span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;curl&nbsp;<a href="http://192.168.184.40:5000/v2/_catalog" target="_blank" rel="external">http://192.168.184.40:5000/v2/_catalog</a><br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><font color="#ff0000" style="background-color: inherit;"><span style="text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">二、在Docker客户端（</span><span style="text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">192.168.184.15）上,</span></font></span><span style="color: rgb(85, 85, 85); line-height: 1.5; font-family: &quot;microsoft yahei&quot;; background-color: rgb(255, 255, 255);">把一个本地镜像push到私有仓库中，</span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="color: rgb(85, 85, 85); font-family: &quot;microsoft yahei&quot;; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">1先查看一下</span><br></div>
+
+<div style="background-color: inherit;"><br>    [<span style="background-color: inherit;">root@localhost</span>&nbsp;~]#&nbsp;docker&nbsp;images&nbsp;centos<br></div>
+
+<div style="background-color: inherit;"><br>    REPOSITORY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMAGE&nbsp;ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIZE<br></div>
+
+<div style="background-color: inherit;"><br>    docker.io/centos&nbsp;&nbsp;&nbsp;&nbsp;7.2.1511&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;686672a1d0cc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;weeks&nbsp;ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;194.6&nbsp;MB<br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="color: rgb(85, 85, 85); font-family: &quot;microsoft yahei&quot;; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">2基础镜像打个标签</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="font: 14px/21px &quot;microsoft yahei&quot;; color: rgb(85, 85, 85); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">格式为</span></span></span><span style="font: 14px/1.5 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">&nbsp;</span><span style="font: 14px/1.5 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">docker tag IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        docker&nbsp;tag&nbsp;&nbsp;686672a1d0cc&nbsp;&nbsp;192.168.184.40:5000/centos7.2.1511:0822<br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;">[</span><span style="line-height: 1.5; background-color: inherit;">root@localhost</span><span style="line-height: 1.5; background-color: inherit;">&nbsp;~]#&nbsp;&nbsp;docker&nbsp;images&nbsp;</span><br></div>
+
+<div style="background-color: inherit;"><br>    REPOSITORY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMAGE&nbsp;ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIZE<br></div>
+
+<div style="background-color: inherit;"><br>    192.168.184.40/centos7.2.1511&nbsp;&nbsp;&nbsp;0822&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;686672a1d0cc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;weeks&nbsp;ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;194.6&nbsp;MB<br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="color: rgb(85, 85, 85); font-family: &quot;microsoft yahei&quot;; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">3修改Docker配置文件制定私有仓库url</span></span><br></div>
+
+<pre><code>vim&amp;nbsp;/etc/sysconfig/docker
+</code></pre><div style="background-color: inherit;"><br>    <span style="color: rgb(85, 85, 85); font-family: &quot;microsoft yahei&quot;; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">######添加以下内容</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        INSECURE_REGISTRY=&#39;–insecure-registry&nbsp;192.168.184.40:5000&#39;<br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="color: rgb(85, 85, 85); font-family: &quot;microsoft yahei&quot;; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">#######</span><br></div>
+
+<div style="background-color: inherit;"><br>    service&nbsp;docker&nbsp;restart<br></div>
+
+<div style="background-color: inherit;"><br>    或者<br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        systemctl&nbsp;daemon-reload<br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        systemctl&nbsp;restart&nbsp;&nbsp;docker.service<br>    </div><br></div>
+
+<div style="background-color: inherit;"><br><br>        <span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">4提交<span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">本地</span>镜像到私有仓库中</span><br><br>    <div style="background-color: inherit;"><br>        docker&nbsp;push&nbsp;192.168.184.40:5000/centos7.2.1511:0822<br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;font color=&quot;#2c2c2c&quot; face=&quot;宋体, Arial Narrow, arial, serif&quot; style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;5 查看一下&lt;/font&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        curl&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;http://192.168.184.40:5000/v2/_catalog&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        [<span style="background-color: inherit;">root@localhost</span>&nbsp;~]#&nbsp;&nbsp;curl&nbsp;<span style="background-color: inherit;"><a href="http://192.168.184.40:5000/v2/_catalog" target="_blank" rel="external">http://192.168.184.40:5000/v2/_catalog</a></span><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    {&amp;quot;repositories&amp;quot;:[&quot;centos&quot;,&quot;centos7.2.1511&quot;]}
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="color: rgb(0, 112, 192); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">三、从私有仓库中下载已有的镜像</span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">1、登陆另外一台Docker客户端</span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">2、修改Docker配置文件</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">vim&nbsp;/etc/sysconfig/docker</span><br><br>        <span style="color: rgb(85, 85, 85); font-family: &quot;microsoft yahei&quot;; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="color: rgb(44, 44, 44); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">######添加以下内容</span></span><br><br>    <div style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>        <div style="background-color: inherit;"><br>            INSECURE_REGISTRY=&#39;–insecure-registry&nbsp;192.168.184.40:5000&#39;<br>        </div>
+
+<pre><code>        &lt;span style=&quot;color: rgb(85, 85, 85); font-family: &amp;quot;microsoft yahei&amp;quot;; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;#######&lt;/span&gt;
+
+&lt;/div&gt;
+
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;service&amp;nbsp;docker&amp;nbsp;restart&lt;/span&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    或者
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        systemctl&amp;nbsp;daemon-reload
+    &lt;/div&gt;
+
+        systemctl&amp;nbsp;restart&amp;nbsp;&amp;nbsp;docker.service
+
+&lt;/div&gt;
+
+    &lt;span style=&quot;color: rgb(44, 44, 44); font-family: 宋体, &amp;quot;Arial Narrow&amp;quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;3、从私有仓库中下载已有的镜像&lt;/span&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <span style="font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><font color="#ff0000" style="background-color: inherit;">docker&nbsp;pull&nbsp;192.168.184.40:5000/centos7.2.1511:0822</font></span></span><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        [root@localhost&nbsp;~]#&nbsp;docker&nbsp;pull&nbsp;192.168.184.40:5000/centos7.2.1511:0822<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Trying&amp;nbsp;to&amp;nbsp;pull&amp;nbsp;repository&amp;nbsp;192.168.184.40:5000/centos7.2.1511&amp;nbsp;...&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    0822:&amp;nbsp;Pulling&amp;nbsp;from&amp;nbsp;192.168.184.40:5000/centos7.2.1511
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    f19ed9d73b3e:&amp;nbsp;Extracting&amp;nbsp;&amp;nbsp;69.9&amp;nbsp;MB/69.9&amp;nbsp;MB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    f19ed9d73b3e:&amp;nbsp;Pull&amp;nbsp;complete&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Digest:&amp;nbsp;sha256:12c9336412cd76165d7e42906ab9a7234cecd7c4247ed92958ab4ad49644b531
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Status:&amp;nbsp;Downloaded&amp;nbsp;newer&amp;nbsp;image&amp;nbsp;for&amp;nbsp;192.168.184.40:5000/centos7.2.1511:0822
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+</div></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

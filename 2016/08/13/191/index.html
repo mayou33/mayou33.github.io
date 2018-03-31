@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>别说我懂Git——开发必备，全栈基础</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/13/191/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">别说我懂Git——开发必备，全栈基础</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-13</span>
+      
+      <a href="/categories/git/" title="git" class="post-categories">git</a>
+      
+      
+      <a href="/tags/Git/"" title="Git" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>Git</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>#<br>    为什么使用Git</p>
+<pre><code>Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。大神就是大神，在开发了Linux之后，Git 是又一抗鼎之作。这是唯一的理由么？
+</code></pre><p>##<br>    <a name="t1" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Git在软件开发中位置&mdash;&mdash;配置管理SCM</p>
+<pre><code>Software configuration management (SCM, or just plain CM) is an organizational framework &amp;mdash; that is, a discipline &amp;mdash; for managing the evolution of computer systems throughout all stages of systems development.
+
+软件配置管理:通过执行版本控制、变更控制的规程，以及使用合适的配置管理软件，来保证所有配置资源的完整性和可跟踪性。配置管理是对工作成果的一种有效保护。没有软件配置管理，最大的麻烦是工作成果无法回溯。
+</code></pre><p>###<br>    <a name="t2" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>配置管理的内容和目标</p>
+<pre><code>配置管理的内容：
+
+一类是属于产品的组成部分，例如需求文档、设计文档、源代码、测试用例等等；
+
+另一类是在管理过程中产生的文档，例如各种计划、报告等
+
+软件配置管理是在贯穿整个软件生命周期中建立和维护项目产品的完整性。它的基本目标包括：
+
+1\. 软件配置管理的各项工作是有计划进行的。
+
+2\. 被选择的项目产品得到识别，控制并且可以被相关人员获取。
+
+3\. 已识别出的项目产品的更改得到控制。
+
+4\. 使相关组别和个人及时了解软件基准的状态和内容。
+</code></pre><p>###<br>    <a name="t3" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>配置管理的主要任务</p>
+<pre><code>软件配置管理的主要任务也就归结为以下几条：
+
+（1）制定项目的配置计划；
+
+（2）对配置项进行标识；
+
+（3）对配置项进行版本控制；
+
+（4）对配置项进行变更控制；
+
+（5）定期进行配置审计；
+
+（6）向相关人员报告配置的状态。
+</code></pre><p>##<br>    <a name="t4" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>版本控制</p>
+<pre><code>版本控制是软件配置管理的核心功能。所有位于配置资源库中的元素都应自动予以版本的标识，并保证版本命名的唯一性。版本在生成过程中，自动依照设定的使用模型自动分支、演进。
+
+版本控制(Revision control)确保由不同人所编辑的同一档案都得到更新。
+</code></pre><p>###<br>    <a name="t5" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>版本控制中的基本概念</p>
+<pre><code>1）签入，提交，检出
+
+2）冲突，解决，合并
+
+3）分支，版本
+
+4）锁定，hook
+</code></pre><p>###<br>    <a name="t6" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>常见的版本控制工具</p>
+<pre><code>作为一个老码农，枚举一下曾经使用过的版本控制工具。
+
+1\. VSS： visual source safe, 微软的东东，97年写VC程序时使用，人多的时候性能较差，不知道现在的升级版怎样了
+
+2\. clearcase： 99年开发Unix 上分布式式应用时使用，功能强大，不只限于版本控制，有钱的大团队才去用
+
+3\. CVS: 02年在互联网热潮的时候使用，开源产品，当时&amp;ldquo;Copy-Modify-Merge&amp;rdquo;开发模型眼前一亮。
+
+4\. SVN：曾经的挚爱，在曾工作的合资公司使用，权限管理和分支合并等方面做的很出色，并在多个公司推广使用。还记得TortoiseSVN么?那只可爱的小乌龟。
+
+5\. perforce:是一款具有轻便快速的SCM工具、真正的客户端/服务器系统等特点的商业软件。高通内部使用的版本管理工具。确实不错。
+
+6\. git：现在的最爱&amp;hellip;&amp;hellip;
+
+比较一下cvs,svn,和git：
+
+![开源版本控制工具比较](http://img.blog.csdn.net/20160630161418228)
+</code></pre><p>#<br>    <a name="t7" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Git 简要</p>
+<pre><code>GIT 是一款免费的、开源的、分布式的版本控制系统。每一个GIT克隆都是一个完整的文件库，含有全部历史记录和修订追踪能力。其最大特色就是&amp;ldquo;分支&amp;rdquo;及&amp;ldquo;合并&amp;rdquo;操作快速、简便。支持离线工作，GIT是整个项目范围的原子提交，而且GIT中的每个工作树都包含一个具有完整项目历史的仓库。
+</code></pre><p>##<br>    <a name="t8" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>核心特点：</p>
+<ol>
+<li>Git 底层自行维护的存储文件系统：存储的是文件快照，即整个文件内容，并保存指向快照的索引</li>
+<li>去中心化的分布式控制</li>
+</ol>
+<p>##<br>    <a name="t9" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>优缺点：</p>
+<pre><code>优点：
+</code></pre><ul>
+<li>适合分布式开发，强调个体。</li>
+<li>公共服务器压力和数据量都不会太大， 速度快、灵活。</li>
+<li>任意两个开发者之间可以很容易的解决冲突。</li>
+<li><p>离线工作。</p>
+<p>缺点：</p>
+</li>
+<li><p>学习周期相对而言比较长。</p>
+</li>
+<li>不符合常规思维。</li>
+<li>代码保密性差，一旦开发者把整个库克隆下来就可以完全公开所有代码和版本信息。</li>
+</ul>
+<p>#<br>    <a name="t10" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Git 原理</p>
+<p>##<br>    <a name="t11" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Git的目录结构</p>
+<pre><code>不论通过git init 还是克隆下来的git 仓库，都有如下的目录结构：
+
+![这里写图片描述](http://img.blog.csdn.net/20160630161635135)
+
+主要目录结构描述见下表：
+</code></pre><table style="font: 14px/26px &quot;microsoft yahei&quot;; border: 1px solid rgb(238, 238, 238); border-image: none; width: 946px; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; border-collapse: collapse; box-sizing: border-box; border-spacing: 0px; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <tbody style="box-sizing: border-box;"><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                子目录名<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                简要描述<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                branches<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                Git 项目分支信息，新版 Git 已经不再使用该目录<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                config<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                Git 项目配置信息<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                description<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                Git 项目描述信息<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                HEAD<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                指向 Git 项目当前分支的头指针<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                hooks<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                默认的&rdquo;hooks&rdquo;脚本，被特定事件发生前后触发。<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                info<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                里面含一个 exclude 文件，指 Git 项目要忽略的文件。<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                objects<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                Git 的数据对象，包括：commits, trees, blobs, tags。<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                refs<br>            </th><br>            <th style="padding: 8px; border: 1px solid rgb(238, 238, 238); border-image: none; line-height: 20px; vertical-align: top; box-sizing: border-box;"><br>                指向所有 Git 项目分支的指针<br>            </th><br>        </tr><br>        <tr style="box-sizing: border-box;"><br>        </tr><br>    </tbody><br></table>
+
+<pre><code>所有的分支指针保存在 .git/refs/heads 目录下，HEAD 在 .git/HEAD 目录下，标签在 .git/refs/tags 目录下。
+</code></pre><p>##<br>    <a name="t12" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>快照</p>
+<pre><code>例如： 一个工程中有两个文件A和B， 有3个版本:
+
+V1.0 A和B，V1.5 A1和B，V2.0 A1和B1
+
+在Git 的实际存储中实际存了3个快照 4个文件。
+
+Git对文件进行 SHA-1 计算作为文件的唯一ID，并校验了文件完整性。
+
+SHA-1 算法将文件中的内容通过计算生成一个 40 位的 Hash 值。SHA-1 算法的特点：
+
+由文件内容计算出的 Hash 值；Hash 值相同，文件内容相同。
+
+![这里写图片描述](http://img.blog.csdn.net/20160630161604385)
+
+使用 SHA-1 的前两位创建了文件夹，剩下的 38 位为文件名。
+
+这些 Obj 文件，其实分为四种类型，分别是 Blob、Tree、Commit、Tag。
+</code></pre><p>###<br>    <a name="t13" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Blob</p>
+<pre><code>用来存放项目文件的内容，但是不包括文件的路径、名字、格式等其它描述信息。项目的任意文件的任意版本都是以 Blob 的形式存放的。
+</code></pre><p>###<br>    <a name="t14" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Tree</p>
+<pre><code>Tree 用来表示目录。我们知道项目就是一个目录，目录中有文件、有子目录。因此 Tree 中有 Blob、子 Tree，且都是使用 SHA-1值引用的。这是与目录对应的。从顶层的 Tree 纵览整个树状的结构，叶子结点就是 Blob，表示文件的内容，非叶子结点表示项目的目录，顶层的 Tree 对象就代表了当前项目的快照。
+</code></pre><p>###<br>    <a name="t15" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Commit</p>
+<pre><code>表示一次提交，有 Parent 字段，用来引用父提交。指向了一个顶层 Tree，表示了项目的快照，还有一些其它的信息，比如上一个提交 Committer、Author、Message 等信息。
+</code></pre><p>##<br>    <a name="t16" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>存储区</p>
+<pre><code>Git中有4个类型的存储区：远程仓库，工作区，本地仓库和缓存区。
+
+暂存区的好处：
+</code></pre><ol>
+<li>为了能够实现部分提交</li>
+<li>为了不在工作区创建状态文件、会污染工作区。</li>
+<li><p>暂存区记录文件的修改时间等信息，提高文件比较的效率。</p>
+<pre><code>暂存区是用来构建项目快照的区域。暂存区是一个文件，路径为： .Git/index
+</code></pre><p><img src="http://img.blog.csdn.net/20160702111816870" alt="暂存区的样子"></p>
+<p>它是一个二进制文件，第四列是文件名，第三列是文件的冲突状态，第二列指的是文件的 Blob。</p>
+<p>Commit 命令，将暂存区的内容永久保存到本地仓库。提交时 Git 会使用暂存区的这些信息生成 Tree 对象，也就是项目快照，永久保存到数据库中。</p>
+<p>文件的状态可以分为两类。一类是暂存区与本地仓库比较得出的状态，另一类是工作区与暂存区比较得出的状态。为什么要分成两类的愿意也很简单，因为第一类状态在提交时，会直接写入本地仓库。而第二种则不会。一个文件可以同时拥有两种状态。</p>
+</li>
+</ol>
+<p>##<br>    <a name="t17" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>分支</p>
+<pre><code>分支的目的是让我们可以并行的进行开发。 .Git/HEAD 文件，它保存了当前的分支。
+
+![分支简要](http://img.blog.csdn.net/20160702115311634)
+
+分支指向了一次提交，也是 Git 中的分支为什么这么轻量的原因。
+
+因为分支就是指向了一个 Commit 的指针，当提交新的 Commit，这个分支的指向只需要跟着更新就可以了，而创建分支仅仅是创建一个指针。
+</code></pre><p>#<br>    <a name="t18" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Git 必备技能</p>
+<p>##<br>    <a name="t19" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>常见命令速查</p>
+<pre><code>![常见命令速查表](http://img.blog.csdn.net/20160702112906733)
+</code></pre><p>##<br>    <a name="t20" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>git add 和 git commit</p>
+<pre><code>Add 操作是将修改保存到暂存区，Commit 是将暂存区的内容永久保存到本地仓库。
+
+每当将修改的文件加入到暂存区，Git 都会根据文件的内容计算出 SHA-1，并将内容转换成 Blob，写入数据库。然后使用 SHA-1 值更新该列表中的文件项。
+
+在暂存区的文件列表中，每一个文件名，都会对应一个 SHA-1 值，用于指向文件的实际内容。最后提交的那一刻，Git 会将这个列表信息转换为项目的快照，也就是 Tree 对象。写入数据库，并再构建一个 Commit 对象，写入数据库。然后更新分支指向。
+</code></pre><p>##<br>    <a name="t21" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>分支合并: merge 和rebase</p>
+<pre><code>冲突的状态
+</code></pre><ul>
+<li>DELETED_BY_THEM;</li>
+<li>DELETED_BY_US;</li>
+<li>BOTH_ADDED;</li>
+<li><p>BOTH_MODIFIED</p>
+<p>遇到不可自动合并冲突时，Git 会将这些状态写入到暂存区。</p>
+</li>
+</ul>
+<p>###<br>    <a name="t22" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>merge</p>
+<pre><code>在解决完冲突后，我们可以将修改的内容提交为一个新的提交。这就是 Merge。
+
+Merge 之后仍可以做出新的提交。
+
+![merge](http://img.blog.csdn.net/20160702114105649)
+</code></pre><p>###<br>    <a name="t23" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>rebase</p>
+<pre><code>Rebase 会把从 Merge Base 以来的所有提交，以补丁的形式一个一个重新达到目标分支上。这使得目标分支合并该分支的时候会直接 Fast Forward，即不会产生任何冲突。
+
+![rebase](http://img.blog.csdn.net/20160702114232488)
+
+Rebase 主要在 .Git/Rebase-Merge 下生成了两个文件，分别为 Git-Rebase-todo 和 Done 文件，Git-Rebase-todo 存放了 Rebase 将要操作的 Commit。而 Done 存放正在操作或已经操作完毕的 Commit。
+
+Rebase 的一个缺点，那就是修改了分支的历史提交。如果已经将分支推送到了远程仓库，会导致无法将修改后的分支推送上去，必须使用 -f 参数（Force）强行推送。
+
+所以使用 Rebase 最好不要在公共分支上进行操作。
+</code></pre><p>###<br>    <a name="t24" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>checkout</p>
+<pre><code>经常用来切换分支、或者切换到某一次提交。
+
+Checkout 找到目标提交（Commit），目标提交中的快照也就是 Tree 对象就是我们要检出的项目版本。
+
+Checkout 首先根据Tree生成暂存区的内容，再根据 Tree 与其包含的 Blob 转换成我们的项目文件。然后修改 HEAD 的指向，表示切换分支。
+
+Checkout 并没有修改提交的历史记录。只是将对应版本的项目内容提取出来。
+</code></pre><p>###<br>    <a name="t25" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>revert</p>
+<pre><code>revert 实现了反向提交，就是旧版本添加了的内容，要在新版本中删除；旧版本中删除了的内容，要在新版本中添加。这在分支已经推送到远程仓库的情境下非常有用。
+
+Revert 也不会修改历史提交记录，实际的操作相当于是检出目标提交的项目快照到工作区与暂存区，然后用一个新的提交完成版本的&amp;ldquo;回退&amp;rdquo;。
+</code></pre><p>###<br>    <a name="t26" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>reset</p>
+<pre><code>在当前分支进行版本的&amp;ldquo;回退&amp;rdquo;，Reset 是会修改历史提交记录的。
+
+Reset 常用的选项有三个，分别是 &amp;mdash;Soft, &amp;mdash;Mixed, &amp;mdash;Hard。他们的作用域依次增大。
+
+Soft 会仅仅修改分支指向。而不修改工作区与暂存区的内容，
+
+Mixed 比 Soft 的作用域多了一个 暂存区。实际上 Mixed 选项与 Soft 只差了一个 Add 操作。
+
+Hard 会比 Mixed作用域又多了一个工作区。
+
+注意：在丢失后可以使用 Git Reset &amp;ndash;Hard ORIG_HEAD 立即恢复，或者使用 reflog 命令查看之前分支的引用
+</code></pre><p>###<br>    <a name="t27" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>stash</p>
+<pre><code>有时，在一个分支上做了一些工作，修改了很多代码，而这时需要切换到另一个分支干点别的事。但又不想将只做了一半的工作提交。
+
+Stash 将工作区与暂存区中的内容做一个提交，保存起来，然后使用Reset Hard 选项恢复工作区与暂存区内容。我们可以随时使用 Stash Apply 将修改应用回来。
+
+Stash 实现思路将我们的修改提交到本地仓库，使用特殊的分支指针（.Git/refs/Stash）引用该提交，然后在恢复的时候，将该提交恢复即可。
+</code></pre><p>#<br>    <a name="t28" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Git 典型实践</p>
+<pre><code>一个典型的git 并行开发的流程模型如下：
+
+![git 典型实践](http://img.blog.csdn.net/20160702110937772)
+</code></pre><p>##<br>    <a name="t29" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>主要分支</p>
+<pre><code>把origin/master作为主要分支，源码的HEAD总是表示production-ready(可随时部署)状态。
+
+![master和develop](http://img.blog.csdn.net/20160702111535880)
+
+origin/develop上的代码是为下一次的代码发布准备的。每日构建也是基于此分支。
+
+当develop分支达到了一个稳定状态并准备发布时，所有的改变都要合并到master分支，并标上版本号。
+</code></pre><p>##<br>    <a name="t30" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>辅助分支</p>
+<p>###<br>    <a name="t31" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Feature branches</p>
+<pre><code>继承与合并都与develop 分支相关，用来开发新特性的(短期，远期都可以)。
+
+![feature和develop](http://img.blog.csdn.net/20160702113149638)
+
+当要创建一个新特性时，从develop分支上再创建一个 Feature branch。
+
+`&lt;font face=&quot;Courier New&quot;&gt;$ git checkout -b myfeature develop&lt;/font&gt;`
+
+合并feature 到develop
+</code></pre><pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`<span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$ </span>git checkout develop
+<span class="hljs-constant" style="box-sizing: border-box;">Switched</span> to branch <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&#39;develop&#39;</span>
+<span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$ </span>git merge --no-ff myfeature
+<span class="hljs-constant" style="box-sizing: border-box;">Updating</span> ea1b82a..<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">05</span>e9557 (<span class="hljs-constant" style="box-sizing: border-box;">Summary</span> of changes)
+<span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$ </span>git branch -d myfeature
+<span class="hljs-constant" style="box-sizing: border-box;">Deleted</span> branch myfeature (was <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">05</span>e9557).
+<span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$ </span>git push origin develop
+`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+<li>7</li>
+<li><p>8</p>
+<p><img src="http://img.blog.csdn.net/20160702115037711" alt="merge without FF"></p>
+</li>
+</ul>
+<p>###<br>    <a name="t32" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Release branches</p>
+<pre><code>继承分支: develop
+
+合并分支：develop 和 master
+
+命名规范：release-*
+</code></pre><p>####<br>    <a name="t33" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>创建一个release 分支</p>
+<pre><code>Release branch是通过develop分支而创建.
+</code></pre><pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git checkout -b release-<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span> develop    
+Switched <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">to</span> a new branch <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;release-1.2&quot;</span>
+
+$ ./bump-<span class="hljs-property" style="box-sizing: border-box;">version</span>.sh <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span>
+Files modified successfully, <span class="hljs-property" style="box-sizing: border-box;">version</span> bumped <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">to</span> <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span>.
+
+$ git commit -a -m <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;Bumped version number to 1.2&quot;</span>
+[release-<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span> <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">74</span>d9424] Bumped <span class="hljs-property" style="box-sizing: border-box;">version</span> <span class="hljs-type" style="box-sizing: border-box;">number</span> <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">to</span> <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span>
+<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span> files changed, <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span> insertions(+), <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span> deletions(-)
+`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+<li>7</li>
+<li>8</li>
+<li>9</li>
+<li>10</li>
+</ul>
+<p>####<br>    <a name="t34" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>完成一个release 分支</p>
+<pre><code>当release branch已经准备就绪，需要做几件事。
+</code></pre><ol>
+<li>release分支被合并到master分支上(每一个提交到master上的commit都是一个新版 本，切记)。</li>
+<li>master上的commit都要添加tag，方便将来查看和回滚。</li>
+<li><p>release上所做的修改必须合并到develop分支上，保证bug已被修补。</p>
+<pre><code>前两个步骤：
+</code></pre></li>
+</ol>
+<pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git checkout master
+Switched <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">to</span> branch <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&#39;master&#39;</span>
+$ git <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">merge</span> <span class="hljs-comment" style="color: rgb(136, 0, 0); box-sizing: border-box;">--no-ff release-1.2</span>
+Merge made <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">by</span> recursive.
+(Summary <span class="hljs-operator" style="box-sizing: border-box;">of</span> changes)
+$ git tag -<span class="hljs-operator" style="box-sizing: border-box;">a</span> <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span>`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li><p>6</p>
+<p>为了把release上的改变保存到develop，需要合并到develop。</p>
+</li>
+</ul>
+<pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git checkout develop
+Switched <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">to</span> branch <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&#39;develop&#39;</span>
+$ git <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">merge</span> <span class="hljs-comment" style="color: rgb(136, 0, 0); box-sizing: border-box;">--no-ff release-1.2</span>
+Merge made <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">by</span> recursive.
+(Summary <span class="hljs-operator" style="box-sizing: border-box;">of</span> changes)`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li><p>5</p>
+<p>这个步骤可能会导致冲突，如果这样的话，解决冲突，然后再提交。</p>
+<p>最后，可以删除release 分支。</p>
+</li>
+</ul>
+<pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git branch -d <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">release</span>-<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span>
+Deleted branch <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">release</span>-<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span> (was ff452fe).`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+</ul>
+<p>###<br>    <a name="t35" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>Hotfix branches</p>
+<pre><code>继承分支: master
+
+合并分支：develop 和 master
+
+命名规范：hotfix-*
+
+运行过程中发现了bug，就必须快速解决，这时就可以创建一个Hotfix branch，解决完后合并到master分支上。好处是开发人员可以继续工作，有专人来负责搞定这个bug。
+</code></pre><p>####<br>    <a name="t36" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>创建hotfix分支</p>
+<pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git checkout -b hotfix-<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span><span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">.1</span> master
+Switched <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">to</span> a new branch <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;hotfix-1.2.1&quot;</span>
+$ ./bump-<span class="hljs-property" style="box-sizing: border-box;">version</span>.sh <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span><span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">.1</span>
+Files modified successfully, <span class="hljs-property" style="box-sizing: border-box;">version</span> bumped <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">to</span> <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span><span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">.1</span>.
+$ git commit -a -m <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;Bumped version number to 1.2.1&quot;</span>
+[hotfix-<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span><span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">.1</span> <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">41e61</span>bb] Bumped <span class="hljs-property" style="box-sizing: border-box;">version</span> <span class="hljs-type" style="box-sizing: border-box;">number</span> <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">to</span> <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span><span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">.1</span>
+<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span> files changed, <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span> insertions(+), <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span> deletions(-)`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+<li>7</li>
+</ul>
+<p>####<br>    <a name="t37" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>fix bug, 解决问题</p>
+<pre><code>需要一次或几次commit
+</code></pre><pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git commit -m &quot;<span class="hljs-value" style="box-sizing: border-box;">Fixed</span> severe production problem&quot;
+<span class="hljs-attr_selector" style="color: rgb(0, 136, 0); box-sizing: border-box;">[hotfix-1.2.1 abbe5d6]</span> <span class="hljs-value" style="box-sizing: border-box;">Fixed</span> severe production problem
+5 files changed, 32 <span class="hljs-function" style="box-sizing: border-box;">insertions(+)</span>, 17 <span class="hljs-function" style="box-sizing: border-box;">deletions(-)</span>`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+</ul>
+<p>###<br>    <a name="t38" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>完成Hotfix branch</p>
+<pre><code>当结束时，bugfix要被合并到master，同时也要合并到develop，保证下个版本发布时该bug已被修复。这跟release branch完成时一样。
+
+首先更新master和tag release
+</code></pre><pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git checkout master
+Switched <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">to</span> branch <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&#39;master&#39;</span>
+$ git <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">merge</span> <span class="hljs-comment" style="color: rgb(136, 0, 0); box-sizing: border-box;">--no-ff hotfix-1.2.1</span>
+Merge made <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">by</span> recursive.
+(Summary <span class="hljs-operator" style="box-sizing: border-box;">of</span> changes)
+$ git tag -<span class="hljs-operator" style="box-sizing: border-box;">a</span> <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span><span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">.1</span>`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li><p>6</p>
+<p>接下来与develop合并</p>
+</li>
+</ul>
+<pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git checkout develop
+Switched <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">to</span> branch <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&#39;develop&#39;</span>
+$ git <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">merge</span> <span class="hljs-comment" style="color: rgb(136, 0, 0); box-sizing: border-box;">--no-ff hotfix-1.2.1</span>
+Merge made <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">by</span> recursive.
+(Summary <span class="hljs-operator" style="box-sizing: border-box;">of</span> changes)`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li><p>5</p>
+<p>有一个例外，就是当一个release branch存在时，bugfix要被合并到release而不是develop，因为release最终会被合并到develop。</p>
+</li>
+</ul>
+<p>####<br>    <a name="t39" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>最后移除branch</p>
+<pre class="prettyprint" name="code" style="font: 14px/1.45 &quot;Source Code Pro&quot;, monospace; margin: 0px 0px 1.1em; padding: 5px 5px 5px 60px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; display: block; white-space: nowrap; position: relative; -ms-word-break: break-all; -ms-overflow-x: auto; -ms-overflow-y: hidden; -ms-word-wrap: break-word; box-sizing: border-box; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgba(128, 128, 128, 0.047058); -webkit-text-stroke-width: 0px;">
+`$ git branch <span class="hljs-operator" style="box-sizing: border-box;">-d</span> hotfix-<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span>.<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span> 
+Deleted branch hotfix-<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1.2</span>.<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span> (was abbe5d6).`</pre>
+
+<ul>
+<li>1</li>
+<li>2</li>
+</ul>
+<p>#<br>    <a name="t40" style="color: rgb(202, 0, 0); text-decoration: none; box-sizing: border-box;"></a>总结</p>
+<pre><code>了解Git 在软件工程及敏捷开发中的地位，明白git与其他版本控制工具之间的区别，掌握Git 工作的基本原理和必备操作，复杂问题可以查找git的相关命令，应用git开发的流程模型，让Git 成为我们的真正利器。
+
+参考资料：[http://blog.csdn.net/wireless_com/article/details/51810534](http://blog.csdn.net/wireless_com/article/details/51810534)
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

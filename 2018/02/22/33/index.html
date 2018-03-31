@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Nginx 1.13.9支持HTTP2服务器端推送</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/02/22/33/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Nginx 1.13.9支持HTTP2服务器端推送</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-02-22</span>
+      
+      <a href="/categories/nginx/" title="nginx" class="post-categories">nginx</a>
+      
+      
+      <a href="/tags/nginx/"" title="nginx" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>nginx</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://mp.weixin.qq.com/s/AEuvTp6qvOBiA9HtLevTrA" target="_blank" rel="external">http://mp.weixin.qq.com/s/AEuvTp6qvOBiA9HtLevTrA</a></p>
+<p>英文原文：<a href="https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/" target="_blank" rel="external">https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/</a></p>
+<p>译者：诗书塞外</p>
+<p> 我们很高兴地宣布，Nginx 1.13.9 于2018年2月20日正式发布，这个版本支持HTTP/2的服务器端推送。对于Nginx PLUS的用户，HTTP/2服务器端推送的支持将包含在即将到来的 Nginx PLUS R15版本，这个版本预计于四月份发布。</p>
+<p>服务器端推送，是HTTP/2标准定义的功能。这个功能允许服务器预判客户端可能会用到的资源，并提前将资源推送给客户端。这样，我们就可以减少页面加载时间，为用户提供更流畅的体验。</p>
+<p>服务器端推送可以为客户端预先准备样式表、图片等页面加载需要的文件。你需要仔细甄别哪些资源需要推送，尽量推送客户端确实需要请求的，避免推送客户端已经缓存的资源。</p>
+<p>在这篇博文中，我们将描述：</p>
+<pre><code>HTTP/2服务器端推送的基本配置
+
+如何验证HTTP/2服务器端推送生效了（使用浏览器工具或者nghttp）
+
+使用响应头Link自动推送内容
+
+选择性推送内容
+
+衡量HTTP/2服务器推送的效果
+</code></pre><p>配置HTTP/2服务器端推送</p>
+<p>要在页面加载时推送资源，使用http2_push指令：<br> server {</p>
+<pre><code># Ensure that HTTP/2 is enabled for the server
+listen 443 ssl http2;
+
+
+ssl_certificate ssl/certificate.pem;
+ssl_certificate_key ssl/key.pem;
+
+root /var/www/html;
+
+# whenever a client requests demo.html, also push
+# /style.css, /image1.jpg and /image2.jpg
+location = /demo.html {
+    http2_push /style.css;
+    http2_push /image1.jpg;
+    http2_push /image2.jpg;
+}
+</code></pre><p>}</p>
+<p>验证HTTP/2服务器端推送</p>
+<p>你可以用下面两种方法轻松地验证服务器端推送生效了：</p>
+<pre><code>浏览器的开发者工具
+
+HTTP/2的命令行工具，比如nghttp
+</code></pre><p>使用开发者工具验证（以Google Chrome为例）</p>
+<p>下面是如何使用浏览器的开发者工具验证服务器端推送是生效的，这里使用Chrome作为例子。在下图中，开发者工具中Network页中的Initiator列显示出我们通过服务器端推送，将几个资源伴随对/demo.html的请求一同返回给了客户端。<br><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-chrome-dev-tools.png" alt=""></p>
+<p>通过命令行工具验证（nghttp）</p>
+<p>除了浏览器的开发者工具，你还可以使用命令行工具nghttp来验证服务器端推送是有效的。你可以从github上下载并安装nghttp，也可以使用操作系统的软件包管理工具来安装（比如在Ubuntu中，使用apt-get安装nghttp2-client）。</p>
+<p>$ nghttp -ans <a href="https://example.com/demo.html" target="_blank" rel="external">https://example.com/demo.html</a></p>
+<p>id  responseEnd requestStart  process code size request path<br> 13    +84.25ms       +136us  84.11ms  200  492 /demo.html<br>  2    +84.33ms <em>   +84.09ms    246us  200  266 /style.css<br>  4   +261.94ms </em>   +84.12ms 177.83ms  200  40K /image2.jpg<br>  6   +685.95ms *   +84.12ms 601.82ms  200 173K /image1.jpg</p>
+<p>图中的星号代表资源是由服务器端推送的。</p>
+<p>自动推送资源给客户端</p>
+<p>很多时候，把需要推送的资源列举在nginx配置中不是一个很好的做法。因此，Ngnix也支持解析Link预加载响应头，然后自动推送响应头中提到的资源。想要开启预加载，在配置中开启http2_push_preload指令。</p>
+<p>server {</p>
+<pre><code># Ensure that HTTP/2 is enabled for the server
+listen 443 ssl http2;
+
+
+ssl_certificate ssl/certificate.pem;
+ssl_certificate_key ssl/key.pem;
+
+root /var/www/html;
+
+# Intercept Link header and initiate requested Pushes
+location = /myapp {
+    proxy_pass http://upstream;
+    http2_push_preload on;
+}
+</code></pre><p>}</p>
+<p>比如，使用Nginx做请求代理（HTTP，FastCGI，或者其他请求类型）时，上游服务器upstream可以在返回的响应头中增加一个Link字段。</p>
+<p>Link: ; as=style; rel=preload;</p>
+<p>Nginx解析这个头部字段内容，并自动推送资源/style.css。<br>Link字段中的路径必须是绝对路径，可以带查询参数。</p>
+<p>想要推送多个资源，你可以在头部添加多个Link字段，或者只用一个Link，但用逗号分隔多个资源说明。</p>
+<p> Link ; as=style; rel=preload, ; as=image; rel=preload;</p>
+<p>如果你不想让Nginx推送一个已经加载过的资源，向头部加一个nopush参数</p>
+<h1 id="Resource-is-not-pushed"><a href="#Resource-is-not-pushed" class="headerlink" title="Resource is not pushed"></a>Resource is not pushed</h1><p>Link: ; as=image; rel=preload; nopush;</p>
+<p>当http2_push_preload已经开启，你也可以在nginx配置中添加Link响应头来推送资源。</p>
+<p>add_header Link “; as=style; rel=preload;”;</p>
+<p>选择性推送资源给客户端</p>
+<p>HTTP/2的标准中没有解决什么资源应该推送、什么资源不需推送的问题。不过很显然，推送的资源最好不是已经缓存过的内容，否则这次推送就没有意义了。</p>
+<p>一个可行的方案是，只在客户端第一次访问网站时推送资源。你可以在程序中检查是否有该客户端对应的session存在，只有在没有session时才推送，换言之，也就是选择性地推送资源。</p>
+<p>假设客户端设计良好，在首次之后的请求中都会携带session cookie，那么这个方案就能保证每一个资源只在第一次请求时被推送一次。</p>
+<p> server {<br>    listen 443 ssl http2 default_server;</p>
+<pre><code>ssl_certificate ssl/certificate.pem;
+ssl_certificate_key ssl/key.pem;
+
+root /var/www/html;
+http2_push_preload on;
+
+location = /demo.html {
+    add_header Set-Cookie &quot;session=1&quot;;
+    add_header Link $resources;
+}
+</code></pre><p>}</p>
+<p>map $http_cookie $resources {<br>    “~*session=1” “”;<br>    default “; as=style; rel=preload, ; as=image; rel=preload, ; as=style; rel=preload”;<br>}</p>
+<p>测试服务器端推送的效果</p>
+<p>为了衡量服务器端推送的效果，我们创建一个简单的页面/demo.html，它引用了一个独立的css文件/style.css，这个css又引用了两个图片，我们使用三种不同的配置测试页面加载的速度：HTTP, HTTPS, HTTP/2。</p>
+<pre><code>Sequential GETs (No optimization) – The browser loaded resources when it discovered they were required
+
+Preload Hints – Preload hints (Link headers) were included in the first response to tell the browser to load the dependencies
+
+Server Push (HTTP/2 only) – Dependencies were pre‑emptively pushed to the browser
+</code></pre><p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-test-configurations.png" alt=""></p>
+<p>我们将进行多个测试：</p>
+<pre><code>HTTP使用多个GET请求请求资源，浏览器在发现需呀某个资源时再进行请求。
+
+有preload标识的HTTP在第一次请求返回后得到preload标识，开始让浏览器加载这些依赖资源。
+
+HTTP/2的服务器端推送会预先将资源直接推送给浏览器。
+</code></pre><p>它们的行为是由Chrome的开发者工具衡量的。我们多次重复，取出每一种配置的典型性能，并根据RTT值（由ping得到）进行加权调整后得到下面的数据：<br><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-testing-results.png" alt=""></p>
+<p>一些基本的观察</p>
+<pre><code>建立HTTP链接需要一个RTT时间，建立HTTPS或者HTTP/2链接需要两个RTT时间。
+
+由于HTTP和CSS的资源体积小于一个MTU值，所以一个GET操作在一个RTT时间就可以完成。
+
+当DOM loaded事件发生时，才真正地发起一个请求，来请求需要的资源。
+</code></pre><p>解释结果：预加载</p>
+<pre><code>服务器推送为预加载减少了一个RTT时间，推送资源是在第一个请求返回时同步返回的，而preload预加载资源则需要额外花一个RTT的时间，其中第一个请求返回需要0.5个RTT，preload使用的GET请求到达需要0.5个RTT时间。
+</code></pre><p>测试备注</p>
+<pre><code>我们进行了多次测量。每次测试开始时浏览器都没有缓存，也没有到nginx的keepalived链接。我们为nginx配置了keepalive_timeout和http2_idle_timeout，以便快速关闭keepalived链接。
+
+无论使用preload标签还是服务器端推送，字体都无法有效地预加载，这是一个Chrome的已知问题。即便一个字体已经加载过了，Chrome还是会重复地请求字体资源。
+
+需要注意的是，测试开始前一定要清楚缓存，并在返回的响应中设置缓存过期时间控制头。
+
+Chrome会缓存preload预加载的资源。即便你禁用缓存，这些缓存还是会生效，就算你明确地清除浏览器缓存，实际上缓存也不是每次都能被清除。Chrome有时也会不顾缓存地存在而去加载资源，这些加载请求在测试结果中我们已经剔除了。
+
+我们手动设置了/etc/hosts，所以测试过程中不受DNS延迟的影响。
+
+我们没有测试在已经有缓存的情况下的效果。我们测试过程中，每次测试都是清除了缓存的，服务器端推送进行得太快，根本没机会在请求中中断请求。
+</code></pre><p>结论</p>
+<p>这些测试都很简单，主要用来讲诉preload标签和服务器端推送的机制。在简单的情形下，服务器端推送相比于preload标签，可以带来一个RTT时间的优化，在很多未优化过的情境中，可能带来的优化效果更明显。</p>
+<p>真实使用场景中有更多的变量。有更多可能用到的资源，也有更大的机会，会因为你错误地使用服务器推送而浪费了带宽。浏览器间的不一致也会影响最终的效果，你需要做的工作肯定比这个例子复杂得多。</p>
+<p>比如，Chrome团队撰写了一个服务器端推送配置推荐细则，他们在复杂的网站上测试了各种优化配置的效果。如果你想部署HTTP/2的服务器端推送，那么他们的报告《Rules of Thumb for HTTP/2 Push》非常值得一读。</p>
+<p>最后实际的结论就是，HTTP/2服务器端推送让你可以预先制定哪些资源需要推送加载，相比于返回一个preload提示，服务器端推送有切实可见的性能提升。当然，错误的配置可能会导致你浪费带宽，所以上线前请认真评估和检查你的配置。</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Resource-is-not-pushed"><span class="toc-text">Resource is not pushed</span></a></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

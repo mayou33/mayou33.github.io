@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>centos6服务器安全配置</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/03/29/929/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">centos6服务器安全配置</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-03-29</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://vxhly.github.io/2016/10/14/account-security/" target="_blank" rel="external">https://vxhly.github.io/2016/10/14/account-security/</a></p>
+<pre><code>[https://vxhly.github.io/2016/10/14/user-and-file-permissions/](https://vxhly.github.io/2016/10/14/user-and-file-permissions/)
+
+[https://vxhly.github.io/2016/10/16/log-audit-function/](https://vxhly.github.io/2016/10/16/log-audit-function/)
+
+[https://vxhly.github.io/2016/10/19/service-and-process-management/](https://vxhly.github.io/2016/10/19/service-and-process-management/)
+
+[https://vxhly.github.io/2016/10/27/iptables-settings/](https://vxhly.github.io/2016/10/27/iptables-settings/)
+
+[https://vxhly.github.io/2016/09/15/liunx-service/](https://vxhly.github.io/2016/09/15/liunx-service/)
+
+用户管理
+
+在Linux系统中，用户帐号是用户的身份标志，它由用户名和用户口令组成。
+
+系统将输入的用户名存放在/etc/passwd文件中，而将输入的口令以加密的形式存放在/etc/shadow文件中。
+
+&amp;nbsp;&amp;nbsp; 删除系统特殊的的用户帐号和组帐号：
+
+userdel adm
+
+userdel lp
+
+userdel sync
+
+userdel shutdown
+
+userdel halt
+
+userdel news
+
+userdel uucp
+
+userdel operator
+
+userdel games
+
+userdel gopher
+
+userdel ftp
+
+groupdel adm
+
+groupdel lp
+
+groupdel news
+
+groupdel uucp
+
+groupdel games
+
+groupdel dip
+
+groupdel pppusers
+
+用户密码设置：
+
+安装linux时默认的密码最小长度是5个字节，但这并不够，要把它设为8个字节。修改最短密码长度需要编辑login.defs文件（vi /etc/login.defs）
+
+PASS_MAX_DAYS&amp;nbsp; 99999&amp;nbsp;&amp;nbsp; # 两次改变密码之间相距的最大天数，密码有效最大天数
+
+PASS_MIN_DAYS&amp;nbsp; 0&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; # 两次改变密码之间相距的最小天数，为零时代表任何时候都可以更改密码
+
+PASS_MIN_LEN&amp;nbsp;&amp;nbsp; 8&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; # 密码最小长度
+
+PASS_WARN_AGE&amp;nbsp; 7&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; # 在密码过期之前警告的天数
+
+使用以下命令，可以查看用户的密码规则：chage -l [userName]
+
+修改自动注销帐号时间：
+
+自动注销帐号的登录，在Linux系统中root账户是具有最高特权的。如果系统管理员在离开系统之前忘记注销root账户，那将会带来很大的安全隐患，应该让系统会自动注销。通过修改账户中&amp;ldquo;TMOUT&amp;rdquo;参数，可以实现此功能。TMOUT按秒计算。编辑你的profile文件（vi /etc/profile）,在&amp;quot;HISTSIZE=&amp;quot;后面加入下面这行：
+
+TMOUT=300
+
+300，表示300秒，也就是表示5分钟。这样，如果系统中登陆的用户在5分钟内都没有动作，那么系统会自动注销这个账户。
+
+给系统的用户名密码存放文件加锁
+
+chattr +i&amp;nbsp; /etc/passwd
+
+&amp;nbsp;chattr +i&amp;nbsp; /etc/shadow
+
+&amp;nbsp;chattr +i&amp;nbsp; /etc/group
+
+chattr +i&amp;nbsp; /etc/gshadow
+
+注：chattr是改变文件属性的命令，参数i代表不得任意更动文件或目录,此处的i为不可修改位(immutable)。查看方法：lsattr /etc/passwd
+
+修改ssh服务配置文件
+
+使的ssh服务不允许直接使用root用户来登录，这样建设系统被恶意登录攻击的机会。
+
+更改SSH端口，最好改为10000以上，别人扫描到端口的机率也会下降
+
+vi /etc/ssh/sshd_config
+
+#不允许使用低版本的SSH协议
+
+#将#protocol 2,1改为
+
+protocol 2
+
+#将PORT改为1000以上端口
+
+Port 10000
+
+&amp;nbsp;#取消root直接远程登录
+
+PermitRootLogin no
+
+&amp;nbsp;#(服务器一般不会开X，所以X转发就不要开了吧) 取消X11转发
+
+X11Forwarding no
+
+##
+
+限制su命令
+
+如果您不想任何人能够su作为root，可以编辑/etc/pam.d/su文件，增加如下两行：
+
+auth sufficient /lib/security/pam_rootok.so debug
+
+auth required /lib/security/pam_wheel.so group=isd
+
+###
+
+这时，仅isd组的用户可以su作为root。此后，如果您希望用户admin能够su作为root，可以运行如下命令：
+
+# usermod -G10 admin&amp;nbsp; #注isd组的id号不一定是10，所以请谨慎执行。centos 6里没有自带isd的组！
+
+如果您想限制su切换为root用户的权力，而只允许指定用户组使用su，可以编辑/etc/pam.d/su，其中有如下注释说明
+
+# Uncomment the following line to require a user to be in the &amp;quot;wheel&amp;quot; group.
+
+#auth required pam_wheel.so use_uid
+
+修改其中第二行为如下，保存
+
+auth required pam_wheel.so group=mysugroup
+
+###
+
+创建mysugroup用户组，并把适当用户加到该组中，以后将只有该组用户可以使用su切换为root. 在实际服务器上，最好再限制root用户不能ssh远程登录。
+
+登录验证规则
+
+记录普通用户登录失败次数并锁定用户
+
+在 `/etc/pam.d/system-auth中&amp;ldquo;#%PAM-1.0&amp;rdquo;下面一行加入，For Example:`
+
+注意：一定要加在 #%PAM-1.0 下面一行
+
+auth required pam_tally2.so deny=3 unlock_time=300
+
+参数说
+
+明
+
+deny[=n]&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; 用户连续错误登陆的最大次数，超过则锁定
+
+unlock_time&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; 设定普通用户锁定后，多少时间后解锁，单位是秒
+
+even_deny_root &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; 也限制 root 用户
+
+root_unlock_time[=n] &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; 设定 root 用户锁定后，多少时间后解锁，单位是秒
+
+quiet &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; 不对已锁定的用户发出提示信息
+
+注意：以上参数根据实际需要取舍，如果使用了 even_deny_root 参数限制 root 用户登录错误次数，而没有配置 root_unlock_time 的话，一旦 root 用户被锁，解锁将很麻烦。
+
+查看用户登录失败次数
+
+当登录错误次数达到最大限制后，用户再次登录时，会提示
+
+Your account is locked. Maximum amount of failed attempts was reached.
+
+通过以下命令可以查看用户登录失败次数，Command Format:
+
+pam_tally2 -u [userName]
+
+For Example:
+
+解锁已经锁定的用户
+
+自动解锁
+
+如果配置了 unlock_time 或 root_unlock_time (针对 root 用户)参数，则等待超过这个时长后，帐户会自动解锁
+
+手动解锁：
+
+只能以 root 用户通过命令 pam_tally2 -u [userName] -r 可以手动解锁因登录错误次数达到最大限制后自动锁定的用户，同时登录错误次数会被重置为 0
+
+登录超时
+
+对于 bash 用户，修改 /etc/profile 或 /etc/bashrc，所有使用 bash 的用户都会继承，For Example:
+
+对于 csh 用户，修改 /etc/csh.cshrc，所有使用 csh 的用户都会继承，For Example:
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+服务管理
+
+在Linux系统的服务管理方面，如果想做到服务的最好安全，其中主要的就是升级服务本身的软件版本，另外一个就是关闭系统不使用的服务，做到服务最小化。
+
+关闭系统不使用的服务：
+
+在这里有两个方法，可以关闭init目录下的服务，
+
+一、将/etc/init.d/目录下的文件名mv成*.old类的文件名，即修改文件名，作用就是在系统启动的时候找不到这个服务的启动文件。
+
+二、使用chkconfig系统命令来关闭系统启动等级的服务。chkconfig --level 35 nfs off
+
+以下仅列出需要启动的服务，未列出的服务一律关闭：
+
+acpid
+
+anacron
+
+cpuspeed
+
+crond
+
+irqbalance #仅当服务器CPU为S.M.P架构或支持双核心、HT技术时，才需开启，否则关闭。
+
+microcode_ctl
+
+network
+
+random #(centos 6 里没有该服务)
+
+sendmail
+
+sshd
+
+syslog
+
+yum-updatesd
+
+请先检查需要关闭的服务是否是本服务器特别需要启动支持的服务，以防关闭正常使用的服务。
+
+###
+
+给系统服务端口列表文件加锁
+
+主要作用：防止未经许可的删除或添加服务
+
+chattr +i&amp;nbsp; /etc/services
+
+修改init目录文件执行权限：
+
+chmod -R 700 /etc/init.d/*
+
+修改部分系统文件的SUID和SGID的权限：
+
+chmod a-s /usr/bin/chage
+
+chmod a-s /usr/bin/gpasswd
+
+chmod a-s /usr/bin/wall
+
+chmod a-s /usr/bin/chfn
+
+chmod a-s /usr/bin/chsh
+
+chmod a-s /usr/bin/newgrp
+
+chmod a-s /usr/bin/write
+
+chmod a-s /usr/sbin/usernetctl
+
+chmod a-s /bin/mount
+
+chmod a-s /bin/umount
+
+chmod a-s /sbin/netreport
+
+##
+
+修改系统引导文件
+
+chmod 600 /etc/grub.conf
+
+chattr +i /etc/grub.conf
+
+###
+
+禁止Ctrl Alt Delete重新启动机器命令
+
+修改/etc/inittab文件，将&amp;rdquo;ca::ctrlaltdel:/sbin/shutdown -t3 -r now&amp;rdquo;一行注释掉。然后重新设置/etc/rc.d/init.d/目录下所有文件的许可权限，运行如下命令：
+
+&amp;nbsp;chmod -R 700 /etc/rc.d/init.d/*
+
+日志管理
+
+系统引导日志：
+
+dmesg
+
+使用 dmesg 命令可以快速查看最后一次系统引导的引导日志。通常它的内容会很多，所以您往往会希望将其通过管道传输到一个阅读器。
+
+&amp;nbsp;系统运行日志：
+
+A、Linux 日志存储在 /var/log 目录中。这里有几个由系统维护的日志文件，但其他服务和程序也可能会把它们的日志放在这里。大多数日志只有 root 才可以读，不过只需要修改文件的访问权限就可以让其他人可读。
+
+以下是常用的系统日志文件名称及其描述：
+
+B、/var/log/messages
+
+messages 日志是核心系统日志文件。它包含了系统启动时的引导消息，以及系统运行时的其他状态消息。IO 错误、网络错误和其他系统错误都会记录到这个文件中。其他信息，比如某个人的身份切换为 root，也在这里列出。如果服务正在运行，比如 DHCP 服务器，您可以在messages 文件中观察它的活动。通常，/var/log/messages 是您在做故障诊断时首先要查看的文件。
+
+C、/var/log/XFree86.0.log
+
+这个日志记录的是 Xfree86 Xwindows 服务器最后一次执行的结果。如果您在启动到图形模式时遇到了问题，一般情况从这个文件中会找到失败的原因。
+
+D、在/var/log 目录下有一些文件以一个数字结尾，这些是已轮循的归档文件。日志文件会变得特别大，特别笨重。Linux 提供了一个命令来轮循这些日志，以使您的当前日志信息不会淹没在旧的无关信息之中。 logrotate 通常是定时自动运行的，但是也可以手工运行。当执行后，logrotate 将取得当前版本的日志文件，然后在这个文件名最后附加一个&amp;ldquo;.1&amp;rdquo;。其他更早轮循的文件为&amp;ldquo;.2&amp;rdquo;、&amp;ldquo;.3&amp;rdquo;，依次类推。文件名后的数字越大，日志就越老。
+
+可以通过编辑 /etc/logrotate.conf 文件来配置 logrotate 的自动行为。通过 man logrotate 来学习 logrotate 的全部细节。
+
+其中：
+
+# rotate log files weekly
+
+weekly
+
+这里代表每个日志文件是每个星期循环一次，一个日志文件保存一个星期的内容。
+
+# keep 4 weeks worth of backlogs
+
+rotate 4
+
+这里代表日志循环的次数是4次，即可以保存4个日志文件。
+
+E、定制日志
+
+可以通过编辑 /et/syslog.conf 和 /etc/sysconfig/syslog 来配置它们的行为，可以定制系统日志的存放路径和日志产生级别。
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

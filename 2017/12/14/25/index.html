@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>谈谈基于 OpenResty 的接口网关设计</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/12/14/25/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">谈谈基于 OpenResty 的接口网关设计</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-12-14</span>
+      
+      <a href="/categories/网关/" title="网关" class="post-categories">网关</a>
+      
+      
+      <a href="/tags/网关/"" title="网关" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>网关</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://www.zybuluo.com/yishuailuo/note/844059?utm_source=tool.lu" target="_blank" rel="external">https://www.zybuluo.com/yishuailuo/note/844059?utm_source=tool.lu</a></p>
+<p> 本文讲述基于 OpenResty 的接口网关设计，主要谈及接口网关的请求路由与安全认证（IP 与 URI 白名单、加解密与验签名流程等）这两部分内容，其中涉及到的 Nginx、OpenResty 等相关内容会作简单介绍。</p>
+<p>温馨提示：文章图片中的文字较小，为了更好的阅读体验，建议 PC 端阅读。<br>谈谈基于 OpenResty 的接口网关设计<br>〇、前言<br>一、什么是接口网关<br>1.1 定位<br>1.2 功能<br>二、为什么需要接口网关<br>2.1 请求路由<br>2.2 安全认证<br>三、如何开发接口网关<br>3.1 Nginx 与 OpenResty 简介<br>3.1.1 Nginx 简介<br>3.1.1 OpenResty 简介<br>3.2 接口网关的架构<br>3.2.1 两层 HAProxy 代理<br>3.2.2 接口网关<br>3.2.2.1 主流程设计<br>3.2.2.2 配置服务设计<br>3.2.2.3 安全服务设计<br>3.2.3 架构总结<br>〇、前言</p>
+<p>笔者曾参与开发两个接口网关的项目，一个是基于 Tomcat 的应用提供的网关服务，另一个是基于 OpenResty 的 Nginx 应用提供的网关服务。经过两个网关项目的开发，笔者在接口网关开发方面稍微积累了一些经验，故在此把这些经验分享出来一起交流学习。由于基于 OpenResty 的 Nginx 网关普遍被认为是更优的方案，故本文主要针对基于 OpenResty 的 Nginx 网关进行讲述。当然，由于不同的并发数量级，不同的业务场景，接口网关的设计多种多样，本文所述其中较为简单且轻量级的一种。</p>
+<p>注：由于笔者经验与知识有限，文章中如有错误或偏颇，欢迎探讨和指正（作业部落提供文章按块批注功能，非常欢迎提批注，笔者会及时修正）。</p>
+<p>一、什么是接口网关</p>
+<p>1.1 定位</p>
+<p>接口网关，顾名思义，是企业 IT 在系统边界上提供给外部访问内部接口服务的统一入口。这里的外部可以指客户端、浏览器或者第三方应用等，在这种情况下，接口网关可以有多种定位：</p>
+<p>提供后端服务面向 Web App 或者 Mobile App 的 APIGateway<br>作为开放平台面向 Partner 的 OpenAPI<br>…<br>在笔者的工作中，同样把面向客户端的网关称作 APIGateway，把作为开放平台提供给第三方服务的网关称作 OpenApi。本文主要以 OpenApi 作为接口网关为例来讲述。</p>
+<p>1.2 功能</p>
+<p>作为企业 IT 系统的统一入口，接口网关可提供请求路由与组合、协议转换、安全认证、服务鉴权、流量控制与日志监控等服务。在笔者的工作中，主要在接口网关上实现了请求路由与安全认证的功能，题目中所说的“设计”，主要是指请求路由与安全认证方面，暂不涉及流量控制或日志监控等其他方面的设计。</p>
+<p>二、为什么需要接口网关</p>
+<p>正如上文所言，网关接口为企业应用提供了丰富的功能，而笔者在工作中开发的接口网关主要提供请求路由与安全认证的功能，那么在回答“为什么需要接口网关”的时候，需要对这两者多加阐述。</p>
+<p>2.1 请求路由</p>
+<p>企业提供内外两网，在没有接口网关时，提供外部服务的应用需要部署在外网。随着服务的增多，部署在外网的应用越来越多，在服务的安全压力与维护成本增大的情况下，需要一个统一的接口网关“隔离”内外服务。企业提供的服务（无论内部服务还是外部服务）均部署在内网，而由部署在外网的网关接受请求，并路由到内网服务。在这种情况下，既有利于对外屏蔽企业内部服务部署细节，提供统一的服务访问地址，又便于管理与维护内外部服务接口，便于演进与重构服务。这是接口网关提供请求路由的作用。</p>
+<p>2.2 安全认证</p>
+<p>在没有接口网关时，企业对外服务直接由外部访问，身份验证与数据加解密等工作都需要每一个对外服务本身去处理，增加了服务本不该有的职责，并且增加了服务开发的难度与工作量。实际在大多数情况下，可以将身份验证与数据加解密等安全工作可以从服务抽离，统一由接口网关负责处理。接口网关作为入口，对外验证调用方的 IP，身份以及接口访问权限等，并且可以解密数据后再将请求路由到服务。这是接口网关提供安全认证的功能。</p>
+<p>以上是实际工作中涉及的为什么需要接口网关的其中两个原因，当然原因远不止此，有兴趣的读者可以阅读其他文章，比如 《谈API网关的背景、架构以及落地方案》 或者 《微服务：从设计到部署》（英文原文：Microservices: From Design to Deployment）。接下来的章节我们开始探讨如何开发接口网关。</p>
+<p>三、如何开发接口网关</p>
+<p>我们先看看工作中设计的提供请求路由与安全认证功能的接口网关的架构。</p>
+<p>不过在介绍接口网关的设计之前，我们先来了解一下关于 Nginx 与 OpenResty 的基础知识。</p>
+<p>3.1 Nginx 与 OpenResty 简介</p>
+<p>3.1.1 Nginx 简介</p>
+<p>Nginx 是世界第二大 Web 服务器，仅次于 Apache，然而由于其极高的性能可处理海量的互联网请求，现在已经成为业界高性能 Web 服务器的代名词。</p>
+<p>它的主要特征是高性能、高扩展性、高可靠性、低内存消耗、单机支持 10 万以上的并发连接，支持热部署，以及使用较自由的 BSD 许可协议。其中，Nginx 可以处理高并发压力下的并发请求的原因如下：</p>
+<p>事件驱动模型设计<br>全异步的网络 I/O 处理机制<br>极少的进程切换<br>内存消耗低，极度“压榨”服务器硬件资源<br>除了基于事件驱动的架构使其支持百万级的 TCP 连接，另外高度模块化的设计和自由的许可证使其拥有非常多扩展其功能的第三方模块，也是它的重要特性。所以，后来才会有 OpenResty 的诞生。</p>
+<p>我们看一个 Nginx 作简单配置来提供服务的例子：</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>    upstream backend {<br>        server 127.0.0.1:8080<br>    }<br>    server {<br>        location /back {<br>            proxy_pass <a href="http://backend" target="_blank" rel="external">http://backend</a>;<br>        }<br>    }<br>}<br>上述配置文件中，分别在 event、http、server 以及 location 块配置项中做了一些简单的配置，当安装完并启动 Nginx 后（监听 80 端口），访问到 /back 路径下的请求会被转发到本地 127.0.0.1:8080 服务上。</p>
+<p>3.1.1 OpenResty 简介</p>
+<p>根据官网定义，OpenResty 是一个通过 Lua 扩展 Nginx 实现的可伸缩的 Web 平台。其核心是基于 Nginx 一个 C 模块将 Lua 语言嵌入到 Nginx 服务器中，对外提供一套完整的 Lua Web 的 API，并透明支持非阻塞 I/O，提供协程 —— “轻量级线程”、定时器等，从而极大地降低了高性能服务端的开发难度和开发周期。</p>
+<p>OpenResty 将两个极为优秀的组件 Nginx 与 Lua 进行糅合，一方面保留了 Nginx 高性能 web 服务特征，另一方面有提供 Lua 特性在极少损失性能情况下便于业务功能的开发。根据官网介绍，OpenResty 非常便于用来搭建能够处理超高并发、扩展性极高的动态 Web 应用、Web 服务和动态网关。</p>
+<p>我们也是因为 OpenResty 的这些特性，特别是它对搭建动态网关的友好支持，才选择了基于 OpenResty 来开发我们的接口网关 —— APIGateway 与 OpenApi。</p>
+<p>开发接口网关使用到的 OpenResty 一个重要知识：OpenResty 对于一个请求的处理流程。Nginx 把一个请求分为不同的阶段，从而让第三方模块通过挂载行为在不同的阶段来定制自己的行为；OpenResty 拥有同样的特性，不过在不同阶段挂载的是 Lua 脚本。下图是基于《OpenResty 最佳实践》原图重绘而来：</p>
+<p>从上图可知，OpenResty 处理请求大致分为四个阶段：</p>
+<p>初始化阶段（Initialization Phase）<br>重写与访问阶段（Rewrite / Access Phase）<br>内容生成阶段（Content Phase）<br>日志记录阶段（Log Phase）<br>我们看一个 OpenResty 作简单配置来提供服务的例子：</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  resolver 127.0.0.1;<br>  lua_package_path ‘$prefix/lua/?.lua;;’;<br>  init_by_lua_block {</p>
+<pre><code># ...
+</code></pre><p>  }<br>  init_worker_by_lua_file lua/init_work_by_lua.lua;<br>  server {<br>    listen 80;<br>    location / {<br>      rewrite_by_lua_file lua/rewrite_by_lua.lua;<br>      access_by_lua_file lua/access_by_lua.lua;<br>      proxy_pass http://<url>;<br>    }<br>  }<br>}<br>上述配置文件中，分别在 event、http、server 以及 location 块配置项中做了一些简单的配置，当安装完并启动 Nginx 后（监听 80 端口），首先执行 init_by_lua_block、init_worker_by_lua_file 进行初始化，接着接受请求，所有的请求都会匹配上 “/“ 路径，进而执行 rewrite_by_lua_file、access_by_lua_file 进行重写与访问，最后转发请求到本地 127.0.0.1 服务上。</url></p>
+<p>在实际的接口网关开发中，我们主要是使用到了 OpenResty 中初始化阶段的 init_by_lua<em>、init_worker_by_lua</em>、重写与访问阶段 的 rewrite_by_lua<em>、access_by_lua</em> 以及内容生成阶段 content_by_lua* 过程。</p>
+<p>3.2 接口网关的架构</p>
+<p>这一节是本文的核心内容，重点讲述接口网关的架构设计。如前文所述，本文主要以 OpenApi 为例来讲述接口网关的架构设计。先看图：</p>
+<p>下面我们来一步步来分析架构图的各个部分，首先是两层的 HAProxy 。</p>
+<p>3.2.1 两层 HAProxy 代理</p>
+<p>根据维基百科定义，HAProxy 是一个使用 C 语言编写的自由及开放源代码软件，其提供高可用性、负载均衡，以及基于 TCP 和 HTTP 的应用程序代理。</p>
+<p>如图所示，隔离的内网与外网上分别提供了 HAProxy 代理， 外层暂且称为 HAProxy internet ，内层称为 HAProxy internal。外层暴露于外网中，使用统一地址如 <a href="http://openapi.company.com" target="_blank" rel="external">http://openapi.company.com</a> 来接受外部请求（这里指第三方的请求）；中间是基于 OpenResty 的 Nginx 网关层，外部请求经过网关后通过 HAProxy internal 转发到内网的服务上，内网服务遵循 Restful 风格，网关转发到内网的地址由接口网关控制。</p>
+<p>然而，目前的代理架构受到了当前整体架构的约束，实际上两层的 HAProxy 代理并不是必需的。</p>
+<p>对于外层 HAProxy internet，由于我们使用了与 HAProxy 紧密结合的 Openshift 架构，所以多了一层 HAProxy 的转发；一般情况下，基于 OpenResty 的 Nginx 网关层可以直接在外网上提供服务。</p>
+<p>对于内层的 HAProxy internal，由于我们当前还没有实现服务治理，所以需要内层的 HAProxy internal 进行一层转发；当实现了服务治理，可以消除内层 HAProxy 代理，减少转发消耗。</p>
+<p>在我们当前的系统量级下，这两层 HAProxy 转发消耗非常小可以被接受，所以调整架构的优先级还不高，以后再慢慢演进。</p>
+<p>3.2.2 接口网关</p>
+<p>接下来这一节是最为重点的接口网关的设计。接口网关主要利用前文所述的 OpenResty 执行阶段对请求与响应进行流程处理，包括接口地址的重写，IP 与资源白名单的控制，请求的解密与验签，请求的路由以及响应的签名与加密等。</p>
+<p>这里分成主流程，配置服务，安全服务三部分进行讲述。</p>
+<p>3.2.2.1 主流程设计</p>
+<p>主流程是网关的核心，是请求处理的控制中心；它是通过 OpenResty 的 Lua 脚本处理流程来实现对请求的处理。</p>
+<p>A. 主流程</p>
+<p>在 OpenResty 服务启动之后，首先通过 init_by_lua_block 阶段初始化常量（包括调用配置服务以及安全服务所需的主机地址、端口、URL 地址等）、引入依赖（包括常用的 http 以及 cjson 依赖等）等作为全局使用；</p>
+<p>接着通过 init_worker_by_lua_file 阶段设置定时任务调用内网配置服务来缓存配置，为处理第三方的请求做准备，其中加载的配置可供 URL 重写（即接口映射）、IP 以及资源（URI）白名单限制、请求的解密验签以及响应的签名加密使用，详情查看配置服务一节。</p>
+<p>当第三方请求通过 HAProxy Internet 进入到网关后，根据配置通过 rewrite_by_lua_file 阶段做 URL 重写（即接口映射）。</p>
+<p>需要重写的原因可能有：<br>服务接口 URL 发生变更，为了兼容旧的第三方调用，需要重写第三方请求 URL 到新服务接口上<br>Restful 接口的 Path Variable 在 Nginx 环境与在 Tomcat 环境上正则匹配的差异<br>URL 重写后，通过 access_by_lua_file 进入访问控制阶段，此时根据授权的第三方 IP 白名单列表，授权予第三方的开放接口列表，校验请求的 IP 以及 URL。</p>
+<p>IP 与 URI 校验通过后，同样在 access_by_lua_file 阶段根据配置调用内网的安全服务进行请求的解密与验签，获取明文。</p>
+<p>在 content_by_lua_file 阶段通过 ngx.location.capture 将原请求头部信息以及参数等信息封装到子请求中，借助子请求转发原请求到开发接口服务中。</p>
+<p>注意：根据官方文档说明，ngx.location.capture 发送子请求会缓存响应在内存中，直到整个请求处理结束。那么，当有响应报文特别长或者请求并发非常高时，需要使用 cosocket 来替代 ngx.location.capture，避免因内存不足造成网关服务失效。<br>同样在 content_by_lua_file 阶段根据配置调用安全服务进行响应的签名与加密，获取签名与密文返回给第三方。</p>
+<p>B. 文件结构</p>
+<p>项目的大致结构如下，主要分为 Lua 代码目录和环境配置目录。</p>
+<p>–openapi<br>  –lua<br>    –access_by_lua.lua<br>    –cache_management.lua<br>    –content_by_lua.lua<br>    –init_work_by_lua.lua<br>    –rewrite_by_lua.lua<br>    –security.lua<br>  –prod<br>    –Dockerfile<br>    –nginx.conf<br>  –sit<br>    –Dockerfile<br>    –nginx.conf<br>  –README.md<br>C. 主流程在 conf 中的配置</p>
+<h1 id="Nginx-worker-进程个数，直接影响性能。"><a href="#Nginx-worker-进程个数，直接影响性能。" class="headerlink" title="Nginx worker 进程个数，直接影响性能。"></a>Nginx worker 进程个数，直接影响性能。</h1><h1 id="如果确认不会出现阻塞式调用，那么有多少-CPU-内核设置多少个进程"><a href="#如果确认不会出现阻塞式调用，那么有多少-CPU-内核设置多少个进程" class="headerlink" title="如果确认不会出现阻塞式调用，那么有多少 CPU 内核设置多少个进程"></a>如果确认不会出现阻塞式调用，那么有多少 CPU 内核设置多少个进程</h1><h1 id="如果有可能出现阻塞式调用，需要配置多一些进程"><a href="#如果有可能出现阻塞式调用，需要配置多一些进程" class="headerlink" title="如果有可能出现阻塞式调用，需要配置多一些进程"></a>如果有可能出现阻塞式调用，需要配置多一些进程</h1><p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {</p>
+<h1 id="内网地址"><a href="#内网地址" class="headerlink" title="内网地址"></a>内网地址</h1><p>  resolver xxx.x.x.xxx yyy.y.y.yyy; </p>
+<h1 id="日志格式配置"><a href="#日志格式配置" class="headerlink" title="日志格式配置"></a>日志格式配置</h1><p>  log_format graylog2_format  ‘$remote_addr - $remote_user [$time_local] “$request” ‘<br>                              ‘$status $body_bytes_sent “$http_referer” ‘<br>                              ‘“$http_user_agent” “$http_x_forwarded_for” ‘<br>                              ‘<msec=$msec|connection=$connection|connection_requests=$connection_requests|millis=$request_time>‘;</msec=$msec|connection=$connection|connection_requests=$connection_requests|millis=$request_time></p>
+<h1 id="日志路径配置"><a href="#日志路径配置" class="headerlink" title="日志路径配置"></a>日志路径配置</h1><p>  access_log syslog:server=<host>:<port> graylog2_format;<br>  error_log  syslog:server=<host>:<port> warn;</port></host></port></host></p>
+<h1 id="配置-Lua-包地址"><a href="#配置-Lua-包地址" class="headerlink" title="配置 Lua 包地址"></a>配置 Lua 包地址</h1><p>  lua_package_path ‘$prefix/lua/?.lua;;’;<br>  init_by_lua_block {</p>
+<pre><code># 引入依赖（可能会污染全局环境，待研究）
+http = require &quot;resty.http&quot;
+cjson = require &quot;cjson&quot;
+cache_management = require &quot;cache_management&quot;
+...
+</code></pre><p>  }</p>
+<h1 id="设置定时任务缓存配置，及上面的-cache-management-模块"><a href="#设置定时任务缓存配置，及上面的-cache-management-模块" class="headerlink" title="设置定时任务缓存配置，及上面的 cache_management 模块"></a>设置定时任务缓存配置，及上面的 cache_management 模块</h1><p>  init_worker_by_lua_file lua/init_work_by_lua.lua;</p>
+<h1 id="Nginx-Web-服务配置"><a href="#Nginx-Web-服务配置" class="headerlink" title="Nginx Web 服务配置"></a>Nginx Web 服务配置</h1><p>  server {<br>    listen 80;</p>
+<pre><code># ngx.location.capture 子请求代理，转发原请求到接口服务
+location = /ngx_proxy/ {
+  internal;
+  proxy_set_header Accept-Encoding &apos;&apos;;
+  proxy_pass http://$context$http_host_suffix$proxy_uri;
+}
+# 匹配所有请求，进行 URL 重写、访问控制、转发请求以及响应处理（各阶段的处理在此配置）。
+location / {
+  set $context &apos;&apos;;
+  ...
+  rewrite_by_lua_file lua/rewrite_by_lua.lua;
+  access_by_lua_file lua/access_by_lua.lua;
+  content_by_lua_file lua/content_by_lua.lua;
+}
+</code></pre><p>  }<br>}<br>D. URL 规范</p>
+<p>内网服务遵循的 URL 格式为 http://<host>:<port>/<context>/path/to/your/api，应用上下文根紧跟在 <host>:<port> 之后，以便统一获取来找到配置。比如：<a href="http://172.0.8.177:8080/user/users/{uid}/info，其中" target="_blank" rel="external">http://172.0.8.177:8080/user/users/{uid}/info，其中</a> user 为应用上下文根，紧跟在 172.0.8.177:8080 之后。</port></host></context></port></host></p>
+<p>E. 样例</p>
+<p>内网用户信息服务由原来的 API：/user/users/{uid}/info 提供，后来迁移至 API：/user/users/{uid}/user-info，当第三方 CampA (IP 为 172.0.1.172) 发起 GET 请求时，请求 URL 为 <a href="http://openapi.company.com/user/users/27/info?thirdparty=CampA&amp;cp=fj375x...sign=abxuos8nb...。" target="_blank" rel="external">http://openapi.company.com/user/users/27/info?thirdparty=CampA&amp;cp=fj375x...sign=abxuos8nb...。</a></p>
+<p>初始化常量和依赖等<br>通过 CampA 与 user Context 获取第三方配置<br>HAProxy Internet 接收请求发到 OpenApi 接口网关，OpenApi 把 /user/users/27/info URI 重写为 /user/users/27/user-info/<br>校验第三方请求 IP，在 IP 白名单中，校验通过；校验 URI /user/users/27/user-info 在授权的 URI 中，校验通过<br>调用安全服务对请求进行解密与验签，解密成功，验签通过，获取明文<br>将拥有明文的请求转发到开放接口服务<br>获取响应，调用安全服务对响应报文进行签名与加密，返回给第三方 CampA。<br>3.2.2.2 配置服务设计</p>
+<p>A. 数据库表设计</p>
+<p>openapi_thirdparty_config</p>
+<p>id    third_party    need_check_ip    ips    req_need_verify_sign    resp_need_sign<br>1    CompA    1    172.0.25.187, 172.0.25.188    1    1<br>openapi_api_config</p>
+<p>id    third_party    method    url    req_need_decrypt    resp_need_encrypt<br>1    CompA    GET    /user/users/[^/]+/userinfo    1    1<br>openapi_api_mapping</p>
+<p>id    from_api    to_api<br>1    GET /old/1/user/users/(.+)/userinfo    GET /users/$1/userinfo<br>B. 配置服务接口响应</p>
+<p>{</p>
+<pre><code># 接口映射配置
+&quot;apiMapping&quot;:{
+    &quot;$context&quot;:{
+        &quot;$fromApi&quot;:&quot;$toApi&quot;
+    }
+},
+# 接口白名单配置、加解密配置
+&quot;apiConfig&quot;:{
+    &quot;$channel $context&quot;:{
+        &quot;$httpMethod $uri&quot;:{
+            &quot;reqNeedDecrypt&quot;:false,
+            &quot;respNeedEncrypt&quot;:false
+        }
+    }
+},
+# IP 白名单配置，验签名配置
+&quot;channelConfig&quot;:{
+    &quot;$channel&quot;:{
+        ips:{
+            &quot;$ip&quot;:1
+        },
+        &quot;reqNeedVerifySign&quot;:false,
+        &quot;respNeedSign&quot;:false,
+        &quot;needCheckIp&quot;:false
+    }
+}
+</code></pre><p>}<br>3.2.2.3 安全服务设计</p>
+<p>为了保证请求或响应的完整性、以及请求或响应来源的合法性，双方传输需要进行签名；另外，由于可能开放接口的请求或响应会包含敏感信息，需要进行加密传输。这里的安全服务就是指请求的解密与验签和响应的签名与加密服务。</p>
+<p>A. 算法约定</p>
+<p>对称加密算法：3DES（DESede/ECB/PKCS5Padding）<br>非对称加密算法：RSA（RSA/ECB/PKCS1Padding）<br>签名算法：SHA1WithRSA<br>B. 公钥约定</p>
+<p>双方预先交换 RSA 公钥</p>
+<p>双方公钥编码方式：UTF-8 编码的 Base64String<br>双方进行加解密与验签名可使用同一把 RSA 公私钥或者分别使用各自的公私钥，双方约定即可<br>C. 第三方请求流程示意</p>
+<p>其中，添加统一参数为必选步骤，请求签名、请求加密、响应解密、以及响应验签都是可选步骤。</p>
+<p>无论是 GET、POST 或者其他方式的请求，第三方在访问平台开放接口前，都需要添加统一参数到 request parameter 中<br>统一参数包括第三方应用名、请求时间戳、随机不重复字符串 nonce 等<br>验签名属于应用维度 —— 针对应用做验签名（比如：按照约定需要对第三方应用 A 进行验签，则应用 A 访问平台任何接口都需要签名）<br>加解密属于接口维度 —— 针对接口做加解密（比如：同一个第三方访问 A 接口需要加密，而访问 B 接口可以不需加密）<br>D. 加解密示意（以第三方请求为例）</p>
+<p>E. 验签名示意（以第三方请求为例）</p>
+<p>3.2.3 架构总结</p>
+<p>由于 Nginx 与 Lua 本身杰出的性能，在当前的系统量级与整体 IT 架构下，我们使用这样的接口网关架构已经可以支撑较大的并发请求。在最后的这一节，我们不妨回顾一下前文讲述的接口网关架构，看看目前性能上仍存在着的两个主要待改进的地方。</p>
+<p>两层 HAProxy 代理：在使用更优产品替代 Openshift 架构的情况下，直接部署接口网关到公网，可消除外层 HAProxy 代理；在实现服务治理的情况下，由接口网关直接转发请求到服务，可消除内层 HAProxy 代理。</p>
+<p>安全服务性能：加解密验签名等安全服务是以内部服务的方式提供给接口网关，而且使用了性能不太好的 ngx.location.capture 转发原请求，在系统量级增大后会遇到性能瓶颈，可通过使用高性能的 Lua 脚本在接口网关层提供安全服务，从而提升安全服务性能。</p>
+<p>除了以上主要的两点，随着系统量级的提升与整体 IT 架构的演进，接口网关的架构也会随之调整和演进，在各个方面都尽可能地优化性能，以适应更大系统量级的需求。</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx-worker-进程个数，直接影响性能。"><span class="toc-text">Nginx worker 进程个数，直接影响性能。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如果确认不会出现阻塞式调用，那么有多少-CPU-内核设置多少个进程"><span class="toc-text">如果确认不会出现阻塞式调用，那么有多少 CPU 内核设置多少个进程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如果有可能出现阻塞式调用，需要配置多一些进程"><span class="toc-text">如果有可能出现阻塞式调用，需要配置多一些进程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#内网地址"><span class="toc-text">内网地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志格式配置"><span class="toc-text">日志格式配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志路径配置"><span class="toc-text">日志路径配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置-Lua-包地址"><span class="toc-text">配置 Lua 包地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置定时任务缓存配置，及上面的-cache-management-模块"><span class="toc-text">设置定时任务缓存配置，及上面的 cache_management 模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx-Web-服务配置"><span class="toc-text">Nginx Web 服务配置</span></a></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

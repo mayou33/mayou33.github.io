@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>docker centos7 安装ssh</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/17/246/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">docker centos7 安装ssh</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-17</span>
+      
+      <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
+      
+      
+      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="background-color: inherit;"><br>    <span style="background-color: rgb(255, 255, 255);">一. 从docker hub 下载centos 官方镜像</span><br></div>
+
+<div style="background-color: inherit;"><br>    <pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;"><br><span style="background-color: rgb(255, 255, 255);"><font face="微软雅黑" style="background-color: inherit;">docker pull centos:7</font></span></pre><br></div>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="background-color: rgb(255, 255, 255);"><font face="微软雅黑" style="background-color: inherit;">运行容器
+docker run -i -t centos:7 /bin/bash</font></span></pre>
+
+<pre><code>二. 安装passwd,openssl,openssh-server
+</code></pre><div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            y<span style="line-height: 1.5; background-color: inherit;">um&nbsp;-y&nbsp;install&nbsp;epel-release&nbsp;</span><span style="line-height: 1.5; background-color: inherit;">passwd&nbsp;openssh-server&nbsp;openssh-clients&nbsp;</span><br>        </div><br>    </div><br></div>
+
+<pre><code>mkdir /var/run/sshd
+</code></pre><div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <span style="line-height: 1.5; background-color: inherit;">ssh-keygen&nbsp;-q&nbsp;-t&nbsp;rsa&nbsp;-b&nbsp;2048&nbsp;-f&nbsp;/etc/ssh/ssh_host_rsa_key</span><br>        </div><br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        ssh-keygen&nbsp;-t&nbsp;dsa&nbsp;-f&nbsp;/etc/ssh/ssh_host_ed25519_key&nbsp;<br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;"><span style="background-color: rgb(255, 255, 255);">#修改root</span></span><span style="line-height: 1.5; background-color: inherit;">用户的密码</span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <span style="background-color: inherit;"><span style="background-color: inherit;">#<span style="background-color: inherit;">passwd&nbsp;root</span></span></span><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;#新用户appadmin&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        #useradd&amp;nbsp;-g&amp;nbsp;users&amp;nbsp;appadmin
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;echo &amp;#39;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;appadmin&lt;/span&gt;:&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;appadmin&lt;/span&gt;&amp;#39; |chpasswd&lt;/span&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;systemctl&amp;nbsp;enable&amp;nbsp;sshd.service&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;/usr/sbin/sshd&amp;nbsp;restart&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;#sed&amp;nbsp;-i&amp;nbsp;&amp;#39;s/UsePAM&amp;nbsp;yes/UsePAM&amp;nbsp;no/&amp;#39;&amp;nbsp;/etc/ssh/sshd_config&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+    #&lt;span style=&quot;background-color: inherit;&quot;&gt;sed&amp;nbsp;-i&amp;nbsp;&amp;#39;s/&lt;span style=&quot;background-color: inherit;&quot;&gt;GSSAPIAuthentication&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;yes&lt;/span&gt;&lt;/span&gt;/&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;GSSAPIAuthentication&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&amp;nbsp;no/&amp;#39;&amp;nbsp;/etc/ssh/sshd_config&lt;/span&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;#sed -i &amp;quot;s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g&amp;quot; /etc/ssh/sshd_config&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;#sed -i &amp;#39;s/.*session.*required.*pam_loginuid.so.*/session optional pam_loginuid.so/g&amp;#39; /etc/pam.d/sshd&amp;nbsp;&lt;/span&gt;
+
+        &amp;nbsp;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;/usr/sbin/sshd&amp;nbsp;reload&lt;/span&gt;&lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;/usr/sbin/sshd&amp;nbsp;restart&lt;/span&gt;&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <span style="background-color: inherit;">最后</span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;">#</span><span style="line-height: 1.5; font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; background-color: inherit;">/usr/sbin/sshd -D</span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <div style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>                &nbsp;<br>            </div><br>        </div><br>    </div><br></div>
+
+<pre><code>&lt;span style=&quot;background-color: inherit;&quot;&gt;参数&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;-D&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;表示sshd运行在前台。这样当前的docker容器就会一直有程序在运行。&lt;/span&gt;
+</code></pre><div style="background-color: inherit;"><br>    <span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">退出exit</span><br><br>    <div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>        <div style="background-color: inherit;"><br>            <div style="background-color: inherit;"><br>                <div style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>                    &nbsp;<br>                </div>
+
+<pre><code>            &lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+                &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;#&amp;nbsp;&lt;/span&gt;docker&amp;nbsp;ps&amp;nbsp;-l
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+    &lt;span style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;使用commit命令保存镜像&lt;/span&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    docker&amp;nbsp;commit&amp;nbsp;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;09ae41c11e1a&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;&amp;nbsp; centos7.2.1511-v5:centos7.2.1511-0816&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;#&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;docker images&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+    &lt;span style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;基于新镜像运行容器 &lt;/span&gt;&lt;span style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;在宿主机上映射端口&lt;/span&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    docker&amp;nbsp;run&amp;nbsp;-d&amp;nbsp;-p&amp;nbsp;2222:22&amp;nbsp;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;centos7.2.1511-v5:centos7.2.1511-0816&lt;/span&gt;&amp;nbsp;/usr/sbin/sshd&amp;nbsp;-D
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;pre style=&quot;font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p><span style="background-color: inherit;">查看映射端口是否成功</span></p>
+<pre><code>    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        #&amp;nbsp;docker&amp;nbsp;ps&amp;nbsp;-all
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        [root@localhost&amp;nbsp;~]#&amp;nbsp;docker&amp;nbsp;ps&amp;nbsp;-all
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        CONTAINER&amp;nbsp;ID&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;IMAGE&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;COMMAND&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CREATED&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;STATUS&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;PORTS&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NAMES
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        c2bc3c58a115&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;centos7.2.1511-v5:centos7.2.1511-0816&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;/usr/sbin/sshd&amp;nbsp;-D&amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;4&amp;nbsp;seconds&amp;nbsp;ago&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Up&amp;nbsp;2&amp;nbsp;seconds&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0.0.0.0:2222-&amp;gt;22/tcp&amp;nbsp;&amp;nbsp;&amp;nbsp;ecstatic_dijkstra
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &amp;nbsp;登入容器&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;ssh&lt;/span&gt;&lt;span style=&quot;text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;localhost&amp;nbsp;-p&amp;nbsp;2222&lt;/span&gt;&lt;/font&gt;
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    [&lt;span style=&quot;background-color: inherit;&quot;&gt;root@localhost&lt;/span&gt;&amp;nbsp;1]#&amp;nbsp;ssh&amp;nbsp;localhost&amp;nbsp;-p&amp;nbsp;2222
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    The&amp;nbsp;authenticity&amp;nbsp;of&amp;nbsp;host&amp;nbsp;&amp;#39;[localhost]:2222&amp;nbsp;([127.0.0.1]:2222)&amp;#39;&amp;nbsp;can&amp;#39;t&amp;nbsp;be&amp;nbsp;established.
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    ECDSA&amp;nbsp;key&amp;nbsp;fingerprint&amp;nbsp;is&amp;nbsp;eb:b7:28:70:32:fb:e0:c9:b0:b5:f4:26:21:a5:49:20.
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    Are&amp;nbsp;you&amp;nbsp;sure&amp;nbsp;you&amp;nbsp;want&amp;nbsp;to&amp;nbsp;continue&amp;nbsp;connecting&amp;nbsp;(yes/no)?&amp;nbsp;yes
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    Warning:&amp;nbsp;Permanently&amp;nbsp;added&amp;nbsp;&amp;#39;[localhost]:2222&amp;#39;&amp;nbsp;(ECDSA)&amp;nbsp;to&amp;nbsp;the&amp;nbsp;list&amp;nbsp;of&amp;nbsp;known&amp;nbsp;hosts.
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;span style=&quot;background-color: inherit;&quot;&gt;root@localhost&lt;/span&gt;&amp;#39;s&amp;nbsp;password:&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    [&lt;span style=&quot;background-color: inherit;&quot;&gt;root@3e6023ad2ad8&lt;/span&gt;&amp;nbsp;~]#
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    如果要停止服务：
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        docker&amp;nbsp;ps&amp;nbsp;-all
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        docker&amp;nbsp;stop&amp;nbsp;c2bc3c58a115
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    启用
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;docker&amp;nbsp;start&amp;nbsp;c2bc3c58a115&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    不想用了就
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;docker&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;rm&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;c2bc3c58a115&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        docker&amp;nbsp;ps&amp;nbsp;-all
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    在&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;docker&amp;nbsp;rm &amp;lsquo;&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;CONTAINER&amp;nbsp;ID&amp;rsquo;&amp;nbsp;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    就彻底没有了
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    ps：
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    查看&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Arial, &amp;quot;PingFang SC&amp;quot;, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;WenQuanYi Micro Hei&amp;quot;, &amp;quot;Microsoft Yahei&amp;quot;, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;容器的ip &amp;nbsp;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Arial, &amp;quot;PingFang SC&amp;quot;, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;WenQuanYi Micro Hei&amp;quot;, &amp;quot;Microsoft Yahei&amp;quot;, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;#&amp;nbsp;docker&amp;nbsp;ps&amp;nbsp;-all&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    #docker&amp;nbsp;exec&amp;nbsp;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;8f439e8e8208&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;&amp;nbsp;ifconfig &amp;nbsp; (&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: rgb(255, 255, 255);&quot;&gt;ifconfig默认没有，我已经安装过&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;得到&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        172.17.0.2
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+</div></div></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

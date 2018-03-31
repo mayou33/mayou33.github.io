@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>软件包管理工具 DNF</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/10/17/563/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">软件包管理工具 DNF</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-10-17</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        DNF即Dandified YUM，是基于RPM的Linux发行版的下一代软件包管理工具。它首先在Fedora 18中出现，并且在最近发行的Fedora 22中替代了<span style="background-color: inherit;">YUM工具集</span>。<br><br>        DNF致力于改善YUM的瓶颈，即性能、内存占用、依赖解决、速度和许多其他方面。<br><br>        DNF使用RPM、libsolv和hawkey库进行包管理。尽管它并未预装在CentOS和RHEL 7中，但您可以通过yum安装，并同时使用二者。<br><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font-size: 26px; background-color: inherit;">安装 DNF 包管理器</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<pre><code>1、为了安装 DNF ，您必须先安装并启用 epel-release 依赖。
+
+在系统中执行以下命令：
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# yum <font color="#0066cc">install</font> epel-release</pre>
+
+<pre><code>或者
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# yum install epel-release -y</pre>
+
+<pre><code>其实这里并没有强制使用&amp;rdquo;-y&amp;rdquo;的理由，相反的，在不使用&amp;rdquo;-y&amp;rdquo;的情况下，用户可以在安装过程中查看到底有哪些东西被安装进了系统。
+
+但对于没有这个需求的用户，您可以在 YUM 中使用&amp;rdquo;-y&amp;rdquo;参数来自动安装所有东西。
+
+2、使用 epel-release 依赖中的 YUM 命令来安装 DNF 包。在系统中执行以下命令：
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# yum install dnf</pre>
+
+<pre><code>然后， DNF 包管理器就被成功的安装到你的系统中了。接下来，是时候开始我们的教程了！在这个教程中，您将会学到27个用于 DNF 包管理器的命令。使用这些命令，你可以方便有效的管理您系统中的 RPM 软件包。现在，让我们开始学习 DNF 包管理器的27条常用命令吧！
+
+**查看 DNF 包管理器版本**
+
+用处：该命令用于查看安装在您系统中的 DNF 包管理器的版本
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf &ndash;version
+</pre>
+
+<p>###<br>    <strong>列出启用的DNF仓库</strong></p>
+<pre><code>用处：该命令用于显示系统中可用的 DNF 软件库
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf repolist
+</pre>
+
+<p>###<br>    <strong>列出所有启用和禁用的DNF仓库</strong></p>
+<pre><code>**&amp;#39;repolist all&amp;#39;选项将显示您系统中所有启用/禁用的仓库。**
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf repolist all
+</pre>
+
+<p>###<br>    <strong>列出所有可用的且已安装的软件包</strong></p>
+<pre><code>用处：该命令用于列出用户系统上的所有来自软件库的可用软件包和所有已经安装在系统上的软件包
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf list
+</pre>
+
+<p>###<br>    <strong>列出所有已安装的软件包</strong></p>
+<pre><code>用处：该命令用于列出所有安装了的 RPM 包
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf list installed
+</pre>
+
+<pre><code>**列出所有可供安装的 RPM 包**
+
+用处：该命令用于列出来自所有可用软件库的可供安装的软件包
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf list available
+</pre>
+
+<pre><code>**搜索软件库中的 RPM 包**
+
+用处：当你不知道你想要安装的软件的准确名称时，你可以用该命令来搜索软件包。你需要在&amp;rdquo;search&amp;rdquo;参数后面键入软件的部分名称来搜索。（在本例中我们使用&amp;rdquo;[&lt;font color=&quot;#0066cc&quot;&gt;nano&lt;/font&gt;](http://man.linuxde.net/nano &quot;nano命令&quot;)&amp;rdquo;）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf search nano
+</pre>
+
+<p>###<br>    <strong>&nbsp;查看哪个软件包提供了某个文件/子软件包？</strong></p>
+<pre><code>用处：当你想要查看是哪个软件包提供了系统中的某一文件时，你可以使用这条命令。（在本例中，我们将查找&amp;rdquo;/bin/bash&amp;rdquo;这个文件的提供者）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf provides /bin/bash
+</pre>
+
+<p>###<br>    <strong>获得一个软件包的详细信息</strong></p>
+<pre><code>用处：当你想在安装某一个软件包之前查看它的详细信息时，这条命令可以帮到你。（在本例中，我们将查看&amp;rdquo;nano&amp;rdquo;这一软件包的详细信息）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf <font color="#0066cc">info</font> nano
+</pre>
+
+<pre><code>**安装软件包**
+
+用处：使用该命令，系统将会自动安装对应的软件及其所需的所有依赖（在本例中，我们将用该命令安装nano软件）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf install nano
+</pre>
+
+<pre><code>**升级软件包**
+
+用处：该命令用于升级制定软件包（在本例中，我们将用命令升级&amp;rdquo;systemd&amp;rdquo;这一软件包）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf update systemd
+</pre>
+
+<pre><code>**检查系统软件包的更新**
+
+用处：该命令用于检查系统中所有软件包的更新
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf check-update
+</pre>
+
+<p>###<br>    <strong>更新系统中所有的软件包</strong></p>
+<pre><code>用处：该命令用于升级系统中所有有可用升级的软件包
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf update 或 # dnf upgrade
+</pre>
+
+<p>###<br>    <strong>移除/删除一个软件包</strong></p>
+<pre><code>用处：删除系统中指定的软件包（在本例中我们将使用命令删除&amp;rdquo;nano&amp;rdquo;这一软件包）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf remove nano 或 # dnf erase nano
+</pre>
+
+<pre><code>**删除无用孤立的软件包**
+
+用处：当没有软件再依赖它们时，某一些用于解决特定软件依赖的软件包将会变得没有存在的意义，该命令就是用来自动移除这些没用的孤立软件包。
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf autoremove
+</pre>
+
+<pre><code>**删除缓存的无用软件包**
+
+用处：在使用 DNF 的过程中，会因为各种原因在系统中残留各种过时的文件和未完成的编译工程。我们可以使用该命令来删除这些没用的垃圾文件。
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf clean all
+</pre>
+
+<pre><code>**获取有关某条命令的使用帮助**
+
+用处：该命令用于获取有关某条命令的使用帮助（包括可用于该命令的参数和该命令的用途说明）（本例中我们将使用命令获取有关命令&amp;rdquo;clean&amp;rdquo;的使用帮助）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf [<font color="#0066cc">help</font>](http://man.linuxde.net/help "help命令") clean
+</pre>
+
+<pre><code>**查看所有的 DNF 命令及其用途**
+
+用处：该命令用于列出所有的 DNF 命令及其用途
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf help
+</pre>
+
+<pre><code>**查看 DNF 命令的执行历史**
+
+用处：您可以使用该命令来查看您系统上 DNF 命令的执行历史。通过这个手段您可以知道在自您使用 DNF 开始有什么软件被安装和卸载。
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf history
+</pre>
+
+<pre><code>**查看所有的软件包组**
+
+用处：该命令用于列出所有的软件包组
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf grouplist
+</pre>
+
+<pre><code>**安装一个软件包组**
+
+用处：该命令用于安装一个软件包组（本例中，我们将用命令安装&amp;rdquo;Educational Software&amp;rdquo;这个软件包组）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf groupinstall &lsquo;Educational Software&rsquo;
+</pre>
+
+<pre><code>**升级一个软件包组中的软件包**
+
+用处：该命令用于升级一个软件包组中的软件包（本例中，我们将用命令升级&amp;rdquo;Educational Software&amp;rdquo;这个软件包组中的软件）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf groupupdate &lsquo;Educational Software&rsquo;
+</pre>
+
+<pre><code>**删除一个软件包组**
+
+用处：该命令用于删除一个软件包组（本例中，我们将用命令删除&amp;rdquo;Educational Software&amp;rdquo;这个软件包组）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf groupremove &lsquo;Educational Software&rsquo;
+</pre>
+
+<pre><code>**从特定的软件包库安装特定的软件**
+
+用处：该命令用于从特定的软件包库安装特定的软件（本例中我们将使用命令从软件包库 epel 中安装 phpmyadmin 软件包）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf &ndash;enablerepo=epel install phpmyadmin</pre>
+
+<pre><code>**更新软件包到最新的稳定发行版**
+
+用处：该命令可以通过所有可用的软件源将已经安装的所有软件包更新到最新的稳定发行版
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf distro-sync
+</pre>
+
+<pre><code>&lt;span style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;重新安装特定软件包&lt;/span&gt;
+
+用处：该命令用于重新安装特定软件包（本例中，我们将使用命令重新安装&amp;rdquo;nano&amp;rdquo;这个软件包）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf reinstall nano
+</pre>
+
+<pre><code>**回滚某个特定软件的版本**
+
+用处：该命令用于降低特定软件包的版本（如果可能的话）（本例中，我们将使用命令降低&amp;rdquo;acpid&amp;rdquo;这个软件包的版本）
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+# dnf downgrade acpid</pre>
+
+<pre><code>样例输出：
+</code></pre><pre style="text-align: left; color: rgb(34, 34, 34); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 233, 237); -webkit-text-stroke-width: 0px;">
+Using metadata from Wed May 20 12:44:59 2015
+No match for available package: acpid-2.0.19-5.el7.x86_64
+Error: Nothing to do.</pre>
+
+<pre><code>原作者注：在执行这条命令的时候， DNF 并没有按照我期望的那样降级指定的软件（&amp;ldquo;acpid&amp;rdquo;）。该问题已经上报。
+</code></pre><p>###<br>    总结</p>
+<pre><code>DNF 包管理器作为 YUM 包管理器的升级替代品，它能自动完成更多的操作。但在我看来，正因如此，所以 DNF 包管理器不会太受那些经验老道的 Linux 系统管理者的欢迎。举例如下：
+</code></pre><ol>
+<li>在 DNF 中没有 &ndash;skip-broken 命令，并且没有替代命令供选择。</li>
+<li>在 DNF 中没有判断哪个包提供了指定依赖的 resolvedep 命令。</li>
+<li>在 DNF 中没有用来列出某个软件依赖包的 deplist 命令。</li>
+<li>当你在 DNF 中排除了某个软件库，那么该操作将会影响到你之后所有的操作，不像在 YUM 下那样，你的排除操作只会咋升级和安装软件时才起作用。</li>
+</ol>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <a href="https://linux.cn/article-5718-1.html" target="_blank" rel="external"><font color="#0066cc">https://linux.cn/article-5718-1.html</font></a><br>    </div><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

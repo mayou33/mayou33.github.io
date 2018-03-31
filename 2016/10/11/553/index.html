@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Centos  python 2.6 升级到 2.7</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/10/11/553/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Centos  python 2.6 升级到 2.7</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-10-11</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/编程语言/"" title="编程语言" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>编程语言</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;">查看python的版本</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;">#python&nbsp;&nbsp;-V&nbsp;&nbsp;&nbsp;&nbsp;</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;">Python&nbsp;2.6.6 &nbsp;</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;">1.下载&nbsp;</span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="line-height: 1.5; background-color: inherit;">&nbsp; &nbsp; &nbsp; &nbsp; <span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">wget&nbsp;</span><a href="https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz" target="_blank" rel="external">https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz</a></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;">2.解压</span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">tar zxvf </span><span style="background-color: inherit;"><span style="color: rgb(0, 0, 0); font-family: Simsun; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">Python-2.7.12.tgz</span></span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;">3.更改工作目录</span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    cd&nbsp;<span style="line-height: 1.5; background-color: inherit;">Python-2.7.12</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;">4.安装</span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <div style="background-color: inherit;"><br>                #./configure&nbsp;&nbsp; &nbsp;<br>            </div>
+
+<pre><code>        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            #make&amp;nbsp;all&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+        &lt;/div&gt;
+
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            #make&amp;nbsp;install&amp;nbsp;&amp;nbsp;
+        &lt;/div&gt;
+
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            #make&amp;nbsp;clean&amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;
+        &lt;/div&gt;
+
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            #make&amp;nbsp;distclean&amp;nbsp;
+        &lt;/div&gt;
+
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            &amp;nbsp;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;"><span style="background-color: inherit;">5.查看版本信息</span></span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            &nbsp; &nbsp; &nbsp;<span style="background-color: inherit;">#/usr/local/bin/python2.7&nbsp;-V &nbsp;</span><br>        </div><br>    </div><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;"><span style="background-color: inherit;"><span style="background-color: inherit;">6.建立软连接，使系统默认的 python指向 python2.7</span></span></span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            &nbsp; &nbsp; &nbsp;<span style="background-color: inherit;">#mv&nbsp;/usr/bin/python&nbsp;/usr/bin/python2.6.6&nbsp;&nbsp;</span><br>        </div>
+
+<pre><code>    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;#ln&amp;nbsp;-s&amp;nbsp;/usr/local/bin/python2.7&amp;nbsp;/usr/bin/python &amp;nbsp;&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;"><span style="background-color: inherit;">7.重新检验Python 版本</span></span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            &nbsp; &nbsp; &nbsp;<span style="background-color: inherit;">#python&nbsp;-V &nbsp;</span><br>        </div><br>    </div><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;"><span style="background-color: inherit;">解决系统 Python 软链接指向 Python2.7 版本后，因为yum是不兼容 Python 2.7的，所以yum不能正常工作，我们需要指定 yum 的Python版本</span></span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            &nbsp;<span style="background-color: inherit;">#vi&nbsp;/usr/bin/yum &nbsp;</span><br>        </div><br>    </div><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;"><span style="background-color: inherit;">将文件头部的</span><br><br>    <span style="background-color: inherit;">#!/usr/bin/python</span></span></span><br><br>        <span style="background-color: inherit;"><span style="background-color: inherit;">改成<br><br>        #!/usr/bin/python2.6.6</span></span><br><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        &nbsp;iBus不支持Python2.7<br><br>        &nbsp;<br><br>        9.配置iBus<br><br>        分别用 vi 打开下面两个文件，找到&nbsp;<span style="background-color: inherit;">exec python 那一行，把exec python 改为&nbsp;exec python2.6 保存，退出</span><br><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <div style="background-color: inherit;"><br>                &nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: inherit;">#vi&nbsp;/usr/bin/ibus-setup &nbsp;</span><br>            </div><br>        </div><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            &amp;nbsp; &amp;nbsp; &lt;span style=&quot;background-color: inherit;&quot;&gt;#vi/usr/libexec/ibus-ui-gtk&amp;nbsp;&amp;nbsp;&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+</div></div></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

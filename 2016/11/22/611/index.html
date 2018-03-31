@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>美团点评的Atlas实践</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/11/22/611/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">美团点评的Atlas实践</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-11-22</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://tech.meituan.com/atlas-introduction.html" target="_blank" rel="external">http://tech.meituan.com/atlas-introduction.html</a></p>
+<pre><code>**本文整理自美团点评技术沙龙第10期：数据库技术架构与实践。**
+
+美团点评技术沙龙由美团点评技术团队主办，每月一期，每期沙龙邀请美团点评及其它互联网公司的技术专家分享来自一线的实践经验，覆盖各主要技术领域。
+
+本次沙龙主要围绕数据库相关的主题，内容包括美团数据库自动化运维系统构建、点评侧MySQL自动化服务平台RDS、美团数据库中间件、和小米高级DBA带来的Redis Cluster的大规模运维实践。
+</code></pre><p>#<br>    讲师简介</p>
+<pre><code>平仲，美团点评高级DBA，现负责美团点评数据库中间件Atlas的开发；主要工作经历从事于数据库内核及中间件开发。
+</code></pre><p>#<br>    概述</p>
+<pre><code>这次分享的主要内容包括6个部分：
+</code></pre><ul>
+<li>第一是我的简单介绍一下美团点评Atlas；</li>
+<li>第二部分，会介绍一下美团点评Atlas的整体架构；</li>
+<li>第三个是美团点评Atlas的主要模块，主要模块介绍我们美团点评在上面的主要工作；</li>
+<li>第四个部分是上线的现状；</li>
+<li>第五个部分是我们后续的一些安排，未来的计划；</li>
+<li><p>最后是QA的部分。</p>
+<p><img src="http://tech.meituan.com/img/atlas-intro/atlas_intr_1.png" alt="概述"></p>
+</li>
+</ul>
+<p>#<br>    MTAtlas的优点</p>
+<pre><code>首先介绍一下为什么要使用Atlas:
+</code></pre><ul>
+<li>使用Atlas之后，应用程序只需要在连接串中设置Atlas的地址，不需要关注整个数据库集群的结点；</li>
+<li>Atlas内部实现负载均衡，读写分离；</li>
+<li><p>Slave上下线的操作由DBA在自动化运营系统上点一下鼠标就能够完成。</p>
+<p>这样极大的减轻了DBA和应用开发人员的工作；而没有Atlas的情况下，这些工作是由RD来实现的，引入Atlas对于系统的可管理性和便利性都有非常大的帮助。</p>
+<p><img src="http://tech.meituan.com/img/atlas-intro/atlas_intr_2.png" alt="Atlas的主要功能"></p>
+</li>
+</ul>
+<p>#<br>    MTAtlas的软件模块</p>
+<pre><code>介绍Atlas的软件模块。软件模块分三层：
+</code></pre><ul>
+<li>第一层是一个访问控制，包括用户处理，IP过滤等等的功能；</li>
+<li>中间层是一个SQL处理的过程，包括SQL解析，SQL重写，和SQL执行；</li>
+<li>第三层就是一个主要和DBA连接相关的一个模块，像读写分离，负载均衡，连接池;</li>
+<li><p>另外还有三个模块是贯穿整个三层的: 第一是连接的管理，负责管理收发数据的底层连接；第二是日志的管理，第三个是监控管理。</p>
+<p><img src="http://tech.meituan.com/img/atlas-intro/atlas_intr_3.png" alt="Atlas的软件模块"></p>
+</li>
+</ul>
+<p>#<br>    MTAtlas连接改进</p>
+<pre><code>首先介绍一下连接的管理：根据我们链路比较长的特点，着重添加了对于连接异常的检测和处理，包括：
+</code></pre><ul>
+<li>Atlas上游和MGW交互的连接检测；</li>
+<li>Atlas下游和MySQL连接的检测；</li>
+<li><p>Atlas所在机器的连接检测。</p>
+<p><img src="http://tech.meituan.com/img/atlas-intro/atlas_intr_4.png" alt="Atlas的连接管理"></p>
+</li>
+</ul>
+<p>#<br>    MTAltas SESSION级变量</p>
+<pre><code>SQL处理模块中增加了SESSION参数的功能: 客户端分配一个DB连接的时候，如果二者SESSION级参数不一样时，首先做一个校正，校正之后才会真正执行查询。
+
+![SESSION级变量](http://tech.meituan.com/img/atlas-intro/atlas_intr_5.png)
+</code></pre><p>#<br>    MTAtlas连接池改进</p>
+<pre><code>连接池的管理中做了这样的修改：将链表改成Hash表，其中Hash键是用户名，Hash值是以用户身份建立的连接的一个链表。如下图把连接按用户来分，client分别会分到各自user建立的db连接，二者互不影响，既保证了查询的正确性，又保证了较高的性能。
+
+![连接池优化](http://tech.meituan.com/img/atlas-intro/atlas_intr_6.png)
+
+#MTAtlas访问控制
+
+下面讲一下访问控制模块，是在我们整个软件模型的第一层。
+</code></pre><ul>
+<li><p>第一个是增加了一个SQL过滤的功能：</p>
+<pre><code>*   该功能由黑名单的方式实现，黑名单的形式是如下边两个语句；
+</code></pre><ul>
+<li>黑名单可以根据执行的频率，执行的时间来自动的添加，其中频率时间，都是可以根据自己的需求动态修改的，另外我们也提供了一个手动添加黑名单的功能。</li>
+</ul>
+</li>
+<li>第二个个是根据后台db的thread running进行负载均衡，每当分配到一个后台的连接的时候，先检查后台的Thread running数，直到有一个thread running数在我阈值之内的时候才真正去分配。</li>
+<li>第三个就是用户IP限制，我们限制了用户的host地址，相当于进行一个权限的控制。</li>
+<li><p>最后一个就是从库流量配置，我可以指定某一个用户只能访问某几个从库，或者反过来说某几个从库只允许某几个用户访问，这样可能在一个更细的力度上对数据库的资源进行分配。</p>
+<p><img src="http://tech.meituan.com/img/atlas-intro/atlas_intr_7.png" alt="访问控制"></p>
+</li>
+</ul>
+<p>#<br>    MTAtlas监控模块</p>
+<pre><code>MTAtlas的监控体系实现了一个从无到有的过程，目前主要监控一些Atlas内部运行相关的一些参数：
+
+![监控](http://tech.meituan.com/img/atlas-intro/atlas_intr_8.png)
+</code></pre><p>#<br>    MTAtlas Sharding改进</p>
+<pre><code>对于sharding版本，做了如下的改进：
+</code></pre><ul>
+<li>首先我们把分库变成分库分表，并且提供了5种分库分表的方式；</li>
+<li>第二个是改进了Lemon基本上兼容MySQL语法；</li>
+<li>第三个是有限支持单个库内部的JOIN，经过Lemon解析后，发现涉及的表都是在同一个库，那么表的JOIN是支持的；</li>
+<li>同样的道理，单库的事务也是支持的。</li>
+<li><p>最后一个就是增加错误处理：在一个库上面执行出错的时候，会相应有一些rollback的机制，来处理一些异常情况导致的执行失败。</p>
+<p><img src="http://tech.meituan.com/img/atlas-intro/atlas_intr_9.png" alt="sharding 版本"></p>
+<p>Q：这方面能大概讲一下怎么去改进的？</p>
+<p>A：首先是一个语法的支持，我们就是把中间不支持语法的支持，这样的话有些复杂的查询，我们可以通过这个语法来进行一些，比如说where条件的分析，可以知道分布分表的情况，然后就是表的替换。</p>
+</li>
+</ul>
+<p>#<br>    MTAtlas上线现状</p>
+<pre><code>和大家分享一下上线的现状：从2015.5上线第一个版本后到现在已经有87%的服务组接入了MTAtlas, MTAtlas也已经经历了5个版本的迭代。
+
+![上线现状](http://tech.meituan.com/img/atlas-intro/atlas_intr_10.png)
+
+#MTAtlas未来计划
+
+最后讲一下未来的计划：
+</code></pre><ul>
+<li><p>第一个就是更强大的SQL处理：</p>
+<pre><code>*   增加一些SQL优化，Row cache的功能；
+</code></pre><ul>
+<li>分库分表全面的SQL支持，如聚集，排序；</li>
+<li>更全面的连接上下文信息；</li>
+</ul>
+</li>
+<li>第二：监控管理要结合自动故障处理，真正把监控的信息智能化；</li>
+<li>第三：下一个是和我们美团点评自己的MHA融合，支持自动故障切换；</li>
+<li><p>第四：支持分布式事务。</p>
+<p><img src="http://tech.meituan.com/img/atlas-intro/atlas_intr_11.png" alt="未来计划"></p>
+</li>
+</ul>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

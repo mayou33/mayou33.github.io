@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>【深度干货】数据中心机柜综合布线</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/06/02/1153/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">【深度干货】数据中心机柜综合布线</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-06-02</span>
+      
+      <a href="/categories/数据中心运维/" title="数据中心运维" class="post-categories">数据中心运维</a>
+      
+      
+      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="background-color: inherit;">2016-09-30</span><span style="background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="background-color: inherit;">福州鱼儿</span><span style="background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="background-color: inherit;">余果果园</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <span style="background-color: inherit;"><a href="https://mp.weixin.qq.com/s/c1YxYBjbLcWnjIJF3cJj7A" target="_blank" rel="external">https://mp.weixin.qq.com/s/c1YxYBjbLcWnjIJF3cJj7A</a></span><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+
+        1\. 写在前头
+
+        2\. 简介
+
+        3\. 前期知识储备
+
+        3.1 数据中心机房平面图
+
+        3.2 数据中心机房冷循环图
+
+        3.3 数据中心机柜内部冷气走向图
+
+        3.4 布线方法
+
+        3.4.1 EOR(End of Row)
+
+        3.4.2 MOR(Middle of Row)
+
+        3.4.3 TOR(Top of Rack)
+
+        3.4.4 不同布线方法的利弊
+
+        4\. 光纤技术发展发展趋势
+
+        5\. 布线规范
+
+        6\. 交换机端口分配规范
+
+        7\. 标签张贴规范
+
+        8\. 网线购买规范
+
+        9\. 工程验收
+
+        10\. 方案编写
+
+        11\. 参考资料
+
+        &amp;nbsp;
+
+        &amp;nbsp;
+</code></pre><p>#<br>            1. 写在前头&nbsp;</p>
+<pre><code>从甲方的角度看看，如何进行数据中心机柜综合布线改造&amp;nbsp;
+
+本文仅仅从数据中心客户自身为出发点，对租用数据中心中的机柜进行按需改造的详细介绍，并非数据中心机房基础建设
+</code></pre><p>#<br>            2. 简介</p>
+<pre><code>数据中心机房建设相比于传统的园区网，由于服务的多元化、业务无规律增加等问题，所以除了具备安全性、健壮性特点外，还需要支持较高的扩容能力和灵活的按需变化能力
+</code></pre><p>#<br>            3. 前期知识储备</p>
+<p>##<br>            3.1 数据中心机房平面图</p>
+<pre><code>![](http://read.html5.qq.com/image?src=forum&amp;amp;q=5&amp;amp;r=0&amp;amp;imgflag=7&amp;amp;imageUrl=http://mmbiz.qpic.cn/mmbiz_png/JeosubumlZqibweS21TFuZgWXTJqZpEhz6ZY01fBBNoQibbdK4v5ibvibS1FTEZfE8uSYJ4gEsh7Dfvm2IicSncbsUw/0?wx_fmt=png)
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 24px; font-family: Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, 微软雅黑, &amp;quot;Microsoft YaHei UI&amp;quot;, SimSun, SimHei, arial, sans-serif; font-size: 15px; -ms-word-wrap: break-word !important; max-width: 100%; box-sizing: border-box !important;&quot;&gt;数据中心机房平面布局通常采用矩形结构，为了保证制冷效果，通常将 10 至 20 个机柜背靠背并排放置成一行，形成一对机柜组。&lt;/span&gt;
+</code></pre><p>##<br>            3.2 数据中心机房冷循环图</p>
+<pre><code>![](http://read.html5.qq.com/image?src=forum&amp;amp;q=5&amp;amp;r=0&amp;amp;imgflag=7&amp;amp;imageUrl=http://mmbiz.qpic.cn/mmbiz_png/JeosubumlZqibweS21TFuZgWXTJqZpEhzMdVTtEgKVGgWrHrr2cAmicYppbGcoZNNHRXpKPBebf4E1VpTp9QSJUw/0?wx_fmt=png)
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 24px; font-family: Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, 微软雅黑, &amp;quot;Microsoft YaHei UI&amp;quot;, SimSun, SimHei, arial, sans-serif; font-size: 15px; -ms-word-wrap: break-word !important; max-width: 100%; box-sizing: border-box !important;&quot;&gt;机柜组中的机柜都采用前后通风模式，冷空气从机柜前面板的吸入并从后部排出，由此在机 柜背靠背摆放机柜组中间形成 &amp;ldquo;热通道&amp;rdquo;，相邻的两个机柜组之间形成&amp;ldquo;冷通道&amp;rdquo;。热通道正对机房空调，热空气沿热通道流回机房空调，再开始新一次循环。&lt;/span&gt;
+</code></pre><p>##<br>            3.3 数据中心机柜内部冷气走向图</p>
+<pre><code>![](http://read.html5.qq.com/image?src=forum&amp;amp;q=5&amp;amp;r=0&amp;amp;imgflag=7&amp;amp;imageUrl=http://mmbiz.qpic.cn/mmbiz_png/JeosubumlZqibweS21TFuZgWXTJqZpEhzvbqsooPQqNCpTIU6ytMXzb0Wbv4ic1MttUd9IQTtTCquib0NBBJ77UibQ/0?wx_fmt=png)
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 24px; font-family: Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, 微软雅黑, &amp;quot;Microsoft YaHei UI&amp;quot;, SimSun, SimHei, arial, sans-serif; font-size: 15px; -ms-word-wrap: break-word !important; max-width: 100%; box-sizing: border-box !important;&quot;&gt;为了更高效的制冷，大多数机柜内部都采用下送风、前送风方式。&lt;/span&gt;
+</code></pre><p>##<br>            3.4 布线方法</p>
+<p>###<br>            3.4.1 EOR(End of Row)</p>
+<pre><code>![](http://read.html5.qq.com/image?src=forum&amp;amp;q=5&amp;amp;r=0&amp;amp;imgflag=7&amp;amp;imageUrl=http://mmbiz.qpic.cn/mmbiz_png/JeosubumlZqibweS21TFuZgWXTJqZpEhzCd0hHawajerChFryI239vS4NTJZ8jK8NMembj1vLuDCxWlLlgoEQ9A/0?wx_fmt=png)
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 24px; font-family: Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, 微软雅黑, &amp;quot;Microsoft YaHei UI&amp;quot;, SimSun, SimHei, arial, sans-serif; font-size: 15px; -ms-word-wrap: break-word !important; max-width: 100%; box-sizing: border-box !important;&quot;&gt;每个机柜组中的两排机柜的最边端机柜作为网络列头柜，在网络列头柜及服务器机柜上方会安装配线架（由于会增加故障点，所以现在很多的互联网公司会放弃配线架）&lt;/span&gt;
+</code></pre><p>###<br>            3.4.2 MOR(Middle of Row)</p>
+<p>###<br>            <span style="margin: 0px; padding: 0px; color: rgb(72, 72, 76); line-height: 19px; font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13px; white-space: pre-wrap; -ms-word-wrap: break-word !important; max-width: 100%; box-sizing: border-box !important;"><img src="http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=http://mmbiz.qpic.cn/mmbiz_png/JeosubumlZqibweS21TFuZgWXTJqZpEhzOqsG5QbKdvVDSjzcPEKKbfHicpNRJLdYTaorDibS6hTWn3d42BiakN7BQ/0?wx_fmt=png" alt=""></span></p>
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 24px; font-size: 15px; -ms-word-wrap: break-word !important; max-width: 100%; box-sizing: border-box !important;&quot;&gt;相对于EOR模式，MOR只是把网络列头柜放置在一排机柜的中间位置，减少水平端布线成本（通常是铜缆）&lt;/span&gt;
+</code></pre><p>###<br>            3.4.3 TOR(Top of Rack)</p>
+<p>###<br>            <span style="margin: 0px; padding: 0px; color: rgb(72, 72, 76); line-height: 19px; font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; font-size: 13px; white-space: pre-wrap; -ms-word-wrap: break-word !important; max-width: 100%; box-sizing: border-box !important;"><img src="http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=http://mmbiz.qpic.cn/mmbiz_png/JeosubumlZqibweS21TFuZgWXTJqZpEhztAtQbvCiaI4b94RKpyEcZ2jibpAl1sKPypHdDOUPqGnnbvqWo3h3iclibw/0?wx_fmt=png" alt=""></span></p>
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 24px; font-size: 15px; -ms-word-wrap: break-word !important; max-width: 100%; box-sizing: border-box !important;&quot;&gt;采用TOR布线时，机柜组中的每个服务器机柜上方部署1-2台接入层交换机，内部的服务器直接通过跳线接入到机柜上方的交换机，交换机上行端口通过光纤接入到核心交换机（汇聚交换机）&lt;/span&gt;
+</code></pre><p>###<br>            3.4.4 不同布线方法的利弊</p>
+<pre><code>● EOR/MOR&amp;nbsp;
+
+优点：有利于提高交换的端口利用率，降低设备平均端口能耗&amp;nbsp;
+
+缺点：水平电缆长度更长，桥架压力大
+
+● TOR&amp;nbsp;
+
+优点：缩短了铜缆的使用距离，简化了线缆管理；增加光纤的使用替代铜缆，减少了网络拥塞，可扩展性强，可以直接复制&amp;nbsp;
+
+缺点：网络设备端口资源浪费，主干光纤使用量增加，对于核心交换机的端口需求压力大
+</code></pre><p>#<br>            4. 光纤技术发展发展趋势</p>
+<pre><code>&lt;pre style=&quot;margin: 10px 0px; padding: 6px 10px; border-radius: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; color: rgb(62, 62, 62); text-transform: none; line-height: 19px; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: Consolas, &amp;quot;Liberation Mono&amp;quot;, Menlo, Courier, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; -ms-word-wrap: break-word; max-width: 100%; box-sizing: border-box !important; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+</code></pre><p><code>布线，特别是数据中心布线世界是属于铜缆的，也是属于光纤的，但是归根结底是属于光纤的
+ &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;--- 孙慧永：罗森伯格公司高级产品经理</code></p>
+<pre><code>● 带宽越来越高&amp;nbsp;
+
+随着云计算的突飞猛进，带宽将会越来越高，万兆已经成为必然
+
+● 密度&amp;nbsp;
+
+绿色机房已经越来越流行，Facebook、Google、Appl都建设了绿色机房，即使我们目前还没达到那个程度，但是提高密度讲有效的提高机房利用率，降低端口的平均能耗
+
+● 可靠性&amp;nbsp;
+
+需要租用数据中心的（或者自建）设备，想必其业务的重要性，意外断网的损失是巨大的，必须要超级高的可用性保证才行
+
+● 管理&amp;nbsp;
+
+数据中心的运营成本正在持续上升，我们需要更为简易的管理方式来降低管理成本
+</code></pre><p>#<br>            5. 布线规范</p>
+<pre><code>● 远程管理网线&amp;nbsp;
+
+远程管理网线使用超五类网线，从机柜左边（从机柜正面看）下放，并且长度延伸至层板右边即可（不得超出），在层板中间位置用扎带固定。另外备线整理成一圈，固定在机柜中间位置，确保能够到达该机柜所有位置。
+
+● 电源线&amp;nbsp;
+
+当数据中心使用的是交流220V电源（直接接入排插），将电源线从机柜左边（从机柜正面看）下放，并且长度延伸至层板右边（不得超出），在层板中间位置使用扎带固定。&amp;nbsp;
+
+当数据中心使用的是高压直流电源（需要将电源线剥皮接入空开），将电源线从机柜左边（从机柜正面看）下放，并且长度延伸至层板右边（不得超出），在层板中间位置使用扎带固定。接口端剥皮接入空开，地线使用铜鼻子接入地线铜线排
+
+● 内网网线&amp;nbsp;
+
+内网网线使用六类成品跳线，从机柜右边（从机柜正面看）下放，并且长度延伸至层板左边即可（不得超出），在层板中间位置使用扎带固定。另外备线整理成一圈，固定在机柜中间位置，确保能够到达该机柜所有位置。
+
+● 外网网线&amp;nbsp;
+
+外网网线使用六类成品跳线 ，从机柜右边（从机柜正面看）下放，并且长度延伸至层板左边即可（不得超出），在层板中间位置使用扎带固定。另外备线整理成一圈，固定在机柜中间位置，确保能够到达该机柜所有位置。
+</code></pre><p>#<br>            6. 交换机端口分配规范</p>
+<pre><code>交换机端口使用从端口1开始，对应机柜号小的机柜，以此类推，备线使用端口号大的交换机端口；例如：端口1-16分配给机柜1（15、16作为备线），端口17-32分配给机柜2（31、32作为备线），端口33-48分配给机柜3（47、48作为备线）
+
+原则：交换机端口利用率尽量高，并且确保服务器高可用性要求，同一机架位若接两根网线，必须接入不同交换机
+</code></pre><p>#<br>            7. 标签张贴规范</p>
+<pre><code>网络维护管理者的基本工作就是保证网络正常运行。如果没有做相应的标识，或者标识不规范，当网络发生问题时，如何在数千甚至数万根线缆中找到发生问题的具体位置呢？
+
+● 网线标签&amp;nbsp;
+
+按照标签标准进行打印，长度使用95mm，张贴在网线水晶头内13cm处，并且两头都要张贴
+
+● 光纤标签&amp;nbsp;
+
+按照标签标准进行打印，长度使用90mm，张贴在光纤头内10cm处，并且两头都要张贴
+
+● 电源线标&amp;nbsp;
+
+签按照现场实际情况进行打印，张贴在电源线接服务器端13cm处，另一头贴在空开位置或插座位置。
+</code></pre><p>#<br>            8. 网线购买规范</p>
+<pre><code>● 内外网网线使用米数、数量根据现场测量后进行统一订制，必须使用六类成品网线（机器压制水晶头）
+
+● 远程管理网线使用米数、数量根据现场测量后进行统一订制，必须使用超五类及以上成品网线（机器压制水晶头）
+
+● 所有购买的网线都必须使用FLUKE测试后给出测试报告（PDF文档）
+</code></pre><p>#<br>            9. 工程验收</p>
+<pre><code>数据中心的运营成本在持续上升，每话费1美元购置新的基础设施，就得话费8美元开展维护和管理
+
+● 外观（层板、线材位置）&amp;nbsp;
+
+美观很重要，人都是视觉动物，需要在美观与实用之间寻找一个平衡点
+
+● 电源&amp;nbsp;
+
+电源从列头柜到物理服务器，中间跳转好几级，我们更多的需要测试接入空开是否正常
+
+● 网络连通（铜缆、光纤）&amp;nbsp;
+
+布线过程对铜缆、光纤的拉扯容易导致线缆连通异常，需要在调试好网络设置后，进行抽查（当然有时间可以全部测试），正常布线之前会要求综合布线的乙方进行网线的fluke测试，以及光纤的光衰测试
+
+● 标签&amp;nbsp;
+
+标签是命门！我是栽过跟头的，后期维护上，现场的标签是非常重要的，打印设备、线缆标识、配线架标识、面板标识、设备管理标识、标识文档等等都是相当重要的！&amp;nbsp;
+
+为了最佳读取效果，所有的标签应由机械设备打印,不应采用手写方式
+</code></pre><p>#<br>            10. 方案编写</p>
+<pre><code>很多在互联网公司在计划进行数据中心机柜综合布线时都是提需求，然后由乙方来提交方案，但是经常由于双方编写方案的出发点不同，导致很多需求不对称，所以可以自己编写方案，并严格要求乙方按照方案执行！当然施工过正常最重要的是需求沟通，我做过的数据中心机柜改造项目中，70%以上的时间都在做需求沟通！！&amp;nbsp;
+
+如果你想从甲方的角度编写一个方案，需要做的东西如下
+
+● 现场平面图&amp;nbsp;
+
+IDC机房平面图，找运营商要电子档（必要时候现场确认）&amp;nbsp;
+
+机房整体确认：一排几个机柜；每个机柜几U；电源接口几个（空开、排插接口）
+
+● 网络布线示意图
+
+● 网线接入端口详细说明
+
+● 光纤布线接入位置详细说明
+
+● 电源线接入方式说明
+
+● 标签打印说明
+
+● 标签粘贴规范说明
+
+● 层板调整规范说明
+
+● 材料（自行准备、乙方准备、机房准备）
+
+● 报价表单
+
+● 投标确认乙方
+
+● 如何进场&amp;nbsp;
+
+数据中心机房通常都是租用运营商机房，所以进场都需要提前申请好，项目施工时间段；进场人员；证件；进场材料清单；出场材料清单
+
+● 需求沟通
+</code></pre><p>#<br>            11. 参考资料</p>
+<pre><code>        所有参考资料来自网络，因没有考察具体原出处，只能列出大概出处，若有不对的地方，请原创联系我（微信号：fz_fish）进行修改
+
+        ● 51CTO综合布线工作组博客
+
+        ● 数据中心服务器接入部署的布线方式
+
+        ● 戴尔4路服务器解决方案及案例分析
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

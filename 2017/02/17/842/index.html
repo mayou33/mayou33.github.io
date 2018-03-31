@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>centos中使用 tuned---tuned-adm工具动态调优系统</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/02/17/842/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">centos中使用 tuned---tuned-adm工具动态调优系统</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-02-17</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+      <a href="/tags/tools/"" title="tools" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tools</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="background-color: inherit;"><br>    <a href="https://wiki.mikejung.biz/OS_Tuning" target="_blank" rel="external">https://wiki.mikejung.biz/OS_Tuning</a><br></div>
+
+<pre><code>RHEL/CentOS 在 6.3 版本以后引入了一套新的系统调优工具 tuned/tuned-adm，其中 tuned&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;是服务端程序，用来监控和收集系统各个组件的数据，并依据数据提供的信息动态调整系统设置，达到动态优化系统的目的；tuned-adm&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;是客户端程序，用来和 tuned 打交道，用命令行的方式管理和配置 tuned，tuned-adm&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;提供了一些预先配置的优化方案可供直接使用，比如：笔记本、虚拟机、存储服务器等。
+
+如果你正在使用笔记本（电池电源），想优化系统、节约电源又不想知道太多这方面的细节，就可以用 tuned/tuned-adm 这套工具并应用laptop-battery-powersave 方案来调整和优化系统。
+
+当然不同的系统和应用场景有不同的优化方案，tuned-adm&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+预先配置的优化策略不是总能满足要求，这时候就需要定制，tuned-adm 允许用户自己创建和定制新的调优方案。
+
+安装和启动 tuned:
+</code></pre><pre style="color: rgb(85, 85, 85); font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-style: normal; font-weight: 300; background-color: inherit;">
+# yum update
+# yum install tuned
+
+ service tuned start
+ chkconfig tuned on
+
+service ktune start
+chkconfig ktune on
+</pre>
+
+<pre><code>查看当前优化方案：
+</code></pre><pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-style: normal; font-weight: 300; background-color: inherit;">
+<font color="#ff0000" style="background-color: inherit;"># tuned-adm active</font><span style="color: rgb(85, 85, 85); background-color: inherit;">
+Current active profile: default
+Service tuned: enabled, running
+Service ktune: enabled, running
+</span></pre>
+
+<pre><code>查看预先配置好的优化方案：（不同版本的系统，内容不一样）
+
+&lt;span style=&quot;color: rgb(255, 0, 0); line-height: 1.5; font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; background-color: inherit;&quot;&gt;# tuned-adm list &amp;nbsp;-----centos6&lt;/span&gt;
+</code></pre><pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-style: normal; font-weight: 300; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    Available&nbsp;profiles:<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;default<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;throughput-performance<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;laptop-ac-powersave<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;latency-performance<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;laptop-battery-powersave<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;desktop-powersave<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;virtual-guest<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;enterprise-storage<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;server-powersave<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;virtual-host<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;spindown-disk<br></div>
+
+<pre><code>&lt;span style=&quot;color: rgb(85, 85, 85); background-color: inherit;&quot;&gt;Current active profile: default&lt;/span&gt;
+</code></pre><pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-weight: 300; background-color: inherit;">
+<span style="color: rgb(85, 85, 85); background-color: inherit;"><span style="color: rgb(255, 0, 0); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: 300; background-color: rgb(255, 255, 255);"># tuned-adm list &nbsp;-----centos7</span>
+</span></pre>
+
+<pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-style: normal; font-weight: 300; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    Available&nbsp;profiles:<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;balanced<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;desktop<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;latency-performance<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;network-latency<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;network-throughput<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;powersave<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;throughput-performance<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;virtual-guest<br></div>
+
+<div style="background-color: inherit;"><br>    -&nbsp;virtual-host<br></div>
+
+<div style="background-color: inherit;"><br>    Current&nbsp;active<font color="#ff0000" style="background-color: inherit;">&nbsp;profile:&nbsp;virtual-guest</font><br></div>
+
+<pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-weight: 300; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre><code>tuned-adm has the ability to set the following profiles on CentOS 6 or CentOS 7:
+
+&lt;span style=&quot;line-height: 1.5; font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; background-color: inherit;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; background-color: inherit;&quot;&gt;default&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; background-color: inherit;&quot;&gt;&amp;nbsp;-&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;line-height: 1.5; font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; background-color: inherit;&quot;&gt;Default power saving profile, this is the most basic. It enables only the disk and cpu pligins. This is not the same as turning tuned-adm off.&lt;/span&gt;
+</code></pre><pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<pre><code>**Latency-performance(延迟性能)**
+</code></pre><div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;- This turns off power saving features, cpuspeed mode is turned to performance. I/O elevator is changed to &lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;deadline&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;. cpu_dma_latency requirement value 0 is registered.&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;典型延迟性能调试的服务器配置。它禁用 tuned 和 ktune 节能机制。cpuspeed 模式改为 performance。每个设备的 I/O 提升程序改为 deadline。对于服务的电源管理质量，将 cpu_dma_latency 设定为 0。&lt;/span&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;">此配置会禁用动态调优机制及transparent_hugepages。其通过cpuspeed对p-states进行性能治理，同时将I/O调度程序设置为deadline.network-latency。&rdquo;</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <strong>Throughput-performance(通量性能)</strong><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;ldquo;此服务器配置适用于典型的通量性能调优。其禁用tuned与ktune power saving机制，启用sysctl设置以优化磁盘与网络I/O的通量性能，同时切换至deadline调度程序。CPU调整器将被设置为performance。&amp;rdquo;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&amp;nbsp;- Recommended if the system is not using &amp;quot;enterprise class&amp;quot; storage. Same as &amp;quot;latency-performance&amp;quot; except:
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+kernel.sched_min_granularity_ns is set to 10 ms
+kernel.sched_wakeup_granularity_ns is set to 15 ms
+vm.dirty_ratio is set to 40% and transparent huge pages are enabled.
+</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    用于典型吞吐性能调整的服务器<span style="background-color: inherit;">配置</span>。如果系统没有企业级存储则建议使用这个侧写。它与 latency-performance 相同，只是：<br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 将 kernel.sched_min_granularity_ns（调度程序最小优先占用时间间隔）设定为 10 毫秒，<br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 将kernel.sched_wakeup_granularity_ns（调度程序唤醒间隔时间）设定为 15 毫秒。<br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 将 vm.dirty_ratio（<span style="background-color: inherit;">虚拟机</span>脏数据比例）设定为 40%，并启用透明超大页面。<br></div>
+
+<pre><code>&amp;nbsp;
+</code></pre><pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+**Network-latency(网络延迟):**
+</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="text-align: justify; color: rgb(51, 51, 51); font-family: &quot;Microsoft Yahei&quot;; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">包括latency-performance，禁用transparent_hugepages，禁用NUMA均衡并启用部分基于延迟的网络调优选项。</span>
+</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+**Network-throughput(网络通量):**<span style="text-align: justify; color: rgb(51, 51, 51); font-family: &quot;Microsoft Yahei&quot;; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="background-color: inherit;">&nbsp;</span>包括throughput-performance并提升网络栈缓冲区大小。</span>
+</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div><br></div>
+
+<pre><code>**&lt;font color=&quot;#333333&quot; face=&quot;Microsoft Yahei&quot; size=&quot;3&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;enterprise-storage&lt;/span&gt;&amp;nbsp;&lt;/font&gt;**
+</code></pre><pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Recommended for enterprise class storage servers that have BBU raid controller cache protection and management of on-disk cache. Same as &amp;quot;throughput-performance except:
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+file systems are re-mounted with barrier=0
+</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span>建议最企业级服务器配置中使用这个<span style="background-color: inherit;">配置</span>，其中包括电池备份控制程序缓存保护以及管理磁盘缓存。它与 throughput-performance 配置类似，只是文件</span><span style="background-color: inherit;">系统</span><span style="background-color: inherit;">要使用 barrier=0 重新挂载。&nbsp;</span>
+</pre>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div><br></div>
+
+<pre><code>**&lt;font color=&quot;#333333&quot; face=&quot;Microsoft Yahei&quot; size=&quot;3&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;virtual-guest&lt;/span&gt;&lt;/font&gt;**
+</code></pre><pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Same as &amp;quot;enterprise storage&amp;quot; but it sets readahead value to x 4 of what it normally is. Non boot / root FS are remounted with barrier=0
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <span style="background-color: inherit;">建议最企业级服务器配置中使用这个<span style="background-color: inherit;">配置</span>，其中包括电池备份控制程序缓存保护以及管理磁盘缓存。它与 throughput-performance 类似，只是：</span><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 将 readahead 值设定为 4x，同时不使用 barrier=0 重新挂载的 root/boot 文件系统。&amp;nbsp;&lt;/span&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div><br></div>
+
+<pre><code>**&lt;font color=&quot;#333333&quot; face=&quot;Microsoft Yahei&quot; size=&quot;3&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;virtual-host&lt;/span&gt;&amp;nbsp;&lt;/font&gt;**
+</code></pre><pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        &nbsp;<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Based on &amp;quot;enterprise storage&amp;quot;. This reduces swappiness of virtual memory and enables more aggressive writeback of dirty pages. Recommended for KVM hosts.
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="background-color: inherit;"><span style="background-color: inherit;">根据 enterprise-storage 配置，virtual-host 还可减少可置换的虚拟内存，并启用更多集合脏页写回。</span><span style="background-color: inherit;">推荐在虚拟化主机中使用这个配置，包括 KVM 和红帽企业版 Linux 虚拟化主机。</span>
+</span></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-weight: 300; background-color: inherit;">
+<span style="color: rgb(85, 85, 85); background-color: inherit;">########################</span></pre>
+
+<pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-weight: 300; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre><code>如果服务器是虚拟机母机的话，可以选用 virtual-host 方案优化。如果报错 &amp;ldquo;kernel.sched_migration_cost&amp;rdquo; is an unknown key 可以通过编辑 sysctl.ktune 这个文件解决。
+</code></pre><pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-style: normal; font-weight: 300; background-color: inherit;">
+<span style="color: rgb(85, 85, 85); background-color: inherit;"># </span><font color="#ff0000" style="background-color: inherit;">tuned-adm profile virtual-host</font>
+</pre>
+
+<pre style="font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-style: normal; font-weight: 300; background-color: inherit;">
+<font color="#555555" style="background-color: inherit;"><span style="color: rgb(85, 85, 85); font-family: &quot;Roboto Condensed&quot;, Arial, sans-serif; font-size: 18px; font-style: normal; font-weight: 300; background-color: rgb(255, 255, 255);">如果服务器是虚拟机,<span style="color: rgb(85, 85, 85); font-family: &quot;Roboto Condensed&quot;, Arial, sans-serif; font-size: 18px; font-style: normal; font-weight: 300; background-color: rgb(255, 255, 255);">可以选用 virtual-guest 方案优化</span></span></font></pre>
+
+<pre><code>&lt;font color=&quot;#555555&quot; face=&quot;Roboto Condensed, Arial, sans-serif&quot; size=&quot;4&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;# tuned-adm profile&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#555555&quot; style=&quot;line-height: 1.5; font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(85, 85, 85); line-height: 1.5; font-family: &amp;quot;Roboto Condensed&amp;quot;, Arial, sans-serif; font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;virtual-guest &amp;nbsp; ---centos7虚拟机安装后默认是&lt;span style=&quot;text-align: left; color: rgb(85, 85, 85); font-family: &amp;quot;Roboto Condensed&amp;quot;, Arial, sans-serif; font-size: 18px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;virtual-guest&lt;/span&gt;&lt;/span&gt;
+</code></pre><div style="background-color: inherit;"><br>    <pre style="font: 300 14px/21px Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>&nbsp;</pre><br><br>        如果是企业存储服务器的话，可以用 enterprise-storage 方案：<br><br>    <pre style="font: 300 14px/21px Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><span style="color: rgb(85, 85, 85); background-color: inherit;">#</span><font color="#ff0000" style="background-color: inherit;"> tuned-adm profile enterprise-storage</font><font color="#555555" style="background-color: inherit;"><br>Stopping tuned:                                            [  OK  ]<br>Switching to profile &#39;enterprise-storage&#39;<br>Applying deadline elevator: dm-0 sda sdb sdc sdd           [  OK  ]<br>Applying ktune sysctl settings:<br>/etc/ktune.d/tunedadm.conf:                                [  OK  ]<br>Calling &#39;/etc/ktune.d/tunedadm.sh start&#39;:                  [  OK  ]<br>Applying sysctl settings from /etc/sysctl.conf<br>Starting tuned:                                            [  OK  ]</font></pre><br><br>        上面预定的方案不是总能满足要求，如果有自己的需求可以定制自己的方案。自己定制很容易，切换到优化方案的配置目录，拷贝一个例子，然后编辑里面的相关参数就可以了，使用 tuned-adm list 命令会看到刚创建的新方案 my-virtual-host：<br><br>    <pre style="font: 300 14px/21px Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><font color="#ff0000" style="background-color: inherit;"># cd /etc/tune-profiles/      —centos6</font></pre><br><br>    <pre style="font: 300 14px/21px Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><font color="#ff0000" style="background-color: inherit;">#</font><span style="color: rgb(255, 0, 0); line-height: 1.5; font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; background-color: inherit;">cd </span><span style="line-height: 1.5; font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; background-color: inherit;">/usr/lib/tuned/</span><span style="color: rgb(255, 0, 0); line-height: 1.5; font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; background-color: inherit;">      —centos7  </span><span style="line-height: 1.5; font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; background-color: inherit;">/etc/tuned</span><br><font color="#ff0000" style="background-color: inherit;"><br># cp -r virtual-host my-virtual-host</font><span style="color: rgb(85, 85, 85); background-color: inherit;"><br># vi my-virtual-host/<em><br><br># tuned-adm list<br>Available profiles:<br>- laptop-battery-powersave<br>- virtual-guest<br>- desktop-powersave<br>- sap<br>- server-powersave<br>- virtual-host<br>- throughput-performance<br>- enterprise-storage<br>- laptop-ac-powersave<br>- latency-performance<br>- spindown-disk<br>- default<br>- my-virtual-host<br>Current active profile: virtual-host</em></span></pre><br><br>    <pre style="color: rgb(85, 85, 85); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-variant: normal; font-weight: 300; word-spacing: 0px; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>###################</pre><br><br>    <pre style="color: rgb(85, 85, 85); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-variant: normal; font-weight: 300; word-spacing: 0px; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>&nbsp;</pre><br><br>    <pre style="color: rgb(85, 85, 85); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-variant: normal; font-weight: 300; word-spacing: 0px; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><strong>Mongodb有优化的tuned</strong><br></pre><br><br>    <pre style="color: rgb(85, 85, 85); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-variant: normal; font-weight: 300; word-spacing: 0px; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>&nbsp;</pre><br><br>        <em>*Tuned-Percona-Mongodb: 安装</em><br><br>        此配置文件的安装过程非常简单，只需要使用Git命令检查该库，而后运行sudo make enable即可。完整的输出结果如下：<br><br>    &nbsp;<br><br>    <pre style="color: rgb(85, 85, 85); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-variant: normal; font-weight: 300; word-spacing: 0px; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>&nbsp;</pre><br><br>        可以看到percona-mongodb目前已经在系统上成为活跃tuned配置文件(输出结果的最后一行中可以看到)。<br><br>        各tuned配置文件被安装至/etc/tuned/percona-mongodb, 如下可见:<br><br>    <span style="text-align: justify; color: rgb(51, 51, 51); font-family: &quot;Microsoft Yahei&quot;; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">Tuned-Percona-Mongodb: 卸载</span><br><br>    <pre style="color: rgb(85, 85, 85); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Monaco, &quot;Courier New&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, monospace; font-size: 11px; font-style: normal; font-variant: normal; font-weight: 300; word-spacing: 0px; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><span style="text-align: justify; color: rgb(51, 51, 51); font-family: &quot;Microsoft Yahei&quot;; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="text-align: justify; color: rgb(51, 51, 51); font-family: &quot;Microsoft Yahei&quot;; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">，在github checkout目录中运行Sudo Make Uninstall：</span><br></span></pre><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

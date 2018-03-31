@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux-3.14.12内存管理笔记【构建内存管理框架（1）】</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/12/12/690/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux-3.14.12内存管理笔记【构建内存管理框架（1）】</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-12-12</span>
+      
+      <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4687593.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-26859697-id-4687593.html</a></p>
+<div><br><br>        传统的计算机结构中，整个物理内存都是一条线上的，CPU访问整个内存空间所需要的时间都是相同的。这种内存结构被称之为UMA（Uniform Memory Architecture，一致存储结构）。但是随着计算机的发展，一些新型的服务器结构中，尤其是多CPU的情况下，物理内存空间的访问就难以控制所需的时间相同了。在多CPU的环境下，系统只有一条总线，有多个CPU都链接到上面，而且每个CPU都有自己本地的物理内存空间，但是也可以通过总线去访问别的CPU物理内存空间，同时也存在着一些多CPU都可以共同访问的公共物理内存空间。于是乎这就出现了一个新的情况，由于各种物理内存空间所处的位置不同，于是访问它们的时间长短也就各异，没法保证一致。对于这种情况的内存结构，被称之为NUMA（Non-Uniform Memory Architecture，非一致存储结构）。事实上也没有完全的UMA，比如常见的单CPU电脑，RAM、ROM等物理存储空间的访问时间并非一致的，只是纯粹对RAM而言，是UMA的。此外还有一种称之为MPP的结构（Massive Parallel Processing，大规模并行处理系统），是由多个SMP服务器通过一定的节点互联网络进行连接，协同工作，完成相同的任务。从外界使用者看来，它是一个服务器系统。<br><br>        回归正题，着重看一下NUMA。由于NUMA存储结构的引入，这就需要相应的管理机制来支持， linux 2.4版本就已经开始对其支持了。随着新增管理机制的支持，也随之引入了Node的概念（存储节点），把访问时间相同的存储空间归结为一个存储节点。于是当前分析的3.14.12版本，linux的物理内存管理机制将物理内存划分为三个层次来管理，依次是：Node（存储节点）、Zone（管理区）和Page（页面）。<br><br>    &gt; &nbsp;<img src="http://blog.chinaunix.net/attachment/201412/11/26859697_1418258124sLPX.png" alt=""><br><br>        &nbsp;<br><br>        &nbsp; &nbsp;&nbsp;存储节点的数据结构为pg_data_t，每个NUMA节点都有一个pg_data_t负责记载该节点的内存布局信息。其中pg_data_t结构体中存储管理区信息的为node_zones成员，其数据结构为zone，每个pg_data_t都有多个node_zones，通常是三个：ZONE_DMA、ZONE_NORMAL、ZONE_HIGHMEM。<br><br>        ZONE_DMA区通常是由于计算机中部分设备无法直接访问全部内存空间而特地划分出来给该部分设备使用的区，x86环境中，该区通常小于16M。<br><br>        &nbsp;<br><br>        ZONE_NORMAL区位于ZONE_DMA后面，这个区域被内核直接映射到线性地址的高端部分，x86环境中，该区通常为16M-896M。<br><br>        ZONE_HIGHMEM区则是系统除了ZONE_DMA和ZONE_NORMAL区后剩下的物理内存，这个区不能直接被内核映射，x86环境中，该区通常为896M以后的内存。<br><br>        为什么要有高端内存的存在？通常都知道内核空间的大小为1G（线性空间为：3-4G）。那么映射这1G内存需要多少页全局目录项？很容易可以算出来是256项，内核有这么多线程在其中，1G够吗？很明显不够，如果要使用超出1G的内存空间怎么办？如果要使用内存，很明显必须要做映射，那么腾出几个页全局目录项出来做映射？Bingo，就是这样，那么腾出多少来呢？linux内核的设计就是腾出32个页全局目录项，256的1/8。那么32个页全局目录项对应多大的内存空间？算一下可以知道是128M，也就是说直接映射的内存空间是896M。使用超过896M的内存空间视为高端内存，一旦使用的时候，就需要做映射转换，这是一件很耗资源的事情。所以不要常使用高端内存，就是这么一个由来。<br><br>        &nbsp; &nbsp;&nbsp;接着看一下内存管理框架的初始化实现，initmem_init()：<br><br>    <div id="codeText"><br><br>1.  【file：/arch/x86/mm/init_32.c】<br>2.  #ifndef CONFIG_NEED_MULTIPLE_NODES<br>3.  void <strong>init initmem_init(void)<br>4.  {<br>5.  #ifdef CONFIG_HIGHMEM<br>6.  &nbsp;&nbsp;&nbsp;&nbsp;highstart_pfn = highend_pfn = max_pfn;<br>7.  &nbsp;&nbsp;&nbsp;&nbsp;if (max_pfn &gt; max_low_pfn)<br>8.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;highstart_pfn = max_low_pfn;<br>9.  &nbsp;&nbsp;&nbsp;&nbsp;printk(KERN_NOTICE &quot;%ldMB HIGHMEM available.\n&quot;,<br>10.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pages_to_mb(highend_pfn - highstart_pfn));<br>11.  &nbsp;&nbsp;&nbsp;&nbsp;high_memory = (void *) </strong>va(highstart_pfn <em> PAGE_SIZE - 1) + 1;<br>12.  #else<br>13.  &nbsp;&nbsp;&nbsp;&nbsp;high_memory = (void </em>) <strong>va(max_low_pfn * PAGE_SIZE - 1) + 1;<br>14.  #endif<br>15.  &nbsp;<br>16.  &nbsp;&nbsp;&nbsp;&nbsp;memblock_set_node(0, (phys_addr_t)ULLONG_MAX, &amp;memblock.memory, 0);<br>17.  &nbsp;&nbsp;&nbsp;&nbsp;sparse_memory_present_with_active_regions(0);<br>18.  &nbsp;<br>19.  #ifdef CONFIG_FLATMEM<br>20.  &nbsp;&nbsp;&nbsp;&nbsp;max_mapnr = IS_ENABLED(CONFIG_HIGHMEM) ? highend_pfn : max_low_pfn;<br>21.  #endif<br>22.  &nbsp;&nbsp;&nbsp;&nbsp;</strong>vmalloc_start_set = true;<br>23.  &nbsp;<br>24.  &nbsp;&nbsp;&nbsp;&nbsp;printk(KERN_NOTICE &quot;%ldMB LOWMEM available.\n&quot;,<br>25.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pages_to_mb(max_low_pfn));<br>26.  &nbsp;<br>27.  &nbsp;&nbsp;&nbsp;&nbsp;setup_bootmem_allocator();<br>28.  }<br>29.  #endif /<em> !CONFIG_NEED_MULTIPLE_NODES </em>/<br>    </div>
+
+<pre><code>    &amp;nbsp;
+
+    将high_memory初始化为低端内存页框max_low_pfn对应的地址大小，接着调用memblock_set_node，根据函数命名，可以推断出该函数用于给早前建立的memblock算法设置node节点信息。
+
+    memblock_set_node的实现：
+
+&lt;div id=&quot;codeText&quot;&gt;
+</code></pre><ol>
+<li>【file：/mm/memblock.c】</li>
+<li>/**</li>
+<li>&nbsp;* memblock_set_node - set node ID on memblock regions</li>
+<li>&nbsp;* @base: base of area to set node ID for</li>
+<li>&nbsp;* @size: size of area to set node ID for</li>
+<li>&nbsp;* @type: memblock type to set node ID for</li>
+<li>&nbsp;* @nid: node ID to set</li>
+<li>&nbsp;*</li>
+<li>&nbsp;* Set the nid of memblock @type regions in [@base,@base+@size) to @nid.</li>
+<li>&nbsp;* Regions which cross the area boundaries are split as necessary.</li>
+<li>&nbsp;*</li>
+<li>&nbsp;* RETURNS:</li>
+<li>&nbsp;* 0 on success, -errno on failure.</li>
+<li>&nbsp;*/</li>
+<li>int __init_memblock memblock_set_node(phys_addr_t base, phys_addr_t size,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct memblock_type *type, int nid)</li>
+<li>{</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;int start_rgn, end_rgn;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;int i, ret;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;ret = memblock_isolate_range(type, base, size, &amp;start_rgn, &amp;end_rgn);</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;if (ret)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ret;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;for (i = start_rgn; i &lt; end_rgn; i++)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memblock_set_region_node(&amp;type-&gt;regions[i], nid);</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;memblock_merge_regions(type);</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;return 0;</li>
+<li><p>}<br></p></li></ol></div><p></p>
+<p>   &nbsp;</p>
+<p>   memblock_set_node主要调用了三个函数做相关操作：memblock_isolate_range、memblock_set_region_node和memblock_merge_regions。</p>
+<p>   其中memblock_isolate_range：</p>
+<div id="codeText">
+
+<li><p>【file：/mm/memblock.c】</p>
+</li>
+<li>/**</li>
+<li>&nbsp;* memblock_isolate_range - isolate given range into disjoint memblocks</li>
+<li>&nbsp;* @type: memblock type to isolate range for</li>
+<li>&nbsp;* @base: base of range to isolate</li>
+<li>&nbsp;* @size: size of range to isolate</li>
+<li>&nbsp;* @start_rgn: out parameter for the start of isolated region</li>
+<li>&nbsp;* @end_rgn: out parameter for the end of isolated region</li>
+<li>&nbsp;*</li>
+<li>&nbsp;* Walk @type and ensure that regions don&#39;t cross the boundaries defined by</li>
+<li>&nbsp;* [@base,@base+@size). Crossing regions are split at the boundaries,</li>
+<li>&nbsp;* which may create at most two more regions. The index of the first</li>
+<li>&nbsp;<em> region inside the range is returned in </em>@start_rgn and end in *@end_rgn.</li>
+<li>&nbsp;*</li>
+<li>&nbsp;* RETURNS:</li>
+<li>&nbsp;* 0 on success, -errno on failure.</li>
+<li>&nbsp;*/</li>
+<li>static int __init_memblock memblock_isolate_range(struct memblock_type *type,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phys_addr_t base, phys_addr_t size,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int <em>start_rgn, int </em>end_rgn)</li>
+<li>{</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;phys_addr_t end = base + memblock_cap_size(base, &amp;size);</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;int i;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<em>start_rgn = </em>end_rgn = 0;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;if (!size)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;/<em> we&#39;ll create at most two more regions </em>/</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;while (type-&gt;cnt + 2 &gt; type-&gt;max)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (memblock_double_array(type, base, size) &lt; 0)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -ENOMEM;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; type-&gt;cnt; i++) {</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct memblock_region *rgn = &amp;type-&gt;regions[i];</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phys_addr_t rbase = rgn-&gt;base;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phys_addr_t rend = rbase + rgn-&gt;size;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rbase &gt;= end)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rend &lt;= base)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rbase &lt; base) {</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* @rgn intersects from below. Split and continue</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* to process the next region - the new top half.</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;base = base;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;size -= base - rbase;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type-&gt;total_size -= base - rbase;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memblock_insert_region(type, i, rbase, base - rbase,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memblock_get_region_node(rgn),</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;flags);</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (rend &gt; end) {</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* @rgn intersects from above. Split and redo the</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* current region - the new bottom half.</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;base = end;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;size -= end - rbase;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type-&gt;total_size -= end - rbase;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memblock_insert_region(type, i–, rbase, end - rbase,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memblock_get_region_node(rgn),</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;flags);</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/<em> @rgn is fully contained, record it </em>/</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!*end_rgn)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*start_rgn = i;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*end_rgn = i + 1;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;return 0;</li>
+<li><p>}<br></p></li></div><p></p>
+<p>   &nbsp;</p>
+<p>   该函数主要做分割操作，在memblock算法建立时，只是判断了flags是否相同，然后将连续内存做合并操作，而此时建立node节点，则根据入参base和size标记节点内存范围将内存划分开来。如果memblock中的region恰好以该节点内存范围末尾划分开来的话，那么则将region的索引记录至start_rgn，索引加1记录至end_rgn返回回去；如果memblock中的region跨越了该节点内存末尾分界，那么将会把当前的region边界调整为node节点内存范围边界，另一部分通过memblock_insert_region()函数插入到memblock管理regions当中，以完成拆分。</p>
+<p>   顺便看一下memblock_insert_region()函数：</p>
+<div id="codeText">
+
+<li><p>【file：/mm/memblock.c】</p>
+</li>
+<li>/**</li>
+<li>&nbsp;* memblock_insert_region - insert new memblock region</li>
+<li>&nbsp;* @type: memblock type to insert into</li>
+<li>&nbsp;* @idx: index for the insertion point</li>
+<li>&nbsp;* @base: base address of the new region</li>
+<li>&nbsp;* @size: size of the new region</li>
+<li>&nbsp;* @nid: node id of the new region</li>
+<li>&nbsp;* @flags: flags of the new region</li>
+<li>&nbsp;*</li>
+<li>&nbsp;* Insert new memblock region [@base,@base+@size) into @type at @idx.</li>
+<li>&nbsp;* @type must already have extra room to accomodate the new region.</li>
+<li>&nbsp;*/</li>
+<li>static void __init_memblock memblock_insert_region(struct memblock_type *type,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int idx, phys_addr_t base,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phys_addr_t size,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int nid, unsigned long flags)</li>
+<li>{</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;struct memblock_region *rgn = &amp;type-&gt;regions[idx];</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;BUG_ON(type-&gt;cnt &gt;= type-&gt;max);</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;memmove(rgn + 1, rgn, (type-&gt;cnt - idx) <em> sizeof(</em>rgn));</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;base = base;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;size = size;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;rgn-&gt;flags = flags;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;memblock_set_region_node(rgn, nid);</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;type-&gt;cnt++;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;type-&gt;total_size += size;</li>
+<li><p>}<br></p></li></div><p></p>
+<p>   &nbsp;</p>
+<p>   这里一个memmove()将后面的region信息往后移，另外调用memblock_set_region_node()将原region的node节点号保留在被拆分出来的region当中。</p>
+<p>   而memblock_set_region_node()函数实现仅是赋值而已：</p>
+<div id="codeText">
+
+<li><p>【file：/mm/memblock.h】</p>
+</li>
+<li>static inline void memblock_set_region_node(struct memblock_region *r, int nid)</li>
+<li>{</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;r-&gt;nid = nid;</li>
+<li><p>}<br></p></li></div><p></p>
+<pre><code>&amp;nbsp;
+
+对应的memblock_get_region_node()则是获取node节点号：
+</code></pre><div id="codeText">
+
+<li><p>【file：/mm/memblock.h】</p>
+</li>
+<li>static inline int memblock_get_region_node(const struct memblock_region *r)</li>
+<li>{</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;return r-&gt;nid;</li>
+<li><p>}<br></p></li></div><p></p>
+<pre><code>&amp;nbsp;
+
+至此，回到memblock_set_node()函数，里面接着memblock_isolate_range()被调用的memblock_set_region_node()已知是获取node节点号，而memblock_merge_regions()则前面已经分析过了，是用于将region合并的。
+
+最后回到initmem_init()函数中，memblock_set_node()返回后，接着调用的函数为sparse_memory_present_with_active_regions()。
+
+这里sparse memory涉及到linux的一个内存模型概念。linux内核有三种内存模型：Flat memory、Discontiguous memory和Sparse memory。其分别表示：
+</code></pre><blockquote>
+<p>Flat memory：顾名思义，物理内存是平坦连续的，整个系统只有一个node节点。</p>
+<pre><code>Discontiguous memory：物理内存不连续，内存中存在空洞，也因而系统将物理内存分为多个节点，但是每个节点的内部内存是平坦连续的。值得注意的是，该模型不仅是对于NUMA环境而言，UMA环境上同样可能存在多个节点的情况。
+
+
+Sparse memory：物理内存是不连续的，节点的内部内存也可能是不连续的，系统也因而可能会有一个或多个节点。此外，该模型是内存热插拔的基础。
+</code></pre></blockquote>
+<pre><code>看一下sparse_memory_present_with_active_regions()的实现：
+</code></pre><div id="codeText">
+
+<li><p>【file：/mm/page_alloc.c】</p>
+</li>
+<li>/**</li>
+<li>&nbsp;* sparse_memory_present_with_active_regions - Call memory_present for each active range</li>
+<li>&nbsp;* @nid: The node to call memory_present for. If MAX_NUMNODES, all nodes will be used.</li>
+<li>&nbsp;*</li>
+<li>&nbsp;* If an architecture guarantees that all ranges registered with</li>
+<li>&nbsp;* add_active_ranges() contain no holes and may be freed, this</li>
+<li>&nbsp;* function may be used instead of calling memory_present() manually.</li>
+<li>&nbsp;*/</li>
+<li>void __init sparse_memory_present_with_active_regions(int nid)</li>
+<li>{</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;unsigned long start_pfn, end_pfn;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;int i, this_nid;</li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;for_each_mem_pfn_range(i, nid, &amp;start_pfn, &amp;end_pfn, &amp;this_nid)</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memory_present(this_nid, start_pfn, end_pfn);</li>
+<li><p>}<br></p></li></div><p></p>
+<p>   &nbsp;</p>
+<p>   &nbsp;里面的for_each_mem_pfn_range()是一个旨在循环的宏定义，而memory_present()由于实验环境中没有定义CONFIG_HAVE_MEMORY_PRESENT，所以是个空函数。暂且搁置不做深入研究。</p>
+<p>   最后看一下initmem_init()退出前调用的函数setup_bootmem_allocator()：</p>
+<div id="codeText">
+
+<li><p>【file：/arch/x86/mm/init_32.c】</p>
+</li>
+<li>void __init setup_bootmem_allocator(void)</li>
+<li>{</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;printk(KERN_INFO &quot; mapped low ram: 0 - %08lx\n&quot;,</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_pfn_mapped&lt;&lt;PAGE_SHIFT);</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;printk(KERN_INFO &quot; low ram: 0 - %08lx\n&quot;, max_low_pfn&lt;&lt;PAGE_SHIFT);</li>
+<li><p>}<br></p></li></div><p></p>
+<pre><code>&amp;nbsp;
+</code></pre><p>&nbsp; &nbsp; &nbsp;原来该函数是用来初始化bootmem管理算法的，但现在x86的环境已经使用了memblock管理算法，这里仅作保留打印部分信息。<br></p>
+
+
+<div><br>    <div><br>        &nbsp;<br>    </div><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

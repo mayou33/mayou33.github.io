@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>《大型网站技术架构》读书笔记之五：万无一失之网站的高可用架构</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/12/143/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">《大型网站技术架构》读书笔记之五：万无一失之网站的高可用架构</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-12</span>
+      
+      <a href="/categories/《大型网站技术架构》/" title="《大型网站技术架构》" class="post-categories">《大型网站技术架构》</a>
+      
+      
+      <a href="/tags/《大型网站技术架构》/"" title="《大型网站技术架构》" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>《大型网站技术架构》</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>#<br>    一、可用性度量与考核</p>
+<pre><code>　　首先，不得不说：要保证一个网站永远完全可用几乎是一件**不可能完成的任务**。
+
+&amp;nbsp;
+
+&amp;nbsp;　　（1）如何度量网站可用性？
+
+　　一个神奇的数字&amp;mdash;9！你有几个9，就代表了你的可用性。例如QQ可用性达到了4个9：99.99%
+
+　　①2个9=基本可用　　②3个9=较高可用　　③4个9=具有自动恢复能力的高可用　　④**5个9=极高可用-&amp;gt;理想状态**
+
+　　那么，可用性的9又是怎么计算出来的呢：
+
+　　①网站不可用时间=故障修复时间点-故障发现时间点
+
+　　②网站年度可用性指标=（1-网站不可用时间/年度总时间）*100%
+
+　　（2）如何考核网站可用性？
+
+　　广泛采用**故障分**的，它是对网站故障进行分类加权计算故障责任的方法。一般会给每个分类的故障设置一个权重（例如事故级故障权重为100，A类为20等），其计算公式为：故障分=故障时间（分钟）*故障权重。公司对技术团队的考核一般会参考故障分，例如某团队今年发生了几个事故级故障，那么其绩效考核估计受到很大影响，年终奖什么的就悲剧了。
+</code></pre><p>#<br>    二、高可用的架构</p>
+<pre><code>　　目前，通常企业级应用系统（特别是政府部门和大企业的应用系统）一般会采用安规的软硬件设备，如IOE（IBM的小型机、Oracle数据、EMC存储设备）系列。而一般互联网公司更多地采用PC级服务器（x86），开源的数据库（MySQL）和操作系统（Linux）组建廉价且高容错（**硬件故障是常态**）的应用集群。
+
+　　（1）设计的目的？
+
+　　**保证服务器硬件故障服务依然可用，数据依然保存并能够被访问**。
+
+　　（2）主要的手段？
+
+　　&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 0, 0);&quot;&gt;**数据和服务的①冗余备份以及②失效转移**&lt;/span&gt;：
+
+　　对于服务而言，一旦某个服务器宕机，就将服务切换到其他可用的服务器上；
+
+　　对于数据而言，如果某个磁盘损坏，就从备份的磁盘（事先就做好了数据的同步复制）读取数据。
+</code></pre><p>#<br>    三、高可用的应用</p>
+<pre><code>　　应用层处理网站应用的业务逻辑，应用的一个最显著的特点是：&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 0, 0);&quot;&gt;**应用的无状态性**&lt;/span&gt;。
+
+![](http://images.cnitblog.com/i/381412/201407/112342401601440.png)
+</code></pre><blockquote>
+<p><strong>PS：</strong>提到无状态特性，不得不说下<strong>Http协议</strong>。我们常常听到说，<span style="margin: 0px; padding: 0px; font-size: 14px;">Http是一个无状态协议，同一个会话的连续两个请求互相不了解，他们由最新实例化的环境进行解析，除了应用本身可能已经存储在全局对象中的所有信息外，该环境不保存与会话有关的任何信息。之所以我们在使用ASP.NET WebForm开发中会感觉不到Http的无状态特性，完全是因为Microsoft帮我们实现了<strong>ViewState</strong>，它是ASP.NET WebForm中保存页面信息的基本单位，本质是一个HTML中的隐藏域，回调时会将这个隐藏域中的数据提交到服务器端。&nbsp;　</span></p>
+</blockquote>
+<pre><code>　　（1）通过**负载均衡**进行无状态服务的失效转移
+
+![](http://images.cnitblog.com/i/381412/201407/120001035989934.jpg)
+
+　　（2）应用服务器集群的Session管理
+
+　　首先，不得不说的是：**Web应用中将上下文对象称为会话（Session），单机情况下由部署在服务器上得Web容器（如IIS、Tomcat、JBoss等）管理。在使用了负载均衡的集群环境中，由于请求的分发是随机的，所以保证每次请求依然能够获得正确的Session比单机时要复杂得多**。
+
+　　其次，我们来看看在集群环境中，Session管理的几种常见手段。
+
+　　①Session复制：该方案简单易行，集群中的几台服务器之间同步Session对象，任何一台服务器宕机都不会导致Session对象的丢失，服务器也只需要从本机获取即可。但是，**该方案只适合集群规模较小的情况下。当规模较大时，大量的Session复制操作会占用服务器和网络的大量资源，系统不堪重负**。
+
+![](http://images.cnitblog.com/i/381412/201407/120038179265501.jpg)
+
+　　②Session绑定：利用负载均衡的**源地址Hash**算法，总是将源于同一IP地址的请求分发到同一台服务器上。这样的话，在整个会话期间，用户所有的请求都在同一台服务器上进行处理，即Session绑定在某台特定服务器上，保证Session总能在这台服务器上获取。（这种方案又叫做**会话粘滞**）。
+
+![](http://images.cnitblog.com/i/381412/201407/120049281147089.jpg)
+
+　　但是，这种方案**_不符合高可用的需求_**。因为一旦某台服务器宕机，那么该机器上得Session也就不复存在了，用户请求切换到其他机器后因为没有Session而无法完成业务处理。因此，很少有网站采用此方案进行Session管理。
+
+　　③Cookie记录Session：利用浏览器支持的Cookie记录Session简单易行，可用性高，并且支持服务器的线性伸缩，因此，许多网站都或多或少地使用了Cookie来记录Session。但是Cookie记录Session有缺点：比如受Cookie大小限制、每次请求响应都要传输Cookie影响性能、用户关闭了Cookie会造成访问不正常等。
+
+![](http://images.cnitblog.com/i/381412/201407/120058263641918.jpg)
+
+　　④**Session服务器**：利用独立部署的Session服务器（集群）统一管理Session，应用服务器每次读写Session时，都访问Session服务器。这种方案**实际上是将应用服务器的状态分离**，分为**无状态的应用服务器**和**有状态的Session服务器**。
+
+![](http://images.cnitblog.com/i/381412/201407/120107588171363.jpg)
+
+　　对于，有状态的Session服务器，一种较简单的方法是利用**分布式缓存**（如Memcached、Redis等，有关Redis的简单介绍可以阅读我的博文：[NoSQL初探之人人都爱Redis](http://www.cnblogs.com/edisonchou/p/3821228.html)）、**数据库**等，在这些产品的基础上进行封装，使其符合Session的存储和访问要求。
+</code></pre><p>#<br>    四、高可用的服务</p>
+<pre><code>　　高可用的服务模块为业务产品提供基础公共服务，在大型站点中这些服务通常都独立分布式部署，被具体应用远程调用。
+
+　　在具体实践中，有以下几点高可用的服务策略可以参考：
+
+　　①分级管理：核心应用和服务具有更高的优先级，比如用户及时付款比能否评价商品更重要；
+
+　　②超时设置：设置服务调用的超时时间，一旦超时后，通信框架抛出异常，应用程序则根据服务调度策略选择重试or请求转移到其他服务器上；
+
+　　③异步调用：通过消息队列等异步方式完成，避免一个服务失败导致整个应用请求失败的情况。
+</code></pre><blockquote>
+<p><strong>PS：</strong>不是所有服务都可以异步调用，对于获取用户信息这类调用，采用异步方式会延长响应时间，得不偿失。对于那些必须确认服务调用成功后才能继续进行下一步的操作的应用也不适合异步调用。有关具体使用消息队列实现异步调用的案例，请阅读我的博文：《<a href="http://www.cnblogs.com/edisonchou/p/3825682.html" target="_blank" rel="external">使用Redis作为消息队列服务场景的应用案例</a>》。</p>
+</blockquote>
+<pre><code>　　④服务降级：网站访问高峰期间，为了保证核心应用的正常运行，需要对服务降级。
+
+　　降级有两种手段：一是拒绝服务，拒绝较低优先级的应用的调用，减少服务调用并发数，确保核心应用的正常运行；二是关闭功能，关闭部分不重要的服务，或者服务内部关闭部分不重要的功能，以节约系统开销，为核心应用服务让出资源；
+
+　　⑤幂等性设计：保证服务重复调用和调用一次产生的结果相同；
+</code></pre><p>#<br>    五、高可用的数据</p>
+<pre><code>　　对于大多数网站而言，数据是其最宝贵的物质资产。
+
+　　保证数据高可用的主要手段有两种：一是数据备份，二是失效转移机制；
+
+　　①数据备份：又分为冷备份和热备份，冷备份是定期复制，不能保证数据可用性。热备份又分为异步热备和同步热备，异步热备是指多份数据副本的写入操作异步完成，而同步方式则是指多份数据副本的写入操作同时完成。
+
+　　关系数据库的热备机制就是通常所说的主从同步机制，实践中通常使用读写分离的方法来访问Master和Slave数据库，也就是说写操作只访问Master库，读操作均访问Slave库。
+
+![](http://images.cnitblog.com/i/381412/201407/120151330823289.jpg)
+</code></pre><blockquote>
+<p>PS：在MS SQL Server中，可以通过<strong>发布订阅</strong>功能实现主从分离。关于发布订阅，可以参考MSDN的这篇文章：<a href="http://technet.microsoft.com/zh-cn/ff806143.aspx" target="_blank" rel="external">http://technet.microsoft.com/zh-cn/ff806143.aspx</a></p>
+</blockquote>
+<pre><code>　　②失效转移：若数据服务器集群中任何一台服务器宕机，那么应用程序针对这台服务器的所有读写操作都要重新路由到其他服务器，保证数据访问不会失败。
+
+![](http://images.cnitblog.com/i/381412/201407/120209449108562.jpg)
+</code></pre><p>#<br>    六、高可用的QA</p>
+<pre><code>　　①网站发布：在柔性的发布过程中，每次关闭的服务都是集群中的一小部分，并在发布完成后立即可以访问；
+
+　　②自动化测试：使用自动测试工具或脚本完成测试；
+
+　　③预发布验证：引入预发布服务器，与正式服务器几乎一致，只是没有配置在负载均衡服务器上，外部用户无法访问；
+
+　　④代码控制：目前大多数网站采用SVN，分支开发，主干发布模式；另外，目前开源社区广泛采用Git作为版本控制工具，正逐步取代SVN的地位；
+</code></pre><p>#<br>    七、网站运行监控</p>
+<pre><code>　　**&amp;rdquo;不允许没有监控的系统上线&amp;ldquo;**
+
+**![](http://images.cnitblog.com/i/381412/201407/120225201299281.png)**
+
+　　（1）监控数据采集
+
+　　①用户行为日志收集：服务器端的日志收集和客户端的日志收集；目前许多网站逐步开发基于实时计算框架Storm的日志统计与分析工具；
+
+　　②服务器性能监控：收集服务器性能指标，如系统Load、内存占用、磁盘IO等，及时判断，防患于未然；
+
+　　③运行数据报告：采集并报告，汇总后统一显示，应用程序需要在代码中处理运行数据采集的逻辑；
+
+　　（2）监控管理
+
+　　①系统报警：配置报警阀值和值守人员联系方式，系统发生报警时，即使工程师在千里之外，也可以被及时通知；
+
+　　②失效转移：监控系统在发现故障时，主动通知应用进行失效转移；
+
+　　③自动优雅降级：为了应付网站访问高峰，主动关闭部分功能，释放部分系统资源，保证核心应用服务的正常运行；&amp;mdash;&amp;gt;**网站&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 0, 0);&quot;&gt;柔性&lt;/span&gt;架构的理想状态**
+</code></pre><p>#<br>    八、学习小结</p>
+<pre><code>　　本篇我们通过书籍学习了为了实现网站的高可用，可以使用的策略和模式。书中作者有一句话说的十分好，&amp;rdquo;事务总是先求生存，然后求发展&amp;ldquo;。保证网站高可用，万无一失，任重而道远啊！
+
+&amp;nbsp;
+</code></pre><p>#<br>    本章思维导图</p>
+<pre><code>![](http://images.cnitblog.com/i/381412/201407/110029172709761.jpg)
+
+&amp;nbsp;
+</code></pre><div id="Copyright" style="background: url(&quot;http://www.cnblogs.com/images/cnblogs_com/Terrylee/147338/o_info.png&quot;) no-repeat 1% 50% rgb(255, 255, 255); margin: 0px; padding: 10px 10px 10px 60px; border: 1px solid rgb(229, 229, 229); border-image: none; color: rgb(0, 0, 0); text-transform: none; line-height: 20.88px; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑; font-size: 13.92px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br><br>        <span style="margin: 0px; padding: 0px; font-size: 14px;">作者：<a href="http://www.cnblogs.com/edisonchou/" target="_blank" rel="external">周旭龙</a></span><br><br>        <span style="margin: 0px; padding: 0px; font-size: 14px;">出处：<a href="http://www.cnblogs.com/edisonchou/" target="_blank" rel="external">http://www.cnblogs.com/edisonchou/</a></span><br><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

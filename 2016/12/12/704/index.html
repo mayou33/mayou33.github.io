@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux-3.14.12内存管理笔记【伙伴管理算法（3）】</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/12/12/704/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux-3.14.12内存管理笔记【伙伴管理算法（3）】</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-12-12</span>
+      
+      <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4882194.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-26859697-id-4882194.html</a></p>
+<pre><code>前面分析了伙伴管理算法的初始化，在切入分析代码实现之前，例行先分析一下其实现原理。
+
+伙伴管理算法（也称之为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Buddy&lt;/span&gt;算法），该算法将所有空闲的页面分组划分为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;MAX_ORDER&lt;/span&gt;个页面块链表进行管理，其中&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;MAX_ORDER&lt;/span&gt;定义：
+
+&amp;nbsp;
+</code></pre><div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: 0.1px; overflow: auto; word-spacing: 0px; white-space: normal; -ms-word-break: break-all; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;"><br><br>1.  <span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>include<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>linux<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mmzone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h】</span><br>2.  #ifndef CONFIG_FORCE_MAX_ZONEORDER<br>3.  #define MAX_ORDER 11<br>4.  #<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">else</span><br>5.  #define MAX_ORDER CONFIG_FORCE_MAX_ZONEORDER<br>6.  #endif<br></div>
+
+<pre><code>&lt;span style=&quot;text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp;通常该值都是定义为&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;11&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;，而&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;CONFIG_FORCE_MAX_ZONEORDER&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;定义：&lt;/span&gt;
+</code></pre><div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; letter-spacing: 0.1px; overflow: auto; -ms-word-break: break-all; -ms-word-wrap: break-word; font-size-adjust: none; font-stretch: normal;"><br><br>1.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>arch<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>tile<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>include<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>asm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h】</span></span><br>2.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span></span><br>3.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">If</span> the Kconfig doesn<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>t specify<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">set</span> a maximum zone order that</span><br>4.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> enough so that we can create huge pages from small pages given</span><br>5.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> the respective sizes of the two page types<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> See <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&lt;</span>linux<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mmzone<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span></span><br>6.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></span><br>7.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">#ifndef CONFIG_FORCE_MAX_ZONEORDER</span><br>8.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">#define CONFIG_FORCE_MAX_ZONEORDER <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>HPAGE_SHIFT <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> PAGE_SHIFT <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">+</span> 1<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></span><br>9.  <span style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">#endif</span><br></div>
+
+<pre><code>&amp;nbsp;
+
+该值具体多少没细入分析。其中&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;tile&lt;/span&gt;是指&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Tilera&lt;/span&gt;处理器，顺带介绍一下：&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Tilera&lt;/span&gt;公司是位于硅谷的新创无晶圆半导体公司，该公司创始人之一是麻省理工学院（&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;MIT&lt;/span&gt;）教授阿南特&amp;middot;阿加瓦尔（&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Anant Agarwal&lt;/span&gt;），他在&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;2004&lt;/span&gt;年创建了该公司，因为在多核技术方面拥有独家的先进技术，该公司曾被美国知名媒体&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;EETIMES&lt;/span&gt;评为全球最有希望的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;60&lt;/span&gt;家新兴企业之一。该公司的处理器功耗据说很低，但是性能却是杠杠滴。迄今为止本人还没接触过该公司的处理器，惭愧惭愧，路漫漫其修远兮。
+
+接着，基于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;MAX_ORDER&lt;/span&gt;为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;11&lt;/span&gt;的情况，伙伴管理算法每个页面块链表分别包含了：&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;1&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;2&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;4&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;8&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;16&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;32&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;64&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;128&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;256&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;512&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;1024&lt;/span&gt;个连续的页面，每个页面块的第一个页面的物理地址是该块大小的整数倍。假设连续的物理内存，各页面块左右的页面，要么是等同大小，要么就是整数倍，而且还是偶数，形同伙伴。
+
+其管理起来如图：
+</code></pre><blockquote>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201503/11/26859697_1426008269r59N.png" alt=""></span></p>
+</blockquote>
+<pre><code>&amp;nbsp;
+
+伙伴管理算法的释放过程是，满足条件的两个页面块称之为伙伴：两个页面块的大小相同且两者的物理地址连续。当某块页面被释放时，且其存在空闲的伙伴页面块，则算法会将其两者合并为一个大的页面块，合并后的页面块如果还可以找到伙伴页面块，则将会继续与相邻的块进行合并，直至到大小为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;2^MAX_ORDER&lt;/span&gt;个页面为止。
+
+释放如图：
+</code></pre><blockquote>
+<p><img src="http://blog.chinaunix.net/attachment/201503/11/26859697_1426008286b98j.png" alt=""></p>
+</blockquote>
+<pre><code>&amp;nbsp;
+
+&amp;nbsp;
+
+而伙伴管理算法的申请过程则相反，如果申请指定大小的页面在其页面块链表中不存在，则会往高阶的页面块链表进行查找，如果依旧没找到，则继续往高阶进行查找，直到找到为止，否则就是申请失败了。如果在高阶的页面块链表找到空闲的页面块，则会将其拆分为两块，如果拆分后仍比需要的大，那么继续拆分，直至到大小刚好为止，这样避免了资源浪费。
+
+具体的申请如图：
+
+&amp;nbsp;
+</code></pre><blockquote>
+<p>&nbsp;<img src="http://blog.chinaunix.net/attachment/201503/11/26859697_1426008298O0kd.png" alt=""></p>
+</blockquote>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

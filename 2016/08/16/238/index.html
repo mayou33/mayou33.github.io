@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>JDB2导致磁盘io使用率高</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/16/238/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">JDB2导致磁盘io使用率高</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-16</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+      <a href="/tags/iotop/"" title="iotop" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>iotop</a>
+      
+      <a href="/tags/xfs/"" title="xfs" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>xfs</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>jbd2进程占用大量的磁盘io，用iotop查看到的情况</p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;TIME&nbsp;&nbsp;TID&nbsp;&nbsp;PRIO&nbsp;&nbsp;USER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISK&nbsp;READ&nbsp;&nbsp;DISK&nbsp;WRITE&nbsp;&nbsp;SWAPIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IO&nbsp;&nbsp;&nbsp;&nbsp;COMMAND<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    21:16:06&nbsp;&nbsp;<font color="#ff0000" style="background-color: inherit;">1126</font>&nbsp;be/3&nbsp;root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00&nbsp;B/s&nbsp;&nbsp;&nbsp;&nbsp;0.00&nbsp;B/s&nbsp;&nbsp;0.00&nbsp;%&nbsp;26.93&nbsp;%&nbsp;[jbd2/dm-2-8]<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    先记录60次观察一下（一般是1秒一次）<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">#iotop&nbsp;-botqk -n&nbsp;60 -p&nbsp;1126&nbsp;&gt;&gt;&nbsp;/tmp/iotop-1126.txt&nbsp;</span><span style="font: 14px/1.5 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">&amp;</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    或者<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>        <font color="#ff0000" style="background-color: inherit;"><span style="line-height: 1.5; background-color: inherit;">加入计划任务，指定pid&nbsp;</span></font><br>    </div>
+
+<pre><code>&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        * * *&amp;nbsp;*&amp;nbsp;*&amp;nbsp;iotop&amp;nbsp;-botqk -n&amp;nbsp;59 -p&amp;nbsp;1126&amp;nbsp;&amp;gt;&amp;gt;&amp;nbsp;/tmp/iotop-1126.txt&amp;nbsp;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;&amp;amp;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+
+            临时缓解方法：&lt;span style=&quot;font: 14px/21px 宋体, &amp;quot;Arial Narrow&amp;quot;, arial, serif; color: rgb(44, 44, 44); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;ext4文件系统，&lt;/span&gt;修改commit值，降低文件系统提交次数或者禁用barrier特性；
+
+            &lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;建议文件系统参数为：defaults,noatime,nodiratime,barrier=0,data=writeback,commit=60&lt;/font&gt;
+
+            （可以通过修改fstab表或者remount重新挂载）
+
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <img src="data:image/png;base64,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" alt=""><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        终极解决方案<br><br>        1、<span style="font: 14px/21px 宋体, &quot;Arial Narrow&quot;, arial, serif; color: rgb(44, 44, 44); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">升级系统内核</span><br><br>        <span style="font: 14px/21px 宋体, &quot;Arial Narrow&quot;, arial, serif; color: rgb(44, 44, 44); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">2、使用XFS</span>文件系统<br><br>        &nbsp;<br><br>        ps：<br><br>        1、jbd的全拼是journaling block driver 文件系统的日志功能，jbd2是ext4文件系统版本；可以肯定的是对文件系统的操作太频繁，导致IO压力过大。<br><br>        常用的文件系统使用日志功能来保证文件系统的完整性，在写入新的数据到磁盘之前，会先将元数据写入日志；这样做可以保证在写入真实数据前后，一旦发生错误，<br><br>        日志功能将很容易回滚到之前的状态，确保不会发生文件系统崩溃的情况；<br><br>        2、而现在的磁盘上一般都配有内部缓存，以便重新调整批量数据的写入顺序，优化写入性能，因此文件系统必须在日志数据写入磁盘之后才能写commit（commit=xx 每xx秒同步所有的数据和元数据。默认是每5秒）记录；若commit记录写入在先，而日志有可能损坏，就会影响数据完整性；EXT4文件系统默认启用barrier功能，只有当barrier之前的数据全部写入磁盘，才能写barrier之后的数据；barrier的存在保证了数据完整性；<br><br>        3、使用barrier特性的不利之处在于，需要付出降低性能的代价；可以通过挂载项 mount -o barrier=0来禁用此特性；<br><br>        &nbsp; 可通过查看/proc/mounts里的barrier值 为1代表启用<br><br>        4、文件的写和请求会导致其中一个int型的值不断增大，最后超出了自身范围—变成负值，就会触发该bug;<br><br>        &nbsp;具体原理参考下链接：<br><br>        <a href="http://blog.donghao.org/2013/03/20/%E4%BF%AE%E5%A4%8Dext4%E6%97%A5%E5%BF%97%EF%BC%88jbd2%EF%BC%89bug/" target="_blank" rel="external">http://blog.donghao.org/2013/03/20/%E4%BF%AE%E5%A4%8Dext4%E6%97%A5%E5%BF%97%EF%BC%88jbd2%EF%BC%89bug/</a><br><br>        5、所以我们可以通过降低文件系统的提交次数来缓解IO压力（相关参数commit）；或者禁用barrier特性（相关参数barrier=0 ）;<br><br>        升级下kernel（升级之前建议做好数据备份），重启之后查看是否生效！<br><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

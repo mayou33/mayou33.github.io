@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>第七篇：数据中心监控体系建设方法论</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/18/780/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">第七篇：数据中心监控体系建设方法论</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-18</span>
+      
+      <a href="/categories/数据中心运维/" title="数据中心运维" class="post-categories">数据中心运维</a>
+      
+      
+      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53783&amp;extra=page%3D1" target="_blank" rel="external">http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53783&amp;extra=page%3D1</a></p>
+<pre><code>**&lt;font face=&quot;Tahoma&quot; size=&quot;3&quot;&gt;原创文章，转载时请写明&amp;ldquo;vmsky论坛&amp;rdquo;和作者&amp;ldquo;老同志lawson&amp;rdquo;。&lt;/font&gt;**
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;无论是传统数据中心，还是云时代的数据中心，运维监控都是运维工作的重点，而且运维监控是一个整体，你必须尽可能监控的全面和深入，你的监控数据才会更有价值，例如你想监控业务应用，可是如果没有基础监控数据（OS、数据库、中间件、网络等），你觉得你的监控会到位吗？那么如何建设一个全面和深入的监控体系呢？&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/27/141636w7e4h5p5phlqh5e5.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;首先看监控体系的规划：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/14/114407bb0vb87677hs4h74.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;再看监控体系的梳理：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/27/142626ud9z0hmj1a2h2i2u.png)
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/27/142612g65skkdk55sju5zn.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;监控体系的落地思路：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/27/142902mxx848r8zrqg8fbb.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;监控体系建设的持续改进：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/27/142643uvp38n4wp8kvdopz.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;监控是一个从无到有，从点到面的过程，这个过程必然是在不断调整和适应中前进！无论是单个监控项目，还是监控体系整体，项目完成时，离当初建设目标最多也就是80%的趋近，另外20%是在以后漫长的运维过程中渐渐靠近，但永远也不能到达顶点，如果谁认为监控建好后，就会立刻达到目标值，那监控事实一定会让他沮丧，因为他总是发现有些东西还在报警范围之外找他的麻烦！&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

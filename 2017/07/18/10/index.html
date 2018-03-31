@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>创业互联网公司如何搭建自己的技术框架</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/07/18/10/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">创业互联网公司如何搭建自己的技术框架</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-07-18</span>
+      
+      <a href="/categories/architecture/" title="架构" class="post-categories">架构</a>
+      
+      
+      <a href="/tags/架构/"" title="架构" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>架构</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p> <a href="https://yq.aliyun.com/articles/60249" target="_blank" rel="external">https://yq.aliyun.com/articles/60249</a></p>
+<p>适用范围</p>
+<p>本文主要针对小型互联网公司，特别适用于手机APP的后台架构，基本可以支撑5万日活<br>本文会对可能用到的相关技术进行技术选型的说明，以及相对应的设备的采购。<br>技术指标</p>
+<p>说一下一些技术指标的计算过程可以作为其他同学的参考</p>
+<p>QPS， 如果是5万日活，使用集中在每天的4小时，每个用户大概产生100的请求，那么平均下来，我们系统大概应该支撑的请求为：50000 <em> 100 / (4 </em> 60 * 60) = 350 qps/s</p>
+<p>业务数据 业务量，我们自己是新闻业务，可能会有其他的业务，比如游戏，商城等等，基本每天新增的业务数据都会在同一个量级， 每日10000， 另外跟用户相关的信息也是比较大的一块，比如用户的订阅等行为，一共5万的用户，保存相关信息可能大概需要100条的数据。</p>
+<p>缓存大小 主要业务数据和用户相关的热点数据限时保存在缓存中， 大概需要5个G左右。</p>
+<p>日志大小 用户日志和请求日志。 大概每天3个G左右</p>
+<p>技术架构<br><img src="https://yqfile.alicdn.com/a8c7785310dd2249d71a68d05910ca203a9b5ff1.png" alt="架构"></p>
+<p>整体架构因为是小公司，我们基于阿里云来搭建，对图中的内容和技术选型进行一下说明：</p>
+<p>负载均衡</p>
+<p> 可选方案： SLB, Nginx.</p>
+<ul>
+<li>SLB要收钱，但是比较便宜，有保证，不会挂。 但是可配置的很少，不能根据域名做ip映射</li>
+<li>Nginx, 没啥缺点，需要一定的知识。<br>建议： SLB + Nginx, SLB绑定域名作为统一的入口，然后每个服务器上再搭建Nginx.</li>
+</ul>
+<p>CDN</p>
+<p>用于缓存静态文件等等。 七牛和阿里的都还可以。</p>
+<ul>
+<li>七牛要做的久一点， 各种图片处理的接口要完善一些</li>
+<li>阿里的CDN要稍微好一点点， 但是没有不安全的访问方式，访问稍微没有那么灵活。 图片处理功能弱一点。</li>
+<li>分布式调用框架</li>
+</ul>
+<p>目前可选的有ZK + dubbo. ZK + Motan, ZK + dubbox, edas。<br>dubbo, 阿里的服务治理框架，已经不维护了，切换反应有点慢<br>dubboX, 当当基于dubbo搞的，还在维护可以一用，推荐。<br>Motan, 微博的服务治理矿建， 刚开源，需要学习一下， 推荐。<br>Edas, 阿里云服务，要收钱，侵入型很强，不推荐</p>
+<p>MQ</p>
+<p>可选的有： ActiveMQ, 阿里云消息， robbitMQ,<br>各有好处， 但是考虑到运维的难度，推荐阿里云消息。</p>
+<p>Redis</p>
+<p>用来做缓存， 自建成本有点高，需要Codis, 分片，集群，主从等等，很麻烦。 建议直接用阿里的</p>
+<p>数据库</p>
+<p>主要基于读写分离和主从复制考虑，目前可以自建和选用阿里的DRDS。</p>
+<ul>
+<li>DRDS 要花钱，成本较高，没有必要</li>
+<li>自建，  不用中间件，直接1写2只读， 然后配置读写分离的数据源，内网SLB进行读集群。解决之。</li>
+<li>搜索</li>
+</ul>
+<p>建议ELK， 可以自动同步数据库，除了搜索引擎的功能外，还可以做日志搜索，监控系统。</p>
+<p>一些典型的业务场景说明</p>
+<p>把业务底层做成SOA模块，通过分布式调用框架对外提供服务。<br>单独做一个小的系统来运行定时任务<br>热点数据放缓存，然后通过MQ来更新缓存<br>日志等数据有必要可以考虑上个Mongo</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

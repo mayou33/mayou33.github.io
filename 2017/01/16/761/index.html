@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>systemtap查看谁在切换我们的进程</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/16/761/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">systemtap查看谁在切换我们的进程</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-16</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    前提：<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    centos 已经安装好<span style="line-height: 1.5; font-family: Arial, sans-serif; font-size: 1.16em; background-color: rgb(255, 255, 255);">Systemtap—–见其他文章</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <a href="http://blog.yufeng.info/archives/747" target="_blank" rel="external"><font color="#0066cc">http://blog.yufeng.info/archives/747</font></a><br>    </div><br></div>
+
+<pre><code>&lt;span style=&quot;font-family: Verdana, &amp;quot;BitStream vera Sans&amp;quot;, Tahoma, Helvetica, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;这个脚本会每隔设定的时间打印出TOP 20切换最多的进程和他的pid&lt;/font&gt;&lt;/span&gt;
+</code></pre><pre style="font: 14px/21px Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">
+vi cswmon.stp</pre>
+
+<pre style="font: 14px/21px Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">
+#! /usr/bin/env stap
+#
+#
+
+global csw_count
+global idle_count
+
+probe scheduler.cpu_off {
+  csw_count[task_prev, task_next]++
+  idle_count+=idle
+}
+
+function fmt_task(task_prev, task_next)
+{
+   return sprintf(&quot;%s(%d)-&gt;%s(%d)&quot;,
+                                task_execname(task_prev), 
+                                task_pid(task_prev), 
+                                task_execname(task_next), 
+                                task_pid(task_next))
+}
+
+function print_cswtop () {
+  printf (&quot;%45s %10s\n&quot;, &quot;Context switch&quot;, &quot;COUNT&quot;)
+  foreach ([task_prev, task_next] in csw_count- limit 20) {
+    printf(&quot;%45s %10d\n&quot;, fmt_task(task_prev, task_next), csw_count[task_prev, task_next])
+  }
+  printf(&quot;%45s %10d\n&quot;, &quot;idle&quot;, idle_count)
+
+  delete csw_count
+  delete idle_count
+}
+
+probe timer.s($1) {
+  print_cswtop ()
+  printf(&quot;--------------------------------------------------------------\n&quot;)
+}
+ </pre>
+
+<pre><code>#####
+
+&amp;nbsp;
+</code></pre><pre style="font: 14px/21px Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">
+# stap cswmon.stp 5
+                               Context switch      COUNT
+                swapper(0)-&gt;systemtap/11(908)        500
+                systemtap/11(908)-&gt;swapper(0)        498
+                swapper(0)-&gt;fct1-worker(2492)         50
+                fct1-worker(2492)-&gt;swapper(0)         50
+                swapper(0)-&gt;fct0-worker(2191)         50
+                fct0-worker(2191)-&gt;swapper(0)         50
+                      swapper(0)-&gt;bond0(3432)         50
+                      bond0(3432)-&gt;swapper(0)         50
+                      stapio(879)-&gt;swapper(0)         26
+                      swapper(0)-&gt;stapio(879)         25
+                      stapio(879)-&gt;swapper(0)         19
+                      swapper(0)-&gt;stapio(879)         17
+                   swapper(0)-&gt;watchdog/9(31)          5
+                   watchdog/9(31)-&gt;swapper(0)          5
+                    swapper(0)-&gt;mysqld(18346)          5
+                    mysqld(18346)-&gt;swapper(0)          5
+                  swapper(0)-&gt;watchdog/13(43)          5
+                  watchdog/13(43)-&gt;swapper(0)          5
+                  swapper(0)-&gt;watchdog/14(46)          5
+                  watchdog/14(46)-&gt;swapper(0)          5
+                                         idle        859
+--------------------------------------------------------------
+<span style="color: rgb(85, 85, 85); font-family: Verdana, &quot;BitStream vera Sans&quot;, Tahoma, Helvetica, sans-serif; font-size: 22px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">我们可以看到进程从哪里切换到哪里，并且发生了多少次， 最后一行，我打印出来idle的次数，也就是说这时候系统没啥事情做，就切换到idle(0)这个进程去休息去了。</span></pre>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

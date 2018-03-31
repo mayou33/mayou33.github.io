@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>20 个 OpenSSH 最佳安全实践</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/03/16/37/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">20 个 OpenSSH 最佳安全实践</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-03-16</span>
+      
+      <a href="/categories/ssh/" title="ssh" class="post-categories">ssh</a>
+      
+      
+      <a href="/tags/ssh/"" title="ssh" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>ssh</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>编译自：<a href="https://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html" target="_blank" rel="external">https://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html</a> 作者： Vivek Gite<br>原创：LCTT <a href="https://linux.cn/article-9394-1.html" target="_blank" rel="external">https://linux.cn/article-9394-1.html</a> 译者： shipsw</p>
+<p>OpenSSH 是 SSH 协议的一个实现。一般通过 scp 或 sftp 用于远程登录、备份、远程文件传输等功能。SSH能够完美保障两个网络或系统间数据传输的保密性和完整性。尽管如此，它最大的优势是使用公匙加密来进行服务器验证。时不时会出现关于 OpenSSH 零日漏洞的传言。本文将描述如何设置你的 Linux 或类 Unix 系统以提高 sshd 的安全性。</p>
+<p>OpenSSH 默认设置</p>
+<p>TCP 端口 – 22<br>OpenSSH 服务配置文件 – sshd_config (位于 /etc/ssh/）</p>
+<p>1、 基于公匙的登录</p>
+<p>OpenSSH 服务支持各种验证方式。推荐使用公匙加密验证。首先，使用以下 ssh-keygen命令在本地电脑上创建密匙对：</p>
+<p>1024 位或低于它的 DSA 和 RSA 加密是很弱的，请不要使用。当考虑 ssh 客户端向后兼容性的时候，请使用 RSA密匙代替 ECDSA 密匙。所有的 ssh 密钥要么使用 ED25519 ，要么使用 RSA，不要使用其它类型。</p>
+<p>$ ssh-keygen -t key_type -b bits -C “comment”</p>
+<p>示例：</p>
+<p>$ ssh-keygen -t ed25519 -C “Login to production cluster at xyz corp”<br>或<br>$ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa<em>aws</em>$(date +%Y-%m-%d) -C”AWS key for abc corp clients”</p>
+<p>下一步，使用 ssh-copy-id 命令安装公匙：</p>
+<p>$ ssh-copy-id -i /path/to/public-key-file user@host<br>或<br>$ ssh-copy-id user@remote-server-ip-or-dns-name</p>
+<p>示例：</p>
+<p>$ ssh-copy-id vivek@rhel7-aws-server</p>
+<p>提示输入用户名和密码的时候，确认基于 ssh 公匙的登录是否工作：</p>
+<p>$ ssh vivek@rhel7-aws-server</p>
+<p>2、 禁用 root 用户登录</p>
+<p>禁用 root 用户登录前，确认普通用户可以以 root 身份登录。例如，允许用户 vivek 使用 sudo 命令以 root 身份登录。</p>
+<p>在 Debian/Ubuntu 系统中如何将用户 vivek 添加到 sudo 组中</p>
+<p>允许 sudo 组中的用户执行任何命令。 将用户 vivek 添加到 sudo 组中：</p>
+<p>$ sudo adduser vivek sudo</p>
+<p>使用 id 命令 验证用户组。</p>
+<p>$ id vivek</p>
+<p>在 CentOS/RHEL 系统中如何将用户 vivek 添加到 sudo 组中</p>
+<p>在 CentOS/RHEL 和 Fedora 系统中允许 wheel 组中的用户执行所有的命令。使用 usermod 命令将用户 vivek 添加到 wheel 组中：</p>
+<p>$ sudo usermod -aG wheel vivek<br>$ id vivek</p>
+<p>测试 sudo 权限并禁用 ssh root 登录</p>
+<p>测试并确保用户 vivek 可以以 root 身份登录执行以下命令：</p>
+<p>$ sudo -i<br>$ sudo /etc/init.d/sshd status<br>$ sudo systemctl status httpd</p>
+<p>添加以下内容到 sshd_config 文件中来禁用 root 登录：</p>
+<p>PermitRootLogin no<br>ChallengeResponseAuthentication no<br>PasswordAuthentication no<br>UsePAM no</p>
+<p>3、 禁用密码登录</p>
+<p>所有的密码登录都应该禁用，仅留下公匙登录。添加以下内容到 sshd_config 文件中：</p>
+<p>AuthenticationMethods publickey<br>PubkeyAuthentication yes</p>
+<p>CentOS 6.x/RHEL 6.x 系统中老版本的 sshd 用户可以使用以下设置：</p>
+<p>PubkeyAuthentication yes</p>
+<p>4、 限制用户的 ssh 访问</p>
+<p>默认状态下，所有的系统用户都可以使用密码或公匙登录。但是有些时候需要为 FTP 或者 email 服务创建 UNIX/Linux 用户。然而，这些用户也可以使用 ssh 登录系统。他们将获得访问系统工具的完整权限，包括编译器和诸如 Perl、Python（可以打开网络端口干很多疯狂的事情）等的脚本语言。通过添加以下内容到 sshd_config 文件中来仅允许用户 root、vivek 和 jerry 通过 SSH 登录系统：</p>
+<p>AllowUsers vivek jerry</p>
+<p>当然，你也可以添加以下内容到 sshd_config 文件中来达到仅拒绝一部分用户通过 SSH 登录系统的效果。</p>
+<p>DenyUsers root saroj anjali foo</p>
+<p>你也可以通过配置 Linux PAM 来禁用或允许用户通过 sshd 登录。也可以允许或禁止一个用户组列表通过 ssh 登录系统。</p>
+<p>5、 禁用空密码</p>
+<p>你需要明确禁止空密码账户远程登录系统，更新 sshd_config 文件的以下内容：</p>
+<p>PermitEmptyPasswords no</p>
+<p>6、 为 ssh 用户或者密匙使用强密码</p>
+<p>为密匙使用强密码和短语的重要性再怎么强调都不过分。暴力破解可以起作用就是因为用户使用了基于字典的密码。你可以强制用户避开字典密码并使用约翰的开膛手工具来检测弱密码。以下是一个随机密码生成器（放到你的 ~/.bashrc 下）：</p>
+<p>genpasswd() {<br>    local l=$1<br>    [ “$l” == “” ] &amp;&amp; l=20<br>    tr -dc A-Za-z0-9_ &lt; /dev/urandom | head -c ${l} | xargs</p>
+<p>运行：</p>
+<p>genpasswd 16</p>
+<p>输出：</p>
+<p>uw8CnDVMwC6vOKgW</p>
+<p>7、 为 SSH 的 22端口配置防火墙</p>
+<p>你需要更新 iptables/ufw/firewall-cmd 或 pf 防火墙配置来为 ssh 的 TCP 端口 22 配置防火墙。一般来说，OpenSSH 服务应该仅允许本地或者其他的远端地址访问。</p>
+<p>Netfilter（Iptables） 配置</p>
+<p>更新 /etc/sysconfig/iptables （Redhat 和其派生系统特有文件） 实现仅接受来自于 192.168.1.0/24 和 202.54.1.5/29 的连接，输入：</p>
+<p>-A RH-Firewall-1-INPUT -s 192.168.1.0/24 -m state –state NEW -p tcp –dport 22 -j ACCEPT<br>-A RH-Firewall-1-INPUT -s 202.54.1.5/29 -m state –state NEW -p tcp –dport 22 -j ACCEPT</p>
+<p>如果同时使用 IPv6 的话，可以编辑 /etc/sysconfig/ip6tables （Redhat 和其派生系统特有文件），输入：</p>
+<p>-A RH-Firewall-1-INPUT -s ipv6network::/ipv6mask -m tcp -p tcp –dport 22-j ACCEPT</p>
+<p>将 ipv6network::/ipv6mask 替换为实际的 IPv6 网段。</p>
+<p>Debian/Ubuntu Linux 下的 UFW</p>
+<p>UFW 是 Uncomplicated FireWall 的首字母缩写，主要用来管理 Linux 防火墙，目的是提供一种用户友好的界面。输入以下命令使得系统仅允许网段 202.54.1.5/29 接入端口 22：</p>
+<p>$ sudo ufw allow from 202.54.1.5/29 to any port 22</p>
+<p>*BSD PF 防火墙配置</p>
+<p>如果使用 PF 防火墙 /etc/pf.conf 配置如下：</p>
+<p>pass in on $ext_if inet proto tcp from {192.168.1.0/24, 202.54.1.5/29} to$ssh_server_ip port ssh flags S/SA synproxy state</p>
+<p>8、 修改 SSH 端口和绑定 IP</p>
+<p>ssh 默认监听系统中所有可用的网卡。修改并绑定 ssh 端口有助于避免暴力脚本的连接（许多暴力脚本只尝试端口 22）。更新文件 sshd_config 的以下内容来绑定端口 300 到 IP 192.168.1.5 和 202.54.1.5：</p>
+<p>Port 300<br>ListenAddress 192.168.1.5<br>ListenAddress 202.54.1.5</p>
+<p>当需要接受动态广域网地址的连接时，使用主动脚本是个不错的选择，比如 fail2ban 或 denyhosts。</p>
+<p>9、 使用 TCP wrappers （可选的）</p>
+<p>TCP wrapper 是一个基于主机的访问控制系统，用来过滤来自互联网的网络访问。OpenSSH 支持 TCP wrappers。只需要更新文件 /etc/hosts.allow 中的以下内容就可以使得 SSH 只接受来自于 192.168.1.2 和 172.16.23.12 的连接：</p>
+<p>sshd : 192.168.1.2 172.16.23.12</p>
+<p>10、 阻止 SSH 破解或暴力攻击</p>
+<p>暴力破解是一种在单一或者分布式网络中使用大量（用户名和密码的）组合来尝试连接一个加密系统的方法。可以使用以下软件来应对暴力攻击：</p>
+<p>DenyHosts 是一个基于 Python SSH 安全工具。该工具通过监控授权日志中的非法登录日志并封禁原始 IP 的方式来应对暴力攻击。</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

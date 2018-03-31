@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux bashrc和profile的用途和区别</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/11/07/577/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux bashrc和profile的用途和区别</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-11-07</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>使用终端ssh登录Linux操作系统的控制台后，会出现一个提示符号(例如：#或~)，在这个提示符号之后可以输入命令，Linux根据输入的命令会做回应，这一连串的动作是由一个所谓的Shell来做处理。</p>
+<pre><code>Shell是一个程序，最常用的就是Bash，这也是登录系统默认会使用的Shell。
+
+bashrc和profile都是Shell的启动设置文件(其实这两个文件也是Shell脚本)，可以为当前的Shell初始化环境变量等，它们类似Microsoft DOS/Windows下的autoexec.bat文件。
+
+下面详细介绍bashrc和profile的用途和区别：
+
+**针对个别用户**
+</code></pre><pre style="text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Courier New&quot;, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 230, 230); -webkit-text-stroke-width: 0px;">
+
+&nbsp;</pre>
+
+<ol>
+<li><span style="color: black; font-size: 14px; background-color: inherit;">.bashrc&nbsp;</span><span style="color: black; font-size: 14px; background-color: inherit;">&nbsp;</span></li>
+<li><span style="color: black; font-size: 14px; background-color: inherit;">#&nbsp;~/.bashrc:&nbsp;executed&nbsp;<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">by</span>&nbsp;bash(1)&nbsp;<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">for</span>&nbsp;non-login&nbsp;shells.&nbsp;</span><span style="color: black; font-size: 14px; background-color: inherit;">&nbsp;</span></li>
+<li><span style="color: black; font-size: 14px; background-color: inherit;">.profile&nbsp;</span><span style="color: black; font-size: 14px; background-color: inherit;">&nbsp;</span></li>
+<li><p><span style="color: black; font-size: 14px; background-color: inherit;">#&nbsp;~/.profile:&nbsp;executed&nbsp;<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">by</span>&nbsp;Bourne-compatible&nbsp;login&nbsp;shells.&nbsp;</span></p>
+<p><strong>针对全体用户</strong></p>
+</li>
+</ol>
+<pre style="text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Courier New&quot;, monospace; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(230, 230, 230); -webkit-text-stroke-width: 0px;">
+
+&nbsp;</pre>
+
+<ol>
+<li><span style="color: black; font-size: 14px; background-color: inherit;">/etc/bash.bashrc&nbsp;</span><span style="color: black; font-size: 14px; background-color: inherit;">&nbsp;</span></li>
+<li><span style="color: black; font-size: 14px; background-color: inherit;">#&nbsp;System-wide&nbsp;.bashrc&nbsp;file&nbsp;<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">for</span>&nbsp;interactive&nbsp;bash(1)&nbsp;shells.&nbsp;</span><span style="color: black; font-size: 14px; background-color: inherit;">&nbsp;</span></li>
+<li><span style="color: black; font-size: 14px; background-color: inherit;">/etc/profile&nbsp;</span><span style="color: black; font-size: 14px; background-color: inherit;">&nbsp;</span></li>
+<li><p><span style="color: black; font-size: 14px; background-color: inherit;">#&nbsp;/etc/profile:&nbsp;system-wide&nbsp;.profile&nbsp;file&nbsp;<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">for</span>&nbsp;the&nbsp;Bourne&nbsp;shell&nbsp;(sh(1)&nbsp;</span></p>
+<p><strong>bashrc和profile的差异</strong></p>
+<p>从上面的英文描述可以知道，bashrc和profile的差异在于：</p>
+<p><span style="color: rgb(51, 51, 51); background-color: inherit;">1. </span><font color="#ff0000" style="background-color: inherit;">bashrc是在系统启动后就会自动运行。</font></p>
+<p><span style="color: rgb(51, 51, 51); background-color: inherit;">2. p</span><font color="#ff0000" style="background-color: inherit;">rofile是在用户登录后才会运行。</font></p>
+<p>3. 进行设置后，可运用source bashrc命令更新bashrc，也可运用source profile命令更新profile。</p>
+<p>PS：通常我们修改bashrc,有些linux的发行版本不一定有profile这个文件</p>
+<p>4. /etc/profile中设定的变量(全局)的可以作用于任何用户，而~/.bashrc等中设定的变量(局部)只能继承/etc/profile中的变量，他们是&rdquo;父子&rdquo;关系。</p>
+<p><strong>补充介绍</strong></p>
+<p>另外，需要补充说明介绍bashrc相关的几个文件：</p>
+<p>~/.bash_profile: 每个用户都可使用该文件输入专用于自己使用的shell信息，当用户登录时，该文件仅仅执行一次!默认情况下,他设置一些环境变量,执行用户的.bashrc文件。</p>
+<p>~/.bash_logout: 当每次退出系统(退出bash shell)时，执行该文件。</p>
+<p>~/.bash_profile 是交互式、login方式进入bash运行的，~/.bashrc是交互式non-login方式进入bash运行的，通常二者设置大致相同，所以通常前者会调用后者。</p>
+</li>
+</ol>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

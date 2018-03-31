@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>docker的基础命令及含义</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/15/222/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">docker的基础命令及含义</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-15</span>
+      
+      <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
+      
+      
+      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>一、基础命令</p>
+<pre><code>首先是docker的命令及含义
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; attach&amp;nbsp;&amp;nbsp;&amp;nbsp; 进入一个容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; build&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 从Dockerfile编译
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; commit&amp;nbsp;&amp;nbsp;&amp;nbsp; 提交容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; cp&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 从容器内复制文件到指定的路径上
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; create&amp;nbsp;&amp;nbsp;&amp;nbsp; 创建容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; diff&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 可以列出容器内发生变化的文件和目录
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; events&amp;nbsp;&amp;nbsp;&amp;nbsp; 从服务器拉取个人动态，可选择时间区间
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; exec&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 进入容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; export&amp;nbsp;&amp;nbsp;&amp;nbsp; 将指定的容器保存成 tar 归档文件， docker import 的逆操作。导出后导入（exported-imported)）的容器会丢失所有的提交历史，无法回滚
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; history&amp;nbsp;&amp;nbsp;&amp;nbsp; 查看指定镜像的创建历史
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; images&amp;nbsp;&amp;nbsp;&amp;nbsp; 查看镜像列表
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; import&amp;nbsp;&amp;nbsp;&amp;nbsp; 从归档文件（支持远程文件）创建一个镜像， export 的逆操作，可为导入镜像打上标签。导出后导入（exported-imported)）的容器会丢失所有的提交历史，无法回滚
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; info&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 显示系统信息
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; inspect&amp;nbsp;&amp;nbsp;&amp;nbsp; 查看容器底层信息
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; kill&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 结束一个正在运行的容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; load&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 从 tar 镜像归档中载入镜像， docker save 的逆操作。保存后再加载（saved-loaded）的镜像不会丢失提交历史和层，可以回滚
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; login&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 登录Docker HUB
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; logout&amp;nbsp;&amp;nbsp;&amp;nbsp; 退出Docker HUB
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; logs&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 打印出容器的标准输出
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; port&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 映射NAT的端口
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; pause&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 暂停容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; ps&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 列出容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; pull&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 下载一个镜像
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; push&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 将镜像推送至远程仓库，默认为 Docker Hub
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; restart&amp;nbsp;&amp;nbsp;&amp;nbsp; 重启容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; rm&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 删除容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; rmi&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 删除镜像
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; run&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 运行一个新容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; save&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 保存镜像
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; search&amp;nbsp;&amp;nbsp;&amp;nbsp; 搜索镜像
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; start&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 启动容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; stop&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 停止容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; tag&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 镜像改名
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; top&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 查看容器进程
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; unpause&amp;nbsp;&amp;nbsp;&amp;nbsp; 恢复暂停的容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; version&amp;nbsp;&amp;nbsp;&amp;nbsp; 查看版本
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; wait&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 阻塞对指定容器的其它调用方法，直到容器停止后退出阻塞
+
+下面是docker run的命令及含义
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -i&amp;nbsp;&amp;nbsp;&amp;nbsp; #允许在容器进行交互
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -t&amp;nbsp;&amp;nbsp;&amp;nbsp; #分配伪tty终端
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -d&amp;nbsp;&amp;nbsp;&amp;nbsp; #在后台运行容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -P&amp;nbsp;&amp;nbsp;&amp;nbsp; #标示通知Docker所需的网络端口映射从主机映射到我们的容器内
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -h&amp;nbsp;&amp;nbsp;&amp;nbsp; #指定容器的hostname
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -e&amp;nbsp;&amp;nbsp;&amp;nbsp; #设置容器的环境变量
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -a&amp;nbsp;&amp;nbsp;&amp;nbsp; #stdin 指定标准输入输出内容类型，可选 STDIN/STDOUT / STDERR 三项
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -w&amp;nbsp;&amp;nbsp;&amp;nbsp; #指定工作目录
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -u&amp;nbsp;&amp;nbsp;&amp;nbsp; #指定用户名id
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -m&amp;nbsp;&amp;nbsp;&amp;nbsp; #指定内存
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;span style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;-v &amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp;#&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微軟正黑體, 微软雅黑, &amp;quot;Microsoft JhengHei&amp;quot;, &amp;quot;Segoe ui light&amp;quot;, Trebuchet, &amp;quot;Lucida Sans Unicode&amp;quot;, &amp;quot;Lucida Grande&amp;quot;, &amp;quot;Lucida Sans&amp;quot;, Arial; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;映射目录&lt;/span&gt;&lt;/span&gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; --env-file=[]&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 从指定文件读入环境变量
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; --restart=always&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 当容器推出时，自动重启容器
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; --restart=on-failure:5&amp;nbsp;&amp;nbsp;&amp;nbsp; 当容器推出代码为非0时，docker会尝试自动重启该容器，最多重启5次
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; --name&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 指定容器名，容器名在整个docker环境中必须唯一
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; --dns&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 指定dns
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; --cpuset=&amp;quot;&amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 绑定容器到指定CPU运行
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; --net=&amp;quot;bridge&amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 指定容器运行的网络模式
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>韩晓光：系统运维体系架构规划</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/04/20/954/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">韩晓光：系统运维体系架构规划</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-04-20</span>
+      
+      <a href="/categories/architecture/" title="架构" class="post-categories">架构</a>
+      
+      
+      <a href="/tags/架构/"" title="架构" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>架构</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://zhuanlan.51cto.com/art/201704/537456.htm" target="_blank" rel="external"><font color="#0066cc">http://zhuanlan.51cto.com/art/201704/537456.htm</font></a></p>
+<pre><code>本文主要介绍运维体系与架构的设计规划，这将引导我们从一个高屋建瓴的角度去考虑如何组织运维团队，如何规划运维架构，用什么构建起运维架构，以及如何开展运维工作。
+
+[![](http://s3.51cto.com/wyfs02/M02/91/88/wKioL1j2xk_zU1MQAAAcbn_o4qQ091.jpg)](http://s3.51cto.com/wyfs02/M02/91/88/wKioL1j2xk_zU1MQAAAcbn_o4qQ091.jpg)
+
+图1-1本文将会引入很多简明的运维实践示例来形象直观的告诉大家如何构建起运维体系。通过学习本文内容将会使我们具备规划与构建整个IT运维体系架构的知识和能力。
+
+运维体系是运维的基础和核心。通过运维体系的构建及完善，使我们的运维做到稳定可靠，准确完备，规范科学。从某种角度来看，系统运维体系可以用一个四面体来描述(如图1-1所示)，包括四大方面：人、事、物、流程标准。
+
+从人、事、物、流程这四个方面便可以很好地将运维体系进行解构，它们彼此互相作用，共同构建了一个完整实用的运维体系。下面列举了这四个方面各自的含义及相关内容。
+
+人：例如完善岗位职责与职业发展、提高团队技术水平、完善技能分享与培训、完善团队绩效考核、规范工作行为规范等。目的是要建成一支工作高效、技术水平高、团结稳定、有职业素养的运维团队。
+
+事：例如做好日常基础运维工作，保障好生产业务运行。不断探索新的运维理念与技术，探索优化系统架构。具体可以分为几大块，例如运维流程管理，资源架构规划，应急与故障处理，监控与优化，安全与防护，项目及日常工作，等等。目的是要明白运维做什么正确的事，怎么正确地做事，做事有章法，稳定高效能。
+
+物：主要是如何管理好系统运维所涉及的各种资源。例如机房环境、办公设备、服务器、网络设备、操作系统、应用软件、工具等各种软硬件资源。目的要使各类资源配置管理妥当，清楚资源属性，知道从哪来，现在哪，要去哪。使得物尽其用，物有所值，安置妥当。
+
+流程标准：运用流程标准将上述要素(人、事、物)有机地结合，有序科学地流转、高效稳定地运行。例如资源规划与采购，各种标准规范、项目规范、软硬件配置部署规范、安全制度、工作交接，等等。
+
+就上述四大方面，下文继续展开论述，当然也仅是一些内容的列举，毕竟具体到每个企业组织，其运维工作内容可能会大同小异。
+
+**1.1　团队人员规划**
+
+**1.1.1　岗位职责划分**
+
+一个优秀企业(组织团队)的核心竞争力其实说到底就是人。合适的人在合适岗位上正确地干正确的事情&amp;mdash;&amp;mdash;这就是核心竞争力。一个好的运维团队也是如此，人在运维体系中就是核心，好的运维团队能够有效地、高质量地、相对低成本地发挥各个运维元素的功效，达到更完美的运维效能。
+
+对于运维岗位划分，很多企业大同小异，一般都是以保障业务生产稳定高效运行为目的，根据自身企业发展需要划分岗位。小微企业可能没有专门的运维人员及岗位设置，稍大的一些企业也可能由其他岗位人员(如开发人员)兼职运维人员，发展到中小型企业后往往就会设置专门的运维岗位人员从事日常维护工作。对于中大型企业一般都会有专门的运维团队从事专业的运维工作，而且不仅仅是运维，还包括运维开发。
+
+随着运维的发展，运维岗位也逐渐细分很多种，各个企业岗位设置与职责也不尽相同，但岗位工作内容大同小异。大致有如下岗位：系统管理员、数据库管理员、网络管理员、机房环境管理员、运维开发工程师、应用运维工程师、服务管理工程师、安全审计工程师、架构师等。
+
+有了岗位设置及专职人员，然后就会产生人力职业发展、技能培训、绩效考核等一系列问题，这些问题往往即相互联系又各成一体。
+
+如下是某企业的岗位职责划分示例：
+</code></pre><ul>
+<li>岗位(一级分类)通用职责要求是系统管理每个岗位都应履行的职责。</li>
+<li>岗位(二级分类)专项职责是针对每一项工作岗位的职责要求。</li>
+<li><p>岗位(三级分类)专人职责是针对每一个人设置的各自不同的具体职责。每个人在执行通用职责的基础上同时履行各自的专项专人职责。</p>
+<p>岗位(一级分类)通用职责示例通用职责如表1-1所示。</p>
+<p>表1-1</p>
+<p><a href="http://s5.51cto.com/wyfs02/M01/91/87/wKiom1j2wBnxKyeRAAFcRGnYzSE952.jpg" target="_blank" rel="external"><img src="http://s5.51cto.com/wyfs02/M01/91/87/wKiom1j2wBnxKyeRAAFcRGnYzSE952.jpg" alt=""></a></p>
+<p>续表</p>
+<p><a href="http://s5.51cto.com/wyfs02/M00/91/86/wKioL1j2wDSBWyIgAABVGwHlBQw032.jpg" target="_blank" rel="external"><img src="http://s5.51cto.com/wyfs02/M00/91/86/wKioL1j2wDSBWyIgAABVGwHlBQw032.jpg" alt=""></a></p>
+<p>岗位(二级分类)专项职责示例如下是系统管理岗位工作示例：</p>
+<p>表1-2</p>
+<p><a href="http://s3.51cto.com/wyfs02/M00/91/87/wKiom1j2wEuweaFkAADt-m0W18Q286.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M00/91/87/wKiom1j2wEuweaFkAADt-m0W18Q286.jpg" alt=""></a></p>
+<p>续表</p>
+<p><a href="http://s3.51cto.com/wyfs02/M02/91/86/wKioL1j2wGTSTa97AACaJeeNCcM748.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M02/91/86/wKioL1j2wGTSTa97AACaJeeNCcM748.jpg" alt=""></a></p>
+<p><strong>1.1.2　岗位交接示例</strong></p>
+<p>因人员的短期离岗(以及离职)会给运维的稳定性、安全性、经验传承、资料留存、以及团队稳定等众多方面产生一系列影响,运维工作中的故障隐患很大比例来自于岗位交接。因此运维工作的岗位交接是个重要的事情，表1-3是岗位交接制度示例。</p>
+<p>表1-3</p>
+<p><a href="http://s3.51cto.com/wyfs02/M02/91/87/wKiom1j2wIPhe0NUAACN3cEQhfM309.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M02/91/87/wKiom1j2wIPhe0NUAACN3cEQhfM309.jpg" alt=""></a></p>
+<p>续表</p>
+<p><a href="http://s3.51cto.com/wyfs02/M00/91/86/wKioL1j2wJKwKCU0AACNu0SFOBg355.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M00/91/86/wKioL1j2wJKwKCU0AACNu0SFOBg355.jpg" alt=""></a></p>
+<p><a href="http://s1.51cto.com/wyfs02/M02/91/86/wKioL1j2wNKBp4NIAAAvIDZqBIE398.jpg" target="_blank" rel="external"><img src="http://s1.51cto.com/wyfs02/M02/91/86/wKioL1j2wNKBp4NIAAAvIDZqBIE398.jpg" alt=""></a></p>
+<p><strong>1.1.4　技能培训</strong></p>
+<p>不同的企业，对人力的培训也各有方式，轻重不同，内容有别。有的企业注重以老带新，有的企业注重个人自学，有的企业注重内部交流，有的企业注重外部培训。培训往往也与岗位发展、财务状况、绩效考核、奖惩福利等相互关联。</p>
+<p>从培训的途径来看，培训主要分为内训和外训两种方式。</p>
+<p><strong>内训：</strong></p>
+<p>由公司人力部门(或其他某部门)组织的培训，包括外请其他公司专家、公司内部讲师(一般都是有经验特长的内部员工)。</p>
+<p><strong>外训：</strong></p>
+<p>(1)由公司出资金为员工提供外部的培训(员工个人申请培训内容、培训机构、价格。经公司审批后即可外训)。</p>
+<p>(2)公司签订的部分合同中附带有一些培训。</p>
+<p>(3)由公司组织联系到其他单位参观交流。</p>
+<p>(4)由其他厂商邀请的技术大会、峰会等。</p>
+<p>(5)由公司组织选拔资助少量员工直接到其他单位实地锻炼学习。</p>
+<p>(6)由公司选拔资助少量员工参加一些脱产或不脱产的继续教育学习。</p>
+<p><strong>1.1.5　绩效考核示例</strong></p>
+<p>有人对应岗位做相应的工作，自然而然会有绩效问题，也因此也会产生绩效考核相关制度。</p>
+<p>运维考核的难度在于如何定义KPI关键业绩指标、如何定性与量化，每个企业单位内部都不一样，需要根据自身环境定制基线。</p>
+<p>考核的方式多种多样。可以按照时间分为周考核、月考核、季度考核、年终考核。也可以按照KPI等关键因素进行考核。也可以从上下级人为主观考核。也可以由评审委员会考核。</p>
+<p>表1-6是某运维部门考核标准示例。</p>
+<p><a href="http://s4.51cto.com/wyfs02/M01/91/86/wKioL1j2wOSDseYYAAEBJr3P5gE577.jpg" target="_blank" rel="external"><img src="http://s4.51cto.com/wyfs02/M01/91/86/wKioL1j2wOSDseYYAAEBJr3P5gE577.jpg" alt=""></a></p>
+<p><a href="http://s2.51cto.com/wyfs02/M01/91/87/wKiom1j2wT6xtB-NAABACr4hf4I493.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M01/91/87/wKiom1j2wT6xtB-NAABACr4hf4I493.jpg" alt=""></a></p>
+<p><a href="http://s2.51cto.com/wyfs02/M02/91/86/wKioL1j2wU7xzkuWAABZ24hRyiM246.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M02/91/86/wKioL1j2wU7xzkuWAABZ24hRyiM246.jpg" alt=""></a></p>
+<p><a href="http://s4.51cto.com/wyfs02/M01/91/86/wKioL1j2wduhpRVGAACvT519nM0707.jpg" target="_blank" rel="external"><img src="http://s4.51cto.com/wyfs02/M01/91/86/wKioL1j2wduhpRVGAACvT519nM0707.jpg" alt=""></a></p>
+<p><strong>1.2　体系架构相关事宜规划</strong></p>
+<p>运维要做的事情，实在太多了。说复杂，复杂得没有人能说明白，列举全面。说简单，倒也简单：运维工作就是支持生产运行，是成本中心，一般不直接产生利润。目的就是运行保障生产设备软硬件正常运行，让内外部用户满意度。</p>
+<p>运维要做的事情与岗位职责内容密切联系，可能有了运维要做的事情需求，因此设置了岗位和人员，但也有因为有了这个岗位的人，因此创造了一些运维事情。这有点&ldquo;鸡生蛋、蛋生鸡&rdquo;的逻辑。</p>
+<p><strong>1.2.1 运维系统架构</strong></p>
+<p>每个公司的IT环境，不论大小复杂度，总会有个系统架构层次。有了这个架构体系，那所有的运维事情大体都围绕着这个系统架构上的每个元素及整体进行运维保障工作。运维架构从某种角度可以划分为如下两种：商业封闭式系统架构(IOE架构)与开源系统架构。</p>
+<p><strong>1. 商业封闭式系统架构(IOE架构)</strong></p>
+<p>典型的即以使用IOE(IBM、Oracle、EMC)产品软硬件为主要元素的系统架构。IOE架构以纵向扩展为特点，通过增加CPU、内存、扩展柜、冗余备件等方式来提高处理能力及稳定性。该架构的处理能力主要取决于单台(套)设备(系统)的最大扩展能力，很难通过增加设备(系统)数量来增加处理能力，换句话说该架构很难通过扩大集群规模的方式来解决问题。随着纵向扩展的规模增大，其实施技术难度、管理复杂度以及隐患风险都会正比例大幅上升。基于IOE架构的典型企业如：金融业、电信业，交通运输业。IOE典型的系统架构如图1-2所示。</p>
+<p><a href="http://s2.51cto.com/wyfs02/M02/91/89/wKiom1j2xu2i8V0qAABBOOzrsx4459.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M02/91/89/wKiom1j2xu2i8V0qAABBOOzrsx4459.jpg" alt=""></a></p>
+<p>图1-2</p>
+<p>上述IOE型系统架构。其服务器多使用小型机、大型机(还有以往的中型机)，数据库系统往往会使用Oracle，存储则多使用知名品牌的中高端存储阵列、带库等设备。服务器与存储之间多使用SAN存储网络。这些服务器、存储等硬件本身往往就是双冗余的，线路连线也都是双冗余的，而且设备性能指标往往非常好，例如一台普通中端的Power 7系列服务器可以轻松划分出若干个系统分区或者一二十个虚拟机系统。</p>
+<p><strong>2. 开源系统架构</strong></p>
+<p>典型的即以使用廉价PC服务器，开源产品技术为主要元素的系统架构。开源系统架构以横向扩展，分布式部署为特点。通常通过往集群中增加单机设备资源解决存储空间、性能以及稳定性问题，其集群规模可以小到两三台PC服务器组成，也可以大到上万台PC服务器集群。对于数据库，可以通过分布式集群方式解决数据库扩展性的问题。另外非结构化数据库及分布式文件系统在处理非结构化数据的存储与使用方面也很灵活方便。基于开源系统架构的典型企业如：以BAT(百度、阿里、腾讯)为代表的众多互联网企业，开源系统架构如图1-3所示。</p>
+<p><a href="http://s2.51cto.com/wyfs02/M00/91/89/wKiom1j2xzXC86avAABYNmXIzGs893.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M00/91/89/wKiom1j2xzXC86avAABYNmXIzGs893.jpg" alt=""></a></p>
+<p>图1-3</p>
+<p>上述开源系统架构中使用了CDN和反向代理以提高网站性能。例如我们的服务器可能部署在北京，对于北京及周边用户来说访问是较快的，而对于远离北京的用户访问则感觉较慢，因为数据传输时间比较长。对于这种情况，常常使用CDN解决，CDN将数据内容缓存到运营商(或自建CDN)的机房，用户访问时先从最近的CDN机房获取数据，这样大大减少了网络访问的路径。</p>
+<p>对于反向代理，当用户请求达到时首先访问反向代理，反向代理服务器将(Varnish)缓存的数据返回给用户，如果没有没有缓存数据才会继续走应用服务器获取，这也减少了获取数据的成本。当然对于海量访问请求，或者庞大集群架构，则就需要分多层、综合运用上述负载均衡以及代理(反代理)，同时可能需要引入zookeeper等功能以协调(服务)任务调度。</p>
+<p>关于去IOE问题，本文简单阐述如下。</p>
+<p>近年来开源技术的迅猛发展，以及国内外政策环境共同作用，引发了一场去IOE的风潮。他们使用低廉的软硬件产品代替昂贵高门槛的IOE产品，搭建起自主开放的开源系统架构。之所以出现&ldquo;去IOE&rdquo;运动，其中原因总结概述如下几条：</p>
+<p>(1)自&ldquo;棱镜门事件&rdquo;之后，国家强烈意识到数据安全的重要性，大力提倡产品设备国产化与自主研发，这正与&ldquo;去IOE&rdquo;观点不谋而合，上下一致。</p>
+<p>(2)近年来，云计算、大数据等新兴IT技术的蓬勃发展，促使众多行业开始往更加开放灵活的开放系统架构转型。这对于传统的IOE架构而言，其定制与扩展灵活性有限，往往是擅长于集中式架构的管理，而很难应对大规模集群，分布式存储计算。</p>
+<p>(3)在购买成本方面，以IOE为代表的商业产品价格昂贵(动辄上百万元)，PC服务器相对廉价(通常几万元)。在部署与管理方面，IOE产品的学习掌握门槛偏高，而开源系统环境相对容易搭建与管理。另外IOE产品技术相对商业封闭，不易掌握。</p>
+<p>基于上述一些原因，去IOE应时而生。当然具体到自身企业是否要去IOE，这需要慎重考虑，适合自身发展需要的系统架构就是好的架构。去IOE过程，其实是系统架构的更新换代，产品的更新换代，运维理念的更新换代，运维人员的更新换代，知识体系的更新换代，等等。因此如果冒然去IOE，可能既不会降低成本，也不会提高效率，更不会稳定架构。如下列举几点&ldquo;去IOE&rdquo;要考虑的因素：</p>
+</li>
+<li><p>自身业务是否真正需要大数据、云计算以及分布式这种海量运维体系。</p>
+</li>
+<li>是否已经考虑好系统架构、运维理念、人员、知识更新换代的方案。</li>
+<li>自身的研发实力储备是否够解决大量开源产品的坑坑洼洼，并有实力搭建开源系统架构。</li>
+<li><p>是否有足够的资金应对&ldquo;去IOE&rdquo;转型中的成本，例如从硬件高成本转向人力技术高成本。</p>
+<p>去IOE只是给予我们一些最佳实践与选择路子，但去IOE技术门槛较高，一般企业很难复制。从目前发展来看，IOE架构与非IOE架构仍将长期并存。一时间很难找到一些能够完美替代以IOE为代表的成熟(且普适)产品方案。</p>
+<p><strong>1.2.2　运维工作层次分类示例</strong></p>
+<p>例如《海量运维、运营规划》(作者：唐文)一书，作者很有观点地概括了运维要做的事情，他以质量、效率、成本为核心，从运营规划、管理、流程/规范、系统/平台、监控、告警、安全、优化、考核等几个维度来阐述运维工作，如图1-4所示。</p>
+<p><a href="http://s3.51cto.com/wyfs02/M00/91/89/wKiom1j2x3iRxON9AAEVCBHPkRU948.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M00/91/89/wKiom1j2x3iRxON9AAEVCBHPkRU948.jpg" alt=""></a></p>
+<p>图1-4</p>
+<p>另外也可以从逻辑框架的层次来分类运维工作要做的事情。如下借鉴美团的分享者(唐君毅、邱剑、朱晏)关于企业运维的观点，运维框架可以概括为五横三纵。</p>
+<p>从横向来看，自底向上分为五个层次：</p>
+</li>
+<li><p>物理层：包括机房网络、硬件设施相关工作。如采购招投标工作、机房实施工作、机房环境(强弱电、照明、通风、网络布线、温湿度等)，各种设备上下电与维修工作等。</p>
+</li>
+<li>系统层：包括操作系统、虚拟化、云计算等一系列系统环境所涉及的部署、配置、优化等工作。</li>
+<li>服务层：包括Webserver、缓存、代理、数据库等所涉及的软件应用的部署、配置、优化等工作。</li>
+<li>逻辑层：包括业务逻辑、数据流。这一层的主要工作是发布和变更。</li>
+<li><p>应用层：包括用户可见部分。所有前端平台，主要涉及与前端用户交互或提供信息(服务)的平台。比如前端网站、各种新媒体平台的维护与监控。</p>
+<p>从纵向来看，有三部分工作，对上述五个层次是通用的：</p>
+</li>
+<li><p>监控：从物理层到服务层的监控和报警都是运维来跟进、响应的。对于逻辑层和应用层，一般由运维提供监控API的规范，开发人员自己创建监控项、设定报警规则、进行增删改查。</p>
+</li>
+<li>安全：建立部署统一的安全接入平台，所有线上的人工操作都需要登陆跳板机，每个人有独立的登陆帐号，所有线上操作都有审计日志。更多的安全工作由专门的信息安全组负责。</li>
+<li><p>流程：早期基于Jira做了一些简单的流程，但需要改进。现在正在针对比较集中的需求，开发相应的流程控制系统，方向也是自动化、自助化。从业务部门申请VM资源，到业务扩容的整个流程，未来可以在Web界面上通过很简单的操作实现，也提供服务化的API，方便其他业务平台进行集成。以期实现虚拟化覆盖全业务线。</p>
+<p><strong>1.3　基础设施相关物资规划</strong></p>
+<p>做饭要有材米油盐，打仗要有弹药武器。干运维，也要有一系列软硬工具。什么算是运维工作的工具，恐怕这个也没有明确定义。运维所涉及的工具物品，有看的见的，也有看不见的;有摸得着的，也有摸不着的。这里简单概括一下运维工作会用到的各种软硬件、工具、设施。</p>
+<p><strong>1.3.1　机房基础设施环境示例</strong></p>
+<p>如下列举的是机房基础设施环境相关要素，如表1-7所示。机房不论大小，基本上都会涉及到如下几大主要工程(系统)。</p>
+<p><a href="http://s2.51cto.com/wyfs02/M02/91/87/wKioL1j2wtfBX0icAABf2b80a1s972.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M02/91/87/wKioL1j2wtfBX0icAABf2b80a1s972.jpg" alt=""></a></p>
+<p><a href="http://s2.51cto.com/wyfs02/M00/91/87/wKioL1j2wvSCsinaAACT2_gbx_U810.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M00/91/87/wKioL1j2wvSCsinaAACT2_gbx_U810.jpg" alt=""></a></p>
+<p>续表</p>
+<p><a href="http://s1.51cto.com/wyfs02/M00/91/88/wKiom1j2w03ydJ-jAABjnJOronc709.jpg" target="_blank" rel="external"><img src="http://s1.51cto.com/wyfs02/M00/91/88/wKiom1j2w03ydJ-jAABjnJOronc709.jpg" alt=""></a></p>
+<p><a href="http://s1.51cto.com/wyfs02/M02/91/87/wKioL1j2w3jiKxowAAB2aTF3hP8282.jpg" target="_blank" rel="external"><img src="http://s1.51cto.com/wyfs02/M02/91/87/wKioL1j2w3jiKxowAAB2aTF3hP8282.jpg" alt=""></a></p>
+<p><strong>1.3.2　服务器产品示例</strong></p>
+<p>对于大多数企业通常是采购现有品牌(也有些企业是定制设备)，产品示例如表1-8所示。</p>
+<p><a href="http://s4.51cto.com/wyfs02/M00/91/88/wKiom1j2w7SzCHQLAADcysAS4g4979.jpg" target="_blank" rel="external"><img src="http://s4.51cto.com/wyfs02/M00/91/88/wKiom1j2w7SzCHQLAADcysAS4g4979.jpg" alt=""></a></p>
+<p><a href="http://s3.51cto.com/wyfs02/M00/91/88/wKiom1j2w_eTVA5oAACEuNalJXQ682.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M00/91/88/wKiom1j2w_eTVA5oAACEuNalJXQ682.jpg" alt=""></a></p>
+<p><strong>1.3.3 存储设备示例</strong></p>
+<p>存储设备示例如表1-9所示。</p>
+<p><a href="http://s3.51cto.com/wyfs02/M02/91/88/wKiom1j2xEGDoeIjAAEqCWK4YIY808.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M02/91/88/wKiom1j2xEGDoeIjAAEqCWK4YIY808.jpg" alt=""></a></p>
+<p><strong>1.3.4 操作系统示例</strong></p>
+<p>操作系统示例如表1-10所示。</p>
+<p><a href="http://s2.51cto.com/wyfs02/M01/91/88/wKiom1j2xJag-j7OAADWz9uTEeo601.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M01/91/88/wKiom1j2xJag-j7OAADWz9uTEeo601.jpg" alt=""></a></p>
+<p><strong>1.3.5 常用软件示例</strong></p>
+<p>常用软件示例如表1-11所示。</p>
+<p><a href="http://s5.51cto.com/wyfs02/M02/91/88/wKiom1j2xOCTU5g4AADBHD5K4gM018.jpg" target="_blank" rel="external"><img src="http://s5.51cto.com/wyfs02/M02/91/88/wKiom1j2xOCTU5g4AADBHD5K4gM018.jpg" alt=""></a></p>
+<p>续表</p>
+<p><a href="http://s3.51cto.com/wyfs02/M00/91/87/wKioL1j2xPiSAvRVAACrQdBhUV0664.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M00/91/87/wKioL1j2xPiSAvRVAACrQdBhUV0664.jpg" alt=""></a></p>
+<p><strong>1.4　运维流程标准规划</strong></p>
+<p>将上述要素(人、事、物)有机地结合，有序科学地流转、高效稳定地运行，就得靠科学合理的流程，如各种规章制度、流程标准。</p>
+<p>流程就好比珠宝上的穿绳，就好比一个人的思想，就好比社会法律规范。流程是一个企业的流水线，是企业的行为规范，是企业制度与文化的组成部分。合理的流程规范像血液，能让部门稳定高效地运转，这是企业专业与否的重要组成部分。</p>
+<p>运维工作到底有多少流程，这个无法穷举，就好比一个人的思想到底有多少，因人而异，因时而异。关于IT服务运营流程，ITIL流程在全球享有盛名，ITIL为企业的IT服务管理实践提供了一个客观、严谨、可量化的标准和规范，这在后续章节做专题介绍。本文主要列举运维工作中一些常见流程规范。</p>
+<p><strong>1.4.1　商务流程</strong></p>
+<p>商务公开招标流程示例：</p>
+<p>商务公开招投标大致流程如下所示：</p>
+<p>采购启动 &rarr; 需求确认 &rarr; 委托招标上报 &rarr; 签订委托协议 &rarr; 标书准备(采购部门技术标书准备，商务部门组织商务标书准备，标书合并)&rarr; 提交标书 &rarr; 专家评审意见反馈 &rarr; 公开招标上报 &rarr; 公开招标 &rarr; 招标结果上报 &rarr; 商务谈判 &rarr; 合同签订上报 &rarr; 签订采购合同</p>
+<p><strong>1.4.2　运维制度流程</strong></p>
+<p>一、项目管理制度示例：</p>
+<p>以下简要介绍项目开展与实施相关制度流程</p>
+<p>1、 执行集团和公司的项目管理规定。</p>
+<p>2、 项目范围为公司和部门下达的各类项目。</p>
+<p>3、 每年10月底之前，部门结合公司下达的任务和部门的生产需求，研究讨论制定部门下一年度的项目计划，完成项目建议书(含目标、范围、完成时间、费用估算等)</p>
+<p>4、 每年12月底之前，针对部门下一年度的项目计划，通过任命和竞聘相结合的方式产生各项目经理。部门和项目经理应根据项目建议书中项目目标、范围、时间要求等内容，并根据人员的实际情况，在10个工作日内，组建项目团队，提交可行的验收标准、项目计划、管理章程</p>
+<p>5、 项目的实施流程主要分为一、启动项目呈批件;二、可行性分析和技术方案形成阶段;三、方案完善阶段;四、提交启动商务呈批件;五、提交商务谈判说明和启动商务呈批件;六、商务谈判过程;七、提交合同签订呈批件阶段;八、到货验收阶段;九、试运行阶段;十、项目验收阶段。</p>
+<p>6、 原则上产品供应商的选择不少于3家，如果产品唯一那么集成商或代理商选择不少于3家。</p>
+<p>二、需求处理流程规定示例</p>
+<p>需求提出者在ITSM系统流程中向职责对应团队小组提出需求，承接团队对需求进行分析处理，处理流程示例如下图1-5。</p>
+<p><a href="http://s5.51cto.com/wyfs02/M02/91/88/wKioL1j2yBmi2scoAABFbujCpAs970.jpg" target="_blank" rel="external"><img src="http://s5.51cto.com/wyfs02/M02/91/88/wKioL1j2yBmi2scoAABFbujCpAs970.jpg" alt=""></a></p>
+<p>图1-5</p>
+<p><strong>三、故障处理制度流程示例：</strong></p>
+<p>1. 故障来源于客户报告、值班人员巡查、监控系统监控、日常例行检查等。</p>
+<p>2. 根据故障对用户的影响程度，对故障进行如下分类：</p>
+<p>严重故障：生产系统、数据库、网络性能严重降低，应用系统运行缓慢，工具软件不可用，机房供配电系统发生故障等对生产安全运行存在严重隐患，开发、测试、灾备、应急系统不可用，或对用户使用产生严重影响的故障。</p>
+<p>重大故障：生产系统(含子系统)、数据库、应用系统不可用、网络中断、机房供配电系统停止运行等影响生产安全、无法保障用户使用的故障。</p>
+<p>一般故障：生产系统、数据库、网络、机房供配电系统、工具软件等告警或运行状态不正常，开发、测试、灾备、应急系统发生问题，且不影响用户正常使用的故障。</p>
+<p>故障症候：生产系统(含子系统)、数据库、应用系统有故障症候，报故障代码或故障消息，或者对生产正常运行存在易患， 并可在一定时限内解决的故障。</p>
+<p>3. 当故障发生在工作时间内，由故障发现者通知岗位工程师，岗位工程师依据《工作上报批准规范》进行信息通报上级经理，将故障记录填写到ITSM的事件流程中，并负责故障处理。各级经理决定通知相关岗位和客户的范围和方式。当故障发生在非工作时间，由值班人员按照《电话值班管理规定》通知电话值班工程师处理，并在随后的一个工作日内记录在ITSM服务管理系统中，电话值班工程师依据《工作上报批准规范》进行上报上级经理，由科室经理决定通知相关岗位和客户的范围和方式。</p>
+<p>4. 故障受理人负责故障处理，当需要服务商工程师到现场时，故障受理人联系服务商工程师，并陪同服务商工程师进行故障处理。当故障持续时间较长需要轮换故障处理人员时，要做好故障处理交接工作，并将前期处理情况和过程以文字形式交接给接续人员，并通报科室经理，接续人员继续承担处理故障职责。</p>
+<p>5. 上级经理跟踪下级故障处理过程。</p>
+<p>6. 故障处理完毕后，由故障处理人员通知上级经理，告知故障已经解决，并由经理决定通知相关岗位和客户的范围和方式，最后故障处理人员或运维主管将ITSM中的事件流程中的故障记录填写完整。</p>
+<p>7. 需要升级到问题的故障转入问题流程，后续按照《问题管理规定》处理。</p>
+<p><strong>四、应急(演练)管理流程示例：</strong></p>
+<p>制定应急管理流程的目的是为了在发生应急事件时，各相关生产部门能根据流程对应急事件进行通报、指挥、处理和协调，最大限度地降低事件所带来的不利影响，使得应急事件能够得到有效的管理应急管理流程示例如下图1-6：</p>
+<p><a href="http://s1.51cto.com/wyfs02/M01/91/88/wKioL1j2yGWxTYDPAACR2cnDX0M648.jpg" target="_blank" rel="external"><img src="http://s1.51cto.com/wyfs02/M01/91/88/wKioL1j2yGWxTYDPAACR2cnDX0M648.jpg" alt=""></a></p>
+<p>图1-6</p>
+<p><strong>1.4.3　安装配置标准</strong></p>
+<p><a href="http://s2.51cto.com/wyfs02/M01/91/87/wKioL1j2xUbxe8gvAAFxhKYUxmk981.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M01/91/87/wKioL1j2xUbxe8gvAAFxhKYUxmk981.jpg" alt=""></a></p>
+<p><a href="http://s2.51cto.com/wyfs02/M00/91/89/wKiom1j2xVSAM2SQAADCXBPzrNc205.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M00/91/89/wKiom1j2xVSAM2SQAADCXBPzrNc205.jpg" alt=""></a></p>
+<p><strong>1.4.4 安全制度</strong></p>
+<p>随着物联网、云计算、大数据、移动网络等高新技术引领信息发展的新高潮，政治经济的复杂性，使得现在及未来信息安全愈发至关重要。也因此信息安全运维也至关重要。本小结仅作示例，后续章节将再单独介绍信息安全。</p>
+<p><a href="http://s1.51cto.com/wyfs02/M01/91/87/wKioL1j2xXrTBw0mAAEjP7M9KRM036.jpg" target="_blank" rel="external"><img src="http://s1.51cto.com/wyfs02/M01/91/87/wKioL1j2xXrTBw0mAAEjP7M9KRM036.jpg" alt=""></a></p>
+<p><strong>1.5　运维知识体系规划</strong></p>
+<p>综上所述，不论是传统的运维体系还是互联网运维体系，两者之间并非泾渭分明，而是难分难解。不同行业背景的运维，虽有各自的差异，但运维大环境与趋势是一致的。可以预想未来一段时间，运维趋势具有如下特点：</p>
+</li>
+<li><p>传统IT运维与互联网IT运维仍将长期并存。</p>
+</li>
+<li>传统运维方式与基于云计算的运维方式将长期并存。</li>
+<li>公有云与私有云及混合云运维局面将长期并存。</li>
+<li>基于业务场景的运维仍将是运维价值观方向。</li>
+<li>完全闭源的生态环境和完全开源的生态环境是两个极端，更多的IT生态是混合状态。</li>
+<li>运维部门将由传统的IT成本中心向IT服务中心、价值输出中心、利润输出中心转变。</li>
+<li><p>研发、运维及业务之间的边界也并非黑白分明，DevOps的理念逐步深入各行业。</p>
+<p>这里从一个架构高度看待和规划运维。正如前文所述，我们从人、事、物、流程这四个方面共同构建了一个完整实用的运维体系。如下将基于上述理论给出一套整体示例。</p>
+<p>人员事情软硬件物资流程规范产品技能知识点举例</p>
+<p><a href="http://s3.51cto.com/wyfs02/M02/91/89/wKioL1j2ylPzHFsWAACTyO0zeq4749.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M02/91/89/wKioL1j2ylPzHFsWAACTyO0zeq4749.jpg" alt=""></a></p>
+<p><a href="http://s5.51cto.com/wyfs02/M01/91/89/wKioL1j2yl2T_3krAACEJawOWok206.jpg" target="_blank" rel="external"><img src="http://s5.51cto.com/wyfs02/M01/91/89/wKioL1j2yl2T_3krAACEJawOWok206.jpg" alt=""></a></p>
+<p><a href="http://s4.51cto.com/wyfs02/M01/91/89/wKioL1j2ymbwZcuBAAB2qLnCql4160.jpg" target="_blank" rel="external"><img src="http://s4.51cto.com/wyfs02/M01/91/89/wKioL1j2ymbwZcuBAAB2qLnCql4160.jpg" alt=""></a></p>
+<p><a href="http://s3.51cto.com/wyfs02/M02/91/8A/wKiom1j2ynCjQXHmAAC3O1TQEuE223.jpg" target="_blank" rel="external"><img src="http://s3.51cto.com/wyfs02/M02/91/8A/wKiom1j2ynCjQXHmAAC3O1TQEuE223.jpg" alt=""></a></p>
+<p><a href="http://s4.51cto.com/wyfs02/M01/91/89/wKioL1j2ynnj7MBlAAC6LvwKuao399.jpg" target="_blank" rel="external"><img src="http://s4.51cto.com/wyfs02/M01/91/89/wKioL1j2ynnj7MBlAAC6LvwKuao399.jpg" alt=""></a></p>
+<p><a href="http://s5.51cto.com/wyfs02/M02/91/89/wKioL1j2yoLxmFHVAABsj7F008w685.jpg" target="_blank" rel="external"><img src="http://s5.51cto.com/wyfs02/M02/91/89/wKioL1j2yoLxmFHVAABsj7F008w685.jpg" alt=""></a></p>
+<p><a href="http://s1.51cto.com/wyfs02/M02/91/89/wKioL1j2yo3S23WBAADF76zou-U125.jpg" target="_blank" rel="external"><img src="http://s1.51cto.com/wyfs02/M02/91/89/wKioL1j2yo3S23WBAADF76zou-U125.jpg" alt=""></a></p>
+<p><a href="http://s5.51cto.com/wyfs02/M00/91/89/wKioL1j2ypewmVewAABuSja4f5o841.jpg" target="_blank" rel="external"><img src="http://s5.51cto.com/wyfs02/M00/91/89/wKioL1j2ypewmVewAABuSja4f5o841.jpg" alt=""></a></p>
+<p><a href="http://s2.51cto.com/wyfs02/M02/91/8A/wKiom1j2yqCBIe92AACNigDZF-U414.jpg" target="_blank" rel="external"><img src="http://s2.51cto.com/wyfs02/M02/91/8A/wKiom1j2yqCBIe92AACNigDZF-U414.jpg" alt=""></a></p>
+</li>
+</ul>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

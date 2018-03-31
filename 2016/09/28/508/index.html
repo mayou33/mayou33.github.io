@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>配置MySQL使用HugePages</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/09/28/508/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">配置MySQL使用HugePages</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-09-28</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="line-height: 1.5; background-color: inherit;">前言：</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        对于有Oracle运维经验的童鞋来说，如果服务器内存很大，一般都会设置HugePages，是因为如下原因：<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    对于&amp;nbsp;Linux&amp;nbsp;操作系统，通过&amp;nbsp;Linux&amp;nbsp;kswapd&amp;nbsp;进程和页表内存结构（针对系统中存在的每个进程包含一条记录）实现内存管理。&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    linux的内存管理采取的是分页存取机制，为了保证物理内存能得到充分的利用，
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    内核会按照LRU算法在适当的时候将物理内存中不经常使用的内存页自动交换到虚拟内存中，
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    而将经常使用的信息保留到物理内存。通常情况下，Linux默认情况下每页是4K，这就意味着如果物理内存很大，则映射表的条目将会非常多，
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    会影响CPU的检索效率。而且也浪费内存。因为内存大小是固定的，为了减少映射表的条目，可采取的办法只有增加页的尺寸。
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    因此Hugepage便因此而来。也就是打破传统的小页面的内存管理方式，使用大页面2m,4m,16m，但是Linux系统的大页默认就是2M
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    如此一来映射条目则明显减少。如果系统有大量的物理内存（大于64G），建议使用Hugepage。
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    注意事项
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;1、HugePage使用的是共享内存，在操作系统启动期间被动态分配并被保留，因为他们不会被置换。
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;2、由于不会被置换的特点，在使用hugepage的内存不能被其他的进程使用。所以要合理设置该值，避免造成内存浪费。
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;3、如果增加HugePage或添加物理内存或者是当前服务器增加了新的instance以及SGA设置发生变化，应该重新设置所需的HugePage。
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    辣么，MySQL也是支持滴，那么下面开始讲讲怎么设置大页内存
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    1.首先来看看共享段内存，
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ###centos6的默认共享段内存大小是64G,如果你服务器内存没有超过128G，可以不用修改
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #&amp;nbsp;Controls&amp;nbsp;the&amp;nbsp;maximum&amp;nbsp;shared&amp;nbsp;segment&amp;nbsp;size,&amp;nbsp;in&amp;nbsp;bytes
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    kernel.shmmax&amp;nbsp;=&amp;nbsp;68719476736&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #&amp;nbsp;Controls&amp;nbsp;the&amp;nbsp;maximum&amp;nbsp;number&amp;nbsp;of&amp;nbsp;shared&amp;nbsp;memory&amp;nbsp;segments,&amp;nbsp;in&amp;nbsp;pages
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    kernel.shmall&amp;nbsp;=&amp;nbsp;4294967296
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ###先透露一下，使用大页内存的和没有使用大页内存的PageTables&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@crmdbL-172&lt;/font&gt;](mailto:root@crmdbL-172)&amp;nbsp;~]#&amp;nbsp;free&amp;nbsp;-m
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;total&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;used&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;free&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;shared&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;buffers&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;cached
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Mem:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;32058&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;29144&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2913&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;20&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;11526
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    -/+&amp;nbsp;buffers/cache:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;17597&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;14460
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Swap:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8191&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8188
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@crmdbL-172&lt;/font&gt;](mailto:root@crmdbL-172)&amp;nbsp;~]#&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@crmdbL-172&lt;/font&gt;](mailto:root@crmdbL-172)&amp;nbsp;~]#&amp;nbsp;cat&amp;nbsp;/proc/meminfo&amp;nbsp;|&amp;nbsp;grep&amp;nbsp;PageTables&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    PageTables:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;44808&amp;nbsp;kB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@crmdbL-172&lt;/font&gt;](mailto:root@crmdbL-172)&amp;nbsp;~]#&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;free&amp;nbsp;-m
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;total&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;used&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;free&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;shared&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;buffers&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;cached
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Mem:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;32095&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;28501&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3593&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;21&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;9233
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    -/+&amp;nbsp;buffers/cache:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;19246&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;12848
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Swap:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8095&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8095
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;cat&amp;nbsp;/proc/meminfo&amp;nbsp;|&amp;nbsp;grep&amp;nbsp;PageTables&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    PageTables:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;5372&amp;nbsp;kB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    差距呢44808-5372=39436
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2.设置MySQL使用大页内存
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ########下面开始设置使用大页内存
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    innodb_buffer_pool_size&amp;nbsp;=&amp;nbsp;16384M
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    innodb_additional_mem_pool_size&amp;nbsp;=&amp;nbsp;16M
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    16384M+16M/2=8200
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    根据以往对ORACLE设置大页的经验，大页内存要大于这个内存，所以我设置了8211个大页
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    vim&amp;nbsp;/etc/sysctl.conf&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ####&amp;nbsp;HugePages&amp;nbsp;大小&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    vm.nr_hugepages=8211
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ###使用大页内存的用户ID
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    vm.hugetlb_shm_group=3306&amp;nbsp;（id&amp;nbsp;mysql得到的结果）
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    设置当前系统生效，只要刷新一下就行了
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    sysctl&amp;nbsp;-p
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    vim&amp;nbsp;/etc/security/limits.conf&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;soft&amp;nbsp;nofile&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;65535
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;soft&amp;nbsp;nproc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;65535
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;hard&amp;nbsp;nofile&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;65535
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;hard&amp;nbsp;nproc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;65535
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;soft&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;core&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;hard&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;rss&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;10000
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #@student&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;hard&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;nproc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;20
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #@faculty&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;soft&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;nproc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;20
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #@faculty&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;hard&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;nproc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;50
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #ftp&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;hard&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;nproc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #@student&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;maxlogins&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ###设置mysql&amp;nbsp;使用&amp;nbsp;HugePages&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    @mysql&amp;nbsp;soft&amp;nbsp;memlock&amp;nbsp;unlimited
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    @mysql&amp;nbsp;hard&amp;nbsp;memlock&amp;nbsp;unlimited
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    oracle使用大页也是这样设置
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    重启MySQL，查看错误日志，
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    16:37:43&amp;nbsp;mysqld_safe&amp;nbsp;mysqld&amp;nbsp;from&amp;nbsp;pid&amp;nbsp;file&amp;nbsp;/data/3306/tmp/mysql.pid&amp;nbsp;ended
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    16:37:44&amp;nbsp;mysqld_safe&amp;nbsp;Starting&amp;nbsp;mysqld&amp;nbsp;daemon&amp;nbsp;with&amp;nbsp;databases&amp;nbsp;from&amp;nbsp;/data/3306/data
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;0&amp;nbsp;[Note]&amp;nbsp;/opt/app/mysql/bin/mysqld&amp;nbsp;(mysqld&amp;nbsp;5.6.24-log)&amp;nbsp;starting&amp;nbsp;as&amp;nbsp;process&amp;nbsp;13420&amp;nbsp;...
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;Plugin&amp;nbsp;&amp;#39;FEDERATED&amp;#39;&amp;nbsp;is&amp;nbsp;disabled.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;7f56f311d740&amp;nbsp;InnoDB:&amp;nbsp;Warning:&amp;nbsp;Using&amp;nbsp;innodb_additional_mem_pool_size&amp;nbsp;is&amp;nbsp;DEPRECATED.&amp;nbsp;This&amp;nbsp;option&amp;nbsp;may&amp;nbsp;be&amp;nbsp;removed&amp;nbsp;in&amp;nbsp;future&amp;nbsp;releases,&amp;nbsp;together&amp;nbsp;with&amp;nbsp;the&amp;nbsp;option&amp;nbsp;innodb_use_sys_malloc&amp;nbsp;and&amp;nbsp;with&amp;nbsp;the&amp;nbsp;InnoDB&amp;#39;s&amp;nbsp;internal&amp;nbsp;memory&amp;nbsp;allocator.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;atomics&amp;nbsp;to&amp;nbsp;ref&amp;nbsp;count&amp;nbsp;buffer&amp;nbsp;pool&amp;nbsp;pages
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;The&amp;nbsp;InnoDB&amp;nbsp;memory&amp;nbsp;heap&amp;nbsp;is&amp;nbsp;disabled
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Mutexes&amp;nbsp;and&amp;nbsp;rw_locks&amp;nbsp;use&amp;nbsp;GCC&amp;nbsp;atomic&amp;nbsp;builtins
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Memory&amp;nbsp;barrier&amp;nbsp;is&amp;nbsp;not&amp;nbsp;used
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Compressed&amp;nbsp;tables&amp;nbsp;use&amp;nbsp;zlib&amp;nbsp;1.2.3
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;Linux&amp;nbsp;native&amp;nbsp;AIO
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;CPU&amp;nbsp;crc32&amp;nbsp;instructions
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:37:45&amp;nbsp;13420&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Initializing&amp;nbsp;buffer&amp;nbsp;pool,&amp;nbsp;size&amp;nbsp;=&amp;nbsp;16.0G
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    InnoDB:&amp;nbsp;HugeTLB:&amp;nbsp;Warning:&amp;nbsp;Failed&amp;nbsp;to&amp;nbsp;allocate&amp;nbsp;2197815296&amp;nbsp;bytes.&amp;nbsp;errno&amp;nbsp;12
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    InnoDB&amp;nbsp;HugeTLB:&amp;nbsp;Warning:&amp;nbsp;Using&amp;nbsp;conventional&amp;nbsp;memory&amp;nbsp;pool
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    居然两个警告
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    InnoDB:&amp;nbsp;HugeTLB:&amp;nbsp;Warning:&amp;nbsp;Failed&amp;nbsp;to&amp;nbsp;allocate&amp;nbsp;2197815296&amp;nbsp;bytes.&amp;nbsp;errno&amp;nbsp;12
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    InnoDB&amp;nbsp;HugeTLB:&amp;nbsp;Warning:&amp;nbsp;Using&amp;nbsp;conventional&amp;nbsp;memory&amp;nbsp;pool&amp;nbsp;&amp;nbsp;####using&amp;nbsp;conventional&amp;nbsp;memory&amp;nbsp;pool
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    因为hugepage分配内存的时候，预分配、&amp;nbsp;而且这些分配的内存不能被其他进程占用，而且也不会交换到swap里面去。
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    因为这边配置的，不够大，innodb引擎要求的比你分配的大，这点内存不够使用，所以转成使用常规内存了
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    oracle这方面也出过案例，配置的内存小于SGA大小，白白的浪费那么多内存，造成是用到swap
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    既然报警说不够，查看官方文档，才知道大页内存大小要大于（innodb_buffer_pool_size+innodb_additional_mem_pool_size+innodb_log_buffer_size+tmp_table_size），那么刚才配置的显然不够
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    那么我来慷慨点9300个大页也就是说有（9300*2M=18600M,有18.1G的内存）,看看能正常启用大页的日志是怎么样的，再次启动mysql看看，这次就不报错了
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    16:55:33&amp;nbsp;mysqld_safe&amp;nbsp;mysqld&amp;nbsp;from&amp;nbsp;pid&amp;nbsp;file&amp;nbsp;/data/3306/tmp/mysql.pid&amp;nbsp;ended
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    16:56:04&amp;nbsp;mysqld_safe&amp;nbsp;Starting&amp;nbsp;mysqld&amp;nbsp;daemon&amp;nbsp;with&amp;nbsp;databases&amp;nbsp;from&amp;nbsp;/data/3306/data
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;0&amp;nbsp;[Note]&amp;nbsp;/opt/app/mysql/bin/mysqld&amp;nbsp;(mysqld&amp;nbsp;5.6.24-log)&amp;nbsp;starting&amp;nbsp;as&amp;nbsp;process&amp;nbsp;17256&amp;nbsp;...
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;Plugin&amp;nbsp;&amp;#39;FEDERATED&amp;#39;&amp;nbsp;is&amp;nbsp;disabled.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;7fa0048e5740&amp;nbsp;InnoDB:&amp;nbsp;Warning:&amp;nbsp;Using&amp;nbsp;innodb_additional_mem_pool_size&amp;nbsp;is&amp;nbsp;DEPRECATED.&amp;nbsp;This&amp;nbsp;option&amp;nbsp;may&amp;nbsp;be&amp;nbsp;removed&amp;nbsp;in&amp;nbsp;future&amp;nbsp;releases,&amp;nbsp;together&amp;nbsp;with&amp;nbsp;the&amp;nbsp;option&amp;nbsp;innodb_use_sys_malloc&amp;nbsp;and&amp;nbsp;with&amp;nbsp;the&amp;nbsp;InnoDB&amp;#39;s&amp;nbsp;internal&amp;nbsp;memory&amp;nbsp;allocator.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;atomics&amp;nbsp;to&amp;nbsp;ref&amp;nbsp;count&amp;nbsp;buffer&amp;nbsp;pool&amp;nbsp;pages
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;The&amp;nbsp;InnoDB&amp;nbsp;memory&amp;nbsp;heap&amp;nbsp;is&amp;nbsp;disabled
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Mutexes&amp;nbsp;and&amp;nbsp;rw_locks&amp;nbsp;use&amp;nbsp;GCC&amp;nbsp;atomic&amp;nbsp;builtins
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Memory&amp;nbsp;barrier&amp;nbsp;is&amp;nbsp;not&amp;nbsp;used
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Compressed&amp;nbsp;tables&amp;nbsp;use&amp;nbsp;zlib&amp;nbsp;1.2.3
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;Linux&amp;nbsp;native&amp;nbsp;AIO
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;CPU&amp;nbsp;crc32&amp;nbsp;instructions
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:05&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Initializing&amp;nbsp;buffer&amp;nbsp;pool,&amp;nbsp;size&amp;nbsp;=&amp;nbsp;16.0G
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:06&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Completed&amp;nbsp;initialization&amp;nbsp;of&amp;nbsp;buffer&amp;nbsp;pool
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:06&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Highest&amp;nbsp;supported&amp;nbsp;file&amp;nbsp;format&amp;nbsp;is&amp;nbsp;Barracuda.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:06&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;128&amp;nbsp;rollback&amp;nbsp;segment(s)&amp;nbsp;are&amp;nbsp;active.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:06&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Waiting&amp;nbsp;for&amp;nbsp;purge&amp;nbsp;to&amp;nbsp;start
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;5.6.24&amp;nbsp;started;&amp;nbsp;log&amp;nbsp;sequence&amp;nbsp;number&amp;nbsp;26564145028
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;Server&amp;nbsp;hostname&amp;nbsp;(bind-address):&amp;nbsp;&amp;#39;*&amp;#39;;&amp;nbsp;port:&amp;nbsp;3306
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;IPv6&amp;nbsp;is&amp;nbsp;available.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&amp;#39;::&amp;#39;&amp;nbsp;resolves&amp;nbsp;to&amp;nbsp;&amp;#39;::&amp;#39;;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;Server&amp;nbsp;socket&amp;nbsp;created&amp;nbsp;on&amp;nbsp;IP:&amp;nbsp;&amp;#39;::&amp;#39;.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Warning]&amp;nbsp;Recovery&amp;nbsp;from&amp;nbsp;master&amp;nbsp;pos&amp;nbsp;155925988&amp;nbsp;and&amp;nbsp;file&amp;nbsp;mysql-bin.000025.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Warning]&amp;nbsp;Storing&amp;nbsp;MySQL&amp;nbsp;user&amp;nbsp;name&amp;nbsp;or&amp;nbsp;password&amp;nbsp;information&amp;nbsp;in&amp;nbsp;the&amp;nbsp;master&amp;nbsp;info&amp;nbsp;repository&amp;nbsp;is&amp;nbsp;not&amp;nbsp;secure&amp;nbsp;and&amp;nbsp;is&amp;nbsp;therefore&amp;nbsp;not&amp;nbsp;recommended.&amp;nbsp;Please&amp;nbsp;consider&amp;nbsp;using&amp;nbsp;the&amp;nbsp;USER&amp;nbsp;and&amp;nbsp;PASSWORD&amp;nbsp;connection&amp;nbsp;options&amp;nbsp;for&amp;nbsp;START&amp;nbsp;SLAVE;&amp;nbsp;see&amp;nbsp;the&amp;nbsp;&amp;#39;START&amp;nbsp;SLAVE&amp;nbsp;Syntax&amp;#39;&amp;nbsp;in&amp;nbsp;the&amp;nbsp;MySQL&amp;nbsp;Manual&amp;nbsp;for&amp;nbsp;more&amp;nbsp;information.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;Slave&amp;nbsp;SQL&amp;nbsp;thread&amp;nbsp;initialized,&amp;nbsp;starting&amp;nbsp;replication&amp;nbsp;in&amp;nbsp;log&amp;nbsp;&amp;#39;mysql-bin.000025&amp;#39;&amp;nbsp;at&amp;nbsp;position&amp;nbsp;155925988,&amp;nbsp;relay&amp;nbsp;log&amp;nbsp;&amp;#39;/data/3306/logs/relay-bin.000058&amp;#39;&amp;nbsp;position:&amp;nbsp;4
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;Slave&amp;nbsp;I/O&amp;nbsp;thread:&amp;nbsp;connected&amp;nbsp;to&amp;nbsp;master&amp;nbsp;&amp;#39;[&lt;font color=&quot;#0066cc&quot;&gt;slave@172.16.117.247&lt;/font&gt;](mailto:slave@172.16.117.247):3306&amp;#39;,replication&amp;nbsp;started&amp;nbsp;in&amp;nbsp;log&amp;nbsp;&amp;#39;mysql-bin.000025&amp;#39;&amp;nbsp;at&amp;nbsp;position&amp;nbsp;155925988
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;Event&amp;nbsp;Scheduler:&amp;nbsp;Loaded&amp;nbsp;0&amp;nbsp;events
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;16:56:07&amp;nbsp;17256&amp;nbsp;[Note]&amp;nbsp;/opt/app/mysql/bin/mysqld:&amp;nbsp;ready&amp;nbsp;for&amp;nbsp;connections.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Version:&amp;nbsp;&amp;#39;5.6.24-log&amp;#39;&amp;nbsp;&amp;nbsp;socket:&amp;nbsp;&amp;#39;/data/3306/tmp/mysql.sock&amp;#39;&amp;nbsp;&amp;nbsp;port:&amp;nbsp;3306&amp;nbsp;&amp;nbsp;MySQL&amp;nbsp;Community&amp;nbsp;Server&amp;nbsp;(GPL)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;cat&amp;nbsp;/proc/meminfo&amp;nbsp;|&amp;nbsp;grep&amp;nbsp;^HugePages
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Total:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;9300
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Free:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;9067
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Rsvd:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8178
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Surp:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Hugepagesize:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2048&amp;nbsp;kB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    因为大页内存是独占的，你给多了，也是浪费，那么根据计算公式设置合理的大页大小。
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    然后根据公式在计算了一下
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    innodb_buffer_pool_size&amp;nbsp;=&amp;nbsp;16384M
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    innodb_additional_mem_pool_size&amp;nbsp;=&amp;nbsp;16M
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    innodb_log_buffer_size&amp;nbsp;=&amp;nbsp;32M
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    tmp_table_size=512M
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    max_heap_table_size=512M
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    （16384+16+32+512）=16944/2=8472,因为大页内存要比这个大，所以设置了8476，多了四个，因为这是独占的，设置多的也是不能使用的，一般多设置（2个大页以上，5个大页以下）
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    注意这边指的临时表是max_heap_table_size这个参数值大小，是说允许创建内存引擎的临时表大小，
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    下面我们来看看启动日志是不是正常
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    17:14:23&amp;nbsp;mysqld_safe&amp;nbsp;Starting&amp;nbsp;mysqld&amp;nbsp;daemon&amp;nbsp;with&amp;nbsp;databases&amp;nbsp;from&amp;nbsp;/data/3306/data
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;0&amp;nbsp;[Note]&amp;nbsp;/opt/app/mysql/bin/mysqld&amp;nbsp;(mysqld&amp;nbsp;5.6.24-log)&amp;nbsp;starting&amp;nbsp;as&amp;nbsp;process&amp;nbsp;18569&amp;nbsp;...
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;Plugin&amp;nbsp;&amp;#39;FEDERATED&amp;#39;&amp;nbsp;is&amp;nbsp;disabled.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;7fee7b559740&amp;nbsp;InnoDB:&amp;nbsp;Warning:&amp;nbsp;Using&amp;nbsp;innodb_additional_mem_pool_size&amp;nbsp;is&amp;nbsp;DEPRECATED.&amp;nbsp;This&amp;nbsp;option&amp;nbsp;may&amp;nbsp;be&amp;nbsp;removed&amp;nbsp;in&amp;nbsp;future&amp;nbsp;releases,&amp;nbsp;together&amp;nbsp;with&amp;nbsp;the&amp;nbsp;option&amp;nbsp;innodb_use_sys_malloc&amp;nbsp;and&amp;nbsp;with&amp;nbsp;the&amp;nbsp;InnoDB&amp;#39;s&amp;nbsp;internal&amp;nbsp;memory&amp;nbsp;allocator.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;atomics&amp;nbsp;to&amp;nbsp;ref&amp;nbsp;count&amp;nbsp;buffer&amp;nbsp;pool&amp;nbsp;pages
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;The&amp;nbsp;InnoDB&amp;nbsp;memory&amp;nbsp;heap&amp;nbsp;is&amp;nbsp;disabled
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Mutexes&amp;nbsp;and&amp;nbsp;rw_locks&amp;nbsp;use&amp;nbsp;GCC&amp;nbsp;atomic&amp;nbsp;builtins
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Memory&amp;nbsp;barrier&amp;nbsp;is&amp;nbsp;not&amp;nbsp;used
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Compressed&amp;nbsp;tables&amp;nbsp;use&amp;nbsp;zlib&amp;nbsp;1.2.3
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;Linux&amp;nbsp;native&amp;nbsp;AIO
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Using&amp;nbsp;CPU&amp;nbsp;crc32&amp;nbsp;instructions
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:23&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Initializing&amp;nbsp;buffer&amp;nbsp;pool,&amp;nbsp;size&amp;nbsp;=&amp;nbsp;16.0G
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:24&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Completed&amp;nbsp;initialization&amp;nbsp;of&amp;nbsp;buffer&amp;nbsp;pool
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:24&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Highest&amp;nbsp;supported&amp;nbsp;file&amp;nbsp;format&amp;nbsp;is&amp;nbsp;Barracuda.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;128&amp;nbsp;rollback&amp;nbsp;segment(s)&amp;nbsp;are&amp;nbsp;active.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;Waiting&amp;nbsp;for&amp;nbsp;purge&amp;nbsp;to&amp;nbsp;start
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;InnoDB:&amp;nbsp;5.6.24&amp;nbsp;started;&amp;nbsp;log&amp;nbsp;sequence&amp;nbsp;number&amp;nbsp;26585446708
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;Server&amp;nbsp;hostname&amp;nbsp;(bind-address):&amp;nbsp;&amp;#39;*&amp;#39;;&amp;nbsp;port:&amp;nbsp;3306
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;IPv6&amp;nbsp;is&amp;nbsp;available.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;&amp;nbsp;&amp;nbsp;-&amp;nbsp;&amp;#39;::&amp;#39;&amp;nbsp;resolves&amp;nbsp;to&amp;nbsp;&amp;#39;::&amp;#39;;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;Server&amp;nbsp;socket&amp;nbsp;created&amp;nbsp;on&amp;nbsp;IP:&amp;nbsp;&amp;#39;::&amp;#39;.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Warning]&amp;nbsp;Recovery&amp;nbsp;from&amp;nbsp;master&amp;nbsp;pos&amp;nbsp;166617263&amp;nbsp;and&amp;nbsp;file&amp;nbsp;mysql-bin.000025.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Warning]&amp;nbsp;Storing&amp;nbsp;MySQL&amp;nbsp;user&amp;nbsp;name&amp;nbsp;or&amp;nbsp;password&amp;nbsp;information&amp;nbsp;in&amp;nbsp;the&amp;nbsp;master&amp;nbsp;info&amp;nbsp;repository&amp;nbsp;is&amp;nbsp;not&amp;nbsp;secure&amp;nbsp;and&amp;nbsp;is&amp;nbsp;therefore&amp;nbsp;not&amp;nbsp;recommended.&amp;nbsp;Please&amp;nbsp;consider&amp;nbsp;using&amp;nbsp;the&amp;nbsp;USER&amp;nbsp;and&amp;nbsp;PASSWORD&amp;nbsp;connection&amp;nbsp;options&amp;nbsp;for&amp;nbsp;START&amp;nbsp;SLAVE;&amp;nbsp;see&amp;nbsp;the&amp;nbsp;&amp;#39;START&amp;nbsp;SLAVE&amp;nbsp;Syntax&amp;#39;&amp;nbsp;in&amp;nbsp;the&amp;nbsp;MySQL&amp;nbsp;Manual&amp;nbsp;for&amp;nbsp;more&amp;nbsp;information.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;Slave&amp;nbsp;SQL&amp;nbsp;thread&amp;nbsp;initialized,&amp;nbsp;starting&amp;nbsp;replication&amp;nbsp;in&amp;nbsp;log&amp;nbsp;&amp;#39;mysql-bin.000025&amp;#39;&amp;nbsp;at&amp;nbsp;position&amp;nbsp;166617263,&amp;nbsp;relay&amp;nbsp;log&amp;nbsp;&amp;#39;/data/3306/logs/relay-bin.000060&amp;#39;&amp;nbsp;position:&amp;nbsp;4
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;Slave&amp;nbsp;I/O&amp;nbsp;thread:&amp;nbsp;connected&amp;nbsp;to&amp;nbsp;master&amp;nbsp;&amp;#39;[&lt;font color=&quot;#0066cc&quot;&gt;slave@172.16.117.247&lt;/font&gt;](mailto:slave@172.16.117.247):3306&amp;#39;,replication&amp;nbsp;started&amp;nbsp;in&amp;nbsp;log&amp;nbsp;&amp;#39;mysql-bin.000025&amp;#39;&amp;nbsp;at&amp;nbsp;position&amp;nbsp;166617263
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;Event&amp;nbsp;Scheduler:&amp;nbsp;Loaded&amp;nbsp;0&amp;nbsp;events
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    2015-07-28&amp;nbsp;17:14:25&amp;nbsp;18569&amp;nbsp;[Note]&amp;nbsp;/opt/app/mysql/bin/mysqld:&amp;nbsp;ready&amp;nbsp;for&amp;nbsp;connections.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Version:&amp;nbsp;&amp;#39;5.6.24-log&amp;#39;&amp;nbsp;&amp;nbsp;socket:&amp;nbsp;&amp;#39;/data/3306/tmp/mysql.sock&amp;#39;&amp;nbsp;&amp;nbsp;port:&amp;nbsp;3306&amp;nbsp;&amp;nbsp;MySQL&amp;nbsp;Community&amp;nbsp;Server&amp;nbsp;(GPL)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    OK，非常好
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    那么我们来看看大页内存使用了多少，
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;cat&amp;nbsp;/proc/meminfo&amp;nbsp;|&amp;nbsp;grep&amp;nbsp;^HugePages
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Total:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8476
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Free:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8202
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Rsvd:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8137
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Surp:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Hugepagesize:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2048&amp;nbsp;kB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    才使用了一点点
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Total:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8476
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Free:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8202
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Rsvd:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8137
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Hugepagesize:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2048&amp;nbsp;kB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    那么我们来个大表count(主键)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    再来看看
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;cat&amp;nbsp;/proc/meminfo&amp;nbsp;|&amp;nbsp;grep&amp;nbsp;^HugePages
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Total:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8476
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Free:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8123
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Rsvd:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8058
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Surp:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Hugepagesize:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2048&amp;nbsp;kB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [[&lt;font color=&quot;#0066cc&quot;&gt;root@node-207&lt;/font&gt;](mailto:root@node-207)&amp;nbsp;~]#&amp;nbsp;cat&amp;nbsp;/proc/meminfo&amp;nbsp;|&amp;nbsp;grep&amp;nbsp;^HugePages
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Total:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8476
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Free:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;7233
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Rsvd:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;7201
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Surp:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Hugepagesize:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2048&amp;nbsp;kB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ####看到木有，有在使用大页了&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Free:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8123
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ####
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    HugePages_Free:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;7233
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    在看看innodb情况，算起来是用了那么多内存，到此大页内存是配置好了
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ---BUFFER&amp;nbsp;POOL&amp;nbsp;7
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Buffer&amp;nbsp;pool&amp;nbsp;size&amp;nbsp;&amp;nbsp;&amp;nbsp;131072
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Free&amp;nbsp;buffers&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;113960
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Database&amp;nbsp;pages&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;17102
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Old&amp;nbsp;database&amp;nbsp;pages&amp;nbsp;8571
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Modified&amp;nbsp;db&amp;nbsp;pages&amp;nbsp;&amp;nbsp;1164
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Pending&amp;nbsp;reads&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Pending&amp;nbsp;writes:&amp;nbsp;LRU&amp;nbsp;0,&amp;nbsp;flush&amp;nbsp;list&amp;nbsp;0,&amp;nbsp;single&amp;nbsp;page&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Pages&amp;nbsp;made&amp;nbsp;young&amp;nbsp;55,&amp;nbsp;not&amp;nbsp;young&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    0.13&amp;nbsp;youngs/s,&amp;nbsp;0.00&amp;nbsp;non-youngs/s
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Pages&amp;nbsp;read&amp;nbsp;17080,&amp;nbsp;created&amp;nbsp;22,&amp;nbsp;written&amp;nbsp;1056
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    0.80&amp;nbsp;reads/s,&amp;nbsp;0.00&amp;nbsp;creates/s,&amp;nbsp;3.33&amp;nbsp;writes/s
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Buffer&amp;nbsp;pool&amp;nbsp;hit&amp;nbsp;rate&amp;nbsp;974&amp;nbsp;/&amp;nbsp;1000,&amp;nbsp;young-making&amp;nbsp;rate&amp;nbsp;4&amp;nbsp;/&amp;nbsp;1000&amp;nbsp;not&amp;nbsp;0&amp;nbsp;/&amp;nbsp;1000
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Pages&amp;nbsp;read&amp;nbsp;ahead&amp;nbsp;0.00/s,&amp;nbsp;evicted&amp;nbsp;without&amp;nbsp;access&amp;nbsp;0.00/s,&amp;nbsp;Random&amp;nbsp;read&amp;nbsp;ahead&amp;nbsp;0.00/s
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    LRU&amp;nbsp;len:&amp;nbsp;17102,&amp;nbsp;unzip_LRU&amp;nbsp;len:&amp;nbsp;0
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    I/O&amp;nbsp;sum[0]:cur[4],&amp;nbsp;unzip&amp;nbsp;sum[0]:cur[0]
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --------------
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ROW&amp;nbsp;OPERATIONS
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --------------
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    queries&amp;nbsp;inside&amp;nbsp;InnoDB,&amp;nbsp;0&amp;nbsp;queries&amp;nbsp;in&amp;nbsp;queue
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    read&amp;nbsp;views&amp;nbsp;open&amp;nbsp;inside&amp;nbsp;InnoDB
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Main&amp;nbsp;thread&amp;nbsp;process&amp;nbsp;no.&amp;nbsp;18569,&amp;nbsp;id&amp;nbsp;140659839203072,&amp;nbsp;state:&amp;nbsp;sleeping
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Number&amp;nbsp;of&amp;nbsp;rows&amp;nbsp;inserted&amp;nbsp;12222,&amp;nbsp;updated&amp;nbsp;10955,&amp;nbsp;deleted&amp;nbsp;184,&amp;nbsp;read&amp;nbsp;1819484
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    10.53&amp;nbsp;inserts/s,&amp;nbsp;7.67&amp;nbsp;updates/s,&amp;nbsp;0.40&amp;nbsp;deletes/s,&amp;nbsp;8.07&amp;nbsp;reads/s
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ----------------------------
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    END&amp;nbsp;OF&amp;nbsp;INNODB&amp;nbsp;MONITOR&amp;nbsp;OUTPUT
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ============================
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    row&amp;nbsp;in&amp;nbsp;set&amp;nbsp;(0.00&amp;nbsp;sec)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    参考资料:
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    [&lt;font color=&quot;#0066cc&quot;&gt;https://dev.mysql.com/doc/refman/5.0/en/large-page-support.html&lt;/font&gt;](https://dev.mysql.com/doc/refman/5.0/en/large-page-support.html)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    I&amp;nbsp;hope&amp;nbsp;this&amp;nbsp;comment&amp;nbsp;will&amp;nbsp;save&amp;nbsp;severals&amp;nbsp;hours&amp;nbsp;and&amp;nbsp;white&amp;nbsp;nights&amp;nbsp;on&amp;nbsp;production&amp;nbsp;launching...
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    After&amp;nbsp;folowing&amp;nbsp;every&amp;nbsp;How-to&amp;nbsp;and&amp;nbsp;all&amp;#39;s&amp;nbsp;documentation&amp;nbsp;over&amp;nbsp;Google,&amp;nbsp;to&amp;nbsp;enable&amp;nbsp;huge&amp;nbsp;pages...&amp;nbsp;i&amp;nbsp;must&amp;nbsp;give&amp;nbsp;you&amp;nbsp;this&amp;nbsp;post.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    For&amp;nbsp;enabling&amp;nbsp;huge&amp;nbsp;pages&amp;nbsp;with&amp;nbsp;Linux&amp;nbsp;Debian&amp;nbsp;6.0.5&amp;nbsp;on&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Linux&amp;nbsp;2.6.32-5-amd64&amp;nbsp;#x86_64&amp;nbsp;GNU/Linux&amp;nbsp;(64Bits)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    and&amp;nbsp;MySQL&amp;nbsp;5.1,&amp;nbsp;you&amp;nbsp;got&amp;nbsp;to&amp;nbsp;add&amp;nbsp;this&amp;nbsp;your&amp;nbsp;/etc/sysctl.conf&amp;nbsp;:
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #&amp;nbsp;Total&amp;nbsp;of&amp;nbsp;allowed&amp;nbsp;memory
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    vm.nr_hugepages&amp;nbsp;=&amp;nbsp;YYYYYY
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #&amp;nbsp;total&amp;nbsp;amount&amp;nbsp;of&amp;nbsp;memory&amp;nbsp;that&amp;nbsp;can&amp;nbsp;be&amp;nbsp;allocated&amp;nbsp;to&amp;nbsp;shared&amp;nbsp;memory,&amp;nbsp;huge&amp;nbsp;pages&amp;nbsp;or&amp;nbsp;not,&amp;nbsp;on&amp;nbsp;the&amp;nbsp;box
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    kernel.shmall&amp;nbsp;=&amp;nbsp;XXXXXXXXXX
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #&amp;nbsp;maximum&amp;nbsp;single&amp;nbsp;shared&amp;nbsp;memory&amp;nbsp;segment,&amp;nbsp;which&amp;nbsp;for&amp;nbsp;me&amp;nbsp;was&amp;nbsp;basically&amp;nbsp;innodb_buffer_pool+1%
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    kernel.shmmax&amp;nbsp;=&amp;nbsp;XXXXXXXXXX
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #&amp;nbsp;Groupe&amp;nbsp;autoris&amp;eacute;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    vm.hugetlb_shm_group&amp;nbsp;=&amp;nbsp;`id&amp;nbsp;-g&amp;nbsp;mysql`
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    XXXXX&amp;nbsp;is&amp;nbsp;given&amp;nbsp;by&amp;nbsp;this&amp;nbsp;script&amp;nbsp;shell&amp;nbsp;in&amp;nbsp;bash&amp;nbsp;:
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #####&amp;nbsp;SCRIPT&amp;nbsp;START&amp;nbsp;#########
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #!/bin/bash
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #&amp;nbsp;keep&amp;nbsp;2go&amp;nbsp;memory&amp;nbsp;for&amp;nbsp;system
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #&amp;nbsp;(i&amp;nbsp;got&amp;nbsp;68Go&amp;nbsp;on&amp;nbsp;this&amp;nbsp;one&amp;nbsp;ans&amp;nbsp;128Go&amp;nbsp;RAM&amp;nbsp;on&amp;nbsp;other&amp;nbsp;one)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    keep_for_system=2097152
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    mem=$(free|grep&amp;nbsp;Mem|awk&amp;nbsp;&amp;#39;{print$2}&amp;#39;)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    mem=$(echo&amp;nbsp;&amp;quot;$mem-$marge&amp;quot;|bc)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    totmem=$(echo&amp;nbsp;&amp;quot;$mem*1024&amp;quot;|bc)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    huge=$(grep&amp;nbsp;Hugepagesize&amp;nbsp;/proc/meminfo|awk&amp;nbsp;&amp;#39;{print&amp;nbsp;$2}&amp;#39;)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    max=$(echo&amp;nbsp;&amp;quot;$totmem*75/100&amp;quot;|bc)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    all=$(echo&amp;nbsp;&amp;quot;$max/$huge&amp;quot;|bc)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    echo&amp;nbsp;&amp;quot;kernel.shmmax&amp;nbsp;=&amp;nbsp;$max&amp;quot;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    echo&amp;nbsp;&amp;quot;kernel.shmall&amp;nbsp;=&amp;nbsp;$all&amp;quot;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    #########&amp;nbsp;SCRIPT&amp;nbsp;END&amp;nbsp;#########
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    check&amp;nbsp;memory&amp;nbsp;usage&amp;nbsp;before&amp;nbsp;reboot&amp;nbsp;by&amp;nbsp;command&amp;nbsp;:
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    cat&amp;nbsp;/proc/meminfo&amp;nbsp;|&amp;nbsp;grep&amp;nbsp;-i&amp;nbsp;huge
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Reboot&amp;nbsp;your&amp;nbsp;system.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    and&amp;nbsp;check&amp;nbsp;memory&amp;nbsp;usage&amp;nbsp;again.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    It&amp;nbsp;works&amp;nbsp;!
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    ;-)
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Posted&amp;nbsp;by&amp;nbsp;John&amp;nbsp;Anderson&amp;nbsp;on&amp;nbsp;May&amp;nbsp;13&amp;nbsp;2015&amp;nbsp;11:09am&amp;nbsp;[Delete]&amp;nbsp;[Edit]&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    A&amp;nbsp;bit&amp;nbsp;of&amp;nbsp;a&amp;nbsp;note&amp;nbsp;on&amp;nbsp;the&amp;nbsp;math&amp;nbsp;here,&amp;nbsp;some&amp;nbsp;articles&amp;nbsp;and&amp;nbsp;blogs&amp;nbsp;say&amp;nbsp;that&amp;nbsp;you&amp;nbsp;should&amp;nbsp;add&amp;nbsp;your&amp;nbsp;innodb_buffer_pool&amp;nbsp;size&amp;nbsp;to&amp;nbsp;your&amp;nbsp;innodb_additional_mem_pool_size,&amp;nbsp;and&amp;nbsp;divide&amp;nbsp;that&amp;nbsp;by&amp;nbsp;your&amp;nbsp;hugetlb&amp;nbsp;page&amp;nbsp;size.&amp;nbsp;Then&amp;nbsp;add&amp;nbsp;a&amp;nbsp;few&amp;nbsp;on&amp;nbsp;to&amp;nbsp;that.&amp;nbsp;Unfortunately,&amp;nbsp;that&amp;nbsp;doesn&amp;#39;t&amp;nbsp;seem&amp;nbsp;to&amp;nbsp;be&amp;nbsp;the&amp;nbsp;whole&amp;nbsp;story.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    For&amp;nbsp;those&amp;nbsp;who&amp;nbsp;want&amp;nbsp;to&amp;nbsp;allocate&amp;nbsp;as&amp;nbsp;little&amp;nbsp;RAM&amp;nbsp;as&amp;nbsp;possible&amp;nbsp;to&amp;nbsp;HugeTLB&amp;nbsp;while&amp;nbsp;still&amp;nbsp;satisfying&amp;nbsp;the&amp;nbsp;requirements&amp;nbsp;outlined&amp;nbsp;in&amp;nbsp;my.cnf,&amp;nbsp;this&amp;nbsp;formula&amp;nbsp;might&amp;nbsp;be&amp;nbsp;a&amp;nbsp;little&amp;nbsp;better.&amp;nbsp;This&amp;nbsp;is&amp;nbsp;after&amp;nbsp;some&amp;nbsp;experimentation&amp;nbsp;led&amp;nbsp;me&amp;nbsp;to&amp;nbsp;put&amp;nbsp;some&amp;nbsp;effort&amp;nbsp;behind&amp;nbsp;finding&amp;nbsp;out&amp;nbsp;why&amp;nbsp;I&amp;nbsp;always&amp;nbsp;had&amp;nbsp;to&amp;nbsp;allocate&amp;nbsp;many&amp;nbsp;more&amp;nbsp;pages&amp;nbsp;than&amp;nbsp;the&amp;nbsp;math&amp;nbsp;suggested.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    The&amp;nbsp;real&amp;nbsp;formula&amp;nbsp;should&amp;nbsp;be:
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    (innodb_buffer_pool_size&amp;nbsp;in&amp;nbsp;kb&amp;nbsp;+
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    innodb_additional_mem_pool_size&amp;nbsp;in&amp;nbsp;kb&amp;nbsp;+&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    tmp_table_size&amp;nbsp;in&amp;nbsp;kb&amp;nbsp;+&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    innodb_log_buffer_size&amp;nbsp;in&amp;nbsp;kb)&amp;nbsp;/&amp;nbsp;hugetlb&amp;nbsp;size&amp;nbsp;in&amp;nbsp;kb
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Then&amp;nbsp;to&amp;nbsp;that,&amp;nbsp;add&amp;nbsp;an&amp;nbsp;additional&amp;nbsp;11&amp;nbsp;-&amp;nbsp;15&amp;nbsp;pages&amp;nbsp;until&amp;nbsp;MySQL&amp;nbsp;starts.&amp;nbsp;I&amp;nbsp;give&amp;nbsp;my&amp;nbsp;best&amp;nbsp;guess&amp;nbsp;as&amp;nbsp;to&amp;nbsp;why&amp;nbsp;these&amp;nbsp;pages&amp;nbsp;are&amp;nbsp;unaccounted&amp;nbsp;for&amp;nbsp;below.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    First,&amp;nbsp;a&amp;nbsp;note&amp;nbsp;on&amp;nbsp;why&amp;nbsp;tmp_table_size&amp;nbsp;is&amp;nbsp;included:&amp;nbsp;I&amp;#39;m&amp;nbsp;not&amp;nbsp;sure&amp;nbsp;if&amp;nbsp;it&amp;nbsp;*should*&amp;nbsp;be&amp;nbsp;tmp_table_size&amp;nbsp;*&amp;nbsp;max_tmp_tables,&amp;nbsp;but&amp;nbsp;MySQL&amp;nbsp;starts&amp;nbsp;and&amp;nbsp;runs&amp;nbsp;with&amp;nbsp;only&amp;nbsp;tmp_table_size&amp;nbsp;included.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    I&amp;nbsp;think&amp;nbsp;this&amp;nbsp;only&amp;nbsp;applies&amp;nbsp;if&amp;nbsp;default_tmp_storage_engine&amp;nbsp;is&amp;nbsp;InnoDB.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    If&amp;nbsp;a&amp;nbsp;tmp&amp;nbsp;table&amp;nbsp;needs&amp;nbsp;to&amp;nbsp;be&amp;nbsp;created&amp;nbsp;for&amp;nbsp;a&amp;nbsp;sort&amp;nbsp;or&amp;nbsp;order,&amp;nbsp;and&amp;nbsp;that&amp;nbsp;table&amp;nbsp;is&amp;nbsp;going&amp;nbsp;to&amp;nbsp;be&amp;nbsp;InnoDB&amp;nbsp;in&amp;nbsp;RAM,&amp;nbsp;then&amp;nbsp;hugetlb&amp;nbsp;will&amp;nbsp;need&amp;nbsp;to&amp;nbsp;be&amp;nbsp;used.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Secondly,&amp;nbsp;I&amp;nbsp;noticed&amp;nbsp;in&amp;nbsp;the&amp;nbsp;source&amp;nbsp;code&amp;nbsp;that&amp;nbsp;the&amp;nbsp;InnoDB&amp;nbsp;buffer&amp;nbsp;log&amp;nbsp;uses&amp;nbsp;the&amp;nbsp;&amp;#39;os_mem_alloc_large&amp;#39;&amp;nbsp;function.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    So&amp;nbsp;I&amp;nbsp;think&amp;nbsp;that&amp;nbsp;should&amp;nbsp;be&amp;nbsp;included&amp;nbsp;in&amp;nbsp;the&amp;nbsp;calculation&amp;nbsp;as&amp;nbsp;well.&amp;nbsp;In&amp;nbsp;my&amp;nbsp;experimentation,&amp;nbsp;I&amp;nbsp;had&amp;nbsp;22&amp;nbsp;pages&amp;nbsp;unaccounted&amp;nbsp;for&amp;nbsp;until&amp;nbsp;I&amp;nbsp;found&amp;nbsp;that,&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    then&amp;nbsp;my&amp;nbsp;unaccounted&amp;nbsp;for&amp;nbsp;pages&amp;nbsp;went&amp;nbsp;down&amp;nbsp;to&amp;nbsp;11.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    As&amp;nbsp;for&amp;nbsp;the&amp;nbsp;pages&amp;nbsp;which&amp;nbsp;don&amp;#39;t&amp;nbsp;seem&amp;nbsp;to&amp;nbsp;be&amp;nbsp;accounted&amp;nbsp;for,&amp;nbsp;I&amp;nbsp;think&amp;nbsp;that&amp;nbsp;is&amp;nbsp;the&amp;nbsp;overhead&amp;nbsp;cost&amp;nbsp;of&amp;nbsp;the&amp;nbsp;nature&amp;nbsp;of&amp;nbsp;pages.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    For&amp;nbsp;instance,&amp;nbsp;if&amp;nbsp;you&amp;nbsp;have&amp;nbsp;an&amp;nbsp;innodb_buffer_pool&amp;nbsp;size&amp;nbsp;of&amp;nbsp;256&amp;nbsp;MB,&amp;nbsp;and&amp;nbsp;you&amp;nbsp;have&amp;nbsp;8&amp;nbsp;buffer&amp;nbsp;instances&amp;nbsp;then&amp;nbsp;you&amp;nbsp;have:
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;(268435456&amp;nbsp;bytes&amp;nbsp;/&amp;nbsp;8&amp;nbsp;instances&amp;nbsp;)&amp;nbsp;=&amp;nbsp;33554.4&amp;nbsp;kilobtes&amp;nbsp;to&amp;nbsp;allocate&amp;nbsp;per&amp;nbsp;page.
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    At&amp;nbsp;2048&amp;nbsp;KB&amp;nbsp;per&amp;nbsp;page,&amp;nbsp;that&amp;nbsp;comes&amp;nbsp;to&amp;nbsp;16.4&amp;nbsp;pages&amp;nbsp;per&amp;nbsp;buffer.&amp;nbsp;That&amp;nbsp;.4&amp;nbsp;of&amp;nbsp;a&amp;nbsp;page&amp;nbsp;means&amp;nbsp;an&amp;nbsp;entire&amp;nbsp;page&amp;nbsp;must&amp;nbsp;be&amp;nbsp;allocated,&amp;nbsp;or&amp;nbsp;17&amp;nbsp;pages&amp;nbsp;per&amp;nbsp;buffer&amp;nbsp;instead&amp;nbsp;of&amp;nbsp;16.4.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    That&amp;nbsp;would&amp;nbsp;account&amp;nbsp;for&amp;nbsp;8&amp;nbsp;pages&amp;nbsp;right&amp;nbsp;there.&amp;nbsp;So&amp;nbsp;if&amp;nbsp;one&amp;nbsp;is&amp;nbsp;really&amp;nbsp;picky,&amp;nbsp;declaring&amp;nbsp;buffer&amp;nbsp;sizes&amp;nbsp;that&amp;nbsp;meet&amp;nbsp;the&amp;nbsp;page&amp;nbsp;size&amp;nbsp;exactly&amp;nbsp;would&amp;nbsp;theoretically&amp;nbsp;leave&amp;nbsp;no&amp;nbsp;overhead&amp;nbsp;to&amp;nbsp;absorb.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    I&amp;nbsp;don&amp;#39;t&amp;nbsp;know&amp;nbsp;why&amp;nbsp;but&amp;nbsp;MySQL&amp;nbsp;and&amp;nbsp;google&amp;nbsp;convert&amp;nbsp;have&amp;nbsp;differing&amp;nbsp;opinions&amp;nbsp;on&amp;nbsp;how&amp;nbsp;to&amp;nbsp;convert&amp;nbsp;megabytes&amp;nbsp;to&amp;nbsp;bytes,&amp;nbsp;and&amp;nbsp;vice&amp;nbsp;versa.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    So&amp;nbsp;if&amp;nbsp;you&amp;nbsp;want&amp;nbsp;to&amp;nbsp;cut&amp;nbsp;it&amp;nbsp;as&amp;nbsp;close&amp;nbsp;as&amp;nbsp;possible,&amp;nbsp;fill&amp;nbsp;out&amp;nbsp;your&amp;nbsp;my.cnf.&amp;nbsp;Start&amp;nbsp;mysql&amp;nbsp;without&amp;nbsp;large-pages,&amp;nbsp;and&amp;nbsp;take&amp;nbsp;note&amp;nbsp;of&amp;nbsp;the&amp;nbsp;values&amp;nbsp;of&amp;nbsp;these&amp;nbsp;4&amp;nbsp;variables.&amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    Then&amp;nbsp;convert&amp;nbsp;those&amp;nbsp;values&amp;nbsp;into&amp;nbsp;kilobytes&amp;nbsp;for&amp;nbsp;the&amp;nbsp;page&amp;nbsp;count&amp;nbsp;calculation.
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    ####<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <a href="http://www.cnblogs.com/LMySQL/p/4689868.html" target="_blank" rel="external"><font color="#0066cc">http://www.cnblogs.com/LMySQL/p/4689868.html</font></a><br>    </div><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

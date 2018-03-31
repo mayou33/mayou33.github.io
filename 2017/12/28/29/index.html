@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>查询dpdk支持的网卡</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/12/28/29/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">查询dpdk支持的网卡</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-12-28</span>
+      
+      <a href="/categories/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p> 当我们指定网卡给DPDK使用后，Linux系统就失去了对网卡的管理，由DPDK完全接管。 因此这里所说的设备管理，主要是指对网卡的管理。<br>网卡驱动模型一般包含三层，即，PCI总线设备、网卡设备以及网卡设备的私有数据结构，<br> 即将设备的共性一层层的抽象，PCI总线设备包含网卡设备，网卡设备又包含其私有数据结构。<br>在DPDK中，首先会注册设备驱动，然后查找当前系统有哪些PCI设备，并通过PCI_ID为PCI设备找到对应的驱动，最后调用驱动初始化设备。<br><a href="http://ju.outofmemory.cn/entry/182123" target="_blank" rel="external">http://ju.outofmemory.cn/entry/182123</a></p>
+<p>查询dpdk 支持的网卡<br><a href="http://www.dpdk.org/doc/nics" target="_blank" rel="external">http://www.dpdk.org/doc/nics</a></p>
+<p> 常见的有<br>Broadcom</p>
+<p>bnxt (NetXtreme-C, NetXtreme-E BCM574XX family , StrataGX) </p>
+<p>Intel</p>
+<p>e1000 (82540, 82545, 82546)</p>
+<p>e1000e (82571, 82572, 82573, 82574, 82583, ICH8, ICH9, ICH10, PCH, PCH2, I217, I218, I219)</p>
+<p>igb (82575, 82576, 82580, I210, I211, I350, I354, DH89xx)</p>
+<p>ixgbe (82598, 82599, X520, X540, X550)</p>
+<p>i40e (X710, XL710, X722)</p>
+<p>fm10k (FM10420)</p>
+<p>Note: The drivers e1000 and e1000e are also called em. The drivers em and igb are sometimes grouped in e1000 family.</p>
+<p>半虚拟化</p>
+<p>virtio-net (kvm-qemu)</p>
+<p>vmxnet3 (VMware ESXi)</p>
+<p>xenvirt (Xen)</p>
+<p>具体网卡具体支持哪些功能，<br>在这里查询<br><a href="http://dpdk.org/doc/guides/nics/overview.html" target="_blank" rel="external">http://dpdk.org/doc/guides/nics/overview.html</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Feature</th>
+<th style="text-align:left">b n x t</th>
+<th style="text-align:left">i 4 0 e</th>
+<th style="text-align:left">i x g b e</th>
+<th style="text-align:left">v m x n e t 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Speed capabilities</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">P</td>
+</tr>
+<tr>
+<td style="text-align:left">Link status</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Link status event</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Removal event</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Queue status event</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Rx interrupt</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Lock-free Tx queue</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Fast mbuf free</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Free Tx mbuf on demand</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Queue start/stop</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">MTU update</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Jumbo frame</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Scattered Rx</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">LRO</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">TSO</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Promiscuous mode</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Allmulticast mode</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Unicast MAC filter</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Multicast MAC filter</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">RSS hash</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">RSS key update</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">RSS reta update</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">VMDq</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">SR-IOV</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">DCB</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">VLAN filter</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Ethertype filter</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">N-tuple filter</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">SYN filter</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Tunnel filter</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Flexible filter</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Hash filter</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Flow director</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Flow control</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Flow API</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Rate limitation</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Traffic mirroring</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Inline crypto</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">CRC offload</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">VLAN offload</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">QinQ offload</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">L3 checksum offload</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">L4 checksum offload</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Timestamp offload</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">MACsec offload</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Inner L3 checksum</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Inner L4 checksum</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Packet type parsing</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Timesync</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Rx descriptor status</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Tx descriptor status</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Basic stats</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Extended stats</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Stats per queue</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">FW version</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">EEPROM dump</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Registers dump</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">LED</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Multiprocess aware</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">BSD nic_uio</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Linux UIO</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Linux VFIO</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Other kdrv</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">ARMv7</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">ARMv8</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Power8</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">x86-32</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">x86-64</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Y</td>
+</tr>
+<tr>
+<td style="text-align:left">Usage doc</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

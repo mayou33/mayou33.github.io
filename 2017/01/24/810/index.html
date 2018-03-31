@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux 删除文件恢复工具-Foremost</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/24/810/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux 删除文件恢复工具-Foremost</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-24</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+      <a href="/tags/tools/"" title="tools" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tools</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>##<br>    Linux 文件恢复的原理</p>
+<p>###<br>    inode 和 block</p>
+<pre><code>首先简单介绍一下 Linux 文件系统的最基本单元：inode。inode 译成中文就是索引节点，每个存储设备（例如硬盘）或存储设备的分区被格式化为文件系统后，应该有两部份，一部份是 inode，另一部份是 block，block 是用来存储数据用的。而 inode 呢，就是用来存储这些数据的信息，这些信息包括文件大小、属主、归属的用户组、读写权限等。inode 为每个文件进行信息索引，所以就有了 inode 的数值。linux 操作系统下可以使用 ls &amp;ndash;id 命令来查看文件或者目录的 inode 值，一般&amp;rdquo;root&amp;rdquo;目录的 inode 值为 2,一个分区挂载到一个目录下时，这个&amp;rdquo;root&amp;rdquo;目录的 inode 值为 2
+</code></pre><div style="text-align: left; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Helvetica Neue&quot;, Helvetica, Tahoma, Arial, STXihei, &quot;Microsoft YaHei&quot;, 微软雅黑, sans-serif; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(254, 254, 254); -webkit-text-stroke-width: 0px;"><br>    <div data-settings=" minimize scroll-mouseover" style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <table border="1" cellpadding="2" cellspacing="0" style="font-size: 14px; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;"><br>                <tbody style="background-color: inherit;"><br>                    <tr style="background-color: inherit;"><br>                        <td data-settings="show" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                            <div style="font-size: 16px; min-width: 2px; background-color: inherit;"><br>                                <div data-line="crayon-52d677621606f795395412-1" style="background-color: inherit;"><br>                                    1<br>                                </div>
+
+<pre><code>                            &lt;div data-line=&quot;crayon-52d677621606f795395412-2&quot; style=&quot;background-color: inherit;&quot;&gt;
+                                2
+                            &lt;/div&gt;
+
+                            &lt;div data-line=&quot;crayon-52d677621606f795395412-3&quot; style=&quot;background-color: inherit;&quot;&gt;
+                                3
+                            &lt;/div&gt;
+
+                                &amp;nbsp;
+
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                        &lt;div style=&quot;font-size: 16px; min-width: 2px; background-color: inherit;&quot;&gt;
+
+                                # mount /dev/sdb2 /tmp
+
+                            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                                # ls -id /tmp
+                            &lt;/div&gt;
+
+                            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                                2&amp;nbsp;/&amp;nbsp;tmp
+                            &lt;/div&gt;
+
+                                &amp;nbsp;
+
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<p>###<br>    文件恢复的原理</p>
+<pre><code>本文要介绍的命令是通过文件系统的 inode 值（一般是 2 ）来获取文件系统信息。在 ext3 和 ext4 文件系统中，每个文件都是通过 inode 来描述其数据存放的具体位置，当文件被删除以后，inode 的数据指针部分被清零，文件目录区没有太多变化。文件的读写都是通过 inode 来实现，当 inode 数据指针被清零以后，即便文件内容还在，也没有办法把文件内容组合出来。当 ext3 和 ext4 文件系统中的元数据 metadata 发生变化时，相应的元数据 metadata 在日志文件会有一份拷贝。比如一个文件被删除了，它的 inode 信息会在日志文件中先保存一份，然后把要删除文件 inode 相关信息清零。这个日志文件是循环使用的，当操作过多时，删除的文件的 inode 日志记录会被新的数据替换，这就彻底丧失了根据 inode 找回数据的机会了。如果是大量文件的删除，这个日志文件会被反复循环利用多次，只留给最后删除的那些文件的恢复机会。
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Tahoma, Arial, STXihei, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(254, 254, 254);&quot;&gt;&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;formost 是一个基于文件头和尾部信息以及文件的内建数据结构恢复文件的命令行工具&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Tahoma, Arial, STXihei, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(254, 254, 254);&quot;&gt;。这个过程通常叫做数据挖掘（data carvubg）。formost 可以分析由 dd、Safeback、Encase 等生成的镜像文件，也可以直接分析驱动器。文件头和尾可以通过配置文件设置，也可以通过命令行开关使用 formost 内建的文件类型。formost 最初是由美国空军特别调查室（Air Force Office of Special Investigations）和信息系统安全研究中心（The Center for Information Systems Security Studies and Research）开发的，现在使用 GPL 许可。Foremost 支持恢复如下格式：avi, bmp, dll, doc, exe, gif, htm, jar, jpg, mbd, mov, mpg, pdf, png, ppt, rar, rif, sdw, sx, sxc, sxi, sxw, vis, wav, wmv, xls, zip。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Tahoma, Arial, STXihei, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; background-color: rgb(254, 254, 254);&quot;&gt;foremost 支持的文件系统比较多（包括 ext2、 ext3 、vfat、NTFS、ufs、jfs 等）。不过 foremost 只能支持恢复特定格式的文件。&lt;/span&gt;
+
+其它 Linux 发行版用户可以在&amp;nbsp;&amp;nbsp;[`http://foremost.sourceforge.net/`&amp;nbsp;](http://foremost.sourceforge.net/)&amp;nbsp;下载源代码编译安装。
+
+&amp;nbsp;
+
+要在 CentOS/RHEL 7　中安装　Foremost，需要首先启用 Repoforge：
+</code></pre><pre style="font: 14px/21px Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">
+<span style="background-color: inherit;"><span style="background-color: inherit;"># rpm -Uvh http:<span style="background-color: inherit;">//pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm</span></span><span style="background-color: inherit;"># yum install foremost</span></span></pre>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <pre style="color: rgb(68, 68, 68); font-family: inherit; font-size: 15px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br><br>&nbsp;</pre><br><br>        下面看看使用方法。<br><br>        <strong>恢复单个类型文件</strong><br><br>        笔者删除一个 USB（/dev/sdba1）存储器中一个 png 文件然后使用 formost 恢复。<br><br>    <div style="color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Tahoma, Arial, STXihei, &quot;Microsoft YaHei&quot;, 微软雅黑, sans-serif; font-size: 16px; background-color: rgb(254, 254, 254);"><br>        <div data-settings=" minimize scroll-mouseover" style="background-color: inherit;"><br>            <div style="background-color: inherit;"><br>                <table border="1" cellpadding="2" cellspacing="0" style="font-size: 14px; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;"><br>                    <tbody style="background-color: inherit;"><br>                        <tr style="background-color: inherit;"><br>                            <td data-settings="show" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                                <div style="font-size: 16px; min-width: 2px; background-color: inherit;"><br>                                    <div data-line="crayon-52d6776216089149343922-1" style="background-color: inherit;"><br>                                        1<br>                                    </div>
+
+<pre><code>                                &lt;div data-line=&quot;crayon-52d6776216089149343922-2&quot; style=&quot;background-color: inherit;&quot;&gt;
+                                    2
+                                &lt;/div&gt;
+
+                                    &amp;nbsp;
+
+                            &lt;/div&gt;
+                        &lt;/td&gt;
+                        &lt;td style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                            &lt;div style=&quot;font-size: 16px; min-width: 2px; background-color: inherit;&quot;&gt;
+
+                                    #rm -f /dev/sdb1/photo1.png
+
+                                    #foremost -t png -i /dev/sdb1
+
+                                    &amp;nbsp;
+
+                            &lt;/div&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+        &lt;/div&gt;
+
+            &amp;nbsp;
+
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+    恢复完成后会在当前目录建立一个 output 目录，在 output 目录下会建立 png 子目录下会包括所有可以恢复的 png 格式的文件。
+
+    需要说明的是 png 子目录下会包括的 png 格式的文件名称已经改变，另外 output 目录下的 audit.txt 文件是恢复文件列表。
+
+    **恢复多个类型文件**
+
+&lt;div style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Tahoma, Arial, STXihei, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, sans-serif; font-size: 16px; background-color: rgb(254, 254, 254);&quot;&gt;
+    &lt;div data-settings=&quot; minimize scroll-mouseover&quot; style=&quot;background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;font-size: 14px; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;td data-settings=&quot;show&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                            &lt;div style=&quot;font-size: 16px; min-width: 2px; background-color: inherit;&quot;&gt;
+                                &lt;div data-line=&quot;crayon-52d6776216090903384318-1&quot; style=&quot;background-color: inherit;&quot;&gt;
+                                    1
+                                &lt;/div&gt;
+
+                                    &amp;nbsp;
+
+                            &lt;/div&gt;
+                        &lt;/td&gt;
+                        &lt;td style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                            &lt;div style=&quot;font-size: 16px; min-width: 2px; background-color: inherit;&quot;&gt;
+
+                                    #foremost -v -T -t doc,pdf,jpg,gif -i /dev/sda6 -o /media/disk/Recover
+
+                                    &amp;nbsp;
+
+                            &lt;/div&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+        &lt;/div&gt;
+
+            &amp;nbsp;
+
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+    恢复完成后会在当前目录建立一个 output 目录，在 output 目录下会建立四个子目录（/doc,/pdf,/jpg,/gif），分别包括四种类型文件。另外 output 目录下的 audit.txt 文件是恢复文件列表。
+
+    &amp;nbsp;
+
+    &lt;span style=&quot;text-align: justify; color: rgb(61, 68, 80); font-family: &amp;quot;Microsoft Yahei&amp;quot;, Helvetica, Arial, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;foremost可能运行很长时间，时间长短取决于分区的大小。&lt;/span&gt;
+</code></pre><p></p></div><p></p>
+</td></tr></tbody></table></div></div></div></div></td></tr></tbody></table></div></div></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

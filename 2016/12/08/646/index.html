@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>vmware ESXi 使用NUMA</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/12/08/646/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">vmware ESXi 使用NUMA</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-12-08</span>
+      
+      <a href="/categories/vmware/" title="vmware" class="post-categories">vmware</a>
+      
+      
+      <a href="/tags/vmware/"" title="vmware" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>vmware</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: rgb(255, 255, 255);"><br>        <div style="background-color: inherit;"><br>            <span style="font-size: 16px;">Non-Uniform&nbsp;Memory&nbsp;Access&nbsp;(NUMA)</span><font face="Arial" size="3">（非一致性内存访问）</font><br>        </div>
+
+<pre><code>        &lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;line-height: 1.5; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);&quot;&gt;ESXi&lt;/span&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;在支持 NUMA的服务器架构中，支持 Intel 和 AMD Opteron 处理器的内存访问优化。&lt;/span&gt;&lt;/span&gt;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;div style=&quot;font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;ESXi&amp;nbsp;NUMA 调度的工作方式&lt;/span&gt;
+        &lt;/div&gt;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;ESXi&amp;nbsp;使用复杂的 NUMA 调度程序来动态平衡处理器负载、内存局部性或处理器负载。&lt;/span&gt;
+
+            &amp;nbsp;
+
+    &lt;/div&gt;
+
+    &lt;div style=&quot;color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 12px; background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                            &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                &lt;span style=&quot;font-size: 16px;&quot;&gt;1&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/td&gt;
+                        &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 1064.81px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                &lt;span style=&quot;font-size: 16px;&quot;&gt;由 NUMA 调度程序管理的每个虚拟机均分配有主节点。主节点是系统的 NUMA 节点之一，其中包含处理器和本地内存，如系统资源分配表 (SRAT) 所示。&lt;/span&gt;
+
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                            &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                &lt;span style=&quot;font-size: 16px;&quot;&gt;2&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/td&gt;
+                        &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 1064.81px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                &lt;span style=&quot;font-size: 16px;&quot;&gt;将内存分配给虚拟机时，ESXi&amp;nbsp;主机会优先从主节点分配内存。虚拟机的虚拟 CPU 被限制在主节点上运行以使内存局部性最大化。&lt;/span&gt;
+
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                            &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                &lt;span style=&quot;font-size: 16px;&quot;&gt;3&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/td&gt;
+                        &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 1064.81px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                &lt;span style=&quot;font-size: 16px;&quot;&gt;NUMA 调度程序可以动态更改虚拟机的主节点以响应系统负载的变化。该调度程序可能会将虚拟机迁移到新的主节点，以减少处理器负载的不平衡。因为这可能会导致使用更多远程内存，所以调度程序可能会将虚拟机的内存动态迁移到新的主节点，以改善内存局部性。在改善总体内存局部性的同时，NUMA 调度程序还可能在节点之间交换虚拟机。&lt;/span&gt;
+
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;一些虚拟机不受&amp;nbsp;ESXi&amp;nbsp;NUMA 调度程序管理。例如，如果为虚拟机手动设置了处理器或内存关联性，NUMA 调度程序可能无法管理该虚拟机。未受 NUMA 调度程序管理的虚拟机仍然可以正确运行。但是，这些虚拟机不能从&amp;nbsp;ESXi&amp;nbsp;的 NUMA 优化中受益。&lt;/span&gt;
+
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;ESXi&amp;nbsp;中的 NUMA 调度和内存放置策略可以透明地管理所有虚拟机，因此管理员不需要明确处理在节点之间平衡虚拟机的复杂事情。&lt;/span&gt;
+
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;无论客户机操作系统的类型如何，优化措施都可以顺利发挥作用。&amp;nbsp;&lt;/span&gt;
+
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;如果虚拟机上的虚拟处理器数量超过单个硬件节点上可用的物理处理器内核数，则可以自动管理该虚拟机。NUMA 调度程序调控此类虚拟机的方法是使其跨越各 NUMA 节点。即，虚拟机分为多个 NUMA 客户端，每个客户端都分配到一个节点，然后由调度程序将其作为正常、非跨越客户端进行管理。这可提高某些具有较高局部性且占用大量内存的工作负载的性能。有关配置此功能的行为的信息，请参见[高级虚拟机属性](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html#GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939 &quot;可以使用高级虚拟机属性自定义虚拟机配置。&quot;)。&lt;/span&gt;
+
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); text-transform: none; line-height: 21px; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;VMware NUMA 优化算法和设置&lt;/span&gt;&lt;/span&gt;
+
+                &amp;nbsp;
+
+        &lt;/div&gt;
+
+            &amp;nbsp;
+
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="text-align: left; color: black; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-style: normal; font-weight: bold; background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <span style="font-size: 16px;">主节点和初始放置位置</span><br>        </div>
+
+<pre><code>        &lt;span style=&quot;font-size: 16px;&quot;&gt;打开虚拟机电源时，&lt;span style=&quot;background-color: inherit;&quot;&gt;ESXi&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;会向其分配主节点。虚拟机仅在其主节点内的处理器上运行，而且新分配的内存也来自该主节点。&lt;/span&gt;
+
+        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;除非虚拟机的主节点更改，否则虚拟机仅使用本地内存，从而避免了与其他 NUMA 节点的远程内存访问相关联的性能损失。&lt;/span&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;当打开虚拟机的电源时，会为其分配初始主节点以使 NUMA 节点间的整体 CPU 和内存负载保持平衡。由于在大的 NUMA 系统中节点间的延迟时间变化很大，&lt;span style=&quot;background-color: inherit;&quot;&gt;ESXi&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;会在引导时确定这些节点间延迟时间，并在初始放置虚拟机（比单个 NUMA 节点更宽）时使用此信息。这些宽的虚拟机放置在彼此靠近的 NUMA 节点上，以实现最低的内存访问延迟。&lt;/span&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;对于仅运行单个工作负载（例如基准配置，它不会在系统运行过程中发生变化）的系统，仅初始放置方法通常已足够。但是，此方法无法保证支持工作负载变化的数据中心级系统的良好性能和公平性。因此，除了初始放置之外，&lt;span style=&quot;background-color: inherit;&quot;&gt;ESXi&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;5.0 还支持在 NUMA 节点之间执行虚拟 CPU 和内存的动态迁移，以提高 CPU 平衡并改善内存局部性。&lt;/span&gt;
+
+        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <span style="font-size: 16px;">动态负载平衡和页面迁移</span><br>        </div>
+
+<pre><code>        &lt;span style=&quot;font-size: 16px;&quot;&gt;ESXi&amp;nbsp;结合了传统的初始放置位置方法和动态重新平衡算法。系统定期（默认情况下每两秒一次）检查各个节点的负载，并且确定是否应通过将虚拟机从一个节点移至另一个节点来再平衡负载。&lt;/span&gt;
+
+        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 12px; background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;此计算考虑了虚拟机和资源池的资源设置，以便在不违反公平性或资源可用量的情况下改善性能。&lt;/span&gt;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;再平衡器选择合适的虚拟机，并将其主节点更改为负载最少的节点。如果可以的话，再平衡器会移动目标节点上已经有一些内存的虚拟机。从此之后（除非再次移动），虚拟机将在新的主节点上分配内存，并且仅在新主节点内的处理器上运行。&lt;/span&gt;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;再平衡是维持公平性和确保完全使用所有节点的有效解决方案。再平衡器可能需要将虚拟机移至已经分配少量内存或没有分配内存的节点上。这种情况下，虚拟机会遭受与大量远程内存访问相关联的性能损失。ESXi&amp;nbsp;通过将内存从虚拟机的原始节点以透明的方式迁移到新的主节点，可以消除该损失：&lt;/span&gt;
+
+        &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+            &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                        &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;1&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 1064.81px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;系统选择原始节点上的页（4 KB 连续内存），并将其数据复制到目标节点中的页上。&lt;/span&gt;
+
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                        &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;2&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 1064.81px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;系统使用虚拟机监控层和处理器的内存管理硬件来无缝地重新映射虚拟机的内存视图，因此系统将目标节点上的页用于后续的所有引用，从而消除了远程访问内存所带来的损失。&lt;/span&gt;
+
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;当虚拟机移至新的节点时，ESXi&amp;nbsp;主机立即开始按此方式迁移其内存。主机会管理迁移速率，以避免让系统负担过重，特别是在虚拟机剩下很少的远程内存或目标节点的可用内存很少时。如果虚拟机只是短时间内移至新的节点，则内存迁移算法还可以确保&amp;nbsp;ESXi&amp;nbsp;主机不会无用地移动内存。&lt;/span&gt;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;当初始放置位置、动态再平衡和智能内存迁移配合使用时，即使工作负载出现变化，也能确保 NUMA 系统的良好内存性能。当主要工作负载出现变化时（例如启动新的虚拟机时），系统需要一些时间来重新调整，将虚拟机和内存迁移到新的位置。经过很短的时间之后（通常是几秒钟或几分钟），系统就可以完成重新调整并达到稳定状况。&lt;/span&gt;
+
+            &amp;nbsp;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; background-color: inherit;&quot;&gt;针对 NUMA 优化的透明页共享&lt;/span&gt;&lt;/span&gt;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;许多&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;ESXi&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;工作负载存在跨虚拟机共享内存的机会。&lt;/span&gt;
+
+            &amp;nbsp;
+
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        <span style="font-size: 16px;">例如，几个虚拟机可能正在运行同一客户机操作系统的多个实例，加载了相同的应用程序或组件，或包含公用数据。这些情况下，<span style="background-color: inherit;">ESXi</span><span style="background-color: inherit;">&nbsp;</span>系统使用专用的透明页共享技术安全地消除了内存页的冗余副本。采用内存共享，在虚拟机中运行的工作负载消耗的内存通常要少于其在物理机上运行时所需的内存。因此，可以高效地支持更高级别的过载。</span><br><br>        <span style="font-size: 16px;"><span style="background-color: inherit;">ESXi</span><span style="background-color: inherit;">&nbsp;</span>系统的透明页共享也针对在 NUMA 系统上的使用而经过了优化。在 NUMA 系统上，页按照节点进行共享，因此对于频繁共享的页面，每个 NUMA 节点都有自己的本地副本。当虚拟机使用共享页时，它们不需要访问远程内存。</span><br><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font-size: 16px;"><span style="text-align: left; color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; background-color: inherit;">NUMA 架构中的资源管理</span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        <span style="font-size: 16px;">可以使用不同类型的 NUMA 架构进行资源管理。</span><br><br>        <span style="font-size: 16px;">通过安装高度多核系统，NUMA 架构会越来越受欢迎，因为这些架构可改善占用大量内存的工作负载的性能。所有现代的 Intel 和 AMD 系统都具有内置于处理器的 NUMA 支持。此外，还具有传统的 NUMA 系统（例如 IBM 企业 X 架构），这些系统使用具有专用芯片集支持的 NUMA 行为扩展 Intel 和 AMD 处理器。</span><br><br>        <span style="font-size: 16px;"><span style="color: rgb(51, 51, 51); background-color: inherit;">通常，可以使用 BIOS 设置启用和禁用 NUMA 行为。例如，在基于 AMD Opteron 的 HP Proliant 服务器中，可通过在 BIOS 中</span><font color="#ff0000" style="background-color: inherit;">启用节点交叉<span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">Node&nbsp;Interleaving</span>来禁用 NUMA</font><font color="#333333" style="background-color: inherit;">。</font></span><br><br>        <span style="font-size: 16px;"><font color="#333333" style="background-color: inherit;">如果<span style="text-align: left; color: rgb(255, 0, 0); font-family: Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">禁用 NUMA，esxi不启用<span style="text-align: left; color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">优化的 NUMA 信息。</span></span></font></span><br><br>        <span style="font-size: 16px;"><font color="#333333" style="background-color: inherit;">如果启用 NUMA，BIOS 将生成系统资源分配表 (SRAT)，</font><span style="color: rgb(51, 51, 51); background-color: inherit;">ESXi</span><span style="color: rgb(51, 51, 51); background-color: inherit;">&nbsp;</span><font color="#333333" style="background-color: inherit;">使用该表生成用于优化的 NUMA 信息。为确保调度的公平性，将不会为每个 NUMA 节点（或整体）具有过少内核的系统启用 NUMA 优化。</font></span><br><br>        <span style="font-size: 16px;"><font color="#333333" style="line-height: 1.5; background-color: inherit;">可修改</font><span style="color: rgb(51, 51, 51); line-height: 1.5; background-color: inherit;">&nbsp;</span><span style="color: rgb(51, 51, 51); font-family: &quot;Lucida Console&quot;, &quot;Courier New&quot;, monospace; background-color: inherit;">numa.rebalancecorestotal</span><span style="color: rgb(51, 51, 51); line-height: 1.5; background-color: inherit;">&nbsp;</span><font color="#333333" style="line-height: 1.5; background-color: inherit;">和</font><span style="color: rgb(51, 51, 51); font-family: &quot;Lucida Console&quot;, &quot;Courier New&quot;, monospace; background-color: inherit;">numa.rebalancecoresnode</span><span style="color: rgb(51, 51, 51); line-height: 1.5; background-color: inherit;">&nbsp;</span><font color="#333333" style="line-height: 1.5; background-color: inherit;">选项以更改此行为。</font></span><br><br>        <span style="font-size: 16px;">vmware最佳实践是在<span style="line-height: 1.5; background-color: inherit;">&nbsp;BIOS 中</span><span style="line-height: 1.5; background-color: inherit;">开启</span><span style="line-height: 1.5; background-color: rgb(255, 255, 255);">&nbsp;NUMA 关闭<span style="color: rgb(255, 0, 0); font-family: Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">节点交叉</span><span style="background-color: rgb(255, 255, 255);">Node&nbsp;Interleaving</span></span></span><br><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font-size: 16px;">In&nbsp;most&nbsp;cases&nbsp;you&nbsp;will&nbsp;get&nbsp;the&nbsp;best&nbsp;performance&nbsp;by&nbsp;disabling&nbsp;node&nbsp;interleaving&nbsp;(in&nbsp;other&nbsp;<span style="line-height: 1.5; background-color: inherit;">words,&nbsp;leaving&nbsp;NUMA&nbsp;enabled).</span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="text-align: left; color: black; font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-style: normal; font-weight: bold; background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <span style="font-size: 16px;">使用虚拟 NUMA</span><br>        </div>
+
+<pre><code>        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;vSphere 5.0 及更高版本包括对向客户机操作系统公开虚拟 NUMA 拓扑的支持，这样便于客户机操作系统和应用程序 NUMA 优化，从而可提高性能。&lt;/span&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;font color=&quot;#333333&quot; style=&quot;background-color: inherit;&quot;&gt;虚拟 NUMA 拓扑可用于硬件版本 8 的虚拟机，且默认情况下在&lt;/font&gt;&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;虚拟 CPU 的数目大于 8 &lt;/font&gt;&lt;font color=&quot;#333333&quot; style=&quot;background-color: inherit;&quot;&gt;时启用。也可以使用高级配置选项手动影响虚拟 NUMA 拓扑。&lt;/font&gt;&lt;/span&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;首次打开已启用 NUMA 的虚拟机电源时，其虚拟 NUMA 拓扑基于基础物理主机的 NUMA 拓扑。初始化虚拟机的虚拟 NUMA 拓扑后，除非该虚拟机中的 vCPU 数量已更改，否则该拓扑不会发生变化。&lt;/span&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;虚拟 NUMA 拓扑不考虑配置到虚拟机的内存。虚拟 NUMA 拓扑不受虚拟机的虚拟插槽数和每个插槽的内核数影响。&lt;/span&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;如果需要替代虚拟 NUMA 拓扑，请参见[虚拟 NUMA 控制](https://pubs.vmware.com/vsphere-65/topic/com.vmware.vsphere.resmgmt.doc/GUID-3E956FB5-8ACB-42C3-B068-664989C3FF44.html#GUID-3E956FB5-8ACB-42C3-B068-664989C3FF44 &quot;对于内存消耗量大得不成比例的虚拟机，可以使用高级选项来手动替代默认虚拟 CPU 设置。&quot;)。&lt;/span&gt;
+
+        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;font-size: 16px;&quot;&gt;By&amp;nbsp;default,&amp;nbsp;vNUMA&amp;nbsp;is&amp;nbsp;enabled&amp;nbsp;only&amp;nbsp;for&amp;nbsp;virtual&amp;nbsp;machines&amp;nbsp;with&amp;nbsp;more&amp;nbsp;than&amp;nbsp;&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;eight&amp;nbsp;vCPUs。&lt;/font&gt;&lt;/span&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <span style="font-size: 16px;">For&nbsp;example,&nbsp;when&nbsp;running&nbsp;a&nbsp;16-vCPU&nbsp;virtual&nbsp;machine&nbsp;on&nbsp;a&nbsp;host&nbsp;system&nbsp;with&nbsp;10&nbsp;cores&nbsp;per&nbsp;physical&nbsp;</span><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;font-size: 16px;&quot;&gt;socket,&amp;nbsp;ESXi&amp;nbsp;will&amp;nbsp;select&amp;nbsp;a&amp;nbsp;vNUMA&amp;nbsp;size&amp;nbsp;of&amp;nbsp;8.&amp;nbsp;Once&amp;nbsp;this&amp;nbsp;vNUMA&amp;nbsp;size&amp;nbsp;is&amp;nbsp;known,&amp;nbsp;you&amp;nbsp;would&amp;nbsp;configure&amp;nbsp;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;font-size: 16px;&quot;&gt;this&amp;nbsp;virtual&amp;nbsp;machine&amp;nbsp;to&amp;nbsp;have&amp;nbsp;8&amp;nbsp;cores&amp;nbsp;per&amp;nbsp;virtual&amp;nbsp;socket.&lt;/span&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        两种情况：A.VM上的vCPU少于或者等于NUMA Node的core，<span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">全部分配到一个node上，用本地内存。</span><br><br>        B.VM上的vCPU多于NUMA Node的core<span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">称作wide&nbsp; VM.&nbsp;&nbsp;</span><br><br>        <span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">vCPU会分配到2个或以上的Node上。会有访问远程内存的延迟。可使用vNUMA缓和-让vm guest参与到本地内存管理任务</span><br><br>        因此B比A具有性能优势，但是相反的，对于内存带宽瓶颈的负载来说B可以充分利用内存带宽。<br><br>        对于A上无法分配到多个Node的情形。<span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">可以修改numa.vcpu.maxPerMachineNode来达到增加带宽的好处。</span><br><br>        &nbsp;<br><br>        <span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">例如，如果你想分配四个虚拟CPU到你的虚拟机，你可以在4个单核CPU、2个双核CPU和1个四核CPU间选择。</span><br><br>        <span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">虽然所有这些选择都能够增加四个虚拟CPU，但它们是以不同的方式实现的，而这种差异性可能会影响运行虚拟服务器的操作系统调度做出的决定。</span><br><br>        &nbsp;<br><br>        <span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">对于这些选择，并没有必须遵守的规则。正确的选择完全取决于工作负载配置文件、使用的调度程序、操作系统版本或内核版本。</span><br><br>        <span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">较老版本的<span style="color: rgb(0, 0, 0); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">内核</span>不太善于处理多核CPU，最好选择单核CPU。</span><br><br>        <span style="line-height: 1.5; font-size: 13.33px; background-color: rgb(255, 255, 255);">而较新的内核和操作系统版本更青睐于多核CPU。</span><br><br>        除此之外，工作负载本身的性质也有很大的影响。单线程和多线程工作负载将以不同的方式处理这些实例。在一些工作负载中可能只有细微的差别，但可能与其他工作负载存在巨大差异。<br><br>        NUMA的优势在于更快的内存存取，并能显著地加快处理器和RAM密集型流程。<br><br>        如果CPU核心只与CPU控制的内存交互，它将会更快地执行，因为它不需要跨越到另一个CPU来分配和使用内存。<br><br>        &nbsp;<br><br>        根据管理程序向虚拟服务器呈现CPU的方式，操作系统可能会认为每个CPU都具有自己的内存控制器或者四个内核间存在一个共享内存控制器。<br><br>        此外，管理程序不断轮询虚拟机服务器内存分配状态以及评估是否让活跃内存更接近目前为虚拟机处理负载的CPU。这些因素都可能影响性能。<br><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font-size: 18px;">虚拟 NUMA 控制</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        <span style="font-size: 16px;">对于内存消耗量大得不成比例的虚拟机，可以使用高级选项来手动替代默认虚拟 CPU 设置。</span><br><br>    <div style="font-size: 12px; background-color: inherit;"><br>        <div style="background-color: inherit;"><br><br>                <span style="font-size: 16px;">可以将以下高级选项添加到虚拟机配置文件中。</span><br><br>            <div style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; background-color: inherit;"><br>                <table border="1" cellpadding="2" cellspacing="0" style="width: 861px; font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: white;"><br>                    <caption style="text-align: left; font-weight: bold; background-color: inherit;"><br>                        <span style="font-size: 16px;">虚拟 NUMA 控制的高级选项</span><br>                    </caption><br>                    <tbody style="background-color: inherit;"><br>                        <tr style="background-color: rgb(153, 153, 153);"><br>                            <th colspan="1" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 265px; height: 35px; color: white; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(153, 153, 153);"><br>                                <div style="background-color: inherit;"><br><br>                                        <span style="font-size: 16px;">选项</span><br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                </div><br>                            </th><br>                            <th colspan="1" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 481px; height: 35px; color: white; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(153, 153, 153);"><br>                                <div style="background-color: inherit;"><br><br>                                        <span style="font-size: 16px;">描述</span><br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                </div><br>                            </th><br>                            <th colspan="1" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 52px; height: 35px; color: white; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(153, 153, 153);"><br>                                <div style="background-color: inherit;"><br><br>                                        <span style="font-size: 16px;">默认值</span><br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                        &nbsp;<br><br>                                </div><br>                            </th><br>                        </tr><br>                        <tr style="background-color: inherit;"><br>                            <td colspan="1" headers="d12599e70" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 265px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;"><span style="font-family: &quot;Lucida Console&quot;, &quot;Courier New&quot;, monospace; background-color: inherit;">cpuid.coresPerSocket</span></span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e74" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 481px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">确定每个虚拟 CPU 插槽的虚拟内核数。除非配置了 numa.vcpu.followcorespersocket，否则这并不会影响虚拟 NUMA 拓扑。</span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e78" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 52px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">1</span><br><br>                            </td><br>                        </tr><br>                        <tr style="background-color: inherit;"><br>                            <td colspan="1" headers="d12599e70" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 265px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;"><span style="font-family: &quot;Lucida Console&quot;, &quot;Courier New&quot;, monospace; background-color: inherit;">numa.vcpu.maxPerVirtualNode</span></span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e74" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 481px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">通过以该值作为除数均匀拆分 vCPU 总数来确定虚拟 NUMA 节点数。</span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e78" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 52px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">8</span><br><br>                            </td><br>                        </tr><br>                        <tr style="background-color: inherit;"><br>                            <td colspan="1" headers="d12599e70" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 265px; height: 93px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;"><span style="font-family: &quot;Lucida Console&quot;, &quot;Courier New&quot;, monospace; background-color: inherit;">numa.autosize.once</span></span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e74" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 481px; height: 93px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">使用这些设置创建虚拟机模板时，如果使用默认值 TRUE，则每当您随后打开虚拟机电源时，设置都将保持不变。如果该值设置为 FALSE，则每次打开电源时，虚拟 NUMA 拓扑都会进行更新。任何时候如果修改了虚拟机中已配置的虚拟 CPU 数，就会重新评估虚拟 NUMA 拓扑。</span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e78" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 52px; height: 93px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">TRUE</span><br><br>                            </td><br>                        </tr><br>                        <tr style="background-color: inherit;"><br>                            <td colspan="1" headers="d12599e70" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 265px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;"><span style="font-family: &quot;Lucida Console&quot;, &quot;Courier New&quot;, monospace; background-color: inherit;">numa.vcpu.min</span></span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e74" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 481px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">为了生成虚拟 NUMA 拓扑，虚拟机中需要的虚拟 CPU 的最小数量。如果该值小于 numa.vcpu.min，则虚拟机将始终为 UMA</span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e78" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 52px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">9</span><br><br>                            </td><br>                        </tr><br>                        <tr style="background-color: inherit;"><br>                            <td colspan="1" headers="d12599e70" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 265px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;"><span style="font-family: &quot;Lucida Console&quot;, &quot;Courier New&quot;, monospace; background-color: inherit;">numa.vcpu.followcorespersocket</span></span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e74" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 481px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">设置为 1 时，则恢复为根据 cpuid.coresPerSocket 调整虚拟 NUMA 节点大小这一旧行为。</span><br><br>                            </td><br>                            <td colspan="1" headers="d12599e78" rowspan="1" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 52px; height: 50px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br><br>                                    <span style="font-size: 16px;">0</span><br><br>                            </td><br>                        </tr><br>                    </tbody><br>                </table><br>            </div>
+
+<pre><code>        &lt;div style=&quot;font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; background-color: inherit;&quot;&gt;
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;指定 NUMA 控制&lt;/span&gt;
+            &lt;/div&gt;
+
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;如果您有一些占用大量内存的应用程序或者有少量的虚拟机，可能要通过明确指定虚拟机 CPU 和内存放置位置来优化性能。&lt;/span&gt;
+
+                &amp;nbsp;
+
+        &lt;/div&gt;
+
+        &lt;div style=&quot;font-family: Arial, Helvetica, sans-serif; background-color: inherit;&quot;&gt;
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;如果虚拟机运行占用大量内存的工作负载（例如内存中的数据库或具有大型数据集的科学计算应用程序），指定控制将非常有用。如果已知系统工作负载很简单而且不会变化，您可能还想手动优化 NUMA 放置位置。例如，对于一个由运行 8 个虚拟机而且具有类似工作负载的 8 个处理器组成的系统，很容易进行明确地优化。&lt;/span&gt;
+
+                &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;div style=&quot;color: rgb(0, 0, 0); font-size: 0.9em !important; font-weight: bold; background-color: inherit;&quot;&gt;
+                        &lt;span style=&quot;font-size: 16px;&quot;&gt;注&lt;/span&gt;
+                    &lt;/div&gt;
+
+                        &lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;font color=&quot;#333333&quot; style=&quot;background-color: inherit;&quot;&gt;大多数情况下，&lt;/font&gt;&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;ESXi&amp;nbsp;主机的自动 NUMA 优化会产生良好的性&lt;/font&gt;&lt;font color=&quot;#333333&quot; style=&quot;background-color: inherit;&quot;&gt;能。&lt;/font&gt;&lt;/span&gt;
+
+                        &amp;nbsp;
+
+                        &amp;nbsp;
+
+                &lt;/div&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;ESXi&amp;nbsp;为 NUMA 放置位置提供了三组控制，因此管理员可以控制虚拟机的内存和处理器位置。&lt;/span&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;通过&amp;nbsp;vSphere Web Client&amp;nbsp;可指定以下选项。&lt;/span&gt;
+
+                &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;color: rgb(51, 51, 51); font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                    &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-weight: bold; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;NUMA 节点关联性&lt;/span&gt;
+
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;设置该选项时，NUMA 仅可以在关联性中指定的节点上调度虚拟机。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                    &lt;/tbody&gt;
+                &lt;/table&gt;
+
+                &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;color: rgb(51, 51, 51); font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                    &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-weight: bold; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;CPU 关联性&lt;/span&gt;
+
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;如果设置了此选项，则虚拟机仅使用关联性中指定的处理器。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-weight: bold; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;内存关联性&lt;/span&gt;
+
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;如果设置了此选项，则服务器仅在指定的节点上分配内存。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                    &lt;/tbody&gt;
+                &lt;/table&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;即使指定了 NUMA 节点关联性，虚拟机仍由 NUMA 管理，但其虚拟 CPU 仅可以在 NUMA 节点关联性中指定的节点上进行调度。同样，仅可以从 NUMA 节点关联性中指定的节点上获取内存。如果指定了 CPU 或内存关联性，则虚拟机不再受 NUMA 管理。这些虚拟机的 NUMA 管理在移除 CPU 和内存关联性限制后有效。&lt;/span&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;手动 NUMA 放置位置可能会干扰&amp;nbsp;ESXi&amp;nbsp;资源管理算法，这种算法在系统之间公平地分发处理器资源。例如，如果将具有占用大量处理器的工作负载的 10 个虚拟机手动置于一个节点上，并且仅将 2 个虚拟机手动置于另一个节点上，则系统不可能为所有的 12 个虚拟机赋予相等份额的系统资源。&lt;/span&gt;
+
+                    &amp;nbsp;
+
+                    &amp;nbsp;
+
+            &lt;/div&gt;
+
+                &amp;nbsp;
+
+        &lt;/div&gt;
+
+            &amp;nbsp;
+
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <span style="font-size: 16px;">将虚拟机与特定处理器关联</span><br>        </div>
+
+<pre><code>        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 12px; background-color: inherit;&quot;&gt;
+
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;通过将虚拟机的虚拟 CPU 固定到固定处理器，可能会改善虚拟机上应用程序的性能。这样可以防止虚拟 CPU 在 NUMA 节点之间进行迁移。&lt;/span&gt;
+
+    &lt;div style=&quot;color: black; font-weight: bold; background-color: inherit;&quot;&gt;
+        &lt;span style=&quot;font-size: 16px;&quot;&gt;步骤&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;width: 713px; font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+            &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                        &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;1&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 653px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;nbsp;vSphere Web Client&amp;nbsp;清单中查找虚拟机。&lt;/span&gt;
+
+                        &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                            &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                                &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                        &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                            &lt;span style=&quot;font-size: 16px;&quot;&gt;a&lt;/span&gt;
+                                        &lt;/div&gt;
+                                    &lt;/td&gt;
+                                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 1026.81px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                            &lt;span style=&quot;font-size: 16px;&quot;&gt;要查找虚拟机，请选择数据中心、文件夹、群集、资源池或主机。&lt;/span&gt;
+
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
+                                &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                        &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                            &lt;span style=&quot;font-size: 16px;&quot;&gt;b&lt;/span&gt;
+                                        &lt;/div&gt;
+                                    &lt;/td&gt;
+                                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 1026.81px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                            &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;虚拟机&lt;/span&gt;选项卡。&lt;/span&gt;
+
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
+                            &lt;/tbody&gt;
+                        &lt;/table&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                        &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;2&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 653px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;右键单击虚拟机，然后单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;编辑设置&lt;/span&gt;。&lt;/span&gt;
+
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                        &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;3&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 653px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;选择&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;虚拟硬件&lt;/span&gt;选项卡，然后展开&amp;nbsp;&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;CPU&lt;/span&gt;。&lt;/span&gt;
+
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 18pt; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                        &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;4&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                    &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 653px; height: 25px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                            &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;ldquo;调度关联性&amp;rdquo;下，为首选处理器设置 CPU 关联性。&lt;/span&gt;
+
+                        &lt;div style=&quot;color: rgb(51, 51, 51); min-width: 2px; background-color: inherit;&quot;&gt;
+                            &lt;div style=&quot;color: rgb(0, 0, 0); font-size: 0.9em !important; font-weight: bold; background-color: inherit;&quot;&gt;
+                                &lt;span style=&quot;font-size: 16px;&quot;&gt;注&lt;/span&gt;
+                            &lt;/div&gt;
+
+                                &lt;span style=&quot;font-size: 16px;&quot;&gt;必须手动选择 NUMA 节点中的所有处理器。CPU 关联性是按照处理器指定的，而不是按照节点指定的。&lt;/span&gt;
+
+                                &amp;nbsp;
+
+                                &amp;nbsp;
+
+                                &amp;nbsp;
+
+                                &amp;nbsp;
+
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;color: black; font-size: 16px; font-weight: bold; background-color: inherit;&quot;&gt;
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;使用内存关联性将内存分配与特定 NUMA 节点相关联&lt;/span&gt;
+            &lt;/div&gt;
+
+                &amp;nbsp;
+
+                &amp;nbsp;
+
+        &lt;/div&gt;
+
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;可以指定虚拟机上所有的后续内存分配使用与特定 NUMA 节点关联的页（也称为手动内存关联性）。&lt;/span&gt;
+
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;div style=&quot;color: rgb(0, 0, 0); font-size: 0.9em !important; font-weight: bold; background-color: inherit;&quot;&gt;
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;注&lt;/span&gt;
+                &lt;/div&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;只有在指定了 CPU 关联性时，才能指定要用于以后内存分配的节点。如果仅对内存关联性设置进行了手动更改，则自动 NUMA 再平衡功能将无法正常工作。&lt;/span&gt;
+
+                    &amp;nbsp;
+
+                    &amp;nbsp;
+
+            &lt;/div&gt;
+
+            &lt;div style=&quot;color: black; font-weight: bold; background-color: inherit;&quot;&gt;
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;步骤&lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;width: 384px; font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                    &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 4px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;1&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 338px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;nbsp;vSphere Web Client&amp;nbsp;导航器中，浏览到虚拟机。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 4px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;2&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 338px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;配置&lt;/span&gt;选项卡。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 4px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;3&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 338px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;设置&lt;/span&gt;，然后单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;虚拟机硬件&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 4px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;4&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 338px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;编辑&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 4px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;5&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 338px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;选择&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;虚拟机&lt;/span&gt;选项卡，然后展开&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;内存&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 4px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;6&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 338px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;ldquo;NUMA 内存关联性&amp;rdquo;下，设置内存关联性。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                    &lt;/tbody&gt;
+                &lt;/table&gt;
+            &lt;/div&gt;
+
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;div style=&quot;color: black; font-weight: bold; background-color: inherit;&quot;&gt;
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;示例： 将虚拟机绑定到单个 NUMA 节点&lt;/span&gt;
+                &lt;/div&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;以下示例说明了将最后四个物理 CPU 手动绑定到 8 路服务器上双路虚拟机的单个 NUMA 节点。&lt;/span&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;CPU（例如 4、5、6 和 7）是物理 CPU 编号。&lt;/span&gt;
+
+                &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;width: 485px; font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                    &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 2px; height: 37px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;1&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 440px; height: 37px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;nbsp;vSphere Web Client&amp;nbsp;导航器中，右键单击虚拟机，然后选择&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;编辑设置&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 2px; height: 37px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;2&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 440px; height: 37px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;选择&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;选项&lt;/span&gt;并单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;高级&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 2px; height: 37px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;3&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 440px; height: 37px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;配置参数&lt;/span&gt;按钮。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 2px; height: 37px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;4&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 440px; height: 37px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;nbsp;vSphere Web Client&amp;nbsp;中，为处理器 4、5、6 和 7 打开 CPU 关联性。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                    &lt;/tbody&gt;
+                &lt;/table&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;接着，您希望此虚拟机仅在节点 1 上运行。&lt;/span&gt;
+
+                &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;width: 491px; font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                    &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 2px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;1&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 446px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;nbsp;vSphere Web Client&amp;ldquo;清单&amp;rdquo;面板中，选择该虚拟机并选择&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;编辑设置&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 2px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;2&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 446px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;选择&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;选项&lt;/span&gt;并单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;高级&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 2px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;3&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 446px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;配置参数&lt;/span&gt;按钮。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 2px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;4&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 446px; height: 34px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;nbsp;vSphere Web Client&amp;nbsp;中，将 NUMA 节点的内存关联性设置为 1。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                    &lt;/tbody&gt;
+                &lt;/table&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;完成这两个任务可以确保虚拟机仅在 NUMA 节点 1 上运行，并在可能的情况下从同一个节点分配内存。&lt;/span&gt;
+
+                    &amp;nbsp;
+
+                    &amp;nbsp;
+
+            &lt;/div&gt;
+
+                &amp;nbsp;
+
+        &lt;/div&gt;
+
+            &amp;nbsp;
+
+            &amp;nbsp;
+
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;color: black; font-size: 16px; font-weight: bold; background-color: inherit;&quot;&gt;
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;将虚拟机与指定的 NUMA 节点关联&lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &amp;nbsp;
+            &lt;/div&gt;
+
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;将 NUMA 节点与虚拟机关联以指定 NUMA 节点关联性时，限制 NUMA 可在其上调度虚拟机的虚拟 CPU 和内存的一组 NUMA 节点。&lt;/span&gt;
+
+                &amp;nbsp;
+
+                &amp;nbsp;
+
+        &lt;/div&gt;
+
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;div style=&quot;color: rgb(0, 0, 0); font-size: 0.9em !important; font-weight: bold; background-color: inherit;&quot;&gt;
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;注&lt;/span&gt;
+                &lt;/div&gt;
+
+                    &lt;span style=&quot;font-size: 16px;&quot;&gt;如果限制 NUMA 节点关联性，则可能会影响&amp;nbsp;ESXi&amp;nbsp;NUMA 调度程序公平地在 NUMA 节点之间再平衡虚拟机的功能。仅在考虑再平衡问题后指定 NUMA 节点关联性。&lt;/span&gt;
+
+                    &amp;nbsp;
+
+                    &amp;nbsp;
+
+            &lt;/div&gt;
+
+            &lt;div style=&quot;color: black; font-weight: bold; background-color: inherit;&quot;&gt;
+                &lt;span style=&quot;font-size: 16px;&quot;&gt;步骤&lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;div style=&quot;background-color: inherit;&quot;&gt;
+                &lt;table border=&quot;1&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; style=&quot;width: 625px; font-size: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;&quot;&gt;
+                    &lt;tbody style=&quot;background-color: inherit;&quot;&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;1&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;nbsp;vSphere Web Client&amp;nbsp;对象导航器中，浏览到群集。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;2&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;依次单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;配置&lt;/span&gt;选项卡和&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;设置&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;3&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;虚拟机选项&lt;/span&gt;下，单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;编辑&lt;/span&gt;按钮。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;4&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;选择&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;虚拟机选项&lt;/span&gt;选项卡，然后展开&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;高级&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;5&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;配置参数&lt;/span&gt;下，单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;编辑配置&lt;/span&gt;按钮。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;6&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;添加行&lt;/span&gt;添加新选项。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;7&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;ldquo;名称&amp;rdquo;列中，输入&amp;nbsp;&lt;kbd style=&quot;font-family: &amp;quot;Lucida Console&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; font-weight: bold; background-color: inherit;&quot;&gt;numa.nodeAffinity&lt;/kbd&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 55px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;8&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 55px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;在&amp;ldquo;值&amp;rdquo;列中，输入可在其上调度虚拟机的 NUMA 节点。&lt;/span&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;如果有多个节点，则以逗号分隔。例如，输入&amp;nbsp;&lt;kbd style=&quot;font-family: &amp;quot;Lucida Console&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; font-weight: bold; background-color: inherit;&quot;&gt;0,1&lt;/kbd&gt;&amp;nbsp;以将虚拟机资源调度限制为 NUMA 节点 0 和 1。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;9&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;确定&lt;/span&gt;。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr style=&quot;background-color: inherit;&quot;&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 8px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+                                &lt;div style=&quot;min-width: 2px; background-color: inherit;&quot;&gt;
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;10&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/td&gt;
+                            &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 574px; height: 35px; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;&quot;&gt;
+
+                                    &lt;span style=&quot;font-size: 16px;&quot;&gt;单击&lt;span style=&quot;font-weight: bold; background-color: inherit;&quot;&gt;确定&lt;/span&gt;关闭&amp;ldquo;编辑虚拟机&amp;rdquo;对话框。&lt;/span&gt;
+
+                            &lt;/td&gt;
+                        &lt;/tr&gt;
+                    &lt;/tbody&gt;
+                &lt;/table&gt;
+            &lt;/div&gt;
+
+                &amp;nbsp;
+
+                &amp;nbsp;
+
+                &amp;nbsp;
+
+        &lt;/div&gt;
+
+            &lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;font color=&quot;#0066cc&quot;&gt;[https://pubs.vmware.com/vsphere-65/index.jsp#com.vmware.vsphere.resmgmt.doc/GUID-A80A6337-7B99-48C8-B024-EE47E2366C1B.html](https://pubs.vmware.com/vsphere-65/index.jsp#com.vmware.vsphere.resmgmt.doc/GUID-A80A6337-7B99-48C8-B024-EE47E2366C1B.html)&lt;/font&gt;&lt;/span&gt;
+
+            &amp;nbsp;
+
+    &lt;/div&gt;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+</div></div></div></div></div></div></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

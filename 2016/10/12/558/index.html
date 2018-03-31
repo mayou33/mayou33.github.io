@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>linux下查看硬盘型号等信息</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/10/12/558/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">linux下查看硬盘型号等信息</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-10-12</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        linux下查看硬盘型号<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    smartctl&amp;nbsp;--all&amp;nbsp;/dev/sda
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;#一般该命令centos自带
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    如果该机有做磁盘阵列，那么运行上述命令会报错，得不到你要的磁盘信息。
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+</code></pre><p>###<br>            <span style="font-family: &quot;Hiragino Sans GB W3&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, Arial, Helvetica, simsun, 宋体; font-size: 26px; font-weight: bold; background-color: inherit;">查看raid卡型号</span>&nbsp;</p>
+<pre><code>    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        lspci&amp;nbsp;-v&amp;nbsp;|grep&amp;nbsp;RAID
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    或者
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        cat&amp;nbsp;/proc/scsi/scsi&amp;nbsp;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    在去下载 各raid卡厂商的程序命令，查看更多硬盘信息。
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<p>#<br>    smartctl使用详解：</p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        &nbsp;<br><br>        功能:可以查看生产厂商、型号、序列号、容量、是否支持SMART、开启否<br><br>        主页:<a href="http://smartmontoo[" target="_blank" rel="external">http://smartmontoo[</a><u style="background-color: inherit;">ls</u>](<a href="http://www.linuxso.com/command/ls.html).sourceforge.net/" target="_blank" rel="external">http://www.linuxso.com/command/ls.html).sourceforge.net/</a><br><br>        Centos安装:<br><br>        yum -y install smartmontools<br><br>        smartctl<span style="background-color: inherit;">&nbsp;</span><br><br>        -i 指定设备<br><br>        -d 指定设备类型,例如：ata, scsi, marvell, sat, 3ware,N<br><br>        -a 或A 显示所有信息<br><br>        -l 指定日志的类型，例如:TYPE: error, selftest, selective, directory,background, scttemp[sts,hist]<br><br>        -H 查看硬盘健康状态<br><br>        -t short 后台检测硬盘，消耗时间短<br><br>        -t long 后台检测硬盘，消耗时间长<br><br>        -C -t short 前台检测硬盘，消耗时间短<br><br>        -C -t long 前台检测硬盘，消耗时间长<br><br>        -X 中断后台检测硬盘<br><br>        -l selftest 显示硬盘检测日志<br><br>        HP硬盘：<br><br>        smartctl -s on -d&nbsp; cciss,0 /dev/cciss/c0d0 开启SMART<br><br>        smartctl&nbsp; -a&nbsp; -d cciss,0 -i /dev/cciss/c0d0&nbsp; 显示所有SMART信息<br><br>        smartctl&nbsp; -l error&nbsp; -d cciss,0 -i /dev/cciss/c0d0 查看磁盘错误日志<br><br>        +++++++++++++++++++++++smarted服务+++++++++++++++++<br><br>        简单说下smartctl:smartd由kernel-utils包缺省安装。用<a href="http://www.linuxso.com/command/" target="_blank" rel="external"><u style="background-color: inherit;">命令</u></a><span style="background-color: inherit;">&nbsp;</span>rpm -ql kernel-utils 可以列出kernel-utils包中的文件<br><br>        它是一个守护进程（一个帮助程序），它能监视拥有自我监视，分析和汇报技术(Self-Monitoring, Analysis, and Reporting Technology - SMART)的硬盘。<br><br>        主配置文件：/etc/smartd.conf<span style="background-color: inherit;">&nbsp;</span><br><br>        添加一行/dev/cciss/c0d0 -H -m sys@5iqiong.com<br><br>        上边的配置表示smartd以静默状态工作，当SMART中报告PASSED的时候不理睬一旦出现Failure，立刻用邮件通知用户指定的邮箱<br><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

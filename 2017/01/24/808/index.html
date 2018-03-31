@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>TMUX多终端管理神器</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/24/808/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">TMUX多终端管理神器</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-24</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+      <a href="/tags/tools/"" title="tools" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tools</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://tmux.github.io/" target="_blank" rel="external">https://tmux.github.io/</a></p>
+<pre><code>tmux depends on libevent 2.x和ncurses ----------centos7版本高，centos6版本太低 （不推荐）
+
+yum install tmux ---版本太低（不推荐）
+
+centos7
+
+yum -y install libevent libevent-devel ncurses ncurses-devel
+
+下载最新版tmux-2.3.tar.gz
+
+wget [https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz](https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz)
+
+tar -zxvf tmux-2.3.tar.gz
+
+cd tmux-2.3
+
+$ ./configure &amp;amp;&amp;amp; make
+
+$ make install
+
+或者
+
+To get and build the latest from version control:
+
+&amp;nbsp;$ git clone [https://github.com/tmux/tmux.git](https://github.com/tmux/tmux.git)
+
+&amp;nbsp;$ cd tmux
+
+&amp;nbsp;$ sh autogen.sh
+
+&amp;nbsp;$ ./configure &amp;amp;&amp;amp; make
+
+###############
+
+Tmux 的配置文件
+
+每当开启一个新的会话时，Tmux 都会先读取 ~/.tmux.conf 这个文件。该文件中存放的就是对 Tmux 的配置。
+
+小提示：如果你希望新的配置项能够立即生效，那么你可以将下面这一行配置加入到文件vi ~/.tmux.conf 中。
+
+# bind a reload key
+
+bind R source-file ~/.tmux.conf ; display&amp;nbsp; &amp;quot;Config reloaded..&amp;quot;
+
+这样配置了之后，每当向 ~/.tmux.conf 文件中添加了新的配置，只需要按下 Ctrl-b r 就可以重新加载配置并使新的配置生效，从而免去了开启一个新的会话。
+
+###
+
+使用
+
+tmux默认的控制键是ctrl+b(（同时按下 Ctrl 键和 b 键）,在后面将直接用小写的c-b代替).
+
+前置操作：所有下面介绍的快捷键，都必须以前置操作开始。
+
+例如，我们想要新建一个窗体，就需要先在键盘上摁下CTRL+b，松开后再摁下c键。
+
+这里需要说明一点的是，tmux的任何指令，都包含一个前缀，也就是说，你按了前缀(一组按键， 默认是Ctrl+b)以后，系统才知道你接下来的指令是发送给tmux的。
+
+##########开启tmux
+
+#tmux
+
+##########显示已有tmux列表（C-b s）
+
+#tmux ls
+
+C-b ? 显示快捷键帮助
+
+C-b C-o 调换窗口位置，类似与vim 里的C-w
+
+C-b 空格键 采用下一个内置布局
+
+C-b ! 把当前窗口变为新窗口
+
+C-b &amp;ldquo; 横向分隔窗口
+
+C-b % 纵向分隔窗口
+
+C-b q 显示分隔窗口的编号
+
+C-b o 跳到下一个分隔窗口
+
+C-b 上下键 上一个及下一个分隔窗口
+
+C-b C-方向键 调整分隔窗口大小
+
+C-b c 创建新窗口
+
+C-b 0~9 选择几号窗口
+
+C-b c 创建新窗口
+
+C-b n 选择下一个窗口
+
+C-b l 切换到最后使用的窗口
+
+C-b p 选择前一个窗口
+
+C-b w 以菜单方式显示及选择窗口
+
+C-b t 显示时钟
+
+C-b ; 切换到最后一个使用的面板
+
+C-b x 关闭面板
+
+C-b &amp;amp; 关闭窗口
+
+C-b s 以菜单方式显示和选择会话，列表中的每个会话都有一个 ID，该 ID 是从 0 开始的。按下对应的 ID 就可以进入会话。
+
+C-b d 退出tumx，并保存当前会话，这时，tmux仍在后台运行，可以通过tmux attach进入 到指定的会话
+
+窗口
+
+在Tmux中，窗口是个窗格容器，你可以将多个窗格放置在窗口中，并根据你的实际需要在窗口中排列多个窗格，也是完全取决于你的需要。
+
+复制模式copy-mode
+
+前缀 [ 进入复制模式
+
+按 space 开始复制，移动光标选择复制区域
+
+按 Enter 复制并退出copy-mode。
+
+将光标移动到指定位置，按 PREIFX ] 粘贴
+
+如果把tmux比作vim的话，那么我们大部分时间都是处于编辑模式，我们复制的时候可不可以像 vim一样移动呢？只需要在配置文件(~/.tmux.conf)中加入如下行即可。
+
+#copy-mode 将快捷键设置为vi 模式
+
+setw -g mode-keys vi
+
+#会话
+
+C-x s 以菜单的方式查看并选择会话
+
+C-x :new-session 新建一个会话
+
+C-x d 退出并保存会话
+
+终端运行 tmux attach 返回会话
+
+#命名会话
+
+tmux new-s session
+
+tmux new-s session -d #在后台建立会话
+
+tmux ls #列出会话
+
+tmux attach -t session #进入某个会话
+
+#滚屏
+
+滚屏要进入copy-mode，即前缀+[，然后就可以用上下键来滚动屏幕，配置了vi快捷键模式，就 可以像操作vi一样来滚动屏幕，非常的方便。退出直接按&amp;lsquo;q&amp;rsquo;键即可。
+
+####
+
+&lt;span style=&quot;font-size: 14px;&quot;&gt;(选配)--不完美&lt;/span&gt;
+
+tmux好基友Tmuxinator
+
+[https://yq.aliyun.com/articles/44513](https://yq.aliyun.com/articles/44513)
+
+默认的tmux风格比较朴素甚至有些丑陋。如果希望做一些美化和个性化配置的话，建议使用gpakosz的tmux配置。它的本质是一个tmux配置文件，实现了以下功能：
+
+基于powerline的美化
+
+显示笔记本电池电量
+
+和Mac互通的剪切板
+
+和vim更相近的快捷键
+
+安装方式也很简单如下
+
+通过pip安装powerline：美化文件目录：/usr/lib/python2.7/site-packages/powerline/bindings
+
+## pip install powerline-status
+
+配置Bash使用powerline
+
+#cat &amp;gt;&amp;gt; /etc/bashrc &amp;lt;&amp;lt; EOF
+
+sh /usr/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
+
+EOF
+
+#source /etc/bashrc
+
+#sh /usr/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
+
+Teriminal字体配置
+
+# git clone [https://github.com/powerline/fonts.git](https://github.com/powerline/fonts.git)
+
+# cd fonts
+
+# ./install.sh
+
+All Powerline fonts installed to /root/.local/share/fonts
+
+git clone [https://github.com/gpakosz/.tmux.git](https://github.com/gpakosz/.tmux.git)
+
+cp /opt/.tmux/.tmux.conf* /root/&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (就两个文件 .tmux.conf/.tmux.conf.local)
+
+###############
+
+centos6
+
+下面安装新版本
+
+libevent-2.0.22
+
+wget [https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz](https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz)
+
+tar -zxvf libevent-2.0.22-stable.tar.gz
+
+cd libevent-2.0.22-stable
+
+&amp;nbsp;./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+
+###
+
+ncurses5.8
+
+wget [http://invisible-island.net/datafiles/release/ncurses.tar.gz](http://invisible-island.net/datafiles/release/ncurses.tar.gz)
+
+tar -zxvf ncurses.tar.gz
+
+&amp;nbsp;cd ncurses-5.9
+
+&amp;nbsp;./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+
+##############
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

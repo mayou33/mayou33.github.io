@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Atlas 21000报错</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/12/182/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Atlas 21000报错</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-12</span>
+      
+      <a href="/categories/hadoop/" title="hadoop" class="post-categories">hadoop</a>
+      
+      
+      <a href="/tags/hadoop/"" title="hadoop" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>hadoop</a>
+      
+      <a href="/tags/Atlas/"" title="Atlas" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>Atlas</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>故障：atlas 提示21000 不通，restart也没有用。</p>
+<pre><code>原因：/var/run/atlas/atlas.pid没有正常停止
+
+解决：
+
+su atlas
+
+cd /var/run/atlas
+
+mv atlas.pid atlas.pid.bak
+
+cd /usr/hdp/current/atlas-server/bin
+
+![](data:image/png;base64,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)
+
+python atlas_start.py -port 21000
+
+![](data:image/png;base64,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)
+
+然后就刷新ambari首页。就没有报错了。
+
+[https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.3.4/bk_installing_manually_book/content/validating_atlas.html](https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.3.4/bk_installing_manually_book/content/validating_atlas.html)
+
+On Atlas Metadata Server host, run the following command to start ATLAS server:
+
+/usr/hdp/&amp;lt;hdp-version&amp;gt;/atlas/bin/atlas_start.py &amp;ndash;port 21000
+
+Open the Atlas Dashboard by visiting the following url:
+
+[http://&amp;lt;ATLAS_Metadata_Server_FQDN&amp;gt;:21000/](http://&amp;lt;ATLAS_Metadata_Server_FQDN&amp;gt;:21000/)
+
+To validate Atlas is running properly in an unsecure configuration, access the Atlas REST API by invoking the following command:
+
+curl -sL -w &amp;quot;%{http_code} %{url_effective}\\n&amp;quot; &amp;quot;[http://&amp;lt;ATLAS-HOST&amp;gt;:21000](http://&amp;lt;ATLAS-HOST&amp;gt;:21000)&amp;quot; -o /dev/null
+
+where ATLAS-HOST is the FQDN of the host where Atlas has been installed. The expected response should return a 200 response along with the URL that was accessed; similar to:
+
+200 [http://localhost:21000/](http://localhost:21000/)
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>如何在 Linux 中删除超大的（100-200GB）文件</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/05/25/1018/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">如何在 Linux 中删除超大的（100-200GB）文件</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-05-25</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      <a href="/categories/linux/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>&nbsp;</p>
+<pre><code>&lt;span class=&quot;z textcut&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: hidden; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: left; white-space: nowrap; -ms-word-wrap: break-word; -ms-text-overflow: ellipsis; max-width: 60%; orphans: 2; widows: 2; user-select: text; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;编译自：[https://www.tecmint.com/delete-huge-files-in-linux/](https://www.tecmint.com/delete-huge-files-in-linux/)&lt;/span&gt;&lt;span class=&quot;y&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; padding-left: 5px; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: right; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; user-select: text; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;作者： Aaron Kili&lt;/span&gt;
+
+&lt;span class=&quot;z&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: left; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; user-select: text; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;原创：[LCTT](https://linux.cn/lctt/) [https://linux.cn/article-8537-1.html](https://linux.cn/article-8537-1.html)&lt;/span&gt;&lt;span class=&quot;y&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; padding-left: 5px; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: right; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; user-select: text; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;译者： [geekpi](https://linux.cn/lctt/geekpi)&lt;/span&gt;
+
+通常，要[在 Linux 终端删除一个文件](https://linux.cn/article-8123-1.html)，我们使用 rm 命令（删除文件）、shred 命令（安全删除文件）、wipe 命令（安全擦除文件）或者 secure-deletion 工具包（一个安全文件删除工具集合）。
+
+我们可以使用上述任意的工具来处理相对较小的文件。如果我们想要删除超大的文件/文件夹，比如大概 100-200GB，在删除文件（I/O 调度）所花费的时间以及 RAM 占用量方面，就没有你想的那么简单。
+
+在本教程中，我们会解释如何在 Linux 中有效率并可靠地删除大文件/文件夹。
+
+**建议阅读：** [5 个在 Linux 中清空或者删除大文件的方法](https://linux.cn/article-8024-1.html)
+
+我们的主要目标是使用一种不会在删除大文件时拖慢系统的技术，合理地占用 I/O。我们可以用 ionice 命令实现这个目标。
+</code></pre><p>###<br>    在 Linux 中使用 ionice 命令删除超大（200GB）文件</p>
+<pre><code>ionice 是一个可以对另一个程序设置或获取 I/O 调度级别和优先级的有用程序。如果没有给出参数或者只有 `-p` 参数，那么 ionice 将会查询该进程的当前的 I/O 调度级别以及优先级。
+
+如果我们给出命令名称，如 `rm` 命令，它将使用给定的参数运行此命令。要获取或设置调度参数，请指定[进程的 PID]，如下：
+</code></pre><ol>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word; user-select: text;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; ionice &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;p PID&lt;/span&gt;</code></p>
+<p>要指定名字或者调度的数字，使用（0 表示无、1 表示实时、2 表示尽力、3 表示空闲）下面的命令。</p>
+<p>以下命令表示 <code>rm</code> 会属于空闲 I/O 级别，并且只在其他进程不使用的时候使用 I/O：</p>
+</li>
+<li><p><code>&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;----&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Deleting&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Huge&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Files&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Linux&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-----&lt;/span&gt;</code></p>
+</li>
+<li><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word; user-select: text;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; ionice &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;c &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word; user-select: text;&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;rm&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;logs&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;syslog&lt;/span&gt;</code></li>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word; user-select: text;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; ionice &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;c &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word; user-select: text;&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;rm&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;rf &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;apache&lt;/span&gt;</code></p>
+<p>如果系统中没有很多空闲时间，那么我们希望使用尽力调度级别，并且使用低优先级：</p>
+</li>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word; user-select: text;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; ionice &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;c &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word; user-select: text;&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;n &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word; user-select: text;&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;rm&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;logs&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;syslog&lt;/span&gt;</code></p>
+</li>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word; user-select: text;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; ionice &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;c &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word; user-select: text;&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;n &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word; user-select: text;&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;rm&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;rf &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;apache&lt;/span&gt;</code></p>
+<p>注意：要使用安全的方法删除大文件，我们可以使用先前提到的 <code>shred</code>、<code>wipe</code> 以及 secure-deletion 工具包中的不同工具，而不是 <code>rm</code> 命令。</p>
+<p><strong>建议阅读：</strong><a href="https://linux.cn/article-8123-1.html" target="_blank" rel="external">3 个在 Linux 中永久/安全删除文件/文件夹的方法</a></p>
+<p>要获取更多信息，查阅 <code>ionice</code> 的手册页：</p>
+</li>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word; user-select: text;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;man&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; ionice &lt;/span&gt;</code></p>
+<p>就是这样了！你脑海里还有其他的方法么？在评论栏中与我们分享。</p>
+<p>&nbsp;</p>
+</li>
+</ol>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

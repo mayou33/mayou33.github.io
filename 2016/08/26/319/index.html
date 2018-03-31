@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>centos 6 禁用IPV6</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/26/319/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">centos 6 禁用IPV6</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-26</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/IPV6/"" title="IPV6" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>IPV6</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><strong><span lang="EN-US" style="color: rgb(194, 12, 185); font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">sed </span></strong><span lang="EN-US" style="color: rgb(102, 0, 51); font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">-i </span><span lang="EN-US" style="color: red; font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">&#39;/^NETWORKING_IPV6.<em>/d&#39; </em></span><strong><span lang="EN-US" style="font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">/</span></strong><span lang="EN-US" style="color: rgb(17, 0, 0); font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">etc</span><strong><span lang="EN-US" style="font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">/</span></strong><span lang="EN-US" style="color: rgb(17, 0, 0); font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">sysconfig</span><em>*<span lang="EN-US" style="font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">/</span></em><span lang="EN-US" style="color: rgb(17, 0, 0); font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: white;">network</span></p>
+<pre><code>**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(122, 8, 116); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;echo &lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;&amp;#39;NETWORKING_IPV6=&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(85, 85, 85); font-family: Verdana, sans-serif; font-size: 9pt; background-color: white;&quot;&gt;no&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;&amp;#39;&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;&amp;gt;&amp;gt; /&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;etc&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;sysconfig&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;network&lt;/span&gt;
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(122, 8, 116); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;echo &lt;/span&gt;****&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;&amp;#39;&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(85, 85, 85); font-family: Verdana, sans-serif; font-size: 9pt; background-color: white;&quot;&gt;IPV6INIT=no&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: Verdana, sans-serif; font-size: 9pt; background-color: white;&quot;&gt;&amp;#39;&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;&amp;gt;&amp;gt; &lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(85, 85, 85); font-family: Verdana, sans-serif; font-size: 9pt; background-color: white;&quot;&gt;/etc/sysconfig/network-scripts/ifcfg-eth0&lt;/span&gt;
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(85, 85, 85); font-family: Verdana, sans-serif; font-size: 9pt; background-color: white;&quot;&gt;chkconfig&amp;nbsp; ip6tables off&lt;/span&gt;**
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(194, 12, 185); font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;cat &lt;/span&gt;****&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;&amp;gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;etc&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;modprobe.d&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;ipv6.conf &lt;/span&gt;_&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(204, 0, 0); font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;&amp;lt;&amp;lt; EOFI&lt;/span&gt;_
+
+_&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(204, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;alias net-pf-10 off&lt;/span&gt;_
+
+_&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(204, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;options ipv6 disable=1&lt;/span&gt;_
+
+_&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(204, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: white;&quot;&gt;EOFI&lt;/span&gt;_
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: 微软雅黑, sans-serif; font-size: 10pt; background-color: white;&quot;&gt;echo&amp;nbsp;&amp;#39;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; background-color: white;&quot;&gt;alias net-pf-10 off&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: 微软雅黑, sans-serif; font-size: 10pt; background-color: white;&quot;&gt;&amp;#39;&amp;nbsp;&amp;gt;&amp;gt; &lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;etc&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;modprobe.d&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;ipv6.conf&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: 微软雅黑, sans-serif; background-color: white;&quot;&gt;echo&amp;nbsp;&amp;#39;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; background-color: white;&quot;&gt;options ipv6 disable=1&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: 微软雅黑, sans-serif; background-color: white;&quot;&gt;&amp;#39; &amp;gt;&amp;gt;&amp;nbsp;&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;etc&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;modprobe.d&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; font-size: 10pt; background-color: white;&quot;&gt;/&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Consolas; font-size: 10pt; background-color: rgb(249, 249, 249);&quot;&gt;ipv6.conf&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;[**&lt;span style=&quot;color: blue; font-family: Arial, sans-serif; font-size: 14pt; background-color: white;&quot;&gt;https://wiki.centos.org/FAQ/CentOS6&lt;/span&gt;**](https://wiki.centos.org/FAQ/CentOS6)&lt;/span&gt;
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(7, 43, 97); font-family: Arial, sans-serif; font-size: 14pt; background-color: white;&quot;&gt;How do I disable IPv6?&lt;/span&gt;**
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: white;&quot;&gt;adding the following to&amp;nbsp; /etc/sysctl.conf&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;net.ipv6.conf.all.disable_ipv6 = 1&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;net.ipv6.conf.default.disable_ipv6 = 1&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; background-color: inherit;&quot;&gt;echo &amp;#39;net.ipv6.conf.all.disable_ipv6 = 1&amp;#39; &amp;gt;&amp;gt; /etc/sysctl.conf&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Consolas; background-color: inherit;&quot;&gt;echo &amp;#39;net.ipv6.conf.default.disable_ipv6 = 1&amp;#39; &amp;gt;&amp;gt; /etc/sysctl.conf&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;sysctl -p&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;To disable in the running system:&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;echo 1 &amp;gt; /proc/sys/net/ipv6/conf/all/disable_ipv6&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;echo 1 &amp;gt; /proc/sys/net/ipv6/conf/default/disable_ipv6&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;or&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;sysctl -w net.ipv6.conf.all.disable_ipv6=1&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;sysctl -w net.ipv6.conf.default.disable_ipv6=1&lt;/span&gt;
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;Additional note #1&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;: If problems with X forwarding are encountered on systems with IPv6 disabled, edit&amp;nbsp;**/etc/ssh/sshd_config**&amp;nbsp;and make either of the following changes:&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;(1) Change the line&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;#AddressFamily any&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;to&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;AddressFamily inet&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;(inet is ipv4 only; inet6 is ipv6 only)&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;or&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;(2) Remove the hash mark (#) in front of the line&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;#ListenAddress 0.0.0.0&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;Then restart ssh.&lt;/span&gt;
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;Additional note #2&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;: If problems with starting postfix are encountered on systems with IPv6 disabled, either&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;(1) edit /etc/postfix/main.cf and comment out the localhost part of the config and use ipv4 loopback.&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;#inet_interfaces = localhost&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;inet_interfaces = 127.0.0.1&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;or&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;(2) take out the ipv6 localhost from /etc/hosts .&lt;/span&gt;
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;Additional Note #3&amp;nbsp;&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: Arial, sans-serif; font-size: 10pt; background-color: inherit;&quot;&gt;: To disable RPCBIND ipv6 (rpcbind, rpc.mountd, prc.statd) remark out the udp6 and tcp6 lines in /etc/netconfig:&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;udp&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; tpi_clts&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; v&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; inet&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; udp&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;tcp&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; tpi_cots_ord&amp;nbsp; v&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; inet&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; tcp&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;#udp6&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; tpi_clts&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; v&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; inet6&amp;nbsp;&amp;nbsp;&amp;nbsp; udp&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;#tcp6&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; tpi_cots_ord&amp;nbsp; v&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; inet6&amp;nbsp;&amp;nbsp;&amp;nbsp; tcp&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;rawip&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; tpi_raw&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; inet&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;local&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; tpi_cots_ord&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; loopback&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;unix&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; tpi_cots_ord&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; loopback&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; -&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;#########################&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: &amp;quot;Courier New&amp;quot;; font-size: 10pt; background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(17, 0, 0); font-family: Verdana, sans-serif; font-size: 9pt; background-color: white;&quot;&gt;Disabling IPv6 support in Red Hat Enterprise Linux 6&lt;/span&gt;
+</code></pre><ol>
+<li><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">Create a file&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">/etc/modprobe.d/ipv6.conf</span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">&nbsp;with the following contents:</span></li>
+<li><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">options ipv6 disable=1</span></li>
+<li><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">For completeness, it is a good idea to configure the&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">ip6tables</span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">&nbsp;service not to start at boot by issuing the following command:</span></li>
+<li><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;"># chkconfig ip6tables off</span></li>
+<li><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">Edit&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">/etc/sysconfig/network</span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">&nbsp;and add the line&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">NETWORKING_IPV6=no</span></li>
+<li><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">Disable ipv6 support in the kernel through&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">/etc/sysctl.conf</span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">&nbsp;:</span></li>
+<li><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;"># ipv6 support in the kernel, set to 0 by default</span></li>
+<li><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">net.ipv6.conf.all.disable_ipv6 = 1</span></li>
+<li><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">net.ipv6.conf.default.disable_ipv6 = 1</span></li>
+<li><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">Optionally to prevent&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">rpc.nfsd</span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">&nbsp;setting up IPv6 sockets while NFS server is running, edit&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">/etc/netconfig</span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">&nbsp;for the lines starting with udp6 and tcp6; change the&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">&quot;v&quot;</span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">&nbsp;in the third column to&nbsp;</span><span lang="EN-US" style="font-family: Consolas; font-size: 12pt; background-color: inherit;">&quot;-&quot;</span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">(hyphen/dash)</span></li>
+<li><p><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">Reboot the system to disable IPv6 support.</span></p>
+<p><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">Note: There is a special case where this might not work, please see&nbsp;</span><span lang="EN-US" style="background-color: inherit;"><a href="https://access.redhat.com/knowledge/solutions/72733" target="_blank" rel="external"><span style="color: navy; font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">The &quot;ipv6 disable=1&quot; option does not seem to work on Red Hat Enterprise Linux 6 system</span></a></span><span lang="EN-US" style="font-family: Verdana, sans-serif; font-size: 10pt; background-color: inherit;">.</span></p>
+<p>Disabling ipv6 in the sysctl.conf will ensure ipv6 isn&#39;t used even if the ipv6 module is loaded and can work as a short term solution (until a full reboot)</p>
+<p><span lang="EN-US" style="font-family: &quot;Courier New&quot;; font-size: 10pt; background-color: inherit;">&nbsp;</span></p>
+<p><span lang="EN-US" style="background-color: inherit;">&nbsp;</span></p>
+</li>
+</ol>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

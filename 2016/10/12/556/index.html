@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux上查看硬件信息的一款神器 ：Inxi</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/10/12/556/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux上查看硬件信息的一款神器 ：Inxi</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-10-12</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    源码：<a href="http://code.google.com/p/inxi/source/browse/trunk/inxi" target="_blank" rel="external">http://code.google.com/p/inxi/source/browse/trunk/inxi</a><br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    <span style="color: rgb(68, 68, 68); font-family: arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">moved to github</span><br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    <div style="background-color: inherit;"><br>        <a href="https://github.com/smxi/inxi" target="_blank" rel="external"><font color="#0066cc">https://github.com/smxi/inxi</font></a><br>    </div><br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    在线安装-centos系统<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    先安装EPEL：yum&nbsp;install&nbsp;epel-release&nbsp;-y<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    在安装inxi：yum&nbsp;install&nbsp;inxi<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    默认路径:/usr/bin/inxi<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    在线源码安装<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    要安装&nbsp;inxi，只需执行下列命令即可：<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    git clone <a href="https://github.com/smxi/inxi.git" target="_blank" rel="external"><font color="#0066cc">https://github.com/smxi/inxi.git</font></a><br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    &nbsp;&nbsp;chmod&nbsp;+x&nbsp;inxi<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    执行&nbsp;./inxi&nbsp;-c3&nbsp;-v7&nbsp;后，其输出结果如下，包括&nbsp;CPU、图形、音频、网络、磁盘、分区等各方面的信息：<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    使用c选项，后面再跟上一个0到32之间的随机数。Inxi的输出结果标以颜色；<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    其中3是红色<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/1.875 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: pre-wrap; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" yne-bulb-block="paragraph"><br>    <span style="font-size: 24px; font-weight: bold; background-color: rgb(255, 255, 255);">输出到文本./inix&nbsp;-c3&nbsp;-v7&nbsp;&gt;&nbsp;/tmp/sysinfo.txt</span><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

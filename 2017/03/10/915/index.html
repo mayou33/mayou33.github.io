@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux网络工具之fping</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/03/10/915/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux网络工具之fping</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-03-10</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/tools/"" title="tools" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tools</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>windows 类似工具PingInfoView</p>
+<pre><code>[http://www.nirsoft.net/utils/multiple_ping_tool.html](http://www.nirsoft.net/utils/multiple_ping_tool.html)
+
+安装fping
+
+yum -y install fping
+
+查看网段里的ip情况
+
+&amp;nbsp;fping -Ag -s -r 1 192.168.1.1/24
+
+Fping命令与Ping命令非常相似，使用ICMP回应请求和应答来确定系统的可达性。它提供了一些Ping没有的特殊功能.现在把常用的几个命令参数记录如下：
+
+&amp;nbsp;&amp;nbsp;
+
+fping的命令和参数详解
+
+Usage: fping [options] [targets...]
+
+用法：fping [选项] [ping的目标]
+
+&amp;nbsp;&amp;nbsp; -a&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; show targets that are alive
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 显示可ping通的目标
+
+&amp;nbsp;&amp;nbsp; -A&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; show targets by address
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 将目标以ip地址的形式显示
+
+&amp;nbsp;&amp;nbsp; -b n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; amount of ping data to send, in bytes (default 56)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ping 数据包的大小。（默认为56）
+
+&amp;nbsp;&amp;nbsp; -B f&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; set exponential backoff factor to f
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 设置指数反馈因子到f 【这个不懂，求指教~】
+
+&amp;nbsp;&amp;nbsp; -c n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; count of pings to send to each target (default 1)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ping每个目标的次数 (默认为1)
+
+&amp;nbsp;&amp;nbsp; -C n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; same as -c, report results in verbose format
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 同-c, 返回的结果为冗长格式
+
+&amp;nbsp;&amp;nbsp; -e&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; show elapsed time on return packets
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 显示返回数据包所费时间
+
+&amp;nbsp;&amp;nbsp; -f file&amp;nbsp;&amp;nbsp;&amp;nbsp; read list of targets from a file ( - means stdin) (only if no -g specified)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 从文件获取目标列表( - 表示从标准输入)(不能与 -g 同时使用)
+
+&amp;nbsp;&amp;nbsp; -g&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; generate target list (only if no -f specified)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 生成目标列表(不能与 -f 同时使用)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (specify the start and end IP in the target list, or supply a IP netmask)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (ex. fping -g 192.168.1.0 192.168.1.255 or fping -g 192.168.1.0/24)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (可指定目标的开始和结束IP， 或者提供ip的子网掩码)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (例：fping -g 192.168.1.0 192.168.1.255 或 fping -g 192.168.1.0/24)
+
+&amp;nbsp;&amp;nbsp; -H n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Set the IP TTL value (Time To Live hops)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 设置ip的TTL值 (生存时间)
+
+&amp;nbsp;&amp;nbsp; -i n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; interval between sending ping packets (in millisec) (default 25)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ping包之间的间隔(单位：毫秒)(默认25)
+
+&amp;nbsp;&amp;nbsp; -l&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; loop sending pings forever
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 循环发送ping
+
+&amp;nbsp;&amp;nbsp; -m&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ping multiple interfaces on target host
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ping目标主机的多个网口
+
+&amp;nbsp;&amp;nbsp; -n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; show targets by name (-d is equivalent)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 将目标以主机名或域名显示(等价于 -d )
+
+&amp;nbsp;&amp;nbsp; -p n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; interval between ping packets to one target (in millisec)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 对同一个目标的ping包间隔(毫秒)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (in looping and counting modes, default 1000)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (在循环和统计模式中，默认为1000)
+
+&amp;nbsp;&amp;nbsp; -q&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; quiet (don&amp;#39;t show per-target/per-ping results)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 安静模式(不显示每个目标或每个ping的结果)
+
+&amp;nbsp;&amp;nbsp; -Q n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; same as -q, but show summary every n seconds
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 同-q, 但是每n秒显示信息概要
+
+&amp;nbsp;&amp;nbsp; -r n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; number of retries (default 3)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 当ping失败时，最大重试次数(默认为3次)
+
+&amp;nbsp;&amp;nbsp; -s&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; print final stats
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 打印最后的统计数据
+
+&amp;nbsp;&amp;nbsp; -I if&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; bind to a particular interface
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 绑定到特定的网卡
+
+&amp;nbsp;&amp;nbsp; -S addr&amp;nbsp;&amp;nbsp;&amp;nbsp; set source address
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 设置源ip地址
+
+&amp;nbsp;&amp;nbsp; -t n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; individual target initial timeout (in millisec) (default 500)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 单个目标的超时时间(毫秒)(默认500)
+
+&amp;nbsp;&amp;nbsp; -T n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ignored (for compatibility with fping 2.4)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 请忽略(为兼容fping 2.4)
+
+&amp;nbsp;&amp;nbsp; -u&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; show targets that are unreachable
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 显示不可到达的目标
+
+&amp;nbsp;&amp;nbsp; -O n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; set the type of service (tos) flag on the ICMP packets
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在icmp包中设置tos（服务类型）
+
+&amp;nbsp;&amp;nbsp; -v&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; show version
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 显示版本号
+
+&amp;nbsp;&amp;nbsp; targets&amp;nbsp;&amp;nbsp;&amp;nbsp; list of targets to check (if no -f specified)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 需要ping的目标列表(不能和 -f 同时使用)
+
+-h&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; show this page
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 显示本帮助页
+
+&amp;nbsp;
+
+#######
+
+显示alive的IP：fping -ag -s -r 1 192.168.11.1/24&amp;nbsp;
+
+&amp;nbsp;
+
+显示unreachable的IP：fping -ug -s -r 1 192.168.11.1/24&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;########
+
+先建立一个txt文件，来记录目标服务器的ip&amp;nbsp; 也可以是域名。
+
+![](data:image/png;base64,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)
+
+执行#
+
+fping -A -f /tmp/hostshao.txt
+
+fping &amp;ndash;e &amp;ndash;f /1/11.txt&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (绝对路径的文件)
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

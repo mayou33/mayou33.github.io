@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>自定义docker CentOS 镜像</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/17/248/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">自定义docker CentOS 镜像</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-17</span>
+      
+      <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
+      
+      
+      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>下载一个 CentOS 的镜像：</p>
+<div style="font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><br>    <div style="font-size: 1em !important; background-color: rgb(255, 255, 255) !important;"><br>        <code>#&amp;nbsp;docker&amp;nbsp;pull&amp;nbsp;centos:``7.2``.``1511</code><br>    </div><br></div>
+
+<pre><code>下载完成后，使用命令查看本地镜像列表：
+</code></pre><div style="background-color: inherit;"><br>    <span style="text-align: left; color: rgb(0, 0, 0); font-family: Consolas, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace; font-size: 12px; font-style: normal; font-weight: normal; background-color: rgb(244, 244, 244);"><span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">docker&nbsp;images&nbsp;centos</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        [root@localhost&nbsp;docker]#&nbsp;&nbsp;docker&nbsp;images&nbsp;centos<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    REPOSITORY&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;TAG&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;IMAGE&amp;nbsp;ID&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CREATED&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;SIZE
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    docker.io/centos&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;7.2.1511&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;6866&lt;/font&gt;72a1d0cc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;6&amp;nbsp;weeks&amp;nbsp;ago&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;194.6&amp;nbsp;MB
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    进入&nbsp;<span style="line-height: 1.5; background-color: inherit;">docker&nbsp;run&nbsp;-i&nbsp;-t&nbsp;centos:7.2.1511&nbsp;/bin/bash</span><br></div>
+
+<div style="background-color: inherit;"><br>    或者<span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">docker&nbsp;run&nbsp;-i&nbsp;-t &nbsp;<span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">6866</span> /bin/bash</span><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">比如&nbsp;<span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">安装ssh和一些软件，上传一些工具，安装jdk等&nbsp;</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>        &nbsp;<br>    </div>
+
+<pre><code>&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;替换系统默认时区&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;rm -rf /etc/localtime&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;cat &amp;gt; /etc/sysconfig/clock &amp;lt;&amp;lt;EOF&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;ZONE=&amp;quot;Asia/Shanghai&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;UTC=&lt;span style=&quot;background-color: inherit;&quot;&gt;false&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;EO&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;F&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Simsun; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;#echo -e &amp;quot;LANG=\&amp;quot;en_US.UTF-8\&amp;quot;&amp;quot; &amp;gt; /etc/default/local&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <span style="background-color: inherit;">#mkdir&nbsp;<span style="background-color: inherit;">/data</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        # mkdir /opt/tools<br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">#yum&nbsp;-y&nbsp;install&nbsp;epel-release</span><br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <font color="#008200" style="background-color: inherit;"><span style="line-height: 18px; font-size: 12px; background-color: inherit;">总之-自定义自己想要的</span></font><br>    </div>
+
+<pre><code>    &lt;span style=&quot;text-align: left; color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Arial, &amp;quot;PingFang SC&amp;quot;, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;WenQuanYi Micro Hei&amp;quot;, &amp;quot;Microsoft Yahei&amp;quot;, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;改好了后&lt;/span&gt;`&lt;font size=&quot;3&quot;&gt;exit&lt;/font&gt;`&lt;span style=&quot;text-align: left; color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Arial, &amp;quot;PingFang SC&amp;quot;, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;WenQuanYi Micro Hei&amp;quot;, &amp;quot;Microsoft Yahei&amp;quot;, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;退出来&lt;/span&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;font color=&quot;#333333&quot; face=&quot;Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, WenQuanYi Micro Hei, Microsoft Yahei, sans-serif&quot; style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;查看正在运行的容器 ：&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;docker&amp;nbsp;ps&amp;nbsp;-l&lt;/span&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Arial, &amp;quot;PingFang SC&amp;quot;, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;WenQuanYi Micro Hei&amp;quot;, &amp;quot;Microsoft Yahei&amp;quot;, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;然后&lt;/span&gt;`docker commit &amp;lt;container ID&amp;gt; 新的镜像名`&lt;span style=&quot;text-align: left; color: rgb(51, 51, 51); font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Arial, &amp;quot;PingFang SC&amp;quot;, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;WenQuanYi Micro Hei&amp;quot;, &amp;quot;Microsoft Yahei&amp;quot;, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;来提交你的镜像&lt;/span&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            #docker&amp;nbsp;commit&amp;nbsp;1a84d337ba4e&amp;nbsp;&amp;nbsp;centos7.2.1511-v1
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: simsun; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(245, 248, 253);&quot;&gt;如果不加冒号tag，默认的tag就是latest&lt;/span&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;span style=&quot;font: 14px/21px simsun; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(245, 248, 253); -webkit-text-stroke-width: 0px;&quot;&gt;举例加个&lt;/span&gt;&lt;span style=&quot;font: 14px/21px simsun; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(245, 248, 253); -webkit-text-stroke-width: 0px;&quot;&gt;tag&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        #&amp;nbsp;docker&amp;nbsp;commit&amp;nbsp;1a84d337ba4e&amp;nbsp;&amp;nbsp;centos7.2.1511-v2:centos7.2.1511-0815
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;font face=&quot;simsun&quot; style=&quot;background-color: inherit;&quot;&gt;看一下镜像&lt;/font&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        [root@localhost&amp;nbsp;docker]#&lt;font color=&quot;#ff0000&quot; style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;docker&amp;nbsp;images&amp;nbsp;centos*&lt;/font&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        REPOSITORY&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;TAG&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;IMAGE&amp;nbsp;ID&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CREATED&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;SIZE
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        centos7.2.1511-v2&amp;nbsp;&amp;nbsp;&amp;nbsp;centos7.2.1511-0815&amp;nbsp;&amp;nbsp;&amp;nbsp;dce617616993&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;30&amp;nbsp;seconds&amp;nbsp;ago&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;608.4&amp;nbsp;MB
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        centos7.2.1511-v1&amp;nbsp;&amp;nbsp;&amp;nbsp;latest&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;f0410b352d06&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;30&amp;nbsp;minutes&amp;nbsp;ago&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;608.4&amp;nbsp;MB
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        docker.io/centos&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;latest&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;970633036444&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2&amp;nbsp;weeks&amp;nbsp;ago&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;196.7&amp;nbsp;MB
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    进入检查一下，是否成功
+&lt;/div&gt;
+
+    &lt;span style=&quot;background-color: inherit;&quot;&gt;#&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;docker&amp;nbsp;run&amp;nbsp;-i&amp;nbsp;-t&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;dce617616993&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;&amp;nbsp;/bin/bash&lt;/span&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">exit</span><br><br>    <div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>        &nbsp;<br>    </div>
+
+<pre><code>&lt;div style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;
+    最后，选择删除旧版本image---选配
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

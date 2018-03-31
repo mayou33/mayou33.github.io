@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Rsync+sersync双向同步（两边修改的情况）</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/22/287/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Rsync+sersync双向同步（两边修改的情况）</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-22</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/rsync/"" title="rsync" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>rsync</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="color: black; font-size: 10.5pt; background-color: inherit;">环境：</span></p>
+<pre><code>&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: black; font-size: 10.5pt; background-color: inherit;&quot;&gt;主&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;192.168.15.191&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;/opt/tongbu&amp;nbsp;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: black; font-size: 10.5pt; background-color: inherit;&quot;&gt;备&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;192.168.15.192&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;/opt/tongbu&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: black; font-size: 10.5pt; background-color: inherit;&quot;&gt;架构：&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;Rsync+sersync&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color: black; font-size: 10.5pt; background-color: inherit;&quot;&gt;双方加&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;hosts&lt;/span&gt;&lt;/span&gt;
+
+**&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 宋体; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;配置好两台服务器的&lt;/span&gt;****&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;rsync&lt;/span&gt;****&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 宋体; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;（两台都要配置）&lt;/span&gt;**
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: yellow;&quot;&gt;yum install rsync&lt;/span&gt;
+
+**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;font-size:22.0pt;font-size:10.5pt;} &amp;quot;; background-color: rgb(243, 248, 251);&quot;&gt;&lt;font face=&quot;宋体&quot;&gt;vi /etc/rsyncd.conf&lt;/font&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;uid = root&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;gid = root&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;use chroot = no&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;max connections = 36000&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;log file = /var/log/rsyncd.log&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;pid file = /var/run/rsyncd.pid&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;lock file = /var/run/rsync.lock&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;[tongbu]&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;path = /opt/tongbu/&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;comment = test191&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: black; font-size: 10.5pt; background-color: inherit;&quot;&gt;（自己主机名）&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;read only = no&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;hosts allow = 192.168.15.192/24&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;（内容结束，&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;path&lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;为要同步的路径，&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;hosts allow&lt;/span&gt;&lt;span style=&quot;color: red; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;为对方机器的&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;IP&lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;）&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+**&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 宋体; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;下载&lt;/span&gt;**&lt;span style=&quot;background-color: inherit;&quot;&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;&amp;nbsp;&lt;/span&gt;**&lt;/span&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;sersync&lt;/span&gt;**&lt;span style=&quot;background-color: inherit;&quot;&gt;**&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;}&amp;quot;, serif; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;&amp;nbsp;&lt;/span&gt;**&lt;/span&gt;**&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 宋体; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;并配置（两台都要配置）&lt;/span&gt;**
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;sersync&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;下载地址：&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;https://sersync.googlecode.com/files/sersync2.5.4_64bit_binary_stable_final.tar.gz&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;上传&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;sersync2.5.4_64bit_binary_stable_final.tar.gz&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;tar zxvf sersync2.5.4_64bit_binary_stable_final.tar.gz&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;解压得到&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;GNU-Linux-x86&lt;/span&gt;&lt;/span&gt;文件&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;新建目录&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: yellow;&quot;&gt;mkdir -p /usr/local/sersync&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;把&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;GNU-Linux-x86&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;文件里的两个文件，&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;移动到&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;/usr/local/sersync&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;cd GNU-Linux-x86/&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;cp confxml.xml /usr/local/sersync&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;cp sersync2 /usr/local/sersync&amp;nbsp;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: red; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;配置&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;sersync&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;cd /usr/local/sersync&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;进入&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;sersync&lt;/span&gt;&lt;/span&gt;安装目录&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;cp confxml.xml confxml.xml-bak&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;备份原文件&lt;/span&gt;&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;vi confxml.xml&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;#&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: blue; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;编辑，修改下面的代码&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;{&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: black; font-size: 10.5pt; background-color: inherit;&quot;&gt;就修改这一块，其他默认&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&amp;lt;localpath watch=&amp;quot;/opt/tongbu/ &amp;quot;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;&amp;lt;remote ip=&amp;quot;192.168.15.192&amp;quot; name=&amp;quot;tongbu&amp;quot;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+**&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 宋体; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;启动&lt;/span&gt;****&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;font-size:10.5pt;font-size:10.5pt;} &amp;quot;; background-color: rgb(243, 248, 251);&quot;&gt;&lt;font face=&quot;宋体&quot;&gt;sersync&lt;/font&gt;&lt;/span&gt;****&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 宋体; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;后台&lt;/span&gt;****&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;font-size:10.5pt;font-size:10.5pt;} &amp;quot;; background-color: rgb(243, 248, 251);&quot;&gt;&lt;font face=&quot;宋体&quot;&gt;daemon&lt;/font&gt;&lt;/span&gt;****&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 宋体; font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;程序，开始进入监控（两台都要运行）&lt;/span&gt;**
+
+**&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(102, 102, 102); background-color: inherit;&quot;&gt;Rsync&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color: rgb(102, 102, 102); background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;的启动&lt;/span&gt;&lt;/span&gt;**
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; background-color: yellow;&quot;&gt;/usr/bin/rsync&amp;nbsp;--daemon&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 微软雅黑, sans-serif; font-size: 14pt; background-color: inherit;&quot;&gt;（两台服务器都执行）在刚刚这个&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 14pt; background-color: inherit;&quot;&gt;cd /usr/local/sersync&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(68, 68, 68); font-family: 微软雅黑, sans-serif; font-size: 14pt; background-color: inherit;&quot;&gt;下执行&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(68, 68, 68); font-family: &amp;quot;font-size:14.0pt;font-size:10.5pt;} &amp;quot;; background-color: inherit;&quot;&gt;&lt;font face=&quot;宋体&quot;&gt;./sersync2 -d &amp;ndash;r&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(92, 92, 92); font-family: Consolas; font-size: 15pt; background-color: yellow;&quot;&gt;/usr/local/sersync/sersync2 -r -d -o /usr/local/sersync/confxml.xml&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); font-size: 10.5pt; background-color: rgb(243, 248, 251);&quot;&gt;在两台服务器的这个目录下建目录，加文件，删除文件看看，是不是同步了&lt;/span&gt;
+
+**&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(102, 102, 102); background-color: inherit;&quot;&gt;开机启动&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;vi /etc/rc.local&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;添加&lt;/span&gt;&lt;/span&gt;**
+
+&lt;span lang=&quot;EN-US&quot; style=&quot;color: red; background-color: yellow;&quot;&gt;/usr/bin/rsync&amp;nbsp;--daemon&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(102, 102, 102); background-color: inherit;&quot;&gt;若要停止服务，执行如下命令&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;:&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(102, 102, 102); background-color: inherit;&quot;&gt;ps -ef|grep rsync&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(102, 102, 102); background-color: inherit;&quot;&gt;cat&amp;nbsp;/var/run/rsyncd.pid&amp;nbsp;|&amp;nbsp;xargs&amp;nbsp;kill&amp;nbsp;-9&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;rm&amp;nbsp;-rf&amp;nbsp;/var/run/rsyncd.pid&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: black; font-family: 微软雅黑, sans-serif; font-size: 10.5pt; background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

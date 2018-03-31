@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>centos下使用OPENVPN Client</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/03/10/908/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">centos下使用OPENVPN Client</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-03-10</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/vpn/"" title="vpn" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>vpn</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>###<br>        安装OpenVPN<br><br></div>
+
+<pre style="font: 14px/21px Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">
+<span style="background-color: inherit;"><span style="background-color: inherit;">#&nbsp;yum&nbsp;install&nbsp;openvpn&nbsp;-y
+#&nbsp;chkconfig&nbsp;openvpn&nbsp;on</span></span></pre>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        装完成后，应该出现<span style="line-height: 1.5; background-color: rgb(255, 255, 255);">/etc/openvpn/</span><span style="line-height: 1.5; background-color: rgb(255, 255, 255);">文件夹。</span><br><br>###<br>        配置OpenVPN<br><br>        作为客户端，OpenVPN并没有特定的配置文件，而是由服务器提供方给出一个配置文件。<br><br>        对于认证，OpenVPN提供了两种认证方法：基于用户名/密码的认证与SSL证书认证。<br><br>        用户名/密码的认证方法无法（或较难）限制一个账号同时连接多个客户端，<br><br>        而采用证书，则可保证同一证书同一时间只能有一个客户端连接。当然，这些都是由服务器端决定的，不需要客户端进行选择。<br><br>        &nbsp;<br><br>        首先将OpenVPN服务器提供商发给你的配置文件解压，并将所有文件都复制到 /etc/openvpn/中。<br><br>        这些文件中至少包含一个.ovpn文件；如果服务器需要证书认证，则应该还存在另外三个证书文件。<br><br>        看懂OpenVPN配置格式。下面是一个.ovpn配置示例：<br><br>    &gt; <font color="#333333" style="background-color: inherit;">client</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">dev tap</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">proto tcp-client</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">remote</font><font color="#ff0000" style="background-color: inherit;"><span style="font-family: Monaco, &quot;Andale Mono&quot;, &quot;Courier New&quot;, Courier, mono; font-size: 12px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">&lt;REMOTE_SERVER_IP&gt;</span></font><font color="#333333" style="background-color: inherit;"> 1194</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">resolv-retry infinite</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">nobind</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">mute-replay-warnings</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">redirect-gateway</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">ca &nbsp;</font><span style="text-align: justify; color: rgb(255, 0, 0); font-family: &quot;Helvetica Neue&quot;, &quot;Luxi Sans&quot;, &quot;DejaVu Sans&quot;, Tahoma, &quot;Hiragino Sans GB&quot;, STHeiti, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: inherit;">/etc/ca.crt</span><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">cert</font><span style="color: rgb(51, 51, 51); background-color: inherit;">&nbsp;</span><span style="text-align: justify; color: rgb(255, 0, 0); font-family: &quot;Helvetica Neue&quot;, &quot;Luxi Sans&quot;, &quot;DejaVu Sans&quot;, Tahoma, &quot;Hiragino Sans GB&quot;, STHeiti, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: inherit;">/etc/client.crt</span><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">key</font><span style="color: rgb(51, 51, 51); background-color: inherit;">&nbsp;</span><span style="text-align: justify; color: rgb(255, 0, 0); font-family: &quot;Helvetica Neue&quot;, &quot;Luxi Sans&quot;, &quot;DejaVu Sans&quot;, Tahoma, &quot;Hiragino Sans GB&quot;, STHeiti, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: inherit;">/etc/client.key</span><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">comp-lzo</font><br>&gt;<br>&gt;             <font color="#333333" style="background-color: inherit;">verb 4</font><br><br>        一般来说，红色的内容可能需要你进行修改。将红色的内容修改成这三个文件的实际位置。然后保存即可。<br><br>        &nbsp;<br><br>###<br>        连接OpenVPN<br><br>        在配置好.ovpn文件后，执行<br><br>    &gt; <span style="text-align: justify; color: rgb(0, 0, 255); font-family: &quot;Helvetica Neue&quot;, &quot;Luxi Sans&quot;, &quot;DejaVu Sans&quot;, Tahoma, &quot;Hiragino Sans GB&quot;, STHeiti, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: inherit;">openvpn /etc/<strong><em>.ovpn</em></strong></span><br><br>        即可连接服务器了。注意，上面的参数应该换成你的配置文件实际位置。<br><br>        此时，终端会回显很多连接日志。如果连接不成功，则可以通过这些日志来确定出错位置。如果要断开，只需要通过Ctrl+C强制终止即可。<br><br>        上面的命令在实际中并不方便，因为它要占用一个独立的终端。在测试成功后，使用以下命令即可在后台连接OpenVPN：<br><br>    &gt; <span style="text-align: justify; color: rgb(0, 0, 255); font-family: &quot;Helvetica Neue&quot;, &quot;Luxi Sans&quot;, &quot;DejaVu Sans&quot;, Tahoma, &quot;Hiragino Sans GB&quot;, STHeiti, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: inherit;">openvpn /etc/.ovpn &gt; /dev/null &amp;</span><br><br>        值得称赞的是，openvpn非常智能，在连接异常中断、无法连接服务器、断网的情况下，它会自动重连。因此，如果希望开机即自动连接OpenVPN，或者是VPN常年在线，则可将上述命令行加入<br><br>    &gt; <span style="text-align: justify; color: rgb(0, 0, 255); font-family: &quot;Helvetica Neue&quot;, &quot;Luxi Sans&quot;, &quot;DejaVu Sans&quot;, Tahoma, &quot;Hiragino Sans GB&quot;, STHeiti, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: inherit;">/etc/rc.local</span><br><br>        中。注意，命令末尾的&amp;符号不能省略，否则将可能阻塞系统的正常启动。<br><br></div>
+
+<pre><code>&amp;nbsp;
+
+service openvpn start 启动的是openvpn的服务
+
+&amp;nbsp;
+</code></pre><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        &nbsp;<br><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>深入浅出 Redis Cluster 原理</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/26/324/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">深入浅出 Redis Cluster 原理</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-26</span>
+      
+      <a href="/categories/redis/" title="redis" class="post-categories">redis</a>
+      
+      
+      <a href="/tags/redis/"" title="redis" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>redis</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span class="rich_media_meta meta_original_tag" id="copyright_logo" style="margin: 0px 8px 10px 0px; padding: 1px 0.5em; border-radius: 20% 50%; border: 1px solid rgb(158, 158, 158); border-image: none; color: rgb(140, 140, 140); text-transform: none; line-height: 1.1; text-indent: 0px; letter-spacing: normal; font-family: -apple-system-font, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; word-spacing: 0px; vertical-align: middle; display: inline-block; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;">原创</span><span style="color: rgb(0, 0, 0); text-transform: none; line-height: 20px; text-indent: 0px; letter-spacing: normal; font-family: -apple-system-font, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 0px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;"> </span><em>2016-08-09</em><span style="color: rgb(0, 0, 0); text-transform: none; line-height: 20px; text-indent: 0px; letter-spacing: normal; font-family: -apple-system-font, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 0px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;"> </span><em>李航</em><span style="color: rgb(0, 0, 0); text-transform: none; line-height: 20px; text-indent: 0px; letter-spacing: normal; font-family: -apple-system-font, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 0px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;"> </span><span class="rich_media_meta rich_media_meta_text rich_media_meta_nickname" style="margin: 0px 8px 10px 0px; padding: 0px; color: rgb(140, 140, 140); text-transform: none; line-height: 20px; text-indent: 0px; letter-spacing: normal; font-family: -apple-system-font, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; vertical-align: middle; display: inline-block; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;">运维帮</span></p>
+<pre><code>[https://mp.weixin.qq.com/s?__biz=MzA3MzYwNjQ3NA==&amp;amp;mid=2651296996&amp;amp;idx=2&amp;amp;sn=5f4811d73e74e2a63b1cb0d3d532862a&amp;amp;scene=2&amp;amp;srcid=0809bE4ldt4f9zFdEe9vBnEi&amp;amp;from=timeline&amp;amp;isappinstalled=0#rd](https://mp.weixin.qq.com/s?__biz=MzA3MzYwNjQ3NA==&amp;amp;mid=2651296996&amp;amp;idx=2&amp;amp;sn=5f4811d73e74e2a63b1cb0d3d532862a&amp;amp;scene=2&amp;amp;srcid=0809bE4ldt4f9zFdEe9vBnEi&amp;amp;from=timeline&amp;amp;isappinstalled=0#rd)
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

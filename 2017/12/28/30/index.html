@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>把excel变成markdown表格</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/12/28/30/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">把excel变成markdown表格</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-12-28</span>
+      
+      <a href="/categories/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>exceltk, 转换excel表格到markdown</p>
+<p>下载<a href="http://fanfeilong.github.io/" target="_blank" rel="external">http://fanfeilong.github.io/</a></p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ul>
+<li>转换Excel表格到MarkDown表格</li>
+<li>支持Excel单元格带超链接，如果一个单元格，你右键添加了超链接，自动转成<code>[text](url)</code></li>
+<li>如果Excel里有合并的跨行单元格，在转换后的MarkDown里是分开的单元格，这是因为MarkDown本身不支持跨行单元格</li>
+<li>如果Excel表格右侧有大量的空列，则会被自动裁剪，算法是根据前100行来检测并计算</li>
+<li>支持指定小数数字的精度</li>
+<li>支持使用表格首行代替表头（保持空表头）</li>
+<li>支持指定对齐方式</li>
+<li>同一个Excel跨表超链接公式，如<code>HYPERLINK(test_sheet!C9,...)</code> 会被自动展开成 <code>[text](url)</code> 格式</li>
+<li>同表超链接公式，如<code>HYPERLINK(C9,...)</code> 会被自动展开成 <code>[text](url)</code> 格式</li>
+</ul>
+<p>在解压目录下，使用以下命令行，<br>把xx的部分换成表格名称就行了（注意路径问题），windows就行了，不需要linux</p>
+<p>exceltk用例</p>
+<ul>
+<li><p>整个表格<br>   exceltk.exe -t md -xls xxx.xls<br>   exceltk.exe -t md -xls xxx.xlsx </p>
+</li>
+<li><p>指定sheet<br>  exceltk.exe -t md -xls xx.xls -sheet sheetname<br>   exceltk.exe -t md -xls xx.xlsx -sheet sheetname </p>
+</li>
+<li><p>指定小数数字的精度，例如指定精确到小数点后2位数字<br>   exceltk.exe -t md -p 2 -xls xxx.xls </p>
+</li>
+</ul>
+<h1 id="转换到Json"><a href="#转换到Json" class="headerlink" title="转换到Json"></a>转换到Json</h1><p>   exceltk.exe -t json -xls example.xls </p>
+<h1 id="转换到TeX"><a href="#转换到TeX" class="headerlink" title="转换到TeX"></a>转换到TeX</h1><p>   exceltk.exe -t tex -xls example.xls </p>
+<ul>
+<li>使用 <code>-st n</code> 拆分表格</li>
+<li>使用 <code>-sn</code> 把数字拆分，例如<code>1234656</code> 会被拆成<code>1 2 3 4 5 6</code>, 如果表太大时有用</li>
+</ul>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#特性"><span class="toc-text">特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#转换到Json"><span class="toc-text">转换到Json</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#转换到TeX"><span class="toc-text">转换到TeX</span></a>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

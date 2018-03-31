@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>如何判断GCC的版本</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/04/26/974/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">如何判断GCC的版本</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-04-26</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      <a href="/categories/linux/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        我说的 GCC 版本可不是指的「gcc –version」，而是指的上到 Linux 内核，下到 PHP 之类的软件，是用哪个版本的 GCC 编译的。<br><br>        先看看如何判断 Linux 内核是用什么版本的 GCC 编译的？<br><br>    <pre style="color: rgb(55, 55, 55); font-family: &quot;Courier 10 Pitch&quot;, Courier, monospace; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(244, 244, 244);"><br>shell&gt; cat /proc/version<br>… (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) …</pre><br><br>        再看看如何判断 PHP 之类的软件是用什么版本的 GCC 编译的？<br><br>    <pre style="color: rgb(55, 55, 55); font-family: &quot;Courier 10 Pitch&quot;, Courier, monospace; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(244, 244, 244);"><br>shell&gt; objdump -s –section .comment /usr/local/bin/php<br><br>/usr/local/bin/php:     file format elf64-x86-64<br><br>Contents of section .comment:<br> 0000 4743433a 2028474e 55292034 2e342e37  GCC: (GNU) 4.4.7<br> 0010 20323031 32303331 33202852 65642048   20120313 (Red H<br> 0020 61742034 2e342e37 2d313129 00474343  at 4.4.7-11).GCC<br> 0030 3a202847 4e552920 342e342e 37203230  : (GNU) 4.4.7 20<br> 0040 31323033 31332028 52656420 48617420  120313 (Red Hat<br> 0050 342e342e 372d3429 00                 4.4.7-4).</pre><br><br>        或者<br><br>    <pre style="color: rgb(55, 55, 55); font-family: &quot;Courier 10 Pitch&quot;, Courier, monospace; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(244, 244, 244);"><br>shell&gt; readelf -p .comment /usr/local/bin/php<br><br>String dump of section &#39;.comment&#39;:<br>  [     0]  GCC: (GNU) 4.4.7 20120313 (Red Hat 4.4.7-11)<br>  [    2d]  GCC: (GNU) 4.4.7 20120313 (Red Hat 4.4.7-4)</pre><br><br>        知道这些有什么价值呢？因为视 GCC 版本的不同，可能会有各种各样的 BUG 或者性能问题，所以知晓如何判断 GCC 版本还是有意义的。比如我测试&nbsp;<font color="#1982d1" face="宋体" style="background-color: inherit;"><span style="font-style: inherit; background-color: inherit;">tcp-recv-queue</span></font><span style="background-color: inherit;">&nbsp;</span>的时候一直不成功，后来才发现它要求 Linux 内核必须用 GCC4.5+ 的版本编译才行。<br><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <a href="http://huoding.com/2016/09/01/541" target="_blank" rel="external"><font color="#0066cc">http://huoding.com/2016/09/01/541</font></a><br>    </div><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

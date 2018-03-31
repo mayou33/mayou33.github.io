@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Nginx 作为 WebSockets 代理</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/09/06/396/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Nginx 作为 WebSockets 代理</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-09-06</span>
+      
+      <a href="/categories/nginx/" title="nginx" class="post-categories">nginx</a>
+      
+      
+      <a href="/tags/nginx/"" title="nginx" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>nginx</a>
+      
+      <a href="/tags/WebSockets/"" title="WebSockets" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>WebSockets</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>NGINX自从1.3版本就开始支持WebSocket了，并且可以为WebSocket应用程序做反向代理和负载均衡。</p>
+<pre><code>WebSocket 和HTTP协议不同，但是WebSocket中的握手和HTTP中的握手兼容，它使用HTTP中的Upgrade协议头将连接从HTTP升级到WebSocket。
+
+WebSocket可以使用标准的HTTP端口 80 和 443。
+
+&amp;nbsp;
+
+一个WebSockets的应用程序会在客户端和服务端保持一个长时间工作的连接。用来将连接从HTTP升级到WebSocket的HTTP升级机制使用HTTP的Upgrade和Connection协议头。反向代理服务器在支持WebSocket方面面临着一些挑战。一项挑战是WebSocket是一个hop-by-hop协议，所以，当代理服务器拦截到一个客户端发来的Upgrade请求时，它(指服务器)需要将它自己的Upgrade请求发送给后端服务器，也包括合适的请求头。此外，由于WebSocket连接是长时间保持的，所以代理服务器需要允许这些连接处于打开状态，而不是像对待HTTP使用的短连接那样将其关闭。
+
+NGINX 通过在客户端和后端服务器之间建立起一条隧道来支持WebSocket。为了使NGINX可以将来自客户端的Upgrade请求发送给后端服务器，Upgrade和Connection的头信息必须被显式的设置。
+
+（据说nginx代理的方法建立连接慢，效果没有直接对外网映射效果好）
+
+修改nginx配置文件：nginx.conf
+
+在http配置里添加
+
+http {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; map $http_upgrade $connection_upgrade {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; default upgrade;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;#39;&amp;#39;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; close;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; }
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;
+
+方案1：单主机或者多域名
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; server {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; listen&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 3333;&amp;nbsp;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; server_name abc.xyz.com;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; location / {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_pass [http://localhost:5555](http://localhost:5555);&amp;nbsp;&amp;nbsp;&amp;nbsp;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Host $host;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_http_version 1.1;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Upgrade $http_upgrade;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Connection &amp;quot;upgrade&amp;quot;;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; }
+
+&amp;nbsp;
+
+方案2：轮询
+
+upstream websocket1 {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; server 192.168.100.10:8010;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; server 192.168.100.10:8011;
+
+}
+
+&amp;nbsp;&amp;nbsp; server {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; listen&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 3333;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; server_name abc.haiziwang.com;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; location / {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_pass http://websocket1;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Host $host;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_http_version 1.1;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Upgrade $http_upgrade;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Connection &amp;quot;upgrade&amp;quot;;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; }
+
+}
+
+&amp;nbsp;
+
+方案3：分开-多目录名
+
+upstream websocket1 {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; server 192.168.100.10:8010;
+
+}
+
+upstream websocket2 {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; server 192.168.100.10:8888;
+
+}
+
+&amp;nbsp;&amp;nbsp; server {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; listen&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 3333;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; server_name abc.haiziwang.com;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; location /8010/ {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_pass http://websocket1;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Host $host;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_http_version 1.1;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Upgrade $http_upgrade;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Connection &amp;quot;upgrade&amp;quot;;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; location /8888/ {
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_pass http://websocket2;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Host $host;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_http_version 1.1;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Upgrade $http_upgrade;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; proxy_set_header Connection &amp;quot;upgrade&amp;quot;;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; }
+
+&amp;nbsp;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

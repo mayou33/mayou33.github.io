@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>一篇文章全面了解监控知识体系</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/04/25/968/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">一篇文章全面了解监控知识体系</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-04-25</span>
+      
+      <a href="/categories/zabbix/" title="zabbix" class="post-categories">zabbix</a>
+      
+      
+      <a href="/tags/zabbix/"" title="zabbix" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>zabbix</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://www.xuliangwei.com/xubusi/885.html" target="_blank" rel="external">http://www.xuliangwei.com/xubusi/885.html</a></p>
+<pre><code>监控是整个运维乃至整个产品生命周期中最重要的一环，事前及时预警发现故障，事后提供详实的数据用于追查定位问题。
+
+目前业界有很多不错的开源产品可供选择。选择一款开源的监控系统，是一个省时省力，效率最高的方案。当然对监控不是很明白的朋友们，看了以下文章可能会对监控整个体系有比较深刻的认识。
+
+ps:本文内容较多，文章篇幅很长，可以先收藏，后续慢慢阅读。
+
+&lt;font color=&quot;#2c3e50&quot;&gt;**作者介绍:**&lt;/font&gt;**&lt;font color=&quot;#2c3e50&quot;&gt; &lt;/font&gt;
+
+&lt;font color=&quot;#2c3e50&quot;&gt;徐亮伟，江湖人称标杆徐，曾负责大规模集群架构自动化运维工作。擅长自动化运维，并且在分布式、Python自动化、云计算虚拟化等领域有较深入研究。个人博客：&lt;/font&gt;**[**徐亮伟架构师之路**](http://www.xuliangwei.com/)&lt;span&gt;**&lt;font color=&quot;#2c3e50&quot;&gt;&amp;nbsp;&lt;/font&gt;**&lt;/span&gt;
+
+[分分钟拯救监控知识体系](http://download.xuliangwei.com/jiankong.html#分分钟拯救监控知识体系)
+</code></pre><ul>
+<li><a href="http://download.xuliangwei.com/jiankong.html#0-监控目标" target="_blank" rel="external">0 监控目标</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#1-监控方法" target="_blank" rel="external">1 监控方法</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#2-监控核心" target="_blank" rel="external">2 监控核心</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#3-监控工具" target="_blank" rel="external">3 监控工具</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#4-监控流程" target="_blank" rel="external">4 监控流程</a></li>
+<li><p><a href="http://download.xuliangwei.com/jiankong.html#5-监控指标" target="_blank" rel="external">5 监控指标</a></p>
+<pre><code>*   [5.1 硬件监控](http://download.xuliangwei.com/jiankong.html#51-硬件监控)
+</code></pre><ul>
+<li><a href="http://download.xuliangwei.com/jiankong.html#52-系统监控" target="_blank" rel="external">5.2 系统监控</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#53-应用监控" target="_blank" rel="external">5.3 应用监控</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#54-网络监控" target="_blank" rel="external">5.4 网络监控</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#55-流量分析" target="_blank" rel="external">5.5 流量分析</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#56-日志监控" target="_blank" rel="external">5.6 日志监控</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#57-安全监控" target="_blank" rel="external">5.7 安全监控</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#58-api监控" target="_blank" rel="external">5.8 API监控</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#59-性能监控" target="_blank" rel="external">5.9 性能监控</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#510-业务监控" target="_blank" rel="external">5.10 业务监控</a></li>
+</ul>
+</li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#6-监控报警" target="_blank" rel="external">6 监控报警</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#7-报警处理" target="_blank" rel="external">7 报警处理</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#8-面试监控" target="_blank" rel="external">8 面试监控</a></li>
+<li><a href="http://download.xuliangwei.com/jiankong.html#9-监控总结" target="_blank" rel="external">9 监控总结</a></li>
+</ul>
+<p>##<br>    0 监控目标</p>
+<pre><code>我们先来了解什么是监控，监控的重要性以及监控的目标，当然每个人所在的**行业不同、公司不同、业务不同、岗位不同、对监控的理解也不同**，但是我们需要注意，监控是需要站在公司的业务角度去考虑，而不是针对某个监控技术的使用。
+</code></pre><center data-anchor-id="4xqt" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/8i4t66ictvrdpluyv59keij3/image_1bcnabisn1e8evm949c7f31itj9.png" alt="监控目标"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="w8vj" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    监控目标<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><ul>
+<li>1.<strong>对系统不间断实时监控:</strong>实际上是对系统不间断的实时监控(这就是监控)</li>
+<li>2.<strong>实时反馈系统当前状态:</strong>我们监控某个硬件、或者某个系统，都是需要能实时看到当前系统的状态，是正常、异常、或者故障</li>
+<li>3.<strong>保证服务可靠性安全性:</strong>我们监控的目的就是要保证系统、服务、业务正常运行</li>
+<li>4.<strong>保证业务持续稳定运行:</strong>如果我们的监控做得很完善，即使出现故障，能第一时间接收到故障报警，在第一时间处理解决，从而保证业务持续性的稳定运行。</li>
+</ul>
+<div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>##<br>    1 监控方法</p>
+<pre><code>既然我们了解到了监控的重要性、以及监控的目的，那么下面我们需要了解下监控有哪些方法。
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="yxio" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/50kv0xfr6vq2fnq3jb9yjhj5/image_1bcnb40611uoq1e5vcnlpm31gfcm.png" alt="监控方法"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="fopu" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    监控方法<br></center>
+
+<pre><code>&amp;nbsp;
+
+**1.了解监控对象:**我们要监控的对象你是否了解呢？比如CPU到底是如何工作的？
+
+**2.性能基准指标:**我们要监控这个东西的什么属性？比如CPU的使用率、负载、用户态、内核态、上下文切换。
+
+**3.报警阈值定义:**怎么样才算是故障，要报警呢？比如CPU的负载到底多少算高，用户态、内核态分别跑多少算高？
+
+**4.故障处理流程:**收到了故障报警，那么我们怎么处理呢？有什么更高效的处理流程吗？
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>##<br>    2 监控核心</p>
+<pre><code>我们了解了监控的方法、监控对象、性能指标、报警阈值定义、以及故障处理流程几步骤，当然我们更需要知道监控的核心是什么？
+</code></pre><center data-anchor-id="f9yd" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/13wqt9mz7xvje7ymhrq9v1gq/image_1bcnb8ubq1g241316vip1135q0n1g.png" alt="监控核心"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="qp37" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    监控核心<br></center>
+
+<pre><code>&amp;nbsp;
+
+**1.发现问题:**当系统发生故障报警，我们会收到故障报警的信息
+
+**2.定位问题:**故障邮件一般都会写某某主机故障、具体故障的内容，我们需要对报警内容进行分析，比如一台服务器连不上:我们就需要考虑是网络问题、还是负载太高导致长时间无法连接，又或者某开发触发了防火墙禁止的相关策略等等，我们就需要去分析故障具体原因。
+
+**3.解决问题:**当然我们了解到故障的原因后，就需要通过故障解决的优先级去解决该故障。
+
+**4.总结问题:**当我们解决完重大故障后，需要对故障原因以及防范进行总结归纳，避免以后重复出现。
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>##<br>    3 监控工具</p>
+<pre><code>下面我们需要选择一款合适公司业务的监控工具进行监控,这里我对监控工具进行了简单的分类
+
+![监控工具](http://static.zybuluo.com/Xuliangwei8925/7a8cze2bu5tepeh18zuouig6/image_1bd1al2h11ikvosh12d91o511fk29.png)
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="w8fr" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    监控工具<br></center>
+
+<pre><code>&amp;nbsp;
+
+**老牌监控:**
+
+**MRTG（Multi Route Trffic Grapher）**是一套可用来绘制网络流量图的软件，由瑞士奥尔滕的Tobias Oetiker与Dave Rand所开发，以GPL授权。
+
+MRTG最好的版本是1995年推出的，用perl语言写成，可跨平台使用，数据采集用SNMP协议，MRTG将手机到的数据通过Web页面以GIF或者PNG格式绘制出图像。
+
+**Grnglia**是一个跨平台的、可扩展的、高性能的分布式监控系统，如集群和网格。它基于分层设计，使用广泛的技术，用RRDtool存储数据。具有可视化界面，适合对集群系统的自动化监控。其精心设计的数据结构和算法使得监控端到被监控端的连接开销非常低。目前已经有成千上万的集群正在使用这个监控系统，可以轻松的处理2000个节点的集群环境。
+
+**Cacti**（英文含义为仙人掌）是一套基于PHP、MySQL、SNMP和RRDtool开发的网络流量监测图形分析工具，它通过snmpget来获取数据使用RRDtool绘图，但使用者无须了解RRDtool复杂的参数。提供了非常强大的数据和用户管理功能，可以指定每一个用户能查看树状结构、主机设备以及任何一张图，还可以与LDAP结合进行用户认证，同时也能自定义模板。在历史数据展示监控方面，其功能相当不错。
+
+Cacti通过添加模板，使不同设备的监控添加具有可复用性，并且具备可自定义绘图的功能，具有强大的运算能力（数据的叠加功能）
+
+**Nagios**是一个企业级监控系统，可监控服务的运行状态和网络信息等，并能监视所指定的本地或远程主机状态以及服务，同时提供异常告警通知功能等。
+
+Nagios可运行在Linux和UNIX平台上。同时提供Web界面，以方便系统管理人员查看网络状态、各种系统问题、以及系统相关日志等
+
+Nagios的功能侧重于监控服务的可用性，能根据监控指标状态触发告警。
+
+目前Nagios也占领了一定的市场份额，不过Nagios并没有与时俱进，已经不能满足于多变的监控需求，架构的扩展性和使用的便捷性有待增强，其高级功能集成在商业版Nagios XI中。
+
+**Smokeping**主要用于监视网络性能，包括常规的ping、www服务器性能、DNS查询性能、SSH性能等。底层也是用RRDtool做支持，特点是绘制图非常漂亮，网络丢包和延迟用颜色和阴影来标示，支持将多张图叠放在一起，其作者还开发了MRTG和RRDtll等工具。
+
+Smokeping的站点为：[http://tobi.oetiker.cn/hp](http://tobi.oetiker.cn/hp)
+
+**开源监控系统OpenTSDB**用Hbase存储所有时序（无须采样）的数据，来构建一个分布式、可伸缩的时间序列数据库。它支持秒级数据采集，支持永久存储，可以做容量规划，并很容易地接入到现有的告警系统里。
+
+OpenTSDB可以从大规模的集群（包括集群中的网络设备、操作系统、应用程序）中获取相应的采集指标，并进行存储、索引和服务，从而使这些数据更容易让人理解，如Web化、图形化等。
+
+**王牌监控**
+
+**Zabbix**是一个分布式监控系统，支持多种采集方式和采集客户端，有专用的Agent代理，也支持SNMP、IPMI、JMX、Telnet、SSH等多种协议，它将采集到的数据存放到数据库，然后对其进行分析整理，达到条件触发告警。其灵活的扩展性和丰富的功能是其他监控系统所不能比的。相对来说，它的总体功能做的非常优秀。
+
+从以上各种监控系统的对比来看，Zabbix都是具有优势的，其丰富的功能、可扩展的能力、二次开发的能力和简单易用的特点，读者只要稍加学习，即可构建自己的监控系统。
+
+小米的监控系统：open-falcon。open-falcon的目标是做最开放、最好用的互联网企业级监控产品。
+
+OWL是TalkingData公司推出的一款开源分布式监控系统[OWLgithub地址](https://github.com/TalkingData/owl)
+
+**三方监控**:
+
+现在市场上有很多不错的第三方监控，比如：监控宝、监控易、听云、还有很多云厂商自带监控，但是在这里我们不打算着重介绍，如果想了解三方监控可自行上官网咨询。（避免说广告植入）
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>##<br>    4 监控流程</p>
+<pre><code>上面介绍了这么多，那么到底选择什么监控工具最合适呢，我这里推荐几款开源监控工具:**zabbix、Open-Falcon、LEPUS天兔(专用于监控数据库)**。
+
+但是本文还是基于zabbix来构建整个监控体系生态圈。
+
+那么下面我们就来聊聊，zabbix的整个流程：
+</code></pre><center data-anchor-id="hyea" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/siiprn5eccs98knxwui36lcj/image_1bcne1ekh11g41idcui21sdtp6j2n.png" alt="监控流程"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="ajht" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    监控流程<br></center>
+
+<pre><code>&amp;nbsp;
+
+**1.数据采集:** Zabbix通过SNMP、Agent、ICMP、SSH、IPMI等对系统进行数据采集
+
+**2.数据存储:** Zabbix存储在MySQL上，也可以存储在其他数据库服务
+
+**3.数据分析:** 当我们事后需要复盘分析故障时，zabbix能给我们提供图形以及时间等相关信息，方面我们确定故障所在。
+
+**4.数据展示:** web界面展示、(移动APP、java_php开发一个web界面也可以)
+
+**5.监控报警:**电话报警、邮件报警、微信报警、短信报警、报警升级机制等（无论什么报警都可以）
+
+**6.报警处理:**当接收到报警，我们需要根据故障的级别进行处理，比如:重要紧急、重要不紧急，等。根据故障的级别，配合相关的人员进行快速处理。
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>##<br>    5 监控指标</p>
+<pre><code>我们上面了解了监控方法、目标、流程、也了解了监控有哪些工具，可能有人会疑惑，我们具体要监控写什么东西，那么我在这里进行了分类整理:
+</code></pre><center data-anchor-id="gsew" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br><br>    <strong>硬件监控<br><br>    系统监控<br><br>    应用监控<br><br>    网络监控<br><br>    流量分析<br><br>    日志监控<br><br>    安全监控<br><br>    API监控<br><br>    性能监控<br><br>    业务监控</strong><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.1 硬件监控</p>
+<pre><code>早期我们通过机房巡检的方式，查看硬件设备灯光闪烁情况判断是否故障，这样非常浪费人力，并且是重复性无技术含量的工作，大家懂得。
+</code></pre><center data-anchor-id="lq6p" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/kr10v7c1fxw8l3ub7psmwnkl/image_1bcne63rf179ae0v1fbf1jud1u4m34.png" alt="硬件监控"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="48h5" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    硬件监控<br></center>
+
+<pre><code>&amp;nbsp;
+
+当然我们现在可以通过IPMI对硬件详细情况进行监控，并对CPU、内存、磁盘、温度、风扇、电压等设置报警设置报警阈值(自行对监控报警内容编写合理的报警范围)
+
+[IPMI监控硬件服务参考资料](http://www.ibm.com/developerworks/cn/linux/l-ipmi/)
+</code></pre><center data-anchor-id="k9bx" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/5vvi4a0h1y0669p4l123us8c/image_1bd193hip1uba1g5ufphtepnevm.png" alt="IPMI"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="ikg1" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    IPMI<br></center>
+
+<pre><code>&amp;nbsp;
+
+IPMI工具无法获取到硬件的状态，可以借助MegaCli工具探测Raid磁盘队列状态
+
+zabbix提供IPMI监控模板：`Zabbix IPMI Interface`
+
+系统自带的IPMI模板只能监控，风扇，电源，和部分温度
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.2 系统监控</p>
+<pre><code>中小型企业基本全是Linux服务器，那么我们肯定是要监控起系统资源的使用情况，系统监控是监控体系的基础。
+
+**监控主要对象:**
+</code></pre><center data-anchor-id="wqrx" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/vlp2xwrg83onmbkgnybt9316/image_1bcneqcoa1ha2mhfk447d67673h.png" alt="系统监控"><br></center>
+
+<pre><code>&amp;nbsp;
+
+CPU有几个重要的概念:**上下文切换、运行队列和使用率。**
+
+这也是我们CPU监控的几个重点指标。
+
+通常情况，每个处理器的运行队列不要高于3，CPU 利用率中用&amp;ldquo;户态/内核态&amp;rdquo;比例维持在70/30，空闲状态维持在50%，上下文切换要根据系统繁忙程度来综合考量。
+
+针对CPU常用的工具有:htop、top、vmstat、mpstat、dstat、glances
+
+zabbix提供系统监控模板：`Zabbix Agent Interface`
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="eyxr" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/s6aah4bcho5qdsy8ug9poanv/image_1bcom9dms146il3ma8dqp2m49.png" alt="cpu_uilt"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="uq2b" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    CPU整体状态<br></center>
+
+<pre><code>&amp;nbsp;
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="316q" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/z66vtbvfggjd13cs9crbrp1e/image_1bcombk4bcoih2ft251q17d79.png" alt="上下文"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="5ycb" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    上下文切换<br></center>
+
+<pre><code>&amp;nbsp;
+
+![load](http://static.zybuluo.com/Xuliangwei8925/a0ukynxe84fymjdib8twewfv/image_1bd17qm871juh2531m9n1jpme339.png)
+</code></pre><center data-anchor-id="2wk1" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    负载状态<br></center>
+
+<pre><code>&amp;nbsp;
+
+内存：通常我们需要监控内存的使用率、SWAP使用率、同时可以通过zabbix描绘内存使用率的曲线图形发现某服务内存溢出等。
+
+针对内存常用的工具有: free、top、vmstat、glances
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="fbyj" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/5dkh2cb1bwxqo8xpmvvc5l1o/image_1bcona3ss5no12p1t6u16kg25113.png" alt="memroy"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="rqzr" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    内存使用率<br></center>
+
+<pre><code>&amp;nbsp;
+
+IO分为磁盘IO和网络IO。除了在做性能调优我们要监控更详细的数据外，那么日常监控，只关注磁盘使用率、磁盘吞吐量、磁盘写入繁忙程度，网络也是监控网卡流量即可。
+
+常用工具有：iostat、iotop、df、iftop、sar、glances
+</code></pre><center data-anchor-id="vk64" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/256i13mp8ogfq5mxqn07snx2/image_1bcop6rit1fak1fu01d8m1f5p18nm34.png" alt="使用率"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="mv6w" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    磁盘使用率<br></center>
+
+<pre><code>&amp;nbsp;
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="jh7x" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/kr4x31o4udbyla7gxjgafnx5/image_1bcoopg5s7rb13o8m9b10bc166q2a.png" alt="吞吐"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="achn" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    磁盘读/写吞吐<br></center>
+
+<pre><code>&amp;nbsp;
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="kldj" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/5derntzcmfzqjxf91lb9mmpb/image_1bcoorodj189lttj19eanfaehp2n.png" alt="次数"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="7hzq" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    磁盘读/写次数<br></center>
+
+<pre><code>&amp;nbsp;
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="cp90" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/613zgmtouquo8zx632svddc8/image_1bcoo4bauo4v176q1pgq1mp61b6b1t.png" alt="network"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="28ue" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    网卡进出口流量<br></center>
+
+<pre><code>&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="kzop" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/pcvycrxlvbbmkqld01fbgoak/image_1bconkgj814hrunq17ab1kgu1j9i1g.png" alt="tcp状态"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="zbq9" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    TCP11种状态信息<br></center>
+
+<pre><code>&amp;nbsp;
+
+其它的系统监控还有运行的进程端口、进程数、登陆用户、Open File等（详细查看zabbix自带OS Linux模板）
+</code></pre><center data-anchor-id="xm9w" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/zelxlskwxczs8y5btqhhaazt/image_1bcuiabpa1i44d2vr1j13ullvf3h.png" alt="其他"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="ebqd" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    其他相关监控<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.3 应用监控</p>
+<pre><code>把硬件监控和系统监控研究明白后，我们进一步操作是需要登陆到服务器上查看服务器运行了哪些服务，都需要监控起来。
+
+应用服务监控也是监控体系中比较重要的内容，例如：
+
+LVS、Haproxy、Docker、Nginx、PHP、Memcached、Redis、MySQL、Rabbitmq等等，相关的服务都需要使用zabbix监控起来。
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="kduf" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/c83lcs6ymf4gup4l64k4hswx/image_1bcum5jhp17nqcoiupj1tno89t5v.png" alt="nginx"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="wscg" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    nginx_status<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="stz7" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/fy36avc08ddkunhddvbef9kr/image_1bcumof42g91co811nuoutc6r6c.png" alt="php-fpm"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="wloi" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    PHP-FPM_status<br></center>
+
+<pre><code>![Redis](http://static.zybuluo.com/Xuliangwei8925/2bwaomovmql33rtndqsov3es/image_1bcumu359o6qvm31d485nj1i316p.png)
+</code></pre><center data-anchor-id="068p" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    Redis_status<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="zqfr" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/1gx0owntbiuh3bnw5vt6td9t/image_1bcuqpfcbh35obv6i6mnt1f42ar.png" alt="jvm"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="7p2c" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    JVM监控<br></center>
+
+<pre><code>&amp;nbsp;
+
+笔者之前写过服务监控详细的操作过程，这里就不一一展示，详情访问：[zabbix监控各种应用服务](http://www.xuliangwei.com/xubusi/category/zabbix)
+
+zabbix提供应用服务监控：`Zabbix Agent UserParameter`
+
+zabbix提供的Java监控：`Zabbix JMX Interface`
+
+percona提供MySQL数据库监控：`percona-monitoring-plulgins`
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.4 网络监控</p>
+<pre><code>作为一个针对全国用户的电商网站，时刻掌握各地到机房的网络状态也是必须的。
+
+网络监控是我们构建监控平台是必须要考虑的，尤其是针对有多个机房的场景，各个机房之间的网络状态，机房和全国各地的网络状态都是我们需要重点关注的对象，那么如何掌握这些状态信息呢？我们需要借助于网络监控工具Smokeping。
+
+Smokeping 是rrdtool的作者Tobi Oetiker的作品，是用Perl写的，主要是监视网络性能，www 服务器性能，dns查询性能等，使用rrdtool绘图，而且支持分布式，直接从多个agent进行数据的汇总。
+
+同时，由于自己监控点比较少，还可以借助很多商业的监控工具，比如监控宝、听云、基调、博瑞等。同时这些服务提供商还可以帮助你监控CDN的状态。
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="uonm" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/vq6c2e4n4v90rt1ylno456f3/image_1bcnh9dlssno3jka7h66i11rm4o.png" alt="网络监控"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="dr23" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    smokeping<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="n0x3" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/vppdwzl5a5qwd10l8qdutffn/image_1bcupret918ngnca1qv66v6mdk8q.png" alt="性能监控1"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="0civ" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/o1d2e1malalujkxw2e55cma3/image_1bcupscn0lqk1ash1blp9qp46697.png" alt="性能监控2"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="rhn1" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    监控宝<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.5 流量分析</p>
+<pre><code>网站流量分析对于运维人员来说，更是一门必须掌握的知识了。比如对于一家电商公司来说：
+
+通过对订单来源的统计和分析，可以了解我们在某个网站上的广告投入有没有收到预期的效果。
+
+可以区分不同地区的访问人数、甚至商品交易额等。
+
+百度统计、google分析、站长工具等等，只需要在页面嵌入一个js即可。
+
+但是，数据始终是在对方手中，个性化定制不方便，于是google出一个叫piwik的开源分析工具
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="ksxv" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/bbac16d5rb7ec2qyvsqicnp5/image_1bcnhfigksdg1n511u5n18m5fqb55.png" alt="piwik"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="k1kk" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    piwik<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="vidm" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/p6s5v33p5n1dz282bgp9xw4m/image_1bcnhjbm51u1s15le1sn30q1ktu5i.png" alt="百度统计"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="alld" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    百度统计<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.6 日志监控</p>
+<pre><code>通常情况下，随着系统的运行，操作系统会产生系统日志，应用程序会产生应用程序的访问日志、错误日志，运行日志，网络日志，我们可以使用ELK来进行日志监控。
+
+对于日志监控来说，最见的需求就是收集、存储、查询、展示，开源社区正好有相对应的开源项目：
+
+logstash（收集） + elasticsearch（存储+搜索） + kibana（展示）
+
+我们将这三个组合起来的技术称之为ELK Stack，所以说ELK Stack指的是Elasticsearch、Logstash、Kibana技术栈的结合。
+
+如果收集了日志信息，那么如果部署更新有异常出现，可以立即在kibana上看到。
+</code></pre><center data-anchor-id="t4yv" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/r298ank79avzxr56twkn6t93/image_1bcuifjma1232hp8l08cegpul4b.png" alt="elk"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="z1r1" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    Elk日志展示<br></center>
+
+<pre><code>&amp;nbsp;
+
+当然也可以通过Zabbix过滤错误日志来进行告警。
+</code></pre><center data-anchor-id="sr03" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/t0l9nis6x3fnlaz7or71q8l3/image_1bcuid3sp17ve5n2r1f34b1s793u.png" alt="zabbix_rizi"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="kd0m" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    zabbix日志展示<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.7 安全监控</p>
+<pre><code>虽然Linux开源的安全产品不少，比如四层iptables，七层WEB防护nginx+lua实现WAF，最后将相关的日志都收至Elkstack，通过图形化进行不同的攻击类型展示。但是始终是一件比较耗费时间，并且个人效果并不是很好。这个时候我们可以选择接入第三方服务厂商。
+</code></pre><center data-anchor-id="ty86" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/q4lc4th6gmjd858q0qajhe99/image_1bcuimja08fi1msflt716m51ogi4o.png" alt="三方"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="b2s1" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/0xlltwhb53cjg5ecrly9raoy/image_1bcuio4u41kl5krp191l10p6dbn55.png" alt="sf"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="l1ux" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/gcuxfxz43z43fs3qg4v7m423/image_1bcuiogqkfsh1fe61v4dac81h865i.png" alt="sff"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="jze0" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    某某三方安全<br></center>
+
+<pre><code>&amp;nbsp;
+
+三方厂商提供全面的漏洞库，涵盖服务、后门、数据库、配置检测、CGI、SMTP等多种类型
+
+全面检测主机、Web应用漏洞自主挖掘和行业共享相结合第一时间更新0day漏洞，杜绝最新安全隐患
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.8 API监控</p>
+<pre><code>由于API变得越来越重要，很显然我们也需要这样的数据来分辨我们提供的 API是否能够正常运作。
+
+监控API接口GET、POST、PUT、DELETE、HEAD、OPTIONS的请求
+
+可用性、正确性、响应时间为三大重性能指标
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="94j2" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/fr2tskzz7q3235m8lfxg9mit/image_1bcnjprqufi71764erv9j9e3a6s.png" alt="API"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="psgc" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    API监控<br></center>
+
+<pre><code>![api](http://static.zybuluo.com/Xuliangwei8925/qybf523ie8068a3aic9tffw3/image_1bd15jp441g9c9m01rfa1tm617gpb8.png)
+</code></pre><center data-anchor-id="husm" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    三方API监控<br></center>
+
+<pre><code>&amp;nbsp;
+
+![响应时间](http://static.zybuluo.com/Xuliangwei8925/ufe8ct5r0q3l354t9bo85glq/image_1bd15km2s1dmm10cbgqb1b248e3bl.png)
+
+![响应时间2](http://static.zybuluo.com/Xuliangwei8925/woqx5eva17z0cj07zmxha4co/image_1bd15ls3k1qn37n14kbua1kgncb.png)
+</code></pre><center data-anchor-id="fczk" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    响应时间<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.9 性能监控</p>
+<pre><code>全面监控网页性能，DNS响应时间、HTTP建立连接时间、页面性能指数、响应时间、可用率、元素大小等
+
+zabbix提供URL监控：`Zabbix Web 监控`
+
+![web监控](http://static.zybuluo.com/Xuliangwei8925/n49qks705adllj7xpwmcqc3n/image_1bcun1g6f1f081ktkocl1sk3n2l76.png)
+</code></pre><center data-anchor-id="3nfn" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    Zabbix站点监控<br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="sw2r" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/4u2p1wywwko0c4as1y8pggeu/image_1bd15n61v11rc1tfo16ft1lcp19nbd5.png" alt="性能监控"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="az5p" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/67wtt80s7bs1ag6xgdqh0fs3/image_1bd15o1oo14k6obp1cupep9ppedi.png" alt="性能监控2"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="2pug" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/5renkgol8m0f1hslsfvbb1vh/image_1bd15od8c1hmn1u9l1icu17f118pmdv.png" alt="性能监控33"><br></center>
+
+<pre><code>&amp;nbsp;
+
+&amp;nbsp;
+</code></pre><center data-anchor-id="qapy" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/x18a40dwuhod10treu268swj/image_1bd15oqtlp1nsk71lck28bqslec.png" alt="终端响应时间"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><center data-anchor-id="hzz1" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    终端响应时间<br></center>
+
+<pre><code>&amp;nbsp;
+
+第三方监控监控大盘。各类图表一目了然，全面体现网页性能健康状况。
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>###<br>    5.10 业务监控</p>
+<pre><code>没有业务指标监控的监控平台，不是一个完善的监控平台，通常在我们的监控系统中，必须将我们重要的业务指标进行监控，并设置阈值进行告警通知。比如电商行业：
+
+每分钟产生多少订单，
+
+每分钟注册多少用户，
+
+每天有多少活跃用户，
+
+每天有多少推广活动，
+
+推广活动引入多少用户，
+
+推广活动引入多少流量，
+
+推广活动引入多少利润，
+
+等等 重要指标都可以加入zabbix上，然后通过screen展示。
+
+**注：由于业务监控图表，涉及到隐私的数据太多，就不截图。**
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>##<br>    6 监控报警</p>
+<pre><code>故障报警通知的方式有很多种，当然我们最常用的还是短信，邮件
+</code></pre><center data-anchor-id="a9fc" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/vp24z2dwvjkhmc3x8hk7o1f3/image_1bcngrkfq1q3s1540a321u9f10af3u.png" alt="监控报警"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    7 报警处理<br></div>
+
+<pre><code>一般报警后我们故障如何处理，首先，我们可以通过告警升级机制先自动处理，比如nginx服务down了，可以设置告警升级自动启动nginx。
+
+但是如果一般业务出现了严重故障，我们通常根据故障的级别，故障的业务，来指派不同的运维人员进行处理。
+
+当然不同业务形态、不同架构、不同服务可能采用的方式都不同，这个没有一个固定的模式套用。
+</code></pre><center data-anchor-id="y8yu" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <img src="http://static.zybuluo.com/Xuliangwei8925/qxmbi5e9d5qx724nm360dgqd/image_1bcngscfo4q4g9mgn91kl71e6s4b.png" alt="报警处理"><br></center>
+
+<pre><code>&amp;nbsp;
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>##<br>    8 面试监控</p>
+<pre><code>在运维面试中，常常会被问题监控相关的问题，那么这个问题到底该如何来回答，我针对本文给大家提供了一个简单的回答思路。
+
+**1.硬件监控。**
+
+通过SNMP来进行路由器交换机的监控(这些可以跟一些厂商沟通来了解如何做)、服务器的温度以及其他，可以通过IPMI来实现。当然如果没有硬件全都是云，直接跳过这一步骤。
+
+**2.系统监控。**
+
+如CPU的负载，上下文切换、内存使用率、磁盘读写、磁盘使用率、磁盘inode使用率。当然这些都是需要配置触发器，因为默认太低会频繁报警。
+
+**3.服务监控。**
+
+比如公司用的LNMP架构，nginx自带Status模块、PHP也有相关的Status、MySQL的话可以通过percona官方工具来进行监控。Redis这些通过自身的info获取信息进行过滤等。方法都类似。要么服务自带。要么通过脚本来实现想监控的内容，以及报警和图形功能。
+
+**4.网络监控。**
+
+如果是云主机又不是跨机房，那么可以选择不监控网络。当然你说我们是跨机房以及如何如何。推荐使用smokeping来做网络相关的监控。或者直接交给你们的网络工程师来做，因为术业有专攻。
+
+**5.安全监控。**
+
+如果是云主机可以考虑使用自带的安全防护。当然也可以使用iptables。如果是硬件，那么推荐使用硬件防火墙。使用云可以购买防DDOS，避免出现故障导致down机一天。如果是系统，那么权限、密码、备份、恢复等基础方案要做好。web同时也可以使用Nginx+Lua来实现一个web层面的防火墙。当然也可以使用集成好的openresty。
+
+**6.Web监控。**
+
+web监控的话题其实还是很多。比如可以使用自带的web监控来监控页面相关的延迟、js响应时间、下载时间、等等。这里我推荐使用专业的商业软件,监控宝或听云来实现。毕竟人家全国各地都有机房。（如果本身是多机房那就另说了）
+
+**7.日志监控。**
+
+如果是web的话可以使用监控Nginx的50x、40x的错误日志，PHP的ERROR日志。其实这些需求无非是，收集、存储、查询、展示，我们其实可以使用开源的ELKstack来实现。Logstash（收集）、elasticsearch（存储+搜索）、kibana（展示）
+
+**8.业务监控。**
+
+我们上面做了那么多，其实最终还是保证业务的运行。这样我们做的监控才有意义。所以业务层面这块的监控需要和开发以及总监开会讨论，监控比较重要的业务指标，（需要开会确认）然后通过简单的脚本就可以实现，最后设置触发器即可
+
+**9.流量分析。**
+
+平时我们分析日志都是拿awk sed xxx一堆工具来实现。这样对我们统计ip、pv、uv不是很方便。那么可以使用百度统计、google统计、商业，让开发嵌入代码即可。为了避免隐私也可以使用piwik来做相关的流量分析。
+
+**10.可视化。**
+
+通过screen以及引入一些第三方的库来美化界面，同时我们也需要知道，订单量突然增加、突然减少。或者说突然来了一大波流量，这流量从哪儿来，是不是推广了，还是被攻击了。可以结合监控平来梳理各个系统之间的业务关系。
+
+**11.自动化监控。**
+
+如上我们做了那么多的工作，当然不能是一台一台的来加key实现。可以通过Zabbix的主动模式以及被动模式来实现。当然最好还是通过API来实现。
+
+**12.分布式监控**
+</code></pre><div class="md-section-divider" style="color: rgb(44, 62, 80); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft Yahei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    &nbsp;<br></div>
+
+<p>##<br>    9 监控总结</p>
+<pre><code>真正想做到更完整的监控体系，目前的开源软件，确实无法很好的满足，有条件的公司都开始自己开发自己的监控系统，比如小米开源的Open-Falcon。
+
+也有比较好的开源的监控框架如Sensu等，再加上influxdb、grafana可以用来定制符合自己企业的监控平台。
+
+当然我说的还是很简单，经验有限、思路也仅能提供这么多。
+
+以上就是我分享对监控的一些方法和心得。（老鸟勿喷）
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

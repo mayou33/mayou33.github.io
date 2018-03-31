@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>第二篇：数据中心运维IT运维项目建设之我见</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/18/770/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">第二篇：数据中心运维IT运维项目建设之我见</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-18</span>
+      
+      <a href="/categories/数据中心运维/" title="数据中心运维" class="post-categories">数据中心运维</a>
+      
+      
+      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53532&amp;extra=page%3D1" target="_blank" rel="external">http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53532&amp;extra=page%3D1</a></p>
+<pre><code>**&lt;font color=&quot;#444444&quot; face=&quot;Tahoma&quot; size=&quot;3&quot;&gt;原创文章，转载时请写明&amp;ldquo;vmsky论坛&amp;rdquo;和作者&amp;ldquo;老同志lawson&amp;rdquo;。&lt;/font&gt;&lt;font size=&quot;3&quot;&gt;&lt;font color=&quot;#444444&quot;&gt;&lt;font face=&quot;Tahoma&quot;&gt; &lt;/font&gt;&lt;/font&gt;&lt;/font&gt;**
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp; 运维项目千千万，今天重点讲一下IT服务管理的项目，也是在过去几年各个企业数据中心都在建设的东东：ITIL、综合监控和运维自动化。先看ITIL逻辑架构图：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/14/110503l9z79j3xbmtxsyjt.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;这是根据ITIL最佳实践理论和企业运维实际结合的ITIL逻辑架构图。最底层是基础架构管理层，在架构管理层运维人员通过人肉或工具对IT环境进行管理。综合监控平台的建设基本上在这一层，综合监控平台的目标是&amp;ldquo;全监控和全覆盖&amp;rdquo;（关心综合监控的朋友可以看我其他的监控帖子）。监控的核心是什么？综合监控管理平台。通过综合监控管理平台，将IT环境中的各个管理工具产生的事件信息进行统一采集和处理，重要的告警事件将发送到IT服务流程平台上，进入事件管理或者工单管理流程中进行处理。需要通过基础架构管理层往上送的数据还有性能数据和配置信息。CPU利用率这类的性能数据可以做ITIL中的容量管理，配置信息可以送到配置管理模块中，成为CMDB数据源的一部分。说到这里，基本上还是技术层面的事情，在往上就是服务管理层，这更偏重于管理方面。在服务管理层，根据ITIL最佳实践，或者ISO20000的要求，通常建设事件管理（服务台属于事件管理一部分）、问题管理、变更管理、发布管理、配置管理等。最上层是统一展现层。看到统一展现层，大家会发现缺少服务管理层相关的模块。这里面原因有两个，一个是这张图是我08年时做的，有点老；另一个原因是我在实际的客户现场，通常看见的是监控和流程是两个界面，并不互相统一。但是两个界面是不是就意味着没有关联吗？不是！两个的关联更多的是体现在后台和其他方面：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 单点登录&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 事件在监控平台和流程平台中的运转应该是一个闭环。也就是事件触发工单，当工单解决后关闭，那在监控平台上的事件也应该被关闭。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3 监控数据的流转，主要是告警事件、性能数据和配置信息。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;4 运维大屏全面展示业务的运行状态和工单处理情况。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;图上还缺少运维自动化，当时业务高速建设时期已基本结束，开始进入运维建设时期，运维自动化还没有进入主题，所以就没有画。再看一张全的图：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/14/110515vxu7smj7gtjqzmjl.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp; 这是2010年做的运维建设架构图，那时建行开始建设运维自动化项目，选型搞的沸沸扬扬，IBM、BMC、HP全力出击，测试进行几轮，逐轮淘汰，在业界影响很大，更多的运维人员了解到原来运维自动化工具能给我们的运维带来这么大方便和价值！在那之后，光大银行、中信银行、招商银行等都开始建设自己的运维自动化平台，当然各自选型都不一样。国产运维自动化厂商也走上舞台，更接地气、更灵活的特点也使得他们的产品进入实际项目落地的阶段。理想、神码、宇信易诚等都各自在自己的视野内开疆拓土！例如神码和宇信在券商的舞台上你死我活，这就不多说了。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;下面谈谈我对运维项目落地的一些理念。首先是一句话&amp;ldquo;看大做小，分步实现&amp;rdquo;。什么意思呢？做事先看全局，看清楚后在落子，落得时候小心翼翼，一步一步的实现自己的规划，有一张图，大家可以借鉴一下：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/14/114407bb0vb87677hs4h74.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp; 客户想实施运维项目时，通常有一个困惑，我到底是先做监控，还是先做流程，或者两者都做。根据我的实际经营，这几种都可以，都有成功的经营，也都有失败的案例。这不是废话吗？还真不是！企业在运维项目落地之前先要搞清楚自己企业的实际情况，再结合预期要实现的目标、项目成本等，制定自己企业落地的路线图，以及近期、中期和远期目标。比如我企业监控已经做了一些了，但还不够全面，那就可以做监控；我企业服务流程已经有了一些在运行，只是不够成体系，那就可以做流程；再或者我企业近期希望可以将运维能力和水平体现出来，那就可以做ISO20000和ISO27001等，不一而足，没有一定之规。但是不管那条路，都有一些基本原则要遵守：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 可以先考察同类型企业运维建设情况，所谓取经&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 细致了解自身运维实际情况，选定可行的项目范围和目标，所谓知彼知己&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3 选择有丰富实施经验和实施人员的公司协助企业建设运维项目，所谓知彼&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;4 发动更多的人参与到项目中，尤其是领导，有领导的支持，可以事半功倍，所谓上级支持&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

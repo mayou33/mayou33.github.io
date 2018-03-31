@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Ranger – 给命令行用户一个基于文本的文件管理器--神器必备</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/05/31/1027/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Ranger – 给命令行用户一个基于文本的文件管理器--神器必备</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-05-31</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/tools/"" title="tools" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tools</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="font: 12px/18px &quot;Lantinghei SC&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, Arial, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">原创：</span><a href="https://linux.cn/" target="_blank" rel="external">Linux中国</a><span style="font: 12px/18px &quot;Lantinghei SC&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, Arial, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">&nbsp;</span><a href="https://linux.cn/article-1995-1.html" target="_blank" rel="external">https://linux.cn/article-1995-1.html</a></p>
+<p>###<br>    <strong>Ranger - 命令行文件管理器</strong></p>
+<pre><code>Ranger是一个基于ncurses库的命令行文件管理器，有一个简单而简约的用户界面。它使用基本的vi式的导航键，能够预览文件和用默认程序打开它们。
+</code></pre><p>###<br>    <strong>如何使用Ranger</strong></p>
+<pre><code>只需在命令行里键入命令ranger去执行这个程序。这是在我系统上从/home/himanshu目录执行时的ranger快照。
+
+![ranger-1](https://dn-linuxcn.qbox.me/data/attachment/album/201309/23/134753jrb9rbwfhn9b38by.png)
+
+你可以看到在单独的列上ranger显示了目录，子目录和目录里的内容。
+
+例如，如上图所示，在窗口最左边一列，代表我的系统在/home/目录下有三个目录。
+
+在这三种目录里，himanhu目录是当前已被选择的。
+
+第二列代表himanshu目录的子目录。这里，Pictures子目录是当前被选择的。
+
+同样的，第三列代表呈现在图片目录的所有文件。
+
+**注释**：你可以使用左右键选择一个特定的列并且使用上下键穿梭于这些列中。
+
+Ranger使用默认程序去显示不同类型的文件。例如，当我导航到第三列如之前的截图并且按下我选择的文件workspace_switcher.png。下面会出现：
+
+![ranger-2](https://dn-linuxcn.qbox.me/data/attachment/album/201309/23/134754dz6eadk4onyehrnn.png)
+
+所以，你可以看到ranger在图像浏览器中打开文件。这个文件管理器另一个功能是，被选择的文件如果可能的话，可以在文件管理器中预览文件。
+
+这是示例截图：
+
+![ranger-3](https://dn-linuxcn.qbox.me/data/attachment/album/201309/23/134756hkb0qkdzjhjjh8b0.png)
+
+所以你可以看到当CMS文件被选中时，预览它的内容被显示在窗口的右边。如果想要读取完整文件，只需点击右键头，文件将在vi/vim编辑器中打开。
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;退出vi/vim编辑器使用：q 回到文件管理器。&lt;/span&gt;
+
+注释 - 预览图片需要一些支持库。更多方面的信息：[&lt;span class=&quot;s1&quot; style=&quot;-ms-word-wrap: break-word;&quot;&gt;可以看这里&lt;/span&gt;](http://ranger.nongnu.org/)阅读支持部分。
+
+这是关于使用ranger的一些提示：
+</code></pre><ul>
+<li>选择一个文件，按y复制它，然后导航到目标目录再按p粘贴。</li>
+<li>提示：<strong>delete键</strong>去删除当前被选中的文件。</li>
+<li>在文件管理器里使用问号（？）打开ranger的man手册页并且按q回到文件管理器。</li>
+<li>基于ncurses，可以很容易的通过鼠标上下滚动。</li>
+</ul>
+<p>###<br>    <strong>下载/安装</strong></p>
+<pre><code>[http://ranger.nongnu.org/](http://ranger.nongnu.org/)
+
+wget [http://nongnu.org/ranger/ranger-stable.tar.gz](http://nongnu.org/ranger/ranger-stable.tar.gz)
+
+tar xvf ranger-stable.tar.gz
+
+cd ranger-1.8.1
+
+make install
+
+ranger
+
+**优点**
+</code></pre><ul>
+<li>轻松导航</li>
+<li>简约的UI</li>
+<li><p>使用vi/vim风格命令控制</p>
+<p><strong>缺点</strong></p>
+</li>
+<li><p>只适用于基本的文件管理操作</p>
+</li>
+<li>预览功能需要依赖关系被满足</li>
+</ul>
+<p>###<br>    <strong>总结</strong></p>
+<pre><code>Ranger是一个很好的实用程序。我将推荐这个程序给那些工作在服务器上的用户（不含GUI）。如果你主要使用命令行，并且在寻找一个好的命令行管理器，Ranger可能是一个好的选择。如果你的期望不是太高，ranger不会使你失望。
+
+&lt;span class=&quot;s2&quot; style=&quot;-ms-word-wrap: break-word;&quot;&gt;via: [&lt;span class=&quot;s1&quot; style=&quot;-ms-word-wrap: break-word;&quot;&gt;http://mylinuxbook.com/ranger-command-line-file-manager/&lt;/span&gt;](http://mylinuxbook.com/ranger-command-line-file-manager/)&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

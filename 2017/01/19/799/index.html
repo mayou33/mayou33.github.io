@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>聊聊高并发系统之限流特技</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/19/799/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">聊聊高并发系统之限流特技</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-19</span>
+      
+      <a href="/categories/web/" title="web" class="post-categories">web</a>
+      
+      
+      <a href="/tags/web/"" title="web" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>web</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://jinnianshilongnian.iteye.com/blog/2305117" target="_blank" rel="external"><font color="#0066cc">http://jinnianshilongnian.iteye.com/blog/2305117</font></a></p>
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;在开发高并发系统时有三把利器用来保护系统：缓存、降级和限流。缓存的目的是提升系统访问速度和增大系统能处理的容量，可谓是抗高并发流量的银弹；而降级是当服务出问题或者影响到核心流程的性能则需要暂时屏蔽掉，待高峰或者问题解决后再打开；而有些场景并不能用缓存和降级来解决，比如稀缺资源（秒杀、抢购）、写服务（如评论、下单）、频繁的复杂查询（评论的最后几页），因此需有一种手段来限制这些场景的并发&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;请求量，即限流。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限流的目的是通过对并发访问&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;请求进行限速或者一个时间窗口内的的请求进行限速来保护系统，一旦达到限制速率则可以拒绝服务（定向到错误页或告知资源没有了）、排队或等待（比如秒杀、评论、下单）、降级（返回兜底数据或默认数据，如商品详情页库存默认有货）。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;一般开发高并发系统常见的限流有：限制总并发数（比如数据库连接池、线程池）、限制瞬时并发数（如&lt;/span&gt;nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的&lt;/span&gt;limit_conn&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;模块，用来限制瞬时并发连接数）、限制时间窗口内的平均速率（如&lt;/span&gt;Guava&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的&lt;/span&gt;RateLimiter&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、&lt;/span&gt;nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的&lt;/span&gt;limit_req&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;模块，限制每秒的平均速率）；其他还有如限制远程接口调用速率、限制&lt;/span&gt;MQ&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的消费速率。另外还可以根据网络连接数、网络流量、&lt;/span&gt;CPU&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;或内存负载等来限流。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;先有缓存这个银弹，后有限流来应对&lt;/span&gt;618&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、双十一高并发流量，在处理高并发问题上可以说是如虎添翼，不用担心瞬间流量导致系统挂掉或雪崩，最终做到有损服务而不是不服务；限流需要评估好，不可乱用，否则会正常流量出现一些奇怪的问题而导致用户抱怨。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;在实际应用时也不要太纠结算法问题，因为一些限流算法实现是一样的只是描述不一样；具体使用哪种限流技术还是要根据实际场景来选择，不要一味去找最佳模式，白猫黑猫能解决问题的就是好猫。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;因在实际工作中遇到过许多人来问如何进行限流，因此本文会详细介绍各种限流手段。那么接下来我们从限流算法、应用级限流、分布式限流、接入层限流来详细学习下限流技术手段。&lt;/span&gt;
+
+&amp;nbsp;
+</code></pre><p>##<br>    <span style="margin: 0px; padding: 0px; font-size: 20px;"><strong><span style="margin: 0px; padding: 0px; font-family: 宋体;">限流算法</span></strong></span></p>
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;常见的限流算法有：令牌桶、漏桶。计数器也可以进行粗暴限流实现。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;令牌桶算法&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;令牌桶算法是一个存放固定容量令牌的桶，按照固定速率往桶里添加令牌。令牌桶算法的描述如下：&lt;/span&gt;
+</code></pre><ul>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">假设限制</span>2r/s<span style="margin: 0px; padding: 0px; font-family: 宋体;">，则按照</span>500<span style="margin: 0px; padding: 0px; font-family: 宋体;">毫秒的固定速率往桶中添加令牌；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">桶中最多存放</span>b<span style="margin: 0px; padding: 0px; font-family: 宋体;">个令牌，当桶满时，新添加的令牌被丢弃或拒绝；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">当一个</span>n<span style="margin: 0px; padding: 0px; font-family: 宋体;">个字节大小的数据包到达，将从桶中删除</span>n<span style="margin: 0px; padding: 0px; font-family: 宋体;">个令牌，接着数据包被发送到网络上；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">如果桶中的令牌不足</span>n<span style="margin: 0px; padding: 0px; font-family: 宋体;">个，则不会删除令牌，且该数据包将被限流（要么丢弃，要么缓冲区等待）。</span></p>
+<p>&nbsp;</p>
+<p><img src="http://dl2.iteye.com/upload/attachment/0118/1456/2dbaabf5-d766-3a98-8583-ed829b876815.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong><span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">漏桶算法</span></strong></p>
+<p><span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">漏桶作为计量工具（</span>The Leaky Bucket Algorithm as a Meter<span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">）时，可以用于流量整形（</span>Traffic Shaping<span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">）和流量控制（</span>TrafficPolicing<span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">），漏桶算法的描述如下：</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">一个固定容量的漏桶，按照常量固定速率流出水滴；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">如果桶是空的，则不需流出水滴；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">可以以任意速率流入水滴到漏桶；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">如果流入水滴超出了桶的容量，则流入的水滴溢出了（被丢弃），而漏桶容量是不变的。</span></p>
+<p><img src="http://dl2.iteye.com/upload/attachment/0118/1458/a47da2f7-a1a7-312f-9555-72352f2c788a.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">令牌桶和漏桶对比：</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">令牌桶是按照固定速率往桶中添加令牌，请求是否被处理需要看桶中令牌是否足够，当令牌数减为零时则拒绝新的请求；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">漏桶则是按照常量固定速率流出请求，流入请求速率任意，当流入的请求数累积到漏桶容量时，则新流入的请求被拒绝；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">令牌桶限制的是平均流入速率（允许突发请求，只要有令牌就可以处理，支持一次拿</span>3<span style="margin: 0px; padding: 0px; font-family: 宋体;">个令牌，</span>4<span style="margin: 0px; padding: 0px; font-family: 宋体;">个令牌），并允许一定程度突发流量；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">漏桶限制的是常量流出速率（即流出速率是一个固定常量值，比如都是</span>1<span style="margin: 0px; padding: 0px; font-family: 宋体;">的速率流出，而不能一次是</span>1<span style="margin: 0px; padding: 0px; font-family: 宋体;">，下次又是</span>2<span style="margin: 0px; padding: 0px; font-family: 宋体;">），从而平滑突发流入速率；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">令牌桶允许一定程度的突发，而漏桶主要目的是平滑流入速率；</span></p>
+</li>
+<li><p><span style="margin: 0px; padding: 0px; font-family: 宋体;">两个算法实现可以一样，但是方向是相反的，对于相同的参数得到的限流效果是一样的。</span></p>
+<p>&nbsp;</p>
+<p><span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">另外有时候我们还使用计数器来进行限流，主要用来限制总并发数，比如数据库连接池、线程池、秒杀的并发数；只要全局总请求数或者一定时间段的总请求数设定的阀值则进行限流，是简单粗暴的总数量限流，而不是平均速率限流。</span></p>
+<p>&nbsp;</p>
+<p><span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">到此基本的算法就介绍完了，接下来我们首先看看应用级限流。</span></p>
+<p>&nbsp;</p>
+<p><span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">&nbsp;</span></p>
+</li>
+</ul>
+<p>##<br>    <strong><span style="margin: 0px; padding: 0px; font-family: 宋体; font-size: 20px;">应用级限流</span></strong></p>
+<pre><code>**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 20px;&quot;&gt;&amp;nbsp;&lt;/span&gt;**
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限流总并发&lt;/span&gt;/****&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;连接&lt;/span&gt;/****&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;请求数&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;对于一个应用系统来说一定会有极限并发&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;请求数，即总有一个&lt;/span&gt;TPS/QPS&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;阀值，如果超了阀值则系统就会不响应用户请求或响应的非常慢，因此我们最好进行过载保护，防止大量请求涌入击垮系统。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;如果你使用过&lt;/span&gt;Tomcat&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，其&lt;/span&gt;Connector &lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;其中一种配置有如下几个参数：&lt;/span&gt;
+
+acceptCount&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：如果&lt;/span&gt;Tomcat&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的线程都忙于响应，新来的连接会进入队列排队，如果超出排队大小，则拒绝连接；&lt;/span&gt;
+
+maxConnections&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：&lt;/span&gt; &lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;瞬时最大连接数，超出的会排队等待；&lt;/span&gt;
+
+maxThreads&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：&lt;/span&gt;Tomcat&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;能启动用来处理请求的最大线程数，如果请求处理量一直远远大于最大线程数则可能会僵死。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;详细的配置请参考官方文档。另外如&lt;/span&gt;Mysql&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;（如&lt;/span&gt;max_connections&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）、&lt;/span&gt;Redis&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;（如&lt;/span&gt;tcp-backlog&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）都会有类似的限制连接数的配置。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限流总资源数&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;如果有的资源是稀缺资源（如数据库连接、线程），而且可能有多个系统都会去使用它，那么需要限制应用；可以使用池化技术来限制总资源数：连接池、线程池。比如分配给每个应用的数据库连接是&lt;/span&gt;100&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，那么本应用最多可以使用&lt;/span&gt;100&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个资源，超出了可以等待或者抛异常。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限流某个接口的总并发&lt;/span&gt;/****&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;请求数&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;如果接口可能会有突发访问情况，但又担心访问量太大造成崩溃，如抢购业务；这个时候就需要限制这个接口的总并发&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;请求数总请求数了；因为粒度比较细，可以为每个接口都设置相应的阀值。可以使用&lt;/span&gt;Java&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中的&lt;/span&gt;AtomicLong&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;进行限流：&lt;/span&gt;
+</code></pre><pre style="text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: monospace; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">
+<span style="margin: 0px; padding: 0px; color: rgb(0, 0, 128); font-weight: bold;">try </span>{
+<span style="margin: 0px; padding: 0px; color: rgb(0, 0, 128); font-weight: bold;">    if</span>(atomic.incrementAndGet() &gt; 限流数) {
+<span style="margin: 0px; padding: 0px; color: rgb(128, 128, 128); font-style: italic;">        //拒绝请求
+</span><span style="margin: 0px; padding: 0px; color: rgb(128, 128, 128); font-style: italic;"> &nbsp; </span>}
+<span style="margin: 0px; padding: 0px; color: rgb(128, 128, 128); font-style: italic;">    //处理请求
+</span>} <span style="margin: 0px; padding: 0px; color: rgb(0, 0, 128); font-weight: bold;">finally </span>{
+    atomic.decrementAndGet();
+}</pre>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px; font-family: 微软雅黑, sans-serif;&quot;&gt;适合对业务无损的服务或者需要过载保护的服务进行限流，如抢购业务，超出了大小要么让用户排队，要么告诉用户没货了，对用户来说是可以接受的。而一些开放平台也会限制用户调用某个接口的试用请求量，也可以用这种计数器方式实现。这种方式也是简单粗暴的限流，没有平滑处理，需要根据实际情况选择使用；&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限流某个接口的时间窗请求数&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;即一个时间窗口内的请求数，如想限制某个接口&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;服务每秒&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;每分钟&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;每天的请求数&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;调用量。如一些基础服务会被很多其他系统调用，比如商品详情页服务会调用基础商品服务调用，但是怕因为更新量比较大将基础服务打挂，这时我们要对每秒&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;每分钟的调用量进行限速；一种实现方式如下所示：&lt;/span&gt;
+</code></pre><pre style="text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: monospace; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">
+<span style="margin: 0px; padding: 0px; font-size: 12px;">LoadingCache&lt;Long, AtomicLong&gt; counter =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CacheBuilder._newBuilder_()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .expireAfterWrite(</span><span style="margin: 0px; padding: 0px; color: blue; font-size: 12px;">2</span><span style="margin: 0px; padding: 0px; font-size: 12px;">, TimeUnit.</span>**_<span style="margin: 0px; padding: 0px; color: rgb(102, 14, 122); font-size: 12px;">SECONDS</span>_**<span style="margin: 0px; padding: 0px; font-size: 12px;">)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .build(</span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">new </span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">CacheLoader&lt;Long, AtomicLong&gt;() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="margin: 0px; padding: 0px; color: olive; font-size: 12px;">@Override
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">public </span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">AtomicLong load(Long seconds) </span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">throws </span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">Exception {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">return new </span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">AtomicLong(</span><span style="margin: 0px; padding: 0px; color: blue; font-size: 12px;">0</span><span style="margin: 0px; padding: 0px; font-size: 12px;">);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; });
+</span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">long </span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">limit = </span><span style="margin: 0px; padding: 0px; color: blue; font-size: 12px;">1000</span><span style="margin: 0px; padding: 0px; font-size: 12px;">;
+</span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">while</span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">(</span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">true</span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">) {
+&nbsp;&nbsp;&nbsp; </span>_<span style="margin: 0px; padding: 0px; color: gray; font-size: 12px;">//</span>__<span style="margin: 0px; padding: 0px; color: gray; font-size: 12px;">得到当前秒
+&nbsp;&nbsp;&nbsp; </span>_**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">long </span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">currentSeconds = System._currentTimeMillis_() / </span><span style="margin: 0px; padding: 0px; color: blue; font-size: 12px;">1000</span><span style="margin: 0px; padding: 0px; font-size: 12px;">;
+&nbsp;&nbsp;&nbsp; </span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">if</span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">(counter.get(currentSeconds).incrementAndGet() &gt; limit) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.</span>**_<span style="margin: 0px; padding: 0px; color: rgb(102, 14, 122); font-size: 12px;">out</span>_**<span style="margin: 0px; padding: 0px; font-size: 12px;">.println(</span>**<span style="margin: 0px; padding: 0px; color: green; font-size: 12px;">&quot;</span>****<span style="margin: 0px; padding: 0px; color: green; font-size: 12px;">限流了:&quot; </span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">+ currentSeconds);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</span>**<span style="margin: 0px; padding: 0px; color: navy; font-size: 12px;">continue</span>**<span style="margin: 0px; padding: 0px; font-size: 12px;">;
+&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp; </span>_<span style="margin: 0px; padding: 0px; color: gray; font-size: 12px;">//</span>__<span style="margin: 0px; padding: 0px; color: gray; font-size: 12px;">业务处理</span>_
+<span style="margin: 0px; padding: 0px; font-size: 12px;">}</span></pre>
+
+<pre><code>&amp;nbsp;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;我们使用&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;Guava&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;的&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;Cache&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;来存储计数器，过期时间设置为&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;秒（保证&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;秒内的计数器是有的），然后我们获取当前时间戳然后取秒数来作为&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;KEY&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;进行计数统计和限流，这种方式也是简单粗暴，刚才说的场景够用了。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;平滑限流某个接口的请求数&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;之前的限流方式都不能很好地应对突发请求，即瞬间请求可能都被允许从而导致一些问题；因此在一些场景中需要对突发请求进行整形，整形为平均速率请求处理（比如&lt;/span&gt;5r/s&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，则每隔&lt;/span&gt;200&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒处理一个请求，平滑了速率）。这个时候有两种算法满足我们的场景：令牌桶和漏桶算法。&lt;/span&gt;Guava&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;框架提供了令牌桶算法实现，可直接拿来使用。&lt;/span&gt;
+
+Guava RateLimiter&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;提供了令牌桶算法实现：平滑突发限流&lt;/span&gt;(SmoothBursty)&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;和平滑预热限流&lt;/span&gt;(SmoothWarmingUp)&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;实现。&lt;/span&gt;
+
+&amp;nbsp;
+
+**SmoothBursty**
+</code></pre><pre style="text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: monospace; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;">
+<span style="margin: 0px; padding: 0px; font-size: 12px;">RateLimiter limiter = RateLimiter._create_(</span><span style="margin: 0px; padding: 0px; color: blue; font-size: 12px;">5</span><span style="margin: 0px; padding: 0px; font-size: 12px;">);
+System.</span>**_<span style="margin: 0px; padding: 0px; color: rgb(102, 14, 122); font-size: 12px;">out</span>_**<span style="margin: 0px; padding: 0px; font-size: 12px;">.println(limiter.acquire());
+System.</span>**_<span style="margin: 0px; padding: 0px; color: rgb(102, 14, 122); font-size: 12px;">out</span>_**<span style="margin: 0px; padding: 0px; font-size: 12px;">.println(limiter.acquire());
+System.</span>**_<span style="margin: 0px; padding: 0px; color: rgb(102, 14, 122); font-size: 12px;">out</span>_**<span style="margin: 0px; padding: 0px; font-size: 12px;">.println(limiter.acquire());
+System.</span>**_<span style="margin: 0px; padding: 0px; color: rgb(102, 14, 122); font-size: 12px;">out</span>_**<span style="margin: 0px; padding: 0px; font-size: 12px;">.println(limiter.acquire());
+System.</span>**_<span style="margin: 0px; padding: 0px; color: rgb(102, 14, 122); font-size: 12px;">out</span>_**<span style="margin: 0px; padding: 0px; font-size: 12px;">.println(limiter.acquire());
+System.</span>**_<span style="margin: 0px; padding: 0px; color: rgb(102, 14, 122); font-size: 12px;">out</span>_**<span style="margin: 0px; padding: 0px; font-size: 12px;">.println(limiter.acquire());</span></pre>
+
+<pre><code>&amp;nbsp;&lt;span style=&quot;line-height: 25.6px; font-size: 12px;&quot;&gt;&amp;nbsp; 将得到类似如下的输出：&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px;&quot;&gt;&amp;nbsp; 0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px;&quot;&gt;&amp;nbsp; 0.198239&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px;&quot;&gt;&amp;nbsp; 0.196083&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px;&quot;&gt;&amp;nbsp; 0.200609&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px;&quot;&gt;&amp;nbsp;&amp;nbsp;0.199599&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px;&quot;&gt;&amp;nbsp;&amp;nbsp;0.19961&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;、&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;RateLimiter.create(5) &lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;表示桶容量为&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;5&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;且每秒新增&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;5&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;个令牌，即每隔&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;200&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒新增一个令牌；&lt;/span&gt;
+
+2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、&lt;/span&gt;limiter.acquire()&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;表示消费一个令牌，如果当前桶中有足够令牌则成功（返回值为&lt;/span&gt;0&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;），如果桶中没有令牌则暂停一段时间，比如发令牌间隔是&lt;/span&gt;200&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒，则等待&lt;/span&gt;200&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒后再去消费令牌（如上测试用例返回的为&lt;/span&gt;0.198239&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，差不多等待了&lt;/span&gt;200&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒桶中才有令牌可用），这种实现将突发请求速率平均为了固定请求速率。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 15px;&quot;&gt;再看一个突发示例：&lt;/span&gt;&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    RateLimiter limiter = RateLimiter.create(5);<br><br>    System.out.println(limiter.acquire(5));<br><br>    System.out.println(limiter.acquire(1));<br><br>    System.out.println(limiter.acquire(1));<br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px; font-family: 宋体; font-size: 12px;&quot;&gt;将得到类似如下的输出：&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.98745&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.183553&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.199909&lt;/span&gt;
+
+&lt;span style=&quot;line-height: 25.6px;&quot;&gt;limiter.acquire(5)&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;表示桶的容量为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;5&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;且每秒新增&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;5&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个令牌，令牌桶算法允许一定程度的突发，所以可以一次性消费&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;5&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个令牌，但接下来的&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;limiter.acquire(1)&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;将等待差不多&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒桶中才能有令牌，且接下来的请求也整形为固定速率了。&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    RateLimiter limiter = RateLimiter.create(5);<br><br>    System.out.println(limiter.acquire(10));<br><br>    System.out.println(limiter.acquire(1));<br><br>    System.out.println(limiter.acquire(1));<br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px; font-family: 宋体; font-size: 12px;&quot;&gt;将得到类似如下的输出：&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;1.997428&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.192273&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.200616&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;同上边的例子类似，第一秒突发了&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;10&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，令牌桶算法也允许了这种突发（允许消费未来的令牌），但接下来的&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;limiter.acquire(1)&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;将等待差不多&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;秒桶中才能有令牌，且接下来的请求也整形为固定速率了。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 15px;&quot;&gt;接下来再看一个突发的例子：&lt;/span&gt;&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    RateLimiter limiter = RateLimiter.create(2);<br><br>    System.out.println(limiter.acquire());<br><br>    Thread.sleep(2000L);<br><br>    System.out.println(limiter.acquire());<br><br>    System.out.println(limiter.acquire());<br><br>    System.out.println(limiter.acquire());<br><br>    System.out.println(limiter.acquire());<br><br>    System.out.println(limiter.acquire());<br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px; font-family: 宋体; font-size: 12px;&quot;&gt;将得到类似如下的输出：&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.499876&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.495799&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;、创建了一个桶容量为&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;且每秒新增&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;个令牌；&lt;/span&gt;
+
+2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、首先调用&lt;/span&gt;limiter.acquire()&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;消费一个令牌，此时令牌桶可以满足（返回值为&lt;/span&gt;0&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）；&lt;/span&gt;
+
+3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、然后线程暂停&lt;/span&gt;2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒，接下来的两个&lt;/span&gt;limiter.acquire()&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;都能消费到令牌，第三个&lt;/span&gt;limiter.acquire()&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;也同样消费到了令牌，到第四个时就需要等待&lt;/span&gt;500&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒了。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;此处可以看到我们设置的桶容量为&lt;/span&gt;2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;（即允许的突发量），这是因为&lt;/span&gt;SmoothBursty&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中有一个参数：最大突发秒数（&lt;/span&gt;maxBurstSeconds&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）默认值是&lt;/span&gt;1s&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，突发量&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;桶容量&lt;/span&gt;=&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;速率&lt;/span&gt;*maxBurstSeconds&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，所以本示例桶容量&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;突发量为&lt;/span&gt;2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，例子中前两个是消费了之前积攒的突发量，而第三个开始就是正常计算的了。令牌桶算法允许将一段时间内没有消费的令牌暂存到令牌桶中，留待未来使用，并允许未来请求的这种突发。&lt;/span&gt;
+
+&amp;nbsp;
+
+SmoothBursty&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;通过平均速率和最后一次新增令牌的时间计算出下次新增令牌的时间的，另外需要一个桶暂存一段时间内没有使用的令牌（即可以突发的令牌数）。另外&lt;/span&gt;RateLimiter&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;还提供了&lt;/span&gt;tryAcquire&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;方法来进行无阻塞或可超时的令牌消费。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;因为&lt;/span&gt;SmoothBursty&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;允许一定程度的突发，会有人担心如果允许这种突发，假设突然间来了很大的流量，那么系统很可能扛不住这种突发。因此需要一种平滑速率的限流工具，从而系统冷启动后慢慢的趋于平均固定速率（即刚开始速率小一些，然后慢慢趋于我们设置的固定速率）。&lt;/span&gt;Guava&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;也提供了&lt;/span&gt;SmoothWarmingUp&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;来实现这种需求，其可以认为是漏桶算法，但是在某些特殊场景又不太一样。&lt;/span&gt;
+
+&amp;nbsp;
+
+SmoothWarmingUp&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;创建方式：&lt;/span&gt;RateLimiter.create(doublepermitsPerSecond, long warmupPeriod, TimeUnit unit)
+
+permitsPerSecond&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;表示每秒新增的令牌数，&lt;/span&gt;warmupPeriod&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;表示在从冷启动速率过渡到平均速率的时间间隔。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;示例如下：&lt;/span&gt;&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    RateLimiter limiter = RateLimiter.create(5, 1000, TimeUnit.MILLISECONDS);<br><br>    for(int i = 1; i &lt; 5;i++) {<br><br>    &nbsp; &nbsp; System.out.println(limiter.acquire());<br><br>    }<br><br>    Thread.sleep(1000L);<br><br>    for(int i = 1; i &lt; 5;i++) {<br><br>    &nbsp; &nbsp; System.out.println(limiter.acquire());<br><br>    }<br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px; font-family: 宋体; font-size: 12px;&quot;&gt;将得到类似如下的输出：&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.51767&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.357814&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.219992&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.199984&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.0&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.360826&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.220166&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.199723&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;0.199555&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;速率是梯形上升速率的，也就是说冷启动时会以一个比较大的速率慢慢到平均速率；然后趋于平均速率（梯形下降到平均速率）。可以通过调节&lt;/span&gt;warmupPeriod&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;参数实现一开始就是平滑固定速率。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;到此应用级限流的一些方法就介绍完了。假设将应用部署到多台机器，应用级限流方式只是单应用内的请求限流，不能进行全局限流。因此我们需要分布式限流和接入层限流来解决这个问题。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+</code></pre><p>##<br>    <span style="margin: 0px; padding: 0px; font-size: 20px;"><strong><span style="margin: 0px; padding: 0px; font-family: 宋体;">分布式限流</span></strong></span></p>
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;分布式限流最关键的是要将限流服务做成原子化，而解决方案可以使使用&lt;/span&gt;redis+lua&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;或者&lt;/span&gt;nginx+lua&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;技术进行实现，通过这两种技术可以实现的高并发和高性能。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;首先我们来使用&lt;/span&gt;redis+lua&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;实现时间窗内某个接口的请求数限流，实现了该功能后可以改造为限流总并发&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;请求数和限制总资源数。&lt;/span&gt;Lua&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;本身就是一种编程语言，也可以使用它实现复杂的令牌桶或漏桶算法。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;redis+lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;实现中的&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;脚本：&lt;/span&gt;**
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    local key = KEYS[1] –限流KEY（一秒一个）<br><br>    local limit = tonumber(ARGV[1]) –限流大小<br><br>    local current = tonumber(redis.call(&quot;INCRBY&quot;, key, &quot;1&quot;)) –请求数+1<br><br>    if current &gt; limit then –如果超出限流大小<br><br>    &nbsp; &nbsp; return 0<br><br>    elseif current == 1 then –只有第一次访问需要设置2秒的过期时间<br><br>    &nbsp; &nbsp; redis.call(&quot;expire&quot;, key,&quot;2&quot;)<br><br>    end<br><br>    return 1<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;如上操作因是在一个&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;脚本中，又因&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;Redis&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;是单线程模型，因此是线程安全的。如上方式有一个缺点就是当达到限流大小后还是会递增的，可以改造成如下方式实现：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    local key = KEYS[1] –限流KEY（一秒一个）<br><br>    local limit = tonumber(ARGV[1]) –限流大小<br><br>    local current = tonumber(redis.call(&#39;get&#39;, key) or &quot;0&quot;)<br><br>    if current + 1 &gt; limit then –如果超出限流大小<br><br>    &nbsp; &nbsp; return 0<br><br>    else –请求数+1，并设置2秒过期<br><br>    &nbsp; &nbsp; redis.call(&quot;INCRBY&quot;, key,&quot;1&quot;)<br><br>    &nbsp; &nbsp; redis.call(&quot;expire&quot;, key,&quot;2&quot;)<br><br>    &nbsp; &nbsp; return 1<br><br>    end<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;如下是&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;Java&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;中判断是否需要限流的代码：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    public static boolean acquire() throws Exception {<br><br>    String luaScript = Files.toString(new File(&quot;limit.lua&quot;), Charset.defaultCharset());<br><br>    Jedis jedis = new Jedis(&quot;192.168.147.52&quot;, 6379);<br><br>    String key = &quot;ip:&quot; + System.currentTimeMillis()/ 1000; //此处将当前时间戳取秒数<br><br>    Stringlimit = &quot;3&quot;; //限流大小<br><br>    return (Long)jedis.eval(luaScript,Lists.newArrayList(key), Lists.newArrayList(limit)) == 1;<br><br>    }<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;因为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;Redis&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的限制（&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;Lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中有写操作不能使用带随机性质的读操作，如&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;TIME&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）不能在&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;Redis Lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中使用&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;TIME&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;获取时间戳，因此只好从应用获取然后传入，在某些极端情况下（机器时钟不准的情况下），限流会存在一些小问题。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 宋体; font-size: 12px;&quot;&gt;**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;使用&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;Nginx+Lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;实现的&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;Lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;脚本：&lt;/span&gt;**&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    local locks = require &quot;resty.lock&quot;<br><br>    local function acquire()<br><br>    &nbsp; &nbsp; local lock =locks:new(&quot;locks&quot;)<br><br>    &nbsp; &nbsp; local elapsed, err =lock:lock(&quot;limit_key&quot;) –互斥锁<br><br>    &nbsp; &nbsp; local limit_counter =ngx.shared.limit_counter –计数器<br><br>    &nbsp; &nbsp; local key = &quot;ip:&quot; ..os.time()<br><br>    &nbsp; &nbsp; local limit = 5 –限流大小<br><br>    &nbsp; &nbsp; local current =limit_counter:get(key)<br><br>    &nbsp; &nbsp; if current ~= nil and current + 1&gt; limit then –如果超出限流大小<br><br>    &nbsp; &nbsp; &nbsp; &nbsp; lock:unlock()<br><br>    &nbsp; &nbsp; &nbsp; &nbsp; return 0<br><br>    &nbsp; &nbsp; end<br><br>    &nbsp; &nbsp; if current == nil then<br><br>    &nbsp; &nbsp; &nbsp; &nbsp; limit_counter:set(key, 1, 1) –第一次需要设置过期时间，设置key的值为1，过期时间为1秒<br><br>    &nbsp; &nbsp; else<br><br>    &nbsp; &nbsp; &nbsp; &nbsp; limit_counter:incr(key, 1) –第二次开始加1即可<br><br>    &nbsp; &nbsp; end<br><br>    &nbsp; &nbsp; lock:unlock()<br><br>    &nbsp; &nbsp; return 1<br><br>    end<br><br>    ngx.print(acquire())<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;实现中我们需要使用&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;lua-resty-lock&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;互斥锁模块来解决原子性问题&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;在实际工程中使用时请考虑获取锁的超时问题&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;，并使用&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;ngx.shared.DICT&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;共享字典来实现计数器。如果需要限流则返回&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;0&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;，否则返回&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;。使用时需要先定义两个共享字典（分别用来存放锁和计数器数据）：&lt;/span&gt;
+
+&amp;nbsp;
+</code></pre><div class="dp-highlighter" style="padding: 1px; width: 679px; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: Monaco, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; font-style: normal; font-weight: normal; margin-left: 9px; word-spacing: 0px; white-space: normal; -ms-word-break: break-all; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <div class="bar"><br>        <div class="tools" style="margin: 0px; padding: 3px; text-align: left; color: black; font-weight: bold;"><br>            Java代码<embed allowscriptaccess="always" flashvars="clipboard=http%20%7B%0A%20%20%20%20%E2%80%A6%E2%80%A6%0A%20%20%20%20lua_shared_dict%20locks%2010m%3B%0A%20%20%20%20lua_shared_dict%20limit_counter%2010m%3B%0A%7D%0A" height="15" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="http://jinnianshilongnian.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" type="application/x-shockwave-flash" width="14" wmode="transparent">&nbsp;<a href="javascript:void(" target="_blank" rel="external"><img src="http://jinnianshilongnian.iteye.com/images/icon_star.png" alt="收藏代码"></a> “收藏这段代码”)<br>        </div><br>    </div>
+
+<ol>
+<li><span style="color: black;"><span style="color: black;">http&nbsp;{&nbsp;&nbsp;</span></span></li>
+<li><span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&hellip;&hellip;&nbsp;&nbsp;</span></li>
+<li><span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;lua_shared_dict&nbsp;locks&nbsp;10m;&nbsp;&nbsp;</span></li>
+<li><span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;lua_shared_dict&nbsp;limit_counter&nbsp;10m;&nbsp;&nbsp;</span></li>
+<li><p><span style="color: black;">}&nbsp;&nbsp;</span><br></p></li></ol></div><p></p>
+<p><span style="line-height: 25.6px; font-family: 微软雅黑, sans-serif; font-size: 16px; white-space: pre-wrap;">有人会纠结如果应用并发量非常大那么redis或者nginx是不是能抗得住；不过这个问题要从多方面考虑：你的流量是不是真的有这么大，是不是可以通过一致性哈希将分布式限流进行分片，是不是可以当并发量太大降级为应用级限流；对策非常多，可以根据实际情况调节；像在京东使用Redis+Lua来限流抢购流量，一般流量是没有问题的。</span></p>
+<p><span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">&nbsp;</span></p>
+<p><span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">对于分布式限流目前遇到的场景是业务上的限流，而不是流量入口的限流；流量入口限流应该在接入层完成，而接入层笔者一般使用</span>Nginx<span style="margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;">。</span></p>
+<p>&nbsp;</p>
+
+
+<p>##<br>    <span style="margin: 0px; padding: 0px; font-size: 20px;"><strong><span style="margin: 0px; padding: 0px; font-family: 宋体;">接入层限流</span></strong></span></p>
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;接入层通常指请求流量的入口，该层的主要目的有：负载均衡、非法请求过滤、请求聚合、缓存、降级、限流、&lt;/span&gt;A/B&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;测试、服务质量监控等等，可以参考笔者写的《&lt;/span&gt;[使用Nginx+Lua(OpenResty)开发高性能Web应用](http://jinnianshilongnian.iteye.com/blog/2280928)&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;》。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;对于&lt;/span&gt;Nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;接入层限流可以使用&lt;/span&gt;Nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;自带了两个模块：连接数限流模块&lt;/span&gt;ngx_http_limit_conn_module&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;和漏桶算法实现的请求限流模块&lt;/span&gt;ngx_http_limit_req_module&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;。还可以使用&lt;/span&gt;OpenResty&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;提供的&lt;/span&gt;Lua&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限流模块&lt;/span&gt;lua-resty-limit-traffic&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;进行更复杂的限流场景。&lt;/span&gt;
+
+&amp;nbsp;
+
+limit_conn&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;用来对某个&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;对应的总的网络连接数进行限流，可以按照如&lt;/span&gt;IP&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、域名维度进行限流。&lt;/span&gt;limit_req&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;用来对某个&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;对应的请求的平均速率进行限流，并有两种用法：平滑模式（&lt;/span&gt;delay&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）和允许突发模式&lt;/span&gt;(nodelay)&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;。&lt;/span&gt;
+
+&amp;nbsp;
+</code></pre><p>###<br>    <strong>ngx_http_limit_conn_module</strong></p>
+<pre><code>limit_conn&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;是对某个&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;对应的总的网络连接数进行限流。可以按照&lt;/span&gt;IP&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;来限制&lt;/span&gt;IP&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;维度的总连接数，或者按照服务域名来限制某个域名的总连接数。但是记住不是每一个请求连接都会被计数器统计，只有那些被&lt;/span&gt;Nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;处理的且已经读取了整个请求头的请求连接才会被计数器统计。&lt;/span&gt;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;&amp;nbsp;&lt;/span&gt;**
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;配置示例：&lt;/span&gt;**
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    http {<br><br>    &nbsp; &nbsp; limit_conn_zone$binary_remote_addr zone=addr:10m;&nbsp;<br><br>    &nbsp; &nbsp; limit_conn_log_level error;&nbsp;<br><br>    &nbsp; &nbsp; limit_conn_status 503;<br><br>    &nbsp; &nbsp; …<br><br>    &nbsp; &nbsp; server {<br><br>    &nbsp; &nbsp; …<br><br>    &nbsp; &nbsp; location /limit {<br><br>    &nbsp; &nbsp; &nbsp; &nbsp; limit_conn addr 1;<br><br>    &nbsp; &nbsp; }<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;limit_conn&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;：要配置存放&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;KEY&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;和计数器的共享内存区域和指定&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;KEY&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;的最大连接数；此处指定的最大连接数是&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;，表示&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;Nginx&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;最多同时并发处理&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;个连接；&lt;/span&gt;
+
+limit_conn_zone&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：用来配置限流&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、及存放&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;对应信息的共享内存区域大小；此处的&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;是&amp;ldquo;&lt;/span&gt;$binary_remote_addr&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;rdquo;其表示&lt;/span&gt;IP&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;地址，也可以使用如&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; color: windowtext;&quot;&gt;$server_name&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;作为&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;来限制域名级别的最大连接数；&lt;/span&gt;
+
+limit_conn_status&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：配置被限流后返回的状态码，默认返回&lt;/span&gt;503&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；&lt;/span&gt;
+
+limit_conn_log_level&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：配置记录被限流后的日志级别，默认&lt;/span&gt;error&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;级别。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+**limit_conn&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的主要执行过程如下所示：&lt;/span&gt;**
+
+1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、请求进入后首先判断当前&lt;/span&gt;limit_conn_zone&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中相应&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的连接数是否超出了配置的最大连接数；&lt;/span&gt;
+
+2.1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、如果超过了配置的最大大小，则被限流，返回&lt;/span&gt;limit_conn_status&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;定义的错误状态码；&lt;/span&gt;
+
+2.2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、否则相应&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的连接数加&lt;/span&gt;1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，并注册请求处理完成的回调函数；&lt;/span&gt;
+
+3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、进行请求处理；&lt;/span&gt;
+
+4&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、在结束请求阶段会调用注册的回调函数对相应&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的连接数减&lt;/span&gt;1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;。&lt;/span&gt;
+
+&amp;nbsp;
+
+limt_conn&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;可以限流某个&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的总并发&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;请求数，&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;可以根据需要变化。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;按照&lt;/span&gt;IP****&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限制并发连接数配置示例：&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;首先定义&lt;/span&gt;IP&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;维度的限流区域：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    limit_conn_zone $binary_remote_addrzone=perip:10m;<br></div>
+
+<pre><code>&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;接着在要限流的&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;location&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;中添加限流逻辑：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    location /limit {<br><br>    &nbsp; &nbsp; limit_conn perip 2;<br><br>    &nbsp; &nbsp; echo &quot;123&quot;;<br><br>    }<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;即允许每个&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;IP&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;最大并发连接数为&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;使用&lt;/span&gt;AB&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;测试工具进行测试，并发数为&lt;/span&gt;5&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个，总的请求数为&lt;/span&gt;5&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    ab -n 5 -c 5 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br></div>
+
+<pre><code>&amp;nbsp;&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;将得到如下&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif;&quot;&gt;access.log&lt;/span&gt;输出：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(255, 41, 65); line-height: 25.6px; font-size: 12px;&quot;&gt;[08/Jun/2016:20:10:51+0800] [1465373451.802] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:10:51+0800] [1465373451.803] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:10:51 +0800][1465373451.803] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:10:51 +0800][1465373451.803] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:10:51 +0800][1465373451.803] 503&lt;/span&gt;
+
+&lt;span style=&quot;line-height: 25.6px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;此处我们把&lt;/span&gt;access log&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;格式设置为&lt;/span&gt;log_format main&amp;nbsp; &amp;#39;[$time_local] [$msec] $status&amp;#39;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；分别是&amp;ldquo;日期&lt;/span&gt; &lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;日期秒&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒值&lt;/span&gt; &lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;响应状态码&amp;rdquo;。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;如果被限流了，则在&lt;/span&gt;error.log&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中会看到类似如下的内容：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    2016/06/08 20:10:51 [error] 5662#0: *5limiting connections by zone &quot;perip&quot;, client: 127.0.0.1, server: _,request: &quot;GET /limit HTTP/1.0&quot;, host: &quot;localhost&quot;<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 25.6px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;按照域名限制并发连接数配置示例：&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;首先定义域名维度的限流区域&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    limit_conn_zone $ server_name zone=perserver:10m;<br></div>
+
+<pre><code>&amp;nbsp;
+
+&lt;span style=&quot;font-family: 微软雅黑, sans-serif;&quot;&gt;&lt;span style=&quot;line-height: 25.6px; font-size: 15px; white-space: pre-wrap;&quot;&gt;接着在要限流的location中添加限流逻辑：&lt;/span&gt;&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    location /limit {<br><br>    &nbsp; &nbsp; limit_conn perserver 2;<br><br>    &nbsp; &nbsp; echo &quot;123&quot;;<br><br>    }<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;即允许每个域名最大并发请求连接数为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: 16px; white-space: pre-wrap;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；这样配置可以实现服务器最大连接数限制。&lt;/span&gt;
+
+&amp;nbsp;
+</code></pre><p>###<br>    <strong>ngx_http_limit_req_module</strong></p>
+<pre><code>limit_req&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;是漏桶算法实现，用于对指定&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;对应的请求进行限流，比如按照&lt;/span&gt;IP&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;维度限制请求速率。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;配置示例：&lt;/span&gt;**
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    http {<br><br>    &nbsp; &nbsp; limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;<br><br>    &nbsp; &nbsp; limit_conn_log_level error;<br><br>    &nbsp; &nbsp; limit_conn_status 503;<br><br>    &nbsp; &nbsp; …<br><br>    &nbsp; &nbsp; server {<br><br>    &nbsp; &nbsp; …<br><br>    &nbsp; &nbsp; location /limit {<br><br>    &nbsp; &nbsp; &nbsp; &nbsp; limit_req zone=one burst=5 nodelay;<br><br>    &nbsp; &nbsp; }<br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px;&quot;&gt;limit_req&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：配置限流区域、桶容量（突发容量，默认&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;0&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）、是否延迟模式（默认延迟）；&lt;/span&gt;
+
+limit_req_zone&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：配置限流&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、及存放&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;对应信息的共享内存区域大小、固定请求速率；此处指定的&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;是&amp;ldquo;&lt;/span&gt;$binary_remote_addr&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;rdquo;表示&lt;/span&gt;IP&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;地址；固定请求速率使用&lt;/span&gt;rate&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;参数配置，支持&lt;/span&gt;10r/s&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;和&lt;/span&gt;60r/m&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，即每秒&lt;/span&gt;10&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求和每分钟&lt;/span&gt;60&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，不过最终都会转换为每秒的固定请求速率（&lt;/span&gt;10r/s&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;为每&lt;/span&gt;100&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒处理一个请求；&lt;/span&gt;60r/m&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，即每&lt;/span&gt;1000&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒处理一个请求）。&lt;/span&gt;
+
+limit_conn_status&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：配置被限流后返回的状态码，默认返回&lt;/span&gt;503&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；&lt;/span&gt;
+
+limit_conn_log_level&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;：配置记录被限流后的日志级别，默认&lt;/span&gt;error&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;级别。&lt;/span&gt;
+
+&amp;nbsp;
+
+limit_req&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的主要执行过程如下所示：&lt;/span&gt;
+
+1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、请求进入后首先判断最后一次请求时间相对于当前时间（第一次是&lt;/span&gt;0&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）是否需要限流，如果需要限流则执行步骤&lt;/span&gt;2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，否则执行步骤&lt;/span&gt;3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；&lt;/span&gt;
+
+2.1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、如果没有配置桶容量（&lt;/span&gt;burst&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;），则桶容量为&lt;/span&gt;0&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；按照固定速率处理请求；如果请求被限流，则直接返回相应的错误码（默认&lt;/span&gt;503&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）；&lt;/span&gt;
+
+2.2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、如果配置了桶容量（&lt;/span&gt;burst&amp;gt;0&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）且延迟模式&lt;/span&gt;(&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;没有配置&lt;/span&gt;nodelay)&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；如果桶满了，则新进入的请求被限流；如果没有满则请求会以固定平均速率被处理（按照固定速率并根据需要延迟处理请求，延迟使用休眠实现）；&lt;/span&gt;
+
+2.3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、如果配置了桶容量（&lt;/span&gt;burst&amp;gt;0&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）且非延迟模式（配置了&lt;/span&gt;nodelay&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）；不会按照固定速率处理请求，而是允许突发处理请求；如果桶满了，则请求被限流，直接返回相应的错误码；&lt;/span&gt;
+
+3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、如果没有被限流，则正常处理请求；&lt;/span&gt;
+
+4&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、&lt;/span&gt;Nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;会在相应时机进行选择一些（&lt;/span&gt;3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个节点）限流&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;进行过期处理，进行内存回收。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;场景&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;2.1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;测试&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;首先定义&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;IP&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;维度的限流区域：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    limit_req_zone $binary_remote_addrzone=test:10m rate=500r/s;<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限制为每秒&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;500&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，固定平均速率为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒一个请求。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;接着在要限流的&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;location&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;中添加限流逻辑：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    location /limit {<br><br>    &nbsp; &nbsp; limit_req zone=test;<br><br>    &nbsp; &nbsp; echo &quot;123&quot;;<br><br>    }<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;即桶容量为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;0&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;（&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;burst&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;默认为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;0&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;），且延迟模式。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;使用&lt;/span&gt;AB&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;测试工具进行测试，并发数为&lt;/span&gt;2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个，总的请求数为&lt;/span&gt;10&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    ab -n 10 -c 2 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;将得到如下&lt;/span&gt;access.log&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;输出：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(255, 41, 65); line-height: 25.6px; font-size: 12px;&quot;&gt;[08/Jun/2016:20:25:56+0800] [1465381556.410] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:25:56 +0800][1465381556.410] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:25:56 +0800][1465381556.411] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:25:56+0800] [1465381556.411] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:25:56 +0800][1465381556.412] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[08/Jun/2016:20:25:56 +0800][1465381556.412] 503&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;虽然每秒允许&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;500&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，但是因为桶容量为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;0&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，所以流入的请求要么被处理要么被限流，无法延迟处理；另外平均速率在&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒左右，比如&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1465381556.410&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;和&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1465381556.411&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;被处理了；有朋友会说这固定平均速率不是&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒嘛，其实这是因为实现算法没那么精准造成的。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;如果被限流在&lt;/span&gt;error.log&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中会看到如下内容：&lt;/span&gt;
+
+&lt;span style=&quot;line-height: 25.6px; font-size: 12px;&quot;&gt;2016/06/08 20:25:56 [error] 6130#0: *1962limiting requests, excess: 1.000 by zone &amp;quot;test&amp;quot;, client: 127.0.0.1,server: _, request: &amp;quot;GET /limit HTTP/1.0&amp;quot;, host:&amp;quot;localhost&amp;quot;&lt;/span&gt;
+
+&lt;span style=&quot;line-height: 25.6px;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;如果被延迟了在&lt;/span&gt;error.log&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;（日志级别要&lt;/span&gt;INFO&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;级别）中会看到如下内容：&lt;/span&gt;
+
+&lt;span style=&quot;line-height: 25.6px; font-size: 12px;&quot;&gt;2016/06/10 09:05:23 [warn] 9766#0: *97021delaying request, excess: 0.368, by zone &amp;quot;test&amp;quot;, client: 127.0.0.1,server: _, request: &amp;quot;GET /limit HTTP/1.0&amp;quot;, host:&amp;quot;localhost&amp;quot;&lt;/span&gt;
+
+&lt;span style=&quot;line-height: 25.6px;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;场景&lt;/span&gt;2.2****&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;测试&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;首先定义&lt;/span&gt;IP&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;维度的限流区域：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    limit_req_zone $binary_remote_addr zone=test:10m rate=2r/s;<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;为了方便测试设置速率为每秒&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，即固定平均速率是&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;500&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒一个请求。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;接着在要限流的&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;location&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;中添加限流逻辑：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    location /limit {<br><br>    &nbsp; &nbsp; limit_req zone=test burst=3;<br><br>    &nbsp; &nbsp; echo &quot;123&quot;;<br><br>    }<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;固定平均速率为&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;500&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒一个请求，通容量为&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;，如果桶满了新的请求被限流，否则可以进入桶中排队并等待（实现延迟模式）。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;为了看出限流效果我们写了一个&lt;/span&gt;req.sh&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;脚本：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    ab -c 6 -n 6 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br><br>    sleep 0.3<br><br>    ab -c 6 -n 6 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;首先进行&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;6&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个并发请求&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;6&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;次&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;URL&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，然后休眠&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;300&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒，然后再进行&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;6&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个并发请求&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;6&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;次&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;URL&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；中间休眠目的是为了能跨越&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒看到效果，如果看不到如下的效果可以调节休眠时间。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;将得到如下&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;access.log&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;输出：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(255, 41, 65); line-height: 25.6px; font-size: 12px;&quot;&gt;[09/Jun/2016:08:46:43+0800] [1465433203.959] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:43 +0800][1465433203.959] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:43 +0800][1465433203.960] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:44+0800] [1465433204.450] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:44+0800] [1465433204.950] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:45 +0800][1465433205.453] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:45 +0800][1465433205.766] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:45 +0800][1465433205.766] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:45 +0800][1465433205.767] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:45+0800] [1465433205.950] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:46+0800] [1465433206.451] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:08:46:46+0800] [1465433206.952] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;![](http://dl2.iteye.com/upload/attachment/0118/1460/dcbeb64a-1662-39d7-bdbf-ea367c4de49b.png)
+
+&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;桶容量为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，即桶中在时间窗口内最多流入&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，且按照&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;2r/s&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的固定速率处理请求（即每隔&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;500&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒处理一个请求）；桶计算时间窗口（&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1.5&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒）&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;速率（&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;2r/s&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;/&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;桶容量&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;(3)&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，也就是说在这个时间窗口内桶最多暂存&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求。因此我们要以当前时间往前推&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1.5&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒和&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒来计算时间窗口内的总请求数；另外因为默认是延迟模式，所以时间窗内的请求要被暂存到桶中，并以固定平均速率处理请求：&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;第一轮：有&lt;/span&gt;4&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求处理成功了，按照漏桶桶容量应该最多&lt;/span&gt;3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个才对；这是因为计算算法的问题，第一次计算因没有参考值，所以第一次计算后，后续的计算才能有参考值，因此第一次成功可以忽略；这个问题影响很小可以忽略；而且按照固定&lt;/span&gt;500&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒的速率处理请求。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;第二轮：因为第一轮请求是突发来的，差不多都在&lt;/span&gt;1465433203.959&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;时间点，只是因为漏桶将速率进行了平滑变成了固定平均速率（每&lt;/span&gt;500&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒一个请求）；而第二轮计算时间应基于&lt;/span&gt;1465433203.959&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;；而第二轮突发请求差不多都在&lt;/span&gt;1465433205.766&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;时间点，因此计算桶容量的时间窗口应基于&lt;/span&gt;1465433203.959&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;和&lt;/span&gt;1465433205.766&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;来计算，计算结果为&lt;/span&gt;1465433205.766&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;这个时间点漏桶为空了，可以流入桶中&lt;/span&gt;3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，其他请求被拒绝；又因为第一轮最后一次处理时间是&lt;/span&gt;1465433205.453&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，所以第二轮第一个请求被延迟到了&lt;/span&gt;1465433205.950&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;。这里也要注意固定平均速率只是在配置的速率左右，存在计算精度问题，会有一些偏差。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: red;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;如果桶容量改为&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;（&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;burst=1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;），执行&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;req.sh&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;脚本可以看到如下输出：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(255, 41, 65); line-height: 25.6px; font-size: 12px;&quot;&gt;09/Jun/2016:09:04:30+0800] [1465434270.362] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:30 +0800][1465434270.371] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:30 +0800] [1465434270.372]503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:30 +0800][1465434270.372] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:30 +0800][1465434270.372] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:30+0800] [1465434270.864] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:31 +0800][1465434271.178] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:31 +0800][1465434271.178] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:31 +0800][1465434271.178] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:31 +0800][1465434271.178] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:31 +0800][1465434271.179] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:09:04:31+0800] [1465434271.366] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;桶容量为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，按照每&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;1000&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒一个请求的固定平均速率处理请求。&lt;/span&gt;
+
+&amp;nbsp;
+
+**&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;场景&lt;/span&gt;2.3****&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;测试&lt;/span&gt;**
+
+&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;首先定义&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6;&quot;&gt;IP&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; line-height: 1.6; font-family: 微软雅黑, sans-serif;&quot;&gt;维度的限流区域：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    limit_req_zone $binary_remote_addr zone=test:10m rate=2r/s;<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;为了方便测试配置为每秒&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，固定平均速率是&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;500&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒一个请求。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;接着在要限流的&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;location&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;中添加限流逻辑：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    location /limit {<br><br>    &nbsp; &nbsp; limit_req zone=test burst=3 nodelay;<br><br>    &nbsp; &nbsp; echo &quot;123&quot;;<br><br>    }<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;桶容量为&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，如果桶满了直接拒绝新请求，且每秒&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;最多两个请求，桶按照固定&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;500&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒的速率以&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;nodelay&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;模式处理请求。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;为了看到限流效果我们写了一个&lt;/span&gt;req.sh&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;脚本：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    ab -c 6 -n 6 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br><br>    sleep 1<br><br>    ab -c 6 -n 6 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br><br>    sleep 0.3<br><br>    ab -c 6 -n 6 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br><br>    sleep 0.3<br><br>    ab -c 6 -n 6 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br><br>    sleep 0.3<br><br>    ab -c 6 -n 6 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br><br>    sleep 2<br><br>    ab -c 6 -n 6 <a href="http://localhost/limit" target="_blank" rel="external">http://localhost/limit</a><br></div>
+
+<pre><code>&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;将得到类似如下&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;access.log&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;输出：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(255, 41, 65); line-height: 25.6px; font-size: 12px;&quot;&gt;[09/Jun/2016:14:30:11+0800] [1465453811.754] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:11+0800] [1465453811.755] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:11+0800] [1465453811.755] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:11+0800] [1465453811.759] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:11 +0800][1465453811.759] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:11 +0800][1465453811.759] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:12+0800] [1465453812.776] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:12+0800] [1465453812.776] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:12 +0800][1465453812.776] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:12 +0800][1465453812.777] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:12 +0800][1465453812.777] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:12 +0800][1465453812.777] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800] [1465453813.095]503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.097] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.097] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.097] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.097] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.098] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13+0800] [1465453813.425] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.425] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.425] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.426] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.426] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.426] 503&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13+0800] [1465453813.754] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.755] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.755] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.756] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.756] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:13 +0800][1465453813.756] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:15+0800] [1465453815.278] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:15+0800] [1465453815.278] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:15+0800] [1465453815.278] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:15 +0800][1465453815.278] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:15 +0800][1465453815.279] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:15 +0800][1465453815.279] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:17+0800] [1465453817.300] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:17+0800] [1465453817.300] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:17+0800] [1465453817.300] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 41, 65); font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:17+0800] [1465453817.301] 200&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:17 +0800][1465453817.301] 503&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-size: 12px; max-width: 100%;&quot;&gt;[09/Jun/2016:14:30:17 +0800][1465453817.301] 503&lt;/span&gt;
+
+![](http://dl2.iteye.com/upload/attachment/0118/1462/606ccb82-fdd1-3375-90f3-823831595156.png)
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;桶容量为&lt;/span&gt;3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;（，即桶中在时间窗口内最多流入&lt;/span&gt;3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求，且按照&lt;/span&gt;2r/s&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的固定速率处理请求（即每隔&lt;/span&gt;500&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;毫秒处理一个请求）；桶计算时间窗口（&lt;/span&gt;1.5&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒）&lt;/span&gt;=&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;速率（&lt;/span&gt;2r/s&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）&lt;/span&gt;/&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;桶容量&lt;/span&gt;(3)&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，也就是说在这个时间窗口内桶最多暂存&lt;/span&gt;3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求。因此我们要以当前时间往前推&lt;/span&gt;1.5&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒和&lt;/span&gt;1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒来计算时间窗口内的总请求数；另外因为配置了&lt;/span&gt;nodelay&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，是非延迟模式，所以允许时间窗内突发请求的；另外从本示例会看出两个问题：&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;第一轮和第七轮：有&lt;/span&gt;4&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求处理成功了；这是因为计算算法的问题，本示例是如果&lt;/span&gt;2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒内没有请求，然后接着突然来了很多请求，第一次计算的结果将是不正确的；这个问题影响很小可以忽略；&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;第五轮：&lt;/span&gt;1.0&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒计算出来是&lt;/span&gt;3&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;个请求；此处也是因计算精度的问题，也就是说&lt;/span&gt;limit_req&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;实现的算法不是非常精准的，假设此处看成相对于&lt;/span&gt;2.75&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的话，&lt;/span&gt;1.0&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;秒内只有&lt;/span&gt;1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;次请求，所以还是允许&lt;/span&gt;1&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;次请求的。&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;如果限流出错了，可以配置错误页面：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    proxy_intercept_errors on;<br><br>    recursive_error_pages on;<br><br>    error_page 503 //www.jd.com/error.aspx;<br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px;&quot;&gt;&lt;span style=&quot;font-family: 微软雅黑, sans-serif;&quot;&gt;&lt;span style=&quot;font-size: 15px;&quot;&gt;l&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;imit_conn_zone/limit_req_zone&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;定义的内存不足，则后续的请求将一直被限流，所以需要根据需求设置好相应的内存大小。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;此处的限流都是单&lt;/span&gt;Nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的，假设我们接入层有多个&lt;/span&gt;nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，此处就存在和应用级限流相同的问题；那如何处理呢？一种解决办法：建立一个负载均衡层将按照限流&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;进行一致性哈希算法将请求哈希到接入层&lt;/span&gt;Nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;上，从而相同&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的将打到同一台接入层&lt;/span&gt;Nginx&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;上；另一种解决方案就是使用&lt;/span&gt;Nginx+Lua&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;（&lt;/span&gt;OpenResty&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;）调用分布式限流逻辑实现。&lt;/span&gt;
+
+&amp;nbsp;
+</code></pre><p>###<br>    <strong>lua-resty-limit-traffic</strong></p>
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;之前介绍的两个模块使用上比较简单，指定&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、指定限流速率等就可以了，如果我们想根据实际情况变化&lt;/span&gt;KEY&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;、变化速率、变化桶大小等这种动态特性，使用标准模块就很难去实现了，因此我们需要一种可编程来解决我们问题；而&lt;/span&gt;OpenResty&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;提供了&lt;/span&gt;lua&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;限流模块&lt;/span&gt;lua-resty-limit-traffic&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;，通过它可以按照更复杂的业务逻辑进行动态限流处理了。其提供了&lt;/span&gt;limit.conn&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;和&lt;/span&gt;limit.req&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;实现，算法与&lt;/span&gt;nginx limit_conn&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;和&lt;/span&gt;limit_req&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;是一样的。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;此处我们来实现&lt;/span&gt;ngx_http_limit_req_module&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中的【场景&lt;/span&gt;2.2&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;测试】，不要忘记下载&lt;/span&gt;lua-resty-limit-traffic&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;模块并添加到&lt;/span&gt;OpenResty&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;的&lt;/span&gt;lualib&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;中。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;配置用来存放限流用的共享字典：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    lua_shared_dict limit_req_store 100m;<br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;以下是实现【场景&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;2.2&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;测试】的限流代码&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;limit_req.lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;：&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    local limit_req = require &quot;resty.limit.req&quot;<br><br>    local rate = 2 –固定平均速率 2r/s<br><br>    local burst = 3 –桶容量<br><br>    local error_status = 503<br><br>    local nodelay = false –是否需要不延迟处理<br><br>    local lim, err = limit_req.new(&quot;limit_req_store&quot;, rate, burst)<br><br>    if not lim then –没定义共享字典<br><br>    &nbsp; &nbsp; ngx.exit(error_status)<br><br>    end<br><br>    local key = ngx.var.binary_remote_addr –IP维度的限流<br><br>    –流入请求，如果请求需要被延迟则delay &gt; 0<br><br>    local delay, err = lim:incoming(key, true)<br><br>    if not delay and err == &quot;rejected&quot; then –超出桶大小了<br><br>    &nbsp; &nbsp; ngx.exit(error_status)<br><br>    end<br><br>    if delay &gt; 0 then –根据需要决定是延迟或者不延迟处理<br><br>    &nbsp; &nbsp; if nodelay then<br><br>    &nbsp; &nbsp; &nbsp; &nbsp; –直接突发处理了<br><br>    &nbsp; &nbsp; else<br><br>    &nbsp; &nbsp; &nbsp; &nbsp; ngx.sleep(delay) –延迟处理<br><br>    &nbsp; &nbsp; end<br><br>    end<br></div>
+
+<pre><code>&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;即限流逻辑再&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;nginx access&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;阶段被访问，如果不被限流继续后续流程；如果需要被限流要么&lt;/span&gt;&lt;span style=&quot;line-height: 25.6px;&quot;&gt;sleep&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;一段时间继续后续流程，要么返回相应的状态码拒绝请求。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;在分布式限流中我们使用了简单的&lt;/span&gt;Nginx+Lua&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;进行分布式限流，有了这个模块也可以使用这个模块来实现分布式限流。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;另外在使用&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;Nginx+Lua&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;时也可以获取&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: Tahoma, sans-serif; font-size: 15px;&quot;&gt;ngx.var.connections_active&lt;/span&gt;&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif; font-size: 15px;&quot;&gt;进行过载保护，即如果当前活跃连接数超过阈值进行限流保护。&lt;/span&gt;
+</code></pre><div class="quote_div" style="background: rgb(250, 250, 250); margin: 0px 5px 5px 15px; padding: 3px; border: 1px solid rgb(204, 204, 204); border-image: none; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    if tonumber(ngx.var.connections_active) &gt;= tonumber(limit) then<br><br>    &nbsp; &nbsp; //限流<br><br>    end<br></div>
+
+<pre><code>&lt;span style=&quot;line-height: 25.6px;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+nginx也提供了limit_rate用来对流量限速，如limit_rate 50k，表示限制下载速度为50k。
+
+&amp;nbsp;
+
+&lt;span style=&quot;margin: 0px; padding: 0px; font-family: 微软雅黑, sans-serif;&quot;&gt;到此笔者在工作中涉及的限流用法就介绍完，这些算法中有些允许突发，有些会整形为平滑，有些计算算法简单粗暴；其中令牌桶算法和漏桶算法实现上是类似的，只是表述的方向不太一样，对于业务来说不必刻意去区分它们；因此需要根据实际场景来决定如何限流，最好的算法不一定是最适用的。&lt;/span&gt;
+
+&amp;nbsp;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>3 个在 Linux 中永久并安全删除文件和目录的方法</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/05/25/1013/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">3 个在 Linux 中永久并安全删除文件和目录的方法</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-05-25</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      <a href="/categories/linux/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>&nbsp;</p>
+<pre><code>&lt;span class=&quot;z textcut&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: hidden; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: left; white-space: nowrap; -ms-word-wrap: break-word; -ms-text-overflow: ellipsis; max-width: 60%; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;编译自：[http://www.tecmint.com/permanently-and-securely-delete-files-directories-linux/](http://www.tecmint.com/permanently-and-securely-delete-files-directories-linux/)&lt;/span&gt;&lt;span class=&quot;y&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; padding-left: 5px; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: right; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;作者： Aaron Kili&lt;/span&gt;
+
+&lt;span class=&quot;z&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: left; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;原创：[LCTT](https://linux.cn/lctt/) [https://linux.cn/article-8123-1.html](https://linux.cn/article-8123-1.html)&lt;/span&gt;&lt;span class=&quot;y&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; padding-left: 5px; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: right; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;译者： [geekpi](https://linux.cn/lctt/geekpi)&lt;/span&gt;
+
+在大多数情况下，我们习惯于使用 `Delete` 键、垃圾箱或 `rm` 命令[从我们的计算机中删除文件](https://linux.cn/article-7954-1.html)，但这不是永久安全地从硬盘中（或任何存储介质）删除文件的方法。
+
+该文件只是对用户隐藏，它驻留在硬盘上的某个地方。它有可能被数据窃贼、执法取证或其它方式来恢复。
+
+假设文件包含密级或机密内容，例如安全系统的用户名和密码，具有必要知识和技能的攻击者可以轻松地[恢复删除文件的副本](https://linux.cn/article-8122-1.html)并访问这些用户凭证（你可以猜测到这种情况的后果）。
+
+在本文中，我们将解释一些命令行工具，用于永久并安全地删除 Linux 中的文件。
+</code></pre><p>###<br>    1、 shred &ndash; 覆盖文件来隐藏内容</p>
+<pre><code>`shred` 会覆盖文件来隐藏它的内容，并且也可以选择删除它。
+</code></pre><ol>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ shred &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;zvu &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;n &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word;&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; passwords&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;list&lt;/span&gt;</code></p>
+<p>在下面的命令中，选项有：</p>
+</li>
+<li><p><code>-z</code> - 用零覆盖以隐藏碎片</p>
+</li>
+<li><code>-v</code> - 显示操作进度</li>
+<li><code>-u</code> - 在覆盖后截断并删除文件</li>
+<li><p><code>-n</code> - 指定覆盖文件内容的次数（默认值为3）</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/18/120646jie3i566n55ze9x5.png" alt="shred - overwrite a file to hide its contents"></p>
+<p><em>shred - 覆盖文件来隐藏它的内容</em></p>
+<p>你可以在 <code>shred</code> 的帮助页中找到更多的用法选项和信息：</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;man&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; shred&lt;/span&gt;</code></p>
+</li>
+</ol>
+<p>###<br>    2、 wipe &ndash; 在 Linux 中安全删除文件</p>
+<pre><code>`wipe` 命令可以安全地擦除磁盘中的文件，从而不可能[恢复删除的文件或目录内容](https://linux.cn/article-7974-1.html)。
+
+首先，你需要安装 `wipe` 工具，运行以下适当的命令：
+</code></pre><ol>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;apt-get&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; install wipe &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word;&quot;&gt;Debian&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;及其衍生版]&lt;/span&gt;</code></li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;yum&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; install wipe &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;[基于&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word;&quot;&gt;RedHat&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;的系统]&lt;/span&gt;</code></p>
+<p>下面的命令会销毁 private 目录下的所有文件。</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ wipe &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;rfi &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;private&lt;/span&gt;&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;/*&lt;/span&gt;</code></p>
+<p>当使用下面的标志时：</p>
+</li>
+<li><p><code>-r</code> - 告诉 <code>wipe</code> 递归地擦除子目录</p>
+</li>
+<li><code>-f</code> - 启用强制删除并禁用确认查询</li>
+<li><p><code>-i</code> - 显示擦除进度</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/18/120646e9lw7uwtazwu7u9e.png" alt="Wipe - Securely Erase Files in Linux"></p>
+<p><em>wipe &ndash; 在 Linux 中安全擦除文件</em></p>
+<p>注意：<code>wipe</code> 仅可以在磁性存储上可以可靠地工作，因此对固态磁盘（内存）请使用其他方法。</p>
+<p>阅读 <code>wipe</code> 手册以获取其他使用选项和说明：</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;man&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; wipe&lt;/span&gt;</code></p>
+</li>
+</ol>
+<p>###<br>    3、 Linux 中的安全删除工具集</p>
+<pre><code>secure-delete 是一个安全文件删除工具的集合，它包含用于安全删除文件的 `srm`（secure_deletion）工具。
+
+首先，你需要使用以下相关命令安装它：
+</code></pre><ol>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;apt-get&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; install secure&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word;&quot;&gt;Debian&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;及其衍生版]&lt;/span&gt;</code></li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;yum&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; install secure&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;[基于&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word;&quot;&gt;RedHat&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;的系统]&lt;/span&gt;</code></p>
+<p>安装完成后，你可以使用 <code>srm</code> 工具在 Linux 中安全地删除文件和目录。</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ srm &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;vz &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;private&lt;/span&gt;&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;/*&lt;/span&gt;</code></p>
+<p>下面是使用的选项：</p>
+</li>
+<li><p><code>-v</code>&nbsp;&ndash; 启用 verbose 模式</p>
+</li>
+<li><p><code>-z</code>&nbsp;&ndash; 用0而不是随机数据来擦除最后的写入</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/18/120647yxpx7t72uao3dd32.png" alt="srm - Securely Delete Files in Linux "></p>
+<p><em>srm &ndash; 在 Linux 中安全删除文件</em></p>
+<p>阅读 srm 手册来获取更多的使用选项和信息：</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;man&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; srm&lt;/span&gt;</code></p>
+</li>
+</ol>
+<p>###<br>    4、 sfill -安全免费的磁盘 / inode 空间擦除器</p>
+<pre><code>`sfill` 是 secure-deletetion 工具包的一部分，是一个安全免费的磁盘和 inode 空间擦除器，它以安全的方法删除可用磁盘空间中的文件。 `sfill` 会[检查指定分区上的可用空间](https://linux.cn/article-8024-1.html)，并使用来自 `/dev/urandom` 的随机数据填充它。
+
+以下命令将在我的根分区上执行 `sfill`，使用 `-v&amp;#39; 选项启用 verbose 模式：
+</code></pre><ol>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; sfill &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;v &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;aaronkilik&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;tmp&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;</code></p>
+<p>假设你创建了一个单独的分区 <code>/home</code> 来存储正常的系统用户主目录，你可以在该分区上指定一个目录，以便在其上应用 <code>sfill</code>：</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; sfill &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;v &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;username&lt;/span&gt;</code></p>
+<p>你可以在 sfill 的手册上看到一些限制，你也可以看到额外的使用标志和命令：</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;man&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; sfill&lt;/span&gt;</code></p>
+<p>注意：secure-deletetion 工具包中的另外两个工具（<code>sswap</code> 和 <code>sdmem</code>）与本指南的范围不直接相关，但是，为了将来的使用和传播知识的目的，我们会在下面介绍它们。</p>
+</li>
+</ol>
+<p>###<br>    5、 sswap &ndash; 安全 swap 擦除器</p>
+<pre><code>它是一个安全的分区擦除器，`sswap` 以安全的方式删除 swap 分区上存在的数据。
+
+警告：请记住在使用 `sswap` 之前卸载 swap 分区！ 否则你的系统可能会崩溃！
+
+要找到交换分区（并检查分页和交换设备/文件是否已经使用，请使用 `swapon` 命令），接下来，使用 `swapoff` 命令禁用分页和交换设备/文件（使 swap 分区不可用）。
+
+然后在（关闭的） swap 分区上运行 `sswap` 命令：
+</code></pre><ol>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;cat&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;proc&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;swaps &lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;swapon&lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;swapoff&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;dev&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;sda6&lt;/span&gt;</code></li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; sswap &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;dev&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;sda6 &lt;/span&gt;&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;#这个命令要花费一些时间，默认要进行&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word;&quot;&gt;38&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;遍擦除&lt;/span&gt;</code></p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/18/120647sklgbrpicbt22iy5.png" alt="sswap - Secure Swap Wiper"></p>
+<p><em>sswap &ndash; 安全 swap 擦除器</em></p>
+<p>阅读 <code>sswap</code> 的手册来获取更多的选项和信息：</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;man&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; sswap&lt;/span&gt;</code></p>
+</li>
+</ol>
+<p>###<br>    6、 sdmem &ndash; 安全内存擦除器</p>
+<pre><code>`sdmem` 是一个安全的内存擦除器，其设计目的是以安全的方式删除存储器（RAM）中的数据。
+
+它最初命名为 [smem](https://linux.cn/article-7681-1.html)，但是因为在 Debain 系统上存在另一个包 [smem - 报告每个进程和每个用户的内存消耗](https://linux.cn/article-7681-1.html)，开发人员决定将它重命名为 `sdmem`。
+</code></pre><ol>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; sdmem &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;f &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;v&lt;/span&gt;</code></p>
+<p>关于更多的使用信息，阅读 <code>sdmen</code> 的手册：</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;man&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; sdmem &lt;/span&gt;</code></p>
+<p><strong>推荐阅读：</strong>&nbsp;<a href="https://linux.cn/article-8122-1.html" target="_blank" rel="external">在 Linux 系统下使用 PhotoRec &amp; TestDisk 工具来恢复文件</a>。</p>
+<p>就是这样了！在本文中，我们查看了一系列可以永久安全地删除 Linux 中的文件的工具。</p>
+</li>
+</ol>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

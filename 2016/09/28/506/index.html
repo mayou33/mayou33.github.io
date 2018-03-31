@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>MySQL数据库物理服务器安装标准规范</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/09/28/506/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">MySQL数据库物理服务器安装标准规范</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-09-28</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 12px; background-color: inherit;">(1).BIOS优化，阵列配置</span></p>
+<pre><code>&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&amp;nbsp;&amp;nbsp; 1.1:关闭CPU节能，因为服务器品牌众多，BIOS设置不相同，主要是关闭CPU节能，如C1，DELLR730，已经智能设置，直接有个[performance](javascript:void(0);)选项，帮你关闭了CPU节能，numa特性&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;1.2:果服务器是8块硬盘，建议两块做RAID1装系统，剩余6块做RAID10做数据分区，RAID1阵列缓存设置成&amp;nbsp;WriteThrough ,RAID10设置成writeback,将有限阵列卡缓存给RAID10阵列用，如果是8块以上的盘，组建两组RAID10，两组缓存策略都是writeback,一组装系统以及存放顺序IO类型的数据，比如redolog,归档日志，mysql的binlog，一组做数据分区&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;1.3:使用XFS文件系统，数据分区用XFS文件系统，挂载参数用&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;defaults,noatime,nodiratime,nobarrier，记住根分区是不能用这个挂载参数，不然你根分区下的目录文件都没有访问时间，修改时间，只能用于数据库文件分区&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;1.4:修改IO调度策略以及关闭numa：vim /etc/grub.conf 在kernel那行最末尾加上&lt;span style=&quot;color: rgb(255, 0, 0); background-color: inherit;&quot;&gt;elevtor=deadline numa=off&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;kernel /vmlinuz-2.6.32-504.el6.x86_64 ro root=UUID=af13b3dc-c142-42b7-8ed6-cb7c60608af2 rd_NO_LUKS&amp;nbsp; KEYBOARDTYPE=pc KEYTABLE=us rd_NO_MD crashkernel=auto LANG=zh_CN.UTF-8 rd_NO_LVM rd_NO_DM rhgb quiet&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;elevator=deadline numa=off&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;要当前生效可以这样设置&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;cat /sys/block/sda/queue/scheduler&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+echo&amp;nbsp;deadline &amp;gt; /sys/block/sda/queue/scheduler&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;(2)操作系统基础优化&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;2.1:关闭selinux,修改资源配置&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;vim /etc/security/limits.conf&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;添加以下这段
+
+&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; soft nofile&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 65535
+
+&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; soft nproc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 65535
+
+&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; hard nofile&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 65535
+
+&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; hard nproc&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 65535&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;sed -ri &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/g&amp;#39; /etc/selinux/config&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;当前设置selinux 和资源限制,&amp;nbsp;setenforce 0 然后在getenforce 查看是否已经禁用了selinux，设置资源限制，直接ulimit -n 65535,也可以下面这种方式，建议使用下面的方式。&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;就不用去编辑/etc/security/limits.conf这个文件了&lt;/span&gt;&lt;/span&gt;
+
+&amp;nbsp;
+
+[root@localhost ~]# cd /etc/security/limits.d/
+
+[root@localhost limits.d]# pwd
+
+/etc/security/limits.d
+
+[root@CRM-mysql limits.d]# ll
+
+-rw-r--r-- 1 root root 227 8月 24 11:39 90-nproc.conf
+
+[root@localhost limits.d]# cp -rpf 90-nproc.conf 90-nofile.conf&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+这是已经编辑好的文件
+
+[root@localhost limits.d]# cat 90-nofile.conf&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+# Default limit for number of user&amp;#39;s processes to prevent
+
+# accidental fork bombs.
+
+# See rhbz #432903 for reasoning.
+
+&amp;nbsp;
+
+* soft nofile 65535
+
+* hard nofile 65535
+
+root soft nofile unlimited
+
+[root@localhost limits.d]# cat 90-nproc.conf&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+# Default limit for number of user&amp;#39;s processes to prevent
+
+# accidental fork bombs.
+
+# See rhbz #432903 for reasoning.
+
+&amp;nbsp;
+
+* soft nproc 65535
+
+* hard nproc 65535
+
+root soft nproc unlimited
+
+#########su - &amp;nbsp; 一下
+
+[root@localhost limits.d]# su -
+
+####
+
+[root@localhost ~]# ulimit -a
+
+core file size (blocks, -c) 0
+
+data seg size (kbytes, -d) unlimited
+
+scheduling priority (-e) 0
+
+file size (blocks, -f) unlimited
+
+pending signals (-i) 256591
+
+max locked memory (kbytes, -l) 64
+
+max memory size (kbytes, -m) unlimited
+
+open files (-n) 65535
+
+pipe size (512 bytes, -p) 8
+
+POSIX message queues (bytes, -q) 819200
+
+real-time priority (-r) 0
+
+stack size (kbytes, -s) 10240
+
+cpu time (seconds, -t) unlimited
+
+max user processes (-u) 65535
+
+virtual memory (kbytes, -v) unlimited
+
+file locks (-x) unlimited
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;2.2:关闭不需要的服务，只留下crond，network，rsyslog，sshd&amp;nbsp;，sysstat，udev-post&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;2.3:内核参数调整&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;###########减少swap的使用率
+
+vm.swappiness=5
+
+###########默认值是3797，保证物理内存有足够空闲空间，防止突发性换页
+
+vm.min_free_kbytes=204800
+
+############默认是100，增大这个参数设置了虚拟内存回收directory和i-node缓冲的倾向，这个值越大。越易回收,尽量保留可用内存
+
+vm.vfs_cache_pressure=150
+
+######确保能持续将脏数据刷新到磁盘，避免瞬间I/O写，产生严重等待和设置MySQL中的innodb_max_dirty_pages_pct低一点原理类似&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;###当文件系统缓存脏页数量达到系统内存百分之多少时（如10%）就会触发pdflush/flush/kdmflush等后台回写进程运行，将一定缓存的脏页异步地刷入硬盘；
+
+vm.dirty_background_ratio=10&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;##当文件系统缓存脏页数量达到系统内存百分之多少&lt;span style=&quot;color: rgb(17, 17, 17); background-color: inherit;&quot;&gt;时（如20%），系统会停止所有的应用层的IO写操作，等待刷完数据后恢复IO。&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;vm.dirty_ratio=20
+
+#######################减少TIME_WAIT，提高TCP效率；
+
+net.ipv4.tcp_tw_recycle=1
+
+net.ipv4.tcp_tw_reuse=1&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;（3）安装jemalloc内存管理器&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;jemalloc内存分配方式与系统默认安装的glic的malloc内存分配方式相比，能提高MySQL的性能，降低了系统CPU和内存资源的利用,关于这方便的压测数据,请参考:http://www.linuxeye.com/Linux/1914.html&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;http://www.canonware.com/download/jemalloc/jemalloc-3.6.0.tar.bz2&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;编译安装很简单，tar xvf jemalloc-3.6.0.tar.bz2 &amp;nbsp;./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; font-size: 12px; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;已方便安装好mysql后使用，使用也很简单在[mysqld_safe] 加上malloc-lib= /usr/local/lib/libjemalloc.so&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;&amp;nbsp;(4)安装异步IO支持&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;为了提高磁盘操作性能，当前的数据库系统都采用异步IO（Asynchronous IO，AIO）的方式来处理磁盘操作。InnoDB存储引擎亦是如此。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;在InnoDB1.1.x之前，AIO的实现通过InnoDB存储引擎中的代码来模拟实现。而从InnoDB 1.1.x开始（InnoDB Plugin不支持），&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;提供了内核级别AIO的支持，称为Native AIO。因此在编译或者运行该版本MySQL时，需要libaio库的支持,centos最小化安装默认是没有安装的,安装也简单:&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;yum install libaio-devel&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;(5)网卡绑定软中断&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;网卡软中断不平衡，集中在一个CPU核心上（mpstat 查看%soft集中，通常是cpu0)，绑定软中断多个核心上,可以用两个脚本来绑定。自己喜欢用哪个都行&lt;/span&gt;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;vim&amp;nbsp;set_irq_affinity.py。&lt;/span&gt;
+
+&amp;nbsp;
+
+#!/usr/bin/env python&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+import re&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+from os import system,popen&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+from os import walk as walkdir&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+from optparse import OptionParser&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+RPS_CPUS_VALUE = &amp;#39;ffffffff&amp;#39;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+RPS_FLOW_VALUE = &amp;#39;4096&amp;#39;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+RPS_RFS_DEFAULT = &amp;#39;0&amp;#39;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+interrupts_file = &amp;#39;/proc/interrupts&amp;#39;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+rps_cpus_list = []&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+rps_flow_list = []&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+#ENTRY_VALUE=32768&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def get_device():&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+return re.findall(r&amp;#39;([a-z]+\d+)\s+Link.*&amp;#39;,popen(&amp;#39;ifconfig&amp;#39;).read())&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def get_rfs_rps_file(net_device):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+rps_path = &amp;#39;/sys/class/net/&amp;#39; + net_device + &amp;#39;/queues/&amp;#39;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+for s in walkdir(rps_path):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+if len(s[2]) == 2:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+rps_cpus_list.append(&amp;#39;/&amp;#39;.join([s[0],s[2][0]]))&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+rps_flow_list.append(&amp;#39;/&amp;#39;.join([s[0],s[2][1]]))&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def file_hander(TARGET,VALUE=&amp;#39;0&amp;#39;):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+try:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+f_hander = open(TARGET,&amp;#39;w&amp;#39;)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+f_hander.write(VALUE)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+finally:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+f_hander.close()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def set_rfs_rps(net_device):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+get_rfs_rps_file(net_device)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def set_rps_cpus_value(PATH):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+file_hander(PATH,RPS_CPUS_VALUE)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def set_rps_flow_value(PATH):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+file_hander(PATH,RPS_FLOW_VALUE)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+map(set_rps_cpus_value,rps_cpus_list)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+map(set_rps_flow_value,rps_flow_list)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def unset_rfs_rps(net_device):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+get_rfs_rps_file(net_device)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def unset_rps_cpus_value(PATH):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+file_hander(PATH,RPS_RFS_DEFAULT)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def unset_rps_flow_value(PATH):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+file_hander(PATH,RPS_RFS_DEFAULT)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+map(unset_rps_cpus_value,rps_cpus_list)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+map(unset_rps_flow_value,rps_flow_list)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def set_irq_balance():&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+stop_irq_balance = &amp;#39;service irqbalance stop&amp;#39;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+system(stop_irq_balance)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+interrupts_ct = open(interrupts_file)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+cores_nr = len(interrupts_ct.readline().split()) # 获取CPU核心数&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+irq_bit = 0&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+while True:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+inter_line = interrupts_ct.readline()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+if inter_line == &amp;quot;&amp;quot;:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+break&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+js = inter_line.split()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+if len(js[-1]) &amp;gt; 5:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+if re.match(r&amp;#39;eth.-&amp;#39;,js[-1][:5]):&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+irq_nr = js[0][:-1]&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+TARGET = &amp;#39;/proc/irq/%s/smp_affinity&amp;#39; %(irq_nr)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+VALUE = str(re.sub(&amp;#39;0x&amp;#39;,&amp;#39;&amp;#39;,hex(1 &amp;lt;&amp;lt; irq_bit))) #1 &amp;lt;&amp;lt; irq_bit 相对于2的N次方 ，hex() 二进制转十六进制&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+file_hander(TARGET,VALUE)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+irq_bit += 1&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+if irq_bit == cores_nr:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+irq_bit = 0&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def unset_irq_balance():&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+start_irq_balance = &amp;#39;service irqbalance start&amp;#39;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+system(start_irq_balance)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+def usage():&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+usage = &amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39;=================================================&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+Description: irq_balance_set &amp;amp;&amp;amp; rfs_rps_set tools&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+Usage:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&amp;lt;script&amp;gt; -i : set irq smp_affinity&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+-I : unset irq smp_affinity&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+-r : set rfs &amp;amp;&amp;amp; rps&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+-R : unset rfs &amp;amp;&amp;amp; rps&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&amp;#39;&amp;#39;&amp;#39;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+print usage&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+if __name__ == &amp;#39;__main__&amp;#39;:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+parser = OptionParser()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+parser.add_option(&amp;quot;-i&amp;quot;, action=&amp;quot;store_true&amp;quot;,&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+dest=&amp;quot;irq_true&amp;quot;,&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+default=False)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+parser.add_option(&amp;quot;-I&amp;quot;, action=&amp;quot;store_true&amp;quot;,&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+dest=&amp;quot;irq_false&amp;quot;,&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+default=False)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+parser.add_option(&amp;quot;-r&amp;quot;, action=&amp;quot;store_true&amp;quot;,&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+dest=&amp;quot;rps_true&amp;quot;,&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+default=False)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+parser.add_option(&amp;quot;-R&amp;quot;, action=&amp;quot;store_true&amp;quot;,&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+dest=&amp;quot;rps_false&amp;quot;,&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+default=False)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+(options, args) = parser.parse_args()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+if options.irq_true == True:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+set_irq_balance()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+print &amp;quot;irq_balance_set successfully&amp;quot;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+elif options.irq_false == True:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+unset_irq_balance()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+print &amp;quot;unset irq balance successfully&amp;quot;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+elif options.rps_true == True:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+device_list = get_device()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+map(set_rfs_rps,device_list)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+print &amp;quot;rfs&amp;amp;&amp;amp;rps configured successfully&amp;quot;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+elif options.rps_false == True:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+device_list = get_device()&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+map(unset_rfs_rps,device_list)&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+print &amp;quot;unconfigured rfs&amp;amp;&amp;amp;rps successfully&amp;quot;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+else:&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+usage()
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-family: &amp;quot;Microsoft YaHei&amp;quot;; background-color: inherit;&quot;&gt;加入到开机启动中&lt;/span&gt;
+
+&amp;nbsp;#!/bin/bash
+
+CORE_SUM=&amp;quot;`grep -c &amp;#39;^processor&amp;#39; /proc/cpuinfo`&amp;quot;
+
+IRQ_SUM=&amp;quot;`echo &amp;quot;1 2 4 8 10 20 40 80 100 200 400 800 1000 2000 4000 8000 10000 20000 40000 80000 100000 200000 400000 800000&amp;quot;| cut -d &amp;quot; &amp;quot; -f -${CORE_SUM}`&amp;quot;
+
+IRQ_NUM=&amp;quot;`echo ${IRQ_SUM}`&amp;quot;
+
+for i in `grep -E &amp;#39;(eth[0-9]+|em[0-9]+)&amp;#39; /proc/interrupts | awk -F &amp;quot;:&amp;quot; &amp;#39;{print $1}&amp;#39; | sed &amp;#39;s/\ //g&amp;#39;`; do
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; echo -e &amp;quot;${i}\t:`cat /proc/irq/${i}/smp_affinity`&amp;quot;
+
+&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; y=&amp;quot;`echo ${IRQ_NUM} | awk &amp;#39;{print $1}&amp;#39;`&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; echo ${y} &amp;gt; /proc/irq/${i}/smp_affinity
+
+#echo &amp;quot;echo ${y} &amp;gt; /proc/irq/${i}/smp_affinity&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; if [ &quot;${y}&quot; == &quot;`echo ${IRQ_SUM} | awk &apos;{print $NF}&apos;`&quot; ]; then
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; IRQ_NUM=&amp;quot;`echo ${IRQ_SUM}`&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; else
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; IRQ_NUM=&amp;quot;`echo ${IRQ_NUM} | sed &amp;#39;s/^\([0-9]\+\)\ \(.*\)/\2/g&amp;#39;`&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; fi
+
+&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; echo -e &amp;quot;----\t `cat /proc/irq/${i}/smp_affinity`&amp;quot;
+
+done
+
+###### Enable RPS (Receive Packet Steering)
+
+rfc=4096
+
+cc=$(grep -c processor /proc/cpuinfo)
+
+rsfe=$(echo $cc*$rfc | bc)
+
+sysctl -w net.core.rps_sock_flow_entries=$rsfe
+
+for fileRps in $(ls /sys/class/net/eth*/queues/rx-*/rps_cpus)
+
+do
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; echo fff &amp;gt; $fileRps
+
+done
+
+&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+for fileRfc in $(ls /sys/class/net/eth*/queues/rx-*/rps_flow_cnt)
+
+do
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; echo $rfc &amp;gt; $fileRfc
+
+done
+
+&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;
+
+tail /sys/class/net/eth*/queues/rx-*/{rps_cpus,rps_flow_cnt}
+
+###
+</code></pre><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <a href="http://www.cnblogs.com/LMySQL/p/4673931.html" target="_blank" rel="external"><font color="#0066cc">http://www.cnblogs.com/LMySQL/p/4673931.html</font></a><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>《大型网站技术架构》读书笔记三：大型网站核心架构要素</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/12/138/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">《大型网站技术架构》读书笔记三：大型网站核心架构要素</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-12</span>
+      
+      <a href="/categories/《大型网站技术架构》/" title="《大型网站技术架构》" class="post-categories">《大型网站技术架构》</a>
+      
+      
+      <a href="/tags/《大型网站技术架构》/"" title="《大型网站技术架构》" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>《大型网站技术架构》</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>#<br>    一、性能&mdash;响应时间决定用户</p>
+<pre><code>（1）浏览器端：
+
+　　①浏览器缓存；
+
+　　②使用页面压缩；
+
+![](http://images.cnitblog.com/i/381412/201406/241644523465045.gif)
+</code></pre><blockquote>
+<p>&nbsp; &nbsp;PS：Gzip压缩效率非常高，通常可以达到<strong>70%</strong>的压缩率，也就是说，如果你的网页有30K，压缩之后就变成了9K左右。想要启用Gzip压缩，提高浏览速度，可以浏览这篇文章：<a href="http://www.chinaz.com/web/2012/1017/278682.shtml" target="_blank" rel="external">http://www.chinaz.com/web/2012/1017/278682.shtml</a></p>
+</blockquote>
+<pre><code>　　③合理布局页面；
+
+　　CSS：&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0);&quot;&gt;**把样式表置于顶部**；**避免使用CSS表达式（expression_r）**；使用外部JavaScript和CSS；削减JavaScript和CSS；用&amp;lt;link&amp;gt;代替@import；避免使用滤镜；&lt;/span&gt;
+</code></pre><div style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; line-height: 20.88px; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑; font-size: 13.92px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <em><em id="__mceDel" style="margin: 0px; padding: 0px;"><em id="__mceDel" style="margin: 0px; padding: 0px;"><em id="__mceDel" style="margin: 0px; padding: 0px;"><em id="__mceDel" style="margin: 0px; padding: 0px;"><span style="margin: 0px; padding: 0px; color: rgb(0, 128, 0);">　　</span></em></em></em></em></em><span style="margin: 0px; padding: 0px; color: rgb(0, 0, 0);">JavaScript：<strong>把脚本置于页面底部</strong>；使用外部JavaScript和CSS；削减JavaScript和CSS；<strong>剔除重复脚本；减少DOM访问</strong>；开发智能事件处理程序；</span><br></div>
+
+<pre><code>　　④减少Cookie传输；
+
+（2）CDN：内容分发网络（Content Delivery Network，简称CDN）将加速内容分发至离用户最近的节点，缩短用户查看对象的延迟，提高用户访问网站的响应速度与网站的可用性，解决网络带宽小、用户访问量大、网点分布不均等问题。详情请见百度百科：[http://baike.baidu.com/view/8689800.htm?from_id=420951&amp;amp;type=search&amp;amp;fromtitle=CDN&amp;amp;fr=aladdin](http://baike.baidu.com/view/8689800.htm?from_id=420951&amp;amp;type=search&amp;amp;fromtitle=CDN&amp;amp;fr=aladdin &quot;CDN&amp;amp;fr=aladdin&quot;)
+
+![](http://images.cnitblog.com/i/381412/201406/241716505178557.jpg)
+
+（3）应用服务器端：服务器本地缓存和分布式缓存；
+
+　　Memcached简介：[http://baike.baidu.com/view/794242.htm](http://baike.baidu.com/view/794242.htm)
+
+　　Redis简介：[http://baike.baidu.com/view/4595959.htm](http://baike.baidu.com/view/4595959.htm)
+
+（4）服务器集群技术：Web服务器集群、数据库服务器集群、分布式缓存服务器集群等等，通过部署多台服务器共同对外提供同类服务，提高整体处理能力。
+
+![](http://images.cnitblog.com/i/381412/201406/241725180963192.png)
+
+（5）数据库服务器端：
+
+　　①索引：索引（index）是对数据库表中一个或多个列（例如，employee 表的姓氏 (name) 列）的值进行排序的结构。如果想按特定职员的姓来查找他或她，则与在表中搜索所有的行相比，索引有助于更快地获取信息。
+
+![](http://images.cnitblog.com/i/381412/201406/241730096119150.png)
+</code></pre><blockquote>
+<p>&nbsp;PS：要注意的是，建立太多的索引将会影响更新和插入的速度，因为它需要同样更新每个索引文件。</p>
+</blockquote>
+<pre><code>　　②缓存：数据库缓存是介于应用程序和物理数据源之间，其作用是为了降低应用程序对数据库的物理数据源访问的频次，从而提高了应用的运行性能。
+
+　　③SQL优化：当一个基于数据库的应用程序运行起来很慢时，90%的可能都是由于数据访问程序的问题，要么是没有优化，要么是没有按最佳方法编写代码，因此你需要审查和优化你的数据访问/处理程序。具体可以浏览这篇文章：[http://www.cnblogs.com/Shaina/archive/2012/04/22/2464576.html](http://www.cnblogs.com/Shaina/archive/2012/04/22/2464576.html)
+
+　　④NoSQL：方兴未艾的NoSQL数据库通过优化数据模型、存储结构、伸缩性等手段在性能方面的优势日趋明显。
+</code></pre><p>#<br>    二、可用性&mdash;你能保证几个9？</p>
+<pre><code>（1）如何衡量可用性？全靠9来撑腰：几乎所有网站都承诺7*24小时可用，但事实上都不可能完全实现，总会有一些故障时间。那么，去除这些故障时间就是网站的总可用时间。换算成网站的可用性指标，以此衡量网站的可用性，例如某些知名网站可用性达到**99.99%**。
+
+（2）哪些手段提高可用性？
+
+　　①核心：**冗余**-各服务器互相备份保证整体可用；
+
+　　②应用服务器端：通过负载均衡设备建立集群，其中一台宕机立即切换到其他服务器继续提供服务，这就保证了高可用性。
+
+　　③存储服务器端：需要对数据进行实时备份，当某台宕机立即将数据访问请求转换到其他服务器上，并进行数据恢复以保证数据高可用。
+
+![](http://images.cnitblog.com/i/381412/201406/242111350649531.jpg)
+</code></pre><p>#<br>    三、伸缩性&mdash;能屈能伸方为大丈夫</p>
+<pre><code>（1）衡量标准：
+
+　　①是否可以多态服务器构建集群？
+
+　　②是否容易向集群中添加新服务器？
+
+　　③加入服务器后是否能提供无差别服务？
+
+（2）主要手段：
+
+　　①应用服务器：使用合适的负载均衡设备（硬件还是软件？F5还是LVS+KeepAlived）；
+
+　　②缓存服务器：改进缓存路由算法保证缓存数据的可访问性；
+
+　　③数据库服务器：通过路由区分等手段将多服务器组成一个集群；
+</code></pre><p>#<br>    四、扩展性&mdash;不痛不痒之间新业务就上线了</p>
+<pre><code>（1）衡量标准：增加新业务时是否可以实现对现有产品透明无影响（是否需要对现有业务进行修改匹配？）；
+
+（2）主要手段：
+
+　　①事件驱动架构：利用消息队列实现；
+
+　　②分布式服务：将业务和可复用服务分离；
+</code></pre><p>#<br>    五、安全性&mdash;妈妈再也不用担心的我的照片了</p>
+<pre><code>（1）何为安全性？保护网站不受恶意访问和攻击，保护网站的重要数据不被窃取；
+
+（2）衡量标准：针对现存和潜在的攻击窃密手段，是否有可靠的应对策略；
+</code></pre><p>#<br>    本章思维导图</p>
+<pre><code>![](http://images.cnitblog.com/i/381412/201406/241619559398417.jpg)
+
+&amp;nbsp;
+</code></pre><div id="Copyright" style="background: url(&quot;http://www.cnblogs.com/images/cnblogs_com/Terrylee/147338/o_info.png&quot;) no-repeat 1% 50% rgb(255, 255, 255); margin: 0px; padding: 10px 10px 10px 60px; border: 1px solid rgb(229, 229, 229); border-image: none; color: rgb(0, 0, 0); text-transform: none; line-height: 20.88px; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑; font-size: 13.92px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br><br>        <span style="margin: 0px; padding: 0px; font-size: 14px;">作者：<a href="http://www.cnblogs.com/edisonchou/" target="_blank" rel="external">周旭龙</a></span><br><br>        <span style="margin: 0px; padding: 0px; font-size: 14px;">出处：<a href="http://www.cnblogs.com/edisonchou/" target="_blank" rel="external">http://www.cnblogs.com/edisonchou/</a></span><br><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

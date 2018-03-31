@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>用 cgruops 管理进程内存占用</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/02/20/856/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">用 cgruops 管理进程内存占用</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-02-20</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/tools/"" title="tools" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tools</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>#<br>    <span style="font-size: 10px;">&nbsp;<a href="http://xiezhenye.com/2013/10/%E7%94%A8-cgruops-%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8.html" target="_blank" rel="external"><font color="#0066cc" style="background-color: inherit;">http://xiezhenye.com/2013/10/%E7%94%A8-cgruops-%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8.html</font></a></span></p>
+<div style="background-color: inherit;"><br><br>##<br>        <span style="line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);">cgroups管理进程内存资源</span><br><br>        <span style="line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);">跑一个耗内存的脚本，内存不断增长</span><br><br>    <div style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);"><br>        <pre style="font-family: &quot;Courier New&quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;"><br><span style="line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);">x=<span style="color: rgb(128, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">&quot;</span><span style="color: rgb(128, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">a</span><span style="color: rgb(128, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">&quot;</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">while</span> [ True ];<span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">do</span><span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;"><br>    x</span>=<span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">$x$x<br></span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">done</span>;</span></pre><br><br>            &nbsp;<br><br>            &nbsp;<br><br>    </div>
+
+<pre><code>    &lt;span style=&quot;line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);&quot;&gt;top看内存占用稳步上升&lt;/span&gt;
+
+&lt;div style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);&quot;&gt;
+    &lt;pre style=&quot;font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p><span style="line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);">  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+<span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">  COMMAND                                                                                         </span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">30215</span> root      <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">20</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0</span>  871m 501m <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">1036</span> R <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">99.8</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">26.7</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0</span>:<span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">38.69</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">sh</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">30215</span> root      <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">20</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0</span> 1639m 721m <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">1036</span> R <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">98.7</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">38.4</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">1</span>:<span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">03.99</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">sh</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">30215</span> root      <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">20</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0</span> 1639m 929m <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">1036</span> R <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">98.6</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">49.5</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">1</span>:<span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">13.73</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">sh</span></span></p>
+<pre><code>        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+    &lt;span style=&quot;line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);&quot;&gt;下面用cgroups控制这个进程的内存资源&lt;/span&gt;
+
+&lt;div style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);&quot;&gt;
+    &lt;pre style=&quot;font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p><span style="line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">mkdir</span> -p /cgroup/memory/<span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">foo<br></span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">echo</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">1048576</span> &gt;  /cgroup/memory/foo/<span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">memory.limit_in_bytes   #分配1MB的内存给这个控制组<br></span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">echo</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">30215</span> &gt; /cgroup/memory/foo/tasks  </span></p>
+<pre><code>        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+    &lt;span style=&quot;line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);&quot;&gt;发现之前的脚本被kill掉&lt;/span&gt;
+
+&lt;div style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);&quot;&gt;
+    &lt;pre style=&quot;font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p><span style="line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);">[root@localhost ~]# <span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">sh</span> /home/test.<span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">sh</span><span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;"><br>已杀死</span></span></p>
+<pre><code>        &amp;nbsp;
+
+        &amp;nbsp;
+
+&lt;/div&gt;
+
+    &lt;span style=&quot;line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);&quot;&gt;因为这是强硬的限制内存，当进程试图占用的内存超过了cgroups的限制，会触发out of memory，导致进程被kill掉。&lt;/span&gt;
+
+    &lt;span style=&quot;line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);&quot;&gt;实际情况中对进程的内存使用会有一个预估，然后会给这个进程的限制超配50%比如，除非发生内存泄露等异常情况，才会因为cgroups的限制被kill掉。&lt;/span&gt;
+
+    &lt;span style=&quot;line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);&quot;&gt;也可以通过配置关掉cgroups oom kill进程，通过memory.oom_control来实现（oom_kill_disable 1），但是尽管进程不会被直接杀死，但进程也进入了休眠状态，无法继续执行，仍让无法服务。&lt;/span&gt;
+
+    &lt;span style=&quot;line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);&quot;&gt;关于内存的控制，还有以下配置文件，关于虚拟内存的控制，以及权值比重式的内存控制等&lt;/span&gt;
+
+&lt;div style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);&quot;&gt;
+    &lt;div style=&quot;background-color: rgb(245, 245, 245);&quot;&gt;
+        &lt;span style=&quot;line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;line-height: 1.7142; font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; font-size: 12px; background-color: rgb(245, 245, 245);&quot;&gt;[root@localhost /]# &lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 255); line-height: 1.7142; font-size: 12px !important; background-color: rgb(245, 245, 245);&quot;&gt;ls&lt;/span&gt;&lt;span style=&quot;line-height: 1.7142; font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; font-size: 12px; background-color: rgb(245, 245, 245);&quot;&gt; /cgroup/memory/foo/&lt;/span&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;pre style=&quot;font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p><span style="line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">cgroup.event_control  memory.force_empty         memory.memsw.failcnt<br>memory.memsw.usage_in_bytes      memory.soft_limit_in_bytes  memory.usage_in_bytes  tasks<br>cgroup.procs          memory.limit_in_bytes      memory.memsw.limit_in_bytes<br>memory.move_charge_at_immigrate  memory.</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">stat</span><span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">                 memory.use_hierarchy<br>memory.failcnt        memory.max_usage_in_bytes  memory.memsw.max_usage_in_bytes<br>memory.oom_control               memory.swappiness           notify_on_release</span></span><br></p>
+<pre><code>        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.7142; font-size: large; background-color: rgb(255, 255, 255);">cgroups 中有个 memory 子系统，用于限制和报告进程的内存使用情况。</span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        <font size="4" style="background-color: inherit;">其中，很明显有两组对应的文件，一组带 memsw ，另一组不带</font><br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br><font size="4" style="background-color: inherit;">memory.failcnt<br>memory.limit_in_bytes<br>memory.max_usage_in_bytes<br>memory.usage_in_bytes<br><br>memory.memsw.failcnt<br>memory.memsw.limit_in_bytes<br>memory.memsw.max_usage_in_bytes<br>memory.memsw.usage_in_bytes<br></font></pre><br><br>        <font size="4" style="background-color: inherit;"><span style="color: rgb(68, 68, 68); background-color: inherit;">带 memsw 的表示虚拟内存，即物理内存加交换区。不带 memsw 的那组仅包括物理内存。其中，</span><font color="#ff0000" style="background-color: inherit;">limit_in_bytes 是用来限制内存使用的，其他的则是统计报告。</font></font><br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br><font size="4" style="background-color: inherit;"># echo 10485760 &gt;/sys/fs/cgroup/memory/foo/memory.limit_in_bytes<br></font></pre><br><br>        <font size="4" style="background-color: inherit;">即可限制该组中的进程使用的物理内存总量不超过 10MB。</font><br><br>        &nbsp;<br><br>        <font size="4" style="background-color: inherit;">对 memory.memsw.limit_in_bytes 来说，则是限制虚拟内存使用。memory.memsw.limit_in_bytes 必须大于或等于 memory.limit_in_byte。这些值还可以用更方便的 100M，20G 这样的形式来设置。要解除限制，就把这个值设为 -1 即可。</font><br><br>        &nbsp;<br><br>        <font size="4" style="background-color: inherit;">这种方式限制进程内存占用会有个风险。当进程试图占用的内存超过限制，访问内存时发生缺页，又没有足够的非活动内存页可以换出时会触发 oom ，导致进程直接被杀，从而造成可用性问题。</font><br><br>        <font size="4" style="background-color: inherit;">即使关闭控制组的 oom killer，进程在内存不足的时候，虽然不会被杀，但是会长时间进入 D （等待系统调用的不可中断休眠）状态，无法继续执行，导致仍然无法服务。</font><br><br>        <font size="4" style="background-color: inherit;">因此，我认为，用 memory.limit_in_bytes 或 memory.memsw.limit_in_bytes 限制进程内存占用仅应当作为一个保险，避免在进程异常时耗尽系统资源。如，预期一组进程最多只会消耗 1G 内存，那么可以设置为 1.4G 。这样在发生内存泄露等异常情况时，可以避免造成更严重问题。</font><br><br>        <font size="4" style="background-color: inherit;">在 memory 子系统中，还有一个 memory.soft_limit_in_bytes 。和 memory.limit_in_bytes 的差异是，这个限制并不会阻止进程使用超过限额的内存，只是在系统内存不足时，会优先回收超过限额的进程占用的内存，使之向限定值靠拢。</font><br><br>        &nbsp;<br><br>        <font size="4" style="background-color: inherit;">前面说控制组的 oom killer 是可以关闭的，就是通过 memory.oom_control 来实现的。</font><br><br>        <font size="4" style="background-color: inherit;"><code>cat memory.oom_control</code><span style="background-color: inherit;">&nbsp;</span>可以看到当前设置以及目前是否触发了 oom 。</font><br><br>        <font size="4" style="background-color: inherit;"><code>echo 1 &amp;gt;memory.oom_control</code><span style="background-color: inherit;">&nbsp;</span>就可以禁用 oom killer。</font><br><br>        <span style="line-height: 1.7142; background-color: rgb(255, 255, 255);"><font size="4" style="background-color: inherit;">usage_in_bytes、max_usage_in_bytes、failcnt 则分别对应 当前使用量，最高使用量和发生的缺页次数。</font></span><br><br>        <span style="line-height: 1.7142; background-color: rgb(255, 255, 255);"><font size="4" style="background-color: inherit;">memory 子系统中还有一个很重要的设置是 memory.use_hierarchy 这是个布尔开关，默认为 0。</font></span><br><br>        <font size="4" style="background-color: inherit;">此时不同层次间的资源限制和使用值都是独立的。</font><br><br>        <font size="4" style="background-color: inherit;">当设为 1 时，子控制组进程的内存占用也会计入父控制组，并上溯到所有 memory.use_hierarchy = 1 的祖先控制组</font><br><br>        <font size="4" style="background-color: inherit;">。这样一来，所有子孙控制组的进程的资源占用都无法超过父控制组设置的资源限制。</font><br><br>        <font size="4" style="background-color: inherit;">同时，在整个树中的进程的内存占用达到这个限制时，内存回收也会影响到所有子孙控制组的进程。这个值只有在还没有子控制组时才能设置。之后在其中新建的子控制组默认的 memory.use_hierarchy 也会继承父控制组的设置。</font><br><br>        <font size="4" style="background-color: inherit;">memory.swappiness 则是控制内核使用交换区的倾向的。值的范围是 0 &ndash; 100。值越小，越倾向使用物理内存。设为 0 时，只有在物理内存不足时才会使用交换区。默认值是系统全局设置： /proc/sys/vm/swappiness 。</font><br><br>        &nbsp;<br><br>        <font size="4" style="background-color: inherit;">memory.stat 就是内存使用情况报告了。包括当前资源总量、使用量、换页次数、活动页数量等等。</font><br><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

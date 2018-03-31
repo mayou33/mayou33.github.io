@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>第四篇：数据中心运维项目失败之我见</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/18/774/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">第四篇：数据中心运维项目失败之我见</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-18</span>
+      
+      <a href="/categories/数据中心运维/" title="数据中心运维" class="post-categories">数据中心运维</a>
+      
+      
+      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53626&amp;extra=page%3D1" target="_blank" rel="external">http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53626&amp;extra=page%3D1</a></p>
+<pre><code>**&lt;font color=&quot;#444444&quot; face=&quot;Tahoma&quot; size=&quot;3&quot;&gt;原创文章，转载时请写明&amp;ldquo;vmsky论坛&amp;rdquo;和作者&amp;ldquo;老同志lawson&amp;rdquo;。&lt;/font&gt;**
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;聊到这个话题，首先必须定义什么的是项目的失败？在我看来，项目的失败是分为几个层面的：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 战斗层面。指的是项目在具体实施时，出现一些技术层面的问题，例如实施时人员组织问题或技能不够导致局部实施有些不顺畅，出了一些问题，但基本还是达到了预期的目标和时间。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 战术层面。指的是项目在实施时在项目整体上出现偏差，导致项目最终离预期有较大差距，时间和成本有耗费，验收有困难。例如一开始项目需求阶段需求收集有问题，没有完全将需求收集到，或者平台设计阶段有问题，没有完全实现用户的功能需求。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3 战略层面。指的是项目在实施时在项目整体目标上有偏差，导致项目费了好大力，但是确是无用功，让人失望之极。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;那么在说说这三种失败的原因和后果是什么：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 战斗层面的失败。失败的原因有可能是项目人员组织不力，例如项目组的人员结构应该是高中低搭配，你的项目组却是中级和低级，导致有些难度大的实施在经验和能力上都不太够，出现偏差，但没有出现大问题，还是可以通过调整有所改善。这是项目时最容易出现的问题。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 战术层面的失败。失败的原因是项目组在能力上离项目要求有距离。例如项目经理的项目管理能力，项目人员的项目能力，甲方具体实施人员在项目上的配合度等。通常战术层面失败后，项目实施周期会拉长，项目中甲乙方的不信任感会加强，压力会越来越大，当项目结束时，所有人都要长舒一口气了。当战术失败后，后续接着做的的可能性会小很多了。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3 战略层面的失败。这是不多见但是确实存在的失败，很可怕，因为导致的后果可能是项目做不下去了一直拖着，人员不能撤场，或者项目在重做一遍，可这可浪费的都是真金白银呀。遇到这种情况，基本上是项目管理人员的滑铁卢和噩梦。我遇到过两次战略层面的失败：一次是08年做一家资产公司的项目，由于不了解刚上来的大领导的想法，所以项目做到大半的时候，突然大领导说了你们这个项目目标有问题，结果导致重新做了一遍；另一次是做一家保险公司，由于甲方配合度和意愿度有问题，加上人手的紧张，所有导致项目拖期，拖了半年，最后项目费用少收一些结项。出现这种情况的时候有可能会死人的，甲方死或乙方死，确实凶险。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;无论是那种失败都是项目不能承受的，但是有可能是很难避免发生的，面对这些危险，我给这些建议：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 项目开始之前必须了解甲方项目的目标和期望值，尤其是主管领导的期望值，这个不能有任何偏差。这一点轻的可以决定你项目的实施成本和时间，重的可以决定你项目是否可以完成。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 项目之前人员组织工作必须到位。即使因为人员确实有困难，也必须想好补救措施，将困难想足，不要有侥幸心理。不是有句外国俗语吗？你预料的最坏情况一定会发生。项目组最重要的是PM，要求PM有足够的业务经验和技术技能，也要有足够的沟通能力和一定的灵活性，纯技术人员到优秀的项目经理确实是一个台阶，这不是任命能解决的问题。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3 项目实施时必须心有全局，安排好全部实施工作。既重视结构设计，也要重视局部的实施工作。项目中先难后易，或先易后难不是问题，关键是实施必须组织得力，双方通力配合。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;4 尊重用户的管理规定和实施习惯，善于理解用户的真实想法和意图。项目中甲方负责具体实施的人必定有他的真实需求，如果你实现了，那他的配合度就会大大增加，如果没有那就举步维艰，所谓&amp;ldquo;县官不如现管&amp;rdquo;。当然实现不是说一定要吃吃喝喝，而是通过具体的实施工作，让他认可你项目组的能力和职业态度，进而项目成为他向上的成绩。从这一点上说，实际上甲乙方是一荣俱荣，一损俱损。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;说了这么多，项目失败的原因是形形色色的，但成功的项目基本上可以总结为：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 战斗勇敢&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 战术得当&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3 战略正确&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;简单吧，但是真的很不简单！&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

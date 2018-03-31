@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux-3.14.12内存管理笔记【kmalloc与kfree实现】</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/12/12/731/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux-3.14.12内存管理笔记【kmalloc与kfree实现】</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-12-12</span>
+      
+      <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-5573776.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-26859697-id-5573776.html</a></p>
+<div class="Blog_wz1" style="text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br><br>        kmalloc()是基于<span style="-ms-word-wrap: break-word;">slab/slob/slub</span>分配分配算法上实现的，不少地方将其作为<span style="-ms-word-wrap: break-word;">slab/slob/slub</span>分配算法的入口，实际上是略有区别的。<br><br>        现在分析一下其实现：<br><br>    <div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; letter-spacing: 0.1px; overflow: auto; -ms-word-break: break-all; -ms-word-wrap: break-word; font-size-adjust: none; font-stretch: normal;"><br><br>1.  <span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>include<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>linux<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>slab<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h】</span><br>2.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>3.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> kmalloc <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> allocate memory<br>4.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> @size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span> how many bytes of memory are required<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>5.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> @flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span> the type of memory <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> allocate<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>6.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>7.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> kmalloc <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> the normal method of allocating memory<br>8.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> objects smaller than page size <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> the kernel<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>9.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><br>10.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> The @flags argument may be one of<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><br>11.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><br>12.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>GFP_USER <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Allocate memory <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">on</span> behalf of user<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> May sleep<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>13.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><br>14.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>GFP_KERNEL <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Allocate normal kernel ram<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> May sleep<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>15.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><br>16.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>GFP_ATOMIC <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Allocation will <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> sleep<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> May use emergency pools<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>17.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">For</span> example<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> use this inside interrupt handlers<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>18.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>19.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>GFP_HIGHUSER <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Allocate pages from high memory<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>20.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>21.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>GFP_NOIO <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">Do</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">do</span> any I<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>O at all <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">while</span> trying <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">get</span> memory<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>22.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>23.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>GFP_NOFS <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">Do</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> make any fs calls <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">while</span> trying <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">get</span> memory<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>24.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>25.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>GFP_NOWAIT <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Allocation will <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> sleep<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>26.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>27.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>__GFP_THISNODE <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Allocate node<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>local memory only<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>28.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>29.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>GFP_DMA <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Allocation suitable <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> DMA<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>30.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> Should only be used <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> kmalloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> caches<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> Otherwise<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> use a<br>31.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> slab created with SLAB_DMA<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>32.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>33.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Also it <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> possible <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">set</span> different flags by <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">OR</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>ing<br>34.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> one <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">or</span> more of the following additional @flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><br>35.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><br>36.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span><strong>GFP_COLD <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Request cache<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>cold pages instead of<br>37.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> trying <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> return cache<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>warm pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>38.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>39.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span></strong>GFP_HIGH <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> This allocation has high priority <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> may use emergency pools<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>40.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><br>41.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span><strong>GFP_NOFAIL <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> Indicate that this allocation <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">in</span> no way allowed <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> fail<br>42.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>think twice before using<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>43.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>44.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span></strong>GFP_NORETRY <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">If</span> memory <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> immediately available<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span><br>45.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">then</span> give up at once<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>46.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>47.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>__GFP_NOWARN <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">If</span> allocation fails<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> don<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&#39;</span>t issue any warnings<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>48.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>49.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">%</span>__GFP_REPEAT <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">If</span> allocation fails initially<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> try once more before failing<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>50.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><br>51.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> There are other flags available as well<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> but these are <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> intended<br>52.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> general use<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">and</span> so are <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">not</span> documented here<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">For</span> a full list of<br>53.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> potential flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> always refer <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">to</span> linux<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>gfp<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>h<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>54.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>55.  static <strong>always_inline void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>kmalloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size_t size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> gfp_t flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>56.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>57.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span></strong>builtin_constant_p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>58.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span> KMALLOC_MAX_CACHE_SIZE<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>59.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kmalloc_large<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>60.  #ifndef CONFIG_SLOB<br>61.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>flags <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span> GFP_DMA<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>62.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> index <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> kmalloc_index<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>63.  &nbsp;<br>64.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span>index<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>65.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ZERO_SIZE_PTR<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>66.  &nbsp;<br>67.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kmem_cache_alloc_trace<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>kmalloc_caches<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>index<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span><br>68.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>69.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br>70.  #endif<br>71.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br>72.  &nbsp;&nbsp;&nbsp;&nbsp;return __kmalloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>73.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br>    </div>
+
+<pre><code>    &amp;nbsp;
+
+    kmalloc()的参数&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;size&lt;/span&gt;表示申请的空间大小，而&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;flags&lt;/span&gt;则表示分配标志。&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kamlloc&lt;/span&gt;的分配标志众多，各标志都分配标识特定的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;bit&lt;/span&gt;位，藉此可以多样组合。
+
+    GFP_USER：用于表示为用户空间分配内存，可能会引起休眠；
+
+    GFP_KERNEL：内核内存的常规分配，可能会引起休眠；
+
+    GFP_ATOMIC：该分配不会引起休眠，但可能会使用应急内存资源，通常用于中断处理中；
+
+    GFP_HIGHUSER：使用高端内存进行分配；
+
+    GFP_NOIO：分配内存时，禁止任何&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;IO&lt;/span&gt;操作；
+
+    GFP_NOFS：分配内存时，禁止任何文件系统操作；
+
+    GFP_NOWAIT：分配内存时禁止休眠；
+
+    __GFP_THISNODE：分配内存时，仅从本地节点内存中分配；
+
+    GFP_DMA：从&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;DMA&lt;/span&gt;内存中分配合适的内存，应仅使用于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kmalloc&lt;/span&gt;的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;cache&lt;/span&gt;分配；
+
+    __GFP_COLD：用于请求分配冷热页中的冷页；
+
+    __GFP_HIGH：用于表示该分配优先级较高并可能会使用应急内存资源；
+
+    __GFP_NOFAIL：用于指示该分配不允许分配失败，该标志需要慎用；
+
+    __GFP_NORETRY：如果分配内存未能够直接获取到，则不再尝试分配，直接放弃；
+
+    __GFP_NOWARN：如果分配过程中失败，不上报任何告警；
+
+    __GFP_REPEAT：如果分配过程中失败，则尝试再次申请；
+
+    函数入口&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;if&lt;/span&gt;判断内的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;__builtin_constant_p&lt;/span&gt;是&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Gcc&lt;/span&gt;内建函数，用于判断一个值是否为编译时常量，是则返回&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;true&lt;/span&gt;，否则返回&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;false&lt;/span&gt;。也就意味着如果调用&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kmalloc()&lt;/span&gt;传入常量且该值大于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;KMALLOC_MAX_CACHE_SIZE&lt;/span&gt;（即申请空间超过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kmalloc()&lt;/span&gt;所能分配最大&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;cache&lt;/span&gt;的大小），那么将会通过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kmalloc_large()&lt;/span&gt;进行分配；否则都将通过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;__kmalloc()&lt;/span&gt;进行分配。如果通过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kmalloc_large()&lt;/span&gt;进行内存分配，将会经&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;kmalloc_large()-&amp;gt;kmalloc_order()-&amp;gt;__get_free_pages()&lt;/span&gt;，最终通过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Buddy&lt;/span&gt;伙伴算法申请所需内存。
+
+    伙伴算法前面已经分析过了，不再赘述，接下来看&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;__kmalloc()&lt;/span&gt;的实现：
+
+&lt;div class=&quot;codeText&quot; id=&quot;codeText&quot; style=&quot;background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; letter-spacing: 0.1px; overflow: auto; -ms-word-break: break-all; -ms-word-wrap: break-word; font-size-adjust: none; font-stretch: normal;&quot;&gt;
+</code></pre><ol>
+<li><span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>slub<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c】</span></li>
+<li>void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>__kmalloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size_t size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> gfp_t flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;struct kmem_cache <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>s<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>ret<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>unlikely<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span> KMALLOC_MAX_CACHE_SIZE<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kmalloc_large<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;s <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> kmalloc_slab<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>unlikely<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>ZERO_OR_NULL_PTR<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>s<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return s<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;ret <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> slab_alloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>s<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> _RET<em>IP</em><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;trace_kmalloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>_RET<em>IP</em><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> ret<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> s<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;return ret<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li><p><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br></p></li></ol></div><p></p>
+<p>   &nbsp;</p>
+<p>   该函数同样判断申请是否超过最大<span style="-ms-word-wrap: break-word;">cache</span>大小，如果是则通过<span style="-ms-word-wrap: break-word;">kmalloc_large()</span>进行分配；接着通过申请大小及申请标志调用<span style="-ms-word-wrap: break-word;">kmalloc_slab()</span>查找适用的<span style="-ms-word-wrap: break-word;">kmem_cache</span>；最后通过<span style="-ms-word-wrap: break-word;">slab_alloc()</span>进行<span style="-ms-word-wrap: break-word;">slab</span>分配。</p>
+<p>   具体看一下<span style="-ms-word-wrap: break-word;">kmalloc_slab()</span>的实现：</p>
+<div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; letter-spacing: 0.1px; overflow: auto; -ms-word-break: break-all; -ms-word-wrap: break-word; font-size-adjust: none; font-stretch: normal;">
+
+<li><p><span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>slab_commmon<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c】</span></p>
+</li>
+<li><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span></li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> Find the kmem_cache structure that serves a given size of</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span> allocation</li>
+<li>&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span></li>
+<li>struct kmem_cache <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>kmalloc_slab<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size_t size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> gfp_t flags<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> index<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>unlikely<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span> KMALLOC_MAX_SIZE<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WARN_ON_ONCE<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>flags <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span> __GFP_NOWARN<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">NULL</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&lt;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> 192<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ZERO_SIZE_PTR<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> size_index<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>size_index_elem<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">else</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> fls<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>size <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span> 1<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>#ifdef CONFIG_ZONE_DMA</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>unlikely<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>flags <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span> GFP_DMA<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kmalloc_dma_caches<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>index<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>#endif</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;return kmalloc_caches<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">[</span>index<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">]</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li><p><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br></p></li></div><p></p>
+<p>   &nbsp;</p>
+<p>   如果申请的大小超过<span style="-ms-word-wrap: break-word;">KMALLOC_MAX_SIZE</span>最大值，则返回<span style="-ms-word-wrap: break-word;">NULL</span>表示失败；如果申请大小小于<span style="-ms-word-wrap: break-word;">192,</span>且不为<span style="-ms-word-wrap: break-word;">0</span>，将通过<span style="-ms-word-wrap: break-word;">size_index_elem</span>宏转换为下标后，经<span style="-ms-word-wrap: break-word;">size_index</span>全局数组取得索引值，否则将直接通过<span style="-ms-word-wrap: break-word;">fls()</span>取得索引值；最后如果开启了<span style="-ms-word-wrap: break-word;">DMA</span>内存配置且设置了<span style="-ms-word-wrap: break-word;">GFP_DMA</span>标志，将结合索引值通过<span style="-ms-word-wrap: break-word;">kmalloc_dma_caches</span>返回<span style="-ms-word-wrap: break-word;">kmem_cache</span>管理结构信息，否则将通过<span style="-ms-word-wrap: break-word;">kmalloc_caches</span>返回该结构。</p>
+<p>   由此可以看出<span style="-ms-word-wrap: break-word;">kmalloc()</span>实现较为简单，起分配所得的内存不仅是虚拟地址上的连续存储空间，同时也是物理地址上的连续存储空间。这是有别于后面将会分析到的<span style="-ms-word-wrap: break-word;">vmalloc()</span>申请所得的内存。</p>
+<p>   此外再过一下<span style="-ms-word-wrap: break-word;">kfree()</span>的接口实现，该函数在多处均有实现，主要是在<span style="-ms-word-wrap: break-word;">slab.c/slob.c/slub.c</span>中，所以也说<span style="-ms-word-wrap: break-word;">kmalloc()</span>和<span style="-ms-word-wrap: break-word;">kfree()</span>是基于<span style="-ms-word-wrap: break-word;">slab/slob/slub</span>实现的。这里接前面的<span style="-ms-word-wrap: break-word;">slub</span>算法，主要分析一下<span style="-ms-word-wrap: break-word;">slub.c</span>中的<span style="-ms-word-wrap: break-word;">kfree()</span>实现：</p>
+<div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; letter-spacing: 0.1px; overflow: auto; -ms-word-break: break-all; -ms-word-wrap: break-word; font-size-adjust: none; font-stretch: normal;">
+
+<li><p><span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>slub<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c】</span></p>
+</li>
+<li>void kfree<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">const</span> void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>x<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;struct page <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>object <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>void <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span>x<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;trace_kfree<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>_RET<em>IP</em><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> x<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>unlikely<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>ZERO_OR_NULL_PTR<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>x<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;page <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> virt_to_head_page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>x<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>unlikely<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span>PageSlab<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUG_ON<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span>PageCompound<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kfree_hook<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>x<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__free_memcg_kmem_pages<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> compound_order<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;slab_free<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>slab_cache<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> page<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> object<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> _RET<em>IP</em><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span></li>
+<li><p><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br></p></li></div><p></p>
+<p>   &nbsp;</p>
+<p>   该函数实现简单，首先是经过<span style="-ms-word-wrap: break-word;">trace_kfree()</span>记录<span style="-ms-word-wrap: break-word;">kfree</span>轨迹，然后<span style="-ms-word-wrap: break-word;">if (unlikely(ZERO_OR_NULL_PTR(x)))</span>对地址做非零判断，接着<span style="-ms-word-wrap: break-word;">virt_to_head_page(x)</span>将虚拟地址转换到页面；再是判断<span style="-ms-word-wrap: break-word;">if (unlikely(!PageSlab(page)))</span>判断该页面是否作为<span style="-ms-word-wrap: break-word;">slab</span>分配管理，如果是的话则转为通过<span style="-ms-word-wrap: break-word;">slab_free()</span>进行释放，否则将进入<span style="-ms-word-wrap: break-word;">if</span>分支中；在<span style="-ms-word-wrap: break-word;">if</span>分支中，将会<span style="-ms-word-wrap: break-word;">kfree_hook()</span>做释放前<span style="-ms-word-wrap: break-word;">kmemleak</span>处理（该函数主要是封装了<span style="-ms-word-wrap: break-word;">kmemleak_free()</span>），完了之后将会<span style="-ms-word-wrap: break-word;">__free_memcg_kmem_pages()</span>将页面释放，同时该函数内也将<span style="-ms-word-wrap: break-word;">cgroup</span>释放处理。</p>
+<p>   kmalloc()和<span style="-ms-word-wrap: break-word;">kfree()</span>也就这么简单了。</p>
+
+
+<p></p>
+<div class="Blog_con2_1 Blog_con3_2" style="text-align: left; color: rgb(102, 102, 102); text-transform: none; line-height: 22px; text-indent: 0px; letter-spacing: normal; font-family: 宋体, Arial; font-size: 12px; font-style: normal; font-weight: normal; margin-top: 50px; word-spacing: 0px; white-space: normal; position: relative; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <div style="height: 30px; -ms-word-wrap: break-word;"><br>        &nbsp;<br>    </div><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>终极 Shell---zsh</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/09/19/485/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">终极 Shell---zsh</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-09-19</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>目前常用的 Linux 系统和 OS X 系统的默认 Shell 都是 bash，但是真正强大的 Shell 是深藏不露的 zsh，史称『终极 Shell』</p>
+<pre><code>一个能够让你快速上手的zsh项目，叫做「oh my zsh」，Github 网址是：[https://github.com/robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)。
+
+oh-my-zsh是基于zsh的功能做了一个扩展，方便的插件管理、主题自定义，以及漂亮的自动完成效果。
+
+&amp;nbsp;
+
+1查看当前系统CentOS Linux release 7.2.1511 (Core)
+
+查看用户当前shell
+
+echo $SHELL
+
+cat /etc/shells
+
+/bin/sh (已经被 /bin/bash 所取代)
+
+/bin/bash (就是 Linux 默认的 shell)
+
+/bin/ksh (Kornshell 由 AT&amp;amp;T Bell lab. 发展出来的，兼容于 bash)
+
+/bin/tcsh (整合 C Shell ，提供更多的功能)
+
+/bin/csh (已经被 /bin/tcsh 所取代)
+
+/bin/zsh (基于 ksh 发展出来的，功能更强大的 shell)
+
+史上最强Unix Shells: Bash, Fish, Ksh, Tcsh, Zsh对比
+
+[http://hyperpolyglot.org/unix-shells](http://hyperpolyglot.org/unix-shells)
+
+2安装
+
+如果你用 Redhat Linux，执行：&amp;nbsp; yum -y install zsh&amp;nbsp; ---版本是5.0.2
+
+如果你用 Ubuntu Linux，执行：&amp;nbsp; apt-get install zsh
+
+离线安装
+
+&lt;span style=&quot;font: 13.63px/19.09px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;yum&amp;nbsp;install &amp;nbsp;ncurses&amp;nbsp;ncurses-devel -y&lt;/span&gt;
+
+到[http://www.zsh.org/pub/](http://www.zsh.org/pub/)---下载zsh-5.2.tar.gz
+</code></pre><div style="font: 13.63px/19.09px 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        wget&nbsp;<a href="http://www.zsh.org/pub/zsh-5.2.tar.gz" target="_blank" rel="external"><font color="#0066cc">http://www.zsh.org/pub/zsh-5.2.tar.gz</font></a><br>    </div><br></div>
+
+<div style="font: 13.63px/19.09px 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        &nbsp;tar&nbsp;zxvf&nbsp;zsh-5.2.tar.gz<br>    </div><br></div>
+
+<div style="font: 13.63px/19.09px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        cd&nbsp;zsh-5.2/<br>    </div><br></div>
+
+<pre><code>&amp;nbsp;./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp;&amp;nbsp; make install
+
+########
+
+或者[https://github.com/zsh-users/zsh](https://github.com/zsh-users/zsh)
+
+默认是5.2-dev-2
+
+git clone [https://github.com/zsh-users/zsh.git](https://github.com/zsh-users/zsh.git)&amp;nbsp;
+
+cd zsh-5.2
+
+./Util/preconfig
+
+&amp;nbsp;./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp;&amp;nbsp; make install
+
+##########
+
+查看安装情况
+
+&amp;nbsp;/usr/local/bin/zsh --version
+
+cat /etc/shells--没有zsh
+
+ln -s /usr/local/bin/zsh /bin/zsh
+
+&amp;nbsp;echo &amp;quot;/bin/zsh&amp;quot; | tee -a /etc/shells
+
+更换shell
+
+Change your default shell
+
+chsh -s /bin/zsh
+
+退出终端会话重新登录，
+
+切换回bash
+
+chsh -s /bin/bash
+
+退出终端会话重新登录
+
+3安装oh my zsh
+
+curl or wget should be installed
+
+git should be installed
+
+安装「oh my zsh」可以自动安装也可以手动安装。
+
+自动安装：
+
+wget [https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh](https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh) -O - | sh
+
+手动安装：
+
+git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+
+cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+
+![](data:image/png;base64,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)
+
+配置
+
+zsh 的配置主要集中在用户当前目录的.zshrc里&lt;span style=&quot;color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font: 14px/1.5 微软雅黑; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;cp&amp;nbsp;/root/.zshrc&amp;nbsp;/root/.zshrc.bak&lt;/span&gt;
+
+vi /root/.zshrc
+
+先取消$PATHd 注释
+
+####
+
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+export ZSH=/root/.oh-my-zsh
+
+ZSH_THEME=&amp;quot;robbyrussell&amp;quot;
+
+HIST_STAMPS=&amp;quot;yyyy-mm-dd&amp;quot;
+
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+export LANG=en_US.UTF-8
+
+&amp;nbsp;
+
+#####
+
+可以在此处定义自己的环境变量和别名，当然，oh my zsh 在安装时已经自动读取当前的环境变量并进行了设置，你可以继续追加其他环境变量。
+
+接下来进行别名的设置，我自己的部分配置如下：
+
+&amp;nbsp;
+</code></pre><pre style="text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 13.63px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">
+<span style="background-color: inherit;"> # 在命令行直接输入 python 文件，会用 vim 中打开，以下类似</span></pre>
+
+<pre><code>&amp;nbsp;
+</code></pre><pre style="font: 13.63px/19.09px Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;cls=&#39;clear&#39;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;ll=&#39;ls&nbsp;-l&#39;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;la=&#39;ls&nbsp;-a&#39;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;vi=&#39;vim&#39;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;javac=&quot;javac&nbsp;-J-Dfile.encoding=utf8&quot;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;grep=&quot;grep&nbsp;–color=auto&quot;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;html=mate<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;rb=mate<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;py=vi<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;js=vi<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;c=vi<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;java=vi<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;txt=vi<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;gz=&#39;tar&nbsp;-xzvf&#39;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;tgz=&#39;tar&nbsp;-xzvf&#39;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;zip=&#39;unzip&#39;<br></div>
+
+<div style="background-color: inherit;"><br>    alias&nbsp;-s&nbsp;bz2=&#39;tar&nbsp;-xjvf&#39;<br></div>
+
+<pre><code>不仅可以设置通用别名，还能针对文件类型设置对应的打开程序，比如：
+
+alias -s html=mate，意思就是你在命令行输入 hello.html，zsh会为你自动打开 TextMat 并读取 hello.html；
+
+&amp;nbsp;alias -s gz=&amp;#39;tar -xzvf&amp;#39;，表示自动解压后缀为 gz 的压缩包。
+
+主题
+
+在vi /root/.zshrc 里找到ZSH_THEME，就可以设置主题了，默认主题是：
+
+ZSH_THEME=&amp;rdquo;robbyrussell&amp;rdquo;
+
+oh my zsh 提供了数十种主题，相关文件在~/.oh-my-zsh/themes目录下，你可以随意选择，也可以编辑主题满足自己的变态需求，
+
+采用了默认主题robbyrussell，不过做了一点小小的改动：vi /root/.oh-my-zsh/themes/robbyrussell.zsh-theme
+
+&amp;nbsp;
+
+插件
+
+oh my zsh 项目提供了完善的插件体系，相关的文件在~/.oh-my-zsh/plugins目录下，默认提供了100多种，大家可以根据自己的实际学习和工作环境采用，想了解每个插件的功能，只要打开相关目录下的 zsh 文件看一下就知道了。插件也是在.zshrc里配置，找到plugins关键字，你就可以加载自己的插件了，系统默认加载 git ，你可以在后面追加内容，如下：
+
+plugins=(git textmate ruby autojump osx mvn gradle)
+
+下面简单介绍几个：
+
+1、git：当你处于一个 git 受控的目录下时，Shell 会明确显示 「git」和 branch，如上图所示，另外对 git 很多命令进行了简化，例如 gco=&amp;rsquo;git checkout&amp;rsquo;、gd=&amp;rsquo;git diff&amp;rsquo;、gst=&amp;rsquo;git status&amp;rsquo;、g=&amp;rsquo;git&amp;rsquo;等等，熟练使用可以大大减少 git 的命令长度，命令内容可以参考~/.oh-my-zsh/plugins/git/git.plugin.zsh
+
+2、textmate：mr可以创建 ruby 的框架项目，tm finename 可以用 textmate 打开指定文件。
+
+3、osx：tab 增强，quick-look filename 可以直接预览文件，man-preview grep 可以生成 grep手册 的pdf 版本等。
+
+4、autojump：zsh 和 autojump 的组合形成了 zsh 下最强悍的插件
+
+首先安装autojump
+
+&amp;nbsp;yum install autojump autojump-zsh
+
+或者
+
+git clone git://github.com/joelthelion/autojump.git
+
+解压缩后进入目录，执行
+
+./install.py
+
+最后把以下代码加入&lt;span style=&quot;line-height: 1.5; font-family: 微软雅黑; font-size: 14px; background-color: inherit;&quot;&gt;~/.zshrc&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;：&lt;/span&gt;
+</code></pre><div style="font: 13.63px/19.09px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        [[&nbsp;-s&nbsp;/root/.autojump/etc/profile.d/autojump.sh&nbsp;]]&nbsp;&amp;&amp;&nbsp;source&nbsp;/root/.autojump/etc/profile.d/autojump.sh<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    autoload&amp;nbsp;-U&amp;nbsp;compinit&amp;nbsp;&amp;amp;&amp;amp;&amp;nbsp;compinit&amp;nbsp;-u
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<pre><code>&amp;nbsp; #######
+
+&amp;nbsp;zsh 特点
+
+[https://www.zhihu.com/question/29977255](https://www.zhihu.com/question/29977255)
+
+1、兼容 bash
+
+2、强大的历史纪录功能，输入 grep 然后用上下箭头可以翻阅你执行的所有 grep 命令。
+
+3、智能拼写纠正，输入gtep mactalk * -R，系统会提示：zsh: correct &amp;lsquo;gtep&amp;rsquo; to &amp;lsquo;grep&amp;rsquo; [nyae]?&amp;nbsp;
+
+4、各种补全：路径补全、命令补全，命令参数补全，插件内容补全等等。触发补全只需要按一下或两下 tab 键，补全项可以使用 ctrl+n/p/f/b上下左右切换。比如你想杀掉 java 的进程，只需要输入 kill java + tab键，如果只有一个 java 进程，zsh 会自动替换为进程的 pid，如果有多个则会出现选择项供你选择。
+
+ssh + 空格 + 两个tab键，zsh会列出所有访问过的主机和用户名进行补全
+
+5、智能跳转，安装了autojump之后，zsh 会自动记录你访问过的目录，通过 j + 目录名 可以直接进行目录跳转，而且目录名支持模糊匹配和自动补全，例如你访问过hadoop-1.0.0目录，输入j hado 即可正确跳转。j &amp;ndash;stat 可以看你的历史路径库。
+
+6、目录浏览和跳转：输入 d，即可列出你在这个会话里访问的目录列表，输入列表前的序号，即可直接跳转。
+
+7、在当前目录下输入 .. 或 &amp;hellip; ，或直接输入当前目录名都可以跳转，你甚至不再需要输入 cd 命令了。
+
+8、通配符搜索：ls -l **/*.sh，可以递归显示当前目录下的 shell 文件，文件少时可以代替 find，文件太多就歇菜了。
+
+9、更强的别名：请参考配置一节。
+
+10、插件支持：请参考插件一节。
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

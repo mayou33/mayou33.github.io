@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux Memory Hotplug--翻译文档</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/29/349/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux Memory Hotplug--翻译文档</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-29</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="font-family: times new roman,times,serif;"><a href="https://www.kernel.org/doc/Documentation/memory-hotplug.txt" target="_blank" rel="external">https://www.kernel.org/doc/Documentation/memory-hotplug.txt</a></span></p>
+<pre><code>Oct 11 2007&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 内存的热插拔技术
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; 这个文档主要介绍内存的热插拔技术的使用以及该技术的当前情况。因为该技术当期人然处于开发阶段，所以这个的内容经常会发生变化。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;1.介绍：
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 1.1 内存热插拔的目的；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 1.2 内存热插拔的几个阶段；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 1.3上、下线操作的内存单元；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;2.内核的配置；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;3.内存热插拔的sysfs文件；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;4.物理内存的热添加阶段；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 4.1 硬件(固件)的支持；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 4.2 手动通知内存热添加事件；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;5 .逻辑内存的热添加阶段；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 5.1逻辑内存的状态；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 5.2怎样去上线逻辑内存；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;6.逻辑内存的移除；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 6.1逻辑内存的下线和ZONO_MOVABLE&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 6.2 怎样去下线逻辑内存；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;7.物理内存的移除；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;8.内存热插拔事件的通知；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;9.今后的工作列表&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;Note(1): x86_64&amp;#39;s has special implementation for memory hotplug.
+
+This text does not describe it.
+
+x86_64&amp;#39;s 对内存热插拔功能有特殊实现。
+
+本文不描述它。
+
+Note(2): This text assumes that sysfs is mounted at /sys.
+
+本文假定的sysfs安装在/ SYS。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;一.介绍：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;1.1 内存热插拔的目的：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 内存热插拔允许使用者去增加或减少内存的大小。这样做通常出于两种目的：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第一种：改变内存的大小；&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第二种：从物理上安装或移除DIMMs或NUMA(not uniform memory access)节点。这样时为了交换DIMMS或NUMA节点，降低电量的消耗。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第一种主要应用于高度虚拟化环境之中。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第二种主要应用于支持电源管理的硬件。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 设计内存热插拔就是为了以上两个目的。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;1.2 内存热插拔的阶段:&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 内存热插拔分为两个阶段。&amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 1) 物理内存热插拔阶段。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2)逻辑内存热插拔阶段。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第一个阶段目的是为了与硬件进行通信和构建或擦出热插拔内存需要的环境。基本上，对第二种目的来说这个阶段时必须的，&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;当内存被热插拔时，内核会识别新的内存，创建新的内存管理表和对新内存进行操作的sysfs文件。&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 如果固件支持操作系统中的新内存的连接通知，那么这个阶段会被自动的出发&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;。ACPI可以通知系统中有新的内存加入这个事件&lt;/span&gt;。如果你的固件不支持的话，系统管理员可以使用&amp;ldquo;探索&amp;rdquo;操作。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 逻辑内存热插拔阶段是为了去改变内存的状态，使内存对使用者可用或不可用。通过这个阶段，使用者所看到的内存的大小发生了变化。当一段内存可用时，&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;内核把这段内存划分为许多可以自由使用的页。&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在这个文档中，逻辑内存热插拔阶段被描述为上线、下线online/offline。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 通过系统管理员对sysfs文件进行写操作，可以触发逻辑内存热插拔阶段。对这种热添加情况，在物理热插拔完成以后，逻辑热插拔阶段必须被执行通过手动操作。但是，如果你写了一个为内存热插拔的udev&amp;#39;s hotplug scripts脚本的话，这些阶段可以被透明的执行。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;（新内核会自动完成online过程）&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;1.3 上、下线操作的内存单元。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 内存热插拔使用稀疏内存模型(SPARSEMEM)。SPARSEMEM把整个内存划分为大小相同的块。每一块也被叫做一段。每一段的大小是多少取决与计算机的体系结构。例如，power架构中每一段的大小为16MB，ia64架构中每一段的大小为1GB。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;内存部分 是由 一些称之为&amp;ldquo;内存块&amp;rdquo; 组合而成的，一个内存块的大小是与体系结构相关的， 内存块作为逻辑单元可以被执行上线/下线。一个内存块的默认大小是相同于内存段的大小，除非架构另外规定（&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;centos默认是128MB&lt;/span&gt;）&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;对内存进行上下线操作是以内存段为单位的。&amp;nbsp;&amp;nbsp; 为了去知道内存段的大小，你可以去看看你系统中的这个文件：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; /sys/devices/system/memory/block_size_bytes 单位是字节。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;2\. 内核的配置。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 为了使用内存热插拔功能，内核必须得按照下面的配置选项进行编译。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; ---对所有内存热插拔：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 内存模型---&amp;gt; 稀疏内存(Sparse Memory)&amp;nbsp;&amp;nbsp; (CONFIG_SPARSEMEM)&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 允许内存热添加( CONFIG_MEMORY_HOTPLUG )&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; ---为了能移除内存，下面的选项是必须的&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 允许内存热移除(CONFIG_MEMORY_HOTREMOVE)&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 页迁移(CONFIG_MIGRATION)&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; ---对ACPI(Advanced Configuration And Power Interface)内存热插拔,下面的配置选项也是必须的：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 内存热插拔(该选项在ACPI支持菜单下面)&amp;nbsp;&amp;nbsp;&amp;nbsp; (CONFIG_ACPI_HOTPLUG_MEMORY)&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这个选项可以是内核模块&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; ---作为一个相关的配置，如果你的计算机支持通过ACPI进行NUMA(Non Uniform Memory Access)节点热插拔，&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 那么下面的这个选项也是必须的。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; ACPI0004，PNP0A05 ，PNP0A06 Container Driver(在ACPI支持菜单下面 under ACPI Support Menu) (CONFIG_ACPI_CONTAINER)&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 这个选项也可能是个内核模块。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;4\. 内存热插拔 sysfs文件&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;所有的内存段的设备信息都在sysfs文件里。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; 每个内存段的设备信息在/sys/devices/system/memory目录下按照 /sys/devices/system/memory/memoryXXX 形式存放着.(XXX是内存段的ID号)&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;sysfs目录涵盖涵盖所有的内存块，他要求当前所有的内存段都要在这个范围里，并不允许存在 memory holes。目前还没有办法确定是否存在一个memory hole，但一个的存在应该不影响到存储器块的热插拔能力。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 例如，假设一个内存段的大小为1GB. 一个起始地址为0X1 0000 0000的内存设备在 /sys/devices/system/memory目录下面的文件是 ：/sys/devices/system/memory/memory4( 0X1 0000 0000 / 1GB = 4). 这个设备覆盖的地址范围&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;[ 0X1 0000 0000 ---- 0X1 4000 0000)&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在每个内存段设备文件下面，你可以看到4个文件：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; /sys/devices/system/memory/memoryXXX/phys_index&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; /sys/devices/system/memory/memoryXXX/phys_device&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; /sys/devices/system/memory/memoryXXX/state&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; /sys/devices/system/memory/memoryXXX/removable&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; &amp;lsquo;phys_index&amp;rsquo; : 只读文件并且包含内存段的ID号，像XXX.&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; &amp;lsquo;state&amp;rsquo;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; : 可读写;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 用于读时: 包含内存的上下线状态;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 用于写时: 使用者可以指定&amp;ldquo;online&amp;rdquo;, &amp;ldquo;offline&amp;rdquo; 命令.&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; &amp;lsquo;phys_device&amp;#39; : 只读 : 被设计用来显示物理内存的设备名.&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; &amp;lsquo;removable&amp;#39;&amp;nbsp;&amp;nbsp; : 只读 : 包含一个整数值，这个整数值表示内存段是否可移除.&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 整数1，代表这个内存段是可移除。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 整数0，代表这个内存段是不可移除的。
+
+&amp;#39;valid_zones&amp;#39;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; : read-only: designed to show which zones this memory block
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; can be onlined to.
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; The first column shows it&amp;#39;s default zone.
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;quot;memory6/valid_zones: Normal Movable&amp;quot; shows this memoryblock
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; can be onlined to ZONE_NORMAL by default and to ZONE_MOVABLE
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; by online_movable.
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;quot;memory7/valid_zones: Movable Normal&amp;quot; shows this memoryblock
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; can be onlined to ZONE_MOVABLE by default and to ZONE_NORMAL
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; by online_kernel.&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 注意：在物理内存热插拔阶段之后，这些目录/文件才会出现。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 如果CONFIG_NUMA选项可用，可以通过在 /sys/devices/system/node/node* directories 下面的符号链接来访问/sys/devices/system/memory/memoryXXX 内存段目录。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;例如 /sys/devices/system/node/node0/memory9----&amp;gt;../../memory/memory9&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;4\. 物理内存热添加阶段&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;4.1 硬件(固件)支持&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;在x86_64/ia64 平台上，ACPI支持内存热插拔。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 一般来说，支持内存热插拔的固件(ACPI)定义了_HID &amp;ldquo;PNP0C80&amp;rdquo; 内存类对象。当PNP0C80接受到一个通知时，Linux&amp;#39;s ACPI handler(Linux ACPI处理程序/函数)把热添加内存加入到系统，并且调用一个 hotplug udev scripts.&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;这个动作将会被自动完成。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 但是内存热插拔脚本通常不会被包含在 udev 包中。你可能必须自己去写这些脚本或者手动的上下线内存。这个文档也介绍了怎样上线内存和怎样下线内存。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 如果固件支持NUMA-node热插拔，并且定义一个 _HID &amp;ldquo;ACPI0004&amp;rdquo; , &amp;ldquo;PNP0A05&amp;rdquo;, 或&amp;ldquo;PNP0A06&amp;rdquo;对象。当对象接受到一个通知时，ACPI handler对定义在它里面的所有对象调用 hotplug 代码。如果找到了内存设备，memory hotplug代码将会被调用。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;4.2 手动通知内存热添加事件。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在一些环境中，尤其是虚拟环境，固件将不会向内核通知内存添加事件。对于这些环境，可以使用&amp;ldquo;探索&amp;rdquo;接口(probe interface)来通知内核。 探索接口依赖于 CONFIG_ARCH_MEMORY_PROBE选项并且可以被配置在 powerpc, sh,如果x86支持热插拔，那也是有ACPI通知办理。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 探索接口位于: /sys/devices/system/memory/probe&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 你可以通过 % echo start_address_of_new_memory &amp;gt; /sys/devices/system/memory/probe 来告诉内核新的物理内存的地址。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;那么，[ start_address_of_new_memory , start_address_of_new_memory + section )(新的内存的起始地址， 新的内存的起始地址 + 内存段的大小) 内存范围就会被热添加。在这种情况下，热插拔脚本并不会被调用(the current implementation)。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;5.逻辑内存热添加阶段。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;5.1 内存的状态&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 通过 % cat&amp;nbsp; /sys/devices/system/memory/memoryXXX/state 文件去了解内存段的上下线 (online/offline) 的状态。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 如果内存段处于online state, 你将看到&amp;ldquo;online&amp;rdquo;;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 如果内存段处于offline state, 你将看到 &amp;ldquo;offline&amp;rdquo;;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;5.2 怎么去上线online内存&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;当内存被热添加，内核根据策略来决定是否为&amp;ldquo;在线&amp;rdquo;，可从&amp;ldquo;auto_online_blocks&amp;rdquo;文件中读出它的策略：
+
+# cat /sys/devices/system/memory/auto_online_blocks&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;默认值依赖于CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE内核配置 选项。如果禁用默认为&amp;ldquo;脱机offline&amp;rdquo;，这意味着新被热添加的内存并不是处于ready-to-use的状态，&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;你必须手动将这些新被热添加的内存块 设置成&amp;ldquo;在线online&amp;rdquo;。自动在线可以被要求写成&amp;ldquo;online&amp;rdquo;在auto_online_blocks的文件里：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; echo online &amp;gt; /sys/devices/system/memory/auto_online_blocks&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;这个设置是个全局性的策略，将影响随后所有热插拔的内存块。当前离线 offline块保持自己的状态。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;有个可能，在某些情况下，一些内存块被加入后，会将无法联机。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;用户空间工具可以检查它们的&amp;ldquo;state&amp;rdquo;文件 (/sys/devices/system/memory/memoryXXX/state)，可以尝试手动online它们&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;如果没有要求自动onlining，或者某些内存块是脱机的，就可以通过写它们的&amp;ldquo;state&amp;rdquo;文件来改变单个内存块的状态&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; % &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;echo&amp;nbsp; online &amp;gt; /sys/devices/system/memory/memoryXXX/state&lt;/span&gt;。 之后，memoryXXX内存段的状态将是&amp;ldquo;online&amp;rdquo;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;这些onlining不会改变目标内存块的区域类型ZONE type，&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;如果内存块是在ZONE_NORMAL，你可以把它改到ZONE_MOVABLE：&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;% echo online_movable &amp;gt; /sys/devices/system/memory/memoryXXX/state
+
+（注：当前的限制：这些内存块必须邻接ZONE_MOVABLE）&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;同时如果内存块是在ZONE_MOVABLE，你可以把它改到ZONE_NORMAL：
+
+% echo online_kernel &amp;gt; /sys/devices/system/memory/memoryXXX/state
+
+（注：当前的限制：这些内存块必须邻接ZONE_MOVABLE）&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;之后，memoryXXX内存段的状态将是&amp;ldquo;online&amp;rdquo; 并且可用的内存大小也会增加。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;目前，新添加的内存将会被添加到ZONE_NORMAL(for powerpc ZONE_DMA)。这可能会在将来可以改变。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;6\. 逻辑内存的移除&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;6.1 逻辑内存的下线和ZONE_MOVABLE。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 内存下线比内存上线更加的复杂。因为内存下线必须使整个内存段都不未使用，如果内存段中包含有仍未释放的内存的换，内存下线操作就可能失败。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 一般来说，内存下线使用2种技术。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第一种技术，回收(reclaim)并且释放在内存段中的所有内存。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第二种技术，迁移在内存段中的所有的页。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在目前的实现，Linux的内存下线使用第二种技术，通过页迁移来释放内存段中的所有的页。但是并不是所有的页都是可迁移的。在当前的Linux下，可迁移的页是匿名页(anonymous pages)和页缓存。由于通过迁移页来下线一个内存段，所以内核必须确保内存段中只包含可迁移的页。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 现在，制作一个由可迁移的页组成的内存段的引导选项已经可以用了。通过指定&amp;ldquo;kernelcore= &amp;rdquo; 或者&amp;ldquo;movablecore=&amp;rdquo; 引导选项，你可以创建一个ZONE_MOVABLE区域，这个区域被用于可移动的页。(See also Documentation/kernel-parameters.txt)&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 假设在引导时，系统的内存大小为&amp;ldquo;TOTAL&amp;rdquo;，这个引导选项按照如下方式创建ZONE_MOVABLE。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 1.当使用kernelcore=YYYY引导选项时，为可移动页的内存大小为: TOTAL &amp;ndash; YYYY，而不是 YYYY。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2.当使用movablecore= ZZZZ引导选项时，为可移动页的内存大小为: ZZZZ ，而不是TOTAL &amp;ndash; ZZZZ。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 注意：不幸的是，没有任何信息去显示那个内存段是属于ZONE_MOVABLE。This is TBD&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;6.2 怎样去下线一个内存段&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 你可以通过使用与内存段上线相同的系统文件去下线一个内存段。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;% echo offline &amp;gt; /sys/devices/system/memory/memoryXXX/state 。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;如果下线操作成功，这个内存段的状态将会被改变为&amp;ldquo;offline&amp;rdquo;。如果下线操作失败，内核将会返回一些错误值(像：-EBUSY)。即使一个内存段不属于ZONE_MOVABLE，你也可以尝试去下线它。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;如果它中没有不可移动的内存的话，你将会成功。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; 处于ZONE_MOVABLE的内存段被认为是能很容易下线的。但是如果这样的内存段处于繁忙的状态下，对它们进行下线，系统会返回-EBUSY。即使一个内存段由于-EBUSY而不能下线，你可以重试，并且有可能会成功与有可能失败。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; Consideration:&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 内存热插拔的设计方向是为了使内存下线的可能性更高，确保在任何状况下都可以拔下内存。但是它需要更好的工作。在一些状况下返回-EBUSY是非常好的，因为使用者可以自己去决定是否需要再次的重试。目前，内存下线代码会每120seconds去做重试统计。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;7.物理内存的移除&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 需要更好的实现但是...&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; --- 操作系统去通知固件硬件移除工作完成。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; ---如果不需要的话，避免移除。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;8.内存热插拔事件通知者&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 内存热插拔有事件通知者(notifer)。有6中类型的通知。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; MEMORY_GOING_ONLINE&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 在新的内存变为可用之前产生，目的是为了能准备子系统去处理内存。页分配器仍然不能从新的内存中分配页。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; MEMORY_CANCEL_ONLINE&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 如果MEMORY_GOING_ONLINE失败，产生。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; MEMORY_ONLINE&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 当内存已经成功的完成上线时产生。回调函数(callback)可以从新的内存中分配页。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; MEMORY_GOING_OFFLINE&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 开始运行内存下线进程的时候产生。不再在可能再从内存中分配页了，但是将被下线的内存段中仍然有一些内存在使用。回调函数可以去释放已知的内存到子系统。这个子系统来自于指示的内存段。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; MEMORY_CANCEL_OFFLLINE&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 如果MEMORY_GOING_OFFLINE失败，产生。来自于我们试图去下线的内存段的内存再一次可用了。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; MEMORY_OFFLINE&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp; 内存下线完成以后产生。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;通过hotplug_memory_notifier( callback_func,&amp;nbsp; priority ) 可以注册一个回调程序。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;回调函数的第二个参数是以上的六种类型。回调函数的第三个参数是一个指向struct memory_notify的指针。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; Struct memory_notify&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; {&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; unsigned long&amp;nbsp; start_pfn; // 是上下线内存段的start_pfn&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; unsigned long nr_pages;&amp;nbsp; // 是上下线内存段的页数&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; int status_change_nid;&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; }&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp; 当节点掩码的N_HIGH_MEMORY是设置/清空, status_change_nid是被设置节点的ID。这意味着一个新的节点通过上线获取了一个新的内存，并且一个节点失去了所有的内存。如果，status_change_nid 是 -1，那么节点掩码的状态不能被改变。如果status_change_nid &amp;gt;= 0，回调函数将可以为这个节点创建/抛弃结构体，如果需要的话。&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;9\. Future Work
+
+--------------
+
+&amp;nbsp; - allowing memory hot-add to ZONE_MOVABLE. maybe we need some switch like&amp;nbsp; sysctl or new control file.
+
+&amp;nbsp; - showing memory block and physical device relationship.
+
+&amp;nbsp; - test and make it better memory offlining.
+
+&amp;nbsp; - support HugeTLB page migration and offlining.
+
+&amp;nbsp; - memmap removing at memory offline.
+
+&amp;nbsp; - physical remove memory.&lt;/span&gt;
+
+&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;参考： [http://weiguozhihui.blog.51cto.com/3060615/1568258](http://weiguozhihui.blog.51cto.com/3060615/1568258)&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

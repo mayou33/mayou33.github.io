@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>使用yum历史查找已安装或已删除的软件包信息</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/03/02/894/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">使用yum历史查找已安装或已删除的软件包信息</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-03-02</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+      <a href="/tags/yum/"" title="yum" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>yum</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://www.linuxdiyf.com/linux/28660.html" target="_blank" rel="external">http://www.linuxdiyf.com/linux/28660.html</a></p>
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    Yum 是 RHEL/CentOS 的一个基于 rpm 的交互式高级包管理器，用户可以用它来安装新的软件包、卸载或清除旧的/不需要的软件包。它可以自动运行系统更新，并执行依赖分析，对已安装的或可用的软件包进行查询等等。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    在本文中，我们将解释如何查看 Yum 事务的历史记录，以便于了解有关安装的软件包以及从系统中所卸载/清除软件包的信息。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    以下是一些如何使用 Yum 历史命令的示例。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    查看完整的 Yum 历史<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    要查看 Yum 事务完整的历史记录，我们可以运行以下命令，然后将显示：事务 ID、执行特定操作的用户、操作发生的日期和时间、实际操作以及任何错误的附加信息与操作：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history&nbsp;<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F224103Z12U.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    使用 Yum 查找软件包信息<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    history 的子命令：info/list/summary 可以将事务 ID 或包名作为参数。此外，list 子命令可以加上特殊的参数，all 表示所有的事务。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    运行以下命令查看先前的历史：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history list all<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    并且，你可以使用下面的 info 命令查看涉及指定软件包的事务详情，例如 httpd：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history info httpd<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F224103912914.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    发出以下命令可以获得包含 httpd 软件包的事务的摘要：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history summary httpd<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F224103923U1.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    还可以使用事务的 ID 来查找，以下命令会显示 ID 为 15 的事务的详情。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history info 15<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F224103933A0.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    使用 yum history 查找软件包事务信息<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    有一些用于打印某个或多个软件包事务详情的子命令。我们可以使用 package-list 或 package_info 查看关于 httpd 的更多信息，例如：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history package-list httpd<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    或<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history package-info httpd<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F224103943227.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    要得到多个软件包的记录，我们可以运行：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history package-list httpd epel-release<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    或<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history packages-list httpd epel-release<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F224103954647.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    使用 Yum 回滚软件包<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    此外，还有一些 history 的子命令可以让我们撤销/重做/回滚事务。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    1.undo - 会撤销一个指定的事务。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    2.redo - 重复一次指定的事务。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    3.rollback - 撤销指定事务之后的所有事务。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    它们采用单个事务 id 或关键字 last 和从最后一个事务开始的偏移量。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    例如，假设我们已经做了 60 个事务，last 是指事务 60，last-4 指向事务 56。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    以上子命令是如下工作的：如果我们有 5 个事务&mdash;&mdash;V，W，X，Y 和 Z，其中分别是安装各个软件包的。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history undo 2#将删除软件包 W<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history redo 2#将重新安装软件包 W<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history rollback 2#将删除软件包 X、 Y 和 Z<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    在下面的示例中，事务 2 是一个更新操作，如下所示，以下 redo 命令将重复事务 2 直到所有软件包到更新到当前时间的最新版本：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history | grep -w &quot;2&quot;<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F2241040044M.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history redo 2<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F224104014951.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    redo 子命令同样可以在我们指定事务之前加上一些可选的参数：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    force-reinstall - 重新安装所有在此事务中安装的软件包（通过 yum install、upgrade 或 downgrade）。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    force-remove - 移除所有已经更新或回滚的软件包。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history redo force-reinstall 16<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    <img src="http://www.linuxdiyf.com/linux/uploads/allimg/170224/2-1F224104025513.png" alt=""><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    查找 Yum 历史数据库和来源信息<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    这些子命令为我们提供有关历史记录数据库和其它信息来源的信息：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    1.addon-info - 提供更多的信息来源。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    2.stats - 显示当前历史数据库的统计信息。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    3.sync - 使我们能够更改为所有已安装软件包存储的 rpmdb/yumdb 数据。<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    看一下以下的命令的子命令实际上是怎样工作的：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history addon-info<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history stats<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history sync<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    使用 new 子命令设置新的历史文件：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # yum history new<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    我们可以在 yum 手册页找到关于 Yum history 命令和其它几个命令的完整信息：<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    # man yum<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br>    就是这么多了。在本篇指南中，我们介绍了各种 Yum history 命令，以查看 Yum 事务的详细信息。<br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

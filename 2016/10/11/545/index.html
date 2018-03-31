@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>yum安装Percona Server on  CentOS</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/10/11/545/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">yum安装Percona Server on  CentOS</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-10-11</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>系统要求：</p>
+<pre><code>#停止firewall
+
+&amp;nbsp;#禁止firewall开机启动
+
+systemctl stop firewalld.service
+
+systemctl disable firewalld.service
+
+systemctl status firewalld
+
+&amp;nbsp;关闭selinux
+
+setenforce 0
+
+echo &amp;quot;setenforce 0&amp;quot; &amp;gt;&amp;gt; /etc/rc.local
+
+sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/g&amp;#39;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; /etc/sysconfig/selinux
+
+echo never &amp;gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag
+
+echo never &amp;gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled
+
+echo never &amp;gt; /sys/kernel/mm/transparent_hugepage/enabled
+
+echo never &amp;gt; /sys/kernel/mm/transparent_hugepage/defrag
+
+1\. Install the Percona repository
+
+yum -y install [https://www.percona.com/redir/downloads/percona-release/redhat/latest/percona-release-0.1-4.noarch.rpm](https://www.percona.com/redir/downloads/percona-release/redhat/latest/percona-release-0.1-4.noarch.rpm)
+
+可以查看一下
+
+yum list | grep percona
+
+2\. Install the packages
+
+&amp;nbsp;
+
+yum -y install Percona-Server-server-57
+
+![](data:image/png;base64,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)
+
+Percona Server 5.7支持 TokuDB storage engine 就一起安装
+
+&amp;nbsp;yum -y install Percona-Server-server-57 Percona-Server-tokudb-57.x86_64
+
+![](data:image/png;base64,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)
+
+&amp;nbsp;service mysql start
+
+cat /var/log/mysqld.log|grep password 里面有临时密码
+
+登入
+
+&amp;nbsp;mysql -uroot -p&amp;quot;i9&amp;gt;A(9q&amp;lt;Hh54&amp;quot;
+
+改密码--要求复杂性
+
+mysql&amp;gt; set password=password(&amp;#39;Hzw123####&amp;#39;);
+
+exit
+
+启用TokuDB
+
+&amp;nbsp;Run the following script to enable the TokuDB storage engine in Percona Server:
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; ps_tokudb_admin --enable -u &amp;lt;mysql_admin_user&amp;gt; -p[mysql_admin_pass][-S &lt;socket&gt;][-h &lt;host&gt; -P &lt;port&gt;]
+
+执行ps_tokudb_admin --enable -uroot -p&lt;span style=&quot;font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;Hzw123####&lt;/span&gt;
+
+要求 service mysql restart
+
+mysql -uroot -p&amp;quot;Hzw123####&amp;quot;
+
+mysql&amp;gt;SHOW ENGINES;
+
+...|TokuDB|YES|TokutekTokuDBStorageEnginewithFractalTree(tm)Technology|YES|YES|YES|...
+
+mysql&amp;gt;SELECT@@tokudb_version;
+
+如果不想用ps_tokudb_admin ，要手动安装，请看手册。
+
+[https://www.percona.com/doc/percona-server/5.7/tokudb/tokudb_installation.html](https://www.percona.com/doc/percona-server/5.7/tokudb/tokudb_installation.html)
+
+&amp;nbsp;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

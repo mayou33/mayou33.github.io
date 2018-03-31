@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>yum安装php5.6</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/04/13/950/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">yum安装php5.6</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-04-13</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/php/"" title="php" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>php</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <span style="background-color: inherit;"><span style="background-color: inherit;">&nbsp;需求：安装</span></span><span style="line-height: 1.5; background-color: inherit;">php5.6、php7</span><br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="background-color: inherit;"><span style="background-color: inherit;">centos6 默认yum安装的版本是</span></span><span style="line-height: 1.5; background-color: inherit;">5.3.3-49 &nbsp;</span><br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="background-color: inherit;">centos7 默认yum安装的版本是</span></span><span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">5.4.16</span>&nbsp;&nbsp;</span><br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: orange;">方案一：<span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: inherit;">添加remi源</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;">CentOS 6添加epel及remi源。</span><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;">&nbsp;rpm -Uvh <a href="http://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm</a></span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;">&nbsp; rpm -Uvh <a href="http://rpms.famillecollet.com/enterprise/remi-release-6.rpm" target="_blank" rel="external">http://rpms.famillecollet.com/enterprise/remi-release-6.rpm</a></span><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;"><span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">CentOS 7添加epel及remi源。</span></span><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;"># yum install epel-release</span><br></div>
+
+<div style="background-color: inherit;"><br>    <span style="line-height: 1.5; background-color: inherit;"># rpm -ivh <a href="http://rpms.famillecollet.com/enterprise/remi-release-7.rpm" target="_blank" rel="external">http://rpms.famillecollet.com/enterprise/remi-release-7.rpm</a></span><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br><br>        <span style="background-color: inherit;">使用yum list命令查看可安装的包(Packege)。—–选配–可以看到能安装php7.0 、7.1</span><br><br>    <div style="background-color: inherit;"><br>        <pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;"><br><span style="background-color: inherit;"># <span style="background-color: inherit;">yum</span> list –enablerepo=remi –enablerepo=remi-php56 | <span style="background-color: inherit;">grep</span> php</span><br></pre><br>    </div><br></div>
+
+<pre><code>&amp;nbsp;
+</code></pre><div style="background-color: inherit;"><br><br>        <span style="background-color: inherit;">yum源配置好了，下一步就安装PHP5.6。</span><br><br>        <span style="background-color: inherit;"><font color="#ff0000" style="background-color: inherit;">centos6、7这样安装</font></span><br><br>    <pre style="text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br><span style="background-color: inherit;"><font color="#ff0000" style="background-color: inherit;"><span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">安装PHP56</span></font></span><br></pre><br></div>
+
+<pre><code>&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: inherit;&quot;&gt;yum&lt;/span&gt; -y &lt;span style=&quot;background-color: inherit;&quot;&gt;install&lt;/span&gt; --enablerepo=remi --enablerepo=remi-php56 php &lt;span style=&quot;background-color: inherit;&quot;&gt;php-fpm&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;php-gd&amp;nbsp;php-mysql php-xml &amp;nbsp;&lt;/span&gt;php-opcache php-devel php-mbstring php-mcrypt php-mysqlnd php-phpunit-PHPUnit php-pecl-xdebug &lt;span style=&quot;background-color: inherit;&quot;&gt;php-pecl-xhprof&lt;/span&gt;
+</code></pre><div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;"><br><span style="background-color: inherit;"><span style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">如果安装PHP71</span></span><br></pre><br>    </div><br></div>
+
+<pre><code>&lt;span style=&quot;background-color: inherit;&quot;&gt;yum&lt;/span&gt; -y &lt;span style=&quot;background-color: inherit;&quot;&gt;install&lt;/span&gt; --enablerepo=&lt;span style=&quot;background-color: inherit;&quot;&gt;remi-php71&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt; --enablerepo=remi-php71 php &lt;span style=&quot;background-color: inherit;&quot;&gt;php-fpm&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;php-gd&amp;nbsp;php-mysql php-xml&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp; &lt;/span&gt;&lt;/span&gt;php-opcache php-devel php-mbstring php-mcrypt php-mysqlnd php-phpunit-PHPUnit php-pecl-xdebug&lt;/span&gt;
+</code></pre><pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<font style="background-color: orange;"><font face="微软雅黑" style="background-color: inherit;"><span style="text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: inherit;">方案二：</span><span style="text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: inherit;">添加</span></font><span style="line-height: 1.5; background-color: inherit;">webtatic</span></font><font face="微软雅黑" style="background-color: inherit;"><span style="text-align: left; font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: orange;">源</span>
+</font></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br>    <a href="https://webtatic.com/packages/php56/" target="_blank" rel="external"><font color="#0066cc">https://webtatic.com/packages/php56/</font></a><br></div>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<font face="微软雅黑" style="background-color: inherit;">CentOS 7.x:
+</font></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="line-height: 1.5; font-family: 微软雅黑; background-color: inherit;">rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+</span></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<font face="微软雅黑" style="background-color: inherit;">rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+</font></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<font face="微软雅黑" style="background-color: inherit;">CentOS6.x:
+</font></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<span style="line-height: 1.5; font-family: 微软雅黑; background-color: inherit;">rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+</span></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<font face="微软雅黑" style="background-color: inherit;">rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+</font></pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+<font face="微软雅黑" style="background-color: inherit;">安装<span style="text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">php56</span></font>
+</pre>
+
+<div style="background-color: inherit;"><br>    yum&nbsp;&nbsp;install&nbsp;php56w&nbsp;php56w-fpm&nbsp;&nbsp;php56w-gd&nbsp;php56w-mysql&nbsp;php56w-xml&nbsp;&nbsp;php56w-opcache&nbsp;php56w-devel&nbsp;php56w-mbstring&nbsp;php56w-mcrypt&nbsp;php56w-mysql&nbsp;php56w-pecl-xdebug&nbsp;<br></div>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre style="text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">
+<font face="微软雅黑" style="background-color: inherit;"><font face="微软雅黑" style="background-color: inherit;">安装<span style="text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);">php71</span></font></font>
+</pre>
+
+<div style="background-color: inherit;"><br>    &nbsp;yum&nbsp;&nbsp;install&nbsp;php71w&nbsp;php71w-fpm&nbsp;&nbsp;php71w-gd&nbsp;php71w-mysql&nbsp;php71w-xml&nbsp;&nbsp;php71w-opcache&nbsp;php71w-devel&nbsp;php71w-mbstring&nbsp;php71w-mcrypt&nbsp;php71w-mysql&nbsp;php71w-pecl-xdebug&nbsp;<br></div>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<pre><code>you can upgrade PHP by:
+</code></pre><div style="color: rgb(17, 0, 0); font-family: &quot;Noto Serif&quot;, serif; font-size: 19px; background-color: rgb(249, 249, 249);"><br>    <table border="1" cellpadding="2" cellspacing="0" style="font-family: inherit; font-size: 19px; font-style: inherit; margin-top: 10px; margin-bottom: 10px; display: table; border-collapse: collapse; background-color: inherit;"><br>        <tbody style="font-family: inherit; font-style: inherit; background-color: inherit;"><br>            <tr style="font-family: inherit; font-style: inherit; background-color: inherit;"><br>                <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 658px; height: 25px; font-family: inherit; font-style: inherit; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(238, 238, 238);"><br>                    <pre style="font-family: monospace; font-size: 14px !important; font-style: inherit; background-color: inherit;"><br><span style="color: rgb(194, 12, 185); font-family: inherit; font-style: inherit; font-weight: bold; background-color: inherit;">yum install</span> yum-plugin-replace<br>&nbsp;<br><span style="color: rgb(194, 12, 185); font-family: inherit; font-style: inherit; font-weight: bold; background-color: inherit;">yum</span> replace php-common <span style="color: rgb(102, 0, 51); font-family: inherit; font-style: inherit; background-color: inherit;">–replace-with</span>=php71w-common</pre><br>                </td><br>            </tr><br>        </tbody><br>    </table><br></div>
+
+<pre style="font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-style: normal; background-color: inherit;">
+
+&nbsp;</pre>
+
+<div style="background-color: inherit;"><br><br>        <span style="background-color: inherit;">用PHP命令查看版本。</span><br><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <span style="background-color: inherit;"><span style="line-height: 1.5; font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; background-color: inherit;"># php –</span><span style="line-height: 1.5; font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; background-color: inherit;">version</span></span><br>        </div><br>    </div><br></div>
+
+<div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <div style="background-color: inherit;"><br>                &nbsp;<span style="background-color: inherit;">chkconfig&nbsp;–level&nbsp;345&nbsp;php-fpm&nbsp;on&nbsp;</span><br>            </div><br>        </div>
+
+<pre><code>    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            systemctl&amp;nbsp;restart&amp;nbsp;&amp;nbsp;php-fpm.service
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;div style=&quot;background-color: inherit;&quot;&gt;
+            service&amp;nbsp;php-fpm&amp;nbsp;restart
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        <div style="text-align: left; color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>            <div style="background-color: inherit;"><br>                &nbsp;<br>            </div><br>        </div><br>    </div><br></div></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

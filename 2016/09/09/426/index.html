@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>系统之锹sysdig：Linux服务器监控和排障利器</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/09/09/426/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">系统之锹sysdig：Linux服务器监控和排障利器</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-09-09</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://www.sysdig.org/install/" target="_blank" rel="external">http://www.sysdig.org/install/</a></p>
+<pre><code>版本及源码下载https://github.com/draios/sysdig/releases
+
+在 sysdig 中，它们叫做凿子（Chisels）。
+
+可以用 LUA 这种常见编程语言来编写。
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;安装Sysdig&lt;/span&gt;&lt;/span&gt;
+
+方案1：---在线安装有点慢
+
+由于为了简便、缩短安装流程以及版本的不可知，我们将选择使用官方网站提供的自动化安装过程。在自动化过程中，安装脚本会自动检测操作系统并安装必需的依赖包。
+
+以root身份运行以下命令来从官方apt/yum仓库安装sysdig：
+
+curl -s https://s3.amazonaws.com/download.draios.com/stable/install-sysdig |&amp;nbsp; bash
+
+&amp;nbsp;
+
+方案2：
+
+RHEL based install
+
+1) Trust the Draios GPG key, configure the yum repository
+
+rpm --import https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public
+
+curl -s -o /etc/yum.repos.d/draios.repo http://download.draios.com/stable/rpm/draios.repo
+
+2) Install the EPEL repository
+
+rpm -i http://mirrors.hustunique.com/epel//6/x86_64/epel-release-6-8.noarch.rpm
+
+&amp;nbsp;
+
+3) Install kernel headers----一般这步可以忽略
+
+&amp;nbsp;yum -y install kernel-devel-$(uname -r)
+
+4) Install sysdig
+
+yum -y install sysdig
+
+安装结束后
+
+查看版本&amp;nbsp;&amp;nbsp; sysdig --version
+
+查看可用的凿子列表&amp;nbsp;
+
+sysdig -cl |less
+
+默认有以下类目可用，各个类目中分布有多个内建的凿子。
+
+CPU Usage：CPU使用量
+
+Errors：错误
+
+I/O
+
+Logs：日志
+
+Misc：混杂
+
+Net：网络
+
+Performance：性能
+
+Security：安全
+
+System State：系统状态
+
+要显示指定凿子上的信息（包括详细的命令行用法），运行以下命令：
+
+sysdig-cl 凿子名称
+
+凿子可以通过过滤器（可同时应用于实时数据和记录文件）组合，以获取更多有用的输出。
+
+过滤器遵从&amp;ldquo;类.字段&amp;rdquo;结构。例如：
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; fd.cip：客户端IP地址。
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;evt.dir：事件方向，可以是&amp;lsquo;&amp;gt;&amp;rsquo;用于进入事件，或&amp;lsquo;&amp;lt;&amp;rsquo;用于退出事件。
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; fd.name这个过滤器用在过滤一个特定文件名的事件。这样可以看到有哪些进程来读取或者写入特定的文件或 socket。 你也可以在过滤器中使用比较运算符，例如包含、=、!=、&amp;lt;=、&amp;gt;=、&amp;lt; 和 &amp;gt;。
+
+完整的过滤器列表可以通过以下命令显示：
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; #sysdig-l |more
+
+[http://www.sysdig.org/wiki/chisels-user-guide/](http://www.sysdig.org/wiki/chisels-user-guide/)
+
+**抓取一个特定 IP 的网络流量交换**
+
+我们使用 echo_fds 凿子和fd.cip 过滤器 ，显示单独一个 IP 所有的网络流量。
+
+sysdig -A -c echo_fds fd.cip=127.0.0.1
+
+**抓取一个特定进程的所有网络流量**
+
+下面这个例子显示对 apache2 进程使用 echo_fds 凿子。
+
+sysdig -A -c echo_fds proc.name=apache2
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Sysdig实例： 服务器性能排障&lt;/span&gt;&lt;/span&gt;
+
+假定你的服务器发生了性能问题（如，没有回应，或者重大的回应延迟）。你可以使用瓶颈凿子来显示当前10个最慢系统调用的列表。
+
+使用以下命令在存活服务器上进行实时检查。&amp;ldquo;-c&amp;rdquo;标识，后跟凿子名称告诉sysdig运行指定的凿子。
+
+# sysdig -c bottlenecks
+
+或者，你可以离线对服务器实施性能分析。在此种情况下，你可以保存完整的sysdig记录到文件，然后像下面这样针对记录运行瓶颈凿子。
+
+首先，保存sysdige记录（使用Ctrl+c来停止收集）：
+
+# sysdig -w trace.scap
+
+收集完记录后，你可以运行以下命令来检查捕获间隔中最慢的系统调用：
+
+# sysdig -r trace.scap -c bottlenecks
+
+你需要关注栏#2，#3和#4，这些分别表示执行时间、进程名和PID。
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Sysdig实例： 监控交互用户活动&lt;/span&gt;&lt;/span&gt;
+
+假定你作为系统管理员想要监控系统中交互的用户活动（如，用户在命令行输入了什么命令，以及用户去了什么目录），这时spy_user凿子就派上用场了。
+
+让我们首先通过一些额外选项来收集一个sysdig记录。
+
+# sysdig -s 4096 -z -w /mnt/sysdig/$(hostname).scap.gz
+
+&amp;ldquo;-s 4096&amp;rdquo;告诉sysdig每个事件捕获4096字节。
+
+&amp;ldquo;-z&amp;rdquo; （与&amp;ldquo;-w&amp;rdquo;一起使用）为记录文件启用压缩。
+
+&amp;ldquo;-w &amp;rdquo;保存sysdig记录到指定的文件。
+
+在上面的例子中，我们自定义了基于每个主机的压缩的记录文件的名称。记住，你可以在任何时候按下Ctrl+c来打断sysdig的执行。
+
+在我们收集到了合理数量的数据后，我们可以通过运行以下命令来查看每个用户的交互活动：
+
+# sysdig -r /mnt/sysdig/debian.scap.gz -c spy_users
+
+上面输出的第一栏表示与指定用户的活动相关进程的PID。
+
+如果你想要定位一个指定的用户，以及只监控该用户的活动又怎么样呢？你可以通过用户名对spy_users凿子的结果进行过滤：
+
+# sysdig -r /mnt/sysdig/debian.scap.gz -c spy_users &amp;quot;user.name=xmodulo&amp;quot;
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Sysdig实例： 监控文件I/O&lt;/span&gt;&lt;/span&gt;
+
+我们可以使用&amp;ldquo;-p&amp;rdquo;标识来自定义sysdig记录的输出格式，并指定双引号括起来的想要的字段（如用户名、进程名，以及文件或套接口名称）。在本例中，我们将创建一个记录文件，该文件将只包含在家目录中的写入事件（我们今后可以使用&amp;ldquo;sysdig -r writetrace.scap.gz&amp;rdquo;来检测该文件）。
+
+# sysdig -p &amp;quot;%user.name %proc.name %fd.name&amp;quot; &amp;quot;evt.type=write and fd.name contains /home/&amp;quot; -z -w writetrace.scap.gz
+
+&lt;span style=&quot;font-size: 18px;&quot;&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Sysdig实例： 监控网络I/O&lt;/span&gt;&lt;/span&gt;
+
+作为服务器排障的一部分，你可能想要监听网络通信，此工作通常由tcpdump做。对于sysdig，可以很容易进行通信嗅探，其风格更为对用户友好。
+
+例如，你可以检查由特定IP地址，特定进程（如apache2）提供的数据（ASCII编码格式）：
+
+# sysdig -s 4096 -A -c echo_fds fd.cip=192.168.0.100 -r /mnt/sysdig/debian.scap.gz proc.name=apache2
+
+如果你想要监控原生数据传输（二进制格式），请把&amp;ldquo;-A&amp;rdquo;替换为&amp;ldquo;-X&amp;rdquo;：
+
+# sysdig -s 4096 -X -c echo_fds fd.cip=192.168.0.100 -r /mnt/sysdig/debian.scap.gz proc.name=apache2
+
+要获取更多信息、实例以及案例分析，
+
+http://www.sysdig.org/wiki/sysdig-examples/
+
+参考：
+
+https://linux.cn/article-4341-1.html
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>CentOS关机大法</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/07/10/4/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">CentOS关机大法</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-07-10</span>
+      
+      <a href="/categories/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>第1步：作为管理员，第一步要查看谁在使用这台机器，有哪些用户，用户正在执行哪些程序</p>
+<p>查看谁在这台Linux服务器，使用的命令是who。</p>
+<p>第2步：通知其它用户系统将要关机<br>　　可以在执行关机命令前以邮件或电话等方式通知其它在线使用者系统将要关机，也可以在执行关机命令时加参数在其它使用者屏幕提示关机时间。强调 一点，关机前事先通知很重要！！！<br>通知的方法不同的公司有相应的运维管理制度，务必遵循要求执行，否则后果很严重。</p>
+<p>第3步：关机命令的正确使用</p>
+<p>shutdown命令简单的语法规则是：<br>　　shutdown [-krhc] [时间] [警告信息内容]<br>　　参数说明：<br>　　-k ： 并不是真的关机，只发送警告信息给登录用户<br>　　-r ： 在将系统的所有服务关闭之后立刻重新启动系统<br>　　-h ： 将系统的所有服务关闭之后 ，立刻关机。<br>　　-c ： 取消已经在进行的 shutdown 命令操作。<br>　　时间 ：指定系统关机的时间 ！若没有这个参数，系统默认 1 分钟后自动执行shutdown操作。</p>
+<p>应用示例：<br>在执行命令shutdown -h 10 ‘System will shutdown in 10 minitus,please save your file!!!’ 之后，系统告诉大家，这台机器将会在十分钟后关机！并且会将信息反复显示在使用者屏幕上！ 在10分钟之内系统管理员可以输入 shutdown -c 来取消这次的关机指令。</p>
+<p>shutdown -h now　立刻关机，等同于shutdown -h 0<br>　　shutdown -h 23:00　系统在23:00关机，若在23:00事执行此命令，则系统会在第二天23:00关机<br>　　shutdown -h +10　系统再过十分钟后自动关机<br>　　shutdown -r now　系统立刻重新启动<br>　　shutdown -r +10 ‘Warning!!! The system will reboot in 10 minitues’　再过十分钟系统会重新启动，并显示后面的告警信息给所有正在登录的用户</p>
+<p>　　reboot命令可以起到和shutdown -r相同的作用，建议执行reboot命令前执行几次数据写入命令 sync，保证数据同步写入到磁盘。sync;sync;reboot</p>
+<p>关机命令halt, poweroff与shutdown的区别</p>
+<p>shutdown命令发送信号给init程序,要求它改变运行级别runlevel为0 ，init 0会在进行数据写入磁盘等操作后调用halt或者poweroff。</p>
+<p>在没有acpi管理的系统上，halt只是关闭了操作系统，主机仍处于电源加电状态，需要手动按电源按钮断电，</p>
+<p>而poweroff会发送一个关闭电源的信号给acpi。 </p>
+<p>在CentOS 7中使用systemd 来进行服务管理，这三个命令没有区别，因为halt、poweroff、shutdown都是以符号链接到/bin/systemctl的，</p>
+<p>CentOS 7.x开始，CentOS开始使用systemd服务来代替daemon，原来管理系统启动和管理系统服务的相关命令全部由systemctl命令来代替。</p>
+<h1 id="systemctl-命令"><a href="#systemctl-命令" class="headerlink" title="systemctl [命令]"></a>systemctl [命令]</h1><p>  命令参数包括：<br>  halt　　　　进入系统关闭的模式，电源可能不切断<br>  poweroff　　进入系统关机模式，电源切断<br>  reboot　　　直接重新启动<br>  suspend　　　系统挂起，进入休眠模式<br>  例如重新启动系统，可以执行命令# systemctl reboot </p>
+<p><a href="http://cloud.zol.com.cn/646/6463475_all.html#p6463480" target="_blank" rel="external">http://cloud.zol.com.cn/646/6463475_all.html#p6463480</a></p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#systemctl-命令"><span class="toc-text">systemctl [命令]</span></a></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

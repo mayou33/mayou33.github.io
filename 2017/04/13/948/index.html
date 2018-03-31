@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>编译安装php5.6</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/04/13/948/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">编译安装php5.6</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-04-13</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/php/"" title="php" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>php</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><h1 id="安装-基础环境"><a href="#安装-基础环境" class="headerlink" title="安装 基础环境"></a>安装 基础环境</h1><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        &nbsp;yum&nbsp;-y&nbsp;install&nbsp;libxml2&nbsp;libxml2-devel&nbsp;openssl&nbsp;openssl-devel&nbsp;curl-devel&nbsp;libjpeg-devel&nbsp;libpng-devel&nbsp;freetype-devel&nbsp;gcc&nbsp;gcc-c++&nbsp;autoconf&nbsp;libjpeg&nbsp;libjpeg-devel&nbsp;libpng&nbsp;libpng-devel&nbsp;freetype&nbsp;freetype-devel&nbsp;libxml2&nbsp;libxml2-devel&nbsp;zlib&nbsp;zlib-devel&nbsp;glibc&nbsp;glibc-devel&nbsp;glib2&nbsp;glib2-devel&nbsp;bzip2&nbsp;bzip2-devel&nbsp;ncurses&nbsp;ncurses-devel&nbsp;curl&nbsp;curl-devel&nbsp;ssse2fsprogs&nbsp;e2fsprogs-devel&nbsp;krb5&nbsp;krb5-devel&nbsp;libidn&nbsp;libidn-devel&nbsp;openssl&nbsp;openssl-devel&nbsp;openldap&nbsp;openldap-devel&nbsp;nss_ldap&nbsp;openldap-clients&nbsp;openldap-servers&nbsp;gettext-devel&nbsp;libXpm-devel&nbsp;libtool&nbsp;libevent&nbsp;libevent-devel&nbsp;gd-devel&nbsp;gd&nbsp;libmcrypt&nbsp;libmcrypt-devel&nbsp;pcre&nbsp;pcre-devel&nbsp;php-mcrypt&nbsp;libmcrypt&nbsp;libmcrypt-devel&nbsp;re2c&nbsp;mysql-devel<br>    </div><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="line-height: 1.5; background-color: rgb(255, 255, 255);">&nbsp;(或者</span><span style="line-height: 1.5; background-color: rgb(255, 255, 255);">MariaDB</span><span style="line-height: 1.5; background-color: rgb(255, 255, 255);">-devel)&nbsp;</span><br></div>
+
+<pre><code>&amp;nbsp;
+
+下载php-5.6.22.tar.gz
+
+tar zxvf php-5.6.22.tar.gz
+</code></pre><pre style="font: 14px/21px Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">
+<span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">cd /opt/</span><span style="font: 14px/1.5 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">php-5.6.22</span>
+</pre>
+
+<div style="background-color: inherit;"><br>    <div style="background-color: inherit;"><br>        ./configure&nbsp;\<br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --prefix=/usr/local/php5&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;指定&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;php&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;的安装路径&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-config-file-path=/usr/local/php5/etc&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-mcrypt=/usr/include&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;编码函数库&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-mysqli=&lt;span style=&quot;line-height: 1.5; background-color: rgb(255, 255, 255);&quot;&gt;mysqlnd&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;\&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;--with-mysql=mysqlnd&amp;nbsp;\&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;需要指定&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;连接&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;MySQL&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;的客户端工具&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-pdo-mysql=mysqlnd&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --with-fpm-user=nginx \
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;指定&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;PHP-FPM&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;进程管理的用户为&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;nginx&lt;/span&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;此处最好和&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;Nginx&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;服务用户统一。&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --with-fpm-group=nginx \
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;指定&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;PHP-FPM&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;进程管理用户组为&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-family: Monaco, Consolas, Courier, &amp;quot;Lucida Console&amp;quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;nginx&lt;/span&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;此处最好和&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;Nginx&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;服务用户组统一。&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-gd&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;gd&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;库的支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --with-bz2&amp;nbsp;\
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-iconv&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;libiconv&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;库&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;各种字符集间的转换&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --with-libxml-dir \
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;libxml2&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;库的支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --enable-exif&amp;nbsp;\
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-zlib&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;zlib&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;库的支持&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;用于&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;http&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;压缩传输&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --with-zlib-dir&amp;nbsp;\
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-mysqlnd&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-xml&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;--&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;enable&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;-&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;shared \&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --with-xpm-dir \
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-bcmath&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开图片大小调整&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;用&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;zabbix&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;监控时会用到该模块&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-shmop&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-sysvsem&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;使用&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;sysv&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;信号机制&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;则打开此选项&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-inline-optimization&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;优化线程&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-mbregex&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;--enable-fpm&amp;nbsp;\&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;line-height: 1.5; background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;表示激活&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;PHP-FPM&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;方式服务&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;即&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;FactCGI&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;方式运行&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;PHP&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;服务。&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; background-color: inherit;&quot;&gt;--&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; background-color: inherit;&quot;&gt;enable&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; background-color: inherit;&quot;&gt;-&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; background-color: inherit;&quot;&gt;fastcgi \&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-mbstring&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;支持&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;mbstring&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-ftp&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(96, 103, 119); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;ftp&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;的支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --disable-rpath&amp;nbsp;\
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;关闭额外的运行库文件&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;--&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 139); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;with&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;-&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;mhash \&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(96, 103, 119); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;mhash&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;算法的扩展&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+
+        &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;--enable-short-tags&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;\&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+        &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; background-color: inherit;&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; background-color: inherit;&quot;&gt;开始和标记函数&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+        &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;--enable-zend-multibyte \&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+        &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; background-color: inherit;&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; background-color: inherit;&quot;&gt;支持&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); background-color: inherit;&quot;&gt;zend&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; background-color: inherit;&quot;&gt;的多字节&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+        &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(96, 103, 119); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;--enable-static \&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+        &lt;span style=&quot;color: rgb(0, 0, 0); font-family: Consolas, Menlo, Monaco, &amp;quot;Lucida Console&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Bitstream Vera Sans Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, serif; font-size: 13.56px; font-style: normal; font-weight: normal; background-color: inherit;&quot;&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; background-color: inherit;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(96, 103, 119); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;生成静态链接库&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-gd-native-ttf&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;支持&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;TrueType&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;字符串函数库&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-openssl&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;openssl&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;的支持&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;加密传输时用到&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-pcntl&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;freeTDS&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;需要用到&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;可能是链接&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;mssql&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-sockets&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;sockets&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-xmlrpc&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;xml-rpc&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;的&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;c&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;语言&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-zip&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开对&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;zip&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;的支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-soap&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;soap&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;模块的扩展&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --without-pear&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-gettext&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-session&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-curl&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;curl&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;浏览工具的支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(96, 103, 119); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;--with-curlwrappers \&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(96, 103, 119); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;运维&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;curl&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;工具打开&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;url&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;流&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-jpeg-dir&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开对&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;jpeg&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;图片的支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --with-png-dir \
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开对&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;png&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;图片的支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --with-freetype-dir&amp;nbsp;\
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: Wingdings; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;&amp;szlig;&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;打开对&lt;/span&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: rgb(4, 50, 255); font-family: &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;freetype&lt;/span&gt;&lt;span style=&quot;color: rgb(4, 50, 255); font-family: 宋体; font-size: 13px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;字体库支持&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        --with-libdir=lib64 \
+    &lt;/div&gt;
+
+    &lt;div style=&quot;background-color: inherit;&quot;&gt;
+        &lt;span style=&quot;line-height: 1.5; background-color: rgb(255, 255, 255);&quot;&gt;--enable-maintainer-zts \&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    --enable-opcache
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+<pre><code># 编译安装
+
+make &amp;amp;&amp;amp; make install
+
+# 配置
+
+cp /opt/php-5.6.22/php.ini-production&amp;nbsp; /usr/local/php5/etc/php.ini
+
+修改php.ini
+
+vim /usr/local/php5/etc/php.ini
+
+&lt;span style=&quot;font: 14px/21px &amp;quot;microsoft yahei&amp;quot;, Georgia, &amp;quot;Times New Roman&amp;quot;, STHeiti, serif; color: rgb(255, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;date.timezone = PRC&lt;/span&gt;
+
+post_max_size = 32M
+
+max_execution_time = 300
+
+max_input_time = 300
+
+always_populate_raw_post_data = -1
+
+echo &amp;quot;cgi.fix_pathinfo=0&amp;quot;&amp;nbsp; &amp;gt;&amp;gt; /usr/local/php5/etc/php.ini
+
+# 配置opcache
+
+zend_extension=/usr/local/php5/lib/php/extensions/no-debug-non-zts-20131226/opcache.so
+
+############
+
+或者
+
+echo &amp;quot;zend_extension=/usr/local/php5/lib/php/extensions/no-debug-non-zts-20131226/opcache.so&amp;quot; &amp;gt;&amp;gt;&amp;nbsp; /usr/local/php5/etc/php.ini
+
+可以修改配置：
+
+[http://blog.163.com/saintatgod@126/blog/static/359479982010117620708/](http://blog.163.com/saintatgod@126/blog/static/359479982010117620708/)
+
+cp /opt/php-5.6.22/sapi/fpm/init.d.php-fpm&amp;nbsp; /etc/init.d/php-fpm
+
+chmod +x /etc/init.d/php-fpm
+
+chkconfig --add php-fpm
+
+chkconfig php-fpm on
+
+cp /usr/local/php5/etc/php-fpm.conf.default&amp;nbsp; /usr/local/php5/etc/php-fpm.conf
+
+vi /usr/local/php5/etc/php-fpm.conf
+
+默认配置
+
+[global]
+
+[www]
+
+user = nginx
+
+group = nginx
+
+listen = 127.0.0.1:9000
+
+pm = dynamic
+
+pm.max_children = 5
+
+pm.start_servers = 2
+
+pm.min_spare_servers = 1
+
+pm.max_spare_servers = 3
+
+优化（选用）
+
+[global]
+
+[www]
+
+user = nginx
+
+group = nginx
+
+;;;listen = 127.0.0.1:9000
+
+listen = /var/run/php-fpm.sock
+
+listen.owner = nginx
+
+listen.group = nginx
+
+listen.mode = 0660
+
+pm = dynamic
+
+pm.max_children = 200
+
+pm.start_servers = 60
+
+pm.min_spare_servers = 40
+
+pm.max_spare_servers = 80
+
+pm.max_requests =500
+
+##
+
+# 启动
+
+/etc/init.d/php-fpm start
+
+加环境变量中vi /etc/profile
+
+export PATH=$PATH:/usr/local/php5/bin
+
+source&amp;nbsp; /etc/profile
+
+# 查看PHP版本
+
+/usr/local/php5/bin/php -v
+
+&amp;nbsp;ps -ef |grep php
+</code></pre><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        ######################################<br>    </div><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>#<br>        php设置时区的两种方法<br><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        php5后都要自己设置时区，要么修改php.ini的设置，要么在代码里修改。<br><br>        &nbsp;<br><br>        在PHP.INI中设置时区<br><br>        <span style="color: rgb(255, 0, 0); background-color: inherit;">date.timezone = PRC</span><br><br>        &nbsp;<br><br>        <font color="#ff0000" face="microsoft yahei, Georgia, Times New Roman, STHeiti, serif" style="background-color: inherit;">#或者</font><br><br>        #date.timezone = &quot;Asia/Shanghai&quot;<br><br>        #date.default_latitude = 31.5167<br><br>        #date.default_longitude = 121.4500<br><br>        &nbsp;<br><br>        &nbsp;<br><br>        在代码中设置时区<br><br>        &nbsp;<br><br>        <span style="color: rgb(255, 0, 0); background-color: inherit;">1 date_default_timezone_set(&#39;Asia/Shanghai&#39;);//&#39;Asia/Shanghai&#39; &nbsp; 亚洲/上海</span><br><br>        <span style="color: rgb(255, 0, 0); background-color: inherit;">2 date_default_timezone_set(&#39;Asia/Chongqing&#39;);//其中Asia/Chongqing&#39;为&ldquo;亚洲/重庆&rdquo;</span><br><br>        <span style="color: rgb(255, 0, 0); background-color: inherit;">3 date_default_timezone_set(&#39;PRC&#39;);//其中PRC为&ldquo;中华人民共和国&rdquo;</span><br><br>        <span style="color: rgb(255, 0, 0); background-color: inherit;">4i ni_set(&#39;date.timezone&#39;,&#39;Etc/GMT-8&#39;);</span><br><br>        <span style="color: rgb(255, 0, 0); background-color: inherit;">5 ini_set(&#39;date.timezone&#39;,&#39;PRC&#39;);</span><br><br>        <span style="color: rgb(255, 0, 0); background-color: inherit;">6 ini_set(&#39;date.timezone&#39;,&#39;Asia/Shanghai&#39;);</span><br><br>        <span style="color: rgb(255, 0, 0); background-color: inherit;">7 ini_set(&#39;date.timezone&#39;,&#39;Asia/Chongqing&#39;);</span><br><br>        &nbsp;<br><br>        以上七种方法，任意一个都可以满足我们需求。<br><br>        系统初始化时，加上<br><br>        &nbsp;ini_set(&#39;date.timezone&#39;,&#39;Asia/Shanghai&#39;); &nbsp;或date_default_timezone_set(&quot;PRC&quot;); &nbsp;就将解决时区相差8<br><br>        小时的问题。<br><br>        ################<br><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装-基础环境"><span class="toc-text">安装 基础环境</span></a></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

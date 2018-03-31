@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>如何在 Linux 中找出最近或今天被修改的文件</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/09/750/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">如何在 Linux 中找出最近或今天被修改的文件</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-09</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://linux.cn/article-8093-1.html" target="_blank" rel="external">https://linux.cn/article-8093-1.html</a></p>
+<pre><code>在本文中，我们将解释两个简单的命令行小技巧，它可以帮你只列出所有的今天的文件。
+
+Linux 用户在命令行上遇到的常见问题之一是[定位具有特定名称的文件](https://linux.cn/article-5973-1.html)，如果你知道确定的文件名则可能会容易得多。
+
+不过，假设你忘记了白天早些时候创建的文件的名称（在你包含了数百个文件的 `home` 文件夹中），但现在你有急用。
+
+下面用不同的方式只[列出所有你今天创建或修改的文件](https://linux.cn/article-7984-1.html)（直接或间接）。
+</code></pre><p>###<br>    1、 使用 ls 命令，只列出你的 home 文件夹中今天的文件。</p>
+<ol>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;ls&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;al &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;=+%&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;D &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;grep&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;str&quot; style=&quot;color: rgb(101, 176, 66); -ms-word-wrap: break-word;&quot;&gt;&amp;#39;date +%D&amp;#39;&lt;/span&gt;</code></p>
+<p>其中：</p>
+</li>
+</ol>
+<ul>
+<li><code>-a</code> - 列出所有文件，包括隐藏文件</li>
+<li><code>-l</code> - 启用长列表格式</li>
+<li><code>--time-style=FORMAT</code> - 显示指定 FORMAT 的时间</li>
+<li><p><code>+％D</code> - 以 <code>％m/％d/％y</code> （月/日/年）格式显示或使用日期</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/06/090717eldbidcicipwd5kf.png" alt="Find Recent Files in Linux"></p>
+<p><em>在Linux中找出最近的文件</em></p>
+<p>此外，你使用可以 <code>-X</code> 标志来<a href="https://linux.cn/article-5372-1.html" target="_blank" rel="external">按字母顺序对结果排序</a>：</p>
+</li>
+</ul>
+<ol>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;ls&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;alX &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;=+%&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;D &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;grep&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;str&quot; style=&quot;color: rgb(101, 176, 66); -ms-word-wrap: break-word;&quot;&gt;&amp;#39;date +%D&amp;#39;&lt;/span&gt;</code></p>
+<p>你也可以使用 <code>-S</code> 标志来基于大小（由大到小）来排序：</p>
+</li>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;ls&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;alS &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;=+%&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;D &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;grep&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;str&quot; style=&quot;color: rgb(101, 176, 66); -ms-word-wrap: break-word;&quot;&gt;&amp;#39;date +%D&amp;#39;&lt;/span&gt;</code></p>
+</li>
+</ol>
+<p>###<br>    2、 另外，使用 find 命令会更灵活，并且提供比 <code>ls</code> 更多的选项，可以实现相同的目的。</p>
+<ul>
+<li>&nbsp;<code>-maxdepth</code> 级别用于指定在搜索操作的起点下（在这个情况下为当前目录）的搜索层级（子目录层级数）。</li>
+<li><p>&nbsp;<code>-newerXY</code>，用于所寻找的文件的时间戳 <code>X</code> 比参照文件的时间戳 <code>Y</code> 更新一些的文件。 <code>X</code> 和 <code>Y</code>表示以下任何字母： &nbsp;&nbsp;&nbsp;&nbsp; - <code>a</code> - 参照文件的访问时间 &nbsp;&nbsp;&nbsp;&nbsp; - <code>B</code> - 参照文件的创建时间 &nbsp;&nbsp;&nbsp;&nbsp; - <code>c</code> - 参照文件的 inode 状态改变时间 &nbsp;&nbsp;&nbsp;&nbsp; - <code>m</code> - 参照文件的修改时间 &nbsp;&nbsp;&nbsp;&nbsp; - <code>t</code> - 直接指定一个绝对时间</p>
+<p>下面的命令意思是只找出 2016-12-06 这一天修改的文件：</p>
+</li>
+</ul>
+<ol>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;maxdepth &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word;&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;newermt &lt;/span&gt;&lt;span class=&quot;str&quot; style=&quot;color: rgb(101, 176, 66); -ms-word-wrap: break-word;&quot;&gt;&amp;quot;2016-12-06&amp;quot;&lt;/span&gt;</code></p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/05/212244geaw3vy199t7a3a9.png" alt="Find Today"></p>
+<p><em>在 Linux 中找出今天的文件</em></p>
+<p>重要：在上面的 <a href="https://linux.cn/article-1672-1.html" target="_blank" rel="external">find 命令</a>中使用正确的<strong>日期格式</strong>作为参照时间，一旦你使用了错误的格式，你会得到如下错误：</p>
+</li>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;maxdepth &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word;&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;newermt &lt;/span&gt;&lt;span class=&quot;str&quot; style=&quot;color: rgb(101, 176, 66); -ms-word-wrap: break-word;&quot;&gt;&amp;quot;12-06-2016&amp;quot;&lt;/span&gt;</code></p>
+</li>
+<li><p><code>&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; I cannot figure out how to interpret &lt;/span&gt;&lt;span class=&quot;str&quot; style=&quot;color: rgb(101, 176, 66); -ms-word-wrap: break-word;&quot;&gt;&amp;#39;12-06-2016&amp;#39;&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; a &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;or&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;time&lt;/span&gt;</code></p>
+<p>或者，使用下面的正确格式：</p>
+</li>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;maxdepth &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word;&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;newermt &lt;/span&gt;&lt;span class=&quot;str&quot; style=&quot;color: rgb(101, 176, 66); -ms-word-wrap: break-word;&quot;&gt;&amp;quot;12/06/2016&amp;quot;&lt;/span&gt;</code></p>
+</li>
+<li><code>&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;或者&lt;/span&gt;</code></li>
+<li><p><code>&lt;span class=&quot;com&quot; style=&quot;color: rgb(174, 174, 174); font-style: italic; -ms-word-wrap: break-word;&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word;&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;maxdepth &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word;&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word;&quot;&gt;newermt &lt;/span&gt;&lt;span class=&quot;str&quot; style=&quot;color: rgb(101, 176, 66); -ms-word-wrap: break-word;&quot;&gt;&amp;quot;12/06/16&amp;quot;&lt;/span&gt;</code></p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/05/212245qkhqbnndihxqhffs.png" alt="Find Todays Modified Files in Linux"></p>
+<p><em>在 Linux 中找出今天修改的文件</em></p>
+<p>你可以在我们的下面一系列文章中获得 <code>ls</code>和 <code>find</code> 命令的更多使用信息。</p>
+</li>
+</ol>
+<ul>
+<li><a href="http://www.tecmint.com/15-basic-ls-command-examples-in-linux/" target="_blank" rel="external">用 15 例子的掌握 Linux &lsquo;ls&rsquo; 命令</a></li>
+<li><a href="http://www.tecmint.com/linux-ls-command-tricks/" target="_blank" rel="external">对 Linux 用户有用的 7 个奇特技巧</a></li>
+<li><a href="http://www.tecmint.com/35-practical-examples-of-linux-find-command/" target="_blank" rel="external">用 35 个例子掌握 Linux &lsquo;find&rsquo; 命令</a></li>
+<li><p><a href="http://www.tecmint.com/linux-find-command-to-search-multiple-filenames-extensions/" target="_blank" rel="external">在 Linux 中使用扩展查找多个文件名的方法</a></p>
+<p>在本文中，我们解释了如何使用 ls 和 find 命令帮助只列出今天的文件。 请使用以下反馈栏向我们发送有关该主题的任何问题或意见。 你也可以提醒我们其他可以用于这个目的的命令。</p>
+</li>
+</ul>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

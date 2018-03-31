@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>第六篇：告警是数据中心运维的核心驱动力！</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/18/778/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">第六篇：告警是数据中心运维的核心驱动力！</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-18</span>
+      
+      <a href="/categories/数据中心运维/" title="数据中心运维" class="post-categories">数据中心运维</a>
+      
+      
+      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53702&amp;extra=page%3D1" target="_blank" rel="external">http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53702&amp;extra=page%3D1</a></p>
+<pre><code>&lt;font face=&quot;Tahoma&quot;&gt;**&lt;font size=&quot;3&quot;&gt;原创文章，转载时请写明&amp;ldquo;vmsky论坛&amp;rdquo;和作者&amp;ldquo;老同志lawson&amp;rdquo;。&lt;/font&gt;**
+
+&lt;font color=&quot;#ff0000&quot; size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp; 告警事件是数据中心运维的核心驱动力，我们做的所有运维工作都是要减少业务出现故障的概率，提供更高的业务可用性&lt;/font&gt;&lt;/font&gt;&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;。不知道大家是否认可这句话？还是看这张图，通过这张图，把这个问题讲透：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/forum/201511/11/170621mu9xg32q03blm0uu.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;作为综合事件管理平台自身，需要有这样几个部件：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 丰富事件接口。作为数据中心的核心驱动引擎，需要有丰富的事件接口可以将各种IT事件，甚至非IT事件接收过来，常见的接口有rest、web service、snmp、soap、socket、xml、文本、jdbc等。因为面对的对象不同，所以能够使用的方式是完全不同，事件平台提供的接口越多，事件采集源就越丰富&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 事件处理引擎。各种各样的事件被送到事件平台上，事件平台对这些原始事件进行处理以符合事件平台数据的格式，进而对格式化后的事件进行事件规则的处理，该报警报警，该关闭的关闭。处理完毕的事件有两条路，一条是该报警的报警，通过短信或邮件报警，另一条路存入事件数据库。这里要说对告警事件的处理和整合可以先放在内存数据库，以便处理速度更快、响应和存取更方便，真正处理完的数据再放到事件数据库中。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3 事件数据库。数据库可是是Oracle，SQL Server或Mysql等。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;告警对运维来说可以发挥的作用包括：&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;1 数据分析平台。大量而来源广泛的事件实际上代表着IT的运行状态，所以通过大数据对告警事件的分析，可以得到一些有价值的IT运行规律和运行趋势。例如运维中一些重大事件的发生与具体业务系统的关系；重大事件与时间点的关系，不同业务系统发生故障之间潜在的关联关系，不同事件来源之间的互相影响关系和分析等。大数据已经广泛应用，但监控上的大数据确实不多见。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;2 知识库。事件的发生和处理在运维是属于大概率事件和重复性事件，所以对于处理后的事件的保存实际上是对于过去运维经验和知识的积累。知识库的建议可以减少新人从无到有的熟练时间，也可以减少事件的处理时间和难度。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;3 IT服务流程。经过过滤的告警事件将被送到服务流程的事件管理中形成工单，这种工具形成的工单比人肉发现的工单更有广泛性和实效性。当工单处理完毕后，事件平台上的事件要改变属性，以便形成事件管理的闭环。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;4 业务大屏。业务的运行状态可以通过监控大屏展现出来。这种展现不仅是运维门面的需要，也是IT了解业务整体状态的第一手资料，只有大屏才可以在目前监控软件分别监控的状态下将各个监控数据进行重新的展示和演绎，以符合整体展示的目的。而告警事件是监控大屏很重要的一环。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;5 事件通知。这个在监控中比较普遍，就不多说了。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;6 运维自动化。经过预选的告警事件发生后，可以自动触发管理动作，如事件的自动解决等。当然在现实监控项目中，这种预选的事件是有条件的，比&amp;nbsp; &amp;nbsp;如大家已经很清楚原因、规律，处理动作比较清晰和明确，影响面可以控制等。坦率的说，事件的自动化处理不推荐大规模使用，因为事件的环境微小的改变，你预设的处理步骤都可以受到影响，进而出现错误的结果。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;7 分析报表。分析报表不是什么新技术，但是分析报表永远可以在第一时间将你最需要知道的东西完整展示给你。你想做SLA（服务水平管理协议），想得到可用性的KPI，那就一定是按照某种算法对事件的综合计算来得到。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;说了这些，大家了解综合事件管理平台的重要性了吧！也许技术的发展也会给事件的价值带来更大的契机，后续继续大胆尝试和联想吧！&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

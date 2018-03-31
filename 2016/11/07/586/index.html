@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux下查找指定时间内修改过的文件 — find命令</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/11/07/586/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux下查找指定时间内修改过的文件 — find命令</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-11-07</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>指定日期：</p>
+<pre><code>&amp;nbsp;
+</code></pre><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    find&nbsp;./agent&nbsp;-type&nbsp;f&nbsp;-newerct&nbsp;2016-06-22&nbsp;!&nbsp;-newerct&nbsp;today<br></div>
+
+<pre><code>&amp;nbsp;
+
+Example: To find all files modified on the 7th of June, 2007:
+</code></pre><pre style="text-align: left; color: rgb(36, 39, 41); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, Menlo, Monaco, &quot;Lucida Console&quot;, &quot;Liberation Mono&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, monospace, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(239, 240, 241); -webkit-text-stroke-width: 0px;">
+`$ find . -type f -newermt 2007-06-07 ! -newermt 2007-06-08
+`</pre>
+
+<pre><code>To find all files accessed on the 29th of september, 2008:
+</code></pre><pre style="text-align: left; color: rgb(36, 39, 41); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, Menlo, Monaco, &quot;Lucida Console&quot;, &quot;Liberation Mono&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, monospace, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(239, 240, 241); -webkit-text-stroke-width: 0px;">
+`$ find . -type f -newerat 2008-09-29 ! -newerat 2008-09-30
+`</pre>
+
+<pre><code>Or, files which had their permission changed on the same day:
+</code></pre><pre style="text-align: left; color: rgb(36, 39, 41); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Consolas, Menlo, Monaco, &quot;Lucida Console&quot;, &quot;Liberation Mono&quot;, &quot;DejaVu Sans Mono&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, monospace, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; background-color: rgb(239, 240, 241); -webkit-text-stroke-width: 0px;">
+`$ find . -type f -newerct 2008-09-29 ! -newerct 2008-09-30`</pre>
+
+<pre><code>&amp;nbsp;
+</code></pre><div style="background-color: inherit;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp; -newerXY&nbsp;reference<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compares&nbsp;&nbsp;the&nbsp;&nbsp;timestamp&nbsp;&nbsp;of&nbsp;the&nbsp;current&nbsp;file&nbsp;with&nbsp;reference.&nbsp;&nbsp;The&nbsp;reference&nbsp;argument&nbsp;is&nbsp;normally&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;file&nbsp;(and&nbsp;one&nbsp;of&nbsp;its&nbsp;times-<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tamps&nbsp;is&nbsp;used&nbsp;for&nbsp;the&nbsp;comparison)&nbsp;but&nbsp;it&nbsp;may&nbsp;also&nbsp;be&nbsp;a&nbsp;string&nbsp;describing&nbsp;an&nbsp;absolute&nbsp;time.&nbsp;&nbsp;X&nbsp;and&nbsp;Y&nbsp;are&nbsp;placeholders&nbsp;for&nbsp;other&nbsp;letters,&nbsp;and<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;these&nbsp;letters&nbsp;select&nbsp;which&nbsp;time&nbsp;belonging&nbsp;to&nbsp;how&nbsp;reference&nbsp;is&nbsp;used&nbsp;for&nbsp;the&nbsp;comparison.<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <font color="#ff0000" style="background-color: inherit;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;The&nbsp;access&nbsp;time&nbsp;of&nbsp;the&nbsp;file&nbsp;reference</font><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <font color="#ff0000" style="background-color: inherit;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B&nbsp;&nbsp;&nbsp;The&nbsp;birth&nbsp;time&nbsp;of&nbsp;the&nbsp;file&nbsp;reference</font><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <font color="#ff0000" style="background-color: inherit;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;&nbsp;&nbsp;The&nbsp;inode&nbsp;status&nbsp;change&nbsp;time&nbsp;of&nbsp;reference</font><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <font color="#ff0000" style="background-color: inherit;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;The&nbsp;modification&nbsp;time&nbsp;of&nbsp;the&nbsp;file&nbsp;reference</font><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <font color="#ff0000" style="background-color: inherit;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;&nbsp;&nbsp;reference&nbsp;is&nbsp;interpreted&nbsp;directly&nbsp;as&nbsp;a&nbsp;time</font><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Some&nbsp;combinations&nbsp;are&nbsp;invalid;&nbsp;for&nbsp;example,&nbsp;it&nbsp;is&nbsp;invalid&nbsp;for&nbsp;X&nbsp;to&nbsp;be&nbsp;t.&nbsp;&nbsp;Some&nbsp;combinations&nbsp;are&nbsp;not&nbsp;implemented&nbsp;on&nbsp;all&nbsp;systems;&nbsp;for&nbsp;example<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B&nbsp;is&nbsp;not&nbsp;supported&nbsp;on&nbsp;all&nbsp;systems.&nbsp;&nbsp;If&nbsp;an&nbsp;invalid&nbsp;or&nbsp;unsupported&nbsp;combination&nbsp;of&nbsp;XY&nbsp;is&nbsp;specified,&nbsp;a&nbsp;fatal&nbsp;error&nbsp;&nbsp;results.&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;specifica-<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tions&nbsp;&nbsp;are&nbsp;&nbsp;interpreted&nbsp;&nbsp;as&nbsp;&nbsp;for&nbsp;&nbsp;the&nbsp;argument&nbsp;to&nbsp;the&nbsp;-d&nbsp;option&nbsp;of&nbsp;GNU&nbsp;date.&nbsp;&nbsp;If&nbsp;you&nbsp;try&nbsp;to&nbsp;use&nbsp;the&nbsp;birth&nbsp;time&nbsp;of&nbsp;a&nbsp;reference&nbsp;file,&nbsp;and&nbsp;the<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;birth&nbsp;time&nbsp;cannot&nbsp;be&nbsp;determined,&nbsp;a&nbsp;fatal&nbsp;error&nbsp;message&nbsp;results.&nbsp;&nbsp;If&nbsp;you&nbsp;specify&nbsp;a&nbsp;test&nbsp;which&nbsp;refers&nbsp;to&nbsp;the&nbsp;birth&nbsp;time&nbsp;of&nbsp;files&nbsp;being&nbsp;&nbsp;exam-<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ined,&nbsp;this&nbsp;test&nbsp;will&nbsp;fail&nbsp;for&nbsp;any&nbsp;files&nbsp;where&nbsp;the&nbsp;birth&nbsp;time&nbsp;is&nbsp;unknown.<br></div>
+
+<pre><code>&amp;nbsp;
+
+假如在linux下修改文件后不记得了，我们需要查找指定时间内做过改动的文件，此时我们可以用find命令来查找。
+
+find /opt -iname &amp;quot;*&amp;quot; -atime 1 -type f
+
+【找出 /opt 下一天前访问过的文件】
+</code></pre><div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    选项 OPTIONS<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    所有的选项都总是返回真值，它们总会被执行，除非放在表达式中执行不到的地方。因此，清楚起见，最好把它们放在表达式的开头部分。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -daystart<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    从当日起始时开始而不是从24小时之前，计算时间(for -amin, -atime, -cmin, -ctime, -mmin, and -mtime)。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -amin n<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    对文件的最近一次访问是在 n 分钟之前。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -anewer file<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    对文件的最近一次访问比 file 修改时间要晚。如果命令行中 -follow 在 -anewer 之前，(也只有在这种情况下 -anewer会受 -follow 的影响)。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -atime n<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    对文件的最近一次访问是在 n*24 小时之前。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -cmin n<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    对文件状态的最近一次修改是在 n 分钟之前。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -cnewer file<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    对文件状态的最近一次修改比 file 修改时间要晚。如果命令行中 -follow 在 -cnewer 之前，(也只有在这种情况下-cnewer 会受 -follow 的影响)。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -ctime n<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    对文件状态的最近一次修改是在 n*24 小时之前。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -mmin n<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    对文件数据的最近一次修改是在 n 分钟之前。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -mtime n<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    对文件数据的最近一次修改是在 n*24 小时之前。<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -mtime : 指定时间曾被改动过的文件，意思是文件內容被更改过<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -ctime : 指定时间曾被更改过的文件，意思是文件权限被更改过<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    -atime : 指定时间曾被存取过的文件，意思是文件被读取过<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    1. &nbsp;时间是以 24 小时为一个单位，而不是以天的<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    2. &nbsp;2011/09/08 12:00 时间开始找一天內的，会列出 2011/09/07 12:00 ~ 2011/09/08 12:00 时间內的文件<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    找出 3 天&quot;以前&quot;被改动过的文件 (前第三天以前 &rarr; 2011/09/05 12:00 以前的文件) (&gt; 72 小时)<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    find /var/log/ -mtime +3 -type f -print &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    找出 3 天內被改动过的文件 (2011/09/05 12:00 ~ 2011/09/08 12:00 內的文件) (0 ~ 72 小时內)<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    find /var/log/ -mtime -3 -type f -print &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    找出前第 3 天被改动过的文件 (2011/09/04 12:00 ~ 2011/09/05 12:00 內的文件) (72 ~ 96 小时)<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    find /var/log/ -mtime 3 -type f -print &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    找出第 3 天被改动过的文件 (也可以这样写)<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px &quot;Microsoft YaHei&quot;, 微软雅黑, &quot;Microsoft JhengHei&quot;, Verdana, Helvetica, sans-serif, 宋体; color: rgb(17, 17, 17); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    find /var/log/ -mtime +2 -mtime -4 -type f -print &nbsp;<br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

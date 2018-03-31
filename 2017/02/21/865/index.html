@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>TCP洪水攻击（SYN Flood）的诊断和处理</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/02/21/865/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">TCP洪水攻击（SYN Flood）的诊断和处理</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-02-21</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://tech.uc.cn/?p=1790" target="_blank" rel="external">http://tech.uc.cn/?p=1790</a></p>
+<p>#<br>    1. SYN Flood介绍</p>
+<pre><code>前段时间网站被攻击多次，其中最猛烈的就是TCP洪水攻击，即SYN&amp;nbsp;Flood。
+
+SYN&amp;nbsp;Flood是当前最流行的DoS（拒绝服务攻击）与DDoS（分布式拒绝服务攻击）的方式之一，这是一种利用TCP协议缺陷，发送大量伪造的TCP连接请求，常用假冒的IP或IP号段发来海量的请求连接的第一个握手包（SYN包），被攻击服务器回应第二个握手包（SYN+ACK包），因为对方是假冒IP，对方永远收不到包且不会回应第三个握手包。导致被攻击服务器保持大量SYN_RECV状态的&amp;ldquo;半连接&amp;rdquo;，并且会重试默认5次回应第二个握手包，塞满TCP等待连接队列，资源耗尽（CPU满负荷或内存不足），让正常的业务请求连接不进来。
+
+详细的原理，网上有很多介绍，应对办法也很多，但大部分没什么效果，这里介绍我们是如何诊断和应对的。
+</code></pre><p>#<br>    2.&nbsp;诊断</p>
+<pre><code>我们看到业务曲线大跌时，检查机器和DNS，发现只是对外的web机响应慢、CPU负载高、ssh登陆慢甚至有些机器登陆不上，检查系统syslog：
+
+#&amp;nbsp;tail&amp;nbsp;-f&amp;nbsp;/var/log/messages
+
+Apr&amp;nbsp;18&amp;nbsp;11:21:56 web5&amp;nbsp;kernel:&amp;nbsp;possible&amp;nbsp;**&lt;span style=&quot;font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(255, 0, 0); vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;&quot;&gt;SYN&amp;nbsp;flooding&lt;/span&gt;**&amp;nbsp;on&amp;nbsp;port&amp;nbsp;80.&amp;nbsp;Sending&amp;nbsp;cookies.
+
+检查连接数增多，并且SYN_RECV&amp;nbsp;连接特别多：
+
+# netstat&amp;nbsp;-n&amp;nbsp;|&amp;nbsp;awk&amp;nbsp;&amp;#39;/^tcp/&amp;nbsp;{++S[$NF]}&amp;nbsp;END&amp;nbsp;{for(a&amp;nbsp;in&amp;nbsp;S)&amp;nbsp;print&amp;nbsp;a,&amp;nbsp;S[a]}&amp;#39;&amp;nbsp;
+
+TIME_WAIT&amp;nbsp;16855
+
+CLOSE_WAIT&amp;nbsp;21
+
+SYN_SENT&amp;nbsp;99
+
+FIN_WAIT1&amp;nbsp;229
+
+FIN_WAIT2&amp;nbsp;113
+
+ESTABLISHED&amp;nbsp;8358
+
+**&lt;span style=&quot;font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(255, 0, 0); vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;&quot;&gt;SYN_RECV&amp;nbsp;48965&lt;/span&gt;**
+
+CLOSING&amp;nbsp;3
+
+LAST_ACK&amp;nbsp;313
+
+&amp;nbsp;
+
+根据经验，正常时检查连接数如下：
+
+# netstat&amp;nbsp;-n&amp;nbsp;|&amp;nbsp;awk&amp;nbsp;&amp;#39;/^tcp/&amp;nbsp;{++S[$NF]}&amp;nbsp;END&amp;nbsp;{for(a&amp;nbsp;in&amp;nbsp;S)&amp;nbsp;print&amp;nbsp;a,&amp;nbsp;S[a]}&amp;#39;&amp;nbsp;
+
+TIME_WAIT&amp;nbsp;42349
+
+CLOSE_WAIT&amp;nbsp;1
+
+SYN_SENT&amp;nbsp;4
+
+FIN_WAIT1&amp;nbsp;298
+
+FIN_WAIT2&amp;nbsp;33
+
+ESTABLISHED&amp;nbsp;12775
+
+**&lt;span style=&quot;font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(255, 0, 0); vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;&quot;&gt;SYN_RECV&amp;nbsp;259&lt;/span&gt;**
+
+CLOSING&amp;nbsp;6
+
+LAST_ACK&amp;nbsp;432
+
+以上就是TCP洪水攻击的两大特征。执行netstat&amp;nbsp;-na&amp;gt;指定文件，保留罪证。
+</code></pre><p>#<br>    3.&nbsp;应急处理</p>
+<pre><code>根据netstat查看到的对方IP特征：
+
+# netstat&amp;nbsp;-na&amp;nbsp;|grep&amp;nbsp;SYN_RECV|more
+
+利用iptables临时封掉最大嫌疑攻击的IP或IP号段，例如对方假冒173.*.*.*号段来攻击，短期禁用173.*.*.*这个大号段（要确认小心不要封掉自己的本地IP了！）
+
+# iptables&amp;nbsp;-A&amp;nbsp;INPUT&amp;nbsp;-s&amp;nbsp;&amp;nbsp;173.0.0.0/8&amp;nbsp;&amp;nbsp;-p&amp;nbsp;tcp&amp;nbsp;&amp;nbsp;&amp;ndash;dport&amp;nbsp;80&amp;nbsp;-j&amp;nbsp;DROP
+
+再分析刚才保留的罪证，分析业务，用iptables解封正常173.*.*.*号段内正常的ip和子网段。这样应急处理很容易误伤，甚至可能因为封错了导致ssh登陆不了服务器，并不是理想方式。
+</code></pre><p>#<br>    4.&nbsp;使用F5挡攻击</p>
+<pre><code>应急处理毕竟太被动，因为本机房的F5比较空闲，运维利用F5来挡攻击，采用方式：让客户端先和F5三次握手，连接建立之后F5才转发到后端业务服务器。后来被攻击时F5上看到的现象：
+
+1.&amp;nbsp;连接数比平时多了500万，攻击停止后恢复。
+
+2.&amp;nbsp;修改F5上我们业务的VS模式后，F5的CPU消耗比平时多7%，攻击停止后恢复。
+
+3.&amp;nbsp;用F5挡效果明显，后来因攻击无效后，用户很少来攻击了，毕竟攻击也是有成本的。
+</code></pre><p>#<br>    5.&nbsp;调整系统参数挡攻击</p>
+<pre><code>没有F5这种高级且昂贵的设备怎么办？我测试过以下参数组合能明显减小影响，准备以后不用F5抗攻击。
+
+第一个参数**&lt;span style=&quot;font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(255, 0, 0); vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;&quot;&gt;tcp_synack_retries&amp;nbsp;=&amp;nbsp;0&lt;/span&gt;**是关键，表示回应第二个握手包（SYN+ACK包）给客户端IP后，如果收不到第三次握手包（ACK包）后，不进行重试，加快回收&amp;ldquo;半连接&amp;rdquo;，不要耗光资源。
+
+不修改这个参数，模拟攻击，10秒后被攻击的80端口即无法服务，机器难以ssh登录；&amp;nbsp;用命令netstat&amp;nbsp;-na&amp;nbsp;|grep&amp;nbsp;SYN_RECV检测&amp;ldquo;半连接&amp;rdquo;hold住180秒；
+
+修改这个参数为0，再模拟攻击，持续10分钟后被攻击的80端口都可以服务，响应稍慢些而已，只是ssh有时也登录不上；检测&amp;ldquo;半连接&amp;rdquo;只hold住3秒即释放掉。
+
+修改这个参数为0的副作用：网络状况很差时，如果对方没收到第二个握手包，可能连接服务器失败，但对于一般网站，用户刷新一次页面即可。这些可以在高峰期或网络状况不好时tcpdump抓包验证下。
+
+根据以前的抓包经验&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;，这种情况很少，但为了保险起见，可以只在被tcp洪水攻击时临时启用这个参数。&lt;/span&gt;
+
+tcp_synack_retries默认为5，表示重发5次，每次等待30~40秒，即&amp;ldquo;半连接&amp;rdquo;默认hold住大约180秒。详细解释：
+</code></pre><div style="margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(85, 85, 85); text-transform: none; line-height: inherit; text-indent: 0px; letter-spacing: normal; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif; font-size: 13.44px; font-style: normal; font-weight: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; orphans: 2; widows: 2; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; font-variant-numeric: inherit;"><br>    The tcp_synack_retries setting tells the kernel how many times to retransmit the SYN,ACK reply to<br><br>    an SYN request. In other words, this tells the system how many times to try to establish a passive<br><br>    TCP connection that was started by another host.<br><br>    This variable takes an integer value, but should under no circumstances be larger than 255 for the<br><br>    same reasons as for the tcp_syn_retries variable. Each retransmission will take aproximately 30-40<br><br>    seconds. The default value of the tcp_synack_retries variable is 5, and hence the default timeout<br><br>    of passive TCP connections is aproximately 180 seconds.<br></div>
+
+<pre><code>&amp;nbsp;
+
+之所以可以把tcp_synack_retries改为0，因为客户端还有tcp_syn_retries参数，默认是5，即使服务器端没有重发SYN+ACK包，客户端也会重发SYN握手包。详细解释：
+</code></pre><div style="margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(85, 85, 85); text-transform: none; line-height: inherit; text-indent: 0px; letter-spacing: normal; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif; font-size: 13.44px; font-style: normal; font-weight: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; orphans: 2; widows: 2; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; font-variant-numeric: inherit;"><br>    The tcp_syn_retries variable tells the kernel how many times to try to retransmit the initial SYN<br><br>    packet for an active TCP connection attempt.<br><br>    This variable takes an integer value, but should not be set higher than 255 since each<br><br>    retransmission will consume huge amounts of time as well as some amounts of bandwidth. Each<br><br>    connection retransmission takes aproximately 30-40 seconds. The default setting is 5, which<br><br>    would lead to an aproximate of 180 seconds delay before the connection times out.<br></div>
+
+<pre><code>&amp;nbsp;
+
+第二个参数**&lt;span style=&quot;font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(255, 0, 0); vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;&quot;&gt;net.ipv4.tcp_max_syn_backlog&amp;nbsp;=&amp;nbsp;200000&lt;/span&gt;**也重要，具体多少数值受限于内存。
+
+以下配置，第一段参数是最重要的，第二段参数是辅助的，其余参数是其他作用的：
+
+# vi&amp;nbsp;/etc/sysctl.conf
+</code></pre><div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#最关键参数，默认为5，修改为0 表示不要重发</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.ipv4</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.tcp_synack_retries</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">0</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#半连接队列长度</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.ipv4</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.tcp_max_syn_backlog</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">200000</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#系统允许的文件句柄的最大数目，因为连接需要占用文件句柄</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">fs</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.file</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">-</span><span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">max</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">819200</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#用来应对突发的大并发connect 请求</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.core</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.somaxconn</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">65536</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#最大的TCP 数据接收缓冲（字节）</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.core</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.rmem_max</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">1024123000</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#最大的TCP 数据发送缓冲（字节）</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.core</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.wmem_max</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">16777216</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#网络设备接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.core</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.netdev_max_backlog</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">165536</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#本机主动连接其他机器时的端口分配范围</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.ipv4</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.ip_local_port_range</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">10000</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">65535</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;"># &hellip;&hellip;省略其它&hellip;&hellip;</span><br></div>
+
+<pre><code>使配置生效：
+
+# sysctl&amp;nbsp;-p
+
+注意，以下参数面对外网时，不要打开。因为副作用很明显，具体原因请google，如果已打开请显式改为0，然后执行sysctl&amp;nbsp;-p关闭。因为经过试验，大量TIME_WAIT状态的连接对系统没太大影响：
+</code></pre><div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#当出现 半连接 队列溢出时向对方发送syncookies，调大 半连接 队列后没必要</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.ipv4</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.tcp_syncookies</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">0</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#TIME_WAIT状态的连接重用功能</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.ipv4</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.tcp_tw_reuse</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">0</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#时间戳选项，与前面net.ipv4.tcp_tw_reuse参数配合</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.ipv4</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.tcp_timestamps</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">0</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(153, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: italic !important; background-color: inherit;">#TIME_WAIT状态的连接回收功能</span><br></div>
+
+<div style="color: rgb(0, 0, 0); text-transform: none; line-height: 18px; text-indent: 0px; letter-spacing: normal; font-family: inherit; font-size: inherit !important; font-style: inherit; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; background-color: rgb(248, 248, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="color: rgb(0, 45, 122) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">net</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.ipv4</span><span style="color: teal !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">.tcp_tw_recycle</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">=</span><span style="color: rgb(0, 111, 224) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;"><span style="background-color: inherit;">&nbsp;</span></span><span style="color: rgb(0, 153, 153) !important; font-family: inherit; font-size: inherit !important; font-style: inherit; background-color: inherit;">0</span><br></div>
+
+<pre><code>为了处理大量连接，还需改大另一个参数：
+
+# vi&amp;nbsp;/etc/security/limits.conf&amp;nbsp;
+
+在底下添加一行表示允许每个用户都最大可打开409600个文件句柄（包括连接）：
+
+*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;ndash;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;nofile&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;409600
+</code></pre><p>#<br>    6.&nbsp;参考资料</p>
+<pre><code>文件句柄不要超过系统限制/usr/include/linux/fs.h，相关链接： ​[http://blog.yufeng.info/archives/1380](http://blog.yufeng.info/archives/1380)
+
+#define&amp;nbsp;NR_OPEN&amp;nbsp;(1024*1024)&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;/*&amp;nbsp;Absolute&amp;nbsp;upper&amp;nbsp;limit&amp;nbsp;on&amp;nbsp;fd&amp;nbsp;num&amp;nbsp;*/
+
+内核参数详细解释：[http://www.frozentux.net/ipsysctl-tutorial/chunkyhtml/tcpvariables.html](http://www.frozentux.net/ipsysctl-tutorial/chunkyhtml/tcpvariables.html)
+
+&amp;nbsp;
+</code></pre><p>#<br>    7.&nbsp;结束语</p>
+<pre><code>TCP洪水攻击还没完美解决方案，希望本文对您有所帮助，让您快速了解。
+
+&amp;nbsp;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

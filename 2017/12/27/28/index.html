@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>使用DuckDuckGo在命令行中搜索</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/12/27/28/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">使用DuckDuckGo在命令行中搜索</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-12-27</span>
+      
+      <a href="/categories/tools/" title="tools" class="post-categories">tools</a>
+      
+      
+      <a href="/tags/tools/"" title="tools" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tools</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p> <a href="http://www.linuxprobe.com/duckduckgo-cmd-search.html" target="_blank" rel="external">http://www.linuxprobe.com/duckduckgo-cmd-search.html</a><br>  <a href="http://www.omgubuntu.co.uk/2017/11/duck-duck-go-terminal-app" target="_blank" rel="external">http://www.omgubuntu.co.uk/2017/11/duck-duck-go-terminal-app</a></p>
+<p>DuckDuckGo Bangs（DuckDuckGo 快捷搜索） 可以帮助你轻易地在 DuckDuckGo 上找到想要的信息（甚至 本网站 omgubuntu 都有快捷搜索）。ddgr 非常忠实地呈现了这个功能。<br>和网页版不同的是，你可以更改每页返回多少结果。这比起每次查询都要看三十多条结果要方便一些。默认界面经过了精心设计，在不影响可读性的情况下尽量减少了占用空间。<br>ddgr有许多功能和亮点，包括：<br>更改搜索结果数<br>支持 Bash 自动补全<br>使用 DuckDuckGo Bangs<br>在浏览器中打开链接<br>”手气不错“选项<br>基于时间、地区、文件类型等的筛选功能<br>极少的依赖项<br>你可以从 Github 的项目页面上下载支持各种系统的 ddgr：<br>从 Github 下载 “ddgr”<br><a href="https://github.com/jarun/ddgr" target="_blank" rel="external">https://github.com/jarun/ddgr</a></p>
+<p>要求Python 3.4 or later.</p>
+<p>#wget <a href="https://github.com/jarun/ddgr/releases/download/v1.2/ddgr-1.2-1.el7.3.centos.x86_64.rpm" target="_blank" rel="external">https://github.com/jarun/ddgr/releases/download/v1.2/ddgr-1.2-1.el7.3.centos.x86_64.rpm</a></p>
+<p>#rpm -ivh ddgr-1.2-1.el7.3.centos.x86_64.rpm </p>
+<p>如何使用 ddgr 在命令行中搜索 DuckDuckGo<br>安装完毕后，你只需打开你的终端模拟器，并运行：<br>ddgr<br>然后输入查询内容：<br>search-term<br>你可以限制搜索结果数：<br>ddgr –num 5 search-term<br>或者自动在浏览器中打开第一条搜索结果：<br>ddgr -j search-term<br>你可以使用参数和选项来提高搜索精确度。使用以下命令来查看所有的参数：<br>ddgr -h</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

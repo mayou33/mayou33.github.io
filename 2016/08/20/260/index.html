@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>tomcat 优化</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/20/260/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">tomcat 优化</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-20</span>
+      
+      <a href="/categories/tomcat/" title="tomcat" class="post-categories">tomcat</a>
+      
+      
+      <a href="/tags/tomcat/"" title="tomcat" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tomcat</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>一个系统的里的tomcat总设置的内存不得超过物理内存的0.75</p>
+<pre><code>（16G物理内存，tomcat总设置12G）
+
+使用cronolog切割Tomcat日志
+
+yum install -y cronolog
+
+1、优化内核及TCP连接
+
+2、修改Tomcat Connector运行模式为apr
+
+Tomcat Connector有三种运行模式：
+
+bio：阻塞IO bio是三种运行模式中性能最低第一种。
+
+nio：是一个基于缓冲区，并能提供非阻塞I/O操作的JAVA API 因此NIO也成为非阻塞I/O，比bio拥有更好的并发性能。
+
+apr：调用httpd核心链接库来读取或文件传输，从而提高tomat对静态文件的处理性能。Tomcat APR模式也是Tomcat在高并发下的首选运行模式：
+
+JVM堆的设置是指java程序运行过程中JVM可以调配使用的内存空间的设置.JVM在启动的时候会自动设置Heap size的值，
+
+其初始空间(即-Xms)是物理内存的1/64，最大空间(-Xmx)是物理内存的1/4。
+
+可以利用JVM提供的-Xmn -Xms -Xmx等选项可进行设置。Heap size 的大小是Young Generation 和Tenured Generaion 之和。
+
+提示：在JVM中如果98％的时间是用于GC且可用的Heap size 不足2％的时候将抛出此异常信息。
+
+提示：Heap Size 最大不要超过可用物理内存的75％，一般的要将-Xms和-Xmx选项设置为相同，而-Xmn为1/4的-Xmx值。
+
+第一步&amp;nbsp; &amp;ndash; 提高JVM栈内存Increase JVM heap memory
+
+要更改文件(catalina.sh) 位于&amp;quot;&amp;nbsp; ${tomcat}/bin/catalina.sh&amp;quot;，下面，给出这个文件的配置信息，
+
+tomcat8配置如下：--有些命令参数在tomcat8上已经不支持了，所以不能照抄。
+
+JAVA_OPTS=&amp;quot;-server -Xms2048m -Xmx2048m -Djava.awt.headless=true -Dfile.encoding=utf-8 &amp;quot;
+
+-server&amp;nbsp; 启用jdk 的 server 版；
+
+&amp;nbsp;-Xms&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; java虚拟机初始化时的最小内存；
+
+&amp;nbsp;-Xmx&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; java虚拟机可使用的最大内存；
+
+&amp;nbsp;-XX:PermSize&amp;nbsp;&amp;nbsp;&amp;nbsp; 内存永久保留区域
+
+&amp;nbsp;-XX:MaxPermSize&amp;nbsp;&amp;nbsp; 内存最大永久保留区域
+
+设置Tomcat启动的初始内存，其初始空间(即-Xms)是物理内存的1/64，最大空间(-Xmx)是物理内存的1/4。可以利用JVM提供的-Xmn -Xms -Xmx等选项，要加&amp;ldquo;m&amp;rdquo;说明是MB，否则就是KB了，在启动tomcat时会报内存不足。
+
+JVM堆的设置是指java程序运行过程中JVM可以调配使用的内存空间的设置.JVM在启动的时候会自动设置Heap size的值，其初始空间(即-Xms)是物理内存的1/64，最大空间(-Xmx)是物理内存的1/4。可以利用JVM提供的-Xmn -Xms -Xmx等选项可进行设置。Heap size 的大小是Young Generation 和Tenured Generaion 之和。
+
+一般建议堆的最大值设置为可用内存的最大值的75%
+
+第二步 &amp;ndash; 解决JRE内存泄露&amp;nbsp; ${tomcat}/conf/server.xml
+
+始终使用最新的tomcat服务器以获得更好的性能和可伸缩性，tomcat8已经默认使用。
+
+&amp;lt;Listener className=&amp;quot;org.apache.catalina.core.JreMemoryLeakPreventionListener&amp;quot; /&amp;gt;
+
+第三步 &amp;ndash; 线程池设置&amp;nbsp; ${tomcat}/conf/server.xml
+
+通过调整连接器属性&amp;ldquo;maxThreads&amp;rdquo;完成设置。maxThreads的值应该根据流量的大小
+
+默认：protocol=&amp;quot;HTTP/1.1&amp;quot;
+
+如果用nio
+
+&amp;lt;Connector port=&amp;quot;8080&amp;quot; protocol=&amp;quot;org.apache.coyote.http11.Http11NioProtocol&amp;quot;
+
+如果用apr
+
+&amp;lt;Connector port=&amp;quot;8080&amp;quot; protocol=&amp;quot;org.apache.coyote.http11.Http11AprProtocol&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; connectionTimeout=&amp;quot;20000&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; URIEncoding=&amp;quot;UTF-8&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; useBodyEncodingForURI=&amp;quot;false&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; maxThreads=&amp;quot;1000&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; minSpareThreads=&amp;quot;100&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; enableLookups=&amp;quot;false&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; redirectPort=&amp;quot;8443&amp;quot;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; acceptCount=&amp;quot;1000&amp;quot; /&amp;gt;
+
+connectionTimeout&amp;nbsp;&amp;nbsp; 连接超时
+
+minProcessors：最小空闲连接线程数，用于提高系统处理性能，默认值为10
+
+maxProcessors：最大连接线程数，即：并发处理的最大请求数，默认值为75
+
+acceptCount：允许的最大连接数，应大于等于maxProcessors，默认值为100
+
+enableLookups：是否反查域名，取值为：true或false。为了提高处理能力，应设置为false
+
+connectionTimeout：网络连接超时，单位：毫秒。设置为0表示永不超时，这样设置有隐患的。通常可设置为30000毫秒。
+
+其中和最大连接数相关的参数为maxProcessors 和 acceptCount 。如果要加大并发连接数，应同时加大这两个参数。
+
+web server允许的最大连接数还受制于操作系统的内核参数设置，通常 Windows 是 2000 个左右， Linux 是 1000 个左右。
+
+protocol=&amp;quot;org.apache.coyote.http11.Http11NioProtocol&amp;quot; ///使用java的异步io护理技术,no blocking IO
+
+maxThreads=&amp;ldquo;600&amp;quot; 表示最多同时处理600个连接 ///最大线程数
+
+minSpareThreads=&amp;ldquo;100&amp;quot; 表示即使没有人使用也开这么多空线程等待&amp;nbsp; ///初始化时创建的线程数
+
+maxSpareThreads=&amp;ldquo;500&amp;quot; 表示如果最多可以空500个线程，例如某时刻有505人访问，之后没有人访问了，则tomcat不会保留505个空线程，而是关闭505个空的。&amp;nbsp;&amp;nbsp; ///一旦创建的线程超过这个值，Tomcat就会关闭不再需要的socket线程。
+
+acceptCount=&amp;quot;700&amp;quot;//指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理 监听端口队列最大数，满了之后客户请求会被拒绝（不能小于maxSpareThreads&amp;nbsp; ）
+
+enableLookups&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 若设为true, 则支持域名解析，可把 ip 地址解析为主机名
+
+redirectPort&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 在需要基于安全通道的场合，把客户请求转发到基于SSL 的 redirectPort 端口
+
+URIEncoding&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; URL统一编码
+
+在上述配置中，maxThreads值设定为&amp;ldquo;1000&amp;rdquo;，这指定可以由服务器处理的并发请求的最大数量。如果没有指定，这个属性的默认值为&amp;ldquo;200&amp;rdquo;。任何多出的并发请求将收到&amp;ldquo;拒绝连接&amp;rdquo;的错误提示，直到另一个处理请求进程被释放。错误看起来如下，
+
+org.apache.tomcat.util.threads.ThreadPool logFull SEVERE: All threads (250) are
+
+currently busy, waiting. Increase maxThreads (1000) or check the servlet status
+
+如果应用提示上述错误，务必检查上述错误是否是由于单个请求花费太长时间造成的，这个问题的原因是这样的，有时候如果数据库连接不释放的话，进程将不会处理其它请求。
+
+第4步- 压缩
+
+Tomcat有一个通过在server.xml配置文件中设置压缩的选项。压缩可以在connector像如下设置中完成，
+
+在上面第3步配置上接着加入：
+
+compression=&amp;quot;on&amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 打开Gzip压缩功能
+
+compressionMinSize=&amp;quot;20480&amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 启用压缩的输出内容大小，这里面默认为20KB&amp;nbsp;
+
+noCompressionUserAgents=&amp;quot;gozilla, traviata&amp;quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 对于以下的浏览器，不启用Gzip压缩
+
+compressableMimeType=&amp;quot;text/html,text/xml,text/plain,text/javascript,text/css,application/octet-stream&amp;quot; /&amp;gt;&amp;nbsp;&amp;nbsp; Gzip压缩类型&amp;nbsp;
+
+&amp;nbsp;
+
+第五步- 数据库性能调优---
+
+Tomcat性能在等待数据库查询被执行期间会降低。如今大多数应用程序都是使用可能包含&amp;ldquo;命名查询&amp;rdquo;的关系型数据库。如果是那样的话，Tomcat会在启动时默认加载命名查询，这个可能会提升性能。另一件重要事是确保所有数据库连接正确地关闭。给数据库连接池设置正确值也是十分重要的。我所说的值是指Resource要素的最大空闲数（maxIdle），最大连接数（maxActive）,最大建立连接等待时间（maxWait）属性的值。
+
+编辑context.xml--自定义，默认不添加
+
+配置mysql全局的JDNI:
+
+&amp;lt;Resource name=&amp;quot;jndi/mybatis&amp;quot;&amp;nbsp;
+
+&amp;nbsp;auth=&amp;quot;Container&amp;quot;&amp;nbsp;&amp;nbsp;
+
+type=&amp;quot;javax.sql.DataSource&amp;quot;&amp;nbsp;&amp;nbsp;
+
+driverClassName=&amp;quot;com.mysql.jdbc.Driver&amp;quot;&amp;nbsp;&amp;nbsp;
+
+url=&amp;quot;jdbc:mysql://xxxxxxxx:3306/mysql?characterEncoding=UTF-8&amp;quot;&amp;nbsp;&amp;nbsp;
+
+username=&amp;quot;xxxx&amp;quot;&amp;nbsp;&amp;nbsp;
+
+password=&amp;quot;xxxx&amp;quot;&amp;nbsp;&amp;nbsp;
+
+maxActive=&amp;quot;20&amp;quot;&amp;nbsp;&amp;nbsp;
+
+maxIdle=&amp;quot;10&amp;quot;&amp;nbsp;&amp;nbsp;
+
+maxWait=&amp;quot;10000&amp;quot;/&amp;gt;
+
+&amp;nbsp;
+
+&amp;nbsp;其他选项
+
+这些选项是：
+
+开启浏览器的缓存，这样读取存放在webapps文件夹里的静态内容会更快，大大推动整体性能。
+
+每当开机时，Tomcat服务器应当自动地重启。
+
+一般情况下HTTPS请求会比HTTP请求慢。如果你想要更好的安全性，即使慢一点我们还是要选择HTTPS。
+
+修改：catalina.jar，不显示tomcat版本信息
+
+修改里面的 org/apache/catalina/util/ServerInfo.properties
+
+管理AJP端口
+
+AJP是为 Tomcat 与 HTTP 服务器之间通信而定制的协议，能提供较高的通信速度和效率。如果tomcat前端放的是apache的时候，会使用到AJP这个连接器。由于我们前端是由nginx做的反向代理，因此不使用此连接器，因此需要注销掉该连接器。
+
+&amp;lt;!--
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;Connector port=&amp;quot;8009&amp;quot; protocol=&amp;quot;AJP/1.3&amp;quot; redirectPort=&amp;quot;8443&amp;quot; /&amp;gt;
+
+--&amp;gt;
+
+管理用户
+
+修改tomcat-usrs.xml
+
+&amp;nbsp;&amp;nbsp; &amp;lt;role rolename=&amp;quot;tomcat&amp;quot;/&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;role rolename=&amp;quot;manager-script&amp;quot;/&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;role rolename=&amp;quot;manager-gui&amp;quot;/&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;role rolename=&amp;quot;manager-jmx&amp;quot;/&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;role rolename=&amp;quot;manager-status&amp;quot;/&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;role rolename=&amp;quot;admin-gui&amp;quot;/&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;user username=&amp;quot;tomcat&amp;quot; password=&amp;quot;tomcat1234&amp;quot; roles=&amp;quot;tomcat,manager-script,manager-gui,admin-gui,manager-status&amp;quot;/&amp;gt;
+
+&amp;lt;/tomcat-users&amp;gt;
+
+使用cronolog切割Tomcat日志-----见其他文章
+
+解决 java.util.prefs.BackingStoreException 报错warnning问题
+
+mkdir -p /etc/.java/.systemPrefs
+
+chmod -R 755 /etc/.java/.systemPrefs
+
+chown -R appadmin.users /etc/.java/.systemPrefs
+
+或者---
+
+mkdir -p /home/appadmin/.java/.systemPrefs
+
+chmod -R 755 /home/appadmin/.java/.userPrefs
+
+chmod -R 755 /home/appadmin/.java/.systemPrefs
+
+chown -R appadmin.users /home/appadmin/.java/.userPrefs
+
+chown -R appadmin.users /home/appadmin/.java/.systemPrefs
+
+export JAVA_OPTS=&amp;quot;-Djava.util.prefs.systemRoot=/home/appadmin/.java/.systemPrefs -Djava.util.prefs.userRoot=/home/appadmin/.java/.userPrefs&amp;quot;
+
+附件：[tomcat8.5.4](http://zhangyu233.com/wp-content/uploads/tomcat8.5.4.zip)
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

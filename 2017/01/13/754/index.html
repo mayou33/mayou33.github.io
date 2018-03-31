@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>手把手教你用Dropwatch诊断问题</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/13/754/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">手把手教你用Dropwatch诊断问题</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-13</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://huoding.com/2016/12/15/574" target="_blank" rel="external">http://huoding.com/2016/12/15/574</a></p>
+<pre><code>老实说，[Dropwatch](https://fedorahosted.org/dropwatch/) 并不是什么新鲜玩意，很多年前[霸爷](http://blog.yufeng.info/archives/2497)就专门撰文介绍过它，通过它可以大概找出系统为什么会丢包，其原理就是跟踪&amp;nbsp;kfree_skb 的调用行为。不过虽然很多人知道它的存在，但是却并不知道如何具体使用它，所以我写下了这篇文字。
+
+&amp;nbsp;
+
+以 CentOS 为例，动手前需要了解系统的版本，并确保已经安装了对应的包：
+</code></pre><pre style="background: rgb(244, 244, 244); font: 13px/1.5 &quot;Courier 10 Pitch&quot;, Courier, monospace; margin: 0px 0px 1.62em; padding: 0.75em 1.62em; outline: 0px; border: 0px currentColor; border-image: none; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; word-spacing: 0px; vertical-align: baseline; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;">
+shell&gt; uname -r
+2.6.32-431.23.3.el6.x86_64
+
+shell&gt; rpm -qa | grep kernel
+kernel-2.6.32-431.23.3.el6.x86_64
+kernel-debuginfo-common-x86_64-2.6.32-431.23.3.el6.x86_64</pre>
+
+<pre><code>Dropwatch 本身有一个交互命令行，命令中的 kas 指的是加载对应的符号表：
+</code></pre><pre style="background: rgb(244, 244, 244); font: 13px/1.5 &quot;Courier 10 Pitch&quot;, Courier, monospace; margin: 0px 0px 1.62em; padding: 0.75em 1.62em; outline: 0px; border: 0px currentColor; border-image: none; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; word-spacing: 0px; vertical-align: baseline; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;">
+shell&gt; dropwatch -l kas
+Initalizing kallsyms db
+
+dropwatch&gt; start
+Enabling monitoring...
+Kernel monitoring activated.
+Issue Ctrl-C to stop monitoring
+298 drops at init_dummy_netdev+50 (0xffffffff81459d10)
+1 drops at init_dummy_netdev+50 (0xffffffff81459d10)
+14 drops at init_dummy_netdev+50 (0xffffffff81459d10)</pre>
+
+<pre><code>说明：有[案例](http://blog.csdn.net/onwer3/article/details/43378431)报道直接通过 dropwatch -l kas 使用&amp;nbsp;/proc/kallsyms 符号表，可能会造成宕机（我没遇到），如果碰到可以使用&amp;nbsp;/boot/System.Map 符号表（隶属于 kernel 包）。
+
+在本例子中，Dropwatch 显示在&amp;nbsp;init_dummy_netdev 附近存在大量丢包现象，提示信息格式的大致说明是：丢包数量 drops at 函数名+偏移量 (地址)。
+
+下面让我们看看为什么会提示丢包，直接在符号表里搜索：
+</code></pre><pre style="background: rgb(244, 244, 244); font: 13px/1.5 &quot;Courier 10 Pitch&quot;, Courier, monospace; margin: 0px 0px 1.62em; padding: 0.75em 1.62em; outline: 0px; border: 0px currentColor; border-image: none; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; word-spacing: 0px; vertical-align: baseline; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;">
+shell&gt; grep -w -A 10 init_dummy_netdev /proc/kallsyms
+ffffffff81459cc0 T init_dummy_netdev
+ffffffff81459d10 t net_tx_action
+ffffffff81459ed0 T __napi_complete
+ffffffff81459f10 T netdev_drivername
+ffffffff81459f70 T __dev_getfirstbyhwtype
+ffffffff81459ff0 T dev_getfirstbyhwtype
+ffffffff8145a040 t unlist_netdevice
+ffffffff8145a120 t dev_unicast_flush
+ffffffff8145a1d0 t dev_addr_discard
+ffffffff8145a260 T __dev_remove_pack
+ffffffff8145a310 T dev_add_pack</pre>
+
+<pre><code>可见&amp;nbsp;init_dummy_netdev 的地址是 ffffffff81459cc0，加上偏移量 50 等于&amp;nbsp;ffffffff81459d10，正好是&amp;nbsp;net_tx_action 的地址（注：如果计算后的地址在两个函数之间，那么取前者），于是我们得出结论，实际丢包是发生在&amp;nbsp;net_tx_action 函数中。
+
+搞清楚了案发地，接下来可以通过 kernel-debuginfo-common 包来获取源代码路径，在本例子中，安装对应的包后执行命令显示源代码位于&amp;nbsp;/usr/src/debug 目录：
+</code></pre><pre style="background: rgb(244, 244, 244); font: 13px/1.5 &quot;Courier 10 Pitch&quot;, Courier, monospace; margin: 0px 0px 1.62em; padding: 0.75em 1.62em; outline: 0px; border: 0px currentColor; border-image: none; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; word-spacing: 0px; vertical-align: baseline; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;">
+shell&gt; rpm -ql kernel-debuginfo-common-x86_64
+/usr/src/debug/kernel-2.6.32-431.23.3.el6</pre>
+
+<pre><code>前面提到过系统通过跟踪 kfree_skb 来确认丢包的，那么看看 kfree_skb 的定义：
+</code></pre><pre style="background: rgb(244, 244, 244); font: 13px/1.5 &quot;Courier 10 Pitch&quot;, Courier, monospace; margin: 0px 0px 1.62em; padding: 0.75em 1.62em; outline: 0px; border: 0px currentColor; border-image: none; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; word-spacing: 0px; vertical-align: baseline; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;">
+void __kfree_skb(struct sk_buff *skb)
+{
+    skb_release_all(skb);
+    kfree_skbmem(skb);
+}
+EXPORT_SYMBOL(__kfree_skb);
+
+void kfree_skb(struct sk_buff *skb)
+{
+    if (unlikely(!skb))
+        return;
+    if (likely(atomic_read(&amp;skb-&gt;users) == 1))
+        smp_rmb();
+    else if (likely(!atomic_dec_and_test(&amp;skb-&gt;users)))
+        return;
+    trace_kfree_skb(skb, __builtin_return_address(0));
+    __kfree_skb(skb);
+}
+EXPORT_SYMBOL(kfree_skb);</pre>
+
+<pre><code>实际上起作用的是&amp;nbsp;trace_kfree_skb，所以直接或间接调用 trace_kfree_skb 和 kfree_skb 的地方就意味着有丢包，不过需要说明的是&amp;nbsp;__kfree_skb 不表示丢包，可以无视。
+
+有了如上的准备工作，下面开始搜索 net_tx_action 的源代码：
+</code></pre><pre style="background: rgb(244, 244, 244); font: 13px/1.5 &quot;Courier 10 Pitch&quot;, Courier, monospace; margin: 0px 0px 1.62em; padding: 0.75em 1.62em; outline: 0px; border: 0px currentColor; border-image: none; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; word-spacing: 0px; vertical-align: baseline; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;">
+shell&gt; grep -wr net_tx_action /usr/src/debug</pre>
+
+<pre><code>终于可以看到庐山真面目了，2.6.32 版本的 net_tx_action 源代码如下：
+</code></pre><pre style="background: rgb(244, 244, 244); font: 13px/1.5 &quot;Courier 10 Pitch&quot;, Courier, monospace; margin: 0px 0px 1.62em; padding: 0.75em 1.62em; outline: 0px; border: 0px currentColor; border-image: none; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; word-spacing: 0px; vertical-align: baseline; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;">
+static void net_tx_action(struct softirq_action *h)
+{
+    struct softnet_data *sd = &amp;__get_cpu_var(softnet_data);
+
+    if (sd-&gt;completion_queue) {
+        struct sk_buff *clist;
+
+        local_irq_disable();
+        clist = sd-&gt;completion_queue;
+        sd-&gt;completion_queue = NULL;
+        local_irq_enable();
+
+        while (clist) {
+            struct sk_buff *skb = clist;
+            clist = clist-&gt;next;
+
+            WARN_ON(atomic_read(&amp;skb-&gt;users));
+            trace_kfree_skb(skb, net_tx_action);
+            __kfree_skb(skb);
+        }
+    }
+
+...</pre>
+
+<pre><code>根据之前的分析，我们可以推断出就是在&amp;nbsp;trace_kfree_skb(skb, net_tx_action); 这一行丢的包。通常找到代码中丢包的具体位置后，我们需要做的就是代码前后看看是否触发了什么限制，比如说队列太小了，缓冲不够之类的，不过在本例子中，看上去是清除完成队列里的数据，这并没有什么问题。以&amp;nbsp;dropwatch + net_tx_action 为关键字去搜索后找到一篇文章：[net_tx_action: Call trace_consume_skb() instead of trace_kfree_skb()](https://patchwork.ozlabs.org/patch/183217/)，似乎验证了我们之前的猜测，带着疑惑查看最新版本代码中&amp;nbsp;net_tx_action 的[源代码](https://github.com/torvalds/linux/blob/e34bac726d27056081d0250c0e173e4b155aa340/net/core/dev.c)：
+</code></pre><pre style="background: rgb(244, 244, 244); font: 13px/1.5 &quot;Courier 10 Pitch&quot;, Courier, monospace; margin: 0px 0px 1.62em; padding: 0.75em 1.62em; outline: 0px; border: 0px currentColor; border-image: none; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; word-spacing: 0px; vertical-align: baseline; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;">
+static __latent_entropy void net_tx_action(struct softirq_action *h)
+{
+    struct softnet_data *sd = this_cpu_ptr(&amp;softnet_data);
+
+    if (sd-&gt;completion_queue) {
+        struct sk_buff *clist;
+
+        local_irq_disable();
+        clist = sd-&gt;completion_queue;
+        sd-&gt;completion_queue = NULL;
+        local_irq_enable();
+
+        while (clist) {
+            struct sk_buff *skb = clist;
+            clist = clist-&gt;next;
+
+            WARN_ON(atomic_read(&amp;skb-&gt;users));
+            if (likely(get_kfree_skb_cb(skb)-&gt;reason
+                == SKB_REASON_CONSUMED))
+                trace_consume_skb(skb);
+            else
+                trace_kfree_skb(skb, net_tx_action);
+
+            if (skb-&gt;fclone != SKB_FCLONE_UNAVAILABLE)
+                __kfree_skb(skb);
+            else
+                __kfree_skb_defer(skb);
+        }
+
+        __kfree_skb_flush();
+    }
+
+...</pre>
+
+<pre><code>果然，在新版本的源代码中区分了&amp;nbsp;trace_consume_skb 和&amp;nbsp;trace_kfree_skb 的使用，而我们知道 trace_kfree_skb 表示丢包，而&amp;nbsp;trace_consume_skb 是无害的，至此我们可以基本确定：在本例子中所谓的丢包是旧版本内核的误判。虽然这次纠错过程最终被证实为虚惊一场，但是相信大家在过程中已经学会了如何使用 Dropwatch。
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

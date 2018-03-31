@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>一个可以查看linux当前缓存了哪些大文件的小工具</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/05/25/1020/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">一个可以查看linux当前缓存了哪些大文件的小工具</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-05-25</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      <a href="/categories/linux/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>&nbsp;</p>
+<pre><code>&lt;span class=&quot;z textcut&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: hidden; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: left; white-space: nowrap; -ms-word-wrap: break-word; -ms-text-overflow: ellipsis; max-width: 60%; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;转载自： [http://www.datastart.cn/tech/2017/05/20/hcache.html](http://www.datastart.cn/tech/2017/05/20/hcache.html)&lt;/span&gt;&lt;span class=&quot;y&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; padding-left: 5px; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: right; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;作者： 伊布&lt;/span&gt;
+
+&amp;nbsp;
+
+linux用户可能经常遇到的一个问题是，机器有16GB内存，开的进程也不多，但是剩下的free内存并不多，大部分都被buff/cache掉了（比如下面我的PC），但是cache了些什么东西并不清楚，linux也没有个命令能查看。
+</code></pre><div class="highlighter-rouge" style="color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Roboto, Arial, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; box-sizing: inherit; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <pre class="highlight" style="box-sizing: inherit;"><br><code>$ &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;free&lt;/span&gt; -h
+              total        used        &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;free&lt;/span&gt;      shared  buff/cache   available
+Mem:            &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;15&lt;/span&gt;G        &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;6.4&lt;/span&gt;G        &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;2.3&lt;/span&gt;G        &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;1.1&lt;/span&gt;G        &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;6.9&lt;/span&gt;G        &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;7.7&lt;/span&gt;G
+Swap:          &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;975&lt;/span&gt;M        &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;268&lt;/span&gt;K        &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;975&lt;/span&gt;M</code></pre><br></div>
+
+<pre><code>前几天看到有个人用go写了个[pcstat](https://github.com/tobert/pcstat)，可以查看某个文件是否被缓存（作者的目的是数据库调优），也可以根据进程pid来查看都缓存了哪些文件，但是不能查看整个操作系统都cache了哪些文件。[https://github.com/tobert/pcstat](https://github.com/tobert/pcstat)
+
+因此，我基于pcstat写了个hcache，增加了查看当前操作系统cache的前top个文件的特性，你可以从[这里](http://7xir15.com1.z0.glb.clouddn.com/hcache)下载下来试用
+</code></pre><p>##<br>    Building</p>
+<pre style="font: 13.6px/1.45 SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace; padding: 16px; border-radius: 3px; color: rgb(36, 41, 46); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: auto; margin-top: 0px; margin-bottom: 16px; word-spacing: 0px; -ms-word-wrap: normal; box-sizing: border-box; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; background-color: rgb(246, 248, 250); -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+`git clone https://github.com/silenceshell/hcache.git
+cd {CURRENT_DIR}/hcache
+export GOPATH={CURRENT_DIR}/hcache
+go get github.com/tobert/pcstat
+go build
+cp hcache /usr/local/bin
+`</pre>
+
+<p>##<br>    Requirements</p>
+<pre><code>Go 1.4 or higher and golang.org/x/sys/unix.
+
+使用比较简单：
+</code></pre><div class="highlighter-rouge" style="color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Roboto, Arial, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; box-sizing: inherit; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><br>    <pre class="highlight" style="box-sizing: inherit;"><br><code>$ sudo hcache --top &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;10&lt;/span&gt;
+[sudo] password &lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(137, 89, 168); box-sizing: inherit;&quot;&gt;for&lt;/span&gt; silenceshell:
++----------------------------------------------------------------------------------+----------------+------------+-----------+---------+
+| Name                                                                             | Size (bytes)   | Pages      | Cached    | Percent |
+|----------------------------------------------------------------------------------+----------------+------------+-----------+---------|
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/opt/g&lt;/span&gt;oogle/chrome/chrome                                                        | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;114911208&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;28055&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;25457&lt;/span&gt;     | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;090.740&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/usr/&lt;/span&gt;share/code/code                                                             | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;67688720&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;16526&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;12274&lt;/span&gt;     | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;074.271&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/home/&lt;/span&gt;silenceshell/Software/pycharm-community-&lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;2016.2&lt;/span&gt;/lib/pycharm.jar                   | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;95177431&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;23237&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;11325&lt;/span&gt;     | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;048.737&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/opt/&lt;/span&gt;atom/atom                                                                   | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;62641344&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;15294&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;10578&lt;/span&gt;     | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;069.164&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/usr/&lt;/span&gt;bin/dockerd                                                                 | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;39121168&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;9552&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;7103&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;074.361&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/home/&lt;/span&gt;silenceshell/Software/pycharm-community-&lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;2016.2&lt;/span&gt;/jre/jre/lib/amd64/libjfxwebkit.so | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;57455824&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;14028&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;6625&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;047.227&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/usr/&lt;/span&gt;lib/x86_64-linux-gnu/libQtWebKit.so.4.10.2                                  | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;36462184&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;8902&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;6316&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;070.950&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/usr/&lt;/span&gt;lib/beyondcompare/BCompare                                                  | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;30640160&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;7481&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;5505&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;073.586&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/usr/&lt;/span&gt;bin/SecureCRT                                                               | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;29524560&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;7209&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;4806&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;066.667&lt;/span&gt; |
+| &lt;span class=&quot;hljs-regexp&quot; style=&quot;color: rgb(200, 40, 41); box-sizing: inherit;&quot;&gt;/usr/&lt;/span&gt;share/code/libnode.so                                                       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;21135976&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;5161&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;4588&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;088.898&lt;/span&gt; |
++----------------------------------------------------------------------------------+----------------+------------+-----------+---------+
+$
+$ sudo ./hcache --top &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;3&lt;/span&gt;  --bname  
++-------------+----------------+------------+-----------+---------+
+| Name        | Size (bytes)   | Pages      | Cached    | Percent |
+|-------------+----------------+------------+-----------+---------|
+| chrome      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;114911208&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;28055&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;25476&lt;/span&gt;     | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;090.807&lt;/span&gt; |
+| pycharm.jar | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;95177431&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;23237&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;11479&lt;/span&gt;     | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;049.400&lt;/span&gt; |
+| atom        | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;62641344&lt;/span&gt;       | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;15294&lt;/span&gt;      | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;10578&lt;/span&gt;     | &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;069.164&lt;/span&gt; |
++-------------+----------------+------------+-----------+---------+
+$
+$ lsof /usr/lib/x86_64-linux-gnu/libQtWebKit.so.4.10.2
+COMMAND    PID   USER  FD   TYPE DEVICE SIZE/OFF    NODE NAME
+quiterss &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;20630&lt;/span&gt; silenceshell mem    REG    &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;8&lt;/span&gt;,&lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;36462184&lt;/span&gt; &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(245, 135, 31); box-sizing: inherit;&quot;&gt;3936610&lt;/span&gt; /usr/lib/x86_64-linux-gnu/libQtWebKit.so.4.10.2</code></pre><br></div>
+
+<pre><code>源码开源在Github上：[hcache](https://github.com/silenceshell/hcache)
+
+[https://github.com/silenceshell/hcache](https://github.com/silenceshell/hcache)
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

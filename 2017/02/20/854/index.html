@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>用 cgroups 管理进程磁盘 io</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/02/20/854/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">用 cgroups 管理进程磁盘 io</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-02-20</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/tools/"" title="tools" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>tools</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <a href="http://xiezhenye.com/2013/10/%E7%94%A8-cgroups-%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E7%A3%81%E7%9B%98-io.html" target="_blank" rel="external"><font color="#0066cc">http://xiezhenye.com/2013/10/%E7%94%A8-cgroups-%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B%E7%A3%81%E7%9B%98-io.html</font></a><br>    </div><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>##<br>        cgroups管理进程io资源<br><br>        跑一个耗io的脚本<br><br>    <div style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);"><br>        <pre style="font-family: &quot;Courier New&quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;"><br><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">dd</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">if</span>=/dev/sda of=/dev/<span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">null</span> &amp;<br></pre><br>    </div>
+
+<pre><code>    通过iotop看io占用情况，磁盘速度到了284M/s
+
+&lt;div style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);&quot;&gt;
+    &lt;pre style=&quot;font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">30252</span> be/<span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">4</span> root      <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">284.71</span> M/s    <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0.00</span> B/s  <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0.00</span> %  <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0.00</span> % <span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">dd</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">if</span>=/dev/sda of=/dev/<span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">null</span><br><br>    </p></div><p></p>
+<pre><code>    下面用cgroups控制这个进程的io资源
+
+&lt;div style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);&quot;&gt;
+    &lt;pre style=&quot;font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">mkdir</span> -p /cgroup/blkio/<span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">foo</span></p>
+<p><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">echo</span><span style="color: rgb(128, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">&#39;</span><span style="color: rgb(128, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">8:0   1048576</span><span style="color: rgb(128, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">&#39;</span> &gt;  /cgroup/blkio/foo/<span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">blkio.throttle.read_bps_device</span></p>
+<p>#<span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">8</span>:0对应主设备号和副设备号，可以通过ls -l /dev/<span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">sda查看<br></span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">echo</span><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">30252</span> &gt; /cgroup/blkio/foo/tasks<br><br>    </p>
+<pre><code>    再通过iotop看，确实将读速度降到了1M/s
+
+&lt;div style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);&quot;&gt;
+    &lt;pre style=&quot;font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p><span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">30252</span> be/<span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">4</span> root      <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">993.36</span> K/s    <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0.00</span> B/s  <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0.00</span> %  <span style="color: rgb(128, 0, 128); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">0.00</span> % <span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">dd</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">if</span>=/dev/sda of=/dev/<span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">null</span><br><br>    </p>
+<pre><code>    对于io还有很多其他可以控制层面和方式，如下
+
+&lt;div style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 13.33px; font-style: normal; font-weight: normal; background-color: rgb(245, 245, 245);&quot;&gt;
+    &lt;pre style=&quot;font-family: &amp;quot;Courier New&amp;quot; !important; font-size: 12px !important; font-style: normal; background-color: inherit;&quot;&gt;
+</code></pre><p>[root@localhost ~]# <span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">ls</span> /cgroup/blkio/foo/<span style="color: rgb(0, 0, 0); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;"><br>blkio.io_merged         blkio.io_serviced      blkio.reset_stats<br>blkio.throttle.io_serviced       blkio.throttle.write_bps_device   blkio.weight          cgroup.procs<br>blkio.io_queued         blkio.io_service_time  blkio.sectors<br>blkio.throttle.read_bps_device   blkio.throttle.write_iops_device  blkio.weight_device   notify_on_release<br>blkio.io_service_bytes  blkio.io_wait_time     blkio.throttle.io_service_bytes<br>blkio.throttle.read_iops_device  blkio.</span><span style="color: rgb(0, 0, 255); font-family: &quot;Courier New&quot; !important; font-size: 12px !important; background-color: inherit;">time</span>                        cgroup.event_control  tasks<br><br>    <br></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    &nbsp;<br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>        linux 的 cgroups 还可以限制和监控进程的磁盘 io。这个功能通过 blkio 子系统实现。<br><br>        blkio 子系统里东西很多。不过大部分都是只读的状态报告，可写的参数就只有下面这几个：<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>blkio.throttle.read_bps_device<br>blkio.throttle.read_iops_device<br>blkio.throttle.write_bps_device<br>blkio.throttle.write_iops_device<br>blkio.weight<br>blkio.weight_device<br></pre><br><br>        这些都是用来控制进程的磁盘 io 的。很明显地分成两类，其中带&ldquo;throttle&rdquo;的，顾名思义就是节流阀，将流量限制在某个值下。而&ldquo;weight&rdquo;就是分配 io 的权重。<br><br>        &ldquo;throttle&rdquo;的那四个参数看名字就知道是做什么用的。拿 blkio.throttle.read_bps_device 来限制每秒能读取的字节数。先跑点 io 出来<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>dd if=/dev/sda of=/dev/null &amp;<br>[1] 2750<br></pre><br><br>        用 iotop 看看目前的 io<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>  TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO&gt;    COMMAND<br> 2750 be/4 root       66.76 M/s    0.00 B/s  0.00 % 68.53 % dd if=/dev/sda of=/dev/null<br>…<br></pre><br><br>        然后修改一下资源限制，把进程加入控制组<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>echo &#39;8:0   1048576&#39; &gt;/sys/fs/cgroup/blkio/foo/blkio.throttle.read_bps_device<br>echo 2750 &gt;/sys/fs/cgroup/blkio/foo/tasks<br></pre><br><br>        这里的 8:0 就是对应块设备的主设备号和副设备号。可以通过<span style="background-color: inherit;">&nbsp;</span><code>ls -l</code><span style="background-color: inherit;">&nbsp;</span>设备文件名查看。如<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br># ls -l /dev/sda<br>brw-rw—-. 1 root disk 8, 0 Oct 24 11:27 /dev/sda<br></pre><br><br>        这里的 8, 0 就是对应的设备号。所以，cgroups 可以对不同的设备做不同的限制。然后来看看效果<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>  TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO&gt;    COMMAND<br> 2750 be/4 root      989.17 K/s    0.00 B/s  0.00 % 96.22 % dd if=/dev/sda of=/dev/null<br>…<br></pre><br><br>        可见，进程的每秒读取立马就降到了 1MB 左右。要解除限制，写入如 &ldquo;8:0 0&rdquo; 到文件中即可<br><br>        对写入的限制也类似。只是测试的时候要注意，dd 需要加上 oflag=sync，避免文件系统缓存影响。如<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>dd if=/dev/zero of=/data/test.dat oflag=sync<br></pre><br><br>        还有别犯傻把 of 输出直接写设备文件 :-)<br><br>        不过需要注意的是，这种方式对小于采样间隔里产生的大量 io 是没用的。比如，就算在 1s 内产生一个每秒写入 100M 的峰值，也不会因此被限制掉。<br><br>        再看看 blkio.weight 。blkio 的 throttle 和 weight 方式和 cpu 子系统的 quota 和 shares 有点像，都是一种是绝对限制，另一种是相对限制，并且在不繁忙的时候可以充分利用资源，权重值的范围在 10 &ndash; 1000 之间。<br><br>        测试权重方式要麻烦一点。因为不是绝对限制，所以会受到文件系统缓存的影响。如在虚拟机中测试，要关闭虚机如我用的 VirtualBox 在宿主机上的缓存。如要测试读 io 的效果，先生成两个几个 G 的大文件 /tmp/file_1，/tmp/file_2 ，可以用 dd 搞。然后设置两个权重<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br># echo 500 &gt;/sys/fs/cgroup/blkio/foo/blkio.weight<br># echo 100 &gt;/sys/fs/cgroup/blkio/bar/blkio.weight<br></pre><br><br>        测试前清空文件系统缓存，以免干扰测试结果<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>sync<br>echo 3 &gt;/proc/sys/vm/drop_caches<br></pre><br><br>        在这两个控制组中用 dd 产生 io 测试效果。<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br># cgexec -g &quot;blkio:foo&quot; dd if=/tmp/file_1 of=/dev/null &amp;<br>[1] 1838<br># cgexec -g &quot;blkio:bar&quot; dd if=/tmp/file_2 of=/dev/null &amp;<br>[2] 1839<br></pre><br><br>        还是用 iotop 看看效果<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>  TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO&gt;    COMMAND<br> 1839 be/4 root       48.14 M/s    0.00 B/s  0.00 % 99.21 % dd if=/tmp/file_2 of=/dev/null<br> 1838 be/4 root      223.59 M/s    0.00 B/s  0.00 % 16.44 % dd if=/tmp/file_1 of=/dev/null<br></pre><br><br>        两个进程每秒读的字节数虽然会不断变动，但是大致趋势还是维持在 1:5 左右，和设定的 weight 比例一致。blkio.weight_device 是分设备的。写入时，前面再加上设备号即可。<br><br>        blkio 子系统里还有很多统计项<br><br>    <dl style="color: rgb(68, 68, 68); font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>        <dt style="line-height: 1.7142; font-size: 14px; font-weight: bold; background-color: inherit;"><br>            blkio.time<br>        </dt><br>        <dd style="line-height: 1.7142; font-size: 14px; background-color: inherit;"><br>            ​​​各​​​设​​​备​​​的​​​ io 访​​​问​​​时​​​间，单位毫秒<br>        </dd><br>        <dt style="line-height: 1.7142; font-size: 14px; font-weight: bold; background-color: inherit;"><br>            blkio.sectors<br>        </dt><br>        <dd style="line-height: 1.7142; font-size: 14px; background-color: inherit;"><br>            换入​​​者​​​或​​​出​​​各​​​设​​​备​​​的​​​扇​​​区​​​数<br>        </dd><br>        <dt style="line-height: 1.7142; font-size: 14px; font-weight: bold; background-color: inherit;"><br>            blkio.io_serviced<br>        </dt><br>        <dd style="line-height: 1.7142; font-size: 14px; background-color: inherit;"><br>            各设​​​备​​​中​​​执​​​行​​​的各类型​​​ io 操​​​作​​​数，分read、​​​write、​​​sync、async 和 total​​​<br>        </dd><br>        <dt style="line-height: 1.7142; font-size: 14px; font-weight: bold; background-color: inherit;"><br>            blkio.io_service_bytes<br>        </dt><br>        <dd style="line-height: 1.7142; font-size: 14px; background-color: inherit;"><br>            各类型​​​ io ​​​换入​​​者​​​或​​​出​​​各​​​设​​​备​​​​​​的​​​字​​​节​​​数​​​<br>        </dd><br>        <dt style="line-height: 1.7142; font-size: 14px; font-weight: bold; background-color: inherit;"><br>            blkio.io_service_time<br>        </dt><br>        <dd style="line-height: 1.7142; font-size: 14px; background-color: inherit;"><br>            各设​​​备​​​中​​​执​​​行​​​的各类型​​​ io 时间，单位微秒​​​<br>        </dd><br>        <dt style="line-height: 1.7142; font-size: 14px; font-weight: bold; background-color: inherit;"><br>            blkio.io_wait_time<br>        </dt><br>        <dd style="line-height: 1.7142; font-size: 14px; background-color: inherit;"><br>            各设​​​备​​​中各类型​​​ io 在队列中的 等待时间​​​<br>        </dd><br>        <dt style="line-height: 1.7142; font-size: 14px; font-weight: bold; background-color: inherit;"><br>            blkio.io_merged<br>        </dt><br>        <dd style="line-height: 1.7142; font-size: 14px; background-color: inherit;"><br>            各设​​​备​​​中各类型​​​ io 请求合并的次数​​​<br>        </dd><br>        <dt style="line-height: 1.7142; font-size: 14px; font-weight: bold; background-color: inherit;"><br>            blkio.io_queued<br>        </dt><br>        <dd style="line-height: 1.7142; font-size: 14px; background-color: inherit;"><br>            各设​​​备​​​中各类型​​​ io 请求当前在队列中的数量​​​<br>        </dd><br>    </dl><br><br>        通过这些统计项更好地统计、监控进程的 io 情况<br><br>        用<br><br>    <pre style="color: rgb(102, 102, 102); line-height: 1.7142; font-family: Consolas, Monaco, &quot;Lucida Console&quot;, monospace; font-size: 0.85rem; font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);"><br>echo 1 &gt;blkio.reset_stats<br></pre><br><br>        可以将所有统计项清零。<br><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

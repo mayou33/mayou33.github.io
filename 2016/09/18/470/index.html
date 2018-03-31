@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>缓存知识体系</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/09/18/470/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">缓存知识体系</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-09-18</span>
+      
+      <a href="/categories/architecture/" title="架构" class="post-categories">架构</a>
+      
+      <a href="/categories/architecture/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/架构/"" title="架构" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>架构</a>
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="line-height: 1.5; background-color: inherit;">运维知识体系之缓存，分层多级缓存体系。</span></p>
+<pre><code>[&lt;font color=&quot;#0066cc&quot;&gt;https://www.unixhot.com/page/cache&lt;/font&gt;](https://www.unixhot.com/page/cache)
+</code></pre><table border="1" cellpadding="2" cellspacing="0" style="text-align: center; text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 宋体; font-size: 11pt; margin-top: 10px; margin-bottom: 10px; word-spacing: 0px; display: table; border-collapse: collapse; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;" width="776"><br>    <tbody style="background-color: inherit;"><br>        <tr style="background-color: inherit;"><br>            <td colspan="4" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 582pt; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Web架构知识体系之缓存-v0.2 赵班长&nbsp;&nbsp;<a href="http://www.unixhot.com" target="_blank" rel="external">http://www.unixhot.com</a><br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(141, 180, 226);"><br>                缓存分层<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(141, 180, 226);"><br>                缓存分级<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(141, 180, 226);"><br>                内容<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(141, 180, 226);"><br>                内容简介<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td rowspan="9" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 135pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(197, 217, 241);"><br>                用户层<br>            </td><br>            <td rowspan="5" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                DNS<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                DNS系统本地缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                客户端操作系统DNS缓存<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                LocalDNS缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                本地DNS提供商的缓存<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                DNS缓存服务器<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                专用的DNS缓存服务器<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                浏览器DNS缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Firefox默认60秒,HTML5的新特性：DNS Prefetching<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                应用程序DNS缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Java（JVM）、PHP语言本身的DNS缓存<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td rowspan="4" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 60pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                浏览器<br>            </td><br>            <td rowspan="4" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                浏览器缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                HMTL5新特性：Link Prefetching<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                基于最后修改时间的HTTP缓存协商： Last-Modified<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                基于过期时间的HTTP缓存协商：&nbsp;&nbsp;Expires、cache-control<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                基于打标签的HTTP缓存协商： Etag<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 22.5pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(197, 217, 241);"><br>                代理层<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                CDN<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                反向代理缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                基于Squid、Varnish、Nginx、ATS等，一般有多级<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td rowspan="2" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 30pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(0, 176, 240);"><br>                Web层<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                解释器<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Opcache<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                操作码缓存<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Web服务器<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Web服务器缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Apache（mod_cache）、Nginx(FastCGI缓存、Proxy cache)<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td rowspan="3" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 45pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(242, 220, 219);"><br>                应用层<br>            </td><br>            <td rowspan="3" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                应用服务<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                动态内容缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                缓存动态内存输出<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Local Cache<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                应用本地缓存，PHP（Yac、Xcache） Java（ehcache）<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                页面静态化<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                动态页面静态化，专门用于静态化的CMS<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td rowspan="2" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 30pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(252, 213, 180);"><br>                数据层<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                分布式缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                分布式缓存<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; color: windowtext; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Memcache、Redis<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                数据库<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                MySQL<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                innodb缓存、MYISAM缓存<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td rowspan="2" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 30pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(250, 191, 143);"><br>                系统层<br>            </td><br>            <td rowspan="2" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                操作系统<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                CPU Cache<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                L1（数据缓存、指令缓存） L2、L3<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                内存Cache<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                内存高速缓存、Page Cache<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td rowspan="2" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 30pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: rgb(146, 208, 80);"><br>                物理层<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                磁盘<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Disk Cache<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                磁盘缓存（Cache memory）<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 15pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                硬件<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                Raid Cache<br>            </td><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 25px; text-align: left; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                磁盘阵列缓存<br>            </td><br>        </tr><br>        <tr style="background-color: inherit;"><br>            <td style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; height: 26.25pt; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                备注<br>            </td><br>            <td colspan="3" style="padding: 5px 16px 5px 12px; border: 1px solid rgb(153, 153, 153); border-image: none; width: 508pt; height: 25px; font-size: 11pt; -ms-word-break: break-all; min-height: 25px; min-width: 25px; background-color: inherit;"><br>                1.此体系结构仅包含缓存（Cache），不包含缓冲（Buffer），所有很多缓冲区没有列举。<br><br>                2.根据用户发起一个HTTP请求开始，持续更新中，欢迎大家添加更多的内容。<br>            </td><br>        </tr><br>    </tbody><br></table></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

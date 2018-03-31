@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>在 Linux 中热添加内存 (2077955)</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/11/17/597/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">在 Linux 中热添加内存 (2077955)</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-11-17</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>注意： Linux 中热添加cpu/内存,内核要更新设备映射和上下文切换等，</p>
+<pre><code>小应用系统添加时几乎没有无影响
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;大应用系统添加时滞后时间长，有类似断网，不可用现象&lt;/span&gt;
+
+![](data:image/png;base64,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)
+
+[https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;amp;cmd=displayKC&amp;amp;externalId=2077955](https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;amp;cmd=displayKC&amp;amp;externalId=2077955)
+
+已在 Linux 中热添加的内存不会在客户机中使用 free 或 top 命令注册。
+
+Cause
+
+Linux 需要手动干预来公开在客户机中新添加的内存时，会出现此问题。此过程称为将内存设置为联机。
+
+Resolution
+
+要解决此问题，请在 RHEL、CentOS 和 SLES 操作系统中设置内存联机。
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;注意：linux新内核会自动online，无需手动更新。&lt;/span&gt;
+
+要在 RHEL 和 CentOS 中设置内存联机，请执行以下操作：
+
+查找显示脱机的内存。检查内存的状态：
+
+grep line /sys/devices/system/memory/*/state
+
+内存显示脱机时，将其设置为联机：
+
+echo online &amp;gt; /sys/devices/system/memory/memory[number]/state
+
+要在 SLES 操作系统中设置内存联机，请执行以下操作：
+
+加载 SLES 的 acpiphp 模块以检测热添加设备：
+
+modprobe acpiphp
+
+在 SLES 虚拟机内启用 acpi_memhotplug：
+
+modprobe acpi_memhotplug
+
+使用 vSphere Client 编辑虚拟机设置以增加分配的内存。有关详细信息，请参见 Increasing the amount of memory assigned to a virtual machine (1004059)。
+
+在 /sys/devices/system/ 中使内存联机：
+
+echo online &amp;gt; /sys/devices/system/memory/memory[number]/state
+
+检查内存的状态，查找显示脱机的内存：
+
+grep line /sys/devices/system/memory/*/state
+
+内存显示脱机时，将其设置为联机：
+
+echo online &amp;gt; /sys/devices/system/memory/memory[number]/state
+
+验证是否可以查看额外内存：
+
+free -m
+
+Additional Information
+
+有关详细信息，请参见 Linux Memory Hotplug Support 中的&amp;ldquo;How to use memory hotplug&amp;rdquo;。
+
+[http://lhms.sourceforge.net/](http://lhms.sourceforge.net/)
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

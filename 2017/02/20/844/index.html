@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>如何重置 RHEL7-CentOS7 系统的密码</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/02/20/844/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">如何重置 RHEL7-CentOS7 系统的密码</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-02-20</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <span style="background-color: inherit;"><a href="https://linux.cn/article-8212-1.html" target="_blank" rel="external">https://linux.cn/article-8212-1.html</a></span><br>    </div><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br><br>###<br>        指导<br><br>        RHEL7 的世界发生了变化，重置 root 密码的方式也一样。虽然中断引导过程的旧方法（init=/bin/bash）仍然有效，但它不再是推荐的。&ldquo;Systemd&rdquo; 使用 &ldquo;rd.break&rdquo; 来中断引导。让我们快速浏览下整个过程。&nbsp;<br><br>        <strong>启动进入最小模式</strong><br><br>        重启系统并在内核列表页面在系统启动之前按下<span style="background-color: inherit;">&nbsp;</span><code>e</code>。你会进入编辑模式。<br><br>        <strong>中断启动进程</strong><br><br>        在内核字符串中 - 在以<span style="background-color: inherit;">&nbsp;</span><code>linux 16 /vmlinuz- ect</code><span style="background-color: inherit;">&nbsp;</span>结尾的行中输入<span style="background-color: inherit;">&nbsp;</span><code>rd.break</code>。接着<span style="background-color: inherit;">&nbsp;</span><code>Ctrl+X</code><span style="background-color: inherit;">&nbsp;</span>重启。系统启动进入初始化内存磁盘，并挂载在<span style="background-color: inherit;">&nbsp;</span><code>/sysroot</code>。在此模式中你不需要输入密码。<br><br>        <strong>重新挂载文件系统以便读写</strong><br><br>    <pre style="color: rgb(184, 255, 184); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(22, 27, 32);"><br><code>switch_root:/# mount -o remount,rw /sysroot/</code></pre><br><br>        <strong>使 /sysroot 成为根目录</strong><br><br>    <pre style="color: rgb(184, 255, 184); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(22, 27, 32);"><br><code>switch_root:/# chroot /sysroot</code></pre><br><br>        命令行提示符会稍微改变。<br><br>        <strong>修改 root 密码</strong><br><br>    <pre style="color: rgb(184, 255, 184); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(22, 27, 32);"><br><code>sh-4.2# passwd</code></pre><br><br>        <strong>加载 SELinux 策略</strong><br><br>    <pre style="color: rgb(184, 255, 184); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(22, 27, 32);"><br><code>sh-4.2# load_policy -i</code></pre><br><br>        <strong>在 /etc/shadow 中设置上下文类型</strong><br><br>    <pre style="color: rgb(184, 255, 184); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(22, 27, 32);"><br><code>sh-4.2# chcon -t shadow_t /etc/shadow</code></pre><br><br>        注意：你可以通过如下创建<span style="background-color: inherit;">&nbsp;</span><code>autorelabel</code><span style="background-color: inherit;">&nbsp;</span>文件的方式来略过最后两步，但自动重建卷标会花费很长时间。<br><br>    <pre style="color: rgb(184, 255, 184); font-family: Monaco, Consolas, Courier, &quot;Lucida Console&quot;, monospace; font-size: 14px; font-style: normal; font-weight: normal; background-color: rgb(22, 27, 32);"><br><code>sh-4.2# touch /.autorelabel</code></pre><br><br>        因为这个原因，尽管它更简单，它应该作为&ldquo;懒人选择&rdquo;，而不是建议。<br><br>        <strong>退出并重启</strong><br><br>        退出并重启并用新的 root 密码登录。<br><br></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

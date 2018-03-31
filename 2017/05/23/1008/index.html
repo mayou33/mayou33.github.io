@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>从实践中长出的 DevOps 大树</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/05/23/1008/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">从实践中长出的 DevOps 大树</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-05-23</span>
+      
+      <a href="/categories/devops/" title="devops" class="post-categories">devops</a>
+      
+      
+      <a href="/tags/devops/"" title="devops" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>devops</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <a href="http://mp.weixin.qq.com/s?__biz=MzA4Nzg5Nzc5OA==&amp;mid=2651663292&amp;idx=1&amp;sn=0202f97a51c2c785e2918f30be84420e&amp;chksm=8bcbe815bcbc6103c336f5cb46ba8376e19cfbe178dcd8c1bdf38a0e8832dc2dea3077e748b3&amp;scene=21#wechat_redirect" target="_blank" rel="external"><font color="#0066cc">http://mp.weixin.qq.com/s?__biz=MzA4Nzg5Nzc5OA==&amp;mid=2651663292&amp;idx=1&amp;sn=0202f97a51c2c785e2918f30be84420e&amp;chksm=8bcbe815bcbc6103c336f5cb46ba8376e19cfbe178dcd8c1bdf38a0e8832dc2dea3077e748b3&amp;scene=21#wechat_redirect</font></a><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &amp;nbsp;
+&lt;/div&gt;
+
+&lt;div style=&quot;background-color: inherit;&quot;&gt;
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        如果你还在犹豫要不要实践 DevOps，建议出门右转去看看 Puppetlab 发布的历年 State of DevOps Report。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        [&lt;font color=&quot;#0066cc&quot;&gt;https://puppet.com/resources/whitepaper/2016-state-of-devops-report&lt;/font&gt;](https://puppet.com/resources/whitepaper/2016-state-of-devops-report)
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        DevOps 的理解千千万，见仁见智，核心理念都是希望提升效率和质量。重点想写一写如果不是完全自上而下的推 DevOps，我们可以怎么玩儿？
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        开门见山：从实践入手，配合工具的使用，以解决具体的问题为出发点。由实践的组合使用，倒推流程与组织文化的升级。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+
+            [![](http://attachbak.dataguru.cn/attachments/portal/201705/22/172504hz7bj1bdv6xc7lj7.jpg)](http://attachbak.dataguru.cn/attachments/portal/201705/22/172504hz7bj1bdv6xc7lj7.jpg)
+
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        如图是我整理的 DevOps 涉及改进的领域：组织+文化=&amp;gt;流程与方法=&amp;gt;实践=&amp;gt;工具。每个领域都可以改进，都有很多地方需要我们改进，我的选择是从DevOps Practice 作为切入点。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        很多团队都会遇到这个问题：DevOps 所倡导的理念、文化、实践都挺好的，但是不知道应该怎么入手，总觉得这么系统化的方法论和体系只能从上到下的推进。造成大家困惑的原因有以下几点：
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        DevOps 关注的领域实在太多，我们的问题也太多，不好下手
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        大家对 DevOps 的理解千差万别（DevOps Master 认证可以帮你系统化理解DevOps）
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        在组织或者团队内部贸然引入 DevOps 面临的阻力和风险很大，需要在短期内有明显的效果来背书
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        最容易也最体现效果的是从（最佳）实践入手，每个实践都是可以单独应用的，为了解决某个具体的问题，使用成本低，很多时候在团队内即可完成，比如自动化部署，测试团队、运维团队都能自己单独做。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1、DevOps实践
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        无论你是研发、测试还是运维，都建议你从持续集成开始，按照《持续集成：软件质量改进和风险降低之道》一书的描述，持续集成要包括版本控制、自动化构建、代码质量、自动化测试等等。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        但是大多数时候，我们都将持续集成和自动化测试分开说，大多数时候，这两个实践属于不同的部门。有一句忠告：&amp;ldquo;没有持续集成和自动化测试，敏捷就是灾难。&amp;rdquo;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1.1 版本控制
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        版本化一切是 DevOps 提倡的，包括源代码、依赖、制品配置、环境配置、应用配置、数据配置等等。版本控制将团队的协作拉到了同一水平线。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        版本控制不限于使用Git\Subversion的范畴
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        版本控制不仅仅是将代码存储到版本库，分支策略直接影响团队文化和交付方式
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        关于需求等文档的，传统的情况下都是以二进制的方式存储到版本控制系统中。使用 Confluence 管理需求版本也是不错的选择，另外，如果是技术文档，强烈推荐使用Markdown（互联网之子的杰作）管理文档，Gitlab等系统都是可以直接在线阅读Markdown的。别问为什么，因为有逼格。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        强烈反馈将依赖的二进制文件放到版本控制系统中（Gitlab、Github都提供大文件存储方案）
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        制品文件可以采用 Nexus 和 Artifactory 或者是FTP来管理，但是需要有SNAPSHOT, Staging, Release 的分层
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        Infrastructure as Code 是一个很好的实践
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        UCM（统一变更管理）依然是可以坚持的实践
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        特性开关往往和分支策略相辅相成，怕管乱了还是不要用
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1.2 自动化构建
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        标准化是自动化的前提，首先要做到将代码结构标准，类似 Maven 提倡的CoC（Convention Over Configuration）
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        另外，不建议某几个人写依赖和编译脚本，一定要让工程师自己动手
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        自动化构建的目标是编译过程完全自动化，不能存在工程师手动出版本包，出补丁用于发布的情况。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        注：构建本身涵盖编译、代码扫描、单元测试等，此处理解为编译即可。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1.3 自动化测试
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        首先需要了解测试金字塔
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        自动化测试需要专业的测试团队去推进，相信很多团队都在这么做，但是本着谁写的代码谁测试的原则，工程师要尽量写单元测试，对单元测试的覆盖率提升应该作为团队的整体目标。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1.4 代码扫描
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        代码扫描（静态和动态）关注的是代码质量，代码的质量直接影响产品的质量。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        首先需要了解技术债务，&amp;ldquo;出来混迟早都是要还的&amp;rdquo;，这句话要谨记，携程 CTO 叶亚明在总结&amp;ldquo;合格 CTO 的六要素&amp;rdquo;时，第1条是技术问题的解决能力，第2条就是具备强烈的&amp;ldquo;还债&amp;rdquo;意识。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        其次需要了解代码七宗罪：不均匀分布的复杂性、重复代码、不合适的注释、违反代码规范、缺乏单元测试、缺陷和潜在的缺陷
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        代码扫描是度量技术债务的有效方式，代码扫描的结果也应该作为 Code Review 的科学依据。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        管理技术债务的一般步骤：
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        定义代码质量标准（需要团队达成一致，签字画押都不为过）
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        可视化技术债务（度量）
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        偿还技术债务（每个迭代都可以安排少量任务偿还技术债务，相信我，没有所谓的相对空闲的迭代，互联网时代，怎么可能有工作做完的时候呢，所以要在每个迭代尽量偿还技术债务）
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        设置质量门（债务只许少不许多）
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        如果你有兴趣，可以将团队的代码质量先用SonarQube等工具量化出来，让大家看看，大家就知道问题的严重性了
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1.5 Code Review
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        Code Review 属于开发技术领域，重点强调：Code Review 一定要做，小批量的做，不要一个月，几个月来一次代码审查（强烈鄙视审查这个词）会议。Code Review是代码共享文化和团队成员相互学习成长的重要实践。代码时团队的，需要大家一起Review，帮助改进，共同学习。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1.6 自动化部署
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        关于自动化，我的理解是复杂的事务和重复的事务都应该自动化。部署属于既复杂又重复的工作，面对复杂的分布式架构，手工显然不靠谱。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        采用工具自动化部署过程
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        将测试环境的部署工作开放给测试团队
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        采用 Infrastructure as Code、虚拟化技术、容器化技术来定义部署环境
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        采用全量部署
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        金丝雀发布、蓝绿部署
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1.7 持续反馈
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        持续地将自动化构建、代码扫描、Code Review、自动化测试、自动化部署纳入到持续交付流水线，持续地做，甚至每次提交都进行构建、扫描、测试、部署。提交即构建，Merge 即构建，提交即部署，这写对自动化能力考验很高，慢慢来。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        但是持续测试和持续部署不仅仅是将自动化持续的做。业界通常的理解，持续部署和持续交付是对等的，持续部署将每次提交都进行部署，持续交付是由业务决定部署内容。Etsy 就是持续部署模式，每个新入职的工程师，第一天就是要向生产环境推送一个变更。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        此处重点是要给大家强调持续的理念。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        1.8 自动化运维
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        在我们的理解中，DevOps 重点关注的领域：持续交付+技术运营。技术运营的实践很多（参考SRE）。持续交付和技术运营的有很多实践是重叠的。技术运营也关注发布工程、测试，但是角度不同。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        对技术运营的实践尝试的不多，整理一些我了解的：
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        关于规范，可以参考老王之前共享的运维规范和开放运维联盟的《互联网应用运维标准框架》
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        监控（黑盒+白盒）
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        事故处理流程、事故分析与故障库
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        容量规划
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+
+            [![](http://attachbak.dataguru.cn/attachments/portal/201705/22/172504dsahlf3ruc4cx6lc.jpg)](http://attachbak.dataguru.cn/attachments/portal/201705/22/172504dsahlf3ruc4cx6lc.jpg)
+
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        此图中描述的 DevOps 是非常狭义的理解，不能视为做到这些就算 DevOps 。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        除了这些在工程领域常见的实践，还有云原生应用（12-Factors、Serverless）、微服务、不可变基础设施、Feature Team、Kanban 等等。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        实践大都需要工具来承载，关于工具选型，建议选择最熟悉的，可以参考 Xebialab 的 DevOps 工具周期表。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        实践不仅仅局限于工程领域，大家可以参考 Gartner 的报告：
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+
+            [![](http://attachbak.dataguru.cn/attachments/portal/201705/22/172504ubuel0c0gu0yncmn.jpg)](http://attachbak.dataguru.cn/attachments/portal/201705/22/172504ubuel0c0gu0yncmn.jpg)
+
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        无论组织和文化多么虚幻，我都还是想强调，组织文化对 DevOps 至关重要。在尝试 DevOps 实践时别忘了关注文化
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        2、DevOps 组织文化
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        DevOps 的本质是文化，是要打造团队持续试验和学习的文化。DevOps 的理论基础是精益，精益的核心是消除浪费、创造价值。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;ldquo;在信息丰富的世界里，唯一稀缺的资源就是人类的注意力&amp;rdquo;（&amp;mdash;Herbert Simon），如果我们规划、开发、测试、发布的软件产品或者服务没人用，没人喜欢，这才是最大的浪费。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        DevOps 要教会我们的是如何让团队去持续地专注于创造更有价值的产品和服务给用户。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        文化转变以信任为基础，从帮助他人开始。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        不用刻意的去打造某种文化，只需要团队与团队之间，团队成员之间的相互信任，主动帮助他人，自然会形成DevOps的核心文化：Shared Responsibility (责任共担)，在此基础上，自动化、内建质量、反馈的文化才有可能逐渐形成。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        所以很多时候，我们强调 DevOps 反对责备，责备对团队的破坏性非常大。培养 Blameless 的文化时可以在事故处理实践中，事故分析报告不责备个人或团队错误，相互推卸责任。交付稳定的高价值的服务给用户是整个团队的责任。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        2.1 公司内部松散的 DevOps 社区
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        关于在组织或团队内部培养 DevOps 文化，可以尝试组建内部松散的 DevOps 小组（圈子，社区）并和外部的 DevOps 社区形成联系。内部DevOps小组可以将跨职能，跨团队的同事都圈在一起，大家可以互相借鉴好的做法，互相帮助解决问题。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        和外部 DevOps 社区的联系，比如邀请外部社区大牛加入内部圈子，大家相互成长。这样对引入外部的优秀理念和实践及工具，培养内部松散协作，互相帮助的文化是很有帮助的。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        尤其是当你的所在的团队还有很多人不了解 DevOps 的时候，内部圈子作用明显。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        2.2 The Satir Change Model
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        这是人们抗拒变革的曲线模型：1.初期阶段 2.抵抗阶段 3\. 混乱阶段 4\. 整合阶段 &amp;nbsp;5\. 新阶段。
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+
+            [![](http://attachbak.dataguru.cn/attachments/portal/201705/22/172505xbd9h2f82bpcb999.png)](http://attachbak.dataguru.cn/attachments/portal/201705/22/172505xbd9h2f82bpcb999.png)[![](http://attachbak.dataguru.cn/attachments/portal/201705/22/172505qv2hvv15cevlyvht.png)](http://attachbak.dataguru.cn/attachments/portal/201705/22/172505qv2hvv15cevlyvht.png)
+
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        &amp;nbsp;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;margin: 0px; padding: 0px; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑, 宋体; font-size: 16px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;
+        任何的变革都会引发阻力，这是必然。我们不能因为大家都不做，不支持，就不做正确的事。我们做 DevOps 需要一点一点往前拱。
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p></p></div><p></p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

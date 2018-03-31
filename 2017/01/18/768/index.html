@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>第一篇：数据中心运维模型之我见</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/18/768/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">第一篇：数据中心运维模型之我见</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-18</span>
+      
+      <a href="/categories/数据中心运维/" title="数据中心运维" class="post-categories">数据中心运维</a>
+      
+      
+      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53480&amp;extra=page%3D1" target="_blank" rel="external">http://bbs.vmsky.com/forum.php?mod=viewthread&amp;tid=53480&amp;extra=page%3D1</a></p>
+<pre><code>**&lt;font color=&quot;#444444&quot; face=&quot;Tahoma&quot; size=&quot;3&quot;&gt;原创文章，转载时请写明&amp;ldquo;vmsky论坛&amp;rdquo;和作者&amp;ldquo;老同志lawson&amp;rdquo;。&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/font&gt;**&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;从实际经验来看，每个企业的数据中心运维上都不会是十全十美的，因为毕竟企业业务发展是迅速的，对IT的要求相应也是也是越来越高，越来越复杂，所以无论是在运维团队架构上，还是在具体的管理层面上，尽管现实空间有限，但都有很多值得调整的空间和余地，且听我道来！&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;先看看这张运维模型，了解一下企业运维到底包括了那些东西：&lt;/span&gt;
+
+![](http://bbs.vmsky.com/data/attachment/album/201601/12/141646a8wco2z3z5kvw88w.png)
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;企业运维包括了四象限：人员、管理、工具和业务。对于人员，通常企业有两种结构：一种是功能性驱动，比如机房维护团队、IT基础架构运维团队、应用维护团队等；另一种是管理流程驱动分组，例如：事件管理流程团队、问题管理流程团队、变更和发布流程团队等，这种团队大多数根据企业管理的实际需要和管理制度要求设定，人员从各个功能性驱动团队中选取，临时组建。功能性驱动团队人员结构、人数、人员、功能等基本固定，在企业中作为正式的管理组织，基本保持稳定的状态，如果调整，肯定是属于动静比较大的动作；而管理流程驱动团队，是临时根据管理需要设定，人员结构、人数、人员安排皆根据企业实际管理需要设定，所以组织灵活，随时设立，随时调整。所以这两者最大的区别是灵活性，而灵活性对于企业来说事最重要的生存要素！再说说管理，管理也发两种，一种是企业的管理制度，另一种是根据企业发展要求设定的管理制度和管理要求，或者说是管理流程，例如ITIL流程、OA管理流程、ISO20000、CMMI等。管理制度的基本点都是企业在很长时间发展起来的基本要求，所以改的难度很大，但是管理流程是灵活的，可变的。讲到这里，大家明白了吧，如果企业最求管理价值的最大化和业务发展的匹配度，那最好的办法就是通过管理流程的实施和管理流程驱动团队的设定来实现，一方面保持企业管理具有足够的灵活度，另一方面又在灵活的基础上保证企业稳定的发展。这就是为什么做IT服务管理（ITSM）或者ITIL项目时，需要在实施管理流程的同时设立相应的管理模块团队，保证管理流程的顺利实施。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;再说说工具层面。所谓工具实际上指的的通过技术层面的提高去提高运维的能力和水平。例如使用堡垒机来保证运维相关账号和权限的安全，通过监控来保证对数据中心业务各个层面（OS、DB、中间件、应用、网络、存储等）的监控，讲一句口号就是&amp;ldquo;全监控、全覆盖&amp;rdquo;。这种技术层面的实施可以保证运维的稳定性和运维效率，确保运维符合业务发展的要求和行业或监管部门的要求。技术层面和管理层面最大的区别就是在&amp;ldquo;人&amp;rdquo;上！综合监控算是企业中实施比较复杂的项目，但也基本上就涉及到运维部门的相关人员，和其他部门没有关系。但是如果实施ITIL项目，那涉及到面就广了，不仅运维要参与，研发部门要参与，测试部门要参与，财务部门要参与，后勤管理部门要参与等等，将来ITIL项目上线，各个部门的都要使用。所以管理层面和技术层面最大的区别就在&amp;ldquo;人&amp;rdquo;上，因而难度也在&amp;ldquo;人&amp;rdquo;上 。以监控项目为例，实施时刚开始难，因为管理员对这个东西一开始认识不清晰，不了解，所以难，但一旦了解后，速度就加快了，结项也好结；流程项目相反，做前期流程概念宣贯的时候，大家基本上都你好我好，但一旦管理上的改变涉及到具体的人后，那这种反作用就大多了，开始好开，但想结项就难了，我见过的流程项目没有一个不延期的。所以无论是甲方，还是乙方对于项目的不同特点，一定要了解，心里做好预案。忠告一句，在实施管理类项目时，尽可能不动管理架构，多使用临时性的管理组织来减少对现有人员的压力！&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp; 最后说说业务。企业基本上不是卖产品，就是卖服务，或者这两者都卖。但无论卖什么，我们运维存在的价值就是保证业务的稳定发展，不出什么幺蛾子。现在云时代已来，&lt;/span&gt;虚拟化&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;成为我们企业数据中心发展的主流。虚拟化的到来，实际是硬币的两面。一方面提高了企业运维的灵活度和弹性，但另一方面也对运维人员提出了更高的要求，不仅要了解传统的业务系统，还是了解虚拟化的特点和架构。有些人在讨论虚拟化对运维的影响，我的看法是，虚拟化和云的到来，减少了运维人员的数量，但是增加了运维人员的质量和难度。&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;聊了这么多，能帮到我们什么呢？从这四象限来看，运维是个整体，环环相扣。我们做了管理制度和管理架构的调整，就能很大程度上提高运维能力吗？不一定，因为工具层面会限制管理制度的先进性。例如我们不做全面的监控，那我们可能大多数情况下，只能人肉监控，无论是从监控的全面性，还是监控的实时性都差的很多，这种情况下，事件管理流程会忙的不可开交，而且很容易就进入紧急状态，人员都会疲于奔命，这时候有人会进入问题管理流程，深入探讨系统深层次问题吗？反过来说，只做工具层面的事，不做管理制度的调整，能提高运维水平吗？答案也是不能。监控项目完成后，会有大量的监控告警事件产生，需要管理员处理，没有事件管理流程，不做事件分级，那你去看吧，运维的人将会不堪其扰，根本就处理不过来，最后等所有人都疲了的时候，就是监控系统弃之不用的时间了。所以我们在做任何运维调整的时候都要考虑其他象限可能产生的影响，进而在项目前将这些影响考虑进来，免得到时手忙脚乱！&lt;/span&gt;
+
+&lt;span style=&quot;color: rgb(68, 68, 68); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Tahoma, &amp;quot;Microsoft Yahei&amp;quot;, Simsun; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;最后简单说一句：一动不动，一动全动！&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux-3.14.12内存管理笔记【构建内存管理框架（4）】</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/12/12/696/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux-3.14.12内存管理笔记【构建内存管理框架（4）】</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-12-12</span>
+      
+      <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4782816.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-26859697-id-4782816.html</a></p>
+<pre><code>虽说前文分析内存管理框架构建的实现，提到了&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;find_zone_movable_pfns_for_nodes()&lt;/span&gt;，但这里不准备复述什么，仅针对&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;required_movablecore&lt;/span&gt;和&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;required_kernelcore&lt;/span&gt;做一个补充。
+
+以&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;required_movablecore&lt;/span&gt;为例，代码中没有很清晰地表明该值从何而来，仅有一处&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;cmdline_parse_movablecore()&lt;/span&gt;疑似赋值的实现：
+</code></pre><div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: 0.1px; overflow: auto; word-spacing: 0px; white-space: normal; -ms-word-break: break-all; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;"><br><br>1.  <span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>page_alloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c】</span><br>2.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span><br>3.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> movablecore<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span>size sets the amount of memory <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> use <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> allocations that<br>4.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> can be reclaimed <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">or</span> migrated<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span><br>5.  &nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>6.  static <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> __init cmdline_parse_movablecore<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>char <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>7.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>8.  &nbsp;&nbsp;&nbsp;&nbsp;return cmdline_parse_core<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span>required_movablecore<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>9.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br></div>
+
+<pre><code>而其中&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;cmdline_parse_core()&lt;/span&gt;实现：
+</code></pre><div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: 0.1px; overflow: auto; word-spacing: 0px; white-space: normal; -ms-word-break: break-all; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;"><br><br>1.  <span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>page_alloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c】</span><br>2.  static <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> __init cmdline_parse_core<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>char <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> unsigned long <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span>core<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>3.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>4.  &nbsp;&nbsp;&nbsp;&nbsp;unsigned long long coremem<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>5.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>6.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span>EINVAL<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>7.  &nbsp;<br>8.  &nbsp;&nbsp;&nbsp;&nbsp;coremem <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> memparse<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>9.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>core <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> coremem <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span> PAGE_SHIFT<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>10.  &nbsp;<br>11.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span> Paranoid check that UL <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">is</span> enough <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> the coremem value <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">*</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>12.  &nbsp;&nbsp;&nbsp;&nbsp;WARN_ON<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>coremem <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span> PAGE_SHIFT<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span> ULONG_MAX<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>13.  &nbsp;<br>14.  &nbsp;&nbsp;&nbsp;&nbsp;return 0<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>15.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br></div>
+
+<pre><code>可以推测其值是由此而来，继而可以找到：
+</code></pre><div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: 0.1px; overflow: auto; word-spacing: 0px; white-space: normal; -ms-word-break: break-all; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;"><br><br>1.  <span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>mm<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>page_alloc<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c】</span><br>2.  early_param<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(255, 0, 255); -ms-word-wrap: break-word;">&quot;movablecore&quot;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> cmdline_parse_movablecore<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br></div>
+
+<pre><code>&amp;nbsp;
+
+这是一个函数注册宏，该宏展开后：
+
+static const char __setup_str_cmdline_parse_movablecore[] __attribute__ ((__section__(&amp;quot;.init.rodata&amp;quot;))) __attribute__((aligned(1))) = &amp;quot;movablecore&amp;quot;; static struct obs_kernel_param __setup_cmdline_parse_movablecore __attribute__((__used__)) __attribute__ ((__section__(&amp;quot;.init.setup&amp;quot;))) __attribute__((aligned((sizeof(long))))) = { __setup_str_cmdline_parse_movablecore, cmdline_parse_movablecore, 1 }
+
+由此借用于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;__section__&lt;/span&gt;属性定义，编译器通过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;arch/x86/kernel/vmlinux.lds&lt;/span&gt;链接脚本把&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;__setup_cmdline_parse_movablecore&lt;/span&gt;放置在&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;.init.setup&lt;/span&gt;段中。
+
+注册的函数将会在&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;do_early_param()&lt;/span&gt;中调用，相关代码：
+</code></pre><div class="codeText" id="codeText" style="background: rgb(255, 255, 255); font: 12px/normal Consolas, monospace; margin: 0px 0px 1.1em; padding: 0px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 1252.19px; text-align: left; color: rgb(102, 102, 102); text-transform: none; text-indent: 0px; letter-spacing: 0.1px; overflow: auto; word-spacing: 0px; white-space: normal; -ms-word-break: break-all; -ms-word-wrap: break-word; orphans: 2; widows: 2; font-size-adjust: none; font-stretch: normal; -webkit-text-stroke-width: 0px;"><br><br>1.  <span style="color: rgb(0, 0, 0); -ms-word-wrap: break-word;">【file<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">:</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>init<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span>main<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span>c】</span><br>2.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> Check <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> early params<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>3.  static <span style="color: rgb(255, 0, 0); -ms-word-wrap: break-word;">int</span> <strong>init do_early_param<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>char <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>param<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> char <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span>val<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">const</span> char <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span>unused<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>4.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>5.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">const</span> struct obs_kernel_param <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>6.  &nbsp;<br>7.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">for</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>p <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> </strong>setup_start<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> p <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&lt;</span> __setup_end<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span> p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">+</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">+</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>8.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>early <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span> parameq<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>param<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>str<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">|</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">|</span><br>9.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>strcmp<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>param<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(255, 0, 255); -ms-word-wrap: break-word;">&quot;console&quot;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> 0 <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&amp;</span><br>10.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strcmp<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>str<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> <span style="color: rgb(255, 0, 255); -ms-word-wrap: break-word;">&quot;earlycon&quot;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> 0<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>11.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">{</span><br>12.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255); -ms-word-wrap: break-word;">if</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>p<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">-</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">&gt;</span>setup_func<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span>val<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">!</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">=</span> 0<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><br>13.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pr_warn<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">(</span><span style="color: rgb(255, 0, 255); -ms-word-wrap: break-word;">&quot;Malformed early option &#39;%s&#39;\n&quot;</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">,</span> param<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">)</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>14.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br>15.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br>16.  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"><em></em></span> We accept everything at this stage<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">.</span> <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;"></span><span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">/</span><br>17.  &nbsp;&nbsp;&nbsp;&nbsp;return 0<span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">;</span><br>18.  <span style="color: rgb(0, 0, 204); -ms-word-wrap: break-word;">}</span><br></div>
+
+<pre><code>&amp;nbsp;
+
+可以看到借助于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;__setup_start&lt;/span&gt;和&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;__setup_end&lt;/span&gt;的范围标记，将遍历&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;.init.setup&lt;/span&gt;段中的排布的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;obs_kernel_param&lt;/span&gt;结构体，找到匹配的字符串及&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;early&lt;/span&gt;成员为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;true&lt;/span&gt;的情况下，将会调用其中的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;setup_func&lt;/span&gt;钩子函数，由此将对应数据初始化。
+
+do_early_param()函数在初始化时的调用关系：
+</code></pre><blockquote>
+<p>start_kernel()</p>
+<pre><code>-&amp;gt;setup_arch()
+
+
+-&amp;gt;parse_early_param()
+
+
+-&amp;gt;parse_early_options()
+
+
+-&amp;gt;parse_args()
+
+
+-&amp;gt;parse_one()
+
+
+-&amp;gt;do_early_param()
+</code></pre></blockquote>
+<pre><code>这里只能说明&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;required_movablecore&lt;/span&gt;和&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;required_kernelcore&lt;/span&gt;在何处初始化的，而其值的由来呢？其值通过入参传递，在&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;parse_early_param()&lt;/span&gt;函数中通过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;strlcpy()&lt;/span&gt;来自于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;boot_command_line&lt;/span&gt;全局变量。而&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;boot_command_line&lt;/span&gt;早期则是在&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;/arch/x86/kernel/head_32.s&lt;/span&gt;的初始化中来自于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;boot_params&lt;/span&gt;。具体 &lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;do_early_param()&lt;/span&gt;处理的数据来自于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;grub.cfg&lt;/span&gt;，也就是说&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;required_movablecore&lt;/span&gt;和&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;required_kernelcore&lt;/span&gt;也是来自于此。
+
+好了，暂且分析至此，避免走偏了，该文也是一时好奇钻研了一下，记之以作备忘。
+
+&amp;nbsp;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

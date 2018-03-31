@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>linux 安装mysql5.6.32 -rpm版本</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2016/08/23/292/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">linux 安装mysql5.6.32 -rpm版本</h1>
+    <p class="post-meta">
+      <span class="post-time">2016-08-23</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="font-size: 16px;"><span style="font-family: times new roman,times,serif;">系统centos6.7</span></span></p>
+<pre><code>在安装前要先确定系统是否已经安装了其他版本的MySQL,如已安装其他版本的MySQL，需先删除后再安装新版本。&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;1.删除MySQL的lib库，服务文件&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); text-transform: none; line-height: 21px; text-indent: 0px; letter-spacing: normal; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;rpm&amp;nbsp;-qa&amp;nbsp;mysql*&amp;nbsp;|xargs&amp;nbsp;rpm&amp;nbsp;-e&amp;nbsp;--nodeps&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&amp;nbsp;2.&amp;nbsp;执行find命令，查找MySQL的残留文件，然后运行&amp;ldquo;rm -rf&amp;nbsp;文件名&amp;rdquo;删除残留的MySQL文件&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;background-color: inherit;&quot;&gt;&lt;font style=&quot;background-color: inherit;&quot;&gt;&amp;nbsp;find / -name mysql |xargs rm -rf&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+</code></pre><div style="text-align: left; color: rgb(0, 0, 0); text-transform: none; line-height: 21px; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑; font-size: 14px; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; widows: 1; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font-size: 16px;"><span style="font-family: times new roman,times,serif;"><font style="background-color: inherit;">find&nbsp;/&nbsp;-name&nbsp;my.cnf*&nbsp;|xargs&nbsp;rm&nbsp;-rf</font></span></span><br></div>
+
+<pre><code>&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;yum install libaio -y
+
+&amp;nbsp;下载地址
+
+[ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/](ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/)&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;1.安装mysql
+
+groupadd mysql
+
+useradd -r -g mysql mysql
+
+mkdir -p /data/mysql/data/
+
+mkdir -p /data/mysql/log/
+
+chown -R mysql.mysql&amp;nbsp; /data/mysql/
+
+&amp;nbsp;rpm -ivh [ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/MySQL-5.6/MySQL-server-5.6.32-1.el6.x86_64.rpm](ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/MySQL-5.6/MySQL-server-5.6.32-1.el6.x86_64.rpm)
+
+&amp;nbsp;rpm -ivh [ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/MySQL-5.6/MySQL-client-5.6.32-1.el6.x86_64.rpm](ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/MySQL-5.6/MySQL-client-5.6.32-1.el6.x86_64.rpm)
+
+&amp;nbsp;rpm -ivh [ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/MySQL-5.6/MySQL-devel-5.6.32-1.el6.x86_64.rpm](ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/MySQL-5.6/MySQL-devel-5.6.32-1.el6.x86_64.rpm)
+
+&amp;nbsp;rpm -ivh [ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/MySQL-5.6/MySQL-shared-compat-5.6.32-1.el6.x86_64.rpm](ftp://ftp.stu.edu.tw/pub/Unix/Database/Mysql/Downloads/MySQL-5.6/MySQL-shared-compat-5.6.32-1.el6.x86_64.rpm)
+
+&amp;nbsp;
+
+mysql使用rpm安装使用默认信息如下：
+
+1）数据库默认目录 /var/lib/mysql/
+
+2)配置文件 /usr/share/mysql (mysql.server命令及配置文件 ）
+
+3）相关命令 /usr/bin/&amp;nbsp; (mysqladmin&amp;nbsp; mysqldump)
+
+4)启动脚本 /etc/rc.d/init.d/mysql start
+
+5)默认端口是3306&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;安装完mysqlserver时，会提示以下信息：
+
+A RANDOM PASSWORD HAS BEEN SET FOR THE MySQL root USER !
+
+You will find that password in &amp;#39;/root/.mysql_secret&amp;#39;.&amp;nbsp;
+
+&amp;nbsp;You must change that password on your first connect,no other statement but &amp;#39;SET PASSWORD&amp;#39; will be accepted.
+
+See the manual for the semantics of the &amp;#39;password expired&amp;#39; flag.
+
+&amp;nbsp;Also, the account for the anonymous user has been removed. In addition, you can run:
+
+&amp;nbsp; /usr/bin/mysql_secure_installation
+
+which will also give you the option of removing the test database. This is strongly recommended for production servers.
+
+&amp;nbsp;New default config file was created as /usr/my.cnf andwill be used by default by the server when you start it. You may edit this file to change server settings
+
+&amp;nbsp;#####
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;执行&lt;/span&gt;
+
+&amp;nbsp;chown -R mysql:mysql /var/lib/mysql
+
+&amp;nbsp;chmod -R 777 /var/lib/mysql
+
+chown mysql.mysql /usr/my.cnf
+
+自定义mysql
+
+修改&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;vi /usr/my.cnf&lt;/span&gt;---删除所有内容，添加以下内容&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;[mysqld]
+
+port=3306
+
+datadir =/data/mysql/data
+
+socket = /data/mysql/mysql.sock
+
+pid-file=/data/mysql/mysql.pid
+
+user=mysql
+
+character-set-server=utf8
+
+lower_case_table_names= 1
+
+max_connect_errors=500
+
+max_connections=2000
+
+binlog_format=mixed
+
+lower_case_table_names=1
+
+skip_name_resolve = 1&lt;/span&gt;&lt;/span&gt;
+</code></pre><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <span style="background-color: rgb(255, 255, 255);"><font face="Times New Roman" style="background-color: inherit;">group_concat_max_len = 102400</font></span><br>    </div><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <div style="background-color: inherit;"><br>            <div style="background-color: inherit;"><br>                <span style="background-color: rgb(255, 255, 255);"><font face="Times New Roman" style="background-color: inherit;">open_files_limit = 102400</font></span><br><br>                <span style="font-size: 16px;"><span style="font-family: times new roman,times,serif;">#log-setup<br><br>                expire_logs_days=30<br><br>                long_query_time=3<br><br>                slow_query_log=1<br><br>                slow_query_log_file=/data/mysql/log/slow_query.log<br><br>                log_error=/data/mysql/log/error3306.log<br><br>                log-bin=/data/mysql/log/logbin.log<br><br>                log-error=/data/mysql/log/logerr.log<br><br>                log_output=file<br><br>                #general_log=ON<br><br>                #general_log_file=/data/mysql/log/general3306.log<br><br>                innodb_log_file_size=256M<br><br>                innodb_log_files_in_group=3<br><br>                #master-SyncSetup<br><br>                server-id = 1<br><br>                sync_binlog = 2<br><br>                innodb_support_xa = 1<br><br>                log-slave-updates<br><br>                log_bin_trust_function_creators=1<br><br>                auto_increment_offset=1<br><br>                auto_increment_increment=1<br><br>                innodb_flush_log_at_trx_commit=2<br><br>                sql_mode=STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_AUTO_VALUE_ON_ZERO</span></span><br>            </div><br>        </div><br>    </div><br></div>
+
+<pre><code>&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;#######
+
+&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); text-transform: none; line-height: 24px; text-indent: 0px; letter-spacing: normal; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;因为我们自定义了路径和参数，所以&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); text-transform: none; line-height: 24px; text-indent: 0px; letter-spacing: normal; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;需要&lt;span style=&quot;text-align: left; color: rgb(0, 0, 0); font-style: normal; font-weight: normal; background-color: rgb(255, 255, 255);&quot;&gt;初始化数据&lt;/span&gt;。&lt;/span&gt;
+
+# &lt;span style=&quot;text-align: left; color: rgb(255, 0, 0); text-transform: none; line-height: 21px; text-indent: 0px; letter-spacing: normal; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;mysql_install_db&amp;nbsp;--defaults-&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(255, 0, 0); text-transform: none; line-height: 21px; text-indent: 0px; letter-spacing: normal; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: inherit; -webkit-text-stroke-width: 0px;&quot;&gt;file&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(255, 0, 0); text-transform: none; line-height: 21px; text-indent: 0px; letter-spacing: normal; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(255, 0, 0); text-transform: none; line-height: 21px; text-indent: 0px; letter-spacing: normal; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: inherit; -webkit-text-stroke-width: 0px;&quot;&gt;/usr/my&lt;/span&gt;&lt;span style=&quot;text-align: left; color: rgb(255, 0, 0); text-transform: none; line-height: 21px; text-indent: 0px; letter-spacing: normal; font-style: normal; font-variant: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;&quot;&gt;.cnf&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;要过一会才完成，可以查看进度tail -f /data/mysql/log/logerr.log
+
+完成后提示
+
+###
+
+&amp;nbsp; /usr/bin/mysqladmin -u root password &amp;#39;new-password&amp;#39;
+
+&amp;nbsp; /usr/bin/mysqladmin -u root -h localhost.localdomain password &amp;#39;new-password&amp;#39;
+
+Alternatively you can run:
+
+&amp;nbsp; /usr/bin/mysql_secure_installation
+
+which will also give you the option of removing the test
+
+databases and anonymous user created by default.&amp;nbsp; This is
+
+strongly recommended for production servers.
+
+See the manual for more instructions.
+
+You can start the MySQL daemon with:
+
+&amp;nbsp; cd /usr ; /usr/bin/mysqld_safe &amp;amp;
+
+##################&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;现在在启动mysql
+
+/usr/bin/mysqld_safe --defaults-file=/usr/my.cnf&amp;nbsp; &amp;amp;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;初始化root密码：
+
+因为我们在my.cnf自定义mysql.sock路径，所有要加mysql.sock路径
+
+登录用
+
+&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;mysql -S /data/mysql/mysql.sock&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;配置允许登陆。
+
+mysql&amp;gt;use mysql;
+
+mysql&amp;gt; select host,user,password from user;&amp;nbsp; - 查看现有用户,密码及允许连接的主机
+
+mysql&amp;gt; update user set password=password(&amp;#39;123456&amp;#39;) where user=&amp;#39;root&amp;#39;;&amp;nbsp; -----修改root密码
+
+mysql&amp;gt; grant all privileges on *.* to [root@&amp;#39;127.0.0.1&amp;#39;](mailto:root@) identified by &amp;#39;123456&amp;#39;;&amp;nbsp; ---本地127.0.0.1访问
+
+mysql&amp;gt; grant all privileges on *.* to [root@&amp;#39;localhost&amp;#39;](mailto:root@) identified by &amp;#39;123456&amp;#39;; ---本地localhost访问
+
+mysql&amp;gt; grant all privileges on *.* to [root@&amp;#39;%&amp;#39;](mailto:root@) identified by &amp;#39;123456&amp;#39;;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ---&amp;lsquo;%&amp;rsquo; 任意ip访问
+
+mysql&amp;gt; flush privileges;
+
+mysql&amp;gt; exit&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;这样就可以本地登录了。
+
+mysql -S /data/mysql/mysql.sock -uroot -p&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;加入自启动
+
+chkconfig --add mysql
+
+chkconfig mysql on&lt;/span&gt;&lt;/span&gt;
+</code></pre><div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font-size: 16px;"><span style="font-family: times new roman,times,serif;">关闭服务：</span></span><br></div>
+
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <span style="font-size: 16px;"><span style="font-family: times new roman,times,serif;">mysqladmin&nbsp;-S&nbsp;/data/mysql/mysql.sock&nbsp;-u&nbsp;root&nbsp;-p&nbsp;shutdown</span></span><br></div>
+
+<pre><code>&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;如果用mysql默认的my.cnf文件，就可以用如下方法--初始化root密码
+
+方法1：
+
+第一次登陆，查看默认root密码：
+
+cat /root/.mysql_secret&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; #查看root账号的初始密码，会出现下述所示信息
+
+# The random password set for the root user at Mon Aug 25 10:26:57 2014 (local time): ZFRmqNPoFH3aO5PU
+
+或者cat /root/.mysql_secret |awk -F &amp;#39;:&amp;#39; &amp;#39;{print $4}&amp;#39;
+
+mysql -uroot -pZFRmqNPoFH3aO5PU&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; #使用root账号登陆MySQL
+
+mysql&amp;gt; set password=password(&amp;#39;123456&amp;#39;);&amp;nbsp;&amp;nbsp; ＃更改MySQL密码，注意;不可少&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;exit　　＃退出
+
+mysql -uroot -p123456&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; #使用新密码登陆
+
+进入mysql&amp;gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;font-family: times new roman,times,serif;&quot;&gt;方法2：更换root密码， mysql_secure_installation，
+
+[root@centos6 /]# mysql_secure_installation
+
+Enter current password for root (enter for none):&amp;nbsp;&amp;nbsp;&amp;nbsp; #输入上面/root/.mysql_secret的初始密码
+
+OK, successfully used password, moving on..
+
+Change the root password? [Y/n] Y
+
+New password:
+
+Re-enter new password:
+
+Password updated successfully!
+
+Remove anonymous users? [Y/n] Y&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;&amp;ndash; 是否删除匿名用户,生产环境建议删除，
+
+Disallow root login remotely? [Y/n] N&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;&amp;ndash;是否禁止root远程登录,根据自己的需求选择Y/n并回车,建议禁止
+
+Remove test database and access to it? [Y/n] Y&amp;nbsp; &amp;lt;&amp;ndash; 是否删除test数据库
+
+Reload privilege tables now? [Y/n]&amp;nbsp;&amp;nbsp; ] &amp;lt;&amp;ndash; 是否重新加载权限表，直接回车
+
+All done!&amp;nbsp; If you&amp;#39;ve completed all of the above steps, your MySQL
+
+installation should now be secure.
+
+Thanks for using MySQL!
+
+&amp;nbsp;在输入mysql -uroot -p，就可以用新密码了
+
+&amp;nbsp;#############&lt;/span&gt;&lt;/span&gt;
+
+&amp;nbsp;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

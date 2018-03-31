@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>在 Linux 系统下使用 PhotoRec &amp; TestDisk 工具来恢复文件</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/05/25/1011/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">在 Linux 系统下使用 PhotoRec &amp; TestDisk 工具来恢复文件</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-05-25</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      <a href="/categories/linux/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span class="z textcut" style="text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; overflow: hidden; font-family: &quot;Lantinghei SC&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, Arial, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: left; white-space: nowrap; -ms-word-wrap: break-word; -ms-text-overflow: ellipsis; max-width: 60%; orphans: 2; widows: 2; user-select: text; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">编译自：<a href="http://www.tecmint.com/photorec-recover-deleted-lost-files-in-linux/" target="_blank" rel="external">http://www.tecmint.com/photorec-recover-deleted-lost-files-in-linux/</a></span><span class="y" style="text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; padding-left: 5px; font-family: &quot;Lantinghei SC&quot;, &quot;Helvetica Neue&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, Arial, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: right; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; user-select: text; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">作者： Aaron Kili</span></p>
+<pre><code>&lt;span class=&quot;z&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: left; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; user-select: text; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;原创：[LCTT](https://linux.cn/lctt/) [https://linux.cn/article-8122-1.html](https://linux.cn/article-8122-1.html)&lt;/span&gt;&lt;span class=&quot;y&quot; style=&quot;text-align: left; color: rgb(153, 153, 153); text-transform: none; text-indent: 0px; letter-spacing: normal; padding-left: 5px; font-family: &amp;quot;Lantinghei SC&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, 微软雅黑, Arial, STHeiti, &amp;quot;WenQuanYi Micro Hei&amp;quot;, SimSun, sans-serif; font-size: 12px; font-style: normal; font-weight: normal; word-spacing: 0px; float: right; white-space: normal; -ms-word-wrap: break-word; orphans: 2; widows: 2; user-select: text; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;译者： [rusking](https://linux.cn/lctt/rusking)&lt;/span&gt;
+
+当你在系统中有意或无意地使用 `shift + delete` 组合键、删除选项，或是清空回收站的方式来[删除](https://linux.cn/article-5473-1.html)一个文件时，该文件的内容并没有从硬盘（或是其它存储设备）上直接销毁。
+
+它仅仅是从系统的目录结构中被移除，然后你在删除文件的目录下就看不到该文件了，但是这个文件仍然存在你磁盘中的某个位置上。
+
+如果你有一个合适的工具和相关的专业知识，你就可以[从电脑中恢复已丢失的文件](https://linux.cn/article-7974-1.html)。然而，随着你存储的文件越来越多，删除的文件将会被覆盖，你可能只能恢复最近删除的文件了。
+
+在这篇文章中，我们将阐明如何在 Linux 系统中使用 **TestDisk** 来恢复硬盘上已删除或丢失的文件，它是非常优秀的修复工具，随一款免费的叫做 **PhotoRec** 的工具发布。
+
+**PhoteRec** 工具用于从存储介质比如硬盘，数码相机和 cdrom 设备中恢复丢失的文件。（LCTT 译注：PhotoRec 的意思是 Photo Recovery，不是 Photo Recorder。）
+
+&amp;nbsp;
+</code></pre><p>###<br>    在 Linux 系统中安装 TestDisk（PhotoRec）</p>
+<pre><code>在系统中执行以下相关的命令来安装 **TestDisk**： &amp;nbsp;
+</code></pre><ol>
+<li><code>&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;On&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Debian&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Ubuntu&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Linux&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Mint&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;apt-get&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; install testdisk&lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;On&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;CentOS&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;RHEL&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Fedora&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;yum&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; install testdisk&lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;On&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Fedora&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;lit&quot; style=&quot;color: rgb(51, 135, 204); -ms-word-wrap: break-word; user-select: text;&quot;&gt;22&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; dnf install testdisk &lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;On&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Arch&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Linux&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;$ pacman &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;S testdisk &lt;/span&gt;</code></li>
+<li><code>&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;On&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;typ&quot; style=&quot;color: rgb(137, 189, 255); -ms-word-wrap: break-word; user-select: text;&quot;&gt;Gentoo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;-------&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; &lt;/span&gt;</code></li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;$ emerge testdisk &lt;/span&gt;</code></p>
+<p>如果你的 Linux 系统仓库中没有这个安装包，可以从 <a href="http://www.cgsecurity.org/wiki/TestDisk_Download" target="_blank" rel="external">这里</a> 下载然后在 Live CD 中运行即可。</p>
+<p>这个安装包也可以在应急修复 CD 工具中找到，比如 Gparted LiveCD 、&nbsp;Parted Magic 、 Ubuntu Boot CD 、 Ubuntu-Rescue-Remix&nbsp;及其它工具等。</p>
+<p>安装完成之后，使用 root 账号权限打开文本窗口，启动 <strong>PhotoRec</strong>，并指定已删除文件的分区： &nbsp;</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;kwd&quot; style=&quot;color: rgb(226, 137, 100); -ms-word-wrap: break-word; user-select: text;&quot;&gt;sudo&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt; photorec &lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;dev&lt;/span&gt;&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;sda3&lt;/span&gt;</code></p>
+<p>你将会看到下面的交互界面：</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215122hn7lufcoo4lofexs.png" alt="PhotoRec Data Recovery Tool for Linux"></p>
+<p><em>Linux 系统 PhotoRec 数据恢复工具</em></p>
+<p>使用左右箭头选择菜单选项，按回车键确认。要继续恢复操作，选择 <code>[Proceed]</code> 并单击 Enter。</p>
+<p>你将看到下面的界面：</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215122ifo0puub0o5uzazb.png" alt="Select Partition to Proceed File Recovery"></p>
+<p><em>选择分区进行文件恢复</em></p>
+<p>选择 <code>[Options]</code> 来查看可用的恢复选项，如下图所示：</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215124boucxkiv0rcqcozr.png" alt="Linux File Recovery Options"></p>
+<p><em>Linux 系统文件恢复选项</em></p>
+<p>按 <code>Q</code>&nbsp; 返回，在下图界面，你可以指定你想要查询并恢复的文件扩展名。因此，选择&nbsp;<code>[File Opt]</code>，按回车键确认。</p>
+<p>按 <code>s</code> 来选择或取消选择所有的文件扩展名，如果你已经取消选择了所有的文件扩展名，只需要使用向右箭头选择你想要恢复的文件类型即可（或者按向左箭头取消选择）。</p>
+<p>例如，我想恢复所有系统中丢失的 <code>.mov</code> 类型的文件：</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215125xbj0b0bjmqgvz00s.png" alt="Specify Recovery File Type"></p>
+<p><em>指定恢复文件类型</em></p>
+<p>按 <code>b</code> 键保存设置，之后你应该看到如下图所示信息。单击回车键返回（或者按 <code>Q</code> 键），再按 <code>Q</code> 键返回到主界面。</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215125uiffvlb7plllvlie.png" alt="Save File Recovery Settings"></p>
+<p><em>保存文件恢复设置</em></p>
+<p>现在选择 <code>[Search]</code> 开始文件恢复。在下图中，选择存储文件分区的文件系统类型，然后按回车键。</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215127n9mdzj0mm09006u0.png" alt="Select Filesystem to Recover Deleted Files"></p>
+<p><em>选择文件系统类型来恢复删除的文件</em></p>
+<p>下一步，如下图所示，选择是仅对空闲空间还是整个分区进行分析。注意选择整个分区将会让操作过程变得更长更慢。选择合适的选项后，按回车键继续。</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215127nie1ttinhmv6jivb.png" alt="Choose Filesystem to Analyze"></p>
+<p><em>选择文件系统进行分析</em></p>
+<p>选择一个目录用于存储将要恢复的文件，选择完成之后，按 <code>C</code> 键继续。选择不同分区的目录，以避免当更多的文件存储在这个分区时覆盖掉已删除的文件。</p>
+<p>按向左箭头返回到根分区下。</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215129pmtfm9nznm6k8ms6.png" alt="Select Directory to Save Recovered Files"></p>
+<p><em>选择要保存恢复文件的目录</em></p>
+<p>下图显示正在被恢复的指定类型的已删除文件。你可以按回车键来停止操作。</p>
+<p><strong>注意</strong>：在恢复的过程中，你的系统会变得很慢，很可能会卡住一段时间，请耐心等待直至恢复完成。</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215130lmff9qdd3dch2c7z.png" alt="Recovering Deleted Files in Linux"></p>
+<p><em>在 Linux 系统中恢复已删除的文件</em></p>
+<p>最后， <strong>Photorec</strong> 工具将会显示出已恢复文件的数量及保存的路径。</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201701/16/215130caquld9mkmwum7mk.png" alt="Linux File Recovery Summary"></p>
+<p><em>Linux 文件恢复情况汇总</em></p>
+<p>默认情况下，已恢复的文件将会以 root 账号权限保存，因此，你需要以提升权限的方式打开文件管理器来访问这些文件。</p>
+<p>使用如下命令（指定你的文件管理器）： &nbsp;</p>
+</li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;$ gksudo nemo&lt;/span&gt;</code></p>
+</li>
+<li><code>&lt;span class=&quot;pun&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;或&lt;/span&gt;</code></li>
+<li><p><code>&lt;span class=&quot;pln&quot; style=&quot;color: rgb(184, 255, 184); -ms-word-wrap: break-word; user-select: text;&quot;&gt;$ gksudo nautilus &lt;/span&gt;</code></p>
+<p>想了解更多的信息，访问 PhotoRec 官网：&nbsp;<a href="http://www.cgsecurity.org/wiki/PhotoRec" target="_blank" rel="external">http://www.cgsecurity.org/wiki/PhotoRec</a>。</p>
+<p>到此为止吧！在这篇文章中，我们阐明了使用 PhotoRec 工具来恢复磁盘中已删除或丢失文件每一个步骤。这是目前为止我使用过的最可靠和有效的恢复工具，如果你知道还有其它相似的工具，请在评论中跟大家分享。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</li>
+</ol>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

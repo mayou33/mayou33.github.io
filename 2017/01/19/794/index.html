@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>使用Nginx+Lua(OpenResty)开发高性能Web应用</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/19/794/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">使用Nginx+Lua(OpenResty)开发高性能Web应用</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-19</span>
+      
+      <a href="/categories/nginx/" title="nginx" class="post-categories">nginx</a>
+      
+      
+      <a href="/tags/web/"" title="web" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>web</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://jinnianshilongnian.iteye.com/blog/2280928" target="_blank" rel="external"><font color="#0066cc">http://jinnianshilongnian.iteye.com/blog/2280928</font></a></p>
+<pre><code>在互联网公司，Nginx可以说是标配组件，但是主要场景还是负载均衡、反向代理、代理缓存、限流等场景；而把Nginx作为一个Web容器使用的还不是那么广泛。Nginx的高性能是大家公认的，而Nginx开发主要是以C/C++模块的形式进行，整体学习和开发成本偏高；如果有一种简单的语言来实现Web应用的开发，那么Nginx绝对是把好的瑞士军刀；目前Nginx团队也开始意识到这个问题，开发了nginxScript：可以在Nginx中使用JavaScript进行动态配置一些变量和动态脚本执行；而目前市面上用的非常成熟的扩展是由章亦春将Lua和Nginx粘合的ngx_lua模块，并且将Nginx核心、LuaJIT、ngx_lua模块、许多有用的Lua库和常用的第三方Nginx模块组合在一起成为OpenResty，这样开发人员就可以安装OpenResty，使用Lua编写脚本，然后部署到Nginx Web容器中运行。从而非常轻松就能开发出高性能的Web服务。
+
+&amp;nbsp;
+
+接下来我们就认识下Nginx、Lua、ngx_lua模块和ngx_lua到底能开发哪些类型的web应用。
+
+&amp;nbsp;
+
+&amp;nbsp;
+</code></pre><p>##<br>    一、ngx_lua简介</p>
+<pre><code>**1****、Nginx****优点**
+
+Nginx设计为一个主进程多个工作进程的工作模式，每个进程是单线程来处理多个连接，而且每个工作进程采用了非阻塞I/O来处理多个连接，从而减少了线程上下文切换，从而实现了公认的高性能、高并发；因此在生成环境中会通过把CPU绑定给Nginx工作进程从而提升其性能；另外因为单线程工作模式的特点，内存占用就非常少了。
+
+Nginx更改配置重启速度非常快，可以毫秒级，而且支持不停止Nginx进行升级Nginx版本、动态重载Nginx配置。
+
+Nginx模块也是非常多，功能也很强劲，不仅可以作为http负载均衡，Nginx发布1.9.0版本还支持TCP负载均衡，还可以很容易的实现内容缓存、web服务器、反向代理、访问控制等功能。
+
+&amp;nbsp;
+
+**2****、Lua****的优点**
+
+Lua是一种轻量级、可嵌入式的脚本语言，这样可以非常容易的嵌入到其他语言中使用。另外Lua提供了协程并发，即以同步调用的方式进行异步执行，从而实现并发，比起回调机制的并发来说代码更容易编写和理解，排查问题也会容易。Lua还提供了闭包机制，函数可以作为First Class Value 进行参数传递，另外其实现了标记清除垃圾收集。
+
+因为Lua的小巧轻量级，可以在Nginx中嵌入Lua VM，请求的时候创建一个VM，请求结束的时候回收VM。
+
+&amp;nbsp;
+
+**3****、什么是ngx_lua**
+
+ngx_lua是Nginx的一个模块，将Lua嵌入到Nginx中，从而可以使用Lua来编写脚本，这样就可以使用Lua编写应用脚本，部署到Nginx中运行，即Nginx变成了一个Web容器；这样开发人员就可以使用Lua语言开发高性能Web应用了。
+
+ngx_lua提供了与Nginx交互的很多的API，对于开发人员来说只需要学习这些API就可以进行功能开发，而对于开发web应用来说，如果接触过Servlet的话，其开发和Servlet类似，无外乎就是知道接收请求、参数解析、功能处理、返回响应这几步的API是什么样子的。
+
+&amp;nbsp;
+
+**4****、开发环境**
+
+我们可以使用[OpenResty](https://openresty.org/)来搭建开发环境，OpenResty将Nginx核心、LuaJIT、许多有用的Lua库和Nginx第三方模块打包在一起；这样开发人员只需要安装OpenResty，不需要了解Nginx核心和写复杂的C/C++模块就可以，只需要使用Lua语言进行Web应用开发了。
+
+如何安装可以参考《[跟我学Nginx+Lua开发](http://jinnianshilongnian.iteye.com/blog/2190344)》。
+
+&amp;nbsp;
+
+**5****、OpenResty****生态**
+
+OpenResty提供了一些常用的ngx_lua开发模块：如
+
+&amp;nbsp; lua-resty-memcached
+
+&amp;nbsp; lua-resty-mysql
+
+&amp;nbsp; lua-resty-redis
+
+&amp;nbsp; lua-resty-dns
+
+&amp;nbsp; lua-resty-limit-traffic
+
+&amp;nbsp; lua-resty-template
+
+这些模块涉及到如mysql数据库、redis、限流、模块渲染等常用功能组件；另外也有很多第三方的ngx_lua组件供我们使用，对于大部分应用场景来说现在生态环境中的组件已经足够多了；如果不满足需求也可以自己去写来完成自己的需求。
+
+&amp;nbsp;
+
+**6****、场景**
+
+理论上可以使用ngx_lua开发各种复杂的web应用，不过Lua是一种脚本/动态语言，不适合业务逻辑比较重的场景，适合小巧的应用场景，代码行数保持在几十行到几千行。目前见到的一些应用场景：
+
+**web****应用**：会进行一些业务逻辑处理，甚至进行耗CPU的模板渲染，一般流程：mysql/redis/http获取数据、业务处理、产生JSON/XML/模板渲染内容，比如京东的列表页/商品详情页；
+
+**接入网关**：实现如数据校验前置、缓存前置、数据过滤、API请求聚合、AB测试、灰度发布、降级、监控等功能，比如京东的交易大Nginx节点、无线部门正在开发的无线网关、单品页统一服务、实时价格、动态服务；
+
+**Web****防火墙**：可以进行IP/URL/UserAgent/Referer黑名单、限流等功能；
+
+**缓存服务器**：可以对响应内容进行缓存，减少到后端的请求，从而提升性能；
+
+**其他**：如静态资源服务器、消息推送服务、缩略图裁剪等。
+
+&amp;nbsp;
+</code></pre><p>##<br>    二、基于Nginx+Lua的常用架构模式</p>
+<pre><code>**1****、负载均衡**
+
+**![](http://dl2.iteye.com/upload/attachment/0115/5790/345ff12f-a4a0-3e7e-84d7-ef338e554156.png)**
+
+如上图，我们首先通过LVS+HAProxy将流量转发给核心Nginx 1和核心Nginx 2，即实现了流量的负载均衡，此处可以使用如轮训、一致性哈希等调度算法来实现负载的转发；然后核心Nginx会根据请求特征如&amp;ldquo;Host:item.jd.com&amp;rdquo;，转发给相应的业务Nginx节点如单品页Nginx 1。此处为什么分两层呢？
+
+1、核心Nginx层是无状态的，可以在这一层实现流量分组（内网和外网隔离、爬虫和非爬虫流量隔离）、内容缓存、请求头过滤、故障切换（机房故障切换到其他机房）、限流、防火墙等一些通用型功能；
+
+2、业务Nginx如单品页Nginx，可以在在业务Nginx实现业务逻辑、或者反向代理到如Tomcat，在这一层可以实现内容压缩（放在这一层的目的是减少核心Nginx的CPU压力，将压力分散到各业务Nginx）、AB测试、降级；即这一层的Nginx跟业务有关联，实现业务的一些通用逻辑。
+
+不管是核心Nginx还是业务Nginx，都应该是无状态设计，可以水平扩容。
+
+![](http://dl2.iteye.com/upload/attachment/0115/5792/e0abfcf7-adc9-30a2-bb96-7665d589c4ed.png)
+
+&amp;nbsp;
+
+业务Nginx一般会把请求直接转发给后端的业务应用，如Tomcat、PHP，即将请求内部转发到相应的业务应用；当有的Tomcat出现问题了，可以在这一层摘掉；或者有的业务路径变了在这一层进行rewrite；或者有的后端Tomcat压力太大也可以在这一层降级，减少对后端的冲击；或者业务需要灰度发布时也可以在这一层Nginx上控制。
+
+&amp;nbsp;
+
+**2****、单机闭环**
+
+所谓单机闭环即所有想要的数据都能从本服务器直接获取，在大多数时候无需通过网络去其他服务器获取。
+
+![](http://dl2.iteye.com/upload/attachment/0115/5794/4819b18c-91c2-3b10-8722-4549e01797a1.png &quot;点击查看原始大小图片&quot;)
+
+&amp;nbsp;
+
+如上所示，主要有三种应用模式：
+
+2.1、第一张图应用场景是Nginx应用谁也不依赖，比如我们的Cookie白名单应用，其目的是不在白名单中的Cookie将被清理，防止大家随便将Cookie写到jd.om根下；大家访问http://www.jd.com时，会看到一个http://ccc.jd.com/cookie_check的请求用来清理Cookie的；对于这种应用非常简单，不需要依赖数据源，直接单应用闭环即可。
+
+&amp;nbsp;
+
+2.2、第二张图，是读取本机文件系统，如静态资源合并：比如访问[http://item.jd.com/1856584.html](http://item.jd.com/1856584.html)，查看源码会发现【&amp;lt;link type=&amp;quot;text/css&amp;quot; rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;[//misc.360buyimg.com/jdf/1.0.0/unit/??ui-base/1.0.0/ui-base.css,shortcut/2.0.0/shortcut.css,global-header/1.0.0/global-header.css,myjd/2.0.0/myjd.css,nav/2.0.0/nav.css,shoppingcart/2.0.0/shoppingcart.css,global-footer/1.0.0/global-footer.css,service/1.0.0/service.css](http://misc.360buyimg.com/jdf/1.0.0/unit/??ui-base/1.0.0/ui-base.css,shortcut/2.0.0/shortcut.css,global-header/1.0.0/global-header.css,myjd/2.0.0/myjd.css,nav/2.0.0/nav.css,shoppingcart/2.0.0/shoppingcart.css,global-footer/1.0.0/global-footer.css,service/1.0.0/service.css)&amp;quot;/&amp;gt;】这种请求，即多个请求合并为一个发给服务端，服务端进行了文件资源的合并；
+
+![](http://dl2.iteye.com/upload/attachment/0115/5796/09967770-6eff-3e25-a232-02c601650a3f.png)
+
+&amp;nbsp;
+
+目前有成熟的Nginx模块如[nginx-http-concat](https://github.com/alibaba/nginx-http-concat)进行静态资源合并；因为我们使用了OpenResty，那么我们完全可以使用Lua编写程序实现该功能，比如已经有人写了[nginx-lua-static-merger](https://github.com/grasses/nginx-lua-static-merger)来实现这个功能。
+
+&amp;nbsp;
+
+还一些业务型应用场景如下图所示
+
+![](http://dl2.iteye.com/upload/attachment/0115/5798/dcd069c5-071d-3324-a9f4-80ca0d8879e1.png)
+
+&amp;nbsp;
+
+商品页面是由商品框架和其他维度的页面片段（面包屑、相关分类、商家信息、规格参数、商品详情）组成；或者首页是由首页框架和一些页面片段（分类、轮播图、楼层1、楼层N）组成；分维度是因为不同的维度是独立变化的。对于这种静态内容但是需要进行框架内容嵌入的方式，Nginx自带的SSI（Server Side Include）可以很轻松的完成；也可以使用Lua程序更灵活的完成（读取框架、读取页面片段、合并输出）。
+
+&amp;nbsp;
+
+比如商品页面的架构我们可以这样：
+
+![](http://dl2.iteye.com/upload/attachment/0115/5800/91fdf6ee-0407-36a8-9e0d-d9475353716e.png)
+
+&amp;nbsp;
+
+首先接收到商品变更消息，商品页面同步Worker会根据消息维度生成相关的页面推送到Nginx服务器；Nginx应用再通过SSI输出。目前京东商品详情页没有再采用这种架构，具体架构可以参考《[构建需求响应式亿级商品详情页](http://jinnianshilongnian.iteye.com/blog/2235572)》。
+
+&amp;nbsp;
+
+对于首页的架构是类似的，因为其特点（框架变化少，楼层变化较频繁）和个性化的要求，楼层一般实现为异步加载。
+
+&amp;nbsp;
+
+2.3、 第三张图和第二张图的不同处是不再直接读取文件系统，而是读取本机的Redis或者Redis集群或者如SSDB这种持久化存储或者其他存储系统都是可以的，比如直接说的商品页面可以使用SSDB进行存储实现。文件系统一个很大的问题是当多台服务器时需要Worker去写多台服务器，而这个过程可以使用SSDB的主从实现。
+
+**![](http://dl2.iteye.com/upload/attachment/0115/5802/3cad4cdc-b642-3b91-8748-5354c2feab4f.png &quot;点击查看原始大小图片&quot;)
+
+&amp;nbsp;**此处可以看到，不管是图二还是图三架构，都需要Worker去进行数据推送；假设本机数据丢了可怎么办？因此实际大部分应用不会是完全单机闭环的，而是会采用如下架构：
+
+&amp;nbsp;
+
+**![](http://dl2.iteye.com/upload/attachment/0115/5804/d21aafd1-4195-363d-b0ba-865ae24f23a1.png)**
+
+**![](http://dl2.iteye.com/upload/attachment/0115/5806/0beb2443-c1fc-37d2-be14-f46c8d55d1f7.png)
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;**
+
+即首先读本机，如果没数据会回源到相应的Web应用从数据源拉取原始数据进行处理。这种架构的大部分场景本机都可以命中数据，只有很少一部分情况会回源到Web应用。
+
+&amp;nbsp;
+
+如京东的实时价格/动态服务就是采用类似架构。
+
+&amp;nbsp;
+
+**3****、分布式闭环**
+
+单机闭环会遇到如下两个主要问题： 1、数据不一致问题（比如没有采用主从架构导致不同服务器数据不一致）；2、遇到存储瓶颈（磁盘或者内存遇到了天花板）。
+
+解决数据不一致的比较好的办法是采用主从或者分布式集中存储；而遇到存储瓶颈就需要进行按照业务键进行分片，将数据分散到多台服务器。
+
+&amp;nbsp;
+
+如采用如下架构，按照尾号将内容分布到多台服务器。
+
+![](http://dl2.iteye.com/upload/attachment/0115/5808/cf97972c-4681-3b69-b221-dbec02dc547b.png &quot;点击查看原始大小图片&quot;)
+
+&amp;nbsp;
+
+即第一步先读取分布式存储（JIMDB是京东的一个分布式缓存/存储系统，类似于Redis）；如果不命中则回源到Tomcat集群（其会调用数据库、服务总线获取相关数据）来获取相关数据。可以参考《[构建需求响应式亿级商品详情页](http://jinnianshilongnian.iteye.com/blog/2235572)》来获取更详细的架构实现。
+
+&amp;nbsp;
+
+JIMDB集群会进行多机房主从同步，各自机房读取自己机房的从JIMDB集群，如下图
+
+![](http://dl2.iteye.com/upload/attachment/0115/5810/48d1cc26-f5db-3194-bff3-84dec58e5590.png)
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+**4****、接入网关**
+
+接入网关也可以叫做接入层，即接收到流量的入口，在入口我们可以进行如下事情：
+
+![](http://dl2.iteye.com/upload/attachment/0115/5812/db4ba449-4cf2-385f-ae00-a163d8f26e12.png)
+
+&amp;nbsp;
+
+**4.1****、核心接入Nginx****会做如下事情：**
+
+1、动态负载均衡；1、普通流量走一致性哈希，提升命中率；热点流量走轮训减少单服务器压力；2、根据请求特征将流量分配到不同分组并限流（爬虫、或者流量大的IP）；3、动态流量（动态增加upstream或者减少upstream或者动态负载均衡）可以使用balancer_by_lua或者微博开源的upsync；
+
+2、防DDOS攻击限流：可以将请求日志推送到实时计算集群，然后将需要限流的IP推送到核心Nginx进行限流；
+
+3、非法请求过滤：比如应该有Referer却没有，或者应该带着Cookie却没有Cookie；
+
+4、请求聚合：比如请求的是http://c.3.cn/proxy?methods=a,b,c，核心接入Nginx会在服务端把Nginx并发的请求并把结果聚合然后一次性吐出；
+
+5、请求头过滤：有些业务是不需要请求头的，因此可以在往业务Nginx转发时把这些数据过滤掉；
+
+6、缓存服务：使用Nginx Proxy Cache实现内容页面的缓存；
+
+&amp;nbsp;
+
+**4.2****、业务Nginx****会做如下事情：**
+
+1、缓存：对于读服务会使用大量的缓存来提升性能，我们在设计时主要有如下缓存应用：首先读取Nginx本地缓存&amp;nbsp; Shared Dict或者Nginx Proxy Cache，如果有直接返回内容给用户；如果本地缓存不命中，则会读取分布式缓存如Redis，如果有直接返回；如果还是不命中则回源到Tomcat应用读取DB或调用服务获取数据。另外我们会按照维度进行数据的缓存。
+
+2、业务逻辑：我们会进行一些数据校验/过滤逻辑前置（如商品ID必须是数字）、业务逻辑前置（获取原子数据，然后在Nginx上写业务逻辑）。
+
+3、细粒度限流：按照接口特征和接口吞吐量来实现动态限流，比如后端服务快扛不住了，那我们就需要进行限流，被限流的请求作为降级请求处理；通过lua-resty-limit-traffic可以通过编程实现更灵活的降级逻辑，如根据用户、根据URL等等各种规则，如降级了是让用户请求等待（比如sleep 100ms，这样用户请求就慢下来了，但是服务还是可用）还是返回降级内容。
+
+4、降级：降级主要有两种：主动降级和被动降级；如请求量太大扛不住了，那我们需要主动降级；如后端挂了或者被限流了或者后端超时了，那我们需要被动降级。降级方案可以是：1、返回默认数据如库存默认有货；2、返回静态页如预先生成的静态页；3、部分用户降级，告诉部分用户等待下再操作；4、直接降级，服务没数据，比如商品页面的规格参数不展示；5、只降级回源服务，即可以读取缓存的数据返回，实现部分可用，但是不会回源处理；
+
+5、AB测试/灰度发布：比如要上一个新的接口，可以通过在业务Nginx通过Lua写复杂的业务规则实现不同的人看到不同的版本。
+
+6、服务质量监控：我们可以记录请求响应时间、缓存响应时间、反向代理服务响应时间来详细了解到底哪块服务慢了；另外记录非200状态码错误来了解服务的可用率。
+
+&amp;nbsp;
+
+京东的交易大Nginx节点、无线部门正在开发的无线Nginx网关、和单品页统一服务都是接入网关的实践，而单品页统一服务架构可以参考《[京东商品详情页服务闭环实践](http://jinnianshilongnian.iteye.com/blog/2258111)》。
+
+&amp;nbsp;
+
+**5****、Web****应用**
+
+此处所说的Web应用指的是页面模板渲染类型应用或者API服务类型应用；比如京东列表页/商品详情页就是一个模板渲染类型的应用，核心业务逻辑都是使用Lua写的，部署到Nginx容器。目前核心业务代码行数有5000多行，模板页面有2000多行，涉及到大量的计算逻辑，性能数据可以参考《[构建需求响应式亿级商品详情页](http://jinnianshilongnian.iteye.com/blog/2235572)》。
+
+![](http://dl2.iteye.com/upload/attachment/0115/5816/a3f21641-528b-3c71-b47a-1443de8163ab.png &quot;点击查看原始大小图片&quot;)
+
+&amp;nbsp;
+
+整体处理过程和普通Web应用没什么区别：首先接收请求并进行解析；然后读取JIMDB集群数据、如果没有则回源到Tomcat获取；然后进行业务逻辑处理；渲染模板；将响应内容返回给用户。
+
+&amp;nbsp;
+</code></pre><p>##<br>    三、如何使用Nginx+Lua开发Web应用</p>
+<pre><code>开发一个Web应用我们需要从项目搭建、功能开发、项目部署几个层面完成。
+
+&amp;nbsp;
+
+**3.1****、项目搭建**&amp;nbsp;
+</code></pre><div style="margin-left: 9px;"><br>    <div><br>        <div><br>            Java代码<embed allowscriptaccess="always" flashvars="clipboard=%2Fexport%2FApp%2Fnginx-app%0A%20-------bin(%E8%84%9A%E6%9C%AC)%0A%20------------start.sh%0A%20------------stop.sh%0A%20-------config(%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)%0A%20------------nginx.conf%0A%20------------domain%0A%20----------------nginx_product.conf%0A%20------------resources.properties%0A%20-------lua(%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81)%0A%20------------init.lua%0A%20------------product_controller.lua%0A%20-------template(%E6%A8%A1%E6%9D%BF)%0A%20--------------prodoct.html%0A%20-------lualib(%E5%85%AC%E5%85%B1Lua%E5%BA%93)%0A%20------------jd%0A%20----------------product_util.lua%0A%20----------------product_data.lua%0A%20------------resty%0A%20----------------redis.lua%0A%20----------------template.lua%0A" height="15" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="http://jinnianshilongnian.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" type="application/x-shockwave-flash" width="14" wmode="transparent">&nbsp;<a href="javascript:void(" target="_blank" rel="external"><img src="http://jinnianshilongnian.iteye.com/images/icon_star.png" alt="收藏代码"></a> “收藏这段代码”)<br>        </div>
+
+<pre><code>        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><ol>
+<li>/export/App/nginx-app&nbsp;&nbsp;</li>
+<li>&nbsp;——-bin(脚本)&nbsp;&nbsp;</li>
+<li>&nbsp;————start.sh&nbsp;&nbsp;</li>
+<li>&nbsp;————stop.sh&nbsp;&nbsp;</li>
+<li>&nbsp;——-config(配置文件)&nbsp;&nbsp;</li>
+<li>&nbsp;————nginx.conf&nbsp;&nbsp;</li>
+<li>&nbsp;————domain&nbsp;&nbsp;</li>
+<li>&nbsp;—————-nginx_product.conf&nbsp;&nbsp;</li>
+<li>&nbsp;————resources.properties&nbsp;&nbsp;</li>
+<li>&nbsp;——-lua(业务代码)&nbsp;&nbsp;</li>
+<li>&nbsp;————init.lua&nbsp;&nbsp;</li>
+<li>&nbsp;————product_controller.lua&nbsp;&nbsp;</li>
+<li>&nbsp;——-template(模板)&nbsp;&nbsp;</li>
+<li>&nbsp;————–prodoct.html&nbsp;&nbsp;</li>
+<li>&nbsp;——-lualib(公共Lua库)&nbsp;&nbsp;</li>
+<li>&nbsp;————jd&nbsp;&nbsp;</li>
+<li>&nbsp;—————-product_util.lua&nbsp;&nbsp;</li>
+<li>&nbsp;—————-product_data.lua&nbsp;&nbsp;</li>
+<li>&nbsp;————resty&nbsp;&nbsp;</li>
+<li>&nbsp;—————-redis.lua&nbsp;&nbsp;</li>
+<li><p>&nbsp;—————-template.lua&nbsp;&nbsp;<br></p></li></ol></div><p></p>
+<p>&nbsp;&nbsp;</p>
+<p>&nbsp;整个项目结构从启停脚本、配置文件、公共组件、业务代码、模板代码几块进行划分。</p>
+<p>&nbsp;</p>
+<p><strong>1**</strong>、启停脚本**</p>
+<p>启停脚本放在项目目录/export/App/nginx-app/bin/下。</p>
+<p>start.sh是启动和更新脚本，即如果nginx没有启动则启动起来，否则reload：&nbsp;</p>
+
+
+<div style="margin-left: 9px;"><br>    <div><br>        <div><br>            Java代码<embed allowscriptaccess="always" flashvars="clipboard=if%20nginx%E6%B2%A1%E5%90%AF%E5%8A%A8%20then%0A%20%20sudo%20%2Fexport%2Fservers%2Fnginx%2Fsbin%2Fnginx%20%20-t%20-c%20%2Fexport%2FApp%2Fnginx-app%2Fconfig%2Fnginx.conf%0A%20%20sudo%20%2Fexport%2Fservers%2Fnginx%2Fsbin%2Fnginx%20%20-c%20%2Fexport%2FApp%2Fnginx-app%2Fconfig%2Fnginx.conf%0Aelse%0A%20%20sudo%20%2Fexport%2Fservers%2Fnginx%2Fsbin%2Fnginx%20%20-t%0A%20%20sudo%20%2Fexport%2Fservers%2Fnginx%2Fsbin%2Fnginx%20%20-s%20reload%0Aend%20%26nbsp%3B" height="15" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="http://jinnianshilongnian.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" type="application/x-shockwave-flash" width="14" wmode="transparent">&nbsp;<a href="javascript:void(" target="_blank" rel="external"><img src="http://jinnianshilongnian.iteye.com/images/icon_star.png" alt="收藏代码"></a> “收藏这段代码”)<br>        </div>
+
+<pre><code>        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><ol>
+<li>if&nbsp;nginx没启动&nbsp;then&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;sudo&nbsp;/export/servers/nginx/sbin/nginx&nbsp;&nbsp;-t&nbsp;-c&nbsp;/export/App/nginx-app/config/nginx.conf&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;sudo&nbsp;/export/servers/nginx/sbin/nginx&nbsp;&nbsp;-c&nbsp;/export/App/nginx-app/config/nginx.conf&nbsp;&nbsp;</li>
+<li>else&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;sudo&nbsp;/export/servers/nginx/sbin/nginx&nbsp;&nbsp;-t&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;sudo&nbsp;/export/servers/nginx/sbin/nginx&nbsp;&nbsp;-s&nbsp;reload&nbsp;&nbsp;</li>
+<li><p>end&nbsp;&nbsp;&nbsp;&nbsp;<br></p></li></ol></div><p></p>
+<p>stop.sh是停止Nginx脚本：&nbsp;</p>
+
+
+<div style="margin-left: 9px;"><br>    <div><br>        <div><br>            Java代码<embed allowscriptaccess="always" flashvars="clipboard=sudo%20%2Fexport%2Fservers%2Fnginx%2Fsbin%2Fnginx%20%20-s%20quit%26nbsp%3B" height="15" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="http://jinnianshilongnian.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" type="application/x-shockwave-flash" width="14" wmode="transparent">&nbsp;<a href="javascript:void(" target="_blank" rel="external"><img src="http://jinnianshilongnian.iteye.com/images/icon_star.png" alt="收藏代码"></a> “收藏这段代码”)<br>        </div>
+
+<pre><code>        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><ol>
+<li><p>sudo&nbsp;/export/servers/nginx/sbin/nginx&nbsp;&nbsp;-s&nbsp;quit&nbsp;&nbsp;&nbsp;<br></p></li></ol></div><p></p>
+<p>&nbsp;</p>
+<p><strong>2**</strong>、配置文件**</p>
+<p>配置文件放在/export/App/nginx-app/config目录下，包括了nginx.conf配置文件、nginx项目配置文件和资源配置文件。</p>
+<p>&nbsp;</p>
+<p><strong>nginx.confg**</strong>配置文件**&nbsp;&nbsp;</p>
+
+
+<div style="margin-left: 9px;"><br>    <div><br>        <div><br>            Java代码<embed allowscriptaccess="always" flashvars="clipboard=worker_processes%20%201%3B%0Aevents%20%7B%0A%20%20%20%20worker_connections%20%201024%3B%0A%7D%0Ahttp%20%7B%0A%20%20%20include%20%20%20%20%20%20%20mime.types%3B%0A%20%20%20default_type%20%20text%2Fhtml%3B%0A%20%20%20%23gzip%E7%9B%B8%E5%85%B3%0A%20%20%20%23%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%0A%20%20%20%23%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F%0A%20%20%20%23%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%0A%0A%20%20%20%23lua%E4%BE%9D%E8%B5%96%E8%B7%AF%E5%BE%84%0A%20%20%20lua_package_path%20%20%22%2Fexport%2FApp%2Fnginx-app%2Flualib%2F%3F.lua%3B%3B%22%3B%0A%20%20%20lua_package_cpath%20%20%22%2Fexport%2FApp%2Fnginx-app%2Flualib%2F%3F.so%3B%3B%22%3B%0A%0A%20%20%20%23server%E9%85%8D%E7%BD%AE%0A%20%20%20include%20%2Fexport%2FApp%2Fnginx-app%2Fconfig%2Fdomains%2F*%3B%0A%0A%20%20%20%23%E5%88%9D%E5%A7%8B%E5%8C%96%E8%84%9A%E6%9C%AC%0A%20%20%20init_by_lua_file%20%22%2Fexport%2FApp%2Fnginx-app%2Flua%2Finit.lua%22%3B%0A%7D%26nbsp%3B" height="15" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="http://jinnianshilongnian.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" type="application/x-shockwave-flash" width="14" wmode="transparent">&nbsp;<a href="javascript:void(" target="_blank" rel="external"><img src="http://jinnianshilongnian.iteye.com/images/icon_star.png" alt="收藏代码"></a> “收藏这段代码”)<br>        </div>
+
+<pre><code>        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><ol>
+<li>worker_processes&nbsp;&nbsp;1;&nbsp;&nbsp;</li>
+<li>events&nbsp;{&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;worker_connections&nbsp;&nbsp;1024;&nbsp;&nbsp;</li>
+<li>}&nbsp;&nbsp;</li>
+<li>http&nbsp;{&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mime.types;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;default_type&nbsp;&nbsp;text/html;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;#gzip相关&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;#超时时间&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;#日志格式&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;#反向代理配置&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;#lua依赖路径&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;lua_package_path&nbsp;&nbsp;&quot;/export/App/nginx-app/lualib/?.lua;;&quot;;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;lua_package_cpath&nbsp;&nbsp;&quot;/export/App/nginx-app/lualib/?.so;;&quot;;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;#server配置&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;include&nbsp;/export/App/nginx-app/config/domains/*;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;#初始化脚本&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;init_by_lua_file&nbsp;&quot;/export/App/nginx-app/lua/init.lua&quot;;&nbsp;&nbsp;</li>
+<li><p>}&nbsp;&nbsp;&nbsp;<br></p></li></ol></div><p></p>
+<p>对于nginx.conf会进行一些通用的配置，如工作进程数、超时时间、压缩、日志格式、反向代理等相关配置；另外需要指定如下配置：</p>
+<p>lua_package_path、lua_package_cpath指定我们依赖的通用Lua库从哪里加载；</p>
+<p>include /export/App/nginx-app/config/domains/<em>：用于加载server相关的配置，此处通过</em>可以在一个nginx下指定多个server配置；</p>
+<p>init_by_lua_file &quot;/export/App/nginx-app/lua/init.lua&quot;：执行项目的一些初始化配置，比如加载配置文件。</p>
+<p>&nbsp;</p>
+<p><strong>nginx**</strong>项目配置文件**</p>
+<p>/export/App/nginx-app/config/domains/nginx_product.conf用于配置当前web应用的一些server相关的配置：&nbsp;</p>
+
+
+<div style="margin-left: 9px;"><br>    <div><br>        <div><br>            Java代码<embed allowscriptaccess="always" flashvars="clipboard=%23upstream%0Aupstream%20item_http_upstream%20%7B%0A%20%20%20%20server%20192.168.1.1%20max_fails%3D2%20fail_timeout%3D30s%20weight%3D5%3B%0A%20%20%20%20server%20192.168.1.2%20max_fails%3D2%20fail_timeout%3D30s%20weight%3D5%3B%0A%7D%0A%23%E7%BC%93%E5%AD%98%0Alua_shared_dict%20item_local_shop_cache%20600m%3B%0Aserver%20%7B%0A%20%20%20%20%20listen%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2080%3B%0A%20%20%20%20%20server_name%20%20%20%20%20%20%20%20%20%20%20%20%20%20item.jd.com%20item.jd.hk%3B%0A%20%20%20%20%20%23%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E4%BB%8E%E5%93%AA%E5%8A%A0%E8%BD%BD%0A%20%20%20%20set%20%24template_root%20%22%2Fexport%2FApp%2Fnginx-app%2Ftemplate%20%22%3B%0A%20%20%20%20%20%23url%E6%98%A0%E5%B0%84%0A%20%20%20%20%20%20%20%20location%20~*%20%22%5E%2Fproduct%2F(%5Cd%2B)%5C.html%24%22%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20rewrite%20%2Fproduct%2F(.*)%20%20%20%20http%3A%2F%2Fitem.jd.com%2F%241%20permanent%3B%0A%20%20%20%20%20%20%20%20%7D%0A%09location%20~*%20%22%5E%2F(%5Cd%7B6%2C12%7D)%5C.html%24%22%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20default_type%20text%2Fhtml%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20charset%20gbk%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20lua_code_cache%20on%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20content_by_lua_file%20%22%2Fexport%2FApp%2Fnginx-app%2Flua%2Fproduct_controller.lua%22%3B%0A%20%20%20%20%20%20%20%20%7D%0A%7D%26nbsp%3B" height="15" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="http://jinnianshilongnian.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" type="application/x-shockwave-flash" width="14" wmode="transparent">&nbsp;<a href="javascript:void(" target="_blank" rel="external"><img src="http://jinnianshilongnian.iteye.com/images/icon_star.png" alt="收藏代码"></a> “收藏这段代码”)<br>        </div>
+
+<pre><code>        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><ol>
+<li>#upstream&nbsp;&nbsp;</li>
+<li>upstream&nbsp;item_http_upstream&nbsp;{&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;server&nbsp;192.168.1.1&nbsp;max_fails=2&nbsp;fail_timeout=30s&nbsp;weight=5;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;server&nbsp;192.168.1.2&nbsp;max_fails=2&nbsp;fail_timeout=30s&nbsp;weight=5;&nbsp;&nbsp;</li>
+<li>}&nbsp;&nbsp;</li>
+<li>#缓存&nbsp;&nbsp;</li>
+<li>lua_shared_dict&nbsp;item_local_shop_cache&nbsp;600m;&nbsp;&nbsp;</li>
+<li>server&nbsp;{&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;server_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.jd.com&nbsp;item.jd.hk;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#模板文件从哪加载&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$template_root&nbsp;&quot;/export/App/nginx-app/template&nbsp;&quot;;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#url映射&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;location&nbsp;~*&nbsp;&quot;^/product/(\d+).html$&quot;&nbsp;{&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;/product/(.*)&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://item.jd.com/$1&nbsp;permanent;&nbsp;&amp;nbsp" target="_blank" rel="external">http://item.jd.com/$1&nbsp;permanent;&nbsp;&amp;nbsp</a>;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;location&nbsp;~*&nbsp;&quot;^/(\d{6,12}).html$&quot;&nbsp;{&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default_type&nbsp;text/html;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charset&nbsp;gbk;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lua_code_cache&nbsp;on;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content_by_lua_file&nbsp;&quot;/export/App/nginx-app/lua/product_controller.lua&quot;;&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</li>
+<li><p>}&nbsp;&nbsp;&nbsp;<br></p></li></ol></div><p></p>
+<p>我们需要指定如upstream、共享字典配置、server配置、模板文件从哪加载、url映射，比如我们访问<a href="http://item.jd.com/1856584.html将交给/export/App/nginx-app/lua/product_controller.lua处理；也就是说我们项目的入口就有了。" target="_blank" rel="external">http://item.jd.com/1856584.html将交给/export/App/nginx-app/lua/product_controller.lua处理；也就是说我们项目的入口就有了。</a></p>
+<p>&nbsp;</p>
+<p>资源配置文件resources.properties包含了我们的一些比如开关的配置、缓存服务器地址的配置等等。</p>
+<p>&nbsp;</p>
+<p><strong>3**</strong>、业务代码**</p>
+<p>/export/App/nginx-app/lua/目录里存放了我们的lua业务代码，init.lua用于读取如resources.properties来进行一些项目初始化；product_controller.lua可以看成Java Web中的Servlet，接收、处理、响应用户请求。</p>
+<p>&nbsp;</p>
+<p><strong>4**</strong>、模板**</p>
+<p>模板文件放在/export/App/nginx-app/template/目录下，使用相应的模板引擎进行编写页面模板，然后渲染输出。</p>
+<p>&nbsp;</p>
+<p><strong>5**</strong>、公共Lua<strong>**库</strong></p>
+<p>存放了一些如redis、template等相关的公共Lua库，还有一些我们项目中通用的工具库如product_util.lua。</p>
+<p>&nbsp;</p>
+<p>到此一个简单的项目的结构就介绍完了，对于开发一个项目来说还会牵扯到分模块等工作，不过对于我们这种Lua应用来说，建议不要过度抽象，尽量小巧即可。</p>
+<p>&nbsp;</p>
+<p><strong>3.2**</strong>、功能开发**</p>
+<p>接下来就需要使用相应的API来实现我们的业务了，比如product_controller.lua：</p>
+
+
+<div style="margin-left: 9px;"><br>    <div><br>        <div><br>            Java代码<embed allowscriptaccess="always" flashvars="clipboard=--%E5%8A%A0%E8%BD%BDLua%E6%A8%A1%E5%9D%97%E5%BA%93%0Alocal%20template%20%3D%20require(%22resty.template%22)%20%20%0A--1%E3%80%81%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E4%B8%AD%E7%9A%84%E5%95%86%E5%93%81ID%0Alocal%20skuId%20%3D%20ngx.req.get_uri_args()%5B%22skuId%22%5D%3B%0A--2%E3%80%81%E8%B0%83%E7%94%A8%E7%9B%B8%E5%BA%94%E7%9A%84%E6%9C%8D%E5%8A%A1%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%0Alocal%20data%20%3D%20api.getData(skuId)%0A%0A--3%E3%80%81%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF%0Alocal%20func%20%3D%20template.compile(%22product.html%22)%20%20%0Alocal%20content%20%3D%20func(data)%20%20%0A--4%E3%80%81%E9%80%9A%E8%BF%87ngx%20API%E8%BE%93%E5%87%BA%E5%86%85%E5%AE%B9%20%20%0Angx.say(content)%20%20%26nbsp%3B" height="15" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="http://jinnianshilongnian.iteye.com/javascripts/syntaxhighlighter/clipboard_new.swf" type="application/x-shockwave-flash" width="14" wmode="transparent">&nbsp;<a href="javascript:void(" target="_blank" rel="external"><img src="http://jinnianshilongnian.iteye.com/images/icon_star.png" alt="收藏代码"></a> “收藏这段代码”)<br>        </div>
+
+<pre><code>        &amp;nbsp;
+
+&lt;/div&gt;
+</code></pre><ol>
+<li>–加载Lua模块库&nbsp;&nbsp;</li>
+<li>local&nbsp;template&nbsp;=&nbsp;require(&quot;resty.template&quot;)&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li>–1、获取请求参数中的商品ID&nbsp;&nbsp;</li>
+<li>local&nbsp;skuId&nbsp;=&nbsp;ngx.req.get_uri_args()[“skuId”];&nbsp;&nbsp;</li>
+<li>–2、调用相应的服务获取数据&nbsp;&nbsp;</li>
+<li>local&nbsp;data&nbsp;=&nbsp;api.getData(skuId)&nbsp;&nbsp;</li>
+<li>&nbsp;&nbsp;</li>
+<li>–3、渲染模板&nbsp;&nbsp;</li>
+<li>local&nbsp;func&nbsp;=&nbsp;template.compile(&quot;product.html&quot;)&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li>local&nbsp;content&nbsp;=&nbsp;func(data)&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li>–4、通过ngx&nbsp;API输出内容&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li><p>ngx.say(content)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></p></li></ol></div><p></p>
+<p>开发完成后将项目部署到测试环境，执行start.sh启动nginx然后进行测试。</p>
+<p>详细的开发过程和API的使用，请参考《<a href="http://jinnianshilongnian.iteye.com/blog/2190344" target="_blank" rel="external">跟我学Nginx+Lua开发</a>》。此处不做具体编码实现。</p>
+<p>&nbsp;</p>
+
+
+<p>###<br>    参考源码：<a href="http://jinnianshilongnian.iteye.com/blog/2289728" target="_blank" rel="external">Nginx+Lua(OpenResty) HelloWorld</a></p>
+<pre><code>&amp;nbsp;
+</code></pre><p>##<br>    四、基于Nginx+Lua的常用功能总结</p>
+<pre><code>到此我们对于Nginx开发已经有了一个整体的认识，对于Nginx粘合Lua来开发应用可以说是一把锋利的瑞士军刀，可以帮我们很容易的解决很多问题，可以开发Web应用、接入网关、API网关、消息推送、日志采集等应用，不过个人认为适合开发业务逻辑单一、核心代码行数较少的应用，不适合业务逻辑复杂、功能繁多的业务型或者企业级应用；最后我们总结下基于Nginx+Lua的常用架构模式中一些常见实践和场景：
+
+**&amp;nbsp; 动态负载均衡；**
+
+**&amp;nbsp; 防火墙**（DDOS、IP/URL/UserAgent/Referer黑名单、防盗链等）**；**
+
+**&amp;nbsp; 限流；**
+
+**&amp;nbsp; 降级；**
+
+**&amp;nbsp; AB测试/灰度发布；**
+
+**&amp;nbsp; 多级缓存模式；**
+
+**&amp;nbsp; 服务端请求聚合；**
+
+**&amp;nbsp; 服务质量监控。**
+
+&amp;nbsp;
+
+**一些问题**
+
+1、在开发nginx应用时使用UTF-8编码可以减去很多麻烦；
+
+2、GBK转码解码时使用GB18030，否则一些特殊字符会出现乱码；
+
+3、cjson库对于如\uab1这种错误的unicode转码会失败，可以使用纯Lua编写的dkjson；
+
+4、社区版nginx不支持upstream的域名动态解析；可以考虑proxy_pass http://p.3.local/prices/mgets$is_args$args，然后配合resolver来实现；或者在lua中进行http调用；如果DNS遇到性能瓶颈可以考虑在本机部署如dnsmasq来缓存；或者考虑使用balancer_by_lua功能实现动态upstream；
+
+5、为响应添加处理服务器IP的响应头，方便定位问题；
+
+6、根据业务设置合理的超时时间；
+
+7、走CDN的业务当发生错误时返回的500/503/302/301等非正常响应不要设置缓存。
+</code></pre></div></div></div></div></div></div></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

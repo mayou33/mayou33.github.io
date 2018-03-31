@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Linux网络 - 数据包的发送过程</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/04/07/945/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Linux网络 - 数据包的发送过程</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-04-07</span>
+      
+      <a href="/categories/Knowledge/" title="知识点" class="post-categories">知识点</a>
+      
+      
+      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://segmentfault.com/a/1190000008926093" target="_blank" rel="external">https://segmentfault.com/a/1190000008926093</a></p>
+<pre><code>继上一篇介绍了[数据包的接收过程](https://segmentfault.com/a/1190000008836467)后，本文将介绍在Linux系统中，数据包是如何一步一步从应用程序到网卡并最终发送出去的。
+
+如果英文没有问题，强烈建议阅读后面参考里的文章，里面介绍的更详细。
+</code></pre><blockquote>
+<p>本文只讨论以太网的物理网卡，并且以一个UDP包的发送过程作为示例，由于本人对协议栈的代码不熟，有些地方可能理解有误，欢迎指正</p>
+</blockquote>
+<p>##<br>    socket层</p>
+<pre class="hljs sql" style="padding: 1em; border-radius: 3px; border: currentColor; border-image: none; color: rgb(51, 51, 51); text-transform: none; line-height: 1.3; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.93em; font-style: normal; font-weight: normal; margin-top: 1.5em !important; margin-right: 0px; margin-bottom: 1.5em; margin-left: 0px; word-spacing: 0px; display: block; position: relative; -ms-word-break: break-all; -ms-word-wrap: break-word; max-height: 35em; box-sizing: border-box; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+`               +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-------------+</span>
+               | Application |
+               +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-------------+</span>
+                     |
+                     |
+                     &darr;
++<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">------------------------------------------+</span>
+| socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP) |
++<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">------------------------------------------+</span>
+                     |
+                     |
+                     &darr;
+           +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-------------------+</span>
+           | sendto(sock, ...) |
+           +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-------------------+</span>
+                     |
+                     |
+                     &darr;
+              +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">--------------+</span>
+              | inet_sendmsg |
+              +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">--------------+</span>
+                     |
+                     |
+                     &darr;
+             +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">---------------+</span>
+             | inet_autobind |
+             +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">---------------+</span>
+                     |
+                     |
+                     &darr;
+               +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-----------+</span>
+               | UDP layer |
+               +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-----------+</span>
+
+`</pre>
+
+<ul>
+<li><p><strong>socket(…)：</strong> 创建一个socket结构体，并初始化相应的操作函数，由于我们定义的是UDP的socket，所以里面存放的都是跟UDP相关的函数</p>
+</li>
+<li><p><strong>sendto(sock, …)：</strong> 应用层的程序（Application）调用该函数开始发送数据包，该函数数会调用后面的inet_sendmsg</p>
+</li>
+<li><p><strong>inet_sendmsg：</strong> 该函数主要是检查当前socket有没有绑定源端口，如果没有的话，调用inet_autobind分配一个，然后调用UDP层的函数</p>
+</li>
+<li><p><strong>inet_autobind：</strong> 该函数会调用socket上绑定的get_port函数获取一个可用的端口，由于该socket是UDP的socket，所以get_port函数会调到UDP代码里面的相应函数。</p>
+</li>
+</ul>
+<p>##<br>    UDP层</p>
+<pre class="hljs sql" style="padding: 1em; border-radius: 3px; border: currentColor; border-image: none; color: rgb(51, 51, 51); text-transform: none; line-height: 1.3; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.93em; font-style: normal; font-weight: normal; margin-top: 1.5em !important; margin-right: 0px; margin-bottom: 1.5em; margin-left: 0px; word-spacing: 0px; display: block; position: relative; -ms-word-break: break-all; -ms-word-wrap: break-word; max-height: 35em; box-sizing: border-box; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+`                     |
+                     |
+                     &darr;
+              +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-------------+</span>
+              | udp_sendmsg |
+              +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-------------+</span>
+                     |
+                     |
+                     &darr;
+          +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------------------+</span>
+          | ip_route_output_flow |
+          +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------------------+</span>
+                     |
+                     |
+                     &darr;
+              +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-------------+</span>
+              | ip_make_skb |
+              +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-------------+</span>
+                     |
+                     |
+                     &darr;
+         +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">------------------------+</span>
+         | udp_send_skb(skb, fl4) |
+         +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">------------------------+</span>
+                     |
+                     |
+                     &darr;
+                +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------+</span>
+                | IP layer |
+                +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------+</span>
+`</pre>
+
+<ul>
+<li><p><strong>udp_sendmsg：</strong> udp模块发送数据包的入口，该函数较长，在该函数中会先调用ip_route_output_flow获取路由信息（主要包括源IP和网卡），然后调用ip_make_skb构造skb结构体，最后将网卡的信息和该skb关联。</p>
+</li>
+<li><p><strong>ip_route_output_flow：</strong> 该函数会根据路由表和目的IP，找到这个数据包应该从哪个设备发送出去，如果该socket没有绑定源IP，该函数还会根据路由表找到一个最合适的源IP给它。 如果该socket已经绑定了源IP，但根据路由表，从这个源IP对应的网卡没法到达目的地址，则该包会被丢弃，于是数据发送失败，sendto函数将返回错误。该函数最后会将找到的设备和源IP塞进flowi4结构体并返回给udp_sendmsg</p>
+</li>
+<li><p><strong>ip_make_skb：</strong> 该函数的功能是构造skb包，构造好的skb包里面已经分配了IP包头，并且初始化了部分信息（IP包头的源IP就在这里被设置进去），同时该函数会调用<strong>ip_append_dat，如果需要分片的话，会在</strong>ip_append_data函数中进行分片，同时还会在该函数中检查socket的send buffer是否已经用光，如果被用光的话，返回ENOBUFS</p>
+</li>
+<li><p><strong>udp_send_skb(skb, fl4)</strong> 主要是往skb里面填充UDP的包头，同时处理checksum，然后调用IP层的相应函数。</p>
+</li>
+</ul>
+<p>##<br>    IP层</p>
+<pre class="hljs bash" style="padding: 1em; border-radius: 3px; border: currentColor; border-image: none; color: rgb(51, 51, 51); text-transform: none; line-height: 1.3; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.93em; font-style: normal; font-weight: normal; margin-top: 1.5em !important; margin-right: 0px; margin-bottom: 1.5em; margin-left: 0px; word-spacing: 0px; display: block; position: relative; -ms-word-break: break-all; -ms-word-wrap: break-word; max-height: 35em; box-sizing: border-box; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+`          |
+          |
+          &darr;
+   +-------------+
+   | ip_send_skb |
+   +-------------+
+          |
+          |
+          &darr;
+  +-------------------+       +-------------------+       +---------------+
+  | __ip_<span class="hljs-built_in" style="color: rgb(0, 134, 179); box-sizing: border-box;">local</span>_out_sk |------&gt;| NF_INET_LOCAL_OUT |------&gt;| dst_output_sk |
+  +-------------------+       +-------------------+       +---------------+
+                                                                  |
+                                                                  |
+                                                                  &darr;
+ +------------------+        +----------------------+       +-----------+
+ | ip_finish_output |&lt;-------| NF_INET_POST_ROUTING |&lt;------| ip_output |
+ +------------------+        +----------------------+       +-----------+
+          |
+          |
+          &darr;
+  +-------------------+      +------------------+       +----------------------+
+  | ip_finish_output2 |-----&gt;| dst_neigh_output |------&gt;| neigh_resolve_output |
+  +-------------------+      +------------------+       +----------------------+
+                                                                   |
+                                                                   |
+                                                                   &darr;
+                                                           +----------------+
+                                                           | dev_queue_xmit |
+                                                           +----------------+`</pre>
+
+<ul>
+<li><p><strong>ip_send_skb：</strong> IP模块发送数据包的入口，该函数只是简单的调用一下后面的函数</p>
+</li>
+<li><p><strong>__ip_local_out_sk：</strong> 设置IP报文头的长度和checksum，然后调用下面netfilter的钩子</p>
+</li>
+<li><p><strong>NF_INET_LOCAL_OUT：</strong> netfilter的钩子，可以通过iptables来配置怎么处理该数据包，如果该数据包没被丢弃，则继续往下走</p>
+</li>
+<li><p><strong>dst_output_sk：</strong> 该函数根据skb里面的信息，调用相应的output函数，在我们UDP IPv4这种情况下，会调用ip_output</p>
+</li>
+<li><p><strong>ip_output：</strong> 将上面udp_sendmsg得到的网卡信息写入skb，然后调用NF_INET_POST_ROUTING的钩子</p>
+</li>
+<li><p><strong>NF_INET_POST_ROUTING：</strong> 在这里，用户有可能配置了SNAT，从而导致该skb的路由信息发生变化</p>
+</li>
+<li><p><strong>ip_finish_output：</strong> 这里会判断经过了上一步后，路由信息是否发生变化，如果发生变化的话，需要重新调用dst_output_sk（重新调用这个函数时，可能就不会再走到ip_output，而是走到被netfilter指定的output函数里，这里有可能是xfrm4_transport_output），否则往下走</p>
+</li>
+<li><p><strong>ip_finish_output2：</strong> 根据目的IP到路由表里面找到下一跳(nexthop)的地址，然后调用<strong>ipv4_neigh_lookup_noref去arp表里面找下一跳的neigh信息，没找到的话会调用</strong>neigh_create构造一个空的neigh结构体</p>
+</li>
+<li><p><strong>dst_neigh_output：</strong> 在该函数中，如果上一步ip_finish_output2没得到neigh信息，那么将会走到函数neigh_resolve_output中，否则直接调用neigh_hh_output，在该函数中，会将neigh信息里面的mac地址填到skb中，然后调用dev_queue_xmit发送数据包</p>
+</li>
+<li><p><strong>neigh_resolve_output：</strong> 该函数里面会发送arp请求，得到下一跳的mac地址，然后将mac地址填到skb中并调用dev_queue_xmit</p>
+</li>
+</ul>
+<p>##<br>    netdevice子系统</p>
+<pre class="hljs sql" style="padding: 1em; border-radius: 3px; border: currentColor; border-image: none; color: rgb(51, 51, 51); text-transform: none; line-height: 1.3; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.93em; font-style: normal; font-weight: normal; margin-top: 1.5em !important; margin-right: 0px; margin-bottom: 1.5em; margin-left: 0px; word-spacing: 0px; display: block; position: relative; -ms-word-break: break-all; -ms-word-wrap: break-word; max-height: 35em; box-sizing: border-box; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+`                          |
+                          |
+                          &darr;
+                   +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------------+</span>
+  +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------------| dev_queue_xmit |</span>
+  |                +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------------+</span>
+  |                       |
+  |                       |
+  |                       &darr;
+  |              +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-----------------+</span>
+  |              | Traffic Control |
+  |              +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-----------------+</span>
+  | loopback              |
+  |   or                  +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">--------------------------------------------------------------+</span>
+  | IP tunnels            &darr;                                                              |
+  |                       &darr;                                                              |
+  |            +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">---------------------+  Failed   +----------------------+         +---------------+</span>
+  +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">-----------&gt;| dev_hard_start_xmit |----------&gt;| raise NET_TX_SOFTIRQ |- - - - &gt;| net_tx_action |</span>
+               +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">---------------------+           +----------------------+         +---------------+</span>
+                          |
+                          +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------------------------------+</span>
+                          |                                  |
+                          &darr;                                  &darr;
+                  +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------------+              +------------------------+</span>
+                  | ndo_start_xmit |              | packet taps(AF_PACKET) |
+                  +<span class="hljs-comment" style="color: rgb(153, 153, 136); font-style: normal; box-sizing: border-box;">----------------+              +------------------------+</span>`</pre>
+
+<ul>
+<li><p><strong>dev_queue_xmit：</strong> netdevice子系统的入口函数，在该函数中，会先获取设备对应的qdisc，如果没有的话（如loopback或者IP tunnels），就直接调用dev_hard_start_xmit，否则数据包将经过<a href="http://tldp.org/HOWTO/Traffic-Control-HOWTO/intro.html" target="_blank" rel="external">Traffic Control</a>模块进行处理</p>
+</li>
+<li><p><strong>Traffic Control：</strong> 这里主要是进行一些过滤和优先级处理，在这里，如果队列满了的话，数据包会被丢掉，详情请参考<a href="http://tldp.org/HOWTO/Traffic-Control-HOWTO/intro.html" target="_blank" rel="external">文档</a>，这步完成后也会走到dev_hard_start_xmit</p>
+</li>
+<li><p><strong>dev_hard_start_xmit： </strong>该函数中，首先是拷贝一份skb给&ldquo;packet taps&rdquo;，tcpdump就是从这里得到数据的，然后调用ndo_start_xmit。如果dev_hard_start_xmit返回错误的话（大部分情况可能是NETDEV_TX_BUSY），调用它的函数会把skb放到一个地方，然后抛出软中断NET_TX_SOFTIRQ，交给软中断处理程序net_tx_action稍后重试（如果是loopback或者IP tunnels的话，失败后不会有重试的逻辑）</p>
+</li>
+<li><p><strong>ndo_start_xmit： </strong>这是一个函数指针，会指向具体驱动发送数据的函数</p>
+</li>
+</ul>
+<p>##<br>    Device Driver</p>
+<pre><code>ndo_start_xmit会绑定到具体网卡驱动的相应函数，到这步之后，就归网卡驱动管了，不同的网卡驱动有不同的处理方式，这里不做详细介绍，其大概流程如下：
+</code></pre><ol>
+<li><p>将skb放入网卡自己的发送队列</p>
+</li>
+<li><p>通知网卡发送数据包</p>
+</li>
+<li><p>网卡发送完成后发送中断给CPU</p>
+</li>
+<li><p>收到中断后进行skb的清理工作</p>
+<p>在网卡驱动发送数据包过程中，会有一些地方需要和netdevice子系统打交道，比如网卡的队列满了，需要告诉上层不要再发了，等队列有空闲的时候，再通知上层接着发数据。</p>
+</li>
+</ol>
+<p>##<br>    其它</p>
+<ul>
+<li><p><strong>SO_SNDBUF:</strong> 从上面的流程中可以看出来，对于UDP来说，没有一个对应send buffer存在，SO_SNDBUF只是一个限制，当这个socket分配的skb占用的内存超过这个值的时候，会返回ENOBUFS，所以说只要不出现ENOBUFS错误，把这个值调大没有意义。从sendto函数的帮助文件里面看到这样一句话：(Normally, this does not occur in Linux. Packets are just silently dropped when a device queue overflows.)。这里的device queue应该指的是Traffic Control里面的queue，说明在linux里面，默认的SO_SNDBUF值已经够queue用了，疑问的地方是，queue的长度和个数是可以配置的，如果配置太大的话，按道理应该有可能会出现ENOBUFS的情况。</p>
+</li>
+<li><p><strong>txqueuelen:</strong> 很多地方都说这个是控制qdisc里queue的长度的，但貌似只是部分类型的qdisc用了该配置，如linux默认的pfifo_fast。</p>
+</li>
+<li><p><strong>hardware RX:</strong> 一般网卡都有一个自己的ring queue，这个queue的大小可以通过ethtool来配置，当驱动收到发送请求时，一般是放到这个queue里面，然后通知网卡发送数据，当这个queue满的时候，会给上层调用返回NETDEV_TX_BUSY</p>
+</li>
+<li><p><strong>packet taps(AF_PACKET):</strong> 当第一次发送数据包和重试发送数据包时，都会经过这里，如果发生重试的情况的话，不确定tcpdump是否会抓到两次包，按道理应该不会，可能是我哪里没看懂</p>
+</li>
+</ul>
+<p>##<br>    参考</p>
+<ul>
+<li><p><a href="https://blog.packagecloud.io/eng/2017/02/06/monitoring-tuning-linux-networking-stack-sending-data/" target="_blank" rel="external">Monitoring and Tuning the Linux Networking Stack: Sending Data</a></p>
+</li>
+<li><p><a href="https://www.coverfire.com/articles/queueing-in-the-linux-network-stack/" target="_blank" rel="external">queueing in the linux network stack</a></p>
+</li>
+</ul>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

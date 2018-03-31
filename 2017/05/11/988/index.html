@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>运维说给研发测试的心底话</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/05/11/988/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">运维说给研发测试的心底话</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-05-11</span>
+      
+      <a href="/categories/粗制滥造/" title="粗制滥造" class="post-categories">粗制滥造</a>
+      
+      
+      <a href="/tags/管理/"" title="管理" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>管理</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="color: rgb(140, 140, 140); font-family: &quot;Helvetica Neue&quot;, Helvetica, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, Arial, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);">2017-05-02 &nbsp; &nbsp;</span><span style="color: rgb(140, 140, 140); font-family: &quot;Helvetica Neue&quot;, Helvetica, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, Arial, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);">58沈剑</span></p>
+<pre><code>&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;互联网，讲究快速迭代，快速上线，敏捷开发。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;有些**固定上线时间**的项目，可能因为技术方案变化，导致测试时间压缩，最终导致上线出问题，而由运维来背锅。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;为保住KPI，运维有很多心里话想和研发测试说一说：&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;（1）&amp;ldquo;**敏捷开发，频繁交付**&amp;rdquo;的KPI，真不是增加运维人手就能解决的，需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;自动化回归&lt;/span&gt;的支持，需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;自动化上线&lt;/span&gt;的支持&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;（2）&amp;ldquo;**上线失败，快速回滚**&amp;rdquo;的KPI，真不是增加运维人手就能解决的，需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;回滚方案&lt;/span&gt;的支持，而&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;回滚方案真的测试&lt;/span&gt;过么&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;（3）&amp;ldquo;**快速扩容，快速响应**&amp;rdquo;的KPI，真不是增加运维人手就能解决的，需要架构设计的支持（很多系统无法&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;水平扩展&lt;/span&gt;，来了机器，无法扩容），需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;快速部署&lt;/span&gt;的支持，需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;服务发现&lt;/span&gt;的支持（所有上游修改配置重启肯定是不行的），需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;压力测试和容量评估&lt;/span&gt;的支持&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;（4）&amp;ldquo;**系统高可用**&amp;rdquo;的KPI，真不是增加运维人手就能解决的，需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;优雅降级&lt;/span&gt;的支持，需要架构设计的支持，如何评判系统是否&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;高可用&lt;/span&gt;？这个简单，关掉线上任何一台机器试试，看用户服务是否受影响，如果受影响，研发哥哥们拜托了&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;（5）&amp;ldquo;**快速故障报警**&amp;rdquo;的KPI，真不是增加运维人手就能解决的，需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;监控系统&lt;/span&gt;的支持（操作系统和运维层面的监控，我们可以实施，但错误日志、接口、业务的监控呢？），另外报警短信能少一点么，过度报警会让人变得&amp;ldquo;麻木不仁&amp;rdquo;的&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;（6）&amp;ldquo;**快速故障定位**&amp;rdquo;的KPI，真不是增加运维人手就能解决的，需要数据&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;量化健康信息&lt;/span&gt;的支持（58到家的守望者平台做的还是不错的），需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;快速诊断&lt;/span&gt;的支持（58到家的调用链跟踪系统做的还是不错的）&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;（7）&amp;ldquo;**快速故障恢复**&amp;rdquo;的KPI，真不是增加运维人手就能解决的，需要&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;故障转移&lt;/span&gt;的支持，相信我们，故障发生时，如果运维人员不知道怎么抉择，且又必须做出抉择，这时的抉择往往是错的（我们能做的，是重启），我们也不想凌晨打给你们，但希望你们能实现&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;自动化&lt;/span&gt;方案&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;（8）&amp;ldquo;**内审合规**&amp;rdquo;的KPI，真不是增加运维人手就能解决的，在资源允许的情况下，请&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;不要手动删除任何资源&lt;/span&gt;，数据是很重要的资源。&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;访问控制&lt;/span&gt;和&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;权限申请&lt;/span&gt;的流程，真的不是限制大家，相反，哪一次数据的误删除，不是我们加班来恢复的？宝宝心里苦呀&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;我们的KPI都掌握在大家的手里，技术一家人，希望研发测试的同学理解。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;大家还有什么&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;苦水&lt;/span&gt;？一起说一说。&lt;/span&gt;
+
+&amp;nbsp;
+
+&lt;span style=&quot;font-size: 14px; background-color: inherit;&quot;&gt;这个问题，大家也自己问一问，&lt;span style=&quot;color: rgb(255, 104, 39); font-size: 14px; background-color: inherit;&quot;&gt;关掉线上任何一台机器，用户服务受影响么？&lt;/span&gt;&lt;/span&gt;
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

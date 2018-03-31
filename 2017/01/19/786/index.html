@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>聊聊高并发系统之HTTP缓存</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/01/19/786/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">聊聊高并发系统之HTTP缓存</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-01-19</span>
+      
+      <a href="/categories/web/" title="web" class="post-categories">web</a>
+      
+      
+      <a href="/tags/web/"" title="web" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>web</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">&nbsp;2016-08-22</span><span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><span style="background-color: inherit;">&nbsp;</span></span><span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">张开涛</span><span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><span style="background-color: inherit;">&nbsp;</span></span><span style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">开涛的博客</span></p>
+<div style="font: 14px/21px 微软雅黑; text-align: left; color: rgb(0, 0, 0); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; white-space: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br>    <div style="background-color: inherit;"><br>        <a href="https://mp.weixin.qq.com/s/HurqpDwjMmPQ-QA0coOn8A" target="_blank" rel="external"><font color="#0066cc">https://mp.weixin.qq.com/s/HurqpDwjMmPQ-QA0coOn8A</font></a><br>    </div>
+
+<pre><code>&lt;div style=&quot;background-color: inherit;&quot;&gt;
+</code></pre><p>##<br>            简介</p>
+<pre><code>最近遇到很多人来咨询我关于浏览器缓存的一些问题，而这些问题都是类似的，因此总结本文来解答以后遇到类似问题的朋友。
+
+因本文主要以浏览器缓存场景介绍，所以非浏览器场景下的一些用法本文不会介绍，而且本文以chrome为测试浏览器。
+
+浏览器缓存是指当我们使用浏览器访问一些网站页面或者http服务时，根据服务端返回的缓存设置响应头将响应内容缓存到浏览器，下次可以直接使用缓存内容或者仅需要去服务端验证内容是否过期即可。这样的好处可以减少浏览器和服务端之间来回传输的数据量，节省带宽提升性能。
+
+首先看个例子；当我们第一次访问[http://item.jd.com/1856588.html](http://item.jd.com/1856588.html)时将得到如下响应头：
+
+![图片描述](http://img.blog.csdn.net/20160822112732103)
+
+然后接着按F5刷新页面，将得到如下响应头：
+
+![图片描述](http://img.blog.csdn.net/20160822112745665)
+
+第二次返回的相应状态码为304，表示服务端文档没有修改过，浏览器缓存的内容还是最新的。
+
+接下来我们看下如何在Java应用层控制浏览器缓存。
+</code></pre><p>##<br>            示例</p>
+<p>###<br>            Last-Modified</p>
+<pre><code>    如下是我们的spring mvc缓存测试代码：
+
+&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`@RequestMapping(<span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;/cache&quot;</span>)<br><span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">public</span> ResponseEntity<span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">&lt;</span><span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">String</span><span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">&gt;</span> <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">cache</span>(<br>      HttpServletRequest request,<br>      <span class="hljs-comment" style="color: rgb(136, 0, 0); box-sizing: border-box;">//为了方便测试，此处传入文档最后修改时间</span><br>      @RequestParam(<span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;millis&quot;</span>) long lastModifiedMillis,<br>      <span class="hljs-comment" style="color: rgb(136, 0, 0); box-sizing: border-box;">//浏览器验证文档内容是否修改时传入的Last-Modified</span><br>      @RequestHeader (value <span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">=</span> <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;If-Modified-Since&quot;</span>, required <span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">=</span> <span class="hljs-literal" style="color: rgb(0, 102, 102); box-sizing: border-box;">false</span>) <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">Date</span> ifModifiedSince) {</p>
+<pre><code>&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//当前系统时间&lt;/span&gt;
+long now &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; System&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;currentTimeMillis();
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//文档可以在浏览器端/proxy上缓存多久&lt;/span&gt;
+long maxAge &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;20&lt;/span&gt;;
+
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//判断内容是否修改了，此处使用等值判断&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;if&lt;/span&gt;(ifModifiedSince &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ifModifiedSince&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;getTime() &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;==&lt;/span&gt; lastModifiedMillis) {
+    &lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; ResponseEntity&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;gt;&lt;/span&gt;(HttpStatus&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;NOT_MODIFIED);
+}
+
+DateFormat gmtDateFormat &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; SimpleDateFormat(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;EEE, d MMM yyyy HH:mm:ss &amp;#39;GMT&amp;#39;&amp;quot;&lt;/span&gt;, Locale&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;US);
+
+&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt; body &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;&amp;lt;a href=&amp;#39;&amp;#39;&amp;gt;点击访问当前链接&amp;lt;/a&amp;gt;&amp;quot;&lt;/span&gt;;
+MultiValueMap&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt;, &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;gt;&lt;/span&gt; headers &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; HttpHeaders();
+
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//文档修改时间&lt;/span&gt;
+headers&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;add(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;Last-Modified&amp;quot;&lt;/span&gt;, gmtDateFormat&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;format(&lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;Date&lt;/span&gt;(lastModifiedMillis)));
+
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//当前系统时间&lt;/span&gt;
+headers&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;add(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;Date&amp;quot;&lt;/span&gt;, gmtDateFormat&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;format(&lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;Date&lt;/span&gt;(now)));
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//过期时间 http 1.0支持&lt;/span&gt;
+headers&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;add(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;Expires&amp;quot;&lt;/span&gt;, gmtDateFormat&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;format(&lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;Date&lt;/span&gt;(now &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;+&lt;/span&gt; maxAge)));
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//文档生存时间 http 1.1支持&lt;/span&gt;
+headers&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;add(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;Cache-Control&amp;quot;&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;max-age=&amp;quot;&lt;/span&gt; &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;+&lt;/span&gt; maxAge);
+&lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; ResponseEntity&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;gt;&lt;/span&gt;(body, headers, HttpStatus&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;OK);
+</code></pre><p>}`</p>
+<pre><code>    为了方便测试，测试时将文档的修改时间通过millis参数传入，实际应用时可以使用如商品的最后修改时间等替代。
+
+    **首次访问**
+
+    首次访问[http://localhost:9080/cache?millis=1471349916709](http://localhost:9080/cache?millis=1471349916709)，将得到如下响应头：
+
+    ![图片描述](http://img.blog.csdn.net/20160822112804592)
+
+    响应状态码200表示请求内容成功，另外有如下几个缓存控制参数：
+
+    **Last-Modified**：表示文档的最后修改时间，当去服务器验证时会拿这个时间去；
+
+    **Expires**：http/1.0规范定义，表示文档在浏览器中的过期时间，当缓存的内容超过这个时间则需要重新去服务器获取最新的内容；
+
+    **Cache-Control**：http/1.1规范定义，表示浏览器缓存控制，max-age=20表示文档可以在浏览器中缓存20秒。
+
+    根据规范定义Cache-Control优先级高于Expires；实际使用时可以两个都用，或仅使用Cache-Control就可以了（比如京东的活动页sale.jd.com）。一般情况下**Expires=当前系统时间（Date） + 缓存时间（Cache-Control: max-age）**。大家可以在如上测试代码进行两者单独测试，缓存都是可行的。
+
+    **F5刷新**
+
+    接着按F5刷新当前页面，将看到浏览器发送如下请求头：
+
+    ![图片描述](http://img.blog.csdn.net/20160822112820951)
+
+    此处发送时有一个`If-Modified-Since`请求头，其值是上次请求响应中的`Last-Modified`，即浏览器会拿这个时间去服务端验证内容是否发生了变更。接着收到如下响应信息：
+
+    ![图片描述](http://img.blog.csdn.net/20160822112835948)
+
+    响应状态码为304，表示服务端告诉浏览器说&amp;ldquo;浏览器你缓存的内容没有变化，直接使用缓存内容展示吧&amp;rdquo;。
+
+&gt; 注：在测试时要过一段时间更改下参数millis来表示内容修改了，要不然会一直看到304响应。
+
+    **Ctrl+F5强制刷新**
+
+    如果你想强制从服务端获取最新的内容，可以按Ctrl+F5：
+
+    ![图片描述](http://img.blog.csdn.net/20160822112921870)
+
+    浏览器在请求时不会带上`If-Modified-Since`，并带上`Cache-Control:no-cache`和`Pragma:no-cache`，这是为了告诉服务端说请给我一份最新的内容。
+</code></pre><p>###<br>            from cache</p>
+<pre><code>当我们按F5刷新、Ctrl+F5强制刷新、地址栏输入地址刷新时都会去服务端验证内容是否发生了变更。那什么情况才不去服务端验证呢？即有些朋友还会发现有一些&amp;ldquo;from cache&amp;rdquo;的情况，这是什么情况下发生的呢？
+
+从A页面跳转到A页面或者从A页面跳转到B页面时：
+
+![图片描述](http://img.blog.csdn.net/20160822112937183)
+
+大家可以通过如上方式模拟，即从A页面跳转到A页面也是情况1。此时如果内容还在缓存时间之内，直接从浏览器获取的内容，而不去服务端验证。
+
+访问页面[http://item.jd.com/11056556.html](http://item.jd.com/11056556.html)，然后点击面包屑中的HTTP权威指南时会跳转到当前页面，此时看到如下结果，页面及页面异步加载的一些js、css、图片都from cache了。
+
+![图片描述](http://img.blog.csdn.net/20160822112955046)
+
+还有如通过浏览器历史记录进行前进后退时也会走from cache。本文是基于chrome 52.0.2743.116 m版本测试，不同浏览器行为可能存在差异。
+
+**Age**
+
+一般用于代理层（如CDN），大家在访问京东一些页面时会发现有一个Age响应头，然后强制刷新(Ctrl+F5)后会发现其不断的变化；其表示此内容在代理层从缓存到现在经过了多长时间，即在代理层缓存了多长时间。
+
+![图片描述](http://img.blog.csdn.net/20160822113008389)
+
+**Vary**
+
+一般用于代理层（如CDN），用于代理层和浏览器协商什么情况下使用哪个版本的缓存内容（比如压缩版和非压缩版），即什么情况下后续请求才能使用代理层缓存的该版本内容，比如如下响应是告知浏览器`Content-Encoding:gzip`，即缓存代理层缓存了gzip版本的内容；那么后续的请求在请求时`Accept-Encoding`头部中包含gzip时才能使用改代理层缓存。
+
+![图片描述](http://img.blog.csdn.net/20160822113250516)
+
+**Via**
+
+一般用于代理层（如CDN），表示访问到最终内容经过了哪些代理层、用的什么协议、代理层是否缓存命中等；通过它可以进行一些故障诊断。
+
+![图片描述](http://img.blog.csdn.net/20160822113316611)
+</code></pre><p>###<br>            ETag</p>
+<pre><code>&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`@RequestMapping(<span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;/cache/etag&quot;</span>)<br><span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">public</span> ResponseEntity<span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">&lt;</span><span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">String</span><span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">&gt;</span> <span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">cache</span>(<br>      HttpServletRequest request,<br>      HttpServletResponse response,<br>      <span class="hljs-comment" style="color: rgb(136, 0, 0); box-sizing: border-box;">//浏览器验证文档内容的实体 If-None-Match</span><br>      @RequestHeader (value <span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">=</span> <span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">&quot;If-None-Match&quot;</span>, required <span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">=</span> <span class="hljs-literal" style="color: rgb(0, 102, 102); box-sizing: border-box;">false</span>) <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">String</span> ifNoneMatch) {</p>
+<pre><code>&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//当前系统时间&lt;/span&gt;
+long now &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; System&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;currentTimeMillis();
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//文档可以在浏览器端/proxy上缓存多久&lt;/span&gt;
+long maxAge &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;10&lt;/span&gt;;
+
+&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt; body &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;&amp;lt;a href=&amp;#39;&amp;#39;&amp;gt;点击访问当前链接&amp;lt;/a&amp;gt;&amp;quot;&lt;/span&gt;;
+
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//弱实体&lt;/span&gt;
+&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt; etag &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;W/\&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;+&lt;/span&gt; md5(body) &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;\&amp;quot;&amp;quot;&lt;/span&gt;;
+
+&lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;if&lt;/span&gt;(StringUtils&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;equals&lt;/span&gt;(ifNoneMatch, etag)) {
+    &lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; ResponseEntity&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;gt;&lt;/span&gt;(HttpStatus&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;NOT_MODIFIED);
+}
+
+DateFormat gmtDateFormat &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; SimpleDateFormat(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;EEE, d MMM yyyy HH:mm:ss &amp;#39;GMT&amp;#39;&amp;quot;&lt;/span&gt;, Locale&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;US);
+MultiValueMap&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt;, &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;gt;&lt;/span&gt; headers &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; HttpHeaders();
+
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//ETag http 1.1支持&lt;/span&gt;
+headers&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;add(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;ETag&amp;quot;&lt;/span&gt;, etag); 
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//当前系统时间&lt;/span&gt;
+headers&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;add(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;Date&amp;quot;&lt;/span&gt;, gmtDateFormat&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;format(&lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;Date&lt;/span&gt;(now)));
+&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//文档生存时间 http 1.1支持&lt;/span&gt;
+headers&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;add(&lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;Cache-Control&amp;quot;&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot; style=&quot;color: rgb(0, 136, 0); box-sizing: border-box;&quot;&gt;&amp;quot;max-age=&amp;quot;&lt;/span&gt; &lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;+&lt;/span&gt; maxAge);
+&lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;new&lt;/span&gt; ResponseEntity&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;hljs-subst&quot; style=&quot;color: rgb(0, 0, 0); box-sizing: border-box;&quot;&gt;&amp;gt;&lt;/span&gt;(body, headers, HttpStatus&lt;span class=&quot;hljs-built_in&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;.&lt;/span&gt;OK);
+</code></pre><p>}`</p>
+<pre><code>    其中ETag用于发送到服务端进行内容变更验证的，而`Catch-Control`是用于控制缓存时间的（浏览器、代理层等）。此处我们使用了弱实体W\&amp;rdquo;343sda&amp;rdquo;，弱实体（&amp;rdquo;343sda&amp;rdquo;）只要内容语义没变即可，比如内容的gzip版和非gzip版可以使用弱实体验证；而强实体指字节必须完全一致（gzip和非gzip情况是不一样的），因此建议首先选择使用弱实体。nginx在生成etag时使用的算法是`Last-Modified + Content-Length`计算的：
+
+&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`<span class="hljs-title" style="box-sizing: border-box;">ngx_sprintf</span>(etag-&gt;value.<span class="hljs-typedef" style="box-sizing: border-box;"><span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">data</span>,&quot;\&quot;%xT-%xO\&quot;&quot;,</span></p>
+<pre><code>                     r-&amp;gt;headers_out.last_modified_time,
+
+                     r-&amp;gt;headers_out.content_length_n)`&lt;/pre&gt;
+
+到此简单的基于文档修改时间和过期时间的缓存控制就介绍完了，在内容型响应我们大多数根据内容的修改时间来进行缓存控制，ETag根据实际需求而定（比如）。另外还可以使用html Meta标签控制浏览器缓存，但是对代理层缓存无效，因此不建议使用。
+</code></pre><p>###<br>            总结</p>
+<ol>
+<li><p>服务端响应的<code>Last-Modified</code>会在下次请求时以<code>If-Modified-Since</code>请求头带到服务端进行文档是否修改的验证，如果没有修改则返回304，浏览器可以直接使用缓存内容；</p>
+</li>
+<li><p><code>Cache-Control:max-age</code>和Expires用于决定浏览器端内容缓存多久，即多久过期，过期后则删除缓存重新从服务端获取最新的；另外可以用于from cache场景；</p>
+</li>
+<li><p>http/1.1规范定义的<code>Cache-Control</code>优先级高于http/1.0规范定义的Expires；</p>
+</li>
+<li><p>一般情况下Expires=当前系统时间+缓存时间（Cache-Control:max-age）；</p>
+</li>
+<li><p>http/1.1规范定义了ETag来通过文档摘要的方式控制。</p>
+<pre><code>`Last-Modified`与ETag同时使用时，浏览器在验证时会同时发送`If-Modified-Since`和`If-None-Match`，按照http/1.1规范，如果同时使用`If-Modified-Since`和`If-None-Match`则服务端必须两个都验证通过后才能返回304；且nginx就是这样做的。因此实际使用时应该根据实际情况选择。还有`If-Match`和`If-Unmodified-Since`本文就不介绍了。
+
+接下来我们看下如何使用nginx进行缓存控制。
+</code></pre></li>
+</ol>
+<p>##<br>            nginx缓存设置</p>
+<pre><code>nginx提供了expires、etag、`if-modified-since`指令来进行浏览器缓存控制。
+</code></pre><p>###<br>            expires</p>
+<pre><code>    假设我们使用nginx作为静态资源服务器，此时可以使用expires进行缓存控制。
+
+&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`       location /img {</p>
+<pre><code>  &lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;alias&lt;/span&gt; /&lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;export&lt;/span&gt;/img/;
+
+  expires &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;1&lt;/span&gt;d;
+
+}`&lt;/pre&gt;
+
+     当我们访问静态资源时，如[http://192.168.61.129/img/1.jpg](http://192.168.61.129/img/1.jpg)，将得到类似如下的响应头：
+
+     ![图片描述](http://img.blog.csdn.net/20160822113429034)
+
+     对于静态资源会自动添加ETag，可以通过添加&amp;ldquo;etag off&amp;rdquo;指令禁止生成ETag。如果是静态文件`Last-Modified`是文件的最后修改时间；Expires是根据当前服务端系统时间算出来的。如上nginx配置的计算逻辑（实际计算逻辑比这个多，具体参考官方文档）：
+
+ &lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`<span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">if</span> (expires == NGX_HTTP_EXPIRES_ACCESS ||r-&gt;headers_out.last_modified_time == -<span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">1</span>) {</p>
+<p>   max_age = expires_time;</p>
+<p>   expires_time += <span class="hljs-built_in" style="color: rgb(102, 0, 102); box-sizing: border-box;">now</span>;</p>
+<p>}`</p>
+<p>###<br>            if-modified-since</p>
+<pre><code>此指令用于表示nginx如何拿服务端的Last-Modified和浏览器端的`If-Modified-Since`时间进行比较，默认&amp;ldquo;`if_modified_since exact`&amp;rdquo;表示精确匹配，也可以使用&amp;ldquo;`if_modified_sincebefore`&amp;rdquo;表示只要文件的上次修改时间早于或等于浏览器短的If-Modified-Since时间，就返回304。
+</code></pre><p>###<br>            nginx proxy expires</p>
+<pre><code>    使用nginx作为反向代理时，请求会先进入nginx，然后nginx将请求转发给后端应用。如下图所示：
+
+    首先配置upstream：
+
+&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`<span class="hljs-attribute" style="box-sizing: border-box;">upstream backend_tomcat {</span></p>
+<p>   server 192.168.61.1:9080 max_fails=<span class="hljs-string" style="color: rgb(0, 136, 0); box-sizing: border-box;">10 fail_timeout=10s weight=5;</span></p>
+<p>}`</p>
+<pre><code>    接着配置location：
+
+&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`location = /cache {</p>
+<p>   proxy_pass <a href="http://backend_tomcat/cache" target="_blank" rel="external">http://backend_tomcat/cache</a><span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$is_args</span><span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$args</span>;</p>
+<p>}`</p>
+<pre><code>    接下来我们可以通过如[http://192.168.61.129/cache?millis=1471349916709](http://192.168.61.129/cache?millis=1471349916709)访问nginx，nginx会将请求转发给后端java应用。也就是说nginx只是做了相关的转发（负载均衡），并没有对请求和响应做什么处理。
+
+    假设对后端返回的过期时间需要调整，可以添加expires指令到location：
+
+&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`location = /cache {</p>
+<pre><code>proxy_pass http://backend_tomcat/cache&lt;span class=&quot;hljs-variable&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;$is_args&lt;/span&gt;&lt;span class=&quot;hljs-variable&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;$args&lt;/span&gt;;
+
+expires &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;5&lt;/span&gt;s;
+</code></pre><p>}`</p>
+<pre><code>然后再请求相关的URL，将得到如下响应：
+
+![图片描述](http://img.blog.csdn.net/20160822113449735)
+
+过期时间相关的响应头被expires指令更改了，但是`Last-Modified`是没有变的。
+
+即使我们更改了缓存过期头，但nginx本身没有对这些内容做缓存，每次请求还是要到后端验证的，假设在过期时间内，这些验证在nginx这一层验证就可以了，不需要到后端验证，这样可以减少后端的很大压力。即整体流程是：
+</code></pre><ol>
+<li><p>浏览器发起请求，首先到nginx，nginx根据url在nginx本地查找是否有文档缓存；</p>
+</li>
+<li><p>nginx没有找到本地缓存，则去后端获取最新的文档，并放入到nginx本地缓存中；返回200状态码和最新的文档给浏览器；</p>
+</li>
+<li><p>nginx找到本地缓存了，首先验证文档是否过期(<code>Cache-Control:max-age=5</code>)，如果过期则去后端获取最新的文档，并放入nginx本地缓存中，返回200状态码和最新的文档给浏览器；如果文档没有过期，如果<code>If-Modified-Since</code>与缓存文档的<code>Last-Modified</code>匹配，则返回300状态码给浏览器，否则返回200状态码和最新的文档给浏览器。</p>
+<pre><code>即内容不需要动态（计算、渲染等）速度更快，内容越接近于用户速度越快。像apache traffic server、squid、varnish、nginx等技术都可以来进行内容缓存。还有CDN就是用来加速用户访问的：
+
+![图片描述](http://img.blog.csdn.net/20160822113505783)
+
+即用户首先访问到全国各地的CDN节点（使用如ATS、Squid实现），如果CDN没命中，会回源到中央nginx集群，该集群如果没有命中缓存（该集群的缓存不是必须的，要根据实际命中情况等决定），最后回源到后端应用集群。
+
+像我们商品详情页的一些服务就大量使用了nginx缓存减少回源到后端的请求量，从而提升访问速度。可以参考[《构建需求响应式亿级商品详情页》](http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;amp;mid=2652897931&amp;amp;idx=1&amp;amp;sn=36a2e7fc1ea619bf985a1b873447cc33&amp;amp;scene=21#wechat_redirect)、[《京东商品详情页服务闭环实践》](http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;amp;mid=401582372&amp;amp;idx=1&amp;amp;sn=f9b7175cf152416ccaa2ac20614c1a23&amp;amp;scene=21#wechat_redirect)和[《应用多级缓存模式支撑海量读服务》](http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;amp;mid=405099864&amp;amp;idx=1&amp;amp;sn=3508ac8b0e66ebe899086eb20a94f8b9&amp;amp;scene=21#wechat_redirect)。
+</code></pre></li>
+</ol>
+<p>###<br>            nginx代理层缓存</p>
+<pre><code>http模块配置：
+
+proxy_buffering on;
+
+proxy_buffer_size 4k;
+
+proxy_buffers 512 4k;
+
+proxy_busy_buffers_size 64k;
+
+&lt;font color=&quot;red&quot; style=&quot;box-sizing: border-box;&quot;&gt;proxy_cache_path /export/cache/proxy_cachelevels=1:2 keys_zone=cache:512m inactive=5m max_size=8g use_temp_path=off;&lt;/font&gt;
+
+#proxy timeout
+
+proxy_connect_timeout 3s;
+
+proxy_read_timeout 5s;
+
+proxy_send_timeout 5s;
+
+其中红色部分是`proxy_cache_path`指令相关配置：
+
+**`levels=1:2`**：表示创建两级目录结构，比如/export/cache/proxy_cache/7/3c/，将所有文件放在一级目录结构中如果文件量很大会导致访问文件慢；
+
+`keys_zone=cache:512m`：设置存储所有缓存key和相关信息的共享内存区，1M大约能存储8000个key；
+
+**`inactive=5m`**：inactive指定被缓存的内容多久不被访问将从缓存中移除，以保证内容的新鲜；默认10分钟；
+
+**`max_size=8g`**：最大缓存阀值，&amp;ldquo;cachemanager&amp;rdquo;进程会监控最大缓存大小，当缓存达到该阀值，该进程将从缓存中移除最近最少使用的内容；
+
+**`use_temp_path`**：如果为on，则内容首先被写入临时文件（&lt;font color=&quot;#6ca6cd&quot; style=&quot;box-sizing: border-box;&quot;&gt;`proxy_temp_path`&lt;/font&gt;），然后重命名到`proxy_cache_path`指定的目录；如果设置为off，则内容直接被写入到`proxy_cache_path`指定的目录，如果需要cache建议off，该特性是1.7.10提供的。
+</code></pre><p>###<br>            location配置</p>
+<pre><code>&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`location <span class="hljs-subst" style="color: rgb(0, 0, 0); box-sizing: border-box;">=</span> /<span class="hljs-keyword" style="color: rgb(0, 0, 136); box-sizing: border-box;">cache</span> {</p>
+<pre><code> proxy_cache &lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;cache&lt;/span&gt;;
+
+ proxy_cache_key &lt;span class=&quot;hljs-variable&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;$scheme&lt;/span&gt;&lt;span class=&quot;hljs-variable&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;$proxy_host&lt;/span&gt;&lt;span class=&quot;hljs-variable&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;$request_uri&lt;/span&gt;;
+
+ proxy_cache_valid &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;200&lt;/span&gt; &lt;span class=&quot;hljs-number&quot; style=&quot;color: rgb(0, 102, 102); box-sizing: border-box;&quot;&gt;5&lt;/span&gt;s;
+
+ proxy_pass http:&lt;span class=&quot;hljs-comment&quot; style=&quot;color: rgb(136, 0, 0); box-sizing: border-box;&quot;&gt;//backend_tomcat/cache$is_args$args;&lt;/span&gt;
+
+add_header &lt;span class=&quot;hljs-keyword&quot; style=&quot;color: rgb(0, 0, 136); box-sizing: border-box;&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;hljs-attribute&quot; style=&quot;box-sizing: border-box;&quot;&gt;-status&lt;/span&gt; &lt;span class=&quot;hljs-variable&quot; style=&quot;color: rgb(102, 0, 102); box-sizing: border-box;&quot;&gt;$upstream_cache_status&lt;/span&gt;;
+</code></pre><p>}`</p>
+<pre><code>缓存相关配置：
+
+**`proxy_cache`**：指定使用哪个共享内存区域存储缓存键和相关信息；
+
+**`proxy_cache_key`**：设置缓存使用的key，默认为访问的完整URL，根据实际情况设置缓存key；
+
+**`proxy_cache_valid`**：为不同的响应状态码设置缓存时间；如果是`proxy_cache_valid` 5s则200、301、302响应将被缓存。
+</code></pre><p>###<br>            <strong><code>proxy_cache_valid</code></strong></p>
+<pre><code>`proxy_cache_valid`不是唯一设置缓存时间的，还可以通过如下方式（优先级从上到下）：
+</code></pre><ol>
+<li><p>以秒为单位的&ldquo;<code>X-Accel-Expires</code>&rdquo;响应头来设置响应缓存时间；</p>
+</li>
+<li><p>如果没有&ldquo;<code>X-Accel-Expires</code>&rdquo;，可以根据&ldquo;<code>Cache-Control</code>&rdquo;、&ldquo;<code>Expires</code>&rdquo;来设置响应缓存时间；</p>
+</li>
+<li><p>否则使用<code>proxy_cache_valid</code>设置的缓存时间；</p>
+<pre><code>如果响应头包含`Cache-Control：private/no-cache/no-store`、`Set-Cookie`或者只有一个Vary响应头且其值为*，则响应内容将不会被缓存。可以使用`proxy_ignore_headers`来忽略这些响应头。
+
+**`add_headercache-status $upstream_cache_status`**在响应头中添加缓存命中的状态：
+
+HIT：缓存命中了，直接返回缓存中内容，不回源到后端；
+
+MISS：缓存没有命中，回源到后端获取最新的内容；
+
+EXPIRED：缓存命中但过期了，回源到后端获取最新的内容；
+
+UPDATING：缓存已过期但正在被别的nginx进程更新；配置了`proxy_cache_use_staleupdating`指令时会存在该状态；
+
+STALE：缓存已过期，但因后端服务出现了问题（比如后端服务挂了）返回过期的响应；配置了如`proxy_cache_use_stale`error timeout指令后会存在该状态；
+
+REVALIDATED：启用&lt;font color=&quot;#6ca6cd&quot; style=&quot;box-sizing: border-box;&quot;&gt;`proxy_cache_revalidate`&lt;/font&gt;指令后，当缓存内容过期时nginx通过一次If-Modified-Since的请求头去验证缓存内容是否过期，此时会返回该状态；
+
+BYPASS：`proxy_cache_bypass`指令有效时强制回源到后端获取内容，即使已经缓存了。
+</code></pre></li>
+</ol>
+<p>###<br>            <strong><code>proxy_cache_min_uses</code></strong></p>
+<pre><code>用于控制请求多少次后响应才被缓存；默认&amp;ldquo;`proxy_cache_min_uses` 1;&amp;rdquo;，如果缓存热点比较集中、存储有限，可以考虑修改该参数以减少缓存数量和写磁盘次数。
+</code></pre><p>###<br>            <strong><code>proxy_no_cache</code></strong></p>
+<pre><code>用于控制什么情况下响应将不被缓存；比如配置&amp;ldquo;`proxy_no_cache $args_nocache`&amp;rdquo;，如果带的参数值至少有一个不为空或者0，则响应将不被缓存。
+</code></pre><p>###<br>            <strong><code>proxy_cache_bypass</code></strong></p>
+<pre><code>类似于`proxy_no_cache`，但是其控制什么情况不从缓存中获取内容，而是直接到后端获取内容；如果命中则`$upstream_cache_status为BYPASS`。
+</code></pre><p>###<br>            <strong><code>proxy_cache_use_stale</code></strong></p>
+<pre><code>当对缓存内容的过期时间不敏感，或者后端服务出问题时即使缓存的内容不新鲜也总比返回错误给用户强（类似于托底），此时可以配置该参数，如&amp;ldquo;`proxy_cache_use_stale error timeout http_500 http_502 http_503http_504`&amp;rdquo;：即如果超时、后端连接出错、500、502、503等错误时即使缓存内容已过期也先返回给用户，此时`$upstream_cache_status`为STALE；还有一个updating表示缓存已过期但正在被别的nginx进程更新将先返回过期的内容，此时`$upstream_cache_status`为UPDATING。
+</code></pre><p>###<br>            <strong><code>proxy_cache_revalidate</code></strong></p>
+<pre><code>当缓存过期后，如果开启了`proxy_cache_revalidate`，则会发出一次`If-Modified-Since`和`If-None-Match`条件请求，如果后端返回304则会得到两个好处：节省带宽和减少写磁盘的次数；此时`$upstream_cache_status`为REVALIDATED。
+</code></pre><p>###<br>            <strong><code>proxy_cache_lock</code></strong></p>
+<pre><code>当多个客户端同时请求同一份内容时，如果开启`proxy_cache_lock`（默认off）则只有一个请求被发送至后端；其他请求将等待该内容返回；当第一个请求返回时，其他请求将从缓存中获取内容返回；当第一个请求超过了`proxy_cache_lock_timeout`超时时间（默认5s），则其他请求将同时请求到后端来获取响应，且响应不会被缓存（在1.7.8版本之前是被缓存的）；启用`proxy_cache_lock`可以应对`Dog-pile effect`（当某个缓存失效时，同时又大量相同的请求没命中缓存，而同时请求到后端，从而导致后端压力太大，此时限制一个请求去拿即可）。
+
+`proxy_cache_lock_age`是1.7.8新添加的，如果在`proxy_cache_lock_age`指定的时间内（默认5s），最后一个发送到后端进行新缓存构建的请求还没有完成，则下一个请求将被发送到后端来构建缓存（因为1.7.8版本之后，`proxy_cache_lock_timeout`超时之后返回的内容是不缓存的，需要下一次请求来构建响应缓存）。
+</code></pre><p>###<br>            清理缓存</p>
+<pre><code>    有时候缓存的内容是错误的，需要手工清理，nginx plus版本提供了purger的功能，但是对于非plus版本的nginx可以考虑使用`ngx_cache_purge`（[https://github.com/FRiCKLE/ngx_cache_purge](https://github.com/FRiCKLE/ngx_cache_purge)）模块进行清理缓存，如：
+
+&lt;pre class=&quot;prettyprint&quot; style=&quot;margin: 0px 0px 10px; padding: 9.5px; border-radius: 0px; border: 1px solid rgba(128, 128, 128, 0.074509); border-image: none; text-align: justify; color: rgb(51, 51, 51); text-transform: none; line-height: 1.45; text-indent: 0px; letter-spacing: normal; overflow: auto; font-family: &amp;quot;Source Code Pro&amp;quot;, monospace; font-size: 13px; font-style: normal; font-weight: normal; word-spacing: 0px; display: block; -ms-word-break: break-all; -ms-word-wrap: break-word; box-sizing: border-box; orphans: 2; widows: 2; background-color: rgb(248, 249, 250); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;&quot;&gt;
+</code></pre><p>`<span class="hljs-title" style="color: rgb(0, 0, 136); box-sizing: border-box;">location</span> <span class="hljs-regexp" style="color: rgb(0, 136, 0); box-sizing: border-box;">~ /purge(/.*)</span> {</p>
+<p>   <span class="hljs-title" style="color: rgb(0, 0, 136); box-sizing: border-box;">allow</span>              <span class="hljs-number" style="color: rgb(0, 102, 102); box-sizing: border-box;">127.0.0.1</span>;</p>
+<p>   <span class="hljs-title" style="color: rgb(0, 0, 136); box-sizing: border-box;">deny</span>               all;</p>
+<p>   <span class="hljs-title" style="color: rgb(0, 0, 136); box-sizing: border-box;">proxy_cache_purge</span>  cache<span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$1</span><span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$is_args</span><span class="hljs-variable" style="color: rgb(102, 0, 102); box-sizing: border-box;">$args</span>;</p>
+<p>}`</p>
+<pre><code>&gt; 注意该方法应该只允许内网可以访问，如有必要可以考虑需要密码才能访问。
+
+    到此代理层缓存就介绍完了，通过代理层缓存可以解决很多问题，可以参考[《京东商品详情页服务闭环实践》](http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;amp;mid=401582372&amp;amp;idx=1&amp;amp;sn=f9b7175cf152416ccaa2ac20614c1a23&amp;amp;scene=21#wechat_redirect)和[《京东商品详情页服务闭环实践》](http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;amp;mid=401582372&amp;amp;idx=1&amp;amp;sn=f9b7175cf152416ccaa2ac20614c1a23&amp;amp;scene=21#wechat_redirect)。
+</code></pre><p>##<br>            一些经验</p>
+<ol>
+<li><p>只缓存200状态码的响应，像302等要根据实际场景决定（比如当系统出错时自动302到错误页面，此时缓存302就不对了）；</p>
+</li>
+<li><p>有些页面不需要强一致，可以进行几秒的缓存（比如商品详情页展示的库存，可以缓存几秒钟，短时间的不一致对于用户来说是没有影响的）；</p>
+</li>
+<li><p>js/css/image等一些内容缓存时间可以设置的很久（比如1个月甚至1年），通过在页面修改版本来控制过期，不建议随机数方式；</p>
+</li>
+<li><p>假设商品详情页异步加载的一些数据使用的是Last-Modified进行的过期控制，而服务端做了逻辑修改但内容是没有修改的，即内容的最后修改时间没变，如果想过期这些异步加载的数据，可以考虑在商品详情页添加异步加载数据的版本号，通过添加版本号来加载最新的数据，或者将Last-Modified时间加1来解决；而这种情况比较适合使用ETag；</p>
+</li>
+<li><p>商品详情页异步加载的一些数据，可以考虑更长时间的缓存（比如1个月而不是几分钟），可以通过MQ将修改时间推送商品详情页，从而实现按需过期数据；</p>
+</li>
+<li><p>服务端考虑使用内存缓存（tmpfs）、SSD缓存；考虑服务端负载均衡算法，如一致性哈希提升缓存命中率；</p>
+</li>
+<li><p>缓存KEY要合理设计（比如去掉参数/排序参数保证代理层缓存命中），要有清理缓存的工具，出问题时能快速清理掉问题KEY；</p>
+</li>
+<li><p>AB测试/个性化需求时应禁用掉浏览器缓存，但考虑服务端缓存；</p>
+</li>
+<li><p>为了便于查找问题，一般会在响应头中添加源服务器信息，如访问京东商品详情页会看到ser响应头，此头存储了源服务器IP，以便出现问题时知道哪台服务器有问题。<br></p></li></ol></div><p></p>
+<div style="background-color: inherit;"><br>    &nbsp;<br></div><br>
+
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
