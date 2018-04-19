@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>docker-compose部署</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/04/19/51/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">docker-compose部署</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-04-19</span>
+      
+      <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
+      
+      
+      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>什么是docker-compose</p>
+<p>compose是用来在docker中定义和运行复杂应用的小工具，简单的来说在配置文件中定义多个容器，然后通过命令就可以让定义多个容器都启动起来，而不需要一个手动启动起来。</p>
+<p><a href="https://github.com/docker/compose/releases/" target="_blank" rel="external">https://github.com/docker/compose/releases/</a></p>
+<p>###docker-compose 1.20.1</p>
+<p>wget <a href="https://github.com/docker/compose/releases/download/1.20.1/docker-compose-Linux-x86_64" target="_blank" rel="external">https://github.com/docker/compose/releases/download/1.20.1/docker-compose-Linux-x86_64</a></p>
+<p>mv -f docker-compose-Linux-x86_64 /usr/local/bin/docker-compose </p>
+<p>chmod +x /usr/local/bin/docker-compose</p>
+<p>一般步骤<br>1、定义Dockerfile，方便迁移到任何地方；</p>
+<p>2、编写docker-compose.yml文件；</p>
+<p>3、运行docker-compose up启动服务</p>
+<p>默认是前台运行并打印日志到控制台。如果想后台运行，可以：</p>
+<p>docker-compose up -d</p>
+<p>服务后台后，可以使用下列命令查看状态：</p>
+<h1 id="docker-compose-ps"><a href="#docker-compose-ps" class="headerlink" title="docker-compose ps"></a>docker-compose ps</h1><p>停止服务：</p>
+<h1 id="docker-compose-stop"><a href="#docker-compose-stop" class="headerlink" title="docker-compose stop"></a>docker-compose stop</h1><p>重新启动服务：<br>docker-compose restart</p>
+<p>#########################################</p>
+<p>要想使用docker-compose就需要用到配置文件，</p>
+<p>配置文件名可以为docker-compose.yml，docker-compose.yaml其中一个，在里面写入<br>docker-compose.yml参考<br><a href="https://docs.docker.com/compose/compose-file" target="_blank" rel="external">https://docs.docker.com/compose/compose-file</a></p>
+<p>每个docker-compose.yml必须定义image或者build中的一个，其它的是可选的。</p>
+<p>配置项详解<br>开头格式：<br>version: ‘3.6’     —-docker-compose支持的版本<br>services:<br> container_name 容器名字</p>
+<p>image<br>指定镜像tag或者ID。示例：<br>image: redis<br>image: ubuntu:14.04<br>image: tutum/influxdb<br>image: example-registry.com:4000/postgresql<br>image: a4bc65fd</p>
+<p>build<br>用来指定一个包含Dockerfile文件的路径。一般是当前目录.。Compose将会利用它自动构建这个镜像，然后使用这个镜像，Fig将build并生成一个随机命名的镜像。</p>
+<h2 id="build-dir"><a href="#build-dir" class="headerlink" title="build: ./dir"></a>build: ./dir</h2><p>build:<br>  context: ./dir<br>  dockerfile: Dockerfile-alternate<br>  args:<br>    buildno: 1</p>
+<h2 id="context为路径，dockerfile为需要替换默认docker-compose的文件名，args为构建-build-过程中的环境变量，用于替换Dockerfile里定义的ARG参数，容器中不可用。示例："><a href="#context为路径，dockerfile为需要替换默认docker-compose的文件名，args为构建-build-过程中的环境变量，用于替换Dockerfile里定义的ARG参数，容器中不可用。示例：" class="headerlink" title="context为路径，dockerfile为需要替换默认docker-compose的文件名，args为构建(build)过程中的环境变量，用于替换Dockerfile里定义的ARG参数，容器中不可用。示例："></a>context为路径，dockerfile为需要替换默认docker-compose的文件名，args为构建(build)过程中的环境变量，用于替换Dockerfile里定义的ARG参数，容器中不可用。示例：</h2><p>command<br> 覆盖容器启动后默认执行的命令。示例：<br>command: bundle exec thin -p 3000<br>command也支持数组形式：<br>command: [bundle, exec, thin, -p, 3000]</p>
+<p>links——这个功能将被删除<br>用于链接另一容器服务，如需要使用到另一容器的mysql服务。可以给出服务名和别名；也可以仅给出服务名，这样别名将和服务名相同。同docker run –link。示例：<br>links:</p>
+<ul>
+<li>db</li>
+<li>db:mysql</li>
+<li>redis<br>使用了别名将自动会在容器的/etc/hosts文件里创建相应记录：<br>172.17.2.186  db<br>172.17.2.186  mysql<br>172.17.2.187  redis<br>所以我们在容器里就可以直接使用别名作为服务的主机名。</li>
+</ul>
+<p>ports<br>用于端口映射。同docker run -p。示例：<br>注意：端口映射与network_mode: host 不兼容 </p>
+<p>ports:</p>
+<ul>
+<li>“3000”</li>
+<li>“3000-3005”</li>
+<li>“8000:8000”</li>
+<li>“9090-9091:8080-8081”</li>
+<li>“49100:22”</li>
+<li>“127.0.0.1:8001:8001”</li>
+<li>“127.0.0.1:5000-5010:5000-5010”</li>
+<li>“6060:6060/udp”</li>
+</ul>
+<p>expose<br>暴露端口，expose提供container之间的端口访问，不会暴露给主机使用。同docker run –expose。<br>expose:</p>
+<ul>
+<li>“3000”</li>
+<li>“8000”<br>volumes<br>挂载数据卷。同docker run -v。示例：<br>volumes:</li>
+<li>/var/lib/mysql</li>
+<li>cache/:/tmp/cache</li>
+<li>~/configs:/etc/configs/:ro</li>
+</ul>
+<p>volumes_from<br> 从另一个服务或容器挂载它的所有卷，挂载数据卷容器，挂载是容器。同docker run –volumes-from。示例：<br>volumes_from:</p>
+<ul>
+<li>service_name</li>
+<li>service_name:ro</li>
+<li>container:container_name</li>
+<li>container:container_name:rw<br>environment<br>添加环境变量。同docker run -e。可以是数组或者字典格式：<br>environment:<br>RACK_ENV: development<br>SHOW: ‘true’<br>SESSION_SECRET:</li>
+</ul>
+<hr>
+<p>environment:</p>
+<ul>
+<li>RACK_ENV=development</li>
+<li>SHOW=true</li>
+<li>SESSION_SECRET</li>
+</ul>
+<p>depends_on<br>用于指定服务依赖，一般是mysql、redis等要在web服务之前启动。<br>指定了依赖，将会优先于服务创建并启动依赖。<br>links也可以指定依赖。<br>示例：<br>services:<br>  web:<br>    build: .<br>    depends_on:</p>
+<pre><code>- db
+- redis
+</code></pre><p>  redis:<br>    image: redis<br>  db:<br>    image: mysql</p>
+<p>external_links<br>链接搭配docker-compose.yml文件或者Compose之外定义的服务，<br>通常是提供共享或公共服务。格式与links相似：<br>external_links:</p>
+<ul>
+<li>redis_1</li>
+<li>project_db_1:mysql</li>
+<li>project_db_1:postgresql<br>注意，external_links链接的服务与当前服务必须是同一个网络环境。</li>
+</ul>
+<p>extra_hosts<br>添加主机名映射。<br>extra_hosts:</p>
+<ul>
+<li>“somehost:162.242.195.82”</li>
+<li>“otherhost:50.31.209.229”<br>将会在/etc/hosts创建记录：<br>162.242.195.82  somehost<br>50.31.209.229   otherhost<br>extends<br>继承自当前yml文件或者其它文件中定义的服务，可以选择性的覆盖原有配置。<br>extends:<br>file: common.yml<br>service: webapp<br>service必须有，file可选。service是需要继承的服务，例如web、database。</li>
+</ul>
+<p>logging<br>Logging configuration for the service.<br>logging:<br>  driver: syslog<br>  options:<br>    syslog-address: “tcp://192.168.0.42:123”</p>
+<p>The default value is json-file.<br>driver: “json-file”<br>driver: “syslog”<br>driver: “none”</p>
+<hr>
+<pre><code>logging:
+  driver: &quot;json-file&quot;
+  options:
+    max-size: &quot;10M&quot;
+    max-file: &quot;10&quot;
+</code></pre><p>network_mode<br> plus the special form service:[service name].<br>设置网络模式。同docker的–net参数。<br>network_mode: “bridge”<br>network_mode: “host”<br>network_mode: “none”<br>network_mode: “service:[service name]”<br>network_mode: “container:[container name/id]”</p>
+<p>dns<br>自定义dns服务器。<br>dns: 8.8.8.8<br>dns:</p>
+<ul>
+<li>8.8.8.8</li>
+<li>9.9.9.9</li>
+</ul>
+<p>healthcheck</p>
+<p>healthcheck:<br>  test: [“CMD”, “curl”, “-f”, “<a href="http://localhost" target="_blank" rel="external">http://localhost</a>“]<br>  interval: 1m30s<br>  timeout: 10s<br>  retries: 3<br>  start_period: 40s</p>
+<p>test: [“CMD”, “curl”, “-f”, “<a href="http://localhost" target="_blank" rel="external">http://localhost</a>“]<br>test: [“CMD-SHELL”, “curl -f <a href="http://localhost" target="_blank" rel="external">http://localhost</a> || exit 1”]<br>test: curl -f <a href="https://localhost" target="_blank" rel="external">https://localhost</a> || exit 1</p>
+<p>sysctls<br>Kernel parameters to set in the container<br>sysctls:<br>  net.core.somaxconn: 1024<br>  net.ipv4.tcp_syncookies: 0</p>
+<p>sysctls:</p>
+<ul>
+<li>net.core.somaxconn=1024</li>
+<li>net.ipv4.tcp_syncookies=0</li>
+</ul>
+<p>ulimits<br>Override the default ulimits for a container.<br>ulimits:<br>  nproc: 65535<br>  nofile:<br>    soft: 20000<br>    hard: 40000</p>
+<p>devices<br>List of device mappings. Uses the same format as the –device docker client create option.<br>devices:</p>
+<ul>
+<li>“/dev/ttyUSB0:/dev/ttyUSB0”</li>
+</ul>
+<p>entrypoint<br>Override the default entrypoint.<br>entrypoint: /code/entrypoint.sh</p>
+<p>The entrypoint can also be a list, in a manner similar to dockerfile:<br>entrypoint:</p>
+<pre><code>- php
+- -d
+- zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
+- -d
+- memory_limit=-1
+- vendor/bin/phpunit
+</code></pre><p>env_file<br> 从文件中获取环境变量，可以为单独的文件路径或列表</p>
+<p>env_file: .env</p>
+<p>env_file:</p>
+<ul>
+<li>./common.env</li>
+<li>./apps/web.env</li>
+<li>/opt/secrets.env</li>
+</ul>
+<p>restart<br>no is the default restart policy, and it does not restart a container under any circumstance. When always is specified, the container always restarts. The on-failure policy restarts a container if the exit code indicates an on-failure error.<br>restart: “no”<br>restart: always<br>restart: on-failure<br>restart: unless-stopped</p>
+<p>cpu_shares, cpu_quota, cpuset, domainname, hostname, ipc, mac_address, mem_limit, memswap_limit, privileged, read_only, restart, shm_size, stdin_open, tty, user, working_dir<br>这些命令都是单个值，含义请参考docker run。<br>cpu_shares: 73<br>cpu_quota: 50000<br>cpuset: 0,1</p>
+<p>user: postgresql<br>working_dir: /code</p>
+<p>domainname: foo.com<br>hostname: foo<br>ipc: host<br>mac_address: 02:42:ac:11:65:43</p>
+<p>mem_limit: 1000000000<br>mem_limit: 128M<br>memswap_limit: 2000000000<br>privileged: true</p>
+<p>restart: always</p>
+<p>read_only: true<br>shm_size: 64M<br>stdin_open: true<br>tty: true</p>
+<p>###############################</p>
+<p>networks<br>Networks to join, referencing entries under the top-level networks key.<br>services:<br>  some-service:<br>    networks:</p>
+<pre><code>- some-network
+- other-network
+</code></pre><p>networks:<br>  maiya-network:<br>    driver: bridge<br>    name: maiya-network</p>
+<p>docker-compose常用命令<br>查看版本信息 docker-compose –version<br>构建或重新构建服务 docker-compose build(构建配置文件中的所有service)，docker-compose build [service-name …]，<br>service-name就是配置文件中指定的容器名<br>查看所有服务 docker-compose ps [service-name]<br>启动暂停杀死删除重启服务 docker-compose start/stop/kill/rm/restart [service-name …]<br>运行服务，相当于docker run，docker-compose up -d [service-name …]指定-d可以服务运行在后台<br>查看服务的日志信息 docker-compose logs [service-name]<br>pull服务镜像 docker-compose pull [service-name]<br>打印绑定的端口信息 docker-compose port [service-name]</p>
+<p>##########################################################################<br>$ docker-compose -h<br>Define and run multi-container applications with Docker.</p>
+<p>Usage:<br>  docker-compose [-f=<arg>…] [options] [COMMAND] [ARGS…]<br>  docker-compose -h|–help</arg></p>
+<p>Options:<br>  -f, –file FILE           Specify an alternate compose file (default: docker-compose.yml)<br>  -p, –project-name NAME   Specify an alternate project name (default: directory name)<br>  –x-networking            (EXPERIMENTAL) Use new Docker networking functionality.<br>                            Requires Docker 1.9 or later.<br>  –x-network-driver DRIVER (EXPERIMENTAL) Specify a network driver (default: “bridge”).<br>                            Requires Docker 1.9 or later.<br>  –verbose                 Show more output<br>  -v, –version             Print version and exit</p>
+<p>Commands:<br>  build              Build or rebuild services<br>  help               Get help on a command<br>  kill               Kill containers<br>  logs               View output from containers<br>  pause              Pause services<br>  port               Print the public port for a port binding<br>  ps                 List containers<br>  pull               Pulls service images<br>  restart            Restart services<br>  rm                 Remove stopped containers<br>  run                Run a one-off command<br>  scale              Set number of containers for a service<br>  start              Start services<br>  stop               Stop services<br>  unpause            Unpause services<br>  up                 Create and start containers<br>  migrate-to-labels  Recreate containers to add labels<br>  version            Show the Docker-Compose version information</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-compose-ps"><span class="toc-text">docker-compose ps</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-compose-stop"><span class="toc-text">docker-compose stop</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#build-dir"><span class="toc-text">build: ./dir</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#context为路径，dockerfile为需要替换默认docker-compose的文件名，args为构建-build-过程中的环境变量，用于替换Dockerfile里定义的ARG参数，容器中不可用。示例："><span class="toc-text">context为路径，dockerfile为需要替换默认docker-compose的文件名，args为构建(build)过程中的环境变量，用于替换Dockerfile里定义的ARG参数，容器中不可用。示例：</span></a></li></ol></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
