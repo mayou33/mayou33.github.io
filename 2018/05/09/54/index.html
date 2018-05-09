@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>DNF软件包管理工具</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/05/09/54/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">DNF软件包管理工具</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-05-09</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://linux.cn/article-5718-1.html" target="_blank" rel="external">https://linux.cn/article-5718-1.html</a></p>
+<p>DNF即Dandified YUM，是基于RPM的Linux发行版的下一代软件包管理工具。<br>它首先在Fedora 18中出现，并且在最近发行的Fedora 22中替代了YUM工具集。</p>
+<p>DNF致力于改善YUM的瓶颈，即性能、内存占用、依赖解决、速度和许多其他方面。<br>DNF使用RPM、libsolv和hawkey库进行包管理。尽管它并未预装在CentOS和RHEL 7中，但您可以通过yum安装，并同时使用二者。</p>
+<p>安装 DNF 包管理器</p>
+<p>1、为了安装 DNF ，您必须先安装并启用 epel-release 依赖。<br>在系统中执行以下命令：</p>
+<h1 id="yum-install-epel-release"><a href="#yum-install-epel-release" class="headerlink" title="yum install epel-release"></a>yum install epel-release</h1><p>或者</p>
+<h1 id="yum-install-epel-release-y"><a href="#yum-install-epel-release-y" class="headerlink" title="yum install epel-release -y"></a>yum install epel-release -y</h1><p>其实这里并没有强制使用”-y”的理由，相反的，在不使用”-y”的情况下，用户可以在安装过程中查看到底有哪些东西被安装进了系统。<br>但对于没有这个需求的用户，您可以在 YUM 中使用”-y”参数来自动安装所有东西。<br>2、使用 epel-release 依赖中的 YUM 命令来安装 DNF 包。在系统中执行以下命令：</p>
+<h1 id="yum-install-dnf"><a href="#yum-install-dnf" class="headerlink" title="yum install dnf"></a>yum install dnf</h1><p>然后， DNF 包管理器就被成功的安装到你的系统中了。接下来，是时候开始我们的教程了！在这个教程中，您将会学到27个用于 DNF 包管理器的命令。使用这些命令，你可以方便有效的管理您系统中的 RPM 软件包。现在，让我们开始学习 DNF 包管理器的27条常用命令吧！<br>查看 DNF 包管理器版本<br>用处：该命令用于查看安装在您系统中的 DNF 包管理器的版本</p>
+<h1 id="dnf-–version"><a href="#dnf-–version" class="headerlink" title="dnf –version"></a>dnf –version</h1><p>列出启用的DNF仓库<br>用处：该命令用于显示系统中可用的 DNF 软件库</p>
+<h1 id="dnf-repolist"><a href="#dnf-repolist" class="headerlink" title="dnf repolist"></a>dnf repolist</h1><p>列出所有启用和禁用的DNF仓库<br>‘repolist all’选项将显示您系统中所有启用/禁用的仓库。</p>
+<h1 id="dnf-repolist-all"><a href="#dnf-repolist-all" class="headerlink" title="dnf repolist all"></a>dnf repolist all</h1><p>列出所有可用的且已安装的软件包<br>用处：该命令用于列出用户系统上的所有来自软件库的可用软件包和所有已经安装在系统上的软件包</p>
+<h1 id="dnf-list"><a href="#dnf-list" class="headerlink" title="dnf list"></a>dnf list</h1><p>列出所有已安装的软件包<br>用处：该命令用于列出所有安装了的 RPM 包</p>
+<h1 id="dnf-list-installed"><a href="#dnf-list-installed" class="headerlink" title="dnf list installed"></a>dnf list installed</h1><p>列出所有可供安装的 RPM 包<br>用处：该命令用于列出来自所有可用软件库的可供安装的软件包</p>
+<h1 id="dnf-list-available"><a href="#dnf-list-available" class="headerlink" title="dnf list available"></a>dnf list available</h1><p>搜索软件库中的 RPM 包<br>用处：当你不知道你想要安装的软件的准确名称时，你可以用该命令来搜索软件包。你需要在”search”参数后面键入软件的部分名称来搜索。（在本例中我们使用”nano”）</p>
+<h1 id="dnf-search-nano"><a href="#dnf-search-nano" class="headerlink" title="dnf search nano"></a>dnf search nano</h1><p> 查看哪个软件包提供了某个文件/子软件包？<br>用处：当你想要查看是哪个软件包提供了系统中的某一文件时，你可以使用这条命令。（在本例中，我们将查找”/bin/bash”这个文件的提供者）</p>
+<h1 id="dnf-provides-bin-bash"><a href="#dnf-provides-bin-bash" class="headerlink" title="dnf provides /bin/bash"></a>dnf provides /bin/bash</h1><p>获得一个软件包的详细信息<br>用处：当你想在安装某一个软件包之前查看它的详细信息时，这条命令可以帮到你。（在本例中，我们将查看”nano”这一软件包的详细信息）</p>
+<h1 id="dnf-info-nano"><a href="#dnf-info-nano" class="headerlink" title="dnf info nano"></a>dnf info nano</h1><p>安装软件包<br>用处：使用该命令，系统将会自动安装对应的软件及其所需的所有依赖（在本例中，我们将用该命令安装nano软件）</p>
+<h1 id="dnf-install-nano"><a href="#dnf-install-nano" class="headerlink" title="dnf install nano"></a>dnf install nano</h1><p>升级软件包<br>用处：该命令用于升级制定软件包（在本例中，我们将用命令升级”systemd”这一软件包）</p>
+<h1 id="dnf-update-systemd"><a href="#dnf-update-systemd" class="headerlink" title="dnf update systemd"></a>dnf update systemd</h1><p>检查系统软件包的更新<br>用处：该命令用于检查系统中所有软件包的更新</p>
+<h1 id="dnf-check-update"><a href="#dnf-check-update" class="headerlink" title="dnf check-update"></a>dnf check-update</h1><p>更新系统中所有的软件包<br>用处：该命令用于升级系统中所有有可用升级的软件包</p>
+<h1 id="dnf-update-或-dnf-upgrade"><a href="#dnf-update-或-dnf-upgrade" class="headerlink" title="dnf update 或 # dnf upgrade"></a>dnf update 或 # dnf upgrade</h1><p>移除/删除一个软件包<br>用处：删除系统中指定的软件包（在本例中我们将使用命令删除”nano”这一软件包）</p>
+<h1 id="dnf-remove-nano-或-dnf-erase-nano"><a href="#dnf-remove-nano-或-dnf-erase-nano" class="headerlink" title="dnf remove nano 或 # dnf erase nano"></a>dnf remove nano 或 # dnf erase nano</h1><p>删除无用孤立的软件包<br>用处：当没有软件再依赖它们时，某一些用于解决特定软件依赖的软件包将会变得没有存在的意义，该命令就是用来自动移除这些没用的孤立软件包。</p>
+<h1 id="dnf-autoremove"><a href="#dnf-autoremove" class="headerlink" title="dnf autoremove"></a>dnf autoremove</h1><p>删除缓存的无用软件包<br>用处：在使用 DNF 的过程中，会因为各种原因在系统中残留各种过时的文件和未完成的编译工程。我们可以使用该命令来删除这些没用的垃圾文件。</p>
+<h1 id="dnf-clean-all"><a href="#dnf-clean-all" class="headerlink" title="dnf clean all"></a>dnf clean all</h1><p>获取有关某条命令的使用帮助<br>用处：该命令用于获取有关某条命令的使用帮助（包括可用于该命令的参数和该命令的用途说明）（本例中我们将使用命令获取有关命令”clean”的使用帮助）</p>
+<h1 id="dnf-help-clean"><a href="#dnf-help-clean" class="headerlink" title="dnf help clean"></a>dnf help clean</h1><p>查看所有的 DNF 命令及其用途<br>用处：该命令用于列出所有的 DNF 命令及其用途</p>
+<h1 id="dnf-help"><a href="#dnf-help" class="headerlink" title="dnf help"></a>dnf help</h1><p>查看 DNF 命令的执行历史<br>用处：您可以使用该命令来查看您系统上 DNF 命令的执行历史。通过这个手段您可以知道在自您使用 DNF 开始有什么软件被安装和卸载。</p>
+<h1 id="dnf-history"><a href="#dnf-history" class="headerlink" title="dnf history"></a>dnf history</h1><p>查看所有的软件包组<br>用处：该命令用于列出所有的软件包组</p>
+<h1 id="dnf-grouplist"><a href="#dnf-grouplist" class="headerlink" title="dnf grouplist"></a>dnf grouplist</h1><p>安装一个软件包组<br>用处：该命令用于安装一个软件包组（本例中，我们将用命令安装”Educational Software”这个软件包组）</p>
+<h1 id="dnf-groupinstall-‘Educational-Software’"><a href="#dnf-groupinstall-‘Educational-Software’" class="headerlink" title="dnf groupinstall ‘Educational Software’"></a>dnf groupinstall ‘Educational Software’</h1><p>升级一个软件包组中的软件包<br>用处：该命令用于升级一个软件包组中的软件包（本例中，我们将用命令升级”Educational Software”这个软件包组中的软件）</p>
+<h1 id="dnf-groupupdate-‘Educational-Software’"><a href="#dnf-groupupdate-‘Educational-Software’" class="headerlink" title="dnf groupupdate ‘Educational Software’"></a>dnf groupupdate ‘Educational Software’</h1><p>删除一个软件包组<br>用处：该命令用于删除一个软件包组（本例中，我们将用命令删除”Educational Software”这个软件包组）</p>
+<h1 id="dnf-groupremove-‘Educational-Software’"><a href="#dnf-groupremove-‘Educational-Software’" class="headerlink" title="dnf groupremove ‘Educational Software’"></a>dnf groupremove ‘Educational Software’</h1><p>从特定的软件包库安装特定的软件<br>用处：该命令用于从特定的软件包库安装特定的软件（本例中我们将使用命令从软件包库 epel 中安装 phpmyadmin 软件包）</p>
+<h1 id="dnf-–enablerepo-epel-install-phpmyadmin"><a href="#dnf-–enablerepo-epel-install-phpmyadmin" class="headerlink" title="dnf –enablerepo=epel install phpmyadmin"></a>dnf –enablerepo=epel install phpmyadmin</h1><p>更新软件包到最新的稳定发行版<br>用处：该命令可以通过所有可用的软件源将已经安装的所有软件包更新到最新的稳定发行版</p>
+<h1 id="dnf-distro-sync"><a href="#dnf-distro-sync" class="headerlink" title="dnf distro-sync"></a>dnf distro-sync</h1><p>重新安装特定软件包<br>用处：该命令用于重新安装特定软件包（本例中，我们将使用命令重新安装”nano”这个软件包）</p>
+<h1 id="dnf-reinstall-nano"><a href="#dnf-reinstall-nano" class="headerlink" title="dnf reinstall nano"></a>dnf reinstall nano</h1><p>回滚某个特定软件的版本<br>用处：该命令用于降低特定软件包的版本（如果可能的话）（本例中，我们将使用命令降低”acpid”这个软件包的版本）</p>
+<h1 id="dnf-downgrade-acpid"><a href="#dnf-downgrade-acpid" class="headerlink" title="dnf downgrade acpid"></a>dnf downgrade acpid</h1><p>样例输出：<br>Using metadata from Wed May 20 12:44:59 2015<br>No match for available package: acpid-2.0.19-5.el7.x86_64<br>Error: Nothing to do.<br>原作者注：在执行这条命令的时候， DNF 并没有按照我期望的那样降级指定的软件（“acpid”）。该问题已经上报。<br>总结<br>DNF 包管理器作为 YUM 包管理器的升级替代品，它能自动完成更多的操作。但在我看来，正因如此，所以 DNF 包管理器不会太受那些经验老道的 Linux 系统管理者的欢迎。举例如下：<br>在 DNF 中没有 –skip-broken 命令，并且没有替代命令供选择。<br>在 DNF 中没有判断哪个包提供了指定依赖的 resolvedep 命令。<br>在 DNF 中没有用来列出某个软件依赖包的 deplist 命令。<br>当你在 DNF 中排除了某个软件库，那么该操作将会影响到你之后所有的操作，不像在 YUM 下那样，你的排除操作只会咋升级和安装软件时才起作用。</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#yum-install-epel-release"><span class="toc-text">yum install epel-release</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#yum-install-epel-release-y"><span class="toc-text">yum install epel-release -y</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#yum-install-dnf"><span class="toc-text">yum install dnf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-–version"><span class="toc-text">dnf –version</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-repolist"><span class="toc-text">dnf repolist</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-repolist-all"><span class="toc-text">dnf repolist all</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-list"><span class="toc-text">dnf list</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-list-installed"><span class="toc-text">dnf list installed</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-list-available"><span class="toc-text">dnf list available</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-search-nano"><span class="toc-text">dnf search nano</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-provides-bin-bash"><span class="toc-text">dnf provides /bin/bash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-info-nano"><span class="toc-text">dnf info nano</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-install-nano"><span class="toc-text">dnf install nano</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-update-systemd"><span class="toc-text">dnf update systemd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-check-update"><span class="toc-text">dnf check-update</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-update-或-dnf-upgrade"><span class="toc-text">dnf update 或 # dnf upgrade</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-remove-nano-或-dnf-erase-nano"><span class="toc-text">dnf remove nano 或 # dnf erase nano</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-autoremove"><span class="toc-text">dnf autoremove</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-clean-all"><span class="toc-text">dnf clean all</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-help-clean"><span class="toc-text">dnf help clean</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-help"><span class="toc-text">dnf help</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-history"><span class="toc-text">dnf history</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-grouplist"><span class="toc-text">dnf grouplist</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-groupinstall-‘Educational-Software’"><span class="toc-text">dnf groupinstall ‘Educational Software’</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-groupupdate-‘Educational-Software’"><span class="toc-text">dnf groupupdate ‘Educational Software’</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-groupremove-‘Educational-Software’"><span class="toc-text">dnf groupremove ‘Educational Software’</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-–enablerepo-epel-install-phpmyadmin"><span class="toc-text">dnf –enablerepo=epel install phpmyadmin</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-distro-sync"><span class="toc-text">dnf distro-sync</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-reinstall-nano"><span class="toc-text">dnf reinstall nano</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnf-downgrade-acpid"><span class="toc-text">dnf downgrade acpid</span></a></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
