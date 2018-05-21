@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>Docker应用三十六计</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/05/21/56/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">Docker应用三十六计</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-05-21</span>
+      
+      <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
+      
+      
+      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>内容用OCR文字识别软件而得，源于书籍《devops三十六计》。</p>
+<p>Docker应用三十六计</p>
+<p>镜像管理</p>
+<p>第一计<br>自己构建基础镜像很重要，用未认证的镜像存在漏洞风险</p>
+<p>第二计<br>基础镜像应该足够小，仅安装必要的依赖和工具集。</p>
+<p>第三计<br>镜像太大会影响效率，要想办法瘦身和拆解。</p>
+<p>第四计<br>把镜像的生成放到持续集成中， 自动触发镜像构建，提前发现异常。</p>
+<p>第五计<br>代码构建和镜像构建分开进行，原子化构建过程更容易定位异常</p>
+<p>第六计<br>推存使用三层镜像管理模式:基础镜像/环境镜像/业务镜像<br>越稳态的内容越往底层放。</p>
+<p> 第七计<br>创建自己的私有合库管理镜像，并做好权限控制。</p>
+<p>第八计<br>每个版本认真验证完成后再推送到生产镜像库，避免生产镜像过大。</p>
+<p>用好dockerfile</p>
+<p>第九计<br>用dockerfile的方式构建镜像，建议将dockerfile放到代码库做版本管理。</p>
+<p>第十计<br>dockerfile每一个指令都是一个新的镜像层，我们要尽量控制镜像的层次。</p>
+<p>  第十一计<br>dockerfile中的RUN指令能合并就尽量合并， 能够使镜像瘦身。</p>
+<p>第十二计<br>在构建镜像时设置好 正确的时区，或映射宿主机时区文件。</p>
+<p>  容器运行</p>
+<p>  第十三计<br>一个容器尽可能只做一个任务， 只有一个进程。</p>
+<p>  第十四计<br>如果容器里有多个任务进程， 封装初始脚本来管理，或者选  择supervisor这样的工具。</p>
+<p>  第十五计<br>正确使用ENTRYPOINT和CMD,推荐使用exec模式来定义容器的初始化进程。</p>
+<p>  第十六计<br>优雅地停止容器， 停止容器时处理好SIGTERM信号，避免被直接kill。</p>
+<p>  第十七计<br>测试和生 产用同一个镜像，启动时通过env参数指定所使用的配置文件。</p>
+<p>  第十八计<br>谨慎使用 privileged特权模式启动容器。</p>
+<p>第十九计<br>不要将宿主机上的敏感目录挂载到容器内。</p>
+<p>  第二十计<br>容器内避免运行SSH， 不要通过SSH方式进入容器，可通过exec方式进入运行中的容器。</p>
+<p>  第二十一计<br>  数据不要存放在容器内，一旦重启就丢失了，   建议使用云存储，更便于资源调度和故障转移。   </p>
+<p>  容器运维</p>
+<p> 第二十二计<br>管好2375端口</p>
+<p>第二十三计<br> 对宿主机预拉取基础镜像，能够加快发布速度。</p>
+<p>第二十四计<br>  定期清理宿主机上无用的镜像。</p>
+<p>第二十五计<br> 在生产服务器上及时清理退出的exit状态的容器。</p>
+<p>第二十六计<br>尽量不要在运行的容器中做配置变更， 所有变更和发布都 是新的镜像分发过程。</p>
+<p>第二十七计<br>日志不落本地，容器和应用日志实时采集入日志系统，常  用的解决方案是ELK。</p>
+<p>容器编排  </p>
+<p>第二十八计<br> 每一种网络模型都有其自身优势和适用的应用模型，建议  根据业务形态和基础架构，选择合适的网络模型。</p>
+<p>  第二十九计<br>选择Docker的专用监控工具构建容器监控，做宿主机和所 有容器的资源容量监控，合理配置资源使用量。</p>
+<p>  第三十计<br>不要把日志采集和监控之类的agent放到容器里，在宿主机  上单独运行日志采集和监控等容器。</p>
+<p>第三十一计<br>建议使用公有容器云平台做容器编排， 管理客器服务，自  已专注业务和镜像层面的优化。</p>
+<p>  第三十二计<br>基于 Mesos或者K8S构建自己的容器编排服务，Mesos灵活，  K8S闭环。</p>
+<p>  基本认知</p>
+<p>第三十三计<br> 版本选择很重要，低版本的很多坑在新版本中已经修有</p>
+<p>第三十四计<br>Docker 更适合用微服务部署。</p>
+<p>第三十五计<br>不要把Docker当成虚拟机用。 </p>
+<p> 第三十六计<br>不要为了使用Docker而选择Docker, 先想想能否解决你的痛点。</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
