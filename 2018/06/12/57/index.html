@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>文件变更监控file_monit</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/06/12/57/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">文件变更监控file_monit</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-06-12</span>
+      
+      <a href="/categories/Script/" title="脚本" class="post-categories">脚本</a>
+      
+      
+      <a href="/tags/脚本/"" title="脚本" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>脚本</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="comment">#######################################################</span></div><div class="line"><span class="comment"># 脚本名:    file_monity.sh</span></div><div class="line"><span class="comment"># 版本:      v1.0</span></div><div class="line"><span class="comment"># 作者:       zhangyu</span></div><div class="line"><span class="comment"># 组织:   http://zhangyu233.com</span></div><div class="line"><span class="comment"># 更新时间:  2018-6-12</span></div><div class="line"><span class="comment"># 功能:  #此脚本用于检测linux系统重要文件是否被改动，如果改动则用邮件报警</span></div><div class="line"><span class="comment"># 描述:  参考http://www.cnblogs.com/kevingrace/p/8260032.html</span></div><div class="line"><span class="comment">###</span></div><div class="line"><span class="comment">#建议用定时任务执行此脚本，如每5分钟执行一次，</span></div><div class="line"><span class="comment">####*/5 * * * *  /bin/bash  /opt/file_monit.sh &gt; /dev/null 2&gt;&amp;1</span></div><div class="line"></div><div class="line"><span class="comment">##############################################################</span></div><div class="line"><span class="comment">###rpm -Uvh http://mirrors.sohu.com/fedora-epel/7Server/x86_64/Packages/i/inotify-tools-3.14-8.el7.x86_64.rpm</span></div><div class="line"><span class="comment">###第一次安装，后面就不用了</span></div><div class="line"><span class="comment">##监控-文件状态。--事先是运行下面的命令 --或者加入supervisor     这里我监控的是/data/test目录</span></div><div class="line"><span class="comment">#inotifywait -mrq --timefmt '%Y-%m-%dT%H:%m:%S' --format '%T %w%f %e' -e modify,delete,create,attrib /data/test  &gt;&gt; /tmp/inotify.log &amp;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="title">install_mailx</span></span> () &#123;</div><div class="line"> yum -y remove sendmail</div><div class="line"> yum -y install mailx</div><div class="line"> </div><div class="line">cat &gt;&gt;/etc/mail.rc&lt;&lt; EOF</div><div class="line"><span class="built_in">set</span> from=xxxxx@qq.com</div><div class="line"><span class="built_in">set</span> smtp=smtps://smtp.qq.com:465</div><div class="line"><span class="built_in">set</span> smtp-auth=login</div><div class="line"><span class="built_in">set</span> smtp-auth-user=xxxxx@qq.com</div><div class="line"><span class="built_in">set</span> smtp-auth-password=你的QQ邮箱授权码</div><div class="line"><span class="built_in">set</span> ssl-verify=ignore</div><div class="line"><span class="built_in">set</span> nss-config-dir=/etc/pki/nssdb/</div><div class="line">EOF</div><div class="line"></div><div class="line"></div><div class="line"> <span class="built_in">echo</span> -n | openssl s_client -connect smtp.qq.com:465 | sed -ne <span class="string">'/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'</span> &gt; /etc/pki/nssdb/qq.crt</div><div class="line"> </div><div class="line"> certutil -A -n <span class="string">"GeoTrust SSL CA"</span> -t <span class="string">"C,,"</span> -d /etc/pki/nssdb/ -i /etc/pki/nssdb/qq.crt</div><div class="line"></div><div class="line"> certutil -A -n <span class="string">"GeoTrust Global CA"</span> -t <span class="string">"C,,"</span> -d /etc/pki/nssdb/ -i /etc/pki/nssdb/qq.crt</div><div class="line"></div><div class="line"> certutil -L -d /etc/pki/nssdb/</div><div class="line"></div><div class="line"> certutil -A -n <span class="string">"GeoTrust SSL CA - G3"</span> -t <span class="string">"Pu,Pu,Pu"</span> -d /etc/pki/nssdb/ -i /etc/pki/nssdb/qq.crt</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="comment">#####install_mailx 第一次使用，后面就不用了</span></div><div class="line"></div><div class="line"><span class="comment">#######################################################################################</span></div><div class="line"><span class="comment">#定义验证文件所在目录  注意 file_monit.sh 不能放在FileDir里面</span></div><div class="line"></div><div class="line">FileDir=<span class="string">'/opt/checkfile'</span></div><div class="line"> </div><div class="line"><span class="comment">#获取主机名或自己定义</span></div><div class="line">HostName=$(hostname)</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="comment">#定义需要验证的文件目录。这里我监控的是/data/test目录</span></div><div class="line">CheckDir=(</div><div class="line">/data/<span class="built_in">test</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">#定义邮件参数 ，接收邮件地址，邮件主题，邮件内容</span></div><div class="line"> </div><div class="line">Mail_To=<span class="string">"xxxxx@qq.com"</span></div><div class="line">Mail_Subject=<span class="string">"<span class="variable">$&#123;HostName&#125;</span>:There are changes to system files"</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">#生成所定义需验证的文件样本日志函数</span></div><div class="line"><span class="function"><span class="title">OldFile</span></span> () &#123;</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;CheckDir[@]&#125;</span></div><div class="line"><span class="keyword">do</span></div><div class="line">find <span class="variable">$&#123;i&#125;</span> -<span class="built_in">type</span> f |xargs md5sum &gt;&gt; <span class="variable">$&#123;FileDir&#125;</span>/old.log</div><div class="line"><span class="keyword">done</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">NewFile</span></span> () &#123;</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;CheckDir[@]&#125;</span></div><div class="line"><span class="keyword">do</span></div><div class="line">find <span class="variable">$&#123;i&#125;</span> -<span class="built_in">type</span> f |xargs md5sum &gt;&gt; <span class="variable">$&#123;FileDir&#125;</span>/new.log</div><div class="line"><span class="keyword">done</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="title">SendEMail</span></span> () &#123;</div><div class="line"> mailx -v -s <span class="string">"<span class="variable">$Mail_Subject</span>"</span> <span class="variable">$Mail_To</span>  &lt; /tmp/inotify.log   2&gt; /dev/null</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">#####################################################</span></div><div class="line"><span class="keyword">if</span> [ ! -d <span class="variable">$&#123;FileDir&#125;</span> ]</div><div class="line"><span class="keyword">then</span></div><div class="line">mkdir <span class="variable">$&#123;FileDir&#125;</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"> </div><div class="line"><span class="comment">#假如验证文件目录不存在则创建</span></div><div class="line"><span class="keyword">if</span> [ ! -f <span class="variable">$&#123;FileDir&#125;</span>/old.log ]</div><div class="line"><span class="keyword">then</span></div><div class="line">OldFile</div><div class="line"><span class="keyword">fi</span></div><div class="line"> </div><div class="line"> </div><div class="line"><span class="comment">#生成新验证日志</span></div><div class="line">NewFile</div><div class="line"> </div><div class="line"><span class="comment">#新验证日志与样本日志进行比较</span></div><div class="line">diff <span class="variable">$&#123;FileDir&#125;</span>/new.log <span class="variable">$&#123;FileDir&#125;</span>/old.log &gt;<span class="variable">$&#123;FileDir&#125;</span>/diff.log</div><div class="line">Status=$?</div><div class="line"> </div><div class="line"><span class="comment">#假如比较结果有变化，则发送邮件报警</span></div><div class="line"><span class="keyword">if</span> [ <span class="variable">$&#123;Status&#125;</span> -ne 0 ]</div><div class="line"><span class="keyword">then</span></div><div class="line">Mail_Conntent=<span class="string">"<span class="variable">$(grep '&lt;' $&#123;FileDir&#125;/diff.log |awk '&#123;print $3&#125;')</span>"</span></div><div class="line">SendEMail</div><div class="line"><span class="keyword">fi</span></div><div class="line"> </div><div class="line"><span class="comment">#清除新旧日志，把比较结果进行备份</span></div><div class="line">mv -f <span class="variable">$&#123;FileDir&#125;</span>/diff.log <span class="variable">$&#123;FileDir&#125;</span>/diff<span class="comment">#`date +%Y%m%d`.log</span></div><div class="line">cat /tmp/inotify.log  &gt;&gt; /tmp/inotify<span class="comment">#`date +%Y%m%d`.log</span></div><div class="line"></div><div class="line">cat /dev/null &gt; /tmp/inotify.log</div><div class="line">cat /dev/null &gt; <span class="variable">$&#123;FileDir&#125;</span>/old.log</div><div class="line">cat /dev/null &gt; <span class="variable">$&#123;FileDir&#125;</span>/new.log</div><div class="line"> </div><div class="line"><span class="comment">#重新生成样本日志</span></div><div class="line">OldFile</div><div class="line"></div><div class="line"><span class="comment">#删除目录内30天以前的比较结果备份文件</span></div><div class="line">find <span class="variable">$&#123;FileDir&#125;</span> -<span class="built_in">type</span> f -mtime +30 |xargs rm -f</div></pre></td></tr></table></figure></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
