@@ -14,10 +14,10 @@
   <meta name="author" content="zhangyu">
 
   
-  <title>大雨哥</title>
+  <title>MySQL8与PG10：新版本下的较量谁更胜一筹？</title>
   
 
-  <link rel="canonical" href="http://zhangyu233.com/tags/mysql/page/2/index.html">
+  <link rel="canonical" href="http://zhangyu233.com/2018/06/14/58/index.html">
   <link rel="shortcut icon" href="/">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="undefined">
@@ -84,28 +84,45 @@
 
 
     <article class="main" id="main">
-      <section class="archive min-height">
-  <h1 class="archive-title">mysql</h1>
+      <article class="post min-height">
   
-  <p class="archive-post">
-    <span class="archive-time">08-23</span>
-    <a class="archive-link" href="/2016/08/23/292/" title="linux 安装mysql5.6.32 -rpm版本">linux 安装mysql5.6.32 -rpm版本</a>
-  </p>
+  <header class="post-header">
+    
+    <h1 class="post-title">MySQL8与PG10：新版本下的较量谁更胜一筹？</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-06-14</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://mp.weixin.qq.com/s/noz2NYogspS1rt5xDyjVJw" target="_blank" rel="external">https://mp.weixin.qq.com/s/noz2NYogspS1rt5xDyjVJw</a></p>
+<p>作者：Kenn Ejima</p>
+<p>原文地址：<a href="https://blog.dumper.io/showdown-mysql-8-vs-postgresql-10/" target="_blank" rel="external">https://blog.dumper.io/showdown-mysql-8-vs-postgresql-10/</a></p>
+<p>译者：雪落无痕xdj、无若、LinuxTech、Tocy、kevinlinkai</p>
+<p>总结</p>
+<p>MySQL最适合在线交易，而PostgreSQL最适合仅用于append only模式，像数据仓库一样分析过程。[2]</p>
+<p>正如我们在这篇文章中看到的，Postgres的绝大多数难题都来自于append only模式，过于冗余的堆结构。</p>
+<p>Postgres的未来版本可能需要对其存储引擎进行重大改进。你不必接受我所说的——实际上在官方wiki上已经有对它的讨论，这表明现在是时候从InnoDB身上学回来一些好的想法了。</p>
+<p>人们一次又一次地说MySQL正在追赶Postgres，但是这一次，潮流已经改变。</p>
+<p>注解：<br>[1] UUID作为主键是一个可怕的想法，顺便说一句——密码随机性完全是为了杀死引用的局部性而设计，因此性能会损失。<br>[2] 当我说Postgres特别适合分析时，我是认真的：万一你不知道TimescaleDB，它是PostgreSQL上边的一个封装，允许你每秒插入100万条数据，每台服务器有1000亿行。多么疯狂的事情。难怪Amazon会选择PostgreSQL作为Redshift的基础。</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
   
-  <p class="archive-post">
-    <span class="archive-time">08-20</span>
-    <a class="archive-link" href="/2016/08/20/258/" title="学会备份MySQL数据库">学会备份MySQL数据库</a>
-  </p>
-  
-
-  
-<nav class="paging">
-  <a class="extend prev" rel="prev" href="/tags/mysql/">« 上一页</a><a class="page-number" href="/tags/mysql/">1</a><span class="page-number current">2</span>
-</nav>
-
-
-</section>
-
+</article>
 
       <footer class="footer">
   <p class="footer-text"></p>
