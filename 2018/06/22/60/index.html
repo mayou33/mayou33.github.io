@@ -14,10 +14,10 @@
   <meta name="author" content="zhangyu">
 
   
-  <title>大雨哥</title>
+  <title>阿里云 kubernetes yum 仓库镜像</title>
   
 
-  <link rel="canonical" href="http://zhangyu233.com/tags/docker/page/2/index.html">
+  <link rel="canonical" href="http://zhangyu233.com/2018/06/22/60/index.html">
   <link rel="shortcut icon" href="/">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="undefined">
@@ -84,53 +84,39 @@
 
 
     <article class="main" id="main">
-      <section class="archive min-height">
-  <h1 class="archive-title">docker</h1>
+      <article class="post min-height">
   
-  <p class="archive-post">
-    <span class="archive-time">08-17</span>
-    <a class="archive-link" href="/2016/08/17/246/" title="docker centos7 安装ssh">docker centos7 安装ssh</a>
-  </p>
+  <header class="post-header">
+    
+    <h1 class="post-title">阿里云 kubernetes yum 仓库镜像</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-06-22</span>
+      
+      <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
+      
+      
+      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p> 安装kubernetes的时候，需要安装kubelet, kubeadm等包，<br>可以使用阿里云的yum仓库镜像。</p>
+<p>注意不要开启check。</p>
+<p>cat &lt;<eof> /etc/yum.repos.d/kubernetes.repo<br>[kubernetes]<br>name=Kubernetes<br>baseurl=<a href="http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/" target="_blank" rel="external">http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</a><br>enabled=1<br>gpgcheck=0<br>repo_gpgcheck=0<br>gpgkey=<a href="http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg" target="_blank" rel="external">http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg</a><br>             <a href="http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg" target="_blank" rel="external">http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</a><br>EOF</eof></p>
+<p>yum makecache</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
   
-  <p class="archive-post">
-    <span class="archive-time">08-15</span>
-    <a class="archive-link" href="/2016/08/15/222/" title="docker的基础命令及含义">docker的基础命令及含义</a>
-  </p>
-  
-  <p class="archive-post">
-    <span class="archive-time">08-15</span>
-    <a class="archive-link" href="/2016/08/15/220/" title="Docker修改镜像存放目录">Docker修改镜像存放目录</a>
-  </p>
-  
-  <p class="archive-post">
-    <span class="archive-time">08-15</span>
-    <a class="archive-link" href="/2016/08/15/218/" title="docker安装程序镜像-Nginx/tomcat">docker安装程序镜像-Nginx/tomcat</a>
-  </p>
-  
-  <p class="archive-post">
-    <span class="archive-time">08-15</span>
-    <a class="archive-link" href="/2016/08/15/216/" title="docker使用阿里云Docker镜像库加速">docker使用阿里云Docker镜像库加速</a>
-  </p>
-  
-  <p class="archive-post">
-    <span class="archive-time">08-15</span>
-    <a class="archive-link" href="/2016/08/15/214/" title="centos安装docker">centos安装docker</a>
-  </p>
-  
-  <p class="archive-post">
-    <span class="archive-time">08-12</span>
-    <a class="archive-link" href="/2016/08/12/129/" title="安装-配置 CoreOS ---vmware版本">安装-配置 CoreOS ---vmware版本</a>
-  </p>
-  
-
-  
-<nav class="paging">
-  <a class="extend prev" rel="prev" href="/tags/docker/">« 上一页</a><a class="page-number" href="/tags/docker/">1</a><span class="page-number current">2</span>
-</nav>
-
-
-</section>
-
+</article>
 
       <footer class="footer">
   <p class="footer-text"></p>
