@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>使用现成的二进制文件部署K8S集群-有证书</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/06/22/59/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">使用现成的二进制文件部署K8S集群-有证书</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-06-22</span>
+      
+      <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
+      
+      
+      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>主要参考</p>
+<p><a href="https://github.com/liuyi01/kubernetes-starter/blob/master/docs/3-kubernetes-with-ca.md" target="_blank" rel="external">[https://github.com/liuyi01/kubernetes-starter/blob/master/docs/3-kubernetes-with-ca.md]{.underline}</a></p>
+<p><a href="https://github.com/gjmzj/kubeasz" target="_blank" rel="external">[https://github.com/gjmzj/kubeasz]{.underline}</a></p>
+<p><a href="https://github.com/liuyi01/kubernetes-starter/tree/master/docs/1-pre.md" target="_blank" rel="external"><strong>[一、预先准备环境]{.underline}</strong></a></p>
+<p>规划</p>
+<p>192.168.188.30 test30 master etcd Controller</p>
+<p>192.168.188.31 test31 worker</p>
+<p>192.168.188.32 test32 worker</p>
+<p>#######</p>
+<p>系统版本</p>
+<p>如果是CentOS7，建议7.3以上版本；</p>
+<p>Docker版本：</p>
+<p> readme中已有说明，</p>
+<p>主机名：</p>
+<p>如果是克隆的系统一定要修改主机名，hostname主机名必须不同！</p>
+<p>主机文件：</p>
+<p>/etc/hosts要配置正确，一定要有127.0.0.1 localhost<br>这一项。Hosts文件中包含所有主机节点的IP和名称列表。使用vi进行编辑，不能使用中文全角的空格；</p>
+<p>192.168.188.30 test30</p>
+<p>192.168.188.31 test31</p>
+<p>192.168.188.32 test32</p>
+<p> IPV4转发：</p>
+<p>CentOS7 下可编辑配置文件/etc/sysctl.conf，设置启用转发,</p>
+<p>net.ipv4.ip_forward = 1              </p>
+<p>net.bridge.bridge-nf-call-ip6tables = 1</p>
+<p>net.bridge.bridge-nf-call-iptables = 1</p>
+<p>执行sysctl -p 立刻生效。</p>
+<p>关闭防火墙/SELinux</p>
+<p>禁用SWAP：</p>
+<p>swapoff -a</p>
+<p>sed -i \’s/.*swap.*/#&amp;/\’ /etc/fstab</p>
+<p>SSH免密登录：这里举例root用户--过程略</p>
+<p>要将普通用户（如docker）加入到docker组，</p>
+<p>命令：usermod -aG docker docker</p>
+<p>  注意：重启系统以后才能生效，只重启Docker服务是不行的！</p>
+<p><strong>准备二进制文件（所有节点）</strong></p>
+<p>下载 <a href="https://pan.baidu.com/s/1c4RFaA" target="_blank" rel="external">https://pan.baidu.com/s/1c4RFaA</a></p>
+<p>kubernetes二进制文件目录cd /opt tar zxvf k8s.1-10-4.tar.gz mv /opt/bin<br>/opt/k8s-bin</p>
+<p>chmod -R 755 /opt/k8s-bin</p>
+<p><strong>放好后最好设置一下环境变量\$PATH</strong>，方便后面可以直接使用命令。</p>
+<p>cat>>/etc/profile\&lt;\&lt; EOF</p>
+<p>PATH=\\$PATH:/opt/k8s-bin</p>
+<p>EOF</p>
+<p>source /etc/profile</p>
+<p><strong>准备配置文件（所有节点）</strong></p>
+<p>我用了tmux的批量同步操作</p>
+<p>开启 tmux 同步的方法：</p>
+<p>ctrl+b 以后输入 : set synchronize-panes on</p>
+<p>########################</p>
+<p>上一步我们下载了kubernetes各个组件的二进制文件，这些可执行文件的运行也是需要添加很多参数的，包括有的还会依赖一些配置文件。现在我们就把运行它们需要的参数和配置文件都准备好。</p>
+<p>下载配置文件</p>
+<p> cd /opt &amp;&amp; git clone <a href="https://github.com/liuyi01/kubernetes-starter.git" target="_blank" rel="external">https://github.com/liuyi01/kubernetes-starter.git</a></p>
+<p> cd kubernetes-starter &amp;&amp; ll</p>
+<p>----------------------------------------------</p>
+<p>文件说明</p>
+<p> gen-config.sh</p>
+<p>shell脚本，用来根据每个同学自己的集群环境(ip，hostname等)，根据下面的模板，生成适合大家各自环境的配置文件。生成的文件会放到target文件夹下。</p>
+<p> kubernetes-simple</p>
+<p> 简易版kubernetes配置模板（剥离了认证授权）。</p>
+<p>适合刚接触kubernetes的同学，首先会让大家在和kubernetes初次见面不会印象太差（太复杂啦~~），再有就是让大家更容易抓住kubernetes的核心部分，把注意力集中到核心组件及组件的联系，从整体上把握kubernetes的运行机制。</p>
+<p>kubernetes-with-ca</p>
+<p>在simple基础上增加认证授权部分。大家可以自行对比生成的配置文件，看看跟simple版的差异，更容易理解认证授权的（认证授权也是kubernetes学习曲线较高的重要原因）</p>
+<p>service-config</p>
+<p> 这个先不用关注，它是我们曾经开发的那些微服务配置。</p>
+<p>等我们熟悉了kubernetes后，实践用的，通过这些配置，把我们的微服务都运行到kubernetes集群中。</p>
+<p>===================================</p>
+<p>生成配置</p>
+<p>这里会根据大家各自的环境生成kubernetes部署过程需要的配置文件。</p>
+<p>在每个节点上都生成一遍，把所有配置都生成好，后面会根据节点类型去使用相关的配置。</p>
+<p>#cd到之前下载的git代码目录</p>
+<p>\$ cd kubernetes-starter</p>
+<p>#编辑属性配置（根据文件注释中的说明填写好每个key-value）</p>
+<p>\$ vi config.properties</p>
+<p>-------------------------------------</p>
+<p>#kubernetes二进制文件目录,eg: /home/michael/bin</p>
+<p>BIN_PATH=/opt/k8s-bin</p>
+<p>#当前节点ip, eg: 192.168.1.102 --------各个节点的NODE_IP不一样</p>
+<p>NODE_IP=192.168.188.31</p>
+<p>#etcd服务集群列表, eg: <a href="http://192.168.1.102:2379" target="_blank" rel="external">http://192.168.1.102:2379</a></p>
+<p>#如果已有etcd集群可以填写现有的。没有的话填写：<a href="http://\${MASTER\_IP}:2379" target="_blank" rel="external">http://\${MASTER\_IP}:2379</a><br>（MASTER_IP自行替换成自己的主节点ip）</p>
+<p>##如果用了证书，就填写：https:// ---注意这个小细节 作者没有写</p>
+<p>ETCD_ENDPOINTS=<a href="https://192.168.188.30:2379" target="_blank" rel="external">https://192.168.188.30:2379</a></p>
+<p>#kubernetes主节点ip地址, eg: 192.168.1.102</p>
+<p>MASTER_IP=192.168.188.30</p>
+<p>----------------------------------------------------------------------------</p>
+<p>cat \&lt;\&lt; EOF >/opt/kubernetes-starter/config.properties</p>
+<p>BIN_PATH=/opt/k8s-bin</p>
+<p>NODE_IP=192.168.188.30</p>
+<p>ETCD_ENDPOINTS=<a href="http://192.168.188.30:2379" target="_blank" rel="external">http://192.168.188.30:2379</a></p>
+<p>MASTER_IP=192.168.188.30</p>
+<p>EOF</p>
+<p>#########################</p>
+<p>#生成配置文件</p>
+<p>#./gen-config.sh with-ca</p>
+<p>#查看生成的配置文件，</p>
+<p>\$ find target/ -type f</p>
+<p><strong>二、基础集群部署 </strong></p>
+<p><strong>安装cfssl（所有节点）</strong></p>
+<p>cfssl是非常好用的CA工具，我们用它来生成证书和秘钥文件</p>
+<p>安装过程比较简单，如下：</p>
+<p>#下载</p>
+<p>cd /opt wget -q --timestamping \<br><a href="https://pkg.cfssl.org/R1.2/cfssl\_linux-amd64" target="_blank" rel="external">https://pkg.cfssl.org/R1.2/cfssl\_linux-amd64</a> \<br><a href="https://pkg.cfssl.org/R1.2/cfssljson\_linux-amd64" target="_blank" rel="external">https://pkg.cfssl.org/R1.2/cfssljson\_linux-amd64</a> \</p>
+<p>#修改为可执行权限<br>chmod +x cfssl_linux-amd64 cfssljson_linux-amd64 </p>
+<p>#移动到bin目录 </p>
+<p>mv<br>cfssl_linux-amd64 /usr/local/bin/cfssl mv cfssljson_linux-amd64<br>/usr/local/bin/cfssljson </p>
+<p>#验证 cfssl version</p>
+<p><strong>生成根证书（主节点）</strong></p>
+<p>根证书是证书信任链的根，各个组件通讯的前提是有一份大家都信任的证书（根证书），每个人使用的证书都是由这个根证书签发的。</p>
+<p>#所有证书相关的东西都放在这</p>
+<p> mkdir -p /etc/kubernetes/ca</p>
+<p>#准备生成证书的配置文件</p>
+<p> cp /opt/kubernetes-starter/target/ca/ca-config.json /etc/kubernetes/ca  </p>
+<p> cp /opt/kubernetes-starter/target/ca/ca-csr.json /etc/kubernetes/ca</p>
+<p>#生成证书和秘钥</p>
+<p> cd /etc/kubernetes/ca cfssl gencert -initca ca-csr.json<br>| cfssljson -bare ca</p>
+<p>#生成完成后会有以下文件（我们最终想要的就是ca-key.pem和ca.pem，一个秘钥，一个证书）</p>
+<p><strong>1. 部署ETCD（主节点）</strong></p>
+<p>  kubernetes需要存储很多东西，像它本身的节点信息，组件信息，还有通过kubernetes运行的pod，deployment，service等等。都需要持久化。etcd就是它的数据中心。生产环境中为了保证数据中心的高可用和数据的一致性，一般会部署最少三个节点。我们这里以学习为主就只在主节点部署一个实例</p>
+<p><strong>准备证书</strong></p>
+<p>etcd节点需要提供给其他服务访问，就要验证其他服务的身份，所以需要一个标识自己监听服务的server证书，当有多个etcd节点的时候也需要client证书与etcd集群其他节点交互，当然也可以client和server使用同一个证书因为它们本质上没有区别。</p>
+<p>#etcd证书放在这<br> mkdir -p /etc/kubernetes/ca/etcd </p>
+<p> #准备etcd证书配置</p>
+<p>  cp /opt/kubernetes-starter/target/ca/etcd/etcd-csr.json<br>/etc/kubernetes/ca/etcd/ </p>
+<p>cd /etc/kubernetes/ca/etcd/</p>
+<p>#使用根证书(ca.pem)签发etcd证书</p>
+<p> cfssl gencert -ca=/etc/kubernetes/ca/ca.pem<br>-ca-key=/etc/kubernetes/ca/ca-key.pem -config=/etc/kubernetes/ca/ca-config.json -profile=kubernetes<br>etcd-csr.json | cfssljson -bare etcd</p>
+<p>#跟之前类似生成三个文件etcd.csr是个中间证书请求文件，我们最终要的是etcd-key.pem和etcd.pem</p>
+<p><strong>部署</strong></p>
+<p><strong>etcd的二进制文件和服务的配置我们都已经准备好，现在的目的就是把它做成系统服务并启动。</strong></p>
+<p>#把服务配置文件copy到系统服务目录</p>
+<p> cp<br>/opt/kubernetes-starter/target/master-node/etcd.service<br>/lib/systemd/system/</p>
+<p>systemctl daemon-reload </p>
+<p>systemctl enable etcd.service</p>
+<p>#创建工作目录(保存数据的地方)</p>
+<p> mkdir -p /var/lib/etcd </p>
+<p> # 启动服务</p>
+<p>systemctl start etcd</p>
+<p>ps -ef |grep etcd</p>
+<p>#验证etcd服务（endpoints自行替换）</p>
+<p> #ETCDCTL_API=3 etcdctl \<br>--endpoints=<a href="https://192.168.188.30:2379" target="_blank" rel="external">https://192.168.188.30:2379</a> \<br>--cacert=/etc/kubernetes/ca/ca.pem \<br>--cert=/etc/kubernetes/ca/etcd/etcd.pem \<br>--key=/etc/kubernetes/ca/etcd/etcd-key.pem \ endpoint health</p>
+<p># 查看服务日志，看是否有错误信息，确保服务正常</p>
+<p> #journalctl -f -u etcd.service</p>
+<p>##################################################</p>
+<p><strong>2. 部署APIServer（主节点）</strong></p>
+<p> <strong>简介</strong></p>
+<p>kube-apiserver是Kubernetes最重要的核心组件之一，主要提供以下的功能</p>
+<p>提供集群管理的REST<br>API接口，包括认证授权（我们现在没有用到）数据校验以及集群状态变更等</p>
+<p>提供其他模块之间的数据交互和通信的枢纽（其他模块通过API<br>Server查询或修改数据，只有API Server才直接操作etcd）</p>
+<blockquote>
+<p>生产环境为了保证apiserver的高可用一般会部署2+个节点，在上层做一个lb做负载均衡，比如haproxy。由于单节点和多节点在apiserver这一层说来没什么区别，所以我们学习部署一个节点就足够啦</p>
+</blockquote>
+<p>  <strong>准备证书</strong></p>
+<p>#api-server证书放在这，api-server是核心，文件夹叫kubernetes吧，</p>
+<p>如果想叫apiserver也可以，不过相关的地方都需要修改哦</p>
+<p> mkdir -p<br>/etc/kubernetes/ca/kubernetes</p>
+<p> #准备apiserver证书配置</p>
+<p>  cp<br>/opt/kubernetes-starter/target/ca/kubernetes/kubernetes-csr.json<br>/etc/kubernetes/ca/kubernetes/</p>
+<p>cd /etc/kubernetes/ca/kubernetes/</p>
+<p> #使用根证书(ca.pem)签发kubernetes证书</p>
+<p> cfssl gencert \ -ca=/etc/kubernetes/ca/ca.pem \<br>-ca-key=/etc/kubernetes/ca/ca-key.pem \<br>-config=/etc/kubernetes/ca/ca-config.json \ -profile=kubernetes<br>kubernetes-csr.json | cfssljson -bare kubernetes</p>
+<p>#跟之前类似生成三个文件kubernetes.csr是个中间证书请求文件，我们最终要的是kubernetes-key.pem和kubernetes.pem</p>
+<p><strong>生成token认证文件</strong></p>
+<p>生成随机</p>
+<p>token \$ head -c 16 /dev/urandom | od -An -t x | tr -d \’ \’<br>44ec8a4eb808af51d1f470f2fde0e082</p>
+<p>#按照固定格式写入token.csv，注意替换token内容</p>
+<p> \$ echo<br>\”44ec8a4eb808af51d1f470f2fde0e082,kubelet-bootstrap,10001,\\”system:kubelet-bootstrap\\”\”<br>> /etc/kubernetes/ca/kubernetes/token.csv</p>
+<p><strong>部署</strong></p>
+<p>cp /opt/kubernetes-starter/target/master-node/kube-apiserver.service<br>/lib/systemd/system/</p>
+<p>注意要再次修改</p>
+<p>vi /lib/systemd/system/kube-apiserver.service</p>
+<p>--etcd-servers=http</p>
+<p>要改为--etcd-servers=https</p>
+<p>增加 --anonymous-auth=false \</p>
+<p># 关闭匿名认证，若为true，则表示接受，此处设置为false</p>
+<p>##启用基本密码认证</p>
+<p>--basic-auth-file=/etc/kubernetes/basic_auth_file \</p>
+<p> {width=”5.760416666666667in”<br>height=”1.3392049431321085in”}</p>
+<p>#############################可选</p>
+<p>新建/etc/kubernetes/basic_auth_file文件，并在其中添加：</p>
+<p>admin,admin,1</p>
+<p>readonly,readonly,2</p>
+<p><a href="https://github.com/gjmzj/kubeasz/blob/master/roles/kube-master/templates/basic-auth.csv.j2" target="_blank" rel="external">[密码文件模板]</a>中按照每行(密码,用户名,序号)的格式，可以定义多个用户</p>
+<p><strong>务必保管好密码文件</strong></p>
+<p>####################################</p>
+<p>systemctl daemon-reload</p>
+<p>systemctl enable kube-apiserver.service</p>
+<p>systemctl start kube-apiserver</p>
+<p>ps -ef |grep kube-apiserver ###### journalctl -f -u<br>kube-apiserver</p>
+<p>##############################</p>
+<p><strong>3. 部署ControllerManager（主节点）</strong></p>
+<p><strong>3.1 简介</strong></p>
+<p>Controller<br>Manager由kube-controller-manager和cloud-controller-manager组成，是Kubernetes的大脑，它通过apiserver监控整个集群的状态，并确保集群处于预期的工作状态。</p>
+<p>kube-controller-manager由一系列的控制器组成，像Replication<br>Controller控制副本，Node Controller节点控制，Deployment<br>Controller管理deployment等等<br>cloud-controller-manager在Kubernetes启用Cloud<br>Provider的时候才需要，用来配合云服务提供商的控制</p>
+<blockquote>
+<p>controller-manager、scheduler和apiserver<br>三者的功能紧密相关，一般运行在同一个机器上，我们可以把它们当做一个整体来看，所以保证了apiserver的高可用即是保证了三个模块的高可用。也可以同时启动多个controller-manager进程，但只有一个会被选举为leader提供服务。</p>
+</blockquote>
+<p>######################################</p>
+<p>controller-manager一般与api-server在同一台机器上，所以可以使用非安全端口与api-server通讯，不需要生成证书和私钥。</p>
+<p><strong>部署</strong></p>
+<p><strong>通过系统服务方式部署</strong></p>
+<p>cp<br>/opt/kubernetes-starter/target/master-node/kube-controller-manager.service<br>/lib/systemd/system/</p>
+<p>systemctl daemon-reload systemctl enable kube-controller-manager.service</p>
+<p>systemctl start kube-controller-manager ###journalctl -f -u<br>kube-controller-manager</p>
+<p><strong>4. 部署Scheduler（主节点）</strong></p>
+<p><strong>4.1 简介</strong></p>
+<p>kube-scheduler负责分配调度Pod到集群内的节点上，它监听kube-apiserver，查询还未分配Node的Pod，然后根据调度策略为这些Pod分配节点。我们前面讲到的kubernetes的各种调度策略就是它实现的。</p>
+<p>scheduler一般与apiserver在同一台机器上，所以可以使用非安全端口与apiserver通讯。不需要生成证书和私钥。</p>
+<p> <strong>部署</strong></p>
+<p><strong>通过系统服务方式部署</strong></p>
+<p> cp /opt/kubernetes-starter/target/master-node/kube-scheduler.service<br>/lib/systemd/system/ </p>
+<p>systemctl enable kube-scheduler.service </p>
+<p>systemctl<br>start kube-scheduler.service </p>
+<p>########### journalctl -f -u kube-scheduler</p>
+<p><strong>5.配置kubectl命令（主节点）</strong></p>
+<p> <strong>简介</strong></p>
+<p>kubectl是Kubernetes的命令行工具，是Kubernetes用户和管理员必备的管理工具。<br>kubectl提供了大量的子命令，方便管理Kubernetes集群中的各种功能。</p>
+<p><strong>准备证书</strong></p>
+<p>#kubectl证书放在这，由于kubectl相当于系统管理员，我们使用admin命名</p>
+<p>mkdir -p /etc/kubernetes/ca/admin</p>
+<p> #准备admin证书配置 -<br>kubectl只需客户端证书，因此证书请求中 hosts 字段可以为空</p>
+<p> cp<br>/opt/kubernetes-starter/target/ca/admin/admin-csr.json<br>/etc/kubernetes/ca/admin/ cd /etc/kubernetes/ca/admin/</p>
+<p>#使用根证书(ca.pem)签发admin证书</p>
+<p> cfssl gencert  -ca=/etc/kubernetes/ca/ca.pem -ca-key=/etc/kubernetes/ca/ca-key.pem<br> -config=/etc/kubernetes/ca/ca-config.json -profile=kubernetes<br>admin-csr.json | cfssljson -bare admin</p>
+<p>#我们最终要的是admin-key.pem和admin.pem</p>
+<p><strong>配置kubectl</strong></p>
+<p>#指定apiserver的地址和证书位置（ip替换为<strong>主节点</strong>的api-server地址） </p>
+<p>\$<br>kubectl config set-cluster kubernetes \<br>--certificate-authority=/etc/kubernetes/ca/ca.pem \<br>--embed-certs=true \ --server=<a href="https://192.168.188.30:6443" target="_blank" rel="external">https://192.168.188.30:6443</a></p>
+<p>#设置客户端认证参数，指定admin证书和秘钥</p>
+<p> \$ kubectl config<br>set-credentials admin \<br>--client-certificate=/etc/kubernetes/ca/admin/admin.pem \<br>--embed-certs=true \<br>--client-key=/etc/kubernetes/ca/admin/admin-key.pem</p>
+<p> #关联用户和集群</p>
+<p>  \$<br>kubectl config set-context kubernetes \ --cluster=kubernetes<br>--user=admin </p>
+<p>#设置当前上下文 </p>
+<p>\$ kubectl config use-context kubernetes</p>
+<p>#设置结果就是一个配置文件，可以看看内容</p>
+<p> \$ cat /root/.kube/config</p>
+<p>通过上面的设置最终目的是生成了一个配置文件：/root/.kube/config，当然你也可以手写或复制一个文件放在那，就不需要上面的命令了。</p>
+<p><strong>验证master节点</strong></p>
+<p>#可以使用刚配置好的kubectl查看一下组件状态</p>
+<p> \$ kubectl get cs NAME<br>STATUS MESSAGE ERROR scheduler Healthy ok controller-manager Healthy ok<br>etcd-0 Healthy {\”health\”: \”true\”}</p>
+<p><strong>6. 部署CalicoNode（所有节点）</strong></p>
+<p> <strong>简介</strong></p>
+<p>Calico实现了CNI接口，是kubernetes网络方案的一种选择，它一个纯三层的数据中心网络方案（不需要Overlay），并且与OpenStack、Kubernetes、AWS、GCE等IaaS和容器平台都有良好的集成。<br>Calico在每一个计算节点利用Linux<br>Kernel实现了一个高效的vRouter来负责数据转发，而每个vRouter通过BGP协议负责把自己上运行的workload的路由信息像整个Calico网络内传播——小规模部署可以直接互联，大规模下可通过指定的BGP<br>route reflector来完成。<br>这样保证最终所有的workload之间的数据流量都是通过IP路由的方式完成互联的。</p>
+<p>#############</p>
+<p><strong>准备证书--- 在主节点上</strong></p>
+<p>后续可以看到calico证书用在四个地方：</p>
+<p>calico/node 这个docker 容器运行时访问 etcd 使用证书</p>
+<p>cni 配置文件中，cni 插件需要访问 etcd 使用证书</p>
+<p>calicoctl 操作集群网络时访问 etcd 使用证书</p>
+<p>calico/kube-controllers 同步集群网络策略时访问 etcd 使用证书</p>
+<p>#calico证书放在这</p>
+<p> mkdir -p /etc/kubernetes/ca/calico</p>
+<p>#准备calico证书配置 - calico只需客户端证书，因此证书请求中 hosts<br>字段可以为空 </p>
+<p>cp /opt/kubernetes-starter/target/ca/calico/calico-csr.json<br>/etc/kubernetes/ca/calico/ </p>
+<p>cd /etc/kubernetes/ca/calico/</p>
+<p>#使用根证书(ca.pem)签发calico证书 </p>
+<p>cfssl gencert \<br>-ca=/etc/kubernetes/ca/ca.pem \ -ca-key=/etc/kubernetes/ca/ca-key.pem<br>\ -config=/etc/kubernetes/ca/ca-config.json \ -profile=kubernetes<br>calico-csr.json | cfssljson -bare calico</p>
+<p>#我们最终要的是calico-key.pem和calico.pem</p>
+<p>由于calico服务是所有节点都需要启动的，<br>需要把这几个文件拷贝到每台服务器上</p>
+<p>在主节点上执行：</p>
+<p>scp -r /etc/kubernetes/ca root\@其他节点ip:/etc/kubernetes/</p>
+<p>scp -r /etc/kubernetes/ca root\@192.168.188.31:/etc/kubernetes/</p>
+<p>scp -r /etc/kubernetes/ca root\@192.168.188.32:/etc/kubernetes/</p>
+<p><strong>部署（所有节点）</strong></p>
+<p><strong>calico是通过系统服务+docker方式完成的</strong></p>
+<p>docker pull registry.cn-hangzhou.aliyuncs.com/imooc/calico-node:v2.6.2</p>
+<p>cp /opt/kubernetes-starter/target/all-node/kube-calico.service<br>/lib/systemd/system/</p>
+<p>systemctl daemon-reload</p>
+<p> systemctl enable kube-calico.service</p>
+<p>  systemctl start kube-calico.service</p>
+<p> #### journalctl -f -u kube-calico</p>
+<p><strong>calico可用性验证</strong></p>
+<p><strong>查看容器运行情况</strong></p>
+<p>\$ docker ps</p>
+<p><strong>查看节点运行情况</strong> （能看到其他节点的列表就对啦）</p>
+<p>\$ calicoctl node status</p>
+<p><strong>查看端口BGP 协议是通过TCP 连接来建立邻居的，因此可以用netstat 命令验证<br>BGP Peer</strong></p>
+<p>\$ netstat -natp|grep ESTABLISHED|grep 179</p>
+<p><strong>查看集群ippool情况--主节点</strong></p>
+<p>\$ calicoctl get ipPool -o yaml</p>
+<p>######################################################</p>
+<p><strong>7. 配置kubelet（工作节点）</strong></p>
+<p><strong>7.1 简介</strong></p>
+<p>每个工作节点上都运行一个kubelet服务进程，默认监听10250端口，接收并执行master发来的指令，管理Pod及Pod中的容器。每个kubelet进程会在API<br>Server上注册节点自身信息，定期向master节点汇报节点的资源使用情况，并通过cAdvisor监控节点和容器的资源。</p>
+<p>这里让kubelet使用引导token的方式认证，所以认证方式跟之前的组件不同，它的证书不是手动生成，而是由工作节点TLS<br>BootStrap 向api-server请求，由主节点的controller-manager 自动签发。</p>
+<p><strong>创建角色绑定（主节点）</strong></p>
+<p>引导token的方式要求客户端向api-server发起请求时告诉他你的用户名和token，并且这个用户是具有一个特定的角色：system:node-bootstrapper，所以需要先将<br>bootstrap token 文件中的 kubelet-bootstrap 用户赋予这个特定角色，然后<br>kubelet 才有权限发起创建认证请求。</p>
+<p> <strong>在主节点执行下面命令</strong></p>
+<p>#可以通过下面命令查询clusterrole列表</p>
+<p> kubectl -n kube-system get<br>clusterrole</p>
+<p> #可以回顾一下token文件的内容</p>
+<p>  \$ cat<br>/etc/kubernetes/ca/kubernetes/token.csv<br>44ec8a4eb808af51d1f470f2fde0e082,kubelet-bootstrap,10001,\”system:kubelet-bootstrap\”</p>
+<p>#创建角色绑定（将用户kubelet-bootstrap与角色system:node-bootstrapper绑定）</p>
+<p>kubectl create clusterrolebinding kubelet-bootstrap \<br>--clusterrole=system:node-bootstrapper --user=kubelet-bootstrap</p>
+<p><strong>创建bootstrap.kubeconfig（工作节点）</strong></p>
+<p>这个配置是用来完成bootstrap<br>token认证的，保存了像用户，token等重要的认证信息，这个文件可以借助kubectl命令生成：（也可以自己写配置）</p>
+<p>#设置集群参数(注意替换ip) </p>
+<p>\$ kubectl config set-cluster kubernetes \<br>--certificate-authority=/etc/kubernetes/ca/ca.pem \<br>--embed-certs=true \ --server=<a href="https://192.168.188.30:6443" target="_blank" rel="external">https://192.168.188.30:6443</a> \<br>--kubeconfig=bootstrap.kubeconfig </p>
+<p>#设置客户端认证参数(注意替换token)</p>
+<p>\$ kubectl config set-credentials kubelet-bootstrap \<br>--token=44ec8a4eb808af51d1f470f2fde0e082 \<br>--kubeconfig=bootstrap.kubeconfig </p>
+<p>#设置上下文 </p>
+<p>\$ kubectl config<br>set-context default \ --cluster=kubernetes \<br>--user=kubelet-bootstrap \ --kubeconfig=bootstrap.kubeconfig</p>
+<p>#选择上下文 \$ kubectl config use-context default<br>--kubeconfig=bootstrap.kubeconfig </p>
+<p>#将刚生成的文件移动到合适的位置 </p>
+<p>mv<br>bootstrap.kubeconfig /etc/kubernetes/</p>
+<p>##################################</p>
+<p> <strong>通过系统服务方式部署（工作节点）</strong></p>
+<p>#确保相关目录存在</p>
+<p> mkdir -p /var/lib/kubelet </p>
+<p> mkdir -p /etc/kubernetes</p>
+<p>mkdir -p /etc/cni/net.d </p>
+<p>#复制kubelet服务配置文件</p>
+<p> cp<br>/opt/kubernetes-starter/target/worker-node/kubelet.service<br>/lib/systemd/system/ </p>
+<p>#复制kubelet用到的cni插件配置文件</p>
+<p> cp<br>/opt/kubernetes-starter/target/worker-node/10-calico.conf<br>/etc/cni/net.d/ </p>
+<p>systemctl daemon-reload</p>
+<p> systemctl enable kubelet.service</p>
+<p> systemctl start kubelet.service</p>
+<p>#启动kubelet之后到master节点允许worker加入(批准worker的tls证书请求)</p>
+<p>#--------*在主节点执行*---------</p>
+<p>\$ kubectl get csr|grep \’Pending\’ | awk \’{print \$1}\’| xargs<br>kubectl certificate<br>approve</p>
+<p>#-----------------------------</p>
+<p>###########检查日志# journalctl -f -u kubelet</p>
+<p><strong>8. 为集群增加service功能 - kube-proxy（工作节点）</strong></p>
+<p> <strong>简介</strong></p>
+<p>每台工作节点上都应该运行一个kube-proxy服务，它监听API<br>server中service和endpoint的变化情况，并通过iptables等来为服务配置负载均衡，是让我们的服务在集群外可以被访问到的重要方式。</p>
+<p><strong>准备证书</strong></p>
+<p>#proxy证书放在这</p>
+<p> mkdir -p /etc/kubernetes/ca/kube-proxy<br>#准备proxy证书配置 - proxy只需客户端证书，因此证书请求中 hosts<br>字段可以为空。</p>
+<p> #CN 指定该证书的 User 为 system:kube-proxy，预定义的<br>ClusterRoleBinding system:node-proxy 将User system:kube-proxy 与 Role<br>system:node-proxier 绑定，授予了调用 kube-api-server proxy的相关 API<br>的权限</p>
+<p>cp /opt/kubernetes-starter/target/ca/kube-proxy/kube-proxy-csr.json<br>/etc/kubernetes/ca/kube-proxy/</p>
+<p>cd /etc/kubernetes/ca/kube-proxy/ </p>
+<p>#使用根证书(ca.pem)签发calico证书 </p>
+<p>\$<br>cfssl gencert \ -ca=/etc/kubernetes/ca/ca.pem \<br>-ca-key=/etc/kubernetes/ca/ca-key.pem \<br>-config=/etc/kubernetes/ca/ca-config.json \ -profile=kubernetes<br>kube-proxy-csr.json | cfssljson -bare kube-proxy</p>
+<p>#我们最终要的是kube-proxy-key.pem和kube-proxy.pem</p>
+<p><strong>生成kube-proxy.kubeconfig配置</strong></p>
+<p>#设置集群参数（注意替换ip）</p>
+<p> \$ kubectl config set-cluster kubernetes \<br>--certificate-authority=/etc/kubernetes/ca/ca.pem \<br>--embed-certs=true \ --server=<a href="https://192.168.188.30:6443" target="_blank" rel="external">https://192.168.188.30:6443</a> \<br>--kubeconfig=kube-proxy.kubeconfig </p>
+<p>#置客户端认证参数 </p>
+<p>\$ kubectl config<br>set-credentials kube-proxy \<br>--client-certificate=/etc/kubernetes/ca/kube-proxy/kube-proxy.pem \<br>--client-key=/etc/kubernetes/ca/kube-proxy/kube-proxy-key.pem \<br>--embed-certs=true \ --kubeconfig=kube-proxy.kubeconfig</p>
+<p>#设置上下文参数</p>
+<p> \$ kubectl config set-context default \<br>--cluster=kubernetes \ --user=kube-proxy \<br>--kubeconfig=kube-proxy.kubeconfig</p>
+<p> #选择上下文 </p>
+<p> \$ kubectl config<br>use-context default --kubeconfig=kube-proxy.kubeconfig</p>
+<p> #移动到合适位置</p>
+<p>\$ mv kube-proxy.kubeconfig /etc/kubernetes/kube-proxy.kubeconfig</p>
+<p><strong>部署</strong></p>
+<p><strong>通过系统服务方式部署：</strong></p>
+<p>#确保工作目录存在</p>
+<p> mkdir -p /var/lib/kube-proxy</p>
+<p>#复制kube-proxy服务配置文件</p>
+<p> cp<br>/opt/kubernetes-starter/target/worker-node/kube-proxy.service<br>/lib/systemd/system/</p>
+<p>#安装依赖软件</p>
+<p>yum -y install conntrack</p>
+<p>systemctl daemon-reload </p>
+<p>systemctl enable kube-proxy.service</p>
+<p>systemctl start kube-proxy.service </p>
+<p>###journalctl -f -u kube-proxy</p>
+<p><strong>9. 为集群增加dns功能 - kube-dns（app）</strong></p>
+<p> <strong>简介</strong></p>
+<p>kube-dns为Kubernetes集群提供命名服务，主要用来解析集群服务名和Pod的hostname。目的是让pod可以通过名字访问到集群内服务。它通过添加A记录的方式实现名字和service的解析。普通的service会解析到service-ip。headless<br>service会解析到pod列表。</p>
+<p>kube-dns有些特别，因为它本身是运行在kubernetes集群中，以kubernetes应用的形式运行。所以它的认证授权方式跟之前的组件都不一样。它需要用到service<br>account认证和RBAC授权。</p>
+<p><strong>service account认证：</strong></p>
+<p>每个service<br>account都会自动生成自己的secret，用于包含一个ca，token和secret，用于跟api-server认证</p>
+<p><strong>RBAC授权：</strong></p>
+<p>权限、角色和角色绑定都是kubernetes自动创建好的。我们只需要创建一个叫做kube-dns的<br>ServiceAccount即可，官方现有的配置已经把它包含进去了。</p>
+<p><strong>部署</strong></p>
+<p><strong>通过kubernetes应用的方式部署</strong><br>kube-dns.yaml文件基本与官方一致（除了镜像名不同外）。<br>里面配置了多个组件，之间使用”---“分隔</p>
+<p>我们在官方的基础上添加的变量，生成适合我们集群的配置。直接copy就可以啦</p>
+<p>#到kubernetes-starter目录执行命令</p>
+<p>docker pull<br>registry.cn-hangzhou.aliyuncs.com/imooc/k8s-dns-sidecar-amd64:1.14.5</p>
+<p>cp /opt/kubernetes-starter/target/services/kube-dns.yaml /opt/ \$<br>kubectl create -f /opt/kube-dns.yaml</p>
+<p>新的配置没有设定api-server。不访问api-server，它是怎么知道每个服务的cluster<br>ip和pod的endpoints的呢？这就是因为kubernetes在启动每个服务service的时候会以环境变量的方式把所有服务的ip，端口等信息注入进来。</p>
+<p><strong>10 配置kubernetes UI图形化界面 （其他节点-我在主节点）</strong></p>
+<p>[<a href="https://github.com/gjmzj/kubeasz/blob/master/docs/guide/dashboard.md" target="_blank" rel="external">https://github.com/gjmzj/kubeasz/blob/master/docs/guide/dashboard.md</a>]</p>
+<p>k8s里面有两种用户，一种是User，一种就是service<br>account，User给人用的，service account给进程用的，让进程有相关的权限。</p>
+<p>如dasboard就是一个进程，我们就可以创建一个service<br>account给它，让它去访问k8s。</p>
+<p>######</p>
+<p>查看/lib/systemd/system/kube-apiserver.service</p>
+<p> ##启用基本密码认证</p>
+<p>--basic-auth-file=/etc/kubernetes/basic_auth_file \</p>
+<p>vi /etc/kubernetes/basic_auth_file文件，并在其中添加：</p>
+<p>admin,admin,1</p>
+<p>readonly,readonly,2</p>
+<p>密码文件模板中按照每行(密码,用户名,序号)的格式，可以定义多个用户</p>
+<p><strong>务必保管好密码文件</strong></p>
+<p>使用admin 登陆dashboard拥有所有权限，使用readonly<br>登陆后仅查看权限，首先在 master节点文件<br>/etc/kubernetes/basic_auth_file确认用户名和密码，如果要增加或者修改用户，修改保存该文件后记得逐个重启你的master<br>节点；</p>
+<p>cd /opt</p>
+<p><strong>下载ui-admin-rbac.yaml</strong></p>
+<p>wget<br><a href="https://raw.githubusercontent.com/gjmzj/kubeasz/master/manifests/dashboard/ui-admin-rbac.yaml" target="_blank" rel="external">https://raw.githubusercontent.com/gjmzj/kubeasz/master/manifests/dashboard/ui-admin-rbac.yaml</a></p>
+<p><strong>下载ui-read-rbac.yaml</strong></p>
+<p>wget<br><a href="https://raw.githubusercontent.com/gjmzj/kubeasz/master/manifests/dashboard/ui-read-rbac.yaml" target="_blank" rel="external">https://raw.githubusercontent.com/gjmzj/kubeasz/master/manifests/dashboard/ui-read-rbac.yaml</a></p>
+<p>下载<strong>kubernetes-dashboard.yaml</strong></p>
+<p>wget<br><a href="https://raw.githubusercontent.com/gjmzj/kubeasz/master/manifests/dashboard/kubernetes-dashboard.yaml" target="_blank" rel="external">https://raw.githubusercontent.com/gjmzj/kubeasz/master/manifests/dashboard/kubernetes-dashboard.yaml</a></p>
+<p>docker pull mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.8.3<br>（所有节点）</p>
+<p>###可以自定义 vi kubernetes-dashboard.yaml</p>
+<p>自动生成dashboard证书，此处不需要填写apiserver地址。</p>
+<p>###修改- --apiserver-host=<a href="http://192.168.188.30:6443" target="_blank" rel="external">http://192.168.188.30:6443</a> 指向自己的api<br>server.--暂时不用改</p>
+<p>修改镜像为自己可用的镜像 image:<br>mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.8.3</p>
+<p>下载<strong>admin-user-sa-rbac.yaml</strong></p>
+<p>wget<br><a href="https://raw.githubusercontent.com/gjmzj/kubeasz/master/manifests/dashboard/admin-user-sa-rbac.yaml" target="_blank" rel="external">[https://raw.githubusercontent.com/gjmzj/kubeasz/master/manifests/dashboard/admin-user-sa-rbac.yaml]{.underline}</a></p>
+<p><strong>kubernetes-dashboard-certs创建</strong></p>
+<p>新建一个空目录：</p>
+<p>mkdir /certs</p>
+<p>然后执行下面命令：</p>
+<p>kubectl create secret generic kubernetes-dashboard-certs<br>--from-file=/certs -n kube-system</p>
+<p><strong>创建dashboard</strong> </p>
+<p># 部署dashboard 主yaml配置文件</p>
+<p>kubectl create -f kubernetes-dashboard.yaml</p>
+<p>kubectl create -f admin-user-sa-rbac.yaml</p>
+<p>设置用户admin 的RBAC 权限</p>
+<p> kubectl create -f ui-admin-rbac.yaml</p>
+<p>设置用户readonly 的RBAC 权限</p>
+<p>kubectl create -f ui-read-rbac.yaml</p>
+<p>将访问账号名admin与kubernetes-rbac.yaml文件中指定的cluster-admin关联，获得访问权限。</p>
+<p>kubectl create clusterrolebinding login-dashboard-admin<br>--clusterrole=cluster-admin --user=admin</p>
+<p>查看</p>
+<p>kubectl get  -f kubernetes-dashboard.yaml </p>
+<p>kubectl get -f admin-user-sa-rbac.yaml</p>
+<p>####################### #可选</p>
+<p><strong>删除kubernetes-dashboard</strong></p>
+<p>,删除命令如下:</p>
+<p>kubectl delete -f kubernetes-dashboard.yaml</p>
+<p>在运行kubectl get pods<br>--all-namespaces发现总是有kube-system命名空间下的pod在运行.最后通过指定命名空间删除</p>
+<p>kubectl delete --all pods --namespace=kube-system</p>
+<p>kubectl delete deployment kubernetes-dashboard --namespace=kube-system</p>
+<p>#################################################</p>
+<p><strong>验证</strong></p>
+<p><strong>###########################</strong></p>
+<p>iptables -I FORWARD -s 0.0.0.0/0 -j ACCEPT （所有节点）</p>
+<p>写入开机自启/etc/rc.local里面</p>
+<p>###################</p>
+<p>在主节点上：</p>
+<p>首先，查看dashboard被k8s分配到了哪一台机器上</p>
+<p>kubectl get pods --all-namespaces -o wide </p>
+<p>接着，查看dashboard的集群内部IP，</p>
+<p>kubectl get services --all-namespaces </p>
+<p># 查看pod 运行状态--一定要是running状态</p>
+<p> kubectl get pod -n kube-system<br>| grep dashboard</p>
+<p> # 查看dashboard service kubectl get svc -n<br>kube-system|grep dashboard </p>
+<p># 查看pod 运行日志 有没有错误</p>
+<p> kubectl logs<br>kubernetes-dashboard-66c9d98865-p59v4 -n kube-system</p>
+<p><strong>访问</strong></p>
+<p># 查看集群服务 kubectl cluster-info|grep dashboard</p>
+<p>浏览器访问</p>
+<p>[[<a href="https://192.168.188.30:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy" target="_blank" rel="external">https://192.168.188.30:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy</a>]</p>
+<p>提示用户名密码 admin/admin</p>
+<p>打开页面出现dashboard<br>新版本自带的登陆页面。Kubernetes仪表盘支持两种登录方式：</p>
+<p>kubeconfig（HTTPS）和token令牌（http）</p>
+<p># 获取 Bearer Token，找到输出中 ‘token:’ 开头那一行</p>
+<p> \$ kubectl -n<br>kube-system describe secret \$(kubectl -n kube-system get secret | grep<br>admin-user | awk \’{print \$1}\’)</p>
+<p>由于还未部署 Heapster 插件，当前 dashboard 不能展示 Pod、Nodes 的CPU、内存等 metric 图形，后续部署 heapster后自然能够看到</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
