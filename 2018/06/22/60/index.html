@@ -101,8 +101,7 @@
     
   </header>
   <div class="post-content"><p> 安装kubernetes的时候，需要安装kubelet, kubeadm等包，<br>可以使用阿里云的yum仓库镜像。</p>
-<p>注意不要开启check。</p>
-<p>cat &lt;<eof> /etc/yum.repos.d/kubernetes.repo<br>[kubernetes]<br>name=Kubernetes<br>baseurl=<a href="http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/" target="_blank" rel="external">http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</a><br>enabled=1<br>gpgcheck=0<br>repo_gpgcheck=0<br>gpgkey=<a href="http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg" target="_blank" rel="external">http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg</a><br>             <a href="http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg" target="_blank" rel="external">http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</a><br>EOF</eof></p>
+<p>注意不要开启check。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</div><div class="line">[kubernetes]</div><div class="line">name=Kubernetes</div><div class="line">baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</div><div class="line">enabled=1</div><div class="line">gpgcheck=0</div><div class="line">repo_gpgcheck=0</div><div class="line">gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg</div><div class="line">             http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</div><div class="line">EOF</div></pre></td></tr></table></figure></p>
 <p>yum makecache</p>
 </div>
     
