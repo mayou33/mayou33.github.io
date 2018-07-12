@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>微服务架构为什么需要配置中心？</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/07/12/64/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">微服务架构为什么需要配置中心？</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-07-12</span>
+      
+      <a href="/categories/配置中心/" title="配置中心" class="post-categories">配置中心</a>
+      
+      
+      <a href="/tags/配置中心/"" title="配置中心" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>配置中心</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>[<a href="https://mp.weixin.qq.com/s/FYxVbWiY\_\_HBUyb73mfimA]{.underline}" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/FYxVbWiY\_\_HBUyb73mfimA]{.underline}</a></p>
+<p>杨波 高效开发运维</p>
+<p>在分布式微服务环境下，应用配置管理背后的业务需求，配置的各种分类和一些高级应用场景解析。</p>
+<p>   介绍   </p>
+<p>在系统架构中，和安全、日志、监控等非功能需求一样，配置管理也是一种非功能需求。配置中心是整个微服务基础架构体系中的一个组件，如下图，它的功能看上去并不起眼，无非就是简单配置的管理和存取，但它是整个微服务架构中不可或缺的一环。另外，配置中心如果真得用好了，它还能推动技术组织持续交付和<br>DevOps 文化转型。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrXiaQSJo0pbrbm4VLYngfHVzRJMeibicEfHMyhpPT6DbsdibAXdJkicblQQicA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"></p>
+<p>微服务基础架构体系</p>
+<p>本文介绍在分布式微服务环境下，应用配置管理背后的业务需求，配置的各种分类和一些高级应用场景。</p>
+<p>（本文结合我在极客时间《微服务架构实践160讲》视频课程内容整理而成，戳此查看课程 ）</p>
+<p>配置定义和形态</p>
+<p><strong>配置其实是独立于程序的可配变量</strong>，同一份程序在不同配置下会有不同的行为，常见的配置有连接字符串，应用配置和业务配置等。</p>
+<p>配置有多种形态，下面是一些常见的：</p>
+<p>  <strong>程序内部 hardcode</strong>，这种做法是反模式，一般我们不建议！</p>
+<pre><code>**配置文件**，比如 Spring 应用程序的配置一般放在application.properties 文件中。
+
+**环境变量**，配置可以预置在操作系统的环境变量里头，程序运行时读取，这是很多 PaaS 平台，比如 Heroku 推荐的做法，
+
+**启动参数**，可以在程序启动时一次性提供参数，例如 java    程序启动时可以通过 java -D 方式配启动参数。
+
+**基于数据库**，有经验的开发人员会把易变配置放在数据库中，这样可以在运行期灵活调整配置，这个做法和配置中心的思路已经有点接近了。
+</code></pre><p><img src="https://mmbiz.qpic.cn/mmbiz_png/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrXTh5GSCR8hGacD43MP4KiaJGYdavHPYzrib92eIBNADCkDDVtb7jllpkg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"><br>config foramt</p>
+<p>传统应用配置的痛点</p>
+<p>在没有引入配置中心之前，一般企业研发都会面临几个问题：</p>
+<p> <strong>配置散乱格式不标准</strong></p>
+<p>有的用 properties 格式，有的用 xml 格式，还有的存DB，团队倾向自造轮子，做法五花八门。</p>
+<p> <strong>主要采用本地静态配置，配置修改麻烦</strong></p>
+<p>配置修改一般需要经过一个较长的测试发布周期。在分布式微服务环境下，当服务实例很多时，修改配置费时费力。</p>
+<p>  <strong>易引发生产事故</strong></p>
+<p>这个是我亲身经历，之前在一家互联网公司，有团队在发布的时候将测试环境的配置带到生产上，引发百万级资损事故。</p>
+<p>  <strong>配置缺乏安全审计和版本控制功能</strong></p>
+<p>谁改的配置？改了什么？什么时候改的？无从追溯，出了问题也无法及时回滚。</p>
+<p>现代应用配置核心需求</p>
+<p>近年，持续交付和 DevOps<br>理念开始逐步被一线企业接受，微服务架构和容器云也逐渐在一线企业落地，这些都对应用配置管理提出了更高的要求：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrXNOKRHdibwf0SxERGOZwhjOs7iaXvjNxiczKEYLSicUWvmT9WYEKPvrdPVg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"> </p>
+<p>core requirement</p>
+<p>交付件和配置分离</p>
+<p>传统做法应用在打包部署时，会为不同环境打出不同配置的包，例如为开发 /测试 /UAT/ 生产环境分别制作发布包，每个包里头包含环境特定配置。</p>
+<p>现代微服务提倡云原生 (Cloud Native) 和不可变基础设施（ImmutableInfrastructure）的理念，推荐采用如容器镜像这种方式打包和交付微服务，应用镜像一般只打一份，可以部署到不同环境。这就要求交付件（比如容器镜像）和配置进行分离，交付件只制作一份，并且是不可变的，可以部署到任意环境，而配置由配置中心集中管理，所有环境的配置都可以在配置中心集中配，运行期应用根据自身环境到配置中心动态拉取相应的配置。</p>
+<p>抽象标准化</p>
+<p>企业应该由框架或者中间件团队提供标准化的配置中心服务 (Configuration as a Service)，封装屏蔽配置管理的细节和配置的不同格式，方便用户进行自助式的配置管理。一般用户只需要关注两个抽象和标准化的接口：</p>
+<p>   配置管理界面 UI，方便应用开发人员管理和发布配置。</p>
+<pre><code>封装好的客户端 API，方便应用集成和获取配置。
+</code></pre><p>多环境多集群</p>
+<p>现代微服务应用大都采用多环境部署，一般标准化的环境有开发 / 测试 /UAT/生产等，有些应用还需要多集群部署，例如支持跨机房或者多版本部署。配置中心需要支持对多环境和多集群应用配置的集中式管理。</p>
+<p>高可用</p>
+<p>配置中心必须保证高可用，不能随便挂，否则可能大面积影响微服务。在极端的情况下，如果配置中心不可用，客户端也需要有降级策略，保证应用可以不受影响。</p>
+<p>实时性</p>
+<p>配置更新需要尽快通知到客户端，这个周期不能太长，理想应该是实时的。有些配置的实时性要求很高，比方说主备切换配置或者蓝绿部署配置，需要秒级切换配置的能力。</p>
+<p>治理</p>
+<p>配置需要治理，具体包括：</p>
+<p>  配置审计，谁、在什么时间、修改了什么配置，需要详细的审计，方便出现问题时能够追溯。</p>
+<pre><code>配置版本控制，每次变更需要版本化，出现问题时候能够及时回滚到上一版本。
+
+配置权限控制，配置变更发布需要认证授权，不是所有人都能修改和发布配置。
+
+灰度发布，高级的配置治理支持灰度发布，配置发布时可以先让少数实例生效，确保没有问题再逐步放量。
+</code></pre><p>配置分类</p>
+<p>配置目前还没有特别标准的分类方法，我简单把配置分为静态和动态两大类，每一类再分为若干子类，如下图：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrXhZpVnDkMzMd3JviciaImYeaM7ibOPJEI7ib4gDJIHibND2QKtT6w7hCVicCw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"> </p>
+<p>config category</p>
+<p>静态配置</p>
+<p>  环境相关配置</p>
+<p>有些配置是和环境相关的，每个环境的配置不一样，例如数据库、中间件和其它服务的连接字符串配置。这些配置一次性配好，运行期一般不变。</p>
+<p>  安全配置</p>
+<p>有些配置和安全相关，例如用户名，密码，访问令牌，许可证书等，这些配置也是一次性配好，运行期一般不变。因为涉及安全，相关信息一般需要加密存储，对配置访问需要权限控制。</p>
+<p>动态配置</p>
+<p>所谓动态配置，就是在程序的运行期可以根据需要动态调整的配置。动态配置让应用行为和功能的调整变得更加灵活，是持续交付和<br>DevOps 的最佳实践。具体包括：</p>
+<p>  应用配置</p>
+<p>和应用相关的配置，例如服务请求超时，线程池和队列的大小，缓存过期时间，数据库连接池的容量，日志输出级别，限流熔断阀值，服务安全黑白名单等。一般开发或者运维会根据应用的实际运行情况调整这些配置。</p>
+<p>  业务配置</p>
+<p>和业务相关的一些配置，例如促销规则，贷款额度，利率等业务参数，A/B测试参数等。一般产品运营或开发人员会根据实际的业务需求，动态调整这些参数。</p>
+<p>  功能开关</p>
+<p>在英文中也称 Feature Flag/Toggle/Switch，简单的只有真假两个值，复杂的可以是多值参数。功能开关是DevOps的一种最佳实践，在运维中有很多应用场景，比如蓝绿部署，灰度开关，降级开关，主备切换开关，数据库迁移开关等。功能开关在国外互联网公司用得比较多，国内还没有普及开，所以我在下一节会给出一些功能开关的高级应用场景。</p>
+<p>配置中心高级应用场景</p>
+<p>场景一、蓝绿部署</p>
+<p>蓝绿部署的传统做法是通过负载均衡器切流量来实现，如下图左边所示。这种做法一般研发人员无法自助操作，需要提交工单由运维介入操作，操作和反馈周期比较长，出了问题回退还需运维人员介入，所以回退也比较慢，总体风险比较高。<br><img src="https://mmbiz.qpic.cn/mmbiz_png/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrXkKbxWl53etiaVrTvuxp94jD4XHfweiaEblN7m0GGVQj2YM5eqj4TXH3w/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"><br>blue greeen deployment</p>
+<p>蓝绿部署也可以通过配置中心 +功能开关的方式来实现，如上图右边所示。开发人员在上线新功能时先将新功能隐藏在动态开关后面，开关的值在配置中心里头配。刚上线时新功能暂不启用，走老功能逻辑，然后开发人员通过配置中心打开开关，这个时候新功能就启用了。一旦发现新功能有问题，可以随时把开关关掉切回老功能。这种做法开发人员可以全程自助实现蓝绿部署，不需要运维人员介入，反馈周期短效率高。</p>
+<p>场景二、限流降级</p>
+<p>当业务团队在搞促销，或者是系统受 DDOS攻击的时候，如果没有好的限流降级机制，则系统很容易被洪峰流量冲垮，这个时候所有用户无法访问，体验糟糕，如下图左边所示。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrX7SqXgF6e8FI5Eotk5LGibiafr4UR7K8iaPO9OCpFs1y110q1kV4gvPDWQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"></p>
+<p>rate limiting and degrade</p>
+<p>所以我们需要限流降级机制来应对流量洪峰。常见做法，我们一般会在应用的过滤器层或者是网关代理层添加限流降级逻辑，并且和配置中心配合，实现限流降级开关和参数的动态调整。如果促销出现流量洪峰，我们可以通过配置中心启动限流降级策略，比如对于普通用户，我们可以先给出”网络不给力，请稍后再试”的友好提示，对于高级VIP 用户，我们仍然保证他们的正常访问。</p>
+<p>国内电商巨头阿里，它内部的系统大量采用限流降级机制，实现方式基于其内部的diamond+sentinel配置管理系统。如果没有限流降级机制的保护，则阿里的系统也无法抵御双十一带来的洪峰流量冲击。</p>
+<p>场景三、数据库迁移</p>
+<p>LaunchDarkly 是一家提供配置既服务 (Configuration as a Service) 的 SAAS<br>服务公司，它在其博客上给出了一片关于使用功能开关实现数据库迁移的案例文章，该案例基于其内部一次成功的数据库迁移实践，从<br>MongdoDB 迁移到 DynamoDB[参考附录 2]，下图是展示了一个简化的迁移流程：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrXWMTLOe1SptXYBHEUI2liaApyabdQxic08n3ic0miaEicr7xwyuNaqxVaS6A/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"></p>
+<p>database migration using feature flag</p>
+<p><strong>简化迁移腾挪流程如下</strong>：</p>
+<p>  开发人员先在应用端的 DAO<br>    层埋好数据双写双读、以及数据比对逻辑。双写双读逻辑由开关控制，开关的值可在配置中心配。</p>
+<pre><code>先保证应用 100% 读写 mongoDB，然后先放开 10% 的 DynamoDB
+双写，也称金丝雀写 (Canary Write)，确保金丝雀写没有功能和性能问题。
+
+逐步放量 DyanamoDB 写到 100%，确保全量双写没有功能和性能问题。
+
+放开 10% 的 DynamoDB 双读，也称金丝雀读 (Canary
+Read)，通过比对逻辑确保金丝雀读没有逻辑和性能问题。
+
+逐步放量 DynamoDB 读到
+100%，通过比对逻辑确保全量双读没有逻辑和性能问题。
+
+关闭对 mongoDB 的读写，迁移完成。
+</code></pre><p>整个迁移流程受配置中心的开关控制，可以灵活调整开关和参数，有问题可以随时回滚，大大降低迁移风险。</p>
+<p>场景四、A/B 测试</p>
+<p>如果我们需要对电商平台的结账 (checkout)<br>功能进行改版，考虑到结账功能业务影响面大，一下子上线风险大，为了减低风险，我们可以在配置中心配合下，对结账功能进行<br>A/B 测试，简化逻辑如下图：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrXP7vVJ3e6Jnpy0aVozaU8K6502gXvSZiamHjuHXQyhlPncXEhiazicYQUQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"><br>ab test</p>
+<p>我们在配置中心中增加一个 ab_test_flag 开关，控制 A/B 测试逻辑：</p>
+<pre><code>如果 A/B 测试开关是关闭的
+(ab\_test\_flag==false)，那么就走老的结账逻辑。
+
+如果 A/B 测试开关是打开的 (ab\_test\_flag==true)，并且是普通用户
+(user==regular，可以检查数据库中用户类型)，那么就走老的结账逻辑。
+
+如果 A/B 测试开关是打开的 (ab\_test\_flag==true)，并且是 beta
+用户（user=beta），那么就走改版后的新结账逻辑。
+</code></pre><p>通过配置中心，我们可以灵活调整开关，先对新功能进行充分的 beta试验，再考虑全量上线，大大降低关键业务新功能的上线风险。</p>
+<p>公司案例和产品</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/FE4VibF0SjfOgsgZcRbNRDzg3iaFkWtNrXS3Euzv3qrJ7aOhBiaVlwadMBZTUpPhfUqiahZ9ccyceExxnEmW20DfAw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_256"><br>config center products</p>
+<p>  阿里巴巴中间件部门很早就自研了配置中心<br>    Diamond，并且是开源的。Diamond 对阿里系统的灵活稳定性发挥了至关重要的作用。开源版本的 Diamond 由于研发时间比较早，使用的技术比较老，功能也不够完善，目前社区不热已经不维护了。</p>
+<pre><code>Facebook 内部也有一整套完善的配置管理体系，其中一个产品叫 Gatekeeper，目前没有开源。
+
+Netflix
+内部有大量的微服务，它的服务的稳定灵活性也重度依赖于配置中心。Netflix开源了它的配置中心的客户端，叫变色龙 Archaius，比较可惜的是，Netflix 没有开源它的配置中心的服务器端。
+
+Apollo
+是携程框架部研发并开源的一款配置中心产品，企业级治理功能完善，目前社区比较火，在 github 上有超过 5k    星，在国内众多互联网公司有落地案例。**如果企业打算引入开源的配置中心，那么    Apollo 是我推荐的首选**。
+
+百度之前也开源过一个叫 Disconf   的配置中心产品，作者是前百度资深工程师廖绮绮。在 Apollo    没有出来之前，Disconf    在社区是比较火的，但是自从廖琦琦离开百度之后，他好像没有足够精力投入维护这个项目，目前社区活跃度已经大不如前。
+</code></pre><p>   结论   </p>
+<p>  配置中心是微服务基础架构中不可或缺的核心组件，现代微服务架构和云原生环境，对应用配置管理提出了更高的要求。</p>
+<pre><code>配置中心有众多的应用场景，配置中心 + 功能开关是 DevOps最佳实践。
+用好配置中心，它能帮助技术组织实现持续交付和 DevOps文化转型。
+
+携程开源的 Apollo 配置中心，企业级功能完善，经过大规模生产验证，社区活跃度高，是开源配置中心产品的首选。
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
