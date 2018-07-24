@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>DevOps转型实践</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2017/07/24/DevOps 转型实践/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">DevOps转型实践</h1>
+    <p class="post-meta">
+      <span class="post-time">2017-07-24</span>
+      
+      <a href="/categories/devops/" title="devops" class="post-categories">devops</a>
+      
+      
+      <a href="/tags/devops/"" title="devops" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>devops</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>===============<br><a href="https://blog.csdn.net/valada/article/details/79909240" target="_blank" rel="noopener">https://blog.csdn.net/valada/article/details/79909240</a></p>
+<h4 id="作者介绍"><a href="#作者介绍" class="headerlink" title="作者介绍"></a><strong>作者介绍</strong></h4><p>顾宇，ThoughtWorks 高级咨询师，专注于<br>DevOps、微服务以及全功能产品团队的培训、设计、实践、落地以及经验推广。在<br>DevOps 和微服务领域有 4 年的实践和培训经验，在 GitChat<br>分享了多场微服务相关的话题，于 2017 年在上海 DevOpsDays<br>作为演讲者，分享了话题”无服务器化微服务的持续交付”。在深圳的全球运维峰会（GOPS）上<br>分享了话题，分享了”DevOps可视化在电信企业的应用” 。</p>
+<h4 id="课程内容"><a href="#课程内容" class="headerlink" title="课程内容"></a><strong>课程内容</strong></h4><h5 id="第01课：聊聊不一样的-DevOps（上）"><a href="#第01课：聊聊不一样的-DevOps（上）" class="headerlink" title="第01课：聊聊不一样的 DevOps（上）"></a><strong>第01课：聊聊不一样的 DevOps（上）</strong></h5><p>随着 DevOps 的盛行，我和越来越多的人聊到 DevOps，也听到了很多人在讲<br>DevOps，我发现很多人讨论的背后，对 DevOps<br>所指并不是同一件事情，所以往往不欢而散。</p>
+<p>于是我开始从头整理 DevOps<br>的所有有关材料，并把他们陆续放在了简书上，形成了”DevOps<br>前世今生”这个系列，这个系列还在不断补充新的资料。随着知识和实践的不断增长，我也渐渐的对<br>DevOps 有了更进一步的认识。</p>
+<p>在过去的四年中，我作为 DevOps 的咨询师参与了国内外很多企业的 DevOps<br>转型以及技术实施咨询，也在不同的社区活动和运维大会中分享了自己在 DevOps<br>上的实践、理解和观点。</p>
+<h3 id="含义越来越丰富的-DevOps"><a href="#含义越来越丰富的-DevOps" class="headerlink" title="含义越来越丰富的 DevOps"></a>含义越来越丰富的 DevOps</h3><p>DevOps<br>至今都缺乏一个准确和清晰的定义，这是一件好事，也同样是一件坏事。虽然<br>Patrick Debios（DavOpsDays 的发起人和运动领袖<br>）曾经在自己的博客里一再提到自己对 DevOps<br>的”正确认识”，但社区似乎不以为然。</p>
+<p>对于 DevOps 来说，这是一件好事，也是一件坏事。</p>
+<p>好事是没有人可以垄断 DevOps<br>定义的话语权，因此每个人都自己可以参与到这一运动中去，不断为其增加新的概念、新的实践和新的工具，这会让这个社区不断的繁荣，而不会由某一厂商垄断而独大。</p>
+<p>而坏事则是对于 DevOps<br>的跟随者——那些早期没有参与进来的人——需要学习和理解的内容的广度和深度也越来越大，随着开源社区和企业之间的不断”贡献”，各种打着<br>DevOps 标签的概念、方法论、服务和产品也层出不穷。</p>
+<p>于是有了以下这幅众所周知的”盲人摸 DevOps”图：</p>
+<p><img src="http://images.gitbook.cn/e43c10f0-d25e-11e7-a17f-8b69bfba7264" alt="IMG\_256"></p>
+<p>从图中我们可以看出，DevOps 是一系列概念的总和，任何一个单一方面只是<br>DevOps 的一个部分，但任何一个方面都不是 DevOps 的整体。随着 DevOps<br>这个概念的不断膨胀，人们就更难理解 DevOps 了。</p>
+<h3 id="你理解的-DevOps-是指的什么"><a href="#你理解的-DevOps-是指的什么" class="headerlink" title="你理解的 DevOps 是指的什么"></a>你理解的 DevOps 是指的什么</h3><p>在接触了各类客户和社区之后，我开始尝试理解每个人谈到 DevOps<br>的时候，背后的目标和动机是什么。渐渐的，我把我所接触到的 DevOps<br>理解分成如下四类，分别是：</p>
+<ul>
+<li><p>DevOps 是一组技术实践</p>
+</li>
+<li><p>DevOps 是一个岗位角色</p>
+</li>
+<li><p>DevOps 是一种工作方式</p>
+</li>
+<li><p>DevOps 是一种组织结构</p>
+</li>
+</ul>
+<p>那么，分别来谈谈这四类 DevOps；本篇来谈谈 DevOps<br>分别被理解为技术实践和岗位角色；下篇再谈 DevOps 作为<br>工作方式和组织结构。</p>
+<h4 id="当-DevOps-是一组技术-实践"><a href="#当-DevOps-是一组技术-实践" class="headerlink" title="当 DevOps 是一组技术/实践"></a>当 DevOps 是一组技术/实践</h4><p>在工程师文化的组织里，对先进技术的渴望是最常见的动机，可以促进工程师用更有效率，更优雅的方式解决问题，而对于非工程师文化的组织，新的技术往往是提升其<br>KPI 的工具。而仅仅追求 KPI<br>却不追求本质，则是很多组织转型失败的原因，以下是我听到 DevOps<br>的时候，经常能触及的技术类话题：</p>
+<ul>
+<li><p>高频部署</p>
+</li>
+<li><p>持续交付</p>
+</li>
+<li><p>云计算/虚拟化技术</p>
+</li>
+<li><p>基础设施即代码</p>
+</li>
+<li><p>Docker</p>
+</li>
+<li><p>自动化运维</p>
+</li>
+</ul>
+<h5 id="高频部署"><a href="#高频部署" class="headerlink" title="高频部署"></a><strong>高频部署</strong></h5><p>在 2016 年 5 月中旬的时候，我有机会和某跨国著名银行的 IT<br>某部门负责人交流 DevOps，对方声称自己是行业里的 DevOps<br>翘楚，并很自豪的告诉我，他们某应用部署频率每天已经超过100次，这让我很疑惑，于是我问了以下几个问题：</p>
+<ul>
+<li><p>为什么你们需要这么频繁的部署？</p>
+</li>
+<li><p>有这么频繁变动的业务需求吗？</p>
+</li>
+<li><p>在这么多次部署里，是发布业务价值的部署更多，还是修复问题的部署更多？</p>
+</li>
+</ul>
+<p>对方并没有直接回答我的问题，而是含糊其词告诉我这是秘密，我看他不好意思回答，也就作罢了。</p>
+<p>这让我引发了一个重要的警示：<strong>指标导向的 DevOps 转型往往是一种 DevOps<br>的反模式，它会忽略和掩盖真正的问题，而使问题表面上得到了改进。</strong></p>
+<p>指标的背后是对问题的度量，如果我们度量错了东西，那么方向就有可能是错误的。在上面的例子中，如果部署频率一直很高，不一定是个好现象：不是业务的变动很频繁，就是技术的变动很频繁，但如果二者都频繁，我们应该优先变动价值较高的：有可能新的业务尝试让我们从市场上获得了更多的关注，也有可能新的技术提升了生产率。但无论是哪一种，部署频率应该是一个由多到少不断循环的过程。这表明系统在走向成熟和稳定的同时，能够及时响应变化，无论是对技术还是对业务，都需要一个认识的时间。但，如果对为什么变更这么频繁缺乏足够深入的认识的话，问题的严重程度可见一斑。</p>
+<p>此外，<strong>DevOps<br>绝不是为了提升部署频率而牺牲了软件质量和业务价值，甚至是安全措施</strong>。换句话说，DevOps<br>不是一种平衡和妥协，它是一种改进。有时候，为了换取更多更快的部署，则会减少一些必要的质量保证措施和安全措施，但这是对<br>DevOps 的误解，DevOps<br>是一种改进，改进就意味着以价值兑现为最高原则所度量的相关指标是不能有所下降的。</p>
+<h5 id="持续交付"><a href="#持续交付" class="headerlink" title="持续交付"></a><strong>持续交付</strong></h5><p>当碰到 DevOps 的时候，我们必然会听到”DevOps<br>流水线”。这是从持续交付的”持续交付流水线”中演化而来的概念，只是在 DevOps<br>的场景下，持续交付中的持续部署和发布，被看做是和 DevOps 相关的概念。</p>
+<p>持续交付是 DevOps 中非常重要的实践，在 DevOps<br>概念诞生之前，就有了持续交付的思想，只是持续交付这个重量级话题直到第二届欧洲的<br>DevOpsDays 才被更多人知道。</p>
+<p>持续交付本身也通过技术实践解决了 DevOps 最开始所面临的 Dev 和 Ops<br>的部门墙的问题。不夸张的说，如果 Patrick Debois<br>早一点读到持续交付中运维的话题，说不定就没有 DevOps 了。</p>
+<p>但是，由于 DevOps<br>所涵盖的话题已经超出了持续交付本身。因此，持续交付只能算是 DevOps<br>的其中一个实践。</p>
+<p>我把持续交付列为 DevOps<br>的核心实践之一，因为如果你没有实践持续交付，那么根本不能称之为<br>DevOps，但是如果你完整实践了持续交付，那么你离完整的 DevOps<br>技术实践也不远了。</p>
+<h5 id="云计算-虚拟化技术"><a href="#云计算-虚拟化技术" class="headerlink" title="云计算/虚拟化技术"></a><strong>云计算/虚拟化技术</strong></h5><p>随着分布式应用在互联网时代的井喷式发展，基础设施的管理成为了分布式应用的新瓶颈，在基础设施集中式管理的时代，大型应用只能运行在昂贵的小型机上，只有微软、SAP、IBM、Oracle<br>和 EMC<br>这样的企业才有能力提供相应的产品完成这样复杂度很高的架构。因此企业需要单独的运维部门（Ops）来管理这些软件和设备。</p>
+<p>而随着虚拟技术和云计算的兴起，企业的基础设施管理工作往往变得很简单。VMWare<br>这样的虚拟技术企业和 AWS<br>这样的云计算供应商提供了更加成熟和稳定的产品，大大的节约了企业机房管理的开支。</p>
+<p>而传统意义上 Ops<br>不再需要进出机房，只需要通过远程桌面的方式就可以使用各种 SDK<br>开发工具去完成过去很多只有在机房才能做到的任务。</p>
+<p>但是，即使采用了先进的虚拟化技术提升了 Ops 的工作效率，减轻了 Ops<br>的痛苦，但仍没有解决 Dev 和 Ops 之间的”部门墙” ——<br>开发团队和维护团队仍然各自为政，通过责任判定，而不是合作共赢来促进软件交付的高效运行。</p>
+<h5 id="基础设施即代码"><a href="#基础设施即代码" class="headerlink" title="基础设施即代码"></a><strong>基础设施即代码</strong></h5><p>尽管有了云计算和虚拟化技术，传统思维仍然限制住了资源的管理。随着设备和网络的持续增多，加之更加复杂的应用部署和初始化，基础设施的管理成为了一个十分尖锐的问题，当复杂度上升一个量级，就需要专业的管理工具来管理这类问题，于是<br>Puppet 这样的框架顺势而出。以至于在 《DevOps Handbook》中，合著者之一的<br>John Willis 在理解了 PuppetLab 的创始人 Luke Kanies<br>关于配置管理的核心思想之后，才诞生了 DevOps 的最初想法。</p>
+<p>基础设施即代码利用了编程语言和虚拟化工具 API<br>的无缝连接达到这一目的，并且通过高效的版本和配置管理使其井井有条。</p>
+<p>这种技术在很大程度上把基础设施的管理当做其问题域，采用正确的面向对象抽象，让开发人员和运维人员能够理解并设计出更加稳定和灵活的基础设施，并大大降低基础设施变更的风险，这不光提升了运维知识的透明度，并使基础设施变更具备幂等性。</p>
+<p>因此，它在一定程度上解决了不同环境（开发、测试、生产）之间的不一致问题，也让开发人员能够学习到<br>Ops 领域的知识并用软件开发的优秀思想解决运维领域的问题。</p>
+<p>基础设施即代码除了工具以外，更是一种 Dev 和 Ops<br>之间相互沟通的媒介，能够让开发人员和运维人员相互理解。所以，基础设施即代码毫无疑问的是<br>DevOps 的核心实践之一。</p>
+<h5 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a><strong>Docker</strong></h5><p>从某种意义上说，Docker 是含着 DevOps<br>的金钥匙出生的，它诞生的第一天就带着 DevOps<br>的基因：更简单的解决了基础设施即代码和虚拟化在实践中的问题，进一步提升了自动化能力以提升效率，并且对开发人员和运维人员都十分友好。</p>
+<p>Docker<br>一定程度上简化了基础设施的初始化和状态管理问题，通过镜像和运行时容器封装了应用运行时的复杂度，并通过容器的编排使轻量级的分布式架构更加经济快捷，而且很多地方都会以是否采用<br>Docker 来评判是否采用了 DevOps 的相关技术。</p>
+<p>但是，Docker 和任何一种工具一样，都不是”黄金锤”。当用错了场景，使用<br>Docker<br>可能是一场灾难。我曾经参与了一个整体基础设施迁移的项目，工具就是采用<br>Docker，最初的目的是因为 Docker 镜像的移植性好，但是客户为了能让 Docker<br>镜像的业务场景更加通用和可定制化，又分别采用了另外两种工具对其部署场景进行封装，写出了第三种工具。然而，由于这个工具并没有很好的分离其业务关注点和技术关注点，导致这个工具使用更加繁琐，使得原本为了提升生产效率的<br>Docker 反而成为了阻碍效率的绊脚石。</p>
+<h5 id="自动化运维"><a href="#自动化运维" class="headerlink" title="自动化运维"></a><strong>自动化运维</strong></h5><p>有很多对 DevOps<br>望文生义或有些技术了解的运维工程师认为提高了自动化运维的水平，就达到了<br>DevOps，虽然自动化在 DevOps 里扮演着很重要的一部分。</p>
+<p>所以，做到自动化运维，并不代表你就正在实践<br>DevOps，但除了运维自动化，还应该有开发的自动化，并且让自动化成为团队的基因之一。很可能你仅仅提升了运维的效率，但并没有从全局的角度提升开发和运维之间的效率。因此，仅仅有自动化运维，还不足以称之为<br>DevOps。除了运维自动化，还应该有开发的自动化，并且让自动化成为团队的基因之一。</p>
+<h4 id="关于-“DevOps-技术”"><a href="#关于-“DevOps-技术”" class="headerlink" title="关于 “DevOps 技术”"></a>关于 “DevOps 技术”</h4><p>以上列举了很多所谓 “DevOps 技术”，是从技术的角度来认识<br>DevOps。然而，任何工具都是为其组织结构服务的，当脱离了组织结构的时候，DevOps<br>的技术转型会带来很多痛点，就像康威定理说的：</p>
+<blockquote>
+<p>设计系统的组织，其产生的设计等同于组织之内、组织之间的沟通结构。</p>
+</blockquote>
+<p>由于 DevOps<br>工具可能会引发组织结构的变动，单纯对提升技术工具，带来的结果会有以下两种：</p>
+<ul>
+<li><p>对于执行力强的大型组织来说，组织会要求工具做出改变以适应组织的结构。</p>
+</li>
+<li><p>对于执行力弱的小型组织来说，组织会根据工具的要求改变以适应工具的结构。</p>
+</li>
+</ul>
+<p>无论以上哪一种，单纯引入工具都无法有意识的解决 DevOps<br>转型所带来的这种痛点，此外，不探索 DevOps<br>真正的问题，以及技术背后的目的和最佳实践，往往会使导致对 DevOps<br>的片面了解而适得其反。</p>
+<p>从 DevOps 运动发展的历史上来看，DevOps 相关技术是解决 DevOps<br>相关问题的结果，而非动起因。因此，对于 DevOps<br>的理解如果本末倒置，则很有可能起到反作用。</p>
+<p>此外，我相信所有第一线的工程师都很聪明，并且随着技术的发展，工具和平台的使用会越来越容易。但是，能够跳出自己的责任区，从全局的角度观察并解决问题的能力则是很多工程师所欠缺的。</p>
+<h4 id="当-DevOps-是一个岗位角色"><a href="#当-DevOps-是一个岗位角色" class="headerlink" title="当 DevOps 是一个岗位角色"></a>当 DevOps 是一个岗位角色</h4><p>随着 DevOps 的流行，企业也开始对 DevOps<br>有所期望，希望通过招聘和培训来提升自己的 DevOps 能力或者具备 DevOps<br>的技能。于是设置了一些称之为”DevOps<br>工程师”的岗位和角色。通过对这些招聘需求的描述，以及客户对 DevOps<br>诉求，我整理了四个对”DevOps 工程师”的认识：</p>
+<ul>
+<li><p>作为 Dev 的 Ops（会开发技能的运维工程师）</p>
+</li>
+<li><p>作为 Ops 的 Dev（会运维技能的开发工程师）</p>
+</li>
+<li><p>基础设施开发工程师</p>
+</li>
+<li><p>全栈工程师</p>
+</li>
+</ul>
+<h5 id="作为-Dev-的-Ops"><a href="#作为-Dev-的-Ops" class="headerlink" title="作为 Dev 的 Ops"></a><strong>作为 Dev 的 Ops</strong></h5><p>有很多人也会认为，只要让开发工程师掌握运维技能，运维工程师掌握开发技能，就做到了<br>DevOps，这招来了很多运维工程师的反感。我采访过一些运维工程师，当初他们就是不喜欢也不想写代码，才来做运维方向。</p>
+<p>其中有一个动机是在于基础设施技术的进步和架构的稳定，这会让高管有一种错觉，认为运维团队一定程度上是浪费，因此，为了”物尽其用”，讲运维工程师去写业务代码，并用”DevOps”作为对这种措施这一合理化的幌子。</p>
+<p>这种想法的天真在于忽视了开发和运维的专业性和差异性。虽然我不否认技术的发展对二者来说难度和门槛在不断降低，而且掌握一定开发技能的运维工程师前景更宽，但是强人所难并不会让事情变好。</p>
+<h5 id="作为-Ops-的-Dev"><a href="#作为-Ops-的-Dev" class="headerlink" title="作为 Ops 的 Dev"></a><strong>作为 Ops 的 Dev</strong></h5><p>同样的误解也会发生在开发工程师身上，对于开发工程师来说，其实难度并没有增加，无非是把<br>Ops 的工作当做需要完成的需求而已，甚至很多开发工程师自己也这么认为。</p>
+<p>然而软件开发和软件维护是相互关联但是各自独立的专业领域。DevOps<br>并不是要消除任何一方，而是要通过更加深入的合作成为彼此工作的润滑剂而非绊脚石。</p>
+<p>对于开发工程师来说，掌握跟多的技能绝对是一件好事，但也不要低估运维的专业性和难度。</p>
+<h5 id="基础设施开发工程师"><a href="#基础设施开发工程师" class="headerlink" title="基础设施开发工程师"></a><strong>基础设施开发工程师</strong></h5><p>由于有了上面介绍的虚拟化和基础设施即代码这样的技术，”通过 Dev 的方式完成<br>Ops 的工作，就是 DevOps”也很自然的成为了很多 Ops 对 DevOps<br>的认识。他们往往有一个新的称谓：基础设施开发者 （Infrastructure<br>Developer），指的是通过工具和配置文件，利用现有的云计算和虚拟化平台资源，为应用程序构建基础设施。</p>
+<p>在一些企业里，基础设施开发工程师都会肩负着企业 DevOps 的重任。</p>
+<h5 id="全栈工程师"><a href="#全栈工程师" class="headerlink" title="全栈工程师"></a><strong>全栈工程师</strong></h5><p>当然绝对不排除有些工程师是既懂开发也懂运维的”复合型人才”，但这样的人才所花费的货币成本和时间成本也十分高昂：一方面是寻找和雇用这样的人所花费的成本。另一方面是培养这这类人才的成本。</p>
+<p>但是，仅仅认为有了这样的人才就具备 DevOps 的能力也并不现实。首先，DevOps<br>是一个团队属性，而不是个人属性。一个人的力量相较于一个团队来说，还是很有限。其次，招聘这样的人还是为了胜任纷繁多变的工作。因此，我有时候会戏称全栈工程师为”全干工程师”，听起来很厉害，但工作境遇并不见的很好。他们往往会身兼多职而变得异常忙碌，成为团队的”瓶颈”。这并没有让效率提升，反而是一种下降。这并没有改善工作情况。</p>
+<h4 id="你可能只需要一个外部-DevOps-教练"><a href="#你可能只需要一个外部-DevOps-教练" class="headerlink" title="你可能只需要一个外部 DevOps 教练"></a>你可能只需要一个外部 DevOps 教练</h4><p>不要以为缺乏 DevOps 人才就无法实现 DevOps 了，正确了认识 DevOps<br>之后，DevOps 就没那么困难。</p>
+<p>软件开发和软件运维，是两类不同但联系很密切的事务，在过去很长的时间里，他们都是分别在不同的部门中工作的。但随着企业的互联网转型，这种专业性和责任的不同从甲乙双方的矛盾变成了企业内部的矛盾。这是企业在互联网转型过程中的必经阶段。而如何平滑的过渡，则是<br>DevOps<br>成败关键所在，你所需要不光是工程人才，你还需要新型的管理人才或者外部顾问来推动这项改进。</p>
+<p>一般来说，DevOps<br>的变革一定会调整组织的制度和做事方式，而制度层面的改变不是企业内部能够很轻易做到的。由于”不求有功，但求无过”的心态普遍存在，因此越是大型的组织，所面临的组织僵化会越严重。因此，从组织外部引入”晃动器”才可以避免组织的卡壳，例如：聘用有<br>DevOps 经验的高管，或者是专业的 DevOps 教练。</p>
+<p>由于 DevOps 的定义很广泛，DevOps 转型也不会千篇一律。那么，如何识别好的<br>DevOps 方案呢？一般来说，我认为优秀的 DevOps 方案包括以下几点：</p>
+<ul>
+<li><p>能完整的 DevOps 的定义和理解（至少回答 DevOps 相关问题能自圆其说）</p>
+</li>
+<li><p>有业务组织的分析（跳脱了组织谈技术很危险）</p>
+</li>
+<li><p>有技术技能的分析（没有技术能力的提升都是口头转型）</p>
+</li>
+<li><p>两者的分析有度量（没有度量就没有改进）</p>
+</li>
+<li><p>方案落地里有技术和组织改进两部分（工具和实践相辅相成，两部分缺一不可）</p>
+</li>
+</ul>
+<h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h3><p>本篇我们讨论了常见的两种 DevOps 理解，分别是：</p>
+<ul>
+<li><p>DevOps 是一组技术实践</p>
+</li>
+<li><p>DevOps 是一个岗位角色</p>
+</li>
+</ul>
+<p>下篇我们将讨论 DevOps 的另外两种理解，谢谢。</p>
+<h5 id="第02课：聊聊不一样的-DevOps（下）"><a href="#第02课：聊聊不一样的-DevOps（下）" class="headerlink" title="第02课：聊聊不一样的 DevOps（下）"></a><strong>第02课：聊聊不一样的 DevOps（下）</strong></h5><p>在上一篇中聊到了 DevOps 两种常见的理解：</p>
+<ul>
+<li><p>DevOps 是一组技术实践</p>
+</li>
+<li><p>DevOps 是一个岗位角色</p>
+</li>
+</ul>
+<p>在这一篇中来聊聊 DevOps 另外两种常见的理解：</p>
+<ul>
+<li><p>DevOps 是一种工作方式</p>
+</li>
+<li><p>DevOps 是一种组织结构</p>
+</li>
+</ul>
+<h3 id="DevOps-是一种工作方式"><a href="#DevOps-是一种工作方式" class="headerlink" title="DevOps 是一种工作方式"></a>DevOps 是一种工作方式</h3><p>在我看来，这算是最贴近 DevOps<br>的目标的定义，但是在理解和实践上也是问题百出，片面的理解和机械的模仿都会造成<br>DevOps 之痛。对于 DevOps 的工作方式，有以下四个常见的理解：</p>
+<ul>
+<li><p>用 Dev 的方法做 Ops 的事</p>
+</li>
+<li><p>换了名字的 Ops 团队</p>
+</li>
+<li><p>一个有 Ops 的 Dev 团队</p>
+</li>
+<li><p>一个 Dev 和 Ops 合作的团队</p>
+</li>
+</ul>
+<h4 id="用-Dev-的方式做-Ops-的事"><a href="#用-Dev-的方式做-Ops-的事" class="headerlink" title="用 Dev 的方式做 Ops 的事"></a>用 Dev 的方式做 Ops 的事</h4><p>当你采用了<br>“基础设施即代码”，或者你有了”基础设施开发工程师”的时候，很自然的会想”我已经做到<br>DevOps<br>了”。然而，如果你并没有注意我在上一篇文章中描述的几种情况，那么你可能得到的只是下面所述的”换了名字的<br>Ops 团队”。</p>
+<h4 id="换了名字的-Ops-团队"><a href="#换了名字的-Ops-团队" class="headerlink" title="换了名字的 Ops 团队"></a>换了名字的 Ops 团队</h4><p>这其实是很多公司的做法，认为 DevOps 所做的事情只是技术的更新，并无其它。</p>
+<p>在 2016 年 8 月份我在悉尼的一个 DevOps<br>项目上做转型咨询，客户的应用系统是基于 AWS 构建的，并且客户始终认为<br>DevOps 工程师就是前文所述的基础设施开发团队，只是工作的内容全都在 AWS<br>上面，并没有什么变化，而且给这个团队一个很高大上的名字：Enablers。</p>
+<p>然而，这个团队仅仅用新工具是清偿了之前运维工程师留下的技术债，并没有帮助开发团队、测试团队甚至是业务团队从自己的角度提供帮助来提升价值的流动速度和工作效率。</p>
+<p>不光如此，因为这个团队掌握了关键的基础设施资源，成为了所有团队前进的阻力，导致其它部门有更多积压的工作并需要更多人的人来处理。由于出现了这样的结果，所以客户认为<br>“DevOps doesn\’t work in my orgnization”（DevOps 在我的组织里不好使）。</p>
+<p>在 DevOps 转型的初期，尤其是 Ops 端驱动的 DevOps<br>转型，我们需要一个这样的团队从运维的角度提出统一的方案并提供统一的服务支持。但随着<br>DevOps 能力和成熟度的提升，这样一个实体团队而不是虚拟团队的存在则会成为<br>DevOps 继续发展的阻力。</p>
+<h4 id="一个有-Ops-的-Dev-团队"><a href="#一个有-Ops-的-Dev-团队" class="headerlink" title="一个有 Ops 的 Dev 团队"></a>一个有 Ops 的 Dev 团队</h4><p>最天真的想法莫不如把两类工程师放在一个团队里，在同一个负责人的范围内消化<br>Dev 和 Ops 的问题。这样，Dev 和 Ops<br>就能统一目标，平衡矛盾和冲突，共同解决问题。</p>
+<p>但实际上很少有企业能够走出这一步，一方面是 IT<br>部门的岗位设置和预算归属，另一方面是团队变更后的 KPI<br>考核。一件很小的举动就会牵扯更多的问题，使 DevOps<br>难以进行下去。此外，如果缺乏有效的 DevOps 实践或者外部教练的指引，那么使<br>Dev 和 Ops 的融合将是一个漫长的旅程。</p>
+<p>在这种情况下，我建议采用 DevOps 项目制的方式来进行 DevOps 的体验：</p>
+<ul>
+<li><p>首先根据项目汇聚资源，在项目中预留 Ops 角色。</p>
+</li>
+<li><p>从运维部门借调运维工程师到项目中。运维部门要提前安排好运维工作的交接，或者至少把日常性的运维任务的80%剥离出来，分配给现有团队，保证进入项目团队的运维工程师的工作不被打扰。</p>
+</li>
+<li><p>Ops</p>
+<blockquote>
+<p>所在的部门绩效分为两块：一块为常规运维绩效（保证系统稳定性），另一块为<br>DevOps<br>项目绩效（保证开发顺利性），可以根据具体工作状况来设置这样的工作比率。</p>
+</blockquote>
+</li>
+<li><p>保证运维团队人员能够有机会进入项目实践 DevOps</p>
+<blockquote>
+<p>，同时要把项目开发中的运维痛点带回给运维团队处理。</p>
+</blockquote>
+</li>
+</ul>
+<p>在上述的悉尼 DevOps<br>转型项目里，我就成为加入到产品开发团队中的运维工程师。一方面解决开发团队痛点，一方面和<br>Enablers<br>团队沟通；一方面解决开发团队的痛点，另一方面获得相应的权限和知识，并把开发团队的反馈及时传达给<br>Enablers 团队。</p>
+<h4 id="一个-Dev-和-Ops-合作的团队"><a href="#一个-Dev-和-Ops-合作的团队" class="headerlink" title="一个 Dev 和 Ops 合作的团队"></a>一个 Dev 和 Ops 合作的团队</h4><p>这就是 DevOps<br>所要达到的目标，它不是一个人的属性，而是一个团队的属性，它让利益相关方坐在一起解决问题，而不是相互甩锅。然而，由于”合作”的定义很简单，也很空泛，导致”合作”难以落地，以下是我认为”关键”的<br>DevOps 合作方式：</p>
+<ul>
+<li><p>共同进行架构设计</p>
+</li>
+<li><p>共同进行技术决策</p>
+</li>
+<li><p>持续交付流水线的建立</p>
+</li>
+<li><p>共同 Pair 和 Review 代码和环境的配置</p>
+</li>
+<li><p>共同参与回顾会议</p>
+</li>
+<li><p>通过定期的内部 Session 增加相互的理解</p>
+</li>
+<li><p>共同处理运维的问题</p>
+</li>
+</ul>
+<p>此外，还有很多其他的合作方式能够提升 DevOps<br>的效果，在此不一一列举，这里仅做参考。</p>
+<h3 id="DevOps-是一种组织文化"><a href="#DevOps-是一种组织文化" class="headerlink" title="DevOps 是一种组织文化"></a>DevOps 是一种组织文化</h3><p>在著名在 Velocity 09 大会上，来自 Flicker 的著名演讲”10+ Deploys Per<br>Day: Dev and Ops Cooperation”明确的指出工具和文化是他们成功的原因，而<br>John Willis 和 Damon Edwards 也在 2010 年 MoutainView 举办的 DevOpsDays<br>中重新强调了文化的重要性。</p>
+<p>相对于可以看得见的工具，文化显得华而不实，也有人认为 DevOps<br>文化是一种”空谈陷阱”。</p>
+<p>有一篇关于企业文化的文章写的非常好，这篇文章叫做”Culture is the Behavior<br>You Reward and<br>Punish”，翻译过来就是：文化就是你奖励和惩罚的行为，就是说对行为的惩罚和奖励构成了你的文化，对<br>DevOps 也一样。奖励符合 DevOps 的行为（而不仅仅是鼓励），惩罚不符合<br>DevOps 的行为。就形成了 DevOps 的文化。</p>
+<p>而我所说的”建立 DevOps 的文化”则是建立一种规则约束，这种约束不但包含了<br>DevOps<br>的行为准则，而且包含了奖励和惩罚的机制，而这种规则约束不能变成一纸空文，更要切实执行下去，形成一种行为习惯。</p>
+<p>习惯的力量则能够保证一种好的制度和实践顺利的延续下去，当然这种规则约束不是一成不变的，这些约束和规则也需要根据团队的发展不断的变化以适应新的状况。</p>
+<p>然而，就如上文所说的，由于企业并不存在产生 DevOps 的基因（否则你早就有<br>DevOps 了），这些制度很难从内部产生，必须要的话，请引入外部资源，例如<br>DevOps 顾问或者 DevOps 教练。</p>
+<p>我经常看到一些”KTV 式转型”，当人们在 KTV<br>里唱歌的时候，面对歌词字幕你总能唱出来，也能唱对。但如果没有歌词，人们往往就唱不出来了，这里的歌词字幕就相当于是转型顾问，当教练在的时候，每个人都知道怎么做，当教练不在，什么都没有了。</p>
+<p>很多情况下，顾问和教练在短期内起到从”0到1”的转变，然而从”1-100”则不是一朝一夕就能实现的，文化的形成是一个长期的塑造过程，不是能够买来的，你需要有足够的耐心来不断的评估当前的状况并即刻。</p>
+<p>以下是 DevOps<br>所鼓励的行为，尽管每个人都鼓励以下的行为，但实际效果则千差万别，往往抓住了形式而不是本质。</p>
+<ul>
+<li><p>信任</p>
+</li>
+<li><p>沟通</p>
+</li>
+<li><p>学习</p>
+</li>
+<li><p>分享/共担</p>
+</li>
+<li><p>不要指责</p>
+</li>
+</ul>
+<h4 id="信任"><a href="#信任" class="headerlink" title="信任"></a>信任</h4><p>你的团队里的 Dev 和 Ops<br>之间是相互信任的吗？你信任你的团队成员吗？如果回答是，那么你的团队成员信任你吗？信任是相互的，而且是高效团队成功的基石，获得信任很难，需要时间去建立，信任同样也很脆弱，很容易就会失去，你是否明确哪些行为对信任有帮助，而哪些行为会伤害信任？你能说出那些帮助构建信任和伤害信任的行为吗？你的团队都清楚吗？</p>
+<p>当想到以上这些问题，你还信任你自己和你的团队吗？</p>
+<p><strong>这里有一个很重要的原理：没有无条件的信任，信任是需要建立的。</strong></p>
+<p>《凤凰项目》中所介绍的构建信任的方式——把自己最脆弱的一面告诉大家。</p>
+<p>很多人都觉得难以启齿，难以启齿的原因就是因为人们不愿意相信对方能够接纳这些不信任，而这么做恰恰能表明你对对方的信任，相信经历过一系列的措施之后，能改善当前的状况。</p>
+<p>如果你觉得信任很难达成，那么这就是一个风险点，他会影响团队成员的行为和判断，造成不利的影响。所以，请多检查团队内部的信任情况，及时排除风险。</p>
+<h4 id="沟通"><a href="#沟通" class="headerlink" title="沟通"></a>沟通</h4><p>沟通是一个泛滥的话题，各种打着”高效沟通”的方法也层出不穷，但人们虽然都懂各种道理，也知道沟通的重要性，可沟通仍然被用作为”命令”的幌子，或用来实施语言暴力。</p>
+<p>沟通的主要目的在于交换意见和看法，达成理解，沟通不仅仅是信息交流的通道，同样也是情绪宣泄的出口。我们在沟通中，有多少是发泄情绪占了很大的比重，但我们往往没有察觉，人们对表达自己的情绪是困难的，因此用各种各样的”道理”来掩盖真实的意图。如果团队成员的大脑被不良情绪占据，那么无论如何他在团队中都不会有很好的表现的。人们往往会用其它的方式宣泄自己的情绪，而缺乏正确的发泄渠道则会导致灾难。</p>
+<p>你的团队里有没有比较沉默的人或者是不喜欢主动沟通的人？由于信任的逐渐缺失，有些人往往不再沟通，而这类不再沟通的人，往往是项目中的定时炸弹，而情绪积累到某一个点后，这个炸弹就会爆炸，造成很恶劣的影响。所以，尽早的介入并让每个人能够很顺畅的沟通，对降低情绪风险，尤为重要。</p>
+<p>另外一个很重要的问题是：在沟通里，你是听的多？还是说的多？如果作为听者，你真正明白对方讲的是什么吗？如果作为说者，你在沟通之前，你是否有计划，是否明确沟通的目的，沟通后如何确认达到了沟通的目的？</p>
+<p>如果不确认这些问题，那么沟通往往就是没有意义的闲聊。</p>
+<h4 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h4><p>在英文里，学习是一个词——Learn，而在中文里”学习”是两个词，对应的英文分别是<br>Learn （学）和 Practice（习）。比如：Learn<br>就可以因为上下文的不同表示两种意思，一种是”经历过学习的过程，但不一定掌握”，另一种则是真正学会了。</p>
+<p>当说到学习，往往想到的都是”输入”：看书（虽然买了也未必会看），看博客、看代码、看视频……然后练习，直到掌握。</p>
+<p>然而，仅有输入是不够的，学习还应当有”输出”：形成博客、开源软件、演讲甚至是培训工作坊。有一句很著名的话叫做：”教是检验学习成果的唯一标准。”是不是真的掌握了，教一下别人，你会意识到”学习的错觉”。</p>
+<p>在这里，我要强调一种重要的输入途径：从过往的经验教训中反思、总结，并形成团队的经验。很多事情过去了，无论成败，往往缺乏总结，这无法让团队成长，因为成败全凭”运气”。</p>
+<p><strong>学习的目的在于指导今后的实践，无论成败，都会降低未来失败的概率，多做”正确的事”，少做”错误的事”。</strong></p>
+<p>而只有学，没有习。只有输入，没有输出，或者只向外看，不向内看，都是片面的学习方式。我推荐的学习方式则是以输出作为学习目标，对知识和信息进行加工、思考、实践、提炼的过程。</p>
+<p>毕竟，判断一个人的知识不再于他的输入，而在于他的输出。虽然你可以看到有人读了很多书，但有多少东西他记住了，只有通过他讲出来，才能够判断。</p>
+<h4 id="不要指责"><a href="#不要指责" class="headerlink" title="不要指责"></a>不要指责</h4><p>很多问题棘手是因为人们不关注如何解决问题，而关注这个问题究竟是谁该负责，如果团队在责任归属的问题上花的时间很多，那么这就是一个指责文化的制度。在这种情况下，团队成员为了自保，会避免承担责任和解决问题。因此，很多事情没有进展，于是，整个组织沉浸在一种”不求有功，但求无过”的氛围下慢慢凝结，最后僵化至卡壳，引发问题。</p>
+<p>我们常常听到”零容忍”，这往往是很漂亮的口号。但它往往指的是”发现问题掩盖问题”。以前人们都说，不怕有问题，就怕看不见问题。而现在很多问题的出现并不是”黑天鹅”事件，而是”灰犀牛”事件，恰恰是对问题的选择性失明导致了不可挽回的结果。</p>
+<p>在实践 DevOps<br>的时候，需要先测试一下有多少”装睡的人”，因为”你永远叫不醒一个装睡的人”，<strong>没有解决不了的问题，只有不愿承担的责任。</strong></p>
+<h4 id="分享-共担"><a href="#分享-共担" class="headerlink" title="分享/共担"></a>分享/共担</h4><p>Share 在英文里有两个意思，一个和别人分享，另一个是共同承担。在 DevOps<br>的上下文里二者兼有，一方面是作为学习的结果的产出，另一方面是避免组织陷入不愿承担责任的文化。对于团队作战来说，一个人犯错，不是他一个人的责任，而是集体的责任。</p>
+<p>我们要相信没有不良的人，只有不良的制度。当出现了问题，从制度上而不是从个人的角度分析问题出现的原因，而且要能总结原因，形成新的制度。如果一个问题不在制度上去避免，那么错误还会再犯。</p>
+<h3 id="如果什么都是-DevOps，那么-DevOps-实际上什么也不是"><a href="#如果什么都是-DevOps，那么-DevOps-实际上什么也不是" class="headerlink" title="如果什么都是 DevOps，那么 DevOps 实际上什么也不是"></a>如果什么都是 DevOps，那么 DevOps 实际上什么也不是</h3><p>如果把所有 DevOps 相关的内容加总就能得到 DevOps，那和没有定义 DevOps<br>一样。如果我们没办法确定”什么不是 DevOps”，那同理我们也很难定义 DevOps<br>是什么。</p>
+<p>我试图从这两篇文章中对 DevOps 的理解里，提取出一些 DevOps<br>的必要元素来构成 DevOps<br>的完整实践。这些元素缺一不可，但单独拿出来又不能构成完整 DevOps<br>的概念。这样既可以保证对 DevOps 的完整理解，又避免 DevOps<br>概念过大难以下手。</p>
+<p>根据我自己的实践，我认为 DevOps 包括以下几点原则：</p>
+<ul>
+<li><p>DevOps</p>
+<blockquote>
+<p>有一个明确的目标：通过充分的合作解决由于责任模糊而相互推诿的问题（没有<br>DevOps 痛点的团队自然也没有 DevOps 的动力）。</p>
+</blockquote>
+</li>
+<li><p>DevOps</p>
+<blockquote>
+<p>是一个团队属性而不是个人属性，这个团队需要处理开发和维护任务（有单一任务都不算是<br>DevOps 团队，因为没有合作解决 DevOps 痛点的动机）。</p>
+</blockquote>
+</li>
+<li><p>DevOps</p>
+<blockquote>
+<p>是一种团队改进，对于团队的表现有明确目标和度量（没有度量的改进就是耍流氓）。</p>
+</blockquote>
+</li>
+<li><p>DevOps 是一种团队工作方式和文化，它包括了一系列促进 Dev 和 Ops</p>
+<blockquote>
+<p>合作的具体技术和实践以达到上述目标（DevOps<br>也不是缺乏技术的理论空谈）。</p>
+</blockquote>
+</li>
+</ul>
+<p>因此，以下的描述都不是 DevOps：</p>
+<ul>
+<li><p>DevOps 不是一个职务或者角色，因为 DevOps 是团队属性。</p>
+</li>
+<li><p>不存在”DevOps 团队”，只存在”以 DevOps 方式工作的团队”。</p>
+</li>
+</ul>
+<p>根据这个对 DevOps 的认识，并结合我过去三年的 DevOps<br>的实践和咨询经历，我在 GitChat 设计了这门”DevOps<br>转型实践”达人课的第一部分，希望能给正在做 DevOps<br>的你一些参考，希望能够助你在 DevOps 的实践过程中更加顺利。</p>
+<h3 id="课程介绍"><a href="#课程介绍" class="headerlink" title="课程介绍"></a>课程介绍</h3><p>“DevOps 转型实战”的课程如下：</p>
+<ul>
+<li><p>01：写在 DevOps 转型之前</p>
+</li>
+<li><p>02：分析组织工作流上下文</p>
+</li>
+<li><p>03：分析技术能力上下文</p>
+</li>
+<li><p>04：选择 DevOps 执行模式和转型策略</p>
+</li>
+<li><p>05：采用 DevOps 看板和 DevOps 故事</p>
+</li>
+<li><p>06：开发侧主导的 DevOps 转型</p>
+</li>
+<li><p>07：运维侧主导的 DevOps 转型</p>
+</li>
+<li><p>08：打造自改进的 DevOps 团队</p>
+</li>
+</ul>
+<p>此外，我会在我 GitChat 的读者圈里回答各种 DevOps 转型中出现的问题。</p>
+<p>阅读全文:<br><a href="http://gitbook.cn/gitchat/column/5a79594e74fabe0f179f3e8b" target="_blank" rel="noopener">http://gitbook.cn/gitchat/column/5a79594e74fabe0f179f3e8b</a></p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#作者介绍"><span class="toc-text">作者介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#课程内容"><span class="toc-text">课程内容</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#第01课：聊聊不一样的-DevOps（上）"><span class="toc-text">第01课：聊聊不一样的 DevOps（上）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#含义越来越丰富的-DevOps"><span class="toc-text">含义越来越丰富的 DevOps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你理解的-DevOps-是指的什么"><span class="toc-text">你理解的 DevOps 是指的什么</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#当-DevOps-是一组技术-实践"><span class="toc-text">当 DevOps 是一组技术/实践</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#高频部署"><span class="toc-text">高频部署</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#持续交付"><span class="toc-text">持续交付</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#云计算-虚拟化技术"><span class="toc-text">云计算/虚拟化技术</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#基础设施即代码"><span class="toc-text">基础设施即代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Docker"><span class="toc-text">Docker</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自动化运维"><span class="toc-text">自动化运维</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于-“DevOps-技术”"><span class="toc-text">关于 “DevOps 技术”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#当-DevOps-是一个岗位角色"><span class="toc-text">当 DevOps 是一个岗位角色</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#作为-Dev-的-Ops"><span class="toc-text">作为 Dev 的 Ops</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#作为-Ops-的-Dev"><span class="toc-text">作为 Ops 的 Dev</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#基础设施开发工程师"><span class="toc-text">基础设施开发工程师</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#全栈工程师"><span class="toc-text">全栈工程师</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#你可能只需要一个外部-DevOps-教练"><span class="toc-text">你可能只需要一个外部 DevOps 教练</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#未完待续"><span class="toc-text">未完待续</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#第02课：聊聊不一样的-DevOps（下）"><span class="toc-text">第02课：聊聊不一样的 DevOps（下）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DevOps-是一种工作方式"><span class="toc-text">DevOps 是一种工作方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用-Dev-的方式做-Ops-的事"><span class="toc-text">用 Dev 的方式做 Ops 的事</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#换了名字的-Ops-团队"><span class="toc-text">换了名字的 Ops 团队</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个有-Ops-的-Dev-团队"><span class="toc-text">一个有 Ops 的 Dev 团队</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个-Dev-和-Ops-合作的团队"><span class="toc-text">一个 Dev 和 Ops 合作的团队</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DevOps-是一种组织文化"><span class="toc-text">DevOps 是一种组织文化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#信任"><span class="toc-text">信任</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#沟通"><span class="toc-text">沟通</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#学习"><span class="toc-text">学习</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不要指责"><span class="toc-text">不要指责</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分享-共担"><span class="toc-text">分享/共担</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果什么都是-DevOps，那么-DevOps-实际上什么也不是"><span class="toc-text">如果什么都是 DevOps，那么 DevOps 实际上什么也不是</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#课程介绍"><span class="toc-text">课程介绍</span></a>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
