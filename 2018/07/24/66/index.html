@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>主机系统漏洞扫描分析Nessus</title>
+  
+
+  <link rel="canonical" href="http://zhangyu233.com/2018/07/24/66/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">主机系统漏洞扫描分析Nessus</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-07-24</span>
+      
+      <a href="/categories/安全/" title="安全" class="post-categories">安全</a>
+      
+      
+      <a href="/tags/安全/"" title="安全" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>安全</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>家庭版：家庭版是供非商业性或个人使用。家庭版比较适合个人使用，可以用于非专业的环境。</p>
+<p>专业版：专业版是供商业性使用。它包括支持或附加功能，如无线并发连接等。</p>
+<p>下载</p>
+<p><a href="https://www.tenable.com/downloads/nessus" target="_blank" rel="noopener">https://www.tenable.com/downloads/nessus</a></p>
+<p>Nessus-7.1.2-es7.x86_64.rpm</p>
+<p>cd /opt</p>
+<p>wget<br><a href="https://tenable-downloads-production.s3.amazonaws.com/uploads/download/file/7957/Nessus-7.1.2-es7.x86_64.rpm?X-Amz-Expires=5&amp;X-Amz-Date=20180717T004839Z&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAI4RY63TT27LQYUGQ/20180717/us-east-1/s3/aws4_request&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=d35623f70425cc4951160cdfbc8467968bf5ac0099fafb906cee2560125d1adc" target="_blank" rel="noopener">[https://tenable-downloads-production.s3.amazonaws.com/uploads/download/file/7957/Nessus-7.1.2-es7.x86_64.rpm?X-Amz-Expires=5&amp;X-Amz-Date=20180717T004839Z&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAI4RY63TT27LQYUGQ/20180717/us-east-1/s3/aws4_request&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=d35623f70425cc4951160cdfbc8467968bf5ac0099fafb906cee2560125d1adc]{.underline}</a></p>
+<p>安装</p>
+<p>rpm -ivh Nessus-7.1.2-es7.x86_64.rpm</p>
+<p>启动</p>
+<p>systemctl start nessusd.service</p>
+<p>浏览器  <a href="https://test32:8834/" target="_blank" rel="noopener">https://test32:8834/</a> </p>
+<p><strong>注意：</strong>Nessus服务使用的是https协议</p>
+<p>在Linux系统中，Nessus工具默认安装在/opt/nessus目录中</p>
+<p>自定义端口修改</p>
+<p>/opt/nessus/etc/nessus/nessusd.conf.imported</p>
+<p><strong>获取激活码</strong></p>
+<p>选择免费的家庭版进行注册</p>
+<p><a href="https://www.tenable.com/products/nessus/activation-code" target="_blank" rel="noopener">https://www.tenable.com/products/nessus/activation-code</a></p>
+<p>在使用Nessus之前，必须先激活该服务才可使用。如果要激活Nessus服务，则需要到官网获取一个激活码。下面将介绍获取激活码的方法。具体操作步骤如下所示：</p>
+<p>在浏览器中输入以下地址：</p>
+<p><a href="http://www.nessus.org/products/nessus/nessus-plugins/obtain-an-activation-code" target="_blank" rel="noopener">http://www.nessus.org/products/nessus/nessus-plugins/obtain-an-activation-code</a></p>
+<p>为了获取激活码。</p>
+<p>在该界面First Name和Last Name文本框中，用户可以任意填写。</p>
+<p>但是，Email下的文本框必须填写一个合法的邮件地址，用来获取邮件。</p>
+<p>当以上信息设置完成后，单击Register按钮。</p>
+<p>接下来，将会在注册的邮箱中收到一份关于Nessus的邮件。进入邮箱打开收到的邮件，将会看到一串数字，类似XXXX-XXXX-XXXX-XXXX，即激活码。</p>
+<p>###################################</p>
+<p>创建用户</p>
+<p>输入激活码</p>
+<p>要等一会（大约5分钟）</p>
+<p>就完成了</p>
+<p><strong>更新</strong></p>
+<p>/opt/nessus/sbin/nessuscli update --all</p>
+<p>systemctl restart nessusd.service</p>
+<p>再登录页面，一会就能进入</p>
+<p>扫描模板--------有upgrade的字样就是要收费的</p>
+<p>一般扫描使用<strong>Advanced Scan</strong></p>
+<p><strong>可以ssh登陆扫描和数据库登陆扫描</strong></p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
