@@ -153,14 +153,14 @@
 </blockquote>
 <h2 id="0x06-过滤策略"><a href="#0x06-过滤策略" class="headerlink" title="0x06 过滤策略"></a><strong>0x06 过滤策略</strong></h2><blockquote>
 <p>我们收集了这么多数据，其实还是想从这些数据中，拿到我们想到的数据是，从威胁报警噪音中，去掉误报，得到最有价值的关键信息。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/qq5rfBadR38fxpricJ0iaDMKJa8WLBmHREQTaQtR9zqCrU5FyQgX03QCnexLRtYHIibCYSRVEhVYXiawu68GW2t3fw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_257"> </p>
+<p><img src="http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=https://mmbiz.qpic.cn/mmbiz_jpg/qq5rfBadR38fxpricJ0iaDMKJa8WLBmHREQTaQtR9zqCrU5FyQgX03QCnexLRtYHIibCYSRVEhVYXiawu68GW2t3fw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_257"> </p>
 <p>上面我们提到的数据的日志源，从威胁甄别，到日志字段存储策略都有自己方式，我们让所有的相关想要的数据都放到了我们的容器里，我们加入自己的过滤策略，得到我们想到的结果。其实有些开源日志工具已经想到了会有这种需求，所能他们在设计就实现了这个功能，我们通添加一些小的脚本在他们的系统中就可以实现数据的再过滤处理，但也只限于在他们自己的系统里，而我们的数据显然不在一个系统里，所以，最后还得我们自己来，下面图展示了大体的我们的容器使用的技术。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/qq5rfBadR38fxpricJ0iaDMKJa8WLBmHRENVKrdKMdibeeEOTlWsiawzKmPuw061jNFQibJDao6MPVD6SlWQmC9tw4Q/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_258"> </p>
+<p><img src="http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=https://mmbiz.qpic.cn/mmbiz_jpg/qq5rfBadR38fxpricJ0iaDMKJa8WLBmHRENVKrdKMdibeeEOTlWsiawzKmPuw061jNFQibJDao6MPVD6SlWQmC9tw4Q/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_258"> </p>
 <p>从”1.日志源”开始，到实际存数据的”2.容器”，就是基础数据持久层，然后我们通过实现一个”3.驱动”层来提供数据读取的可能。最后我们会把”4.过滤策略”应用到我们的数据上，通过编写算法策略来实现数据过滤和甄别，最后我们能得到什么数据呢？我们可以通过白名单和黑名单得到更准备的报警消息。<br>我们可以得有关行为的关联数据。我们可以建立一个数据反馈机制，沉淀威胁数据和安全策略。我们可能针对不同报警，做再次判断处理，<br>降低误报噪音，加强正确报警的识别度。</p>
 </blockquote>
 <h2 id="0x07-应用实例"><a href="#0x07-应用实例" class="headerlink" title="0x07 应用实例"></a><strong>0x07 应用实例</strong></h2><blockquote>
 <p>比如说，我们已经构建了一个实际的复合性的SOC系统的雏形，我们可以取得我设备发过来的报警信息，比如，某个网段上的WEB相关的SQL注入的流量监听分析，我们如何做下一步的过滤策略呢，<br>如果这个设备的报警原则是针对字典的判断的，我们就可以加一个针对库判断的工具进行再次过滤，让报警的正确率更高。</p>
-<p>有一个叫做libinjection的库，可以准确的判断中字符串中是否有注入：<a href="https://github.com/client9/libinjection\" target="_blank" rel="noopener">https://github.com/client9/libinjection\</a><br>\<br><img src="https://mmbiz.qpic.cn/mmbiz_png/qq5rfBadR38fxpricJ0iaDMKJa8WLBmHREj7RYvlu3VTCiceqeQXDOmxM7n6Z50n8tMVlCOXTicZQXNQtXQmRuFykQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_259"> </p>
+<p>有一个叫做libinjection的库，可以准确的判断中字符串中是否有注入：<a href="https://github.com/client9/libinjection\" target="_blank" rel="noopener">https://github.com/client9/libinjection\</a><br>\<br><img src="http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=https://mmbiz.qpic.cn/mmbiz_png/qq5rfBadR38fxpricJ0iaDMKJa8WLBmHREj7RYvlu3VTCiceqeQXDOmxM7n6Z50n8tMVlCOXTicZQXNQtXQmRuFykQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1" alt="IMG\_259"> </p>
 <p>这工具使用起来非常的简单，并且提供其它语言的工具驱动。还技持sql注入以外的检查。堆积代码不太好，而且现在使用一个django，flask,tornado的框架来实现一个后台系统的效率还是挺快的，问题并不只是代码，我们最主要的是让策略行之有效的执行下去，这样睡在库中的数据才有价值。我们现在使用openresty做网关很普通，有人可能会觉得整合日志和系统间的API是比较麻烦的，其实就是麻烦，我们为了简单一些，就封装了一些简单的SDK库，让工作更高效率，比如这个moonscript的库：<a href="https://github.com/shengnoah/fortress" target="_blank" rel="noopener">https://github.com/shengnoah/fortress</a></p>
 </blockquote>
 <h2 id="0x08-总结"><a href="#0x08-总结" class="headerlink" title="0x08 总结"></a><strong>0x08 总结</strong></h2><blockquote>
