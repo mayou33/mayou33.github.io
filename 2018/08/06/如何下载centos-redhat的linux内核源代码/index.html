@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>如何下载centos-redhat的linux内核源代码</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2018/08/06/如何下载centos-redhat的linux内核源代码/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">如何下载centos-redhat的linux内核源代码</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-08-06</span>
+      
+      <a href="/categories/内核/" title="内核" class="post-categories">内核</a>
+      
+      
+      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://ieevee.com/tech/2018/03/30/centos-kernel.html" target="_blank" rel="noopener">https://ieevee.com/tech/2018/03/30/centos-kernel.html</a></p>
+<p>有个小问题一直没闹明白：CentOS的内核源代码从哪里下？</p>
+<p>如果是linux主线的代码，可以github上获取了：[[linux] (<a href="https://github.com/torvalds/linux)（4.5之后的版本）。但需要注意centos并不是使用的linux主线的内核，而是redhat自己维护的。" target="_blank" rel="noopener">https://github.com/torvalds/linux)（4.5之后的版本）。但需要注意centos并不是使用的linux主线的内核，而是redhat自己维护的。</a></p>
+<p>查了下资料，在这做个笔记。</p>
+<p>centos的内核源码获取方式参考<a href="https://wiki.centos.org/zh/Sources" target="_blank" rel="noopener">[这里的说明]</a>。</p>
+<p>centos将源码都归档到了<a href="https://ieevee.com/tech/2018/03/30/git.centos.org" target="_blank" rel="noopener">[git.centos.org]</a>，但如果直接去看<br><a href="https://git.centos.org/summary/rpms!kernel.git" target="_blank" rel="noopener">[kernel rpm<br>git]</a> ，<br>你会发现根本找不到代码的影子。</p>
+<p>centos用了一个特别的办法。</p>
+<p>[user\@host]\$ git clone <a href="https://git.centos.org/git/rpms/kernel.git" target="_blank" rel="noopener">https://git.centos.org/git/rpms/kernel.git</a><br>[user\@host]\$ git clone<br><a href="https://git.centos.org/git/centos-git-common.git\[user\@host\]\$" target="_blank" rel="noopener">https://git.centos.org/git/centos-git-common.git\[user\@host\]\$</a> cd<br>kernel# 举例说我们要修改 centos7 的内核[user\@host]\$ git checkout<br>c7#<br>get_sources会分析当前git目录，下载对应的kernel压缩包[user\@host]\$<br>../centos-git-common/get_sources.sh</p>
+<p>在kernel目录下执行get_sources.sh时，脚本会分析kernel目录下的.kernel.metadata文件，这个文件记录了当前版本需要对应的kernel源代码文件的sha值。</p>
+<p>4cddbe6531170fad4a6dd31f10512e6bd4298fbd<br>SOURCES/kernel-abi-whitelists-693.tar.bz243853d8a8a8c9ff26f3efc87757a197321f83e79<br>SOURCES/linux-3.10.0-693.21.1.el7.tar.xz95b9b811c7b0a6c98b2eafc4e7d6d24f2cb63289<br>SOURCES/rheldup3.x509</p>
+<p>d90885108d225a234a5a9d054fc80893a5bd54d0<br>SOURCES/rhelkpatch1.x5095a7d05a8298cf38d43689470e8e43230d8add0f9<br>SOURCES/centos-kpatch.x509</p>
+<p>c61172887746663d3bdd9acaa263cbfacf99e8b3<br>SOURCES/centos-ldup.x5096e9105eb51e55a46761838f289a917611cad8091<br>SOURCES/centos.cer</p>
+<p>之后会去 \${SURL/\${pn/\${br/\${fsha (如<br><a href="https://git.centos.org/sources/kernel/c7/{fsha" target="_blank" rel="noopener">https://git.centos.org/sources/kernel/c7/{fsha</a>)<br>通过curl下载对应的文件，最终会在SOURCES目录下得到刚下载的的linux-3.10.0-693.21.1.el7.tar.xz压缩包，解压即可。</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
