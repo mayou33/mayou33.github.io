@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>只安装MySQL客户端</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2018/10/15/只安装MySQL客户端/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">只安装MySQL客户端</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-10-15</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>注意各家的命令里面的参数不一样，各有特色参数</p>
+<p>###Percona版 —-推荐</p>
+<p>yum -y install <a href="https://www.percona.com/redir/downloads/percona-release/redhat/latest/percona-release-0.1-6.noarch.rpm" target="_blank" rel="noopener">https://www.percona.com/redir/downloads/percona-release/redhat/latest/percona-release-0.1-6.noarch.rpm</a></p>
+<p>yum -y install Percona-Server-client-57 Percona-Server-devel-57 Percona-Server-shared-57</p>
+<p>######yum -y install Percona-Server-client-56 Percona-Server-devel-56 Percona-Server-shared-56</p>
+<p>#rpm -ql  Percona-Server-client-57<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/mysql</span><br><span class="line">/usr/bin/mysql_config</span><br><span class="line">/usr/bin/mysql_config-64</span><br><span class="line">/usr/bin/mysql_config_editor</span><br><span class="line">/usr/bin/mysqladmin</span><br><span class="line">/usr/bin/mysqlbinlog</span><br><span class="line">/usr/bin/mysqlcheck</span><br><span class="line">/usr/bin/mysqldump</span><br><span class="line">/usr/bin/mysqlimport</span><br><span class="line">/usr/bin/mysqlpump</span><br><span class="line">/usr/bin/mysqlshow</span><br><span class="line">/usr/bin/mysqlslap</span><br></pre></td></tr></table></figure></p>
+<p>#####mysql 社区版</p>
+<p>rpm -ivh <a href="https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm" target="_blank" rel="noopener">https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm</a></p>
+<p>yum install -y mysql-community-client<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#rpm -ql mysql-community-client</span><br><span class="line">/usr/bin/mysql</span><br><span class="line">/usr/bin/mysql_config_editor</span><br><span class="line">/usr/bin/mysqladmin</span><br><span class="line">/usr/bin/mysqlbinlog</span><br><span class="line">/usr/bin/mysqlcheck</span><br><span class="line">/usr/bin/mysqldump</span><br><span class="line">/usr/bin/mysqlimport</span><br><span class="line">/usr/bin/mysqlpump</span><br><span class="line">/usr/bin/mysqlshow</span><br><span class="line">/usr/bin/mysqlslap</span><br></pre></td></tr></table></figure></p>
+<p>#####mariadb版</p>
+<p>rpm –import <a href="https://yum.mariadb.org/RPM-GPG-KEY-MariaDB" target="_blank" rel="noopener">https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;&gt; /etc/yum.repos.d/MariaDB.repo &lt;&lt; EOF</span><br><span class="line">[mariadb]</span><br><span class="line">name = MariaDB</span><br><span class="line">baseurl = http://yum.mariadb.org/10.3/centos7-amd64</span><br><span class="line">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<p>yum install MariaDB-client -y</p>
+<p>#rpm -ql MariaDB-client<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/etc/my.cnf.d</span><br><span class="line">/etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line">/usr/bin/msql2mysql</span><br><span class="line">/usr/bin/mysql</span><br><span class="line">/usr/bin/mysql_embedded</span><br><span class="line">/usr/bin/mysql_find_rows</span><br><span class="line">/usr/bin/mysql_plugin</span><br><span class="line">/usr/bin/mysql_waitpid</span><br><span class="line">/usr/bin/mysqlaccess</span><br><span class="line">/usr/bin/mysqladmin</span><br><span class="line">/usr/bin/mysqlbinlog</span><br><span class="line">/usr/bin/mysqlcheck</span><br><span class="line">/usr/bin/mysqldump</span><br><span class="line">/usr/bin/mysqlimport</span><br><span class="line">/usr/bin/mysqlshow</span><br><span class="line">/usr/bin/mysqlslap</span><br></pre></td></tr></table></figure></p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
