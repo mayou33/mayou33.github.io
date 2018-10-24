@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>从0到1构建可落地的CMDB</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2018/10/24/从0到1构建可落地的CMDB/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">从0到1构建可落地的CMDB</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-10-24</span>
+      
+      <a href="/categories/cmdb/" title="cmdb" class="post-categories">cmdb</a>
+      
+      
+      <a href="/tags/cmdb/"" title="cmdb" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>cmdb</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://dbaplus.cn/news-160-2259-1.html" target="_blank" rel="noopener">https://dbaplus.cn/news-160-2259-1.html</a></p>
+<blockquote>
+<p><strong>一、企业需要一个什么样的CMDB？</strong></p>
+<p>AIOps建设正成为很多企业当前或者下一阶段的建设目标。这其中，一个很关键的组成部分就是配置管理数据库（CMDB）。</p>
+<p><strong>CMDB能否建设好是智能运维建设能否真正落地的一个非常关键的因素。</strong></p>
+<p>目前，企业对于CMDB的建设都非常谨慎，一方面是由于CMDB的基础作用，牵扯面广，另一方面是由于历史上CMDB的建设容易失败，耗费人力、物力建设。那么到底该如何从0到1构建可落地的CMDB？我们在这篇文章中一起探讨下，其中内容仅代表个人观点，难免偏颇和愚见，欢迎各位留言，一起讨论。</p>
+<p>先从一个比较有趣的故事和大家分享一下：</p>
+<p>“某富翁娶妻，有三个人选，富翁给了三个女孩各一千元，请她们把房间装满。女孩A买了很多棉花，装满房间的1/2；女孩B买了很多气球，装满房间3/4；女孩C买了蜡烛，让光充满房间。最终……富翁选了胸部最大的那个。”</p>
+<p>笑归笑，其实上面故事本身反映出来一个很重要的信号，一定要知道企业真正的需求点在哪里，不然最后都只是徒劳。</p>
+<p>很多时候我们花了很多时间来讨论CMDB该如何建设：要面向消费、面向应用，要实现可回写，要保证数据一致性、完整性和准确性，要实现配置的生命周期管理……这些看起来都是CMDB建设中的关键点，但是我们确很容易忘记花时间来讨论我们为什么要建设、我们需要CMDB帮我们解决什么问题？离开需求谈建设就是耍流氓。</p>
+<p>那我们到底需要CMDB帮我们解决什么问题？在不区分行业、不区分企业规模的情况下，通常来说CMDB主要是要帮我们回答如下三个问题：</p>
+<ul>
+<li><p>我们有什么？</p>
+</li>
+<li><p>发生了什么？</p>
+</li>
+<li><p>可以做什么？</p>
+</li>
+</ul>
+<p>下面的列表是根据不同维度、不同场景情况下针对上面三个问题的细化：</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1018/20181018075949189.jpg" alt=""></p>
+<p>当然，各个企业需要解决的问题会因为规模、业务、管理要求的不同而各有侧重，且解决方案也会有很大差异。比如小企业因业务规模不大且相对简单，资源通过excel+SVN就可以解决上述问题；而大企业因业务规模大且相对复杂，通过excel维护已不现实，需要通过系统来提升整体效率和质量；对于中型企业，则有更多的解决方案可供选择，并不一定需要CMDB才能解决，需要根据企业现状制定最合理的策略解决上述问题。</p>
+<p><strong>二、落地的动力与阻力</strong></p>
+<p>上面我们讨论了企业需要一个什么样的CMDB，那到底我们实施CMDB可以获取什么收益？在建设的过程中又会有哪些阻力会影响我们建设CMDB？</p>
+<p>总体来说，实施CMDB我们可以获得下面四方面的收益：资产管控能力提升、资产使用效率提升、数字化可视化决策的能力、信息共享提升运维能力。具体的收益可参考下图：</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1018/20181018080005125.jpg" alt=""></p>
+<p>知道了我们想要什么、可以解决什么问题以及可以带来的收益，自然会有动力去落地CMDB，但是光考虑收益还不行，还要考虑项目建设会遇到哪些阻力：</p>
+<ul>
+<li><p>在管理规模不大的情况下，人工各自维护数据的成本并不高，且通过CMDB集中管理，初期维护成本反而会有所增加，会导致个人对数据的掌控力降低。这时CMDB的推广和应用往往会遇到很大阻力，所以中小企业推行CMDB失败的概率是非常高的。只有当管理规模增大，各自维护数据的成本增高，现有模式难以支撑的时候，推行CMDB收益也会更加明显，才更有动力。</p>
+</li>
+<li><p>推行通过CMDB管理资产配置信息可能会改变用户现有的工作模式和工作习惯，人大多不愿意改变现有的工作模式和工作习惯，如果CMDB无法很好的符合用户习惯，CMDB的推广和应用会遇到很大阻力。</p>
+</li>
+<li><p>产品功能本身设计不合理，消费场景不明确、功能不可用、不好用，也会导致推广使用遇到极大阻力。</p>
+</li>
+</ul>
+<p><strong>三、CMDB落地思路</strong></p>
+<p>在CMDB落地过程中，我们需要从实际的运维问题和场景出发，通过5定法则：确定建设原则；确定每一轮配置管理的消费场景和目标；根据消费场景和目标确定管理范围；确定维护职责；确定管理流程，并采用敏捷思路、小步快跑，逐步迭代，在有限的人力和资源配备下，持续改进CMDB系统和数据质量，才能真正持续做好CMDB的建设，发挥CMDB应有的价值。</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1018/20181018080029776.jpg" alt=""></p>
+<p>1、确定建设原则</p>
+<p>在建设前我们需要确定好实施CMDB需要遵守的原则，在实施过程中不断完善原则，并在推广过程中宣贯建设原则，这样在整个建设周期中我们才能保持决策的一致性，也可以让CMDB建设的各方参与者主动根据建设原则行事，极大减少沟通成本，减少推广阻力，后面我们会有一小节单独来介绍CMDB建设10大原则。</p>
+<p>2、确定消费场景和目标</p>
+<p>明确大的建设原则后，我们需要明确CMDB建设具体需要满足的场景，并给出明确的建设目标。如果没有明确的消费场景，那么CMDB管理的资产就会失去维护的动力；如果没有明确的建设目标，那么我们就无法评判项目建设成败与否。很多CMDB建设失败的原因都可以归因为没有消费场景，没有建设目标。</p>
+<p>另外我们也不要试图一次性建设一个大而全的CMDB平台来推广使用，而是应该结合目标对消费场景进行优先级排定，根据MVP原则（每次都交付一个最小可用的产品）进行交付，不断迭代来满足业务需求。</p>
+<p>3、确定管理范围</p>
+<p>有了明确的消费场景和目标，我们就可以根据消费场景和目标来确定管理对象、属性以及它们之间的关系，和消费场景及目标无关的对象则可以暂不考虑到管理范围内，这样可以极大简化CMDB。</p>
+<p>4、确定维护职责</p>
+<p>在确定好管理范围后，我们需要明确具体对象信息以及关系信息由谁来维护，如果不明确系统建设各参与方的分工和职责，则大家都不会对CMDB的数据负责，最后失败是必然的。</p>
+<p>需要特别说明的是：就算是自动发现的也需要明确维护职责。</p>
+<p>首先平台建设者对系统可自动发现的内容负有责任，另外并不是所有的数据都是可以自动发现的，如资源所属应用系统、机房位置信息等，自动发现的数据也需要人来审核、补充完善才可进入资产库。</p>
+<p>在管理对象之间的关系数据时，应该明确其中一方对关系数据负有主要维护职责，且系统功能需要明确支持这种职责分工；在模型构建时可设置关系的维护方，且需支持非维护方录入数据并进行标记，只是不进行数据消费，这样可以极大减少各个团队数据录入的冲突以及因维护职责不清晰导致的扯皮。</p>
+<p>5、确定管理流程</p>
+<p>在确定好维护职责后，我们需要制定相关的管理流程来更加规范的执行。管理流程可以是系统流程，也可以是线下流程，所有的管理流程都通过ITSM来实现非常困难，我们需要考虑线下流程和系统流程结合。</p>
+<p><strong>四、CMDB建设十大原则</strong></p>
+<p>在CMDB的建设过程中，遵守下面的十大原则进行建设可以很大程度上避免掉进坑里，更好的落地CMDB。</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1018/20181018080045909.jpg" alt=""></p>
+<p><strong>原则一：以消费场景驱动</strong></p>
+<p>功能的建设都需要为满足具体场景服务，如果没有明确的消费场景，那么CMDB管理的资产就会失去维护的动力，建设功能也会成为摆设。在建设CMDB前需想清楚具体关注的核心场景是什么、需解决的核心问题是什么，围绕核心场景来定需要建设哪些功能来满足。和核心场景不相关的功能就可以先不实现，这样就可以不断做减法，简化CMDB。</p>
+<p>如核心场景是实现智能监控，那我们CMDB模型就只需管理需要监控的应用、软硬件设备以及相关关系，无需监控的就不纳入配置管理模型中。</p>
+<p><strong>原则二：敏捷交付</strong></p>
+<p>不要试图一次性建设一个大而全的CMDB平台再来推广使用，采用敏捷思路、小步快跑，逐步迭代，每一次迭代都可以开发出一个可以交付的使用场景。比如我们只要确定好配置模型，系统具备数据的批量增删改查，就可以进行系统的小范围推广。</p>
+<p><strong>原则三：真实映射IT环境</strong></p>
+<p>CMDB的模型构建需要能够真实的映射IT环境，这要求我们要理解应用以及各种IT技术的体系结构，在CMDB中真实展现它本来的样子，而不是通过人为创造一些特有的规则，这会极大的阻碍CMDB的推广使用。</p>
+<p>比如我们有些CMDB会定义“数据库”这样一个配置项，但各种数据库的体系结构中对“数据库”这个概念的定义却不是一样的（比如Oracle和MySQL的数据库概念就不一样）如果我们在模型制定时不加以区分，则使用者就会无所适从。</p>
+<p>再比如模型的主键设置，如Oracle实例我们有些建设者会定义一个实例名称，要求格式IP_PORT来作为主键，这就是我们人为创造的一些特殊的规则，使用者在进行数据录入时可能就不清楚规则而导致重复数据，或者所谓不规范的数据，这都是由于没有真实映射IT环境导致。</p>
+<p><strong>原则四：明确职责分工</strong></p>
+<p>系统的建设离不开各方的参与，系统开发商、应用运维团队、各专业运维团队、系统管理员等，我们需要明确各方的职责分工，这样大家才能各司其职。</p>
+<p>在模型的构建时，需将人员信息也纳入管理，并与各个资源建立关系，这样我们可以明确具体对象信息以及关系信息由谁来维护，如果不明确系统建设各参与方的分工和职责，则大家都不会对CMDB的数据负责，最后失败是必然的。</p>
+<p><strong>原则五：重视用户习惯</strong></p>
+<p>在系统功能设计时需要重视用户的使用习惯。前期需要做好调研、在迭代过程中充分吸收用户意见、在功能设计时也要针对用户习惯进行评审，这样可以极大提升系统的交互体验。</p>
+<p>比如很多运维人员手里都有各种记录资源信息excel表格，我们建设CMDB是要替代掉用excel维护资源信息的模式，但是却需要重视用户通过excel维护资源信息的习惯，在工单流程设计、批量导入以及资源查询时就需要充分考虑用户的这一习惯，需要考虑支持工单可以上传excel附件，批量导入时可以直接导入运维团队现有表格信息而无需进行格式转换，系统的查询都需要支持各种格式的excel导出，且可以修改后直接能在系统导入，这些细节上的考虑可以极大提升系统的交互体验，方便数据的维护。</p>
+<p>比如我们新炬CMDB就支持向导式的批量导入，且不限定excel表格格式，用户原有通过excel维护资产的习惯可以无缝切换到通过CMDB进行资产维护。</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1018/20181018080058543.jpg" alt=""></p>
+<p><strong>原则六：功能设计简洁</strong></p>
+<p>如果我们对于功能设计缺乏思考，人机界面的使用效率难以保证，导致建设出的系统功能非常难用，会大大降低我们的工作效率，我们应该要求功能设计尽量简洁，并通过对判断界面元素是否可以“分类、删除、隐藏、转移”来简化系统的每一个界面。</p>
+<p>以我们公司为例，新炬CMDB的每个界面都根据上述方法进行了简化，如资产的查询界面的设计就应用“分类、删除、隐藏、转移”来简化，支持输入任意关键字进行查询，将复杂的查询条件进行了删除、隐藏，将精确搜索进行了转移。</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1018/20181018080113406.jpg" alt=""></p>
+<p><strong>原则七：数据质量需量化</strong></p>
+<p>数据质量是CMDB实施成败的关键因素，我们都想通过自动发现、工单流程、人工方式来进行数据更新，但是实际效果也并不太理想，而且不知道如何进行数据质量提升。原因是没有对数据质量问题进行量化，给出明确的问题点，这也是很多CMDB实施失败的一个原因点。都知道数据质量不准，却不知道具体有什么问题、是谁负责的，所以我们推荐量化数据质量问题，给出问题汇总以及明细，指出具体谁负责的哪一行的哪个字段数据存在问题，这样我们就可以有计划的根据要求提升数据质量。</p>
+<p><strong>原则八：数据管理闭环</strong></p>
+<p>不提倡要全部在系统中实现闭环，要全部在IT系统中实现难度大，但是管理上需要保证业务的闭环。比如系统开发建设转维过程我们就可以通过要求CMDB资料录入作为转维的条件来保障CMDB数据的完整性。</p>
+<p><strong>原则九：先僵化、后优化、再固化</strong></p>
+<p>一次性建设一个完美的系统几乎是不可能完成的任务，我们推荐采用先僵化、后优化、再固化的原则来进行系统建设。比如数据维护流程、数据质量问题都可以采用这一原则来逐步提高。</p>
+<p><strong>原则十：优先自动发现、不迷信自动发现</strong></p>
+<p>在系统数据的来源方面，我们需要优先考虑自动发现，并且认为自动发现的数据准确性是最高的，在查看系统数据时可以根据不同数据来源用不同颜色区分。自动发现确实可以发现许多内容，目前自动发现可以自动发现的范围包括设备、主机上的软件、云平台信息、网络拓扑、存储拓扑等，但是自动发现不是万能，如资源所属的应用系统、机房位置、维保信息等都无法通过自动发现实现。正如华罗庚所说：</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1018/20181018080132640.jpg" alt=""></p>
+<p>自动发现只是CMDB实施成功的技术这一条腿的一部分。</p>
+<p><strong>五、CMDB六大核心能力构建</strong></p>
+<p>在CMDB具体落地时，我们应该优先关注CMDB的六大核心能力建设，具体包括动态定义模型能力、自动发现能力、资产可视化能力、数据质量量化能力、应用场景构建能力、API接口能力。具体的核心能力如下图：</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1018/20181018080144478.jpg" alt=""></p>
+<p><strong>六、CMDB建设经验总结</strong></p>
+<p>CMDB的落地的建设要点很明显，首先重中之重是我们需要明确企业到底需要一个什么样的CMDB，需要CMDB解决什么问题；其次我们需要对CMDB建设的动力以及阻力有明确的认识。</p>
+<p>只有当我们有足够的动力去构建CMDB，并可以克服阻力时，才启动CMDB的建设。另外我们需要遵守 “5定法则”的思路，明确建设过程中需要遵守的十大原则，优先构建六大核心能力，从实际的运维问题和场景出发，采用敏捷思路、小步快跑，逐步迭代，在有限的人力和资源配备下，持续改进CMDB系统和数据质量，才能真正持续做好CMDB的建设，发挥CMDB应有的价值。</p>
+<p>Q &amp; A</p>
+<p><strong>Q1：</strong>CMDB在AIOps建设中具体的作用是什么？</p>
+<p><strong>A1：</strong>CMDB对于AIOps的主要作用点是为AIOps的场景，如根因推荐、告警压缩、关联分析、故障自愈，提供真实可靠的基础数据和拓扑关系数据。</p>
+<p><strong>Q2：</strong>CMDB建设过程中会遇到阻力，要怎么处理相关阻力来保证顺利的落地呢？</p>
+<p><strong>A2：</strong></p>
+<ul>
+<li><p>明确消费场景，提升维护动力，让CMDB“有用”；</p>
+</li>
+<li><p>重视用户习惯，优化人机交互界面，提升使用体验，让CMDB“好用”；</p>
+</li>
+<li><p>管理技术同步走，管理流程要切实可执行，为CMDB落地保驾护航。</p>
+</li>
+</ul>
+<p><strong>Q3：</strong>自动发现能力通过什么方式落地？</p>
+<p><strong>A3：</strong>使用无代理或有代理的方式通过smp、ssh/telnet、WMI等协议对现网的主机、网络设备、存储设备、安全设备进行自动发现，可以先实现自动发现的扫描框架；在具体的场景来实现，可优先考虑主机上软件的自动发现；其次分别是云平台、容器、网络拓扑、存储，需要有强大的MIB知识库和完善的脚本库做支撑，需要时间积累，也可以考虑采用厂商的成熟产品。</p>
+<p><strong>Q4：</strong>老师理论讲得很全面，能不能再介绍点实际建立CMDB的例子？比如如何实现生命周期管理等。</p>
+<p><strong>A4：</strong>CMDB资产信息通过ITSM来实现更新，通过流程实现资产从上架、上线、监控、转维、变更、下线到下架的全生命周期管理。另外在文中提到我们也提倡通过管理流程来补充实现，逐步的来扩大范围。</p>
+<p><strong>Q5：</strong>CMDB与运维管理与流程管理集成中，如何相互协同工作？</p>
+<p><strong>A5：</strong>协同主要体现在两方面，数据的消费以及数据的回写，运维管理与流程管理系统都会消费CMDB中的基础数据，比如查询运维操作对象、属性信息以及关系，另外运维的操作以及工单流程也会涉及对CMDB数据进行变更，需要进行数据的回写更新CMDB。</p>
+<p><strong>Q6:</strong> 为什么要使用敏捷交付？</p>
+<p><strong>A6：</strong>敏捷交付指结合目标对消费场景进行优先级排定，根据MVP原则（每次都交付一个最小可用的产品）进行交付，不断的迭代来满足业务需求，相对于传统交付方式，具有迭代快速的特点，可以让用户快速看到已经落地的场景，提升用户对CMDB的使用信心，减少落地阻力，避免CMDB陷入越做越大、落地遥遥无期的困局。</p>
+<p><strong>Q7：</strong>数据质量量化具体要怎么实现？</p>
+<p><strong>A7：</strong>我们的具体的做法从管理视角和执行视角两个维度入手：</p>
+<ul>
+<li><p>管理视角：以应用系统的视角在一张表中总览所有IT资产信息，而不是单个的应用，在表中我们可以发现“断裂”关系，发现处于“孤岛”的软硬件资产，以便修正形成准确的业务拓扑结构，以及对系统所有的数据有一个总体的把控。</p>
+</li>
+<li><p>执行视角：通过在CMDB中自定义数量质量校验规则，对属性和关联关系进行必填性、有效性、规范性的校验，另外可以通过自动发现对数据进行核对，然后对有问题的数据进行汇总、量化的呈现，需要指出具体的配置项的哪个属性或者关系存在问题，可以将问题数据导出修改即可导入，实现数据质量‘录入-检查-完善’的闭环管理。</p>
+</li>
+</ul>
+<p><strong>Q8：</strong>CMDB主要偏向的还是硬件层面，很多公司也都上了监控相关的软件，也能实现故障影响分析，拓扑结构什么的，但是我们这边运维往往面临的更多的是各应用系统频繁部署变更的问题，对于这个问题CMDB怎么去有效的管理起来呢？还有就是CMDB的管理范围跟配置项设置该怎么去做？</p>
+<p><strong>A8：</strong>做法如下：</p>
+<ul>
+<li><p>CMDB其实不只是管硬件层面的信息，管理范围可以根据需要扩展，可以管理应用的相关信息。</p>
+</li>
+<li><p>应用的发布管理其实是自动化运维平台的核心场景之一，在CMDB中需要管理好基础信息，并提供完善的接口。</p>
+</li>
+<li><p>CMDB的管理范围跟配置项设置在文中有提到，根据场景来定管理范围，配置项的设置（配置项、属性、关系）需真实映射IT环境，当你可以清晰描述你的应用的部署架构你就会知道该如何设置了：比如，你的应用有多个程序包，程序包部署在中间件集群上，或者作为单独服务运行，中间件集群会有多个实例进行。那我们就可以将其中名词抽取出来作为配置项，这和数据库的ER图的构建过程类似，只是说你要先搞清楚应用的架构原本的样子。</p>
+</li>
+</ul>
+</blockquote>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
