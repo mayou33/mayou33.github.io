@@ -100,7 +100,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://mp.weixin.qq.com/s/ZPDU66B_Cr1Zgb-k6t1zUA" target="_blank" rel="external">http://mp.weixin.qq.com/s/ZPDU66B_Cr1Zgb-k6t1zUA</a></p>
+  <div class="post-content"><p><a href="http://mp.weixin.qq.com/s/ZPDU66B_Cr1Zgb-k6t1zUA" target="_blank" rel="noopener">http://mp.weixin.qq.com/s/ZPDU66B_Cr1Zgb-k6t1zUA</a></p>
 <p>开源版本近期功能完善后会告知大家，敬请关注运维帮</p>
 <p>摘要</p>
 <p>随着京东业务的高速增长，作为应用入口的负载均衡，大流量大并发带来的挑战越来越严峻。本文主要介绍了京东商城设计和实践的一套高可靠，高性能的负载均衡器，我们命名为SKYLB。是一个使用intel DPDK报文转发库，实现运行在通用X86服务器上自研的分布式负载均衡服务。配合网络路由器的多重等价路由协议（OSPF）或者边际网关协议（BGP），组成承担京东数据中心核心四层负载均衡的集群。最大限度的发挥普通X86服务器硬件资源的性能，实现一套适合于京东商城业务的低成本，分布式，高性能，可扩展的智能负载均衡系统。</p>
@@ -112,7 +112,7 @@
 <p>2） 基于开源软件的负载均衡<br>可以根据实际系统和应用的状态来合理的负载，迭代、扩容和部署相对方便。<br>单台负载均衡性能相对较差，需要用集群来支撑负载均衡的整体性能。<br>性价比较低。</p>
 <p>我们的目标：<br>设计实现一套高可靠、高性能、易维护及性价比高的L4负载均衡系统,。<br>基于通用X86_64服务器框架，以及支持DPDK网卡硬件，易开发和移植。<br>方便部署、删除和维护，集成到京东软件定义数据中心（JDOS2.0）系统，作为京东下一代软件定义数据中心的基础组件。<br>负载均衡下的服务器基于系统应用负载流量均摊，负载均衡器提供N+1 冗余，借助OSPF/BGP控制负载均衡器的流量负载。<br>基于系统应用级别的探活，自动故障检测及流量快速恢复。</p>
 <p>本文主要介绍了SKYLB一种基于DPDK平台实现的快速可靠的软件网络负载均衡系统。不仅可以快速的横向扩展，还可以最大限度的提升负载均衡单个NIC的处理转发速度，来实现L4的负载均衡。借助DPDK的优势，如便利的多核编程框架、巨页内存管理、无锁队列、无中断poll-mode 网卡驱动、CPU亲和性等等来实现快速的网卡收发及处理报文，后续考虑TCP/IP 用户态协议实现和优化，进而实现L7负载均衡。</p>
-<p>系统概览<br>工作场景<br>SKYLB部署在京东容器集群JDOS的前端，对于一个应用集群，发布一个或多个VIP到SKYLB服务上，当客户端需要访问应用节资源URL，首先通过域名访问JD智能分布式DNS服务（SKYDNS详见<a href="https://github.com/ipdcode/skydns）" target="_blank" rel="external">https://github.com/ipdcode/skydns）</a>, SkyDns会智能返回当前最近且状态正常且负载正常的VIP服务的IP,客户端就会向VIP去请求连接。</p>
+<p>系统概览<br>工作场景<br>SKYLB部署在京东容器集群JDOS的前端，对于一个应用集群，发布一个或多个VIP到SKYLB服务上，当客户端需要访问应用节资源URL，首先通过域名访问JD智能分布式DNS服务（SKYDNS详见<a href="https://github.com/ipdcode/skydns）" target="_blank" rel="noopener">https://github.com/ipdcode/skydns）</a>, SkyDns会智能返回当前最近且状态正常且负载正常的VIP服务的IP,客户端就会向VIP去请求连接。</p>
 <p>SKYLB节点上运行了一个路由发布服务agent，我们使用该agent与开启OSPF/BGP的路由器做路由交互，当SKYLB的上层路由器接收到请求VIP的数据包时，路由器通过（OSPF/BGP）的等价多路径转发协议选择一个可以使用的发布该VIP的SKYLB节点，将报文转发给一个SKYLB节点。通过这种策略来实现VIP的发布和横向容量负载能力扩展。</p>
 <p>当报文通过上述步骤到达SKYLB负载均衡后，通过常用的负载均衡策略(round robin，一致性hash ，最小连接数)，将数据包送到相应的后端容器服务。</p>
 <p>系统架构<br>JingdongDatacenter Operating System(JDOS) 是基于JDOS提供物理机/虚拟机/容器的统一管理系统、配备灵活的网络互连、可靠的分布式共享存储，实现软件定义数据中心的计算资源统一管理和集群管理。通过使用JDOS，可以直接迅速得到任意需要的计算、存储、网络、安全等方面的资源和能力。SKYLB作为整个JDOS系统的一个重要组成部分，负责提供集群的L4负载均衡能力，通过restful API等接口与JDOS系统交互。用户可以通过统一调度管理平台便捷的创建、删除、迁移负载均衡系统。同时多个应用服务进行流量分发的负载均衡服务，从而扩展应用系统对外的服务能力，并且通过消除单点故障提高应用系统的可用性。</p>
@@ -149,7 +149,7 @@
 <p>恰当地使用likely()和unlikely()，可以减少分支预测失败的次数。我们在SKYLB代码的一处分支语句中使用unlikely()优化，性能提升明显。分支预测优化点可以借助perf分析确定，也可以根据自己对代码执行流程的理解确定。</p>
 <p>尽量减少锁的使用。SKYLB中配置信息不经常变化，我们没有单独为每个可能争用的资源加锁，而是只用一把DPDK提供的读写锁，每个读线程在加读锁后，处理一批报文，然后释放读锁。既简化流程，又减少了操作读写锁的开销(DPDK读写锁的开销并不是很大)。</p>
 <p>总结<br>本文主要介绍了SKYLB，一种的基于intel DPDK平台开发的负载均衡器。其接近网卡线速处理及转发能力，灵活的部署，多样的监控以及可靠的稳定性。基本上覆盖所有4层负载均衡的业务处理需求，配合集群管理以及调度，作为京东数据中心操作系统（JDOS）的一个重要的组成部分，在京东数据中心发挥至关重要的作用。</p>
-<p>参考资料<br>Google Maglev：A Fast and Reliable SoftwareNetwork Load Balancer。<br>DPDK：<a href="http://dpdk.org/doc/guides/prog_guide/" target="_blank" rel="external">http://dpdk.org/doc/guides/prog_guide/</a></p>
+<p>参考资料<br>Google Maglev：A Fast and Reliable SoftwareNetwork Load Balancer。<br>DPDK：<a href="http://dpdk.org/doc/guides/prog_guide/" target="_blank" rel="noopener">http://dpdk.org/doc/guides/prog_guide/</a></p>
 </div>
     
       

@@ -327,7 +327,7 @@
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;"><img src="http://images.cnitblog.com/blog/561794/201410/251357548716794.png" alt=""></span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp; 目前，在GitHub上的这个<code>testgit</code>仓库还是空的，GitHub告诉我们，可以从这个仓库克隆出新的仓库，也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">现在，我们根据GitHub的提示，在本地的<code>testgit</code>仓库下运行命令：</span></p>
-<p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">git remote add origin <a href="https://github.com/tugenhua0707/testgit.git" target="_blank" rel="external">https://github.com/tugenhua0707/testgit.git</a></span></p>
+<p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">git remote add origin <a href="https://github.com/tugenhua0707/testgit.git" target="_blank" rel="noopener">https://github.com/tugenhua0707/testgit.git</a></span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">所有的如下：</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp;&nbsp;<img src="http://images.cnitblog.com/blog/561794/201410/251358439027115.png" alt=""></span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">把本地库的内容推送到远程，使用 git push命令，实际上是把当前分支master推送到远程。</span></p>
@@ -488,9 +488,9 @@
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp;&nbsp; git reflog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 查看历史记录的版本号id</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp;&nbsp; git checkout – XX&nbsp; 把XX文件在工作区的修改全部撤销。</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp;&nbsp; git rm XX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 删除XX文件</span></p>
-<p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp;&nbsp; git remote add origin <a href="https://github.com/tugenhua0707/testgit" target="_blank" rel="external">https://github.com/tugenhua0707/testgit</a> 关联一个远程库</span></p>
+<p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp;&nbsp; git remote add origin <a href="https://github.com/tugenhua0707/testgit" target="_blank" rel="noopener">https://github.com/tugenhua0707/testgit</a> 关联一个远程库</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp;&nbsp; git push &ndash;u(第一次要用-u 以后不需要) origin master 把当前master分支推送到远程库</span></p>
-<p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp;git clone <a href="https://github.com/tugenhua0707/testgit" target="_blank" rel="external">https://github.com/tugenhua0707/testgit</a>&nbsp; 从远程库中克隆</span></p>
+<p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp;git clone <a href="https://github.com/tugenhua0707/testgit" target="_blank" rel="noopener">https://github.com/tugenhua0707/testgit</a>&nbsp; 从远程库中克隆</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp;git checkout &ndash;b dev&nbsp; 创建dev分支 并切换到dev分支上</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp;git branch&nbsp; 查看当前所有的分支</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp;git checkout master 切换回master分支</span></p>
@@ -505,7 +505,7 @@
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp;git remote 查看远程库的信息</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp;git remote &ndash;v 查看远程库的详细信息</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp;git push origin master&nbsp; Git会把master分支推送到远程库对应的远程分支上</span></p>
-<p><span style="color: rgb(46, 46, 46); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(240, 240, 240); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;">原文出处： </span><a href="http://www.cnblogs.com/tugenhua0707/p/4050072.html" target="_blank" rel="external">&nbsp;</a><a href="http://www.cnblogs.com/tugenhua0707/p/4050072.html" target="_blank" rel="external">http://www.cnblogs.com/tugenhua0707/p/4050072.html</a></p>
+<p><span style="color: rgb(46, 46, 46); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(240, 240, 240); -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;">原文出处： </span><a href="http://www.cnblogs.com/tugenhua0707/p/4050072.html" target="_blank" rel="noopener">&nbsp;</a><a href="http://www.cnblogs.com/tugenhua0707/p/4050072.html" target="_blank" rel="noopener">http://www.cnblogs.com/tugenhua0707/p/4050072.html</a></p>
 </li>
 </ol>
 </div>

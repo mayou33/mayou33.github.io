@@ -102,7 +102,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://huoding.com/2013/12/31/316" target="_blank" rel="external"><font color="#0066cc">http://huoding.com/2013/12/31/316</font></a></p>
+  <div class="post-content"><p><a href="http://huoding.com/2013/12/31/316" target="_blank" rel="noopener"><font color="#0066cc">http://huoding.com/2013/12/31/316</font></a></p>
 <pre><code>之所以起这样一个题目是因为很久以前我曾经写过一篇介绍TIME_WAIT的[文章](http://huoding.com/2012/01/19/142)，不过当时基本属于浅尝辄止，并没深入说明问题的来龙去脉，碰巧这段时间反复被别人问到相关的问题，让我觉得有必要全面总结一下，以备不时之需。
 
 &amp;nbsp;
@@ -120,7 +120,7 @@ shell&gt; cat /proc/net/sockstat</pre>
 <pre><code>我猜你一定被巨大无比的TIME_WAIT网络连接总数吓到了！以我个人的经验，对于一台繁忙的Web服务器来说，如果主要以短连接为主，那么其TIME_WAIT网络连接总数很可能会达到几万，甚至十几万。虽然一个TIME_WAIT网络连接耗费的资源无非就是一个端口、一点内存，但是架不住基数大，所以这始终是一个需要面对的问题。
 </code></pre><p>##<br>    为什么会存在TIME_WAIT？</p>
 <pre><code>TCP在建立连接的时候需要握手，同理，在关闭连接的时候也需要握手。为了更直观的说明关闭连接时握手的过程，我们引用「[The TCP/IP Guide](http://www.tcpipguide.com/free/index.htm)」中的[例子](http://www.tcpipguide.com/free/t_TCPConnectionTermination.htm)：
-</code></pre><div class="wp-caption alignnone" id="attachment_318" style="background: rgb(238, 238, 238); margin: 0.4em 0px 1.62em; padding: 9px; outline: 0px; border: 0px currentColor; border-image: none; width: 676px; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 15px; font-style: normal; font-weight: 300; word-spacing: 0px; vertical-align: baseline; white-space: normal; max-width: calc(100% - 18px); orphans: 2; widows: 2; -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;"><br>    <a href="http://huoding.com/wp-content/uploads/2013/12/tcp_close.png" target="_blank" rel="external"><img src="http://huoding.com/wp-content/uploads/2013/12/tcp_close.png" alt="TCP Close"></a><br><br>        TCP Close<br><br></div>
+</code></pre><div class="wp-caption alignnone" id="attachment_318" style="background: rgb(238, 238, 238); margin: 0.4em 0px 1.62em; padding: 9px; outline: 0px; border: 0px currentColor; border-image: none; width: 676px; color: rgb(55, 55, 55); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 15px; font-style: normal; font-weight: 300; word-spacing: 0px; vertical-align: baseline; white-space: normal; max-width: calc(100% - 18px); orphans: 2; widows: 2; -webkit-text-stroke-width: 0px; font-variant-ligatures: normal; font-variant-caps: normal;"><br>    <a href="http://huoding.com/wp-content/uploads/2013/12/tcp_close.png" target="_blank" rel="noopener"><img src="http://huoding.com/wp-content/uploads/2013/12/tcp_close.png" alt="TCP Close"></a><br><br>        TCP Close<br><br></div>
 
 <pre><code>因为TCP连接是双向的，所以在关闭连接的时候，两个方向各自都需要关闭。先发FIN包的一方执行的是主动关闭；后发FIN包的一方执行的是被动关闭。主动关闭的一方会进入TIME_WAIT状态，并且在此状态停留两倍的[MSL](http://en.wikipedia.org/wiki/Maximum_Segment_Lifetime)时长。
 
@@ -167,11 +167,11 @@ shell&gt; sysctl net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait</pre>
 
 参考文档：
 </code></pre><ol>
-<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146830" target="_blank" rel="external">tcp短连接TIME_WAIT问题解决方法大全（1）&mdash;&mdash;高屋建瓴</a></li>
-<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146837" target="_blank" rel="external">tcp短连接TIME_WAIT问题解决方法大全（2）&mdash;&mdash;SO_LINGER</a></li>
-<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146845" target="_blank" rel="external">tcp短连接TIME_WAIT问题解决方法大全（3）&mdash;&mdash;tcp_tw_recycle</a></li>
-<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146856" target="_blank" rel="external">tcp短连接TIME_WAIT问题解决方法大全（4）&mdash;&mdash;tcp_tw_reuse</a></li>
-<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146862" target="_blank" rel="external">tcp短连接TIME_WAIT问题解决方法大全（5）&mdash;&mdash;tcp_max_tw_buckets</a></li>
+<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146830" target="_blank" rel="noopener">tcp短连接TIME_WAIT问题解决方法大全（1）&mdash;&mdash;高屋建瓴</a></li>
+<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146837" target="_blank" rel="noopener">tcp短连接TIME_WAIT问题解决方法大全（2）&mdash;&mdash;SO_LINGER</a></li>
+<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146845" target="_blank" rel="noopener">tcp短连接TIME_WAIT问题解决方法大全（3）&mdash;&mdash;tcp_tw_recycle</a></li>
+<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146856" target="_blank" rel="noopener">tcp短连接TIME_WAIT问题解决方法大全（4）&mdash;&mdash;tcp_tw_reuse</a></li>
+<li><a href="http://blog.csdn.net/yunhua_lee/article/details/8146862" target="_blank" rel="noopener">tcp短连接TIME_WAIT问题解决方法大全（5）&mdash;&mdash;tcp_max_tw_buckets</a></li>
 </ol>
 </div>
     

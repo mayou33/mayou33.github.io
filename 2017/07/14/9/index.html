@@ -100,9 +100,9 @@
     </p>
     
   </header>
-  <div class="post-content"><p> <a href="http://www.pixelbeat.org/scripts/" target="_blank" rel="external">http://www.pixelbeat.org/scripts/</a><br>Try to determine how much RAM is currently being used per program.<br> Note per <em>program</em>, not per process.<br> So for example this script  will report RAM used by all httpd process together.<br> In detail it reports: sum(private RAM for program processes) + sum(Shared RAM for program processes)<br> The shared RAM is problematic to calculate, and this script automatically selects the most accurate method available for your kernel.</p>
-<p>方案1：<br>V3.9   – 07 Mar 2017<br>wget <a href="https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py" target="_blank" rel="external">https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py</a><br>chmod +x ps_mem.py<br> ./ps_mem.py </p>
-<p>方案2：<br>git clone <a href="https://github.com/pixelb/ps_mem.git" target="_blank" rel="external">https://github.com/pixelb/ps_mem.git</a></p>
+  <div class="post-content"><p> <a href="http://www.pixelbeat.org/scripts/" target="_blank" rel="noopener">http://www.pixelbeat.org/scripts/</a><br>Try to determine how much RAM is currently being used per program.<br> Note per <em>program</em>, not per process.<br> So for example this script  will report RAM used by all httpd process together.<br> In detail it reports: sum(private RAM for program processes) + sum(Shared RAM for program processes)<br> The shared RAM is problematic to calculate, and this script automatically selects the most accurate method available for your kernel.</p>
+<p>方案1：<br>V3.9   – 07 Mar 2017<br>wget <a href="https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py" target="_blank" rel="noopener">https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py</a><br>chmod +x ps_mem.py<br> ./ps_mem.py </p>
+<p>方案2：<br>git clone <a href="https://github.com/pixelb/ps_mem.git" target="_blank" rel="noopener">https://github.com/pixelb/ps_mem.git</a></p>
 <p>cd ps_mem</p>
 <h2 id="ps-mem-py"><a href="#ps-mem-py" class="headerlink" title="./ps_mem.py"></a>./ps_mem.py</h2><p> Private  +   Shared  =  RAM used       Program</p>
 <p>  4.0 KiB +  11.5 KiB =  15.5 KiB       uuidd<br> 25.4 MiB + 882.5 KiB =  26.3 MiB       salt-minion<br>  1.2 GiB + 473.5 KiB =   1.2 GiB       mysqld<br>  2.7 GiB +  12.6 MiB =   2.8 GiB       java (2)</p>

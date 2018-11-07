@@ -100,8 +100,8 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://mp.weixin.qq.com/s/AEuvTp6qvOBiA9HtLevTrA" target="_blank" rel="external">http://mp.weixin.qq.com/s/AEuvTp6qvOBiA9HtLevTrA</a></p>
-<p>英文原文：<a href="https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/" target="_blank" rel="external">https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/</a></p>
+  <div class="post-content"><p><a href="http://mp.weixin.qq.com/s/AEuvTp6qvOBiA9HtLevTrA" target="_blank" rel="noopener">http://mp.weixin.qq.com/s/AEuvTp6qvOBiA9HtLevTrA</a></p>
+<p>英文原文：<a href="https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/" target="_blank" rel="noopener">https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/</a></p>
 <p>译者：诗书塞外</p>
 <p> 我们很高兴地宣布，Nginx 1.13.9 于2018年2月20日正式发布，这个版本支持HTTP/2的服务器端推送。对于Nginx PLUS的用户，HTTP/2服务器端推送的支持将包含在即将到来的 Nginx PLUS R15版本，这个版本预计于四月份发布。</p>
 <p>服务器端推送，是HTTP/2标准定义的功能。这个功能允许服务器预判客户端可能会用到的资源，并提前将资源推送给客户端。这样，我们就可以减少页面加载时间，为用户提供更流畅的体验。</p>
@@ -144,7 +144,7 @@ HTTP/2的命令行工具，比如nghttp
 <p>下面是如何使用浏览器的开发者工具验证服务器端推送是生效的，这里使用Chrome作为例子。在下图中，开发者工具中Network页中的Initiator列显示出我们通过服务器端推送，将几个资源伴随对/demo.html的请求一同返回给了客户端。<br><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-chrome-dev-tools.png" alt=""></p>
 <p>通过命令行工具验证（nghttp）</p>
 <p>除了浏览器的开发者工具，你还可以使用命令行工具nghttp来验证服务器端推送是有效的。你可以从github上下载并安装nghttp，也可以使用操作系统的软件包管理工具来安装（比如在Ubuntu中，使用apt-get安装nghttp2-client）。</p>
-<p>$ nghttp -ans <a href="https://example.com/demo.html" target="_blank" rel="external">https://example.com/demo.html</a></p>
+<p>$ nghttp -ans <a href="https://example.com/demo.html" target="_blank" rel="noopener">https://example.com/demo.html</a></p>
 <p>id  responseEnd requestStart  process code size request path<br> 13    +84.25ms       +136us  84.11ms  200  492 /demo.html<br>  2    +84.33ms <em>   +84.09ms    246us  200  266 /style.css<br>  4   +261.94ms </em>   +84.12ms 177.83ms  200  40K /image2.jpg<br>  6   +685.95ms *   +84.12ms 601.82ms  200 173K /image1.jpg</p>
 <p>图中的星号代表资源是由服务器端推送的。</p>
 <p>自动推送资源给客户端</p>

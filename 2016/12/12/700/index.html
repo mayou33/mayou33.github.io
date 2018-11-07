@@ -102,7 +102,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4848272.html" target="_blank" rel="external"><font color="#0066cc">http://blog.chinaunix.net/uid-26859697-id-4848272.html</font></a></p>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4848272.html" target="_blank" rel="noopener"><font color="#0066cc">http://blog.chinaunix.net/uid-26859697-id-4848272.html</font></a></p>
 <pre><code>前面分析了&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;memblock&lt;/span&gt;算法、内核页表的建立、内存管理框架的构建，这些都是&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;x86&lt;/span&gt;处理的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;setup_arch()&lt;/span&gt;函数里面初始化的，因地制宜，具有明显处理器的特征。而&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;start_kernel()&lt;/span&gt;接下来的初始化则是&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;linux&lt;/span&gt;通用的内存管理算法框架了。
 
 build_all_zonelists()用来初始化内存分配器使用的存储节点中的管理区链表，是为内存管理算法（伙伴管理算法）做准备工作的。具体实现：

@@ -105,11 +105,11 @@
 
 目前docker官方提供了如下3个软删除的方法：
 </code></pre><ol>
-<li><code>DELETE:/v2/&amp;lt;name&amp;gt;/manifests/&amp;lt;reference&amp;gt;</code>：这个API是软删除一个<a href="https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md" target="_blank" rel="external">清单（manifest）</a>，但是真正占用存储空间的层还在。</li>
+<li><code>DELETE:/v2/&amp;lt;name&amp;gt;/manifests/&amp;lt;reference&amp;gt;</code>：这个API是软删除一个<a href="https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md" target="_blank" rel="noopener">清单（manifest）</a>，但是真正占用存储空间的层还在。</li>
 <li><code>DELETE:/v2/&amp;lt;name&amp;gt;/blobs/&amp;lt;digest&amp;gt;</code>：这个API类似上面那个，只不过它要软删除的对象是层（layer）罢了。</li>
 <li><code>DELETE:/v2/&amp;lt;name&amp;gt;/blobs/uploads/&amp;lt;uuid&amp;gt;</code>：这个只是取消掉另一个上传的进程罢了。</li>
 </ol>
-<p>##<br>    <a href="https://github.com/docker/distribution/blob/master/ROADMAP.md#deletes" target="_blank" rel="external">难点</a></p>
+<p>##<br>    <a href="https://github.com/docker/distribution/blob/master/ROADMAP.md#deletes" target="_blank" rel="noopener">难点</a></p>
 <pre><code>为了删除不需要的数据，腾出磁盘空间，我们希望有删除功能。但是如果一个不健全的删除功能不小心把有用的数据给删了，那还不如没有这个功能呢。在这个逻辑前提下，docker团队选择了不删除数据。除此之外，还有一个考虑：删除功能是需要很大工作量的。大家知道程序员们的价格是比较高的，以相对便宜的磁盘空间为代价，在眼下先节省这笔人工费开销，并把它投入到更有价值的地方去，不是更有意义么。
 
 那为什么删除功能需要很大的工作量呢？这是因为删除有一个大坑。首先我们来看一下存储模型：所有的数据都被存放到VFS之上，它提供了最终一致性，但是可能需要较长时间才能达到一致。再看镜像的数据结构：一个docker镜像包含了3个概念：标签（tag）、清单（manifest）和层（layer）。标签被关联到清单上，而清单则被关联到层上，就像下图一样：
@@ -124,10 +124,10 @@
 <li>全局锁：引入GC线程来做删除。删除的时候不能写入。实现简单，但是影响性能。</li>
 <li>新老代：也是引入GC线程来做删除。将存储分为年轻年老两代，GC线程删除某一代的时候允许同时写入另一代。避免了全局锁的性能问题但是实现起来比较麻烦。</li>
 <li><p>数据库：引入一个数据库，用事务来解决并发的问题。</p>
-<p>如果你等不及docker官方的实现，并且对自己的私有库的控制力比较强，不需要考虑并发，可以使用<a href="https://github.com/burnettk/delete-docker-registry-image" target="_blank" rel="external">这个脚本</a>来彻底删除，记得先把registry停掉，或者是设置为<a href="https://github.com/docker/distribution/blob/master/docs/configuration.md#user-content-read-only-mode" target="_blank" rel="external">只读模式</a>以避免并发哦。设置一个cron任务，每天凌晨停止服务一小段时间，然后运行脚本，再启动服务就好了。</p>
-<p>如果你也认为磁盘空间是比较廉价的，那么使用软删除，也就是上文介绍的官方删除API应该能够符合需求。虽然磁盘空间并没有真正地释放出来，但是删除之后镜像真的就不能再被pull下来了。记得要把<a href="https://github.com/docker/distribution/blob/master/docs/configuration.md#user-content-delete" target="_blank" rel="external">delete的设置</a>打开，否则会得到<code>The operation is unsupported</code>的异常信息。</p>
+<p>如果你等不及docker官方的实现，并且对自己的私有库的控制力比较强，不需要考虑并发，可以使用<a href="https://github.com/burnettk/delete-docker-registry-image" target="_blank" rel="noopener">这个脚本</a>来彻底删除，记得先把registry停掉，或者是设置为<a href="https://github.com/docker/distribution/blob/master/docs/configuration.md#user-content-read-only-mode" target="_blank" rel="noopener">只读模式</a>以避免并发哦。设置一个cron任务，每天凌晨停止服务一小段时间，然后运行脚本，再启动服务就好了。</p>
+<p>如果你也认为磁盘空间是比较廉价的，那么使用软删除，也就是上文介绍的官方删除API应该能够符合需求。虽然磁盘空间并没有真正地释放出来，但是删除之后镜像真的就不能再被pull下来了。记得要把<a href="https://github.com/docker/distribution/blob/master/docs/configuration.md#user-content-delete" target="_blank" rel="noopener">delete的设置</a>打开，否则会得到<code>The operation is unsupported</code>的异常信息。</p>
 <p>如果不想使用那些感觉上奇奇怪怪的脚本，还有一个选择是设置两套docker registry，比较稳定的镜像版本放在其中一个库里，不稳定的开发版放另一个库里。每天凌晨把不稳定的版本库清空。这样的话就不会让稳定的版本库的磁盘消耗增长太快，但是也增加了一些管理的难度。没有两全其美的事啊。</p>
-<p>写完这篇博客后不久，一个<a href="https://github.com/docker/distribution/blob/master/docs/gc.md" target="_blank" rel="external">gc</a>的commit被合并到了主干，有望在docker registry的2.4版本提供官方的删除功能。不过，它跟上面脚本的思路类似，也需要停止服务或者设置只读模式，并不能完美解决这个问题。抛开解决方案，就删除功能而言，我在测试过程中也发现了一个<a href="https://github.com/docker/distribution/issues/1548" target="_blank" rel="external">缺陷</a>，需要使用docker 1.10版和registry 2.3版才能解决。</p>
+<p>写完这篇博客后不久，一个<a href="https://github.com/docker/distribution/blob/master/docs/gc.md" target="_blank" rel="noopener">gc</a>的commit被合并到了主干，有望在docker registry的2.4版本提供官方的删除功能。不过，它跟上面脚本的思路类似，也需要停止服务或者设置只读模式，并不能完美解决这个问题。抛开解决方案，就删除功能而言，我在测试过程中也发现了一个<a href="https://github.com/docker/distribution/issues/1548" target="_blank" rel="noopener">缺陷</a>，需要使用docker 1.10版和registry 2.3版才能解决。</p>
 </li>
 </ol>
 <p>##<br>    v1 vs v2</p>

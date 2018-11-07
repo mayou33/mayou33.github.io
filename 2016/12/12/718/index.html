@@ -102,7 +102,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-5473255.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-26859697-id-5473255.html</a></p>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-5473255.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-26859697-id-5473255.html</a></p>
 <pre><code>先由slub分配算法初始化进入分析。
 
 回到mm_init()函数中，在调用mem_init()初始化伙伴管理算法后，紧接着调用的kmem_cache_init()便是slub分配算法的入口。其中该函数在/mm目录下有三处实现slab.c、slob.c和slub.c，表示不同算法下其初始化各异，分析slub分配算法则主要分析slub.c的实现。

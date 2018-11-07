@@ -104,7 +104,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="https://segmentfault.com/a/1190000008125116" target="_blank" rel="external">https://segmentfault.com/a/1190000008125116</a></p>
+  <div class="post-content"><p><a href="https://segmentfault.com/a/1190000008125116" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008125116</a></p>
 <pre><code>每次安装Linux的时候，都会要求配置交换分区，那么这个分区是干嘛的呢？不设置这个分区有什么后果？如果一定要设置，设置多大比较合适？本篇将试图回答这些问题并尽量覆盖所有swap相关的知识。
 </code></pre><blockquote>
 <p>下面的所有例子都在ubuntu-server-x86_64 16.04下执行通过</p>
@@ -122,7 +122,7 @@
 </li>
 <li><p>虽然大部分情况下，物理内存都是够用的，但是总有一些意想不到的状况，比如某个进程需要的内存超过了预期，或者有进程存在内存泄漏等，当内存不够的时候，就会触发内核的OOM killer，根据OOM killer的配置，某些进程会被kill掉或者系统直接重启（默认情况是优先kill耗内存最多的那个进程），不过有了swap后，可以拿swap当内存用，虽然速度慢了点，但至少给了我们一个去debug、kill进程或者保存当前工作进度的机会。</p>
 </li>
-<li><p>如果看过<a href="https://segmentfault.com/a/1190000008125006" target="_blank" rel="external">Linux内存管理</a>，就会知道系统会尽可能多的将空闲内存用于cache，以加快系统的I/O速度，所以如果能将不怎么常用的内存数据移动到swap上，就会有更多的物理内存用于cache，从而提高系统整体性能。</p>
+<li><p>如果看过<a href="https://segmentfault.com/a/1190000008125006" target="_blank" rel="noopener">Linux内存管理</a>，就会知道系统会尽可能多的将空闲内存用于cache，以加快系统的I/O速度，所以如果能将不怎么常用的内存数据移动到swap上，就会有更多的物理内存用于cache，从而提高系统整体性能。</p>
 </li>
 </ul>
 <p>##<br>    swap的缺点?</p>
@@ -157,8 +157,8 @@
 </li>
 <li><p>没配置swap：这时内核的OOM killer被触发，在默认配置下，耗内存的进程会被优先kill掉，这种进程一般就是我们的业务进程，这时守护进程就会自动重启该业务进程(没有守护进程？开什么玩笑)，这种情况只会造成服务中断一会会儿(取决于进程重启的时间)，不会出现上面因配置了swap而导致性能很差且服务持续中断的情况。就算OOM killer没有kill掉预期的进程，我们通过测试也能发现，然后将OOM killer配置成重启系统，那也比配置了swap在那里苟延残喘的好。</p>
 <p>从上面可以看出，对服务器来说，似乎不配置swap更好，可以让有问题的进程尽快重启，缩短业务受影响的时间。</p>
-<p>并且，就算没有配置监控程序，我们还有<a href="https://segmentfault.com/a/1190000006917884" target="_blank" rel="external">cgroups</a>中的<a href="https://segmentfault.com/a/1190000008125359" target="_blank" rel="external">内存控制模块</a>，可以控制一组进程所能使用的最大内存数，当超过这个数的时候，可以触发相应的行为，比如重启进程等。</p>
-<p>总的来说，对于桌面环境来说，一般内存没有服务器端那么充裕，并且由于使用场景原因，会打开很多不同类型的GUI窗口，但前台的进程只有一个，大部分都是在后台待命，所以配置swap对提升性能还是有必要的；对于服务器来说，配置的内存都比较充裕，启动起来的进程也都是要干活的进程(不然就不应该被启动起来)，并且也没有休眠的需求，再加上有了cgroups之后，可以更轻松的限制进程的内存使用，个人认为配置swap基本没什么必要了，看看<a href="https://coreos.com/" target="_blank" rel="external">coreos</a>，默认就没有swap。</p>
+<p>并且，就算没有配置监控程序，我们还有<a href="https://segmentfault.com/a/1190000006917884" target="_blank" rel="noopener">cgroups</a>中的<a href="https://segmentfault.com/a/1190000008125359" target="_blank" rel="noopener">内存控制模块</a>，可以控制一组进程所能使用的最大内存数，当超过这个数的时候，可以触发相应的行为，比如重启进程等。</p>
+<p>总的来说，对于桌面环境来说，一般内存没有服务器端那么充裕，并且由于使用场景原因，会打开很多不同类型的GUI窗口，但前台的进程只有一个，大部分都是在后台待命，所以配置swap对提升性能还是有必要的；对于服务器来说，配置的内存都比较充裕，启动起来的进程也都是要干活的进程(不然就不应该被启动起来)，并且也没有休眠的需求，再加上有了cgroups之后，可以更轻松的限制进程的内存使用，个人认为配置swap基本没什么必要了，看看<a href="https://coreos.com/" target="_blank" rel="noopener">coreos</a>，默认就没有swap。</p>
 </li>
 </ul>
 <p>##<br>    swap大小配置多少比较合适？</p>
@@ -380,9 +380,9 @@ dev@dev:~$ cat /proc/sys/vm/swappiness
 
 <p>##<br>    参考</p>
 <ul>
-<li><p><a href="https://www.linux.com/news/all-about-linux-swap-space" target="_blank" rel="external">All about Linux swap space</a></p>
+<li><p><a href="https://www.linux.com/news/all-about-linux-swap-space" target="_blank" rel="noopener">All about Linux swap space</a></p>
 </li>
-<li><p><a href="https://help.ubuntu.com/community/SwapFaq" target="_blank" rel="external">Swap Faq</a></p>
+<li><p><a href="https://help.ubuntu.com/community/SwapFaq" target="_blank" rel="noopener">Swap Faq</a></p>
 </li>
 </ul>
 </div>

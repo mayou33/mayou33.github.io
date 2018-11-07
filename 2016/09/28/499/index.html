@@ -229,7 +229,7 @@
 <p>&nbsp;&nbsp;&nbsp; 而多线程下对于比较大的数据结构，为了减少分配时的锁争用，最好是自己维护内存池。单线程的话无所谓了，呵呵。不过自己维护内存池是增加代码复杂度，减少内存管理复杂度。但是我觉得，255个分页以下（1MB）的内存话，tcmalloc的分配和管理机制已经相当nice，没太大必要自己另写一个。</p>
 <p>&nbsp;&nbsp;&nbsp; 另外，Windows下内存分配方式不知道，不同类型(int、short和bool)连续new的地址似乎是隔开的，可能是内部实现的粒度更小，不同size的class更多。测试10M次new的时候，debug模式下明显卡顿了一下，<strong>平均每次new的内存消耗是52字节（32位）和72字节（64位）</strong>[header更复杂?]。但是<strong>Release模式下很快，并且平均每次new的内存消耗是20字节（32位）和24字节（64位）</strong>。可以猜测VC的malloc的debug模式还含有挺大的debug信息。是不是可以得出他的header里，Release版本只有1个指针，Debug里有5个指针呢？</p>
 <p>转自</p>
-<p><a href="https://www.owent.net/2013/07/ptmalloctcmalloc%E5%92%8Cjemalloc%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%E7%A0%94%E7%A9%B6.html" target="_blank" rel="external">https://www.owent.net/2013/07/ptmalloctcmalloc%E5%92%8Cjemalloc%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%E7%A0%94%E7%A9%B6.html</a></p>
+<p><a href="https://www.owent.net/2013/07/ptmalloctcmalloc%E5%92%8Cjemalloc%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%E7%A0%94%E7%A9%B6.html" target="_blank" rel="noopener">https://www.owent.net/2013/07/ptmalloctcmalloc%E5%92%8Cjemalloc%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%E7%A0%94%E7%A9%B6.html</a></p>
 </li>
 </ol>
 </div>

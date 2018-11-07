@@ -102,7 +102,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4999985.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-26859697-id-4999985.html</a></p>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4999985.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-26859697-id-4999985.html</a></p>
 <pre><code>根据&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;git&lt;/span&gt;的合入记录，&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;CMA&lt;/span&gt;（&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Contiguous Memory Allocator&lt;/span&gt;，连续内存分配器）是在内核&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;3.5&lt;/span&gt;的版本引入，由三星的工程师开发实现的，用于&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;DMA&lt;/span&gt;映射框架下提升连续大块内存的申请。
 
 其实现主要是在系统引导时获取内存，并将内存设置为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;MIGRATE_CMA&lt;/span&gt;迁移类型，然后再将内存归还给系统。内核分配内存时，在&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;CMA&lt;/span&gt;管理内存中仅允许申请可移动类型内存页面（&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;movable pages&lt;/span&gt;），例如&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;DMA&lt;/span&gt;映射时不使用的页面缓存。而通过&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;dma_alloc_from_contiguous()&lt;/span&gt;申请大块连续内存时，将会把这些可移动页面从&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;CMA&lt;/span&gt;管理区中迁移出去，以便腾出足够的连续内存空间满足申请需要。由此，实现了任何时刻只要系统中有足够的内存空间，便可以申请得到大块连续内存。

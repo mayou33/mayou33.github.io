@@ -100,7 +100,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://geek.csdn.net/news/detail/200023" target="_blank" rel="external">http://geek.csdn.net/news/detail/200023</a></p>
+  <div class="post-content"><p><a href="http://geek.csdn.net/news/detail/200023" target="_blank" rel="noopener">http://geek.csdn.net/news/detail/200023</a></p>
 <pre><code>**&lt;font size=&quot;3&quot; style=&quot;background-color: rgb(247, 247, 247);&quot;&gt;作者：&lt;/font&gt;**&lt;span style=&quot;text-align: justify; color: rgb(51, 51, 51); text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: &amp;quot;microsoft yahei&amp;quot;, arial; font-size: 14px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: rgb(247, 247, 247); font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;张冬洪，微博研发中心高级DBA，Redis中国用户组主席，多年Linux和数据库运维经验，专注于MySQL和NoSQL架构设计与运维以及自动化平台的开发；目前在微博主要负责Feed核心系统相关业务的数据库运维和业务保障工作。 &lt;/span&gt;
 </code></pre><p>##<br>    Redis Cluster的基本原理和架构</p>
 <pre><code>Redis Cluster是分布式Redis的实现。随着Redis版本的更替，以及各种已知bug的fixed，在稳定性和高可用性上有了很大的提升和进步，越来越多的企业将Redis Cluster实际应用到线上业务中，通过从社区获取到反馈社区的迭代，为Redis Cluster成为一个可靠的企业级开源产品，在简化业务架构和业务逻辑方面都起着积极重要的作用。下面从RedisCluster的基本原理为起点开启Redis Cluster在业界的分析与思考之旅。
@@ -329,7 +329,7 @@ client-output-buffer-limit slave 512mb 256mb 180
 </li>
 <li><p>对于实现异地多活或实现数据中心级灾备的要求（即实现集群间数据的实时同步），可以参考搜狐的实现：Redis Cluster =&gt; Redis-Port =&gt; Smart proxy =&gt; Redis Cluster；</p>
 </li>
-<li><p>从Redis4.2的Roadmap来看，更值得期待（详情：<a href="https://gist.github.com/antirez/a3787d538eec3db381a41654e214b31d" target="_blank" rel="external">https://gist.github.com/antirez/a3787d538eec3db381a41654e214b31d</a>）：</p>
+<li><p>从Redis4.2的Roadmap来看，更值得期待（详情：<a href="https://gist.github.com/antirez/a3787d538eec3db381a41654e214b31d" target="_blank" rel="noopener">https://gist.github.com/antirez/a3787d538eec3db381a41654e214b31d</a>）：</p>
 <pre><code>*   加速key-&amp;gt;hashslot的分配
 </code></pre><ul>
 <li>更好更多的数据中心存储</li>

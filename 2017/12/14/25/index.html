@@ -100,7 +100,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="https://www.zybuluo.com/yishuailuo/note/844059?utm_source=tool.lu" target="_blank" rel="external">https://www.zybuluo.com/yishuailuo/note/844059?utm_source=tool.lu</a></p>
+  <div class="post-content"><p><a href="https://www.zybuluo.com/yishuailuo/note/844059?utm_source=tool.lu" target="_blank" rel="noopener">https://www.zybuluo.com/yishuailuo/note/844059?utm_source=tool.lu</a></p>
 <p> 本文讲述基于 OpenResty 的接口网关设计，主要谈及接口网关的请求路由与安全认证（IP 与 URI 白名单、加解密与验签名流程等）这两部分内容，其中涉及到的 Nginx、OpenResty 等相关内容会作简单介绍。</p>
 <p>温馨提示：文章图片中的文字较小，为了更好的阅读体验，建议 PC 端阅读。<br>谈谈基于 OpenResty 的接口网关设计<br>〇、前言<br>一、什么是接口网关<br>1.1 定位<br>1.2 功能<br>二、为什么需要接口网关<br>2.1 请求路由<br>2.2 安全认证<br>三、如何开发接口网关<br>3.1 Nginx 与 OpenResty 简介<br>3.1.1 Nginx 简介<br>3.1.1 OpenResty 简介<br>3.2 接口网关的架构<br>3.2.1 两层 HAProxy 代理<br>3.2.2 接口网关<br>3.2.2.1 主流程设计<br>3.2.2.2 配置服务设计<br>3.2.2.3 安全服务设计<br>3.2.3 架构总结<br>〇、前言</p>
 <p>笔者曾参与开发两个接口网关的项目，一个是基于 Tomcat 的应用提供的网关服务，另一个是基于 OpenResty 的 Nginx 应用提供的网关服务。经过两个网关项目的开发，笔者在接口网关开发方面稍微积累了一些经验，故在此把这些经验分享出来一起交流学习。由于基于 OpenResty 的 Nginx 网关普遍被认为是更优的方案，故本文主要针对基于 OpenResty 的 Nginx 网关进行讲述。当然，由于不同的并发数量级，不同的业务场景，接口网关的设计多种多样，本文所述其中较为简单且轻量级的一种。</p>
@@ -127,7 +127,7 @@
 <p>它的主要特征是高性能、高扩展性、高可靠性、低内存消耗、单机支持 10 万以上的并发连接，支持热部署，以及使用较自由的 BSD 许可协议。其中，Nginx 可以处理高并发压力下的并发请求的原因如下：</p>
 <p>事件驱动模型设计<br>全异步的网络 I/O 处理机制<br>极少的进程切换<br>内存消耗低，极度“压榨”服务器硬件资源<br>除了基于事件驱动的架构使其支持百万级的 TCP 连接，另外高度模块化的设计和自由的许可证使其拥有非常多扩展其功能的第三方模块，也是它的重要特性。所以，后来才会有 OpenResty 的诞生。</p>
 <p>我们看一个 Nginx 作简单配置来提供服务的例子：</p>
-<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>    upstream backend {<br>        server 127.0.0.1:8080<br>    }<br>    server {<br>        location /back {<br>            proxy_pass <a href="http://backend" target="_blank" rel="external">http://backend</a>;<br>        }<br>    }<br>}<br>上述配置文件中，分别在 event、http、server 以及 location 块配置项中做了一些简单的配置，当安装完并启动 Nginx 后（监听 80 端口），访问到 /back 路径下的请求会被转发到本地 127.0.0.1:8080 服务上。</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>    upstream backend {<br>        server 127.0.0.1:8080<br>    }<br>    server {<br>        location /back {<br>            proxy_pass <a href="http://backend" target="_blank" rel="noopener">http://backend</a>;<br>        }<br>    }<br>}<br>上述配置文件中，分别在 event、http、server 以及 location 块配置项中做了一些简单的配置，当安装完并启动 Nginx 后（监听 80 端口），访问到 /back 路径下的请求会被转发到本地 127.0.0.1:8080 服务上。</p>
 <p>3.1.1 OpenResty 简介</p>
 <p>根据官网定义，OpenResty 是一个通过 Lua 扩展 Nginx 实现的可伸缩的 Web 平台。其核心是基于 Nginx 一个 C 模块将 Lua 语言嵌入到 Nginx 服务器中，对外提供一套完整的 Lua Web 的 API，并透明支持非阻塞 I/O，提供协程 —— “轻量级线程”、定时器等，从而极大地降低了高性能服务端的开发难度和开发周期。</p>
 <p>OpenResty 将两个极为优秀的组件 Nginx 与 Lua 进行糅合，一方面保留了 Nginx 高性能 web 服务特征，另一方面有提供 Lua 特性在极少损失性能情况下便于业务功能的开发。根据官网介绍，OpenResty 非常便于用来搭建能够处理超高并发、扩展性极高的动态 Web 应用、Web 服务和动态网关。</p>
@@ -144,7 +144,7 @@
 <p>下面我们来一步步来分析架构图的各个部分，首先是两层的 HAProxy 。</p>
 <p>3.2.1 两层 HAProxy 代理</p>
 <p>根据维基百科定义，HAProxy 是一个使用 C 语言编写的自由及开放源代码软件，其提供高可用性、负载均衡，以及基于 TCP 和 HTTP 的应用程序代理。</p>
-<p>如图所示，隔离的内网与外网上分别提供了 HAProxy 代理， 外层暂且称为 HAProxy internet ，内层称为 HAProxy internal。外层暴露于外网中，使用统一地址如 <a href="http://openapi.company.com" target="_blank" rel="external">http://openapi.company.com</a> 来接受外部请求（这里指第三方的请求）；中间是基于 OpenResty 的 Nginx 网关层，外部请求经过网关后通过 HAProxy internal 转发到内网的服务上，内网服务遵循 Restful 风格，网关转发到内网的地址由接口网关控制。</p>
+<p>如图所示，隔离的内网与外网上分别提供了 HAProxy 代理， 外层暂且称为 HAProxy internet ，内层称为 HAProxy internal。外层暴露于外网中，使用统一地址如 <a href="http://openapi.company.com" target="_blank" rel="noopener">http://openapi.company.com</a> 来接受外部请求（这里指第三方的请求）；中间是基于 OpenResty 的 Nginx 网关层，外部请求经过网关后通过 HAProxy internal 转发到内网的服务上，内网服务遵循 Restful 风格，网关转发到内网的地址由接口网关控制。</p>
 <p>然而，目前的代理架构受到了当前整体架构的约束，实际上两层的 HAProxy 代理并不是必需的。</p>
 <p>对于外层 HAProxy internet，由于我们使用了与 HAProxy 紧密结合的 Openshift 架构，所以多了一层 HAProxy 的转发；一般情况下，基于 OpenResty 的 Nginx 网关层可以直接在外网上提供服务。</p>
 <p>对于内层的 HAProxy internal，由于我们当前还没有实现服务治理，所以需要内层的 HAProxy internal 进行一层转发；当实现了服务治理，可以消除内层 HAProxy 代理，减少转发消耗。</p>
@@ -193,9 +193,9 @@ location / {
   content_by_lua_file lua/content_by_lua.lua;
 }
 </code></pre><p>  }<br>}<br>D. URL 规范</p>
-<p>内网服务遵循的 URL 格式为 http://<host>:<port>/<context>/path/to/your/api，应用上下文根紧跟在 <host>:<port> 之后，以便统一获取来找到配置。比如：<a href="http://172.0.8.177:8080/user/users/{uid}/info，其中" target="_blank" rel="external">http://172.0.8.177:8080/user/users/{uid}/info，其中</a> user 为应用上下文根，紧跟在 172.0.8.177:8080 之后。</port></host></context></port></host></p>
+<p>内网服务遵循的 URL 格式为 http://<host>:<port>/<context>/path/to/your/api，应用上下文根紧跟在 <host>:<port> 之后，以便统一获取来找到配置。比如：<a href="http://172.0.8.177:8080/user/users/{uid}/info，其中" target="_blank" rel="noopener">http://172.0.8.177:8080/user/users/{uid}/info，其中</a> user 为应用上下文根，紧跟在 172.0.8.177:8080 之后。</port></host></context></port></host></p>
 <p>E. 样例</p>
-<p>内网用户信息服务由原来的 API：/user/users/{uid}/info 提供，后来迁移至 API：/user/users/{uid}/user-info，当第三方 CampA (IP 为 172.0.1.172) 发起 GET 请求时，请求 URL 为 <a href="http://openapi.company.com/user/users/27/info?thirdparty=CampA&amp;cp=fj375x...sign=abxuos8nb...。" target="_blank" rel="external">http://openapi.company.com/user/users/27/info?thirdparty=CampA&amp;cp=fj375x...sign=abxuos8nb...。</a></p>
+<p>内网用户信息服务由原来的 API：/user/users/{uid}/info 提供，后来迁移至 API：/user/users/{uid}/user-info，当第三方 CampA (IP 为 172.0.1.172) 发起 GET 请求时，请求 URL 为 <a href="http://openapi.company.com/user/users/27/info?thirdparty=CampA&amp;cp=fj375x...sign=abxuos8nb...。" target="_blank" rel="noopener">http://openapi.company.com/user/users/27/info?thirdparty=CampA&amp;cp=fj375x...sign=abxuos8nb...。</a></p>
 <p>初始化常量和依赖等<br>通过 CampA 与 user Context 获取第三方配置<br>HAProxy Internet 接收请求发到 OpenApi 接口网关，OpenApi 把 /user/users/27/info URI 重写为 /user/users/27/user-info/<br>校验第三方请求 IP，在 IP 白名单中，校验通过；校验 URI /user/users/27/user-info 在授权的 URI 中，校验通过<br>调用安全服务对请求进行解密与验签，解密成功，验签通过，获取明文<br>将拥有明文的请求转发到开放接口服务<br>获取响应，调用安全服务对响应报文进行签名与加密，返回给第三方 CampA。<br>3.2.2.2 配置服务设计</p>
 <p>A. 数据库表设计</p>
 <p>openapi_thirdparty_config</p>

@@ -102,7 +102,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4894349.html" target="_blank" rel="external"><font color="#0066cc">http://blog.chinaunix.net/uid-26859697-id-4894349.html</font></a></p>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-4894349.html" target="_blank" rel="noopener"><font color="#0066cc">http://blog.chinaunix.net/uid-26859697-id-4894349.html</font></a></p>
 <pre><code>前面已经分析了伙伴管理算法的释放实现，接着分析一下伙伴管理算法的内存申请实现。
 
 &amp;nbsp;&amp;nbsp;伙伴管理算法内存申请和释放的入口一样，其实并没有很清楚的界限表示这个函数是入口，而那个不是，所以例行从稍微偏上一点的地方作为入口分析。于是选择了alloc_pages()宏定义作为分析切入口：

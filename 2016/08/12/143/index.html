@@ -181,7 +181,7 @@
 
 　　③异步调用：通过消息队列等异步方式完成，避免一个服务失败导致整个应用请求失败的情况。
 </code></pre><blockquote>
-<p><strong>PS：</strong>不是所有服务都可以异步调用，对于获取用户信息这类调用，采用异步方式会延长响应时间，得不偿失。对于那些必须确认服务调用成功后才能继续进行下一步的操作的应用也不适合异步调用。有关具体使用消息队列实现异步调用的案例，请阅读我的博文：《<a href="http://www.cnblogs.com/edisonchou/p/3825682.html" target="_blank" rel="external">使用Redis作为消息队列服务场景的应用案例</a>》。</p>
+<p><strong>PS：</strong>不是所有服务都可以异步调用，对于获取用户信息这类调用，采用异步方式会延长响应时间，得不偿失。对于那些必须确认服务调用成功后才能继续进行下一步的操作的应用也不适合异步调用。有关具体使用消息队列实现异步调用的案例，请阅读我的博文：《<a href="http://www.cnblogs.com/edisonchou/p/3825682.html" target="_blank" rel="noopener">使用Redis作为消息队列服务场景的应用案例</a>》。</p>
 </blockquote>
 <pre><code>　　④服务降级：网站访问高峰期间，为了保证核心应用的正常运行，需要对服务降级。
 
@@ -199,7 +199,7 @@
 
 ![](http://images.cnitblog.com/i/381412/201407/120151330823289.jpg)
 </code></pre><blockquote>
-<p>PS：在MS SQL Server中，可以通过<strong>发布订阅</strong>功能实现主从分离。关于发布订阅，可以参考MSDN的这篇文章：<a href="http://technet.microsoft.com/zh-cn/ff806143.aspx" target="_blank" rel="external">http://technet.microsoft.com/zh-cn/ff806143.aspx</a></p>
+<p>PS：在MS SQL Server中，可以通过<strong>发布订阅</strong>功能实现主从分离。关于发布订阅，可以参考MSDN的这篇文章：<a href="http://technet.microsoft.com/zh-cn/ff806143.aspx" target="_blank" rel="noopener">http://technet.microsoft.com/zh-cn/ff806143.aspx</a></p>
 </blockquote>
 <pre><code>　　②失效转移：若数据服务器集群中任何一台服务器宕机，那么应用程序针对这台服务器的所有读写操作都要重新路由到其他服务器，保证数据访问不会失败。
 
@@ -240,7 +240,7 @@
 <pre><code>![](http://images.cnitblog.com/i/381412/201407/110029172709761.jpg)
 
 &amp;nbsp;
-</code></pre><div id="Copyright" style="background: url(&quot;http://www.cnblogs.com/images/cnblogs_com/Terrylee/147338/o_info.png&quot;) no-repeat 1% 50% rgb(255, 255, 255); margin: 0px; padding: 10px 10px 10px 60px; border: 1px solid rgb(229, 229, 229); border-image: none; color: rgb(0, 0, 0); text-transform: none; line-height: 20.88px; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑; font-size: 13.92px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br><br>        <span style="margin: 0px; padding: 0px; font-size: 14px;">作者：<a href="http://www.cnblogs.com/edisonchou/" target="_blank" rel="external">周旭龙</a></span><br><br>        <span style="margin: 0px; padding: 0px; font-size: 14px;">出处：<a href="http://www.cnblogs.com/edisonchou/" target="_blank" rel="external">http://www.cnblogs.com/edisonchou/</a></span><br><br></div></div>
+</code></pre><div id="Copyright" style="background: url(&quot;http://www.cnblogs.com/images/cnblogs_com/Terrylee/147338/o_info.png&quot;) no-repeat 1% 50% rgb(255, 255, 255); margin: 0px; padding: 10px 10px 10px 60px; border: 1px solid rgb(229, 229, 229); border-image: none; color: rgb(0, 0, 0); text-transform: none; line-height: 20.88px; text-indent: 0px; letter-spacing: normal; font-family: 微软雅黑; font-size: 13.92px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"><br><br>        <span style="margin: 0px; padding: 0px; font-size: 14px;">作者：<a href="http://www.cnblogs.com/edisonchou/" target="_blank" rel="noopener">周旭龙</a></span><br><br>        <span style="margin: 0px; padding: 0px; font-size: 14px;">出处：<a href="http://www.cnblogs.com/edisonchou/" target="_blank" rel="noopener">http://www.cnblogs.com/edisonchou/</a></span><br><br></div></div>
     
       
       <div class="toc-wrapper">

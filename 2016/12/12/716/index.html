@@ -102,7 +102,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-5472929.html" target="_blank" rel="external"><font color="#0066cc">http://blog.chinaunix.net/uid-26859697-id-5472929.html</font></a></p>
+  <div class="post-content"><p><a href="http://blog.chinaunix.net/uid-26859697-id-5472929.html" target="_blank" rel="noopener"><font color="#0066cc">http://blog.chinaunix.net/uid-26859697-id-5472929.html</font></a></p>
 <pre><code>前面主要分析了以页为最小单位进行内存分配的伙伴管理算法，这对于内核对内存的管理比较简单，同时较大程度上避免了内存碎片的问题。而实际上对内存的申请却不是每次都申请一个页面的，通常是不规则的，大小不一的，并且远小于一个内存页面的大小，此外更可能会频繁地申请释放这些内存。
 
 明显每次分配小于一个页面的都统一分配一个页面的空间是过于浪费且不切实际的，因此必须充分利用未被使用的空闲空间，同时也要避免过多地访问操作页面分配。基于该问题的考虑，内核需要一个缓冲池对小块内存进行有效的管理起来，于是就有了&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;slab&lt;/span&gt;内存分配算法。每次小块内存的分配优先来自于该内存分配器，小块内存的释放也是先缓存至该内存分配器，留作下次申请时进行分配，避免了频繁分配和释放小块内存所带来的额外负载。而这些被管理的小块内存在管理算法中被视之为&amp;ldquo;对象&amp;rdquo;。

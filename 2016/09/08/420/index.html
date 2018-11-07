@@ -105,14 +105,14 @@
 
 可知，即时沟通和技术提升虽然不属于研发流程中的某一个环节，但它们是贯穿整个研发体系不可或缺的一部分，有着不可替代的作用。此外，任务管理需要对任务做整个研发生命周期的管理，除了作为其中的一个关键环节，也是贯穿整个研发流程的。
 </code></pre><ul>
-<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86" target="_blank" rel="external">任务管理</a></li>
-<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E6%96%87%E6%A1%A3%E5%8D%8F%E4%BD%9C" target="_blank" rel="external">文档协作</a></li>
-<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E4%BB%A3%E7%A0%81%E5%8D%8F%E4%BD%9C" target="_blank" rel="external">代码协作</a></li>
-<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81" target="_blank" rel="external">质量保证</a></li>
-<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2" target="_blank" rel="external">自动化部署</a></li>
-<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E6%95%85%E9%9A%9C%E7%AE%A1%E7%90%86" target="_blank" rel="external">故障管理</a></li>
-<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E5%8D%B3%E6%97%B6%E6%B2%9F%E9%80%9A" target="_blank" rel="external">即时沟通</a></li>
-<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E6%8A%80%E6%9C%AF%E6%8F%90%E5%8D%87" target="_blank" rel="external">技术提升</a></li>
+<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86" target="_blank" rel="noopener">任务管理</a></li>
+<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E6%96%87%E6%A1%A3%E5%8D%8F%E4%BD%9C" target="_blank" rel="noopener">文档协作</a></li>
+<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E4%BB%A3%E7%A0%81%E5%8D%8F%E4%BD%9C" target="_blank" rel="noopener">代码协作</a></li>
+<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81" target="_blank" rel="noopener">质量保证</a></li>
+<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2" target="_blank" rel="noopener">自动化部署</a></li>
+<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E6%95%85%E9%9A%9C%E7%AE%A1%E7%90%86" target="_blank" rel="noopener">故障管理</a></li>
+<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E5%8D%B3%E6%97%B6%E6%B2%9F%E9%80%9A" target="_blank" rel="noopener">即时沟通</a></li>
+<li><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/#%E6%8A%80%E6%9C%AF%E6%8F%90%E5%8D%87" target="_blank" rel="noopener">技术提升</a></li>
 </ul>
 <p>##<br>    <a name="任务管理" style="background: none; transition:0.1s ease-in; color: rgb(110, 113, 115); text-decoration: none; border-bottom-color: rgb(221, 221, 221); border-bottom-width: 1px; border-bottom-style: solid; -webkit-user-select: text;"></a>任务管理</p>
 <pre><code>任务管理是产品整个生命周期首要的环节，其对研发体系也是至关重要的。项目生命周期模型，传统的有五种：瀑布模型、原型模型、螺旋模型、增量模型、V模型，而现在最为流行的是迭代开发模型，敏捷开发则是采用迭代模型的一种典型项目管理方法集合。Scrum是目前敏捷开发中最为大家熟知的开发模式(XP极限编程也是一种比较常见的敏捷开发模式)，其开发流程的概览如下图所示：
@@ -125,11 +125,11 @@
 
 依赖于任务管理方法论，市面上很多软件都做了相应的支撑，自己曾经使用过的任务管理软件如下：
 </code></pre><ul>
-<li><a href="http://www.redmine.org/" target="_blank" rel="external">Redmine</a>: 这个是自己最开始接触的任务管理软件，使用也比较广泛。比较遗憾的是，redmine安装有点繁琐，而且基于ROR，如果需要二次开发，需要重新学习ROR。</li>
-<li><a href="http://tower.im/" target="_blank" rel="external">Tower.im</a>: 这是一个任务管理云服务，界面设计的简单优雅，一目了然。很多小的私有项目，我都会用这个进行任务管理。类似的还有teambeation等。</li>
-<li><a href="http://www.atlassian.com/software/jira/" target="_blank" rel="external">Jira</a>: 这款软件是商业版的任务管理软件，对于这一块做的是非常专业的，很多大公司都在使用。但是，它是收费的。所以，如果你要用，要么付钱，要么去破解。。。</li>
-<li><a href="http://www.zentao.net/" target="_blank" rel="external">禅道</a>：这款软件最早是叫做bugfree, 是开源且主要针对Bug管理的，后面慢慢发展成现在的集任务管理、bug管理、团队管理等的项目管理软件，并开启了收费策略。总体来说，功能很全，也比较专业，但是ui上有种传统it系统的感觉，流程上也不具有现在敏捷开发的一些优势。</li>
-<li><p><a href="https://github.com/kanboard/kanboard" target="_blank" rel="external">Kanboard</a>: 是实现了Kanban方法论的任务管理软件。</p>
+<li><a href="http://www.redmine.org/" target="_blank" rel="noopener">Redmine</a>: 这个是自己最开始接触的任务管理软件，使用也比较广泛。比较遗憾的是，redmine安装有点繁琐，而且基于ROR，如果需要二次开发，需要重新学习ROR。</li>
+<li><a href="http://tower.im/" target="_blank" rel="noopener">Tower.im</a>: 这是一个任务管理云服务，界面设计的简单优雅，一目了然。很多小的私有项目，我都会用这个进行任务管理。类似的还有teambeation等。</li>
+<li><a href="http://www.atlassian.com/software/jira/" target="_blank" rel="noopener">Jira</a>: 这款软件是商业版的任务管理软件，对于这一块做的是非常专业的，很多大公司都在使用。但是，它是收费的。所以，如果你要用，要么付钱，要么去破解。。。</li>
+<li><a href="http://www.zentao.net/" target="_blank" rel="noopener">禅道</a>：这款软件最早是叫做bugfree, 是开源且主要针对Bug管理的，后面慢慢发展成现在的集任务管理、bug管理、团队管理等的项目管理软件，并开启了收费策略。总体来说，功能很全，也比较专业，但是ui上有种传统it系统的感觉，流程上也不具有现在敏捷开发的一些优势。</li>
+<li><p><a href="https://github.com/kanboard/kanboard" target="_blank" rel="noopener">Kanboard</a>: 是实现了Kanban方法论的任务管理软件。</p>
 <p>对于个人的项目，其实依赖于tower.im这种第三方云服务完全足够了。如果担心数据安全的话，那么推荐在内网搭建Kanboard进行看板任务管理。</p>
 </li>
 </ul>
@@ -149,8 +149,8 @@
 <li>使用google doc进行协作</li>
 <li>使用word撰写文档，然后提交到项目管理软件中进行管理</li>
 <li><p>使用markdown撰写文档，提交到版本管理工具上</p>
-<p>我自己比较推崇的是使用markdown撰写文档，然后使用git、svn版本管理工具或者是其他团队协作工具做版本管理。之所以使用markdown, 能够极大地节省使用word时调各种格式、样式耗费的时间。对于程序员来说真的是如虎添翼。如果是对文档多人协同编辑有刚需的团队，可以选择使用google doc或者国内的石墨(<a href="http://shimo.im/" target="_blank" rel="external">http://shimo.im</a>)。</p>
-<p>此外，在移动app开发中，还有一个非常关键的文档就是<strong>api文档</strong>，是服务端提供给客户端调用接口的说明文档。比较简单直接的方法就是定制一套api文档模板，然后在写接口代码之前或者之后，按照模板编写接口文档。此外，可以实现一套根据源码自动生成文档的机制，在代码编写的同时就能自动生成相应的接口说明文档。在使用Spring MVC开发的后端应用中，个人推荐<a href="https://github.com/springfox/springfox" target="_blank" rel="external">SpringFox</a>，使用此项目能够通过在Controller中加入相应的注解信息从而自动生成Api接口文档，同时也提供了在线调试的功能，极大减少了api文档的工作量。</p>
+<p>我自己比较推崇的是使用markdown撰写文档，然后使用git、svn版本管理工具或者是其他团队协作工具做版本管理。之所以使用markdown, 能够极大地节省使用word时调各种格式、样式耗费的时间。对于程序员来说真的是如虎添翼。如果是对文档多人协同编辑有刚需的团队，可以选择使用google doc或者国内的石墨(<a href="http://shimo.im/" target="_blank" rel="noopener">http://shimo.im</a>)。</p>
+<p>此外，在移动app开发中，还有一个非常关键的文档就是<strong>api文档</strong>，是服务端提供给客户端调用接口的说明文档。比较简单直接的方法就是定制一套api文档模板，然后在写接口代码之前或者之后，按照模板编写接口文档。此外，可以实现一套根据源码自动生成文档的机制，在代码编写的同时就能自动生成相应的接口说明文档。在使用Spring MVC开发的后端应用中，个人推荐<a href="https://github.com/springfox/springfox" target="_blank" rel="noopener">SpringFox</a>，使用此项目能够通过在Controller中加入相应的注解信息从而自动生成Api接口文档，同时也提供了在线调试的功能，极大减少了api文档的工作量。</p>
 </li>
 </ul>
 <p>##<br>    <a name="代码协作" style="background: none; transition:0.1s ease-in; color: rgb(110, 113, 115); text-decoration: none; border-bottom-color: rgb(221, 221, 221); border-bottom-width: 1px; border-bottom-style: solid; -webkit-user-select: text;"></a>代码协作</p>
@@ -168,7 +168,7 @@
 <pre><code>*   用于开发新功能时所使用的feature分支；
 </code></pre><ul>
 <li>用于辅助版本发布的release分支；</li>
-<li>用于修正生产代码中的缺陷的hotfix分支。 对于此种开发模型，这里也提供了一个命令行工具：<a href="https://github.com/nvie/gitflow" target="_blank" rel="external">https://github.com/nvie/gitflow</a></li>
+<li>用于修正生产代码中的缺陷的hotfix分支。 对于此种开发模型，这里也提供了一个命令行工具：<a href="https://github.com/nvie/gitflow" target="_blank" rel="noopener">https://github.com/nvie/gitflow</a></li>
 </ul>
 </li>
 </ul>
@@ -178,8 +178,8 @@
 </li>
 <li><p>客户端做好接口封装，在后端接口未完成前，客户端不经过网络io直接返回静态格式数据。这种方式最好是由客户端定义接口格式数据。</p>
 </li>
-<li><p>后端将示例接口返回数据写在文件里，接口直接返回静态文件数据。此种方式，由后端定义接口数据格式。另外，有一个开源的工具: <a href="https://github.com/Runscope/httpbin" target="_blank" rel="external">httpbin</a>可以用来提供接口返回指定格式的数据，中文介绍可见:<a href="https://blog.phpgao.com/how-to-httpbin.html" target="_blank" rel="external">https://blog.phpgao.com/how-to-httpbin.html</a>。</p>
-<p>关于客户端和后端的接口代码协作，还有一个Chrome插件<a href="https://www.getpostman.com/" target="_blank" rel="external">POSTMAN</a>可以使用。后端可以使用此插件在编写完接口后进行自我功能测试，测试无误后可以将接口以文件或者url的形式分享给客户端供客户端参考和调试。</p>
+<li><p>后端将示例接口返回数据写在文件里，接口直接返回静态文件数据。此种方式，由后端定义接口数据格式。另外，有一个开源的工具: <a href="https://github.com/Runscope/httpbin" target="_blank" rel="noopener">httpbin</a>可以用来提供接口返回指定格式的数据，中文介绍可见:<a href="https://blog.phpgao.com/how-to-httpbin.html" target="_blank" rel="noopener">https://blog.phpgao.com/how-to-httpbin.html</a>。</p>
+<p>关于客户端和后端的接口代码协作，还有一个Chrome插件<a href="https://www.getpostman.com/" target="_blank" rel="noopener">POSTMAN</a>可以使用。后端可以使用此插件在编写完接口后进行自我功能测试，测试无误后可以将接口以文件或者url的形式分享给客户端供客户端参考和调试。</p>
 </li>
 </ul>
 <p>##<br>    <a name="质量保证" style="background: none; transition:0.1s ease-in; color: rgb(110, 113, 115); text-decoration: none; border-bottom-color: rgb(221, 221, 221); border-bottom-width: 1px; border-bottom-style: solid; -webkit-user-select: text;"></a>质量保证</p>
@@ -266,7 +266,7 @@
 <p>而黑客马拉松比赛这种方式，尤为关键的一点是要选择合适的主题。一般来说，围绕现实的业务场景来出题不仅能够提升大家解决问题的能力，也能顺便解决实际问题。比如&rdquo;根据用户已有行为日志预测用户未来的行为&rdquo;、&ldquo;怎样构建合适的用户质量模型&rdquo;都是比较合适的主题。此外，借鉴黑客马拉松的这种形式，可以采取类似&ldquo;每周一题&rdquo;的做法：在每周例会上给出一道和线上业务相关的问题，如&ldquo;如何提高信息流的点击转化率&rdquo;，然后每个人发散思维给出自己的解决方案，最终形成文章发布在内部的技术wiki上。对于每次主题，都会在下周的例会上针对每个人的解决方案进行讨论。</p>
 <p>此外，在安排团队成员去调研一种将要使用的新技术的时候，务必要深入到源码层面，这个观念是需要灌输到团队每一个人的意识中去的。去使用一个没有看过源码或者没有掌握其运行原理的开源软件是一件风险非常大的事情，极有可能造成巨大的线上故障。</p>
 <p><strong>以上，是自己对于研发体系的一些实践和感悟，很多地方仍然有所欠缺或者并非最佳实践，也一直在探索更好的方案。</strong></p>
-<p><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/" target="_blank" rel="external">http://www.rowkey.me/blog/2016/08/17/dev-manage/</a></p>
+<p><a href="http://www.rowkey.me/blog/2016/08/17/dev-manage/" target="_blank" rel="noopener">http://www.rowkey.me/blog/2016/08/17/dev-manage/</a></p>
 </li>
 </ul>
 </div>

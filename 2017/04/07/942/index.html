@@ -100,7 +100,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="https://segmentfault.com/a/1190000008836467" target="_blank" rel="external">https://segmentfault.com/a/1190000008836467</a></p>
+  <div class="post-content"><p><a href="https://segmentfault.com/a/1190000008836467" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008836467</a></p>
 <p>本文将介绍在Linux系统中，数据包是如何一步一步从网卡传到进程手中的。</p>
 <p>如果英文没有问题，强烈建议阅读后面参考里的两篇文章，里面介绍的更详细。</p>
 <p>本文只讨论以太网的物理网卡，不涉及虚拟设备，并且以一个UDP包的接收过程作为示例.</p>
@@ -139,7 +139,7 @@
 <ul>
 <li><p><strong>1：</strong> 数据包从外面的网络进入物理网卡。如果目的地址不是该网卡，且该网卡没有开启混杂模式，该包会被网卡丢弃。</p>
 </li>
-<li><p><strong>2：</strong> 网卡将数据包通过<a href="https://en.wikipedia.org/wiki/Direct_memory_access" target="_blank" rel="external">DMA</a>的方式写入到指定的内存地址，该地址由网卡驱动分配并初始化。注： 老的网卡可能不支持DMA，不过新的网卡一般都支持。</p>
+<li><p><strong>2：</strong> 网卡将数据包通过<a href="https://en.wikipedia.org/wiki/Direct_memory_access" target="_blank" rel="noopener">DMA</a>的方式写入到指定的内存地址，该地址由网卡驱动分配并初始化。注： 老的网卡可能不支持DMA，不过新的网卡一般都支持。</p>
 </li>
 <li><p><strong>3：</strong> 网卡通过硬件中断（IRQ）通知CPU，告诉它有数据来了</p>
 </li>
@@ -195,13 +195,13 @@
 </li>
 <li><p><strong>10：</strong> 驱动程序将内存中的数据包转换成内核网络模块能识别的skb格式，然后调用napi_gro_receive函数</p>
 </li>
-<li><p><strong>11：</strong> napi_gro_receive会处理<a href="https://lwn.net/Articles/358910/" target="_blank" rel="external">GRO</a>相关的内容，也就是将可以合并的数据包进行合并，这样就只需要调用一次协议栈。然后判断是否开启了<a href="https://github.com/torvalds/linux/blob/v3.13/Documentation/networking/scaling.txt#L99-L222" target="_blank" rel="external">XPS</a>，如果开启了，将会调用enqueue_to_backlog</p>
+<li><p><strong>11：</strong> napi_gro_receive会处理<a href="https://lwn.net/Articles/358910/" target="_blank" rel="noopener">GRO</a>相关的内容，也就是将可以合并的数据包进行合并，这样就只需要调用一次协议栈。然后判断是否开启了<a href="https://github.com/torvalds/linux/blob/v3.13/Documentation/networking/scaling.txt#L99-L222" target="_blank" rel="noopener">XPS</a>，如果开启了，将会调用enqueue_to_backlog</p>
 </li>
 <li><p><strong>12：</strong> 在enqueue_to_backlog函数中，会将数据包放入CPU的softnet_data结构体的input_pkt_queue中，然后返回，如果input_pkt_queue满了的话，该数据包将会被丢弃，queue的大小可以通过net.core.netdev_max_backlog来配置</p>
 </li>
 <li><p><strong>13：</strong> CPU会接着在自己的软中断上下文中处理自己input_pkt_queue里的网络数据（调用__netif_receive_skb_core）</p>
 </li>
-<li><p><strong>14：</strong> 如果没开启<a href="https://github.com/torvalds/linux/blob/v3.13/Documentation/networking/scaling.txt#L99-L222" target="_blank" rel="external">XPS</a>，napi_gro_receive会直接调用__netif_receive_skb_core</p>
+<li><p><strong>14：</strong> 如果没开启<a href="https://github.com/torvalds/linux/blob/v3.13/Documentation/networking/scaling.txt#L99-L222" target="_blank" rel="noopener">XPS</a>，napi_gro_receive会直接调用__netif_receive_skb_core</p>
 </li>
 <li><p><strong>15：</strong> 看是不是有AF_PACKET类型的socket（也就是我们常说的原始套接字），如果有的话，拷贝一份数据给它。tcpdump抓包就是抓的这里的包。</p>
 </li>
@@ -301,7 +301,7 @@
 <ul>
 <li><p><strong>udp_rcv：</strong> udp_rcv函数是UDP模块的入口函数，它里面会调用其它的函数，主要是做一些必要的检查，其中一个重要的调用是__udp4_lib_lookup_skb，该函数会根据目的IP和端口找对应的socket，如果没有找到相应的socket，那么该数据包将会被丢弃，否则继续</p>
 </li>
-<li><p><strong>sock_queue_rcv_skb：</strong> 主要干了两件事，一是<strong>检查这个socket的receive buffer是不是满了，如果满了的话，丢弃该数据包</strong>，然后就是调用sk_filter看这个包是否是满足条件的包，<strong>如果当前socket上设置了<a href="https://www.kernel.org/doc/Documentation/networking/filter.txt" target="_blank" rel="external">filter</a>，且该包不满足条件的话，这个数据包也将被丢弃</strong>（在Linux里面，每个socket上都可以像tcpdump里面一样定义<a href="https://www.kernel.org/doc/Documentation/networking/filter.txt" target="_blank" rel="external">filter</a>，不满足条件的数据包将会被丢弃）</p>
+<li><p><strong>sock_queue_rcv_skb：</strong> 主要干了两件事，一是<strong>检查这个socket的receive buffer是不是满了，如果满了的话，丢弃该数据包</strong>，然后就是调用sk_filter看这个包是否是满足条件的包，<strong>如果当前socket上设置了<a href="https://www.kernel.org/doc/Documentation/networking/filter.txt" target="_blank" rel="noopener">filter</a>，且该包不满足条件的话，这个数据包也将被丢弃</strong>（在Linux里面，每个socket上都可以像tcpdump里面一样定义<a href="https://www.kernel.org/doc/Documentation/networking/filter.txt" target="_blank" rel="noopener">filter</a>，不满足条件的数据包将会被丢弃）</p>
 </li>
 <li><p><strong>__skb_queue_tail：</strong> 将数据包放入socket接收队列的末尾</p>
 </li>

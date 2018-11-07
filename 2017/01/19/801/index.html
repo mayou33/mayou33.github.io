@@ -100,7 +100,7 @@
     </p>
     
   </header>
-  <div class="post-content"><p><a href="http://geek.csdn.net/news/detail/96586" target="_blank" rel="external">http://geek.csdn.net/news/detail/96586</a></p>
+  <div class="post-content"><p><a href="http://geek.csdn.net/news/detail/96586" target="_blank" rel="noopener">http://geek.csdn.net/news/detail/96586</a></p>
 <p>##<br>    简介</p>
 <pre><code>最近遇到很多人来咨询我关于浏览器缓存的一些问题，而这些问题都是类似的，因此总结本文来解答以后遇到类似问题的朋友。
 
@@ -364,7 +364,7 @@
 <p>即内容不需要动态（计算、渲染等）速度更快，内容越接近于用户速度越快。像apache traffic server、squid、varnish、nginx等技术都可以来进行内容缓存。还有CDN就是用来加速用户访问的：</p>
 <p><img src="http://img.blog.csdn.net/20160822113505783" alt="图片描述"></p>
 <p>即用户首先访问到全国各地的CDN节点（使用如ATS、Squid实现），如果CDN没命中，会回源到中央nginx集群，该集群如果没有命中缓存（该集群的缓存不是必须的，要根据实际命中情况等决定），最后回源到后端应用集群。</p>
-<p>像我们商品详情页的一些服务就大量使用了nginx缓存减少回源到后端的请求量，从而提升访问速度。可以参考<a href="http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;mid=2652897931&amp;idx=1&amp;sn=36a2e7fc1ea619bf985a1b873447cc33&amp;scene=21#wechat_redirect" target="_blank" rel="external">《构建需求响应式亿级商品详情页》</a>、<a href="http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;mid=401582372&amp;idx=1&amp;sn=f9b7175cf152416ccaa2ac20614c1a23&amp;scene=21#wechat_redirect" target="_blank" rel="external">《京东商品详情页服务闭环实践》</a>和<a href="http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;mid=405099864&amp;idx=1&amp;sn=3508ac8b0e66ebe899086eb20a94f8b9&amp;scene=21#wechat_redirect" target="_blank" rel="external">《应用多级缓存模式支撑海量读服务》</a>。</p>
+<p>像我们商品详情页的一些服务就大量使用了nginx缓存减少回源到后端的请求量，从而提升访问速度。可以参考<a href="http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;mid=2652897931&amp;idx=1&amp;sn=36a2e7fc1ea619bf985a1b873447cc33&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">《构建需求响应式亿级商品详情页》</a>、<a href="http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;mid=401582372&amp;idx=1&amp;sn=f9b7175cf152416ccaa2ac20614c1a23&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">《京东商品详情页服务闭环实践》</a>和<a href="http://mp.weixin.qq.com/s?__biz=MzIwODA4NjMwNA==&amp;mid=405099864&amp;idx=1&amp;sn=3508ac8b0e66ebe899086eb20a94f8b9&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">《应用多级缓存模式支撑海量读服务》</a>。</p>
 </li>
 </ol>
 <p>###<br>    nginx代理层缓存</p>

@@ -100,8 +100,8 @@
     </p>
     
   </header>
-  <div class="post-content"><p> 当我们指定网卡给DPDK使用后，Linux系统就失去了对网卡的管理，由DPDK完全接管。 因此这里所说的设备管理，主要是指对网卡的管理。<br>网卡驱动模型一般包含三层，即，PCI总线设备、网卡设备以及网卡设备的私有数据结构，<br> 即将设备的共性一层层的抽象，PCI总线设备包含网卡设备，网卡设备又包含其私有数据结构。<br>在DPDK中，首先会注册设备驱动，然后查找当前系统有哪些PCI设备，并通过PCI_ID为PCI设备找到对应的驱动，最后调用驱动初始化设备。<br><a href="http://ju.outofmemory.cn/entry/182123" target="_blank" rel="external">http://ju.outofmemory.cn/entry/182123</a></p>
-<p>查询dpdk 支持的网卡<br><a href="http://www.dpdk.org/doc/nics" target="_blank" rel="external">http://www.dpdk.org/doc/nics</a></p>
+  <div class="post-content"><p> 当我们指定网卡给DPDK使用后，Linux系统就失去了对网卡的管理，由DPDK完全接管。 因此这里所说的设备管理，主要是指对网卡的管理。<br>网卡驱动模型一般包含三层，即，PCI总线设备、网卡设备以及网卡设备的私有数据结构，<br> 即将设备的共性一层层的抽象，PCI总线设备包含网卡设备，网卡设备又包含其私有数据结构。<br>在DPDK中，首先会注册设备驱动，然后查找当前系统有哪些PCI设备，并通过PCI_ID为PCI设备找到对应的驱动，最后调用驱动初始化设备。<br><a href="http://ju.outofmemory.cn/entry/182123" target="_blank" rel="noopener">http://ju.outofmemory.cn/entry/182123</a></p>
+<p>查询dpdk 支持的网卡<br><a href="http://www.dpdk.org/doc/nics" target="_blank" rel="noopener">http://www.dpdk.org/doc/nics</a></p>
 <p> 常见的有<br>Broadcom</p>
 <p>bnxt (NetXtreme-C, NetXtreme-E BCM574XX family , StrataGX) </p>
 <p>Intel</p>
@@ -116,7 +116,7 @@
 <p>virtio-net (kvm-qemu)</p>
 <p>vmxnet3 (VMware ESXi)</p>
 <p>xenvirt (Xen)</p>
-<p>具体网卡具体支持哪些功能，<br>在这里查询<br><a href="http://dpdk.org/doc/guides/nics/overview.html" target="_blank" rel="external">http://dpdk.org/doc/guides/nics/overview.html</a></p>
+<p>具体网卡具体支持哪些功能，<br>在这里查询<br><a href="http://dpdk.org/doc/guides/nics/overview.html" target="_blank" rel="noopener">http://dpdk.org/doc/guides/nics/overview.html</a></p>
 <table>
 <thead>
 <tr>

@@ -140,7 +140,7 @@
 </code></pre><ul>
 <li><p><strong>自我驱动</strong>。自己管理自己是最好的管理。最失败的管理就是家长和保姆式的管理。兴趣出发的工作才可能迸发出真正的动力。</p>
 </li>
-<li><p><strong>灵活的工作时间和地点</strong>。工程师们更多的是脑力工作，而不是体力工作，工作上时间和地点的自由安排可以让工程师们的脑力工作更有效。Remote是一个很不错的工作方式，开源社区基本上都是这钟方式。和Remote有关的话题可参看37Signals的这本书《<a href="https://book.douban.com/subject/25861795/" target="_blank" rel="external">Remote</a>》</p>
+<li><p><strong>灵活的工作时间和地点</strong>。工程师们更多的是脑力工作，而不是体力工作，工作上时间和地点的自由安排可以让工程师们的脑力工作更有效。Remote是一个很不错的工作方式，开源社区基本上都是这钟方式。和Remote有关的话题可参看37Signals的这本书《<a href="https://book.douban.com/subject/25861795/" target="_blank" rel="noopener">Remote</a>》</p>
 </li>
 <li><p><strong>信息平等</strong>。这意味着，全体员工得到的是原始信息，而不是被管理者们层层加工消化后的信息，信息的屏蔽很容易造成误解和完全错误的行为。信息的平等，大的包括战略、方向、目标、财务，小的包括文档、代码、和知识的共享等。同样，也表现在意见表达上，任何人都有可能表达自己的意见和建议的平等机会，这样才会激发出更多的思路和思辩，从而有不同的更好的思路出现。而不是，大家都看到了问题，而没有人敢说。在Google除了代码全员共享，还有Thanks God, It&rsquo;s Friday的文化，每周五，高管们会出来，任员工提各种尖锐的问题，在Amazon，代码和文档基本上全员开放，包括财务报表也对员工开放，另外，除了所有的NB的Principle SDE隔三岔五都会有一个Principle Talk（有很多Talk相当令人开脑洞），还有Amazon内部的Up the River文化，每年会选出一批公司最聪明最有想法的人集思会，讨公司下一步的和战略，并可以把相应的KPI直接按给Senior VP。</p>
 </li>
@@ -164,11 +164,11 @@
 </li>
 <li><p><strong>残酷无情的推行自动化</strong>。编写程序的最本质的目的就是自动化，看看人类发展史上自动化了多少东西。<strong>对于自动化来说，不仅仅只是消除人肉的重复劳动，更重要的是，很多事情人完全干不过机器。</strong>比如：加一台机器，程序在秒级就可以完成，而人是永远不可能达到这样的速度的，再比如：电商中用程序管理数量巨大的订单的自动化系统，加再多的人都完成的不可能像机器那样完成的又好又快。自动化需要大力开发提高生产力的工具，比如：持续集成，持续部署，自动化运维，基础自动化运维，甚至自动化的运营工具。（Amazon的软件工程中对自动化和简代相当迷恋）</p>
 </li>
-<li><p><strong>避免无效率的组织架构和无效率的管理</strong>。这体现在这些方面：1）扁平化的组织架构，2）努力用自动化工具取代支持型的工作，3）不超过10个人的全栈小团队，4）不按人员的技能分工而是按其负责的产品或功能分工（关于分工，请参看《<a href="http://coolshell.cn/articles/17295.html" target="_blank" rel="external">让我们来谈谈分工</a>》），5）开会不是解决问题，开会是表决提案，6）通过产品的目标或信条Tenets来减少沟通和决策过程（Amazon里的每个部门，每个团队，每个产品都有自己的Tenets，这个Tenets标明了要什么不要什么，这样可以避免很多扯皮和难缠的trade-off的决择，比如：AWS的几个信条：运维是最高优级的&mdash;&mdash;这意味着只要是会让运维变得复杂的需求都可能会工程团队被拒掉，Throughput &amp; Latency不能更差&mdash;&mdash;这意味着，功能要为性能让路，因为性能变差了，用户就要买更多的资源）</p>
+<li><p><strong>避免无效率的组织架构和无效率的管理</strong>。这体现在这些方面：1）扁平化的组织架构，2）努力用自动化工具取代支持型的工作，3）不超过10个人的全栈小团队，4）不按人员的技能分工而是按其负责的产品或功能分工（关于分工，请参看《<a href="http://coolshell.cn/articles/17295.html" target="_blank" rel="noopener">让我们来谈谈分工</a>》），5）开会不是解决问题，开会是表决提案，6）通过产品的目标或信条Tenets来减少沟通和决策过程（Amazon里的每个部门，每个团队，每个产品都有自己的Tenets，这个Tenets标明了要什么不要什么，这样可以避免很多扯皮和难缠的trade-off的决择，比如：AWS的几个信条：运维是最高优级的&mdash;&mdash;这意味着只要是会让运维变得复杂的需求都可能会工程团队被拒掉，Throughput &amp; Latency不能更差&mdash;&mdash;这意味着，功能要为性能让路，因为性能变差了，用户就要买更多的资源）</p>
 </li>
 <li><p><strong>正确的组件抽象</strong>。抽象是简化的一部份，一方面，抽象意味着重用和通用，另一方面抽象意味着强大的扩展性，以适配各种可能性。最重要的是，抽象意味着技术能力的输出，无论是内部的其它团队还外部的团队。比如：Google的MapReduce/BigTable/ProtoBuffer，FaceBook的Thrift，还有Amazon内部的WebService框架Coral Service、处理日志监控的Timber，以及全线AWS产品都用到的Amazon Lock Framework（一个分布式锁框架）&hellip;&hellip;</p>
 </li>
-<li><p><strong>开发高质量的产品</strong>。因为高质量的代码，不但可以容易的修改和维护，还可以因为少处理线上故障，从而有更多的时间去为未来做更多创造性的工作。这意味着需要有非常严谨的Design Review，Code Review，以及测试，关于Code Review，可以参看这篇文章《<a href="http://coolshell.cn/articles/11432.html" target="_blank" rel="external">从Code Review 谈如何做技术</a>》，关于严谨的测试，可以参看这篇文章《<a href="http://coolshell.cn/articles/17381.html" target="_blank" rel="external">如果做性能测试</a>》</p>
+<li><p><strong>开发高质量的产品</strong>。因为高质量的代码，不但可以容易的修改和维护，还可以因为少处理线上故障，从而有更多的时间去为未来做更多创造性的工作。这意味着需要有非常严谨的Design Review，Code Review，以及测试，关于Code Review，可以参看这篇文章《<a href="http://coolshell.cn/articles/11432.html" target="_blank" rel="noopener">从Code Review 谈如何做技术</a>》，关于严谨的测试，可以参看这篇文章《<a href="http://coolshell.cn/articles/17381.html" target="_blank" rel="noopener">如果做性能测试</a>》</p>
 </li>
 <li><p><strong>不断的提高标准以及招聘最好的人</strong>。取法其上，得乎其中，取法其中，得乎其下，取法其下，法不得也。如果一个公司或一个团队想变得越来越好，越来越强大的话，就必需要不断的提高自己的工作标准，提高工作标准意味着要不断地培养和招聘更好的人。在Amazon和Google的招聘官中都有一个叫Bar Rasier的人，这个人就是为了提高招聘标准而设立的。</p>
 </li>
