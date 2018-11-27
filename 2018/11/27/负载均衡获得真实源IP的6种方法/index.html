@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>负载均衡获得真实源IP的6种方法</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2018/11/27/负载均衡获得真实源IP的6种方法/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">负载均衡获得真实源IP的6种方法</h1>
+    <p class="post-meta">
+      <span class="post-time">2018-11-27</span>
+      
+      <a href="/categories/ops/" title="运维" class="post-categories">运维</a>
+      
+      
+      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="https://mp.weixin.qq.com/s/qi1msOaElMDk8Ugc87KGLg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/qi1msOaElMDk8Ugc87KGLg</a> </p>
+<p>原创： 小慢哥 小慢哥Linux运维</p>
+<hr>
+<h2 id="获得真实IP的6种方法"><a href="#获得真实IP的6种方法" class="headerlink" title="获得真实IP的6种方法"></a>获得真实IP的6种方法</h2><p> 当数据包从负载均衡器往后端转发时候，真实源IP可在L3、L4、L7实现，并且分别有2种方法可以获得真实IP，因此共有6种方法:</p>
+<p> <strong>保持L3层源IP不变，根据连接次数可以分为</strong></p>
+<ul>
+<li><p>一次连接模式，如lvs</p>
+</li>
+<li><p>二次连接模式，如haproxy的透明模式</p>
+</li>
+</ul>
+<p> <strong>在L4层数据里，添加源IP信息，有2种模式</strong></p>
+<ul>
+<li><p>在4层的option字段里增加源IP信息，比如tcp option、udp option</p>
+</li>
+<li><p>在4层末尾和7层开头之间，增加proxy protocol信息</p>
+</li>
+</ul>
+<p> <strong>在L7层数据里，增加源IP信息，有2种模式</strong></p>
+<ul>
+<li><p>协议自带，例如HTTP的X-FORWARD-FOR</p>
+</li>
+<li><p>业务程序自行实现</p>
+</li>
+</ul>
+<h2 id="一次连接与二次连接"><a href="#一次连接与二次连接" class="headerlink" title="一次连接与二次连接"></a>一次连接与二次连接</h2><p> 一次连接：负载均衡器对数据包仅做转发，而不对后端重新发起三次握手</p>
+<p> 二次连接：和一次连接相对应，在tcp转发时候，对后端重新进行了三次握手。上面所讲的L4和L7方法的负载均衡，都是二次连接</p>
+<p> 可以通过对比源端口是否有改变来简单判断是一次连接还是二次连接，端口没改变，可以理解为一次连接，有改变就是二次连接</p>
+<h2 id="方法1-L3的一次连接模式"><a href="#方法1-L3的一次连接模式" class="headerlink" title="方法1: L3的一次连接模式"></a>方法1: L3的一次连接模式</h2><p> 介绍：是指在网络层不对源IP做修改，直接将数据包转发给后端，当后端接收到数据的时候，源IP就是真实IP。</p>
+<p> 实现：LVS-DR、LVS-NAT、LVS-TUNNEL模式。其中LVS-TUNNEL比较特别，是在原有数据包的开头封装了IP头，当后端收到数据的时候，将封装的IP头进行解封装，获得的就是原有数据包。</p>
+<p> 优点：逻辑简单，当负载均衡器故障切换的时候，从客户端到后端的tcp连接不会中断</p>
+<p> 缺点：对网络架构有要求，比如DR模式，要求后端配VIP，并且回包要能直接回到客户机；NAT模式，要求回包经过负载均衡器；TUNNEL模式要求后端支持IPIP隧道</p>
+<h2 id="方法2-L3的二次连接模式"><a href="#方法2-L3的二次连接模式" class="headerlink" title="方法2: L3的二次连接模式"></a>方法2: L3的二次连接模式</h2><p> 介绍：是指负载均衡器和后端重新进行三次握手，但保持数据包的源IP为真实IP。</p>
+<p> 实现：haproxy（开启tproxy透明代理模式）+ iptables（fwmark打标记）+ 策略路由这3者组合才能实现</p>
+<p> 优点：可以实现L7层（如HTTP/HTTPS）的负载均衡，而一次连接主要实现L4层的负载均衡</p>
+<p> 缺点：配置最复杂，同时要求回包经过负载均衡器</p>
+<h2 id="方法3-L4的toa模式"><a href="#方法3-L4的toa模式" class="headerlink" title="方法3: L4的toa模式"></a>方法3: L4的toa模式</h2><p> 介绍：在4层的option字段里增加源IP信息，比如在tcp option里增加源IP信息（称为toa）、udp option里增加源IP信息（称为uoa）</p>
+<p> 实现：负载均衡器配置lvs-fullnat（只支持toa），iqiyi/dpvs（支持toa和uoa）；后端要加载toa、uoa模块，这个模块的作用是替换了后端应用程序获取IP的系统接口的钩子</p>
+<p> 优点：对网络架构要求低</p>
+<p> 缺点：lvs-fullnat需要编译内核，且只支持rhel/centos 6的内核，另外多年未更新；iqiyi/dpvs功能强大，但需要dpdk的支持；后端都需要加载toa/uoa模块，且只支持linux系统。</p>
+<h2 id="方法4-L4的proxy-protocol模式"><a href="#方法4-L4的proxy-protocol模式" class="headerlink" title="方法4: L4的proxy protocol模式"></a>方法4: L4的proxy protocol模式</h2><p> 介绍：在L7层开头增加proxy protocol数据（该协议是haproxy发明），目前有v1（明文）和v2（二进制）版本</p>
+<p> 实现：负载均衡器和后端同时开启proxy protocol，haproxy和nginx均支持，不过haproxy的配置颗粒度更小，另外nginx转发数据时候只支持v1</p>
+<p> 优点：对网络架构要求低，只要程序支持即可，因此理论上没有操作系统限制</p>
+<p> 缺点：目前支持proxy protocol的程序较少，且两端只能都开启或者都不开启该协议，不能一端开一端不开</p>
+<h2 id="方法5-L7协议自带，例如HTTP的X-FORWARD-FOR"><a href="#方法5-L7协议自带，例如HTTP的X-FORWARD-FOR" class="headerlink" title="方法5: L7协议自带，例如HTTP的X-FORWARD-FOR"></a>方法5: L7协议自带，例如HTTP的X-FORWARD-FOR</h2><p> 介绍：最常见的方法，协议自带源IP信息，或者可定制插入</p>
+<p> 实现：例如HTTP协议有X-FORWARD-FOR，也可以自己将源IP插入到HTTP头部信息里</p>
+<p> 优点：对网络架构要求低，配置简便</p>
+<p> 缺点：容易被伪造</p>
+<h2 id="方法6-L7层业务程序自行实现"><a href="#方法6-L7层业务程序自行实现" class="headerlink" title="方法6: L7层业务程序自行实现"></a>方法6: L7层业务程序自行实现</h2><p> 介绍：最好的方法，就是业务方自行实现</p>
+<p> 实现：业务自行实现，例如在client端插入源IP信息，带到server端</p>
+<p> 优点：对网络架构无要求，只要网络可通即可，只要安全做好，不容易被伪造</p>
+<p> 缺点：业务方要有一定开发能力</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p> 如果能做到无状态，不需要真实源IP，是最好的。因为这样对底层架构没有要求，底层架构就可以做的更高级更弹性。</p>
+<p> 如果一定要获得真实源IP，推荐方案的顺序就是倒推，从L7到L3，即首选方法6，如果不行再选用方法5，以此类推到方法1</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#获得真实IP的6种方法"><span class="toc-text">获得真实IP的6种方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一次连接与二次连接"><span class="toc-text">一次连接与二次连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法1-L3的一次连接模式"><span class="toc-text">方法1: L3的一次连接模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法2-L3的二次连接模式"><span class="toc-text">方法2: L3的二次连接模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法3-L4的toa模式"><span class="toc-text">方法3: L4的toa模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法4-L4的proxy-protocol模式"><span class="toc-text">方法4: L4的proxy protocol模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法5-L7协议自带，例如HTTP的X-FORWARD-FOR"><span class="toc-text">方法5: L7协议自带，例如HTTP的X-FORWARD-FOR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法6-L7层业务程序自行实现"><span class="toc-text">方法6: L7层业务程序自行实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
