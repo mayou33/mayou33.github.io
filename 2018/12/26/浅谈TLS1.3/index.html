@@ -103,7 +103,7 @@
   <div class="post-content"><p> 小米运维<br><a href="https://mp.weixin.qq.com/s/uNKrLV4taafS0AluSBUznw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/uNKrLV4taafS0AluSBUznw</a> </p>
 <p>  <strong>TLS简介</strong></p>
 <p> 按照维基百科的定义，TLS 是一种用于为计算机网络通信提供安全性的密码协议，其前身安全套接层（SSL）想必很多人都听说过。TLS 被广泛应用于基于 IP 的网络协议，如 HTTP、SMTP、FTP 等。最近几年内，Let’s Encrypt 提供的免费证书服务、浏览器只对 HTTPS 站点启用 HTTP/2 和把未使用 HTTPS 而要求输入密码的网站标记为不安全等因素强力推动了 HTTPS 的部署，国际上 HTTPS 的部署率现已超过 50%。在各种因素的推动下，国内站点和应用也在大力推广 TLS 等密码协议的使用。</p>
-<p> <img src="https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycY1hhnHltT8Z0lw235avib3baOZZicUvfhoZoXFFY2uYL6NVJwUzPcHNjw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycY1hhnHltT8Z0lw235avib3baOZZicUvfhoZoXFFY2uYL6NVJwUzPcHNjw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
 <p> Figure 1: 数据来自谷歌 Transparency Report，2018年9月14日获取</p>
 <p> <strong> TLS 1.3的优势</strong></p>
 <p> <strong>安全保护</strong></p>
@@ -111,8 +111,8 @@
 <p> TLS 1.3 之前，整个握手环节都是没有加密保护的，这泄漏了很多信息，包括客户端和服务器的身份。TLS 1.3 对握手的绝大部分信息进行了加密，这保护了用户隐私，也在一定程度上防止了协议僵化问题。</p>
 <p> <strong>性能提升</strong></p>
 <p> 虽然电脑越变越快，但在互联网上传输数据耗费的时间依然受限于光速，所以两个节点间来回传输一次的时间（RTT）成为了限制协议性能的因素之一。TLS 1.3 只需要一个 RTT 就能完成握手，相比 TLS 1.2 省去了一个 RTT。并且 TLS 1.3 支持 “0-RTT” 模式，在该模式下客户端可以在握手的同时发送数据，极大地加快了页面的加载速度。TLS 1.3 还增加了 ChaCha20/Poly1305 支持，在不支持 AES 硬件指令的老设备上能提升加、解密性能。</p>
-<p> <img src="https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycYjx1icDTU5eT9xhB8KvUK0GjibmHoFqyLvfGZfsearE7H5OtC94wV1CXQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
-<p> <img src="https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycYE5oLTsPBS1fefianWRPAatYaBDgY8088AO9XyHiamwtvVsQSS6KYlECA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycYjx1icDTU5eT9xhB8KvUK0GjibmHoFqyLvfGZfsearE7H5OtC94wV1CXQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycYE5oLTsPBS1fefianWRPAatYaBDgY8088AO9XyHiamwtvVsQSS6KYlECA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
 <p> <strong> TLS 1.3的部署</strong></p>
 <p> Tengine 2.2.2 / nginx 1.13.0 提供了 TLS 1.3 支持，和 OpenSSL 1.1.1 配合即可将网站升级到 TLS 1.3。在配置文件里将 TLSv1.3 加到 ssl_protocols 中就可以启用 TLS 1.3 支持了。Qualys 的 SSL 服务器测试[1]是很方便的 TLS 配置测试工具，可以很方便地检测公网站点的 TLS 配置及其安全性。</p>
 <p> <strong>协议僵化问题</strong></p>
