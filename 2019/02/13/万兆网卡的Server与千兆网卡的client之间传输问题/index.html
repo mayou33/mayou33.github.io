@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>万兆网卡的Server与千兆网卡的client之间传输问题</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2019/02/13/万兆网卡的Server与千兆网卡的client之间传输问题/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">万兆网卡的Server与千兆网卡的client之间传输问题</h1>
+    <p class="post-meta">
+      <span class="post-time">2019-02-13</span>
+      
+      <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
+      
+      
+      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p><a href="http://linux.vbird.org/faq.php#20190211" target="_blank" rel="noopener">http://linux.vbird.org/faq.php#20190211</a></p>
+<p>情况：</p>
+<p> 就是10G –&gt; 1GB 的方向，网路频宽使用非常糟糕～一下子到500Mbps， 一下自降到10Mbps 的情况，导致效能非常恶劣<br>～但是1GB –&gt; 10G 就没有这个问题～同时， 10G –&gt; 10G 也同样没问题</p>
+<p>分析：</p>
+<p>1GB –&gt; 10G 的方向，因为 10G 原本就能够覆载 1G 以上的速度，所以当然没问题！<br> 那如果 10G –&gt; 1GB 时，如果没有特别的控制，那么 GB 的网卡当然会抵挡不住 10G 来的大量封包！</p>
+<p>参考这两篇相当有趣的分析文章：</p>
+<p>10G 网卡错误假设，与最佳设置方式：AIXpert Blog<br><a href="https://www.ibm.com/developerworks/community/blogs/aixpert/entry/10gbit_ethernet_bad_assumption_and_best_practice_part_137?lang=en" target="_blank" rel="noopener">https://www.ibm.com/developerworks/community/blogs/aixpert/entry/10gbit_ethernet_bad_assumption_and_best_practice_part_137?lang=en</a></p>
+<p>NETApp vs VMWare Flow control dilemma：Ranjit Singh<br><a href="http://rjapproves.com/netapp-vs-vmware-flow-control-dilemma/" target="_blank" rel="noopener">http://rjapproves.com/netapp-vs-vmware-flow-control-dilemma/</a></p>
+<p>结论：</p>
+<p>这两篇的大意是说，10G switch 上面可能会安插不同速度的网卡，例如我们的环境中，10G 网卡与1G 网卡都安插在10G switch 上面， 虽然透过自动协商机制，10G 自己跑10G， 1G 自己跑1G，速度倒是正常没问题～但是，当1G 与10G 进行交流时， 如果switch 没有设定流量控制(flow control) 时，那么慢速的网卡可能会出现来不及接收高速网卡的情况～</p>
+<p>因此上头第一篇建议， 全部的10G switch port 都启动flow control。不过，在鸟哥的测试中，没有flow control 确实速度会高出这么一点点(10G 效能可达到9.7Gbps 左右， 加上flow control 则大约到9.5Gbps 左右)，但是，在考虑到不同设备间的资料传输，</p>
+<p>一般 switch，预设的情况就是关闭 flow control 的</p>
+<p>鸟哥个人确实建议将所有的switch 的flow control 通通启用比较好！至少让你的速度不会差太多！</p>
+<p>解决：</p>
+<p> 直接改 switch 的 port settings ，将 flow control 勾选，解决！</p>
+<p>涉及到不同速度的连结 (10G and 1G)，所以建议所有的装置 (交换机 and 网卡) 都要启用 flow control 才好！</p>
+<p>10G switch 与 10G NIC 的 flow control 一定要启用！<br>    增加 10G 网卡的(queue)队列个数到硬体最大支援个数<br>    如果有固定的用户端 IP 环境，将 queue 的机制改成 multiq ，并且加上分流 (filter) 处置！</p>
+<p>查看结果</p>
+<p>命令：ethtool em4</p>
+<p>如果是 Intel 的 10G 卡，只会出现『Advertised pause frame use: Symmetric』， 如果出现的是『Advertised pause frame use: No』，则代表网卡与 switch 之间不支持 flow control 喔！</p>
+<p>而如果是 Broadcom 的网卡， 基本上则是出现『Link partner advertised pause frame use: Symmetric』，如果出现的是『Link partner advertised pause frame use: No』， 也是代表不支持的意思！</p>
+<p>一般来说，如果你没有调整过 Linux NIC 的设定，预设的网卡 flow control 是启动的！因此，如果透过上述指令查看到结果为 No 时， 那就代表 10G switch 没有启动 flow control 啰！</p>
+<p>#####################<br><a href="http://linux.vbird.org/linux_enterprise/switch_10g_tune.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_enterprise/switch_10g_tune.php</a></p>
+<p>#####################<br>iperf3 使用</p>
+<p>透过scp 虽然可以直接使用到网路的频宽，不过，如果大量传输资料时，例如10G 的流量情况底下，被读取​​的档案速度可能会卡住在磁盘I/O 上面， 所以，透过scp来直接评判网路状态，似乎是怪怪的。那怎办？没关系，我们可以透过 iperf3 这个软件来处理即可！这个软件可以简单的在网路两端启动， 一边启动 server 模式，一边启动 client 模式来存取资料，就能够自动的判断网路频宽了！你 </p>
+<pre><code>https://iperf.fr/iperf-download.php
+</code></pre></div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
