@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>学习Kubernetes和容器技术体系的最佳方法</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2019/02/14/学习Kubernetes 和容器技术体系的最佳方法/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">学习Kubernetes和容器技术体系的最佳方法</h1>
+    <p class="post-meta">
+      <span class="post-time">2019-02-14</span>
+      
+      <a href="/categories/kubernetes/" title="kubernetes" class="post-categories">kubernetes</a>
+      
+      
+      <a href="/tags/kubernetes/"" title="kubernetes" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>kubernetes</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>学习Kubernetes和容器技术体系的最佳方法</p>
+<p><a href="https://www.infoq.cn/article/3yijOyajjpq-Fg809NIj" target="_blank" rel="noopener">https://www.infoq.cn/article/3yijOyajjpq-Fg809NIj</a>)</p>
+<blockquote>
+<p>你好，我是 Kubernetes 社区资深成员与项目维护者张磊，也是极客时间 《深入剖析 Kubernetes 》的专栏作者。今天我来与你谈一谈，学习 Kubernetes 和容器技术体系的最佳方法，到底是什么。</p>
+<p>我认为，学习一门综合性的技术，不应该着急一头扎进去看源码。理清楚自己的定位，才是最重要的。</p>
+<h2 id="定位一：纯粹的开发人员"><a href="#定位一：纯粹的开发人员" class="headerlink" title="定位一：纯粹的开发人员"></a>定位一：纯粹的开发人员</h2><p>如果你是一位纯粹的开发人员，无论是前端、后端，还是应用、游戏的开发，你首先应该明白这样两个道理：</p>
+<ul>
+<li>Kubernetes 和容器技术主要解决的，是代码编写完成后的事情。这不单单是发布或者 CI/CD，而是指从你执行完 git commit &amp;&amp; git push 之后开始，都应该进入容器化的管理流程当中，当然包括后续的发布、运维、升级、回滚等所有阶段。</li>
+<li>Kubernetes 体系的核心，是为开发者提供编写代码过程中的“微服务编程范式”。</li>
+</ul>
+<p>比如，在你编写代码的时候，你应该清楚地知道：我该如何划分模块，就能更方便地利用到 Kubernetes 的 Pod 模型，来构建更加低耦合、高内聚的代码制品，让我后面的升级和重构工作更加容易。</p>
+<p><a href="https://time.geekbang.org/column/article/40092" target="_blank" rel="noopener">拓展阅读「为什么我们需要 pod？」</a></p>
+<p>再比如，当你的代码需要与一个外部资源进行交互的时候，你应该首先想到：我的这个外部资源，是不是可以作为一个 Kubernetes 的 CRD 放到 Etcd 里面。这样，我编写的代码，就可以遵循一个自定义 Controller 或者 Operator 的编程范式，通过声明式 API 的方式来执行业务逻辑。这样写出来的代码一定会更加简单、健壮、容易维护。</p>
+<p>这样的例子其实非常多。<strong>作为开发人员，你最应该关注的，是 Kubernetes API 对象的细节、容器设计模式以及 Kubernetes API 编程范式。</strong><br><img src="https://static001.infoq.cn/resource/image/6d/e5/6df92fe2c06b8ccb27f57934aff244e5.png" alt=""><br>（Kubernetes 里的所有 API 对象）</p>
+<p>你应该习惯于把你的服务想象成一个个容器，把整个应用想象成一个 Pod，学会把基于容器和 Kubernetes 的设计思想和架构方式，融入到自己平常的工程实践当中。你应该大量实践这些思想和设计模式，编写各种各样的 CRD 和 Controller，并想办法提高这些自己编写的自定义 Controller 项目的性能和服务能力。你应该尝试扮演公司或者组织中推广微服务和云原生体系倡导者，并热心地帮助团队成员共同学习 Kubernetes 的设计思想和 API，全力帮助 Istio 或者 Knative 这样的 Service Mesh 和 PaaS 平台在组织中落地。</p>
+<p>这些，都是增强你在即将到来的云计算时代竞争力的有效手段。</p>
+<p>当然，如果你对 Kubernetes API 以及编程范式还不熟悉，甚至对 Kubernetes API 的普适性还有所怀疑，那么你可以阅读一下《深入剖析 Kubernetes》的最后一篇文章<a href="https://time.geekbang.org/column/article/74278" target="_blank" rel="noopener">「Kubernetes：赢开发者赢天下」</a>。相信 Kubernetes API 成为云上编程标准的故事，一定会对你有所启迪。</p>
+<h2 id="定位二：专注于服务器端的编程人员-运维工程师"><a href="#定位二：专注于服务器端的编程人员-运维工程师" class="headerlink" title="定位二：专注于服务器端的编程人员 / 运维工程师"></a>定位二：专注于服务器端的编程人员 / 运维工程师</h2><p>而如果<strong>你是一位专注于服务器端的编程人员，或者运维工程师</strong>，那么你更应该关注的是 Kubernetes 这个项目背后的实现原理，它所体现出来的 Borg 和 Omega 项目多年来大规模集群管理的经验教训。</p>
+<p>比如，声明式 API 的设计与实现原理，Informer、Controller 这些机制的实现方式，为什么说 Etcd 最适合的场景是配置管理，集中式集群调度器的核心机制与常用策略都有哪些。</p>
+<p>此外，Kubernetes 项目的各个可扩展性接口，也是你需要重点关注和理解的对象，比如 CNI 和网络插件的工作方式、CSI 和存储插件的设计、Kubernetes Volume 管理的完整流程，以及 CRI 的设计和各种 container runtime 的异同。</p>
+<p>从这个角度来说，Kubernetes 项目就是当前云计算平台层开源项目的事实标准，熟悉它的思想、架构、实现细节甚至核心组件的源码，不仅是学习这项技术的必经之路，也是传统后端技术人员向云端转型的最佳途径。<br><img src="https://static001.infoq.cn/resource/image/7c/2a/7c43e584fb71bbcb48f47a0bb318cd2a.png" alt=""><br>（Kubernetes 通过存储插件管理容器持久化存储的原理）</p>
+<p>你应该尝试扮演公司和组织中进行云原生和基础架构转型的关键角色，而不是充当传统和守旧那一方。你应该尝试用容器和 Kubernetes 化的思想来影响周边的每一位工程师。<strong>要记住，这个进程每前进一步，你的价值就放大一分。</strong></p>
+<p><a href="https://time.geekbang.org/column/article/44245" target="_blank" rel="noopener">拓展阅读「编写自己的存储插件」</a></p>
+<h2 id="定位三：学生、刚刚入行的初学者"><a href="#定位三：学生、刚刚入行的初学者" class="headerlink" title="定位三：学生、刚刚入行的初学者"></a>定位三：学生、刚刚入行的初学者</h2><p>而<strong>作为学生、刚刚入行的初学者</strong>，或者是对这个领域充满兴趣准备在这里作为一番的后端从业人员，我希望你对容器和 Kubernetes 技术体系的学习和实践，更要关注这个项目和平台背后更深层的基础和底盘部分，这包括：</p>
+<p>1. 了解操作系统和硬件的实际工作方式，尤其是 CPU、存储和网络。</p>
+<p>2. 充分理解操作系统的设计，甚至可以根据需要重新实现或者绕过某些部分，这是你后面进行系统性能优化的关键所在。</p>
+<p>3. 理解“所有系统都是分布式系统”的道理。了解经典的分布式系统设计的思想，并从实际的工程实践中理解这些解决思路，这也是 Kubernetes 这个分布式项目构建的基础。</p>
+<p>只有清楚了自己的定位，你才能够在 Kubernetes 这样一个大而全的技术体系面前做到“有所放矢，有的放矢”，才能够把容器和 Kubernetes 这项技术发展浪潮，与自己的技术路线和个人成长历程，真正地关联起来。<br><img src="https://static001.infoq.cn/resource/image/e7/6c/e7a7ad7a95e77d36014d63824a4aa76c.png" alt=""><br>（Kubernetes 项目核心功能的“全景图”）</p>
+<p>一旦明确了定位，抓到了这其中的精髓和主线，那么接下来的学习过程对于你来说，其实就是“无招胜有招”，可以随心所欲地按照你实际的项目、所关心的领域逐步展开，而完全不必拘泥于某种特定的套路了。</p>
+<p><a href="https://time.geekbang.org/column/article/23132" target="_blank" rel="noopener">拓展阅读：「从容器到容器云：谈谈 Kubernetes 的本质」</a></p>
+</blockquote>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定位一：纯粹的开发人员"><span class="toc-text">定位一：纯粹的开发人员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位二：专注于服务器端的编程人员-运维工程师"><span class="toc-text">定位二：专注于服务器端的编程人员 / 运维工程师</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位三：学生、刚刚入行的初学者"><span class="toc-text">定位三：学生、刚刚入行的初学者</span></a></li></ol>
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
