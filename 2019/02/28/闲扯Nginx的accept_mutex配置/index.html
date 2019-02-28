@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>闲扯Nginx的accept_mutex配置</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2019/02/28/闲扯Nginx的accept_mutex配置/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">闲扯Nginx的accept_mutex配置</h1>
+    <p class="post-meta">
+      <span class="post-time">2019-02-28</span>
+      
+      <a href="/categories/nginx/" title="nginx" class="post-categories">nginx</a>
+      
+      
+      <a href="/tags/nginx/"" title="nginx" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>nginx</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p> 闲扯Nginx的accept_mutex配置</p>
+<p><a href="https://huoding.com/2013/08/24/281" target="_blank" rel="noopener">https://huoding.com/2013/08/24/281</a></p>
+<blockquote>
+<p>让我们看看accept_mutex的意义：当一个新连接到达时，如果激活了accept_mutex，那么多个Worker将以串行方式来处理，其中有一个Worker会被唤醒，其他的Worker继续保持休眠状态；如果没有激活accept_mutex，那么所有的Worker都会被唤醒，不过只有一个Worker能获取新连接，其它的Worker会重新进入休眠状态，这就是「<a href="http://en.wikipedia.org/wiki/Thundering_herd_problem" target="_blank" rel="noopener">惊群问题</a>」。</p>
+<p>Nginx缺省激活了accept_mutex，也就是说不会有惊群问题，但真的有那么严重么？实际上Nginx作者Igor Sysoev曾经给过相关的<a href="http://forum.nginx.org/read.php?2,1641,1686#msg-1686" target="_blank" rel="noopener">解释</a>：</p>
+<blockquote>
+<p>OS may wake all processes waiting on accept() and select(), this is called thundering herd problem. This is a problem if you have a lot of workers as in Apache (hundreds and more), but this insensible if you have just several workers as nginx usually has. Therefore turning accept_mutex off is as scheduling incoming connection by OS via select/kqueue/epoll/etc (but not accept()).</p>
+</blockquote>
+<p>简单点说：Apache动辄就会启动成百上千的进程，如果发生惊群问题的话，影响相对较大；但是对Nginx而言，一般来说，<a href="http://wiki.nginx.org/CoreModule#worker_processes" target="_blank" rel="noopener">worker_processes</a>会设置成CPU个数，所以最多也就几十个，即便发生惊群问题的话，影响相对也较小。</p>
+<p>…</p>
+<p>假设你养了一百只小鸡，现在你有一粒粮食，那么有两种喂食方法：</p>
+<ul>
+<li>你把这粒粮食直接扔到小鸡中间，一百只小鸡一起上来抢，最终只有一只小鸡能得手，其它九十九只小鸡只能铩羽而归。这就相当于关闭了accept_mutex。</li>
+<li>你主动抓一只小鸡过来，把这粒粮食塞到它嘴里，其它九十九只小鸡对此浑然不知，该睡觉睡觉。这就相当于激活了accept_mutex。</li>
+</ul>
+<p>可以看到此场景下，激活accept_mutex相对更好一些，让我们修改一下问题的场景，我不再只有一粒粮食，而是一盆粮食，怎么办？</p>
+<p>此时如果仍然采用主动抓小鸡过来塞粮食的做法就太低效了，一盆粮食不知何年何月才能喂完，大家可以设想一下几十只小鸡排队等着喂食时那种翘首以盼的情景。此时更好的方法是把这盆粮食直接撒到小鸡中间，让它们自己去抢，虽然这可能会造成一定程度的混乱，但是整体的效率无疑大大增强了。</p>
+<p>Nginx缺省激活了accept_mutex（最新版缺省禁用），是一种保守的选择。如果关闭了它，可能会引起一定程度的惊群问题，表现为上下文切换增多（sar -w）或者负载上升，但是如果你的网站访问量比较大，为了系统的吞吐量，我还是建议大家关闭它。</p>
+</blockquote>
+<p>最新 nginx-1.11.4开始默认关闭了accept_mutex。</p>
+<p>从tengine2.2开始accept_mutex 参数由默认的 on 改为了 off ，为什么要改呢。与时俱进。</p>
+<p>当初这个参数是为了避免在 epoll_wait 所出现惊群效应。可以参考（<a href="https://www.jianshu.com/p/21c3e5b99f4a）。" target="_blank" rel="noopener">https://www.jianshu.com/p/21c3e5b99f4a）。</a></p>
+<p>新版内核已经有了处理这个方法，不再需要 nginx 单独配置。</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
