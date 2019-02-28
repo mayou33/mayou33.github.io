@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>SRE工程师到底是做什么的？</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2019/02/28/SRE工程师到底是做什么的/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">SRE工程师到底是做什么的？</h1>
+    <p class="post-meta">
+      <span class="post-time">2019-02-28</span>
+      
+      <a href="/categories/devops/" title="devops" class="post-categories">devops</a>
+      
+      
+      <a href="/tags/devops/"" title="devops" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>devops</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>SRE工程师到底是做什么的？ </p>
+<p><a href="https://mp.weixin.qq.com/s/j5Sgrsm90B94jMwn1mA1Gg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/j5Sgrsm90B94jMwn1mA1Gg</a></p>
+<blockquote>
+<p>作者 | Erik Dietrich  </p>
+<p>译者 | 无明</p>
+<p>你是否也对站点可靠性工程师（SRE）这个角色存在很多疑问？本文介绍了 SRE 工程师的职责。</p>
+<p>尽管站点可靠性工程已经存在了一段时间，但也只是最近才在业界获得一些名声。但人们对于站点可靠性工程师（SRE）的作用仍然存在很多疑问。我们所知道的大部分内容来自谷歌的《站点可靠性工程》一书。我们将在这篇文章中多次提到这本书。</p>
+<p>人们将 SRE 与运营、系统管理员等进行比较，但这种比较不足以说明他们在现代软件环境中所发挥的作用。他们承担的责任多于运营。他们通常具有系统管理背景，同时也具备软件开发技能。SRE 结合了所有这些技能，确保复杂的分布式系统能够顺利运行。</p>
+<p>那么他们是怎么做到这一切呢？</p>
+<p>自动化一切</p>
+<p>自动化是 SRE 角色与传统运营团队之间的一个区别。在过去，运营人员会通过执行脚本、按下按钮和其他手动操作来让软件系统保持运行。然而，在 SRE 世界中，人们非常重视自动化。这种驱动力来自 SRE 角色的工程方面。</p>
+<p>当软件开发人员处于日复一日重复相同功能的境地时，他们将被迫实现自动化。这就是软件开发人员最擅长的事情。自动化并不仅限于对软件构建和一些验收测试进行自动化，还包括 CI/CD 和基础设施的创建和修补，以及监控、警报和自动响应某些事件。在谷歌的《站点可靠性工程》一书中，这也被称为消除辛劳：</p>
+<p>辛劳是一种与运行生产服务相关的工作，它往往是手动的、重复的、可自动化的、战术性的，缺乏持久的价值，并随着服务的增长呈线性增长。</p>
+<p>那么为什么我们要如此关注如何减少辛劳呢？减少工作量不仅使流程可重复和自动化，而且还为 SRE 提供了更多的时间用于构建工具和研究基础设施变更以便进一步提高站点可靠性。总之，工作量越少，用于确保软件生态系统可靠运行的时间和资源就越多，你就能越快地实现业务价值。</p>
+<p>监控分布式系统</p>
+<p>随着分布式系统的普及，对监控的需求也在增长。仅仅启动和运行应用程序是不够的。我们还需要确保基础设施运行正常，并确保所有其他内部依赖项都可访问且运行正常。此外，应用程序的业务功能应该提供适当的监控功能，以验证它们是否运行正常。</p>
+<p>提供待命支持</p>
+<p>与传统的运营角色类似，SRE 也有轮班待命的职责。除了监控基础设施和他们自己的服务之外，开发团队还可以向他们咨询和请他们一起进行故障排除。</p>
+<p>轮班待命看起来是怎样的？通常，SRE 根据计划表进行轮班待命，计划表可以让其他 SRE 专注于工程方面，而且不会导致轮班待命工程师感到倦怠。轮换待命可以从几天到一周不等，或者更长时间。</p>
+<p>在发生高优先级的事件时，SRE 需要调查和诊断问题。他们还可能会要求其他工程师或软件开发人员一起来解决问题。根据系统的 SLA，他们可能需要一起工作才能在几分钟内解决问题。对于低优先级问题，SRE 通常会在工作时间内处理它们。对于那些不喜欢在凌晨 3 点钟起床的工程师来说，这是一个好消息。</p>
+<p>管理事件</p>
+<p>管理事件时 SRE 角色的另一个重要部分。你可能会说这与轮班待命没有什么两样。找到问题然后解决它，这能有多难？</p>
+<p>好吧，在管理事件时，SRE 需要运用额外的专业技能来确保一切顺利。例如，在发生中断时，可能有很多方法来诊断和解决问题。因此，为了妥善管理事件，必须有人监督和促进所有相关人员的行为。这就需要定义明确的角色。</p>
+<p>虽然并非所有公司都包含谷歌推荐的角色，但我们至少应该考虑它们。这些角色包括：</p>
+<ul>
+<li><p>一名事件指挥官，对所发生的一切都保持高度关注；</p>
+</li>
+<li><p>处理或修改基础设施或系统的工程师；</p>
+</li>
+<li><p>将正确的信息传递给客户和管理层的沟通者角色；</p>
+</li>
+<li><p>负责规划会议、交接和后勤需求的规划者角色；</p>
+</li>
+<li><p>如果 SRE 没有明确定义的角色，那么当他们在尝试不同的解决方案时，如果没有前期协调和沟通，就容易发生混乱。</p>
+</li>
+</ul>
+<p>事后调查</p>
+<p>我们已经经历并解决了一个事件，现在准备好进行事后调查。通常，SRE 会促进或参与这些事后调查。</p>
+<p>在进行事后调查时，所有相关方都被汇聚在一起，目标是分析事故期间都发生了什么，并找出根本原因。参与者还将决定将来如何防止或修复同样的事件。下面列出了事后调查将产出的内容：</p>
+<ul>
+<li><p>提高可靠性的故事或监控；</p>
+</li>
+<li><p>附加文档，以协助未来事件的处理；</p>
+</li>
+<li><p>进一步调查或测试，以证实与事件有关的任何假设。</p>
+</li>
+</ul>
+<p>跟踪中断</p>
+<p>SRE 的另一个职责是跟踪中断。这最终有助于识别长期趋势和创建合理的 SLO 和 SLA。</p>
+<p>跟踪中断的用途包括监控低优先级事件。这些事件可能不会给消费者带来真正的问题，但是观察长期趋势和时间可以帮助隔离和解决那些似乎找不到原因的烦人 bug。</p>
+<p>与开发团队合作</p>
+<p>除了在轮班待命期间为开发团队提供支持，SRE 还提供咨询和故障排除服务。这样可以帮助其他 SRE 团队和软件开发团队，这些团队苦于处理运营或可靠性问题。</p>
+<p>在这种情况下，SRE 将评估当前问题，并确定哪些可以通过自动化或工程工作进行改进。SRE 还可为可靠性问题提出解决方案。最重要的是，SRE 将推动团队流程的变革。这些变化将确保站点可靠性工程团队能够增强团队交付价值的能力。</p>
+<p>创建服务水平指标和目标</p>
+<p>当你听到有人说服务已经达到或正在努力达到 99.99％的正常运行时间时，他们指的是服务水平目标（SLO）。服务水平指标（SLI）用于衡量这些目标。换句话说，SLI 是关于如何衡量 SLO 的协议。SRE 通过提供历史服务性能数据来协助这些工作。它们还有助于为未来提供切合实际的目标，并可能为客户提供适当的 SLA 建议。</p>
+<p>然后，SRE 会确保你的应用程序满足（但不超过）规定的 SLO。现在你可能会认为没有超过 SLO 会很奇怪。然而，制造超出实际需要的东西是对资源的浪费。SRE 平衡了客户需求和所提供服务的目标。</p>
+<p>职责可能会有所不同</p>
+<p>在这篇文章中，我们讨论了站点可靠性工程师参与的各种活动。虽然这些活动是由 SRE 完成的，但并不是一成不变的。公司会根据需要改变 SRE 的角色和职责。一般而言，处于 SRE 过程不同阶段的公司可能有不同的需求。</p>
+<p>例如，新公司可能需要 SRE 的支持才能控制一般性中断。大部分能量都趋向于可靠性的基本水平。但是，在这一过程中走得更远的其他公司可能已经消除了公司范围的中断。他们可能会花更多时间来改进或验证与业务相关的服务指标。例如，在网站的普遍可用性达到稳定和可靠的状态之后，你的披萨店应用程序可能需要对披萨推荐机制进行新的监控。</p>
+<p>   结论   </p>
+<p>正如你所读到的，SRE 将时间花在技术和流程方面的职责上。他们不仅仅是运营或系统管理团队。他们利用自己的工程技能自动化和减少管理任务所需的人工干预。此外，他们还与其他工程团队合作，提供适当的监控、事件响应和管理。</p>
+<p>随着时间的推移，这些职能提高了分布式系统的可靠性并降低维护成本。最后，他们通过组织传播站点可靠性工程文化，让所有团队都能学会在做出决策时以可靠性作为出发点。</p>
+<p>英文原文：<a href="https://www.scalyr.com/blog/site-reliability-engineer/" target="_blank" rel="noopener">https://www.scalyr.com/blog/site-reliability-engineer/</a></p>
+</blockquote>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
