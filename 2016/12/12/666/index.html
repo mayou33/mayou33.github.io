@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,9 +95,9 @@
       <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
       
       
-      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      <a href="/tags/内核/" " title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
       
-      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      <a href="/tags/内存/" " title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
       
     </p>
     
@@ -105,7 +105,7 @@
   <div class="post-content"><p>接下来，我们看看<span style="-ms-word-wrap: break-word;">linux</span>首次进入的保护模式的内存映射方式，然后再看一下<span style="-ms-word-wrap: break-word;">linux</span>是如何实现保护模式的进入，进入前做了什么准备和设置。</p>
 <pre><code>&amp;nbsp; &amp;nbsp;&amp;nbsp;还是借用&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Intel&lt;/span&gt;文档中的图来说明这个保护模式的保护功能：
 </code></pre><blockquote>
-<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692811Fxws.jpg" alt=""></span></p>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692811Fxws.jpg" alt></span></p>
 </blockquote>
 <pre><code>&amp;nbsp;
 
@@ -113,7 +113,7 @@
 
 &amp;nbsp; &amp;nbsp;&amp;nbsp;那么此保护模式是如何做地址映射的呢？再借用&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Intel&lt;/span&gt;文档的图片来说明：
 </code></pre><blockquote>
-<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_140769282266xe.jpg" alt=""></span></p>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_140769282266xe.jpg" alt></span></p>
 </blockquote>
 <pre><code>&amp;nbsp;
 
@@ -148,25 +148,25 @@
 </blockquote>
 <pre><code>&amp;nbsp; &amp;nbsp;&amp;nbsp;这就是段描述符表项的内容。我们对比一下段描述符的格式：
 </code></pre><blockquote>
-<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692861FJ8H.jpg" alt=""></span></p>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692861FJ8H.jpg" alt></span></p>
 </blockquote>
 <pre><code>&amp;nbsp;
 
 &amp;nbsp; &amp;nbsp;&amp;nbsp;稍微把数据和格式对齐一下：
 </code></pre><blockquote>
-<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692871cTHW.jpg" alt=""></span></p>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692871cTHW.jpg" alt></span></p>
 </blockquote>
 <pre><code>&amp;nbsp;
 
 &amp;nbsp; &amp;nbsp;&amp;nbsp;先看一下基地址是多少（黄色部分）：
 </code></pre><blockquote>
-<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692879kyiT.jpg" alt=""></span></p>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692879kyiT.jpg" alt></span></p>
 </blockquote>
 <pre><code>&amp;nbsp;
 
 &amp;nbsp; &amp;nbsp;&amp;nbsp;是的，就是&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;0x00000000&lt;/span&gt;。而段限长为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;0xfffff&lt;/span&gt;（绿色部分）&lt;span style=&quot;line-height: 1.5; -ms-word-wrap: break-word;&quot;&gt;:&lt;/span&gt;
 </code></pre><blockquote>
-<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692890vJga.jpg" alt=""></span></p>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201408/11/26859697_1407692890vJga.jpg" alt></span></p>
 </blockquote>
 <pre><code>&amp;nbsp;
 

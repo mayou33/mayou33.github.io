@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/安全/" title="安全" class="post-categories">安全</a>
       
       
-      <a href="/tags/安全/"" title="安全" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>安全</a>
+      <a href="/tags/安全/" " title="安全" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>安全</a>
       
     </p>
     
@@ -103,7 +103,7 @@
   <div class="post-content"><p><a href="https://tech.meituan.com/Intrusion_Detection_Security_Meituan.html" target="_blank" rel="noopener">https://tech.meituan.com/Intrusion_Detection_Security_Meituan.html</a></p>
 <p> 弼政 ·2018-11-08 20:00</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 如何知道自己所在的企业是否被入侵了？是没人来“黑”，还是因自身感知能力不足，暂时还无法发现？其实，入侵检测是每一个大型互联网企业都要面对的严峻挑战。价值越高的公司，面临入侵的威胁也越大，即便是Yahoo这样的互联网鼻祖，在落幕（被收购）时仍遭遇全量数据失窃的事情。安全无小事，一旦互联网公司被成功“入侵”，其后果将不堪想象。</p>
-<p> <img src="https://tech.meituan.com/img/Intrusion_Detection/1.jpg" alt=""></p>
+<p> <img src="https://tech.meituan.com/img/Intrusion_Detection/1.jpg" alt></p>
 <p> 基于“攻防对抗”的考量，本文不会提及具体的入侵检测模型、算法和策略，那些希望直接照搬“入侵策略”的同学可能会感到失望。但是我们会将一部分运营思路分享出来，请各位同行指点，如能对后来者起到帮助的作用，那就更好了，也欢迎大家跟我们交流探讨。</p>
 <h2 id="入侵的定义"><a href="#入侵的定义" class="headerlink" title="入侵的定义"></a>入侵的定义</h2><p> 典型的入侵场景：</p>
 <p>  黑客在很远的地方，通过网络远程控制目标的笔记本电脑/手机/服务器/网络设备，进而随意地读取目标的隐私数据，又或者使用目标系统上的功能，包括但不限于使用手机的麦克风监听目标，使用摄像头偷窥监控目标，使用目标设备的计算能力挖矿，使用目标设备的网络能力发动DDoS攻击等等。亦或是破解了一个服务的密码，进去查看敏感资料、控制门禁/红绿灯。以上这些都属于经典的入侵场景。</p>
@@ -116,7 +116,7 @@
 <p> 当我们习惯“攻击”是常态之后，就会在这样的常态下去解决问题，可以使用什么加固策略，哪些可以实现常态化的运营，如果有什么策略无法常态化运营，比如需要很多人加班临时突击守着，那这个策略多半在不久之后就会逐渐消逝掉。跟我们做不做这个策略，并没有本质上的区别。</p>
 <p> 类似于SQL注入、XSS等一些不直接GetShell的Web攻击，暂时不在狭义的“入侵检测”考虑范围，建议可以划入“漏洞”、“威胁感知”等领域，另行再做探讨。当然，利用SQL注入、XSS等入口，进行了GetShell操作的，我们仍抓GetShell这个关键点，不必在乎漏洞入口在何处。</p>
 <h2 id="“入侵”和“内鬼”"><a href="#“入侵”和“内鬼”" class="headerlink" title="“入侵”和“内鬼”"></a>“入侵”和“内鬼”</h2><p> 与入侵接近的一种场景是“内鬼”。入侵本身是手段，GetShell只是起点，黑客GetShell的目标是为了之后对资源的控制和数据的窃取。而“内鬼”天然拥有合法的权限，可以合法接触敏感资产，但是基于工作以外的目的，他们对这些资源进行非法的处置，包括拷贝副本、转移外泄、篡改数据牟利等。</p>
-<p> <img src="https://tech.meituan.com/img/Intrusion_Detection/2.jpg" alt=""></p>
+<p> <img src="https://tech.meituan.com/img/Intrusion_Detection/2.jpg" alt></p>
 <p> 内鬼的行为不在“入侵检测”的范畴，一般从内部风险控制的视角进行管理和审计，比如职责分离、双人审计等。也有数据防泄密产品（DLP）对其进行辅助，这里不展开细说。</p>
 <p> 有时候，黑客知道员工A有权限接触目标资产，便定向攻击A，再利用A的权限把数据窃取走，也定性为“入侵”。毕竟A不是主观恶意的“内鬼”。如果不能在黑客攻击A的那一刻捕获，或者无法区分黑客控制的A窃取数据和正常员工A的访问数据，那这个入侵检测也是失败的。</p>
 <h2 id="入侵检测的本质"><a href="#入侵检测的本质" class="headerlink" title="入侵检测的本质"></a>入侵检测的本质</h2><p> 前文已经讲过，入侵就是黑客可以不经过我们的同意，来操作我们的资产，在手段上并没有任何的限制。那么如何找出入侵行为和合法正常行为的区别，将其跟合法行为进行分开，就是“入侵发现”。在算法模型上，这算是一个标记问题（入侵、非入侵）。</p>
@@ -135,7 +135,7 @@
 <p>基于此，如果有企业不提具体的场景，就说做好了APT感知模型，显然就是在“吹嘘”了。</p>
 <p>所以，入侵检测得先把各类攻击向量罗列出来，每一个细分场景分别采集数据（HIDS+NIDS+WAF+RASP+应用层日志+系统日志+PC……），再结合公司的实际数据特性，作出适应公司实际情况的对应检测模型。不同公司的技术栈、数据规模、暴露的攻击面，都会对模型产生重大的影响。比如很多安全工作者特别擅长PHP下的WebShell检测，但是到了一个Java系的公司……</p>
 <h2 id="常见的入侵手法与应对"><a href="#常见的入侵手法与应对" class="headerlink" title="常见的入侵手法与应对"></a>常见的入侵手法与应对</h2><p>如果对黑客的常见入侵手法理解不足，就很难有的放矢，有时候甚至会陷入“政治正确”的陷阱里。比如渗透测试团队说，我们做了A动作，你们竟然没有发现，所以你们不行。而实际情况是，该场景可能不是一个完备的入侵链条，就算不发现该动作，对入侵检测效果可能也没有什么影响。每一个攻击向量对公司造成的危害，发生的概率如何进行排序，解决它耗费的成本和带来的收益如何，都需要有专业经验来做支撑与决策。</p>
-<p><img src="https://tech.meituan.com/img/Intrusion_Detection/3.jpg" alt=""></p>
+<p><img src="https://tech.meituan.com/img/Intrusion_Detection/3.jpg" alt></p>
 <p>现在简单介绍一下，黑客入侵教程里的经典流程（完整过程可以参考杀伤链模型）：</p>
 <p>入侵一个目标之前，黑客对该目标可能还不够了解，所以第一件事往往是“踩点”，也就是搜集信息，加深了解。比如，黑客需要知道，目标有哪些资产（域名、IP、服务），它们各自的状态如何，是否存在已知的漏洞，管理他们的人有谁（以及如何合法的管理的），存在哪些已知的泄漏信息（比如社工库里的密码等）……</p>
 <p>一旦踩点完成，熟练的黑客就会针对各种资产的特性，酝酿和逐个验证“攻击向量”的可行性，下文列举了常见的攻击方式和防御建议。</p>
@@ -246,7 +246,7 @@
 <p> 前面所有的高标准，包括高覆盖、低误报，强制每一个告警跟进到底，“掘地三尺”的态度，都是在等待这一刻。抓到一个值得敬佩的对手，那种成就感，还是很值得回味的。</p>
 <p> 所以，希望所有从事入侵检测的安全同行们都能坚持住，即使听过无数次“狼来了”，下一次看到告警，依然可以用最高的敬畏心去迎接对手（告警虐我千百遍，我待告警如初恋）。</p>
 <h2 id="AI在入侵检测领域的正确姿势"><a href="#AI在入侵检测领域的正确姿势" class="headerlink" title="AI在入侵检测领域的正确姿势"></a>AI在入侵检测领域的正确姿势</h2><p> 最近这两年，如果不谈AI的话，貌似故事就不会完整。只不过，随着AI概念的火爆，很多人已经把传统的数据挖掘、统计分析等思想，比如分类、预测、聚类、关联之类的算法，都一律套在AI的帽子里。</p>
-<p> <img src="https://tech.meituan.com/img/Intrusion_Detection/4.jpg" alt=""></p>
+<p> <img src="https://tech.meituan.com/img/Intrusion_Detection/4.jpg" alt></p>
 <p> 其实AI是一种现代的方法，在很多地方有非常实际的产出了。以WebShell的文本分析为例，我们可能需要花很长很长的时间，才能把上千个样本里隐含的几十种样本技术类型拆分开，又花更长的时间去一一建设模型（是的，在这样的场景下，特征工程真的是一个需要更长时间的工作）。</p>
 <p> 而使用AI，做好数据打标的工作，训练、调参，很快就能拿到一个实验室环境不那么过拟合的模型出来，迅速投产到生产环境上。熟练一点可能1-2个月就能做完了。</p>
 <p> 在这种场景下，AI这种现代的方法，的确能极大地提高效率。但问题是，前文也提到过了，黑客的攻击黑样本、WebShell的样本，往往极其稀缺，它不可能是完备的能够描述黑客入侵的完整特征的。因此，AI产出的结果，无论是误报率还是漏报率，都会受训练方法和输入样本的影响较大，我们可以借助AI，但绝对不能完全交给AI。</p>

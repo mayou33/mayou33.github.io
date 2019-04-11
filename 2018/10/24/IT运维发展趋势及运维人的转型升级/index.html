@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/ops/" title="运维" class="post-categories">运维</a>
       
       
-      <a href="/tags/运维/"" title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
+      <a href="/tags/运维/" " title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
       
     </p>
     
@@ -137,7 +137,7 @@
 </li>
 </ul>
 <p>因此，在互联网架构、云计算、大数据等新兴技术的冲击下，企业的IT技术架构也逐渐开始改革，从原来单一的IOE架构，逐渐向x86、云化架构以及开源解决方案等多样的技术架构转变（见图1-1）。这种技术架构的革新，必然带来运维领域其他关键因素的革新，推动着“运维”这个行业的向前发展。</p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120504908.jpg" alt=""></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120504908.jpg" alt></p>
 <p>图1-1 从IOE架构走向“互联网架构”</p>
 <p><strong>二、运维体系：**</strong>从ITIL走向DevOps**</p>
 <p>1、ITIL</p>
@@ -149,9 +149,9 @@
 <p>这种管理机制在IOE技术架构的年代是非常适合的。这种集中式的技术架构结构相对简单，显然需要更加稳妥运维操作，毕竟所有鸡蛋都放在这几个篮子里面；另外，在这种集中式的架构下面，业务变更也没有如此的频繁，需要动不动就走一个流程是有点麻烦，但是由于频率低，倒也可以接受。</p>
 <p>2、DevOps</p>
 <p>然而，在企业IT技术架构逐步进入互联网架构下，业务的迅速发展，强调IT更好地按需而变，强调更敏捷地响应业务的需求时，ITIL这个体系多少就有些与现实格格不入的感觉。这时，DevOps这个词汇走进人们的视野（见图1-2）。</p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120533626.jpg" alt=""></p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120655778.jpg" alt=""></p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120746677.jpg" alt=""></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120533626.jpg" alt></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120655778.jpg" alt></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120746677.jpg" alt></p>
 <p>图1-2 运维体系从ITIL走向DevOps</p>
 <p>DevOps（英文Development和Operations的组合）是一组过程、方法与系统的统称，用于促进开发（应用程序/软件工程）、技术运营和质量保障（QA）部门之间的沟通、协作与整合。它的出现是由于软件行业日益清晰地认识到：为了按时交付软件产品和服务，开发和运营工作必须紧密合作。</p>
 <p><strong>DevOps的思想跟ITIL有着天然的区别</strong></p>
@@ -203,10 +203,10 @@
 <p><strong>首先要解决的是数据采集问题：</strong></p>
 <p>因为运维体系中的数据是多种多样的，有像监控系统直接采集回来的结构化的数据，也有像各种应用日志、机器日志等非结构化的数据。</p>
 <p>为了便于我们后续的数据分析，我们需要将其中难于分析的非结构化数据转换成结构化的数据加以存储。例如图1-3是在Apache Web日志中的一行记录，其中蕴含着会有大量有用的信息，如客户的IP、客户所使用的客户端，它访问的页面信息、访问时间等关键信息。</p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120849231.jpg" alt=""></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120849231.jpg" alt></p>
 <p>图1-3 Apache Web日志中的一行记录</p>
 <p>我们通过有效的工具将这些信息切分并形成结构化信息，源源不断地存储到运维大数据中心，见图1-4：</p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120857424.jpg" alt=""></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120857424.jpg" alt></p>
 <p>图1-4 结构化信息</p>
 <p><strong>大数据技术发展也为我们提供了存放海量运维数据基础：</strong></p>
 <p>我们可以通过大数据平台构建我们的运维大数据中心，从我们整个运维的IT环境中采集回来的运维数据将在此基础上进行数据存储和整合。这样我们可以改变ITOM体系中数据分散，难以关联分析的缺陷，因为数据需要更多的连接与关联，其背后的价值才能充分发挥。</p>
@@ -219,7 +219,7 @@
 <p>此外，运维数据分析其实不只用于运维这个范围中，在我们的经验中还常有风险分析、审计、情感分析等业务场景之下。通过采集当前环境中的运维数据，集成现有ITOM工具，利用大数据及数据分析的技术，对IT系统中各个环节的问题进行快速定位、故障排除和预测。对来自业务环节中各个分布系统的数据进行整体分析，合理优化IT服务，挖掘关键业务KPI指标，反哺业务端，帮助其做出明智决策。</p>
 <p>4、AIOps</p>
 <p>艾瑞咨询研究院的分析预测ITOM/ITOA的市场规模到2020年将达到114.5亿元（见图1-5），但增长逐渐趋缓，而AIOps正是ITOM、ITOA的延续。</p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120912603.jpg" alt="">图1-5 艾瑞咨询预测2020年ITOM/ITOA中国市场将达114.5亿元</p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120912603.jpg" alt>图1-5 艾瑞咨询预测2020年ITOM/ITOA中国市场将达114.5亿元</p>
 <p>通过大数据和人工智能技术分析日志和运维数据，发掘更多运维人员尚未觉察的潜在的系统安全和运维问题。</p>
 <p>Gartner在2016年发布的报告中首先提出了基于大数据及算法（Algorithmic IT Operations）的IT运维概念。随着人工智能的快速兴起，Gartner将AIOps的概念从原本的基于数据分析，扩充为基于人工智能，期望通过大数据、现代机器学习及更多高级分析技术，提供具备主动性、人性化及动态可视化的能力，直接或间接地提升目前传统IT运维（监控、自动化、服务台）的能力。</p>
 <p>AIOps真正应用和落地时间还很短，从目前的应用而言主要是在运维数据集中化的基础上，应用机器学习算法进行各种数据分析和挖掘的工作。主要的应用场景包括：</p>
@@ -242,7 +242,7 @@
 <p>1、关注平台</p>
 <p>经典的企业架构中，不同的企业架构框架理论虽然角度不同，但是他们对企业架构内容的层次划分大体上还是一致的，基本上都是从如下几个方面（或至少包含如下几个方面）对企业架构进行描述：</p>
 <p>一般自上而下会分为业务架构、应用架构、数据架构和基础技术架构。传统上的IT系统运维的主要对象是企业IT环境中的各种硬件及软件平台，例如，各种主机、存储、数据库、中间件等。企业IT运维团队一般主要集中于技术架构层面以及少量应用架构层面（见图1-6）。</p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120929544.jpg" alt=""></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120929544.jpg" alt></p>
 <p>图1-6 TOGAF开放群组架构框架的企业IT架构模型</p>
 <p>2、数据资产</p>
 <p>然而，时代在不断向前发展，企业中的基础技术架构在革新，云化、开源化、高弹性互联网架构技术架构逐步成为企业架构主流，大量新技术的涌现和应用，使集中式中心化的系统架构被打破，系统架构日益趋向云化和分布式架构。</p>
@@ -272,8 +272,8 @@
 <p>运维人员作为IT技术与业务之间的接口，必然要求运维人员向上走，走向数据资产管理的层面。</p>
 <p>数据资产管理是规划、控制、和提供数据这种企业资产的一组业务职能，包括开发、执行和监督有关数据的计划、政策、方案、项目、流程、方案和程序，从而控制、保护、交付和提高数据资产的价值。离开高质量的数据，企业难以做出明智及有效的决策。</p>
 <p>在大数据时代，数据资产管理比传统时代更加重要，它为企业提供一个透明、可靠和高质量的数据环境，它将成为企业的核心竞争力，帮助企业提供更精准的产品和服务、降低成本并控制风险。我们将企业数据资产管理总结为数据资产管理五星模型，它分为5个相互关联的层面，分别是数据架构、数据治理、数据运营、数据共享与数据变现（见图1-7）。</p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120948875.jpg" alt=""></p>
-<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120956200.jpg" alt=""></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120948875.jpg" alt></p>
+<p><img src="https://dbaplus.cn/uploadfile/2018/1015/20181015120956200.jpg" alt></p>
 <p>图1-7 新炬网络数据资产管理五星模型</p>
 <p>时代在变，运维人员的工作重点也需要因时而变，这是一个不变的规律。以数据资产为核心，以治理和运营为手段，以共享和变现为目标，是未来企业运维人员从基础设施运维走向以数据资产为核心的运营和运维的总体趋势。</p>
 <p><strong>五、总结</strong></p>

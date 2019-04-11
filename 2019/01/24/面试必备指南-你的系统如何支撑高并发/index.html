@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/architecture/" title="架构" class="post-categories">架构</a>
       
       
-      <a href="/tags/架构/"" title="架构" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>架构</a>
+      <a href="/tags/架构/" " title="架构" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>架构</a>
       
     </p>
     
@@ -122,7 +122,7 @@
 <p>然后系统层面每秒是 10 次请求，对数据库的调用每次请求都会有好几次数据库操作的，比如做做 crud 之类的。</p>
 <p>那么我们取一个一次请求对应 3 次数据库请求吧，那这样的话，数据库层每秒也就 30 次请求，对不对？</p>
 <p>按照这台数据库服务器的配置，支撑是绝对没问题的。上述描述的系统，用一张图表示，就是下面这样：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibrQPBkHgpibw5hftAlMmePV0LrxzbR5sMnBjjFMCJicz9FG5bV6tdhFXw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibrQPBkHgpibw5hftAlMmePV0LrxzbR5sMnBjjFMCJicz9FG5bV6tdhFXw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p>系统集群化部署</p>
 <p>假设此时你的用户数开始快速增长，比如注册用户量增长了 50 倍，上升到了 500 万。</p>
 <p>此时日活用户是 50 万，高峰期对系统每秒请求是 500/s。然后对数据库的每秒请求数量是 1500/s，这个时候会怎么样呢？</p>
@@ -143,7 +143,7 @@
 </li>
 </ul>
 <p>此时的架构图变成下面的样子：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibaLEFBVU3oJeZG0GhJFPss3mJWKZw5vDDIiclGjEVUV649avJc3RiaM5w/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibaLEFBVU3oJeZG0GhJFPss3mJWKZw5vDDIiclGjEVUV649avJc3RiaM5w/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p>数据库分库分表 + 读写分离</p>
 <p>假设此时用户量继续增长，达到了 1000 万注册用户，然后每天日活用户是 100 万。</p>
 <p>那么此时对系统层面的请求量会达到每秒 1000/s，系统层面，你可以继续通过集群化的方式来扩容，反正前面的负载均衡层会均匀分散流量过去的。</p>
@@ -160,7 +160,7 @@
 <p>每台主库挂载一个服务器部署从库，那么 2 个从库每个从库支撑的读并发就是 1000/s。</p>
 <p>简单总结，并发量继续增长时，我们就需要 focus 在数据库层面：分库分表、读写分离。</p>
 <p>此时的架构图如下所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibKREyUicsPjHMEoPxx7uqnLodbMlLrSnaMD6XhSyb3ycHsUK1goscbow/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibKREyUicsPjHMEoPxx7uqnLodbMlLrSnaMD6XhSyb3ycHsUK1goscbow/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p>缓存集群引入</p>
 <p>接着就好办了，如果你的注册用户量越来越大，此时你可以不停的加机器，比如说系统层面不停加机器，就可以承载更高的并发请求。</p>
 <p>然后数据库层面如果写入并发越来越高，就扩容加数据库服务器，通过分库分表是可以支持扩容机器的，如果数据库层面的读并发越来越高，就扩容加更多的从库。</p>
@@ -174,7 +174,7 @@
 <p>比如说上面那个图里，读请求目前是每秒 2000/s，两个从库各自抗了 1000/s 读请求，但是其中可能每秒 1800 次的读请求都是可以直接读缓存里的不怎么变化的数据的。</p>
 <p>那么此时你一旦引入缓存集群，就可以抗下来这 1800/s 读请求，落到数据库层面的读请求就 200/s。</p>
 <p>同样，给大家来一张架构图，一起来感受一下：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibanyxPWZ80waHYJAiaZLgOpJSPMrAVhFrdwSlP939PnDrg51VYF747ew/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibanyxPWZ80waHYJAiaZLgOpJSPMrAVhFrdwSlP939PnDrg51VYF747ew/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p>按照上述架构，它的好处是什么呢？</p>
 <p>可能未来你的系统读请求每秒都几万次了，但是可能 80%~90% 都是通过缓存集群来读的，而缓存集群里的机器可能单机每秒都可以支撑几万读请求，所以耗费机器资源很少，可能就两三台机器就够了。</p>
 <p>你要是换成是数据库来试一下，可能就要不停的加从库到 10 台、20 台机器才能抗住每秒几万的读并发，那个成本是极高的。</p>
@@ -196,7 +196,7 @@
 <p>那么此时你完全可以引入消息中间件集群，把允许异步化的每秒 500 次请求写入 MQ，然后基于 MQ 做一个削峰填谷。</p>
 <p>比如就以平稳的 100/s 的速度消费出来，然后落入数据库中即可，此时就会大幅度降低数据库的写入压力。</p>
 <p>此时，架构图变成了下面这样：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibUUbpBAIVD4EPS1ttpib8xDZZsx5m1wFBmSxUGAhchLdUibxmk90ibqwOA/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/MOwlO0INfQquiaCoVZfsYr7nAVKnvhdibibUUbpBAIVD4EPS1ttpib8xDZZsx5m1wFBmSxUGAhchLdUibxmk90ibqwOA/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p>大家看上面的架构图，首先消息中间件系统本身也是为高并发而生，所以通常单机都是支撑几万甚至十万级的并发请求的。  </p>
 <p>所以，它本身也跟缓存系统一样，可以用很少的资源支撑很高的并发请求，用它来支撑部分允许异步化的高并发写入是没问题的，比使用数据库直接支撑那部分高并发请求要减少很多的机器使用量。</p>
 <p>而且经过消息中间件的削峰填谷之后，比如就用稳定的 100/s 的速度写数据库，那么数据库层面接收的写请求压力，不就成了 500/s + 100/s  = 600/s 了么？</p>

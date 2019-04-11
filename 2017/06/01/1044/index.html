@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
       
       
-      <a href="/tags/devops/"" title="devops" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>devops</a>
+      <a href="/tags/devops/" " title="devops" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>devops</a>
       
     </p>
     
@@ -381,21 +381,21 @@ MySQL Proxy 的方案之前试用过 MySQL Proxy 和 Atlas，这个要看具体�
 </li>
 <li><p>基础设施自动化：可以使用OpenStack、Kubernetes来进行基础设施的虚拟化和容器化。</p>
 <p>最后所有的数据库放在 CMDB。所以说这是一个全链路的自动化体系。</p>
-<p>　　<img src="http://zhangyu233.com/wp-content/uploads/944606336cde4b1eacd501fb73d0a44b_th-1.jpg" alt=""></p>
+<p>　　<img src="http://zhangyu233.com/wp-content/uploads/944606336cde4b1eacd501fb73d0a44b_th-1.jpg" alt></p>
 <p>从几个层面介绍一下，一个是 OpenStack，我们两个版本，一个I版，一个M版，做的多区域。</p>
-<p>　　<img src="http://zhangyu233.com/wp-content/uploads/ac59cdd8bf2e4dd098a6e40e8536e0a8_th-1.jpg" alt=""></p>
+<p>　　<img src="http://zhangyu233.com/wp-content/uploads/ac59cdd8bf2e4dd098a6e40e8536e0a8_th-1.jpg" alt></p>
 <p>像上图的架构是可以用 SaltStack 进行自动化的配置管理。</p>
-<p>　　<img src="http://zhangyu233.com/wp-content/uploads/53f4c4cfe0544d13aa62c51becc66c24_th-1.jpg" alt=""></p>
+<p>　　<img src="http://zhangyu233.com/wp-content/uploads/53f4c4cfe0544d13aa62c51becc66c24_th-1.jpg" alt></p>
 <p>基于Jenkins 的持续交付。做自动运维要做一个体系，要解决全链路的问题，而不是做某一个层面，要把整个方面全考虑到位。</p>
-<p>　　<img src="http://zhangyu233.com/wp-content/uploads/3c6229ed48c34acb86f874569a44175a_th-1.jpg" alt=""></p>
+<p>　　<img src="http://zhangyu233.com/wp-content/uploads/3c6229ed48c34acb86f874569a44175a_th-1.jpg" alt></p>
 <p>上图是我们基于 ELK 做的日志数据分析平台，我们这个有大数据的部分，会把数据全部写在 Kafka 里面，然后从 Kafka读出来，一部分写在 ES 里面，一部分写在 Hadoop 里面。</p>
 <p>然后基于 Hadoop 做数据分析和处理。 ES 主要是用于搜索和运维。这里想强调一点，如果你的业务也用ES的话，你要把运维的 ES 和业务的 ES 分开。</p>
-<p>　　<img src="http://zhangyu233.com/wp-content/uploads/246f68ce6d39491caf4faac9e2ec682b_th-1.jpg" alt=""></p>
+<p>　　<img src="http://zhangyu233.com/wp-content/uploads/246f68ce6d39491caf4faac9e2ec682b_th-1.jpg" alt></p>
 <p>我做了一套基于全开源的智能化扩容的实现。例如 Zabbix 触发扩容，调用 Salt-Cloud 创建 OpenStack 虚拟机，将信息写入到 etcd，然后调用 SaltStack 进行环境部署，调用 Jenkins 进行代码部署，调用自动化测试进行测试。</p>
 <p>最后 SaltStack 管理 Haproxy 的配置文件，进行自动重载，完成扩容工作。当然这只是一个简图，有 CMDB 的话，可以直接替换掉 etcd。</p>
 <p>5、未来展望</p>
 <p>下一步怎么走？刚才讲的做运维是标准化、工具化、平台化、服务化、智能化，下一步是产品化，对于一些运维老司机，在运维行业深耕多年，找准机会就可以创业去了。</p>
-<p>　　<img src="http://zhangyu233.com/wp-content/uploads/afd5d0737a8d4ae78b4e9e04209723b4_th-1.jpg" alt=""></p>
+<p>　　<img src="http://zhangyu233.com/wp-content/uploads/afd5d0737a8d4ae78b4e9e04209723b4_th-1.jpg" alt></p>
 <p>技术成就梦想，最后，希望所有运维人都能够持续学习，不断成长，事实证明，运维不仅仅可以背黑锅，还可以站在舞台的正中央。我为自己是一个运维人而自豪！</p>
 </li>
 </ul>

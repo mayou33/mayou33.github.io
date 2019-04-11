@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/nginx/" title="nginx" class="post-categories">nginx</a>
       
       
-      <a href="/tags/nginx/"" title="nginx" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>nginx</a>
+      <a href="/tags/nginx/" " title="nginx" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>nginx</a>
       
     </p>
     
@@ -108,14 +108,14 @@
 <p>  ● 对一组 gRPC 服务进行负载均衡，可以使用轮询算法、最少连接数原则或其他方式在集群上分发流量。</p>
 <p><strong>什么是 gRPC？</strong></p>
 <p>gRPC 是一种远程过程调用协议，用于客户端和服务器端之间的通信。gRPC 紧凑小巧，跨多种编程语言，同时支持请求与响应式的交互方式和流式交互方式。gRPC 因其跨语言特性和简洁的设计变得越来越流行，其中服务网格的实现就使用了 gRPC。</p>
-<p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/03/grpc-unproxied-cleartext.png" alt=""></p>
+<p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/03/grpc-unproxied-cleartext.png" alt></p>
 <p>gRPC 通过 HTTP/2 传输数据，可以传输明文文本数据和 TLS 加密过的数据。gRPC 调用是通过 HTTP POST 请求来实现的，每个请求里包含了一个编码过的消息体（protocol buffer 是默认的编码方式）。gRPC 的响应消息里也包含一个编码过的消息体，并在消息尾部带上状态码。</p>
 <p>gRPC 不能通过 HTTP 进行传输，而必须使用 HTTP/2，这是因为要充分利用 HTTP/2 连接的多路复用和流式特性。</p>
 <p><strong>通过 NGINX 来管理 gRPC 服务</strong></p>
 <p>下面的示例对 gRPC 的 Hello World 快速入门教程进行了修改，用它来创建一个简单的客户端到服务器端应用。例子中提供了 NGINX 的配置信息，而把应用程序的实现留给读者，不过文中还是会给出一些提示。</p>
 <p><strong>1、暴露简单的 gRPC 服务</strong></p>
 <p>首先，在客户端和服务器端之间安插 NGINX，NGINX 为服务器端的应用程序提供了一个稳定可靠的网关。</p>
-<p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/03/grpc-nginx-cleartext-768x230.png" alt=""></p>
+<p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/03/grpc-nginx-cleartext-768x230.png" alt></p>
 <p>然后开始部署包含了 gRPC 更新包的 NGINX。如果要从源代码开始编译 NGINX，要记得把 http_ssl 和 http_v2 两个模块包含进去：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ auto/configure --with-http_ssl_module —with-http_v2_module</span><br></pre></td></tr></table></figure></p>
 <p>NGINX 使用一个 HTTP 服务器来监听 gRPC 流量，并使用 grpc_pass 指令来代理 gRPC 流量。像下面的配置那样，在 80 端口上监听未加密的 gRPC 流量，并把请求重定向到 50051 端口上：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">  log_format main &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">           &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">           &apos;&quot;$http_user_agent&quot;&apos;;</span><br><span class="line"></span><br><span class="line">  server &#123;</span><br><span class="line">    listen 80 http2;</span><br><span class="line"></span><br><span class="line">    access_log logs/access.log main;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">      # Replace localhost:50051 with the address and port of your gRPC server</span><br><span class="line">      # The &apos;grpc://&apos; prefix is optional; unencrypted gRPC is the default   </span><br><span class="line">      grpc_pass grpc://localhost:50051;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -125,7 +125,7 @@
 <p>要注意，NGINX 不支持在同一个明文（非 TLS）端口上同时使用 HTTP/1 和 HTTP/2，如果一定要同时使用两种版本的协议，需要分别为它们创建不同的端口。</p>
 <p><strong>2、发布基于 TLS 的 gRPC 服务</strong> </p>
 <p>Hello World 快速入门教程使用的是未加密的 HTTP/2，这样方便测试和部署，但要部署到生产环境就不能这么简单了。可以通过 NGINX 来增加一个加密层：</p>
-<p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/03/grpc-nginx-encrypted-768x220.png" alt=""></p>
+<p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/03/grpc-nginx-encrypted-768x220.png" alt></p>
 <p>创建一个自签名的证书对，然后修改 NGINX 服务器的配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 1443 ssl http2;</span><br><span class="line"></span><br><span class="line">  ssl_certificate ssl/cert.pem;</span><br><span class="line">  ssl_certificate_key ssl/key.pem;</span><br><span class="line"></span><br><span class="line">  #...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>让 gRPC 客户端使用 TLS，连接到 1443 端口，并禁用证书检查——这在使用自签名证书或未经信任的证书时是一个必要的步骤。<br>例如，如果使用了 Go 语言编写的示例，就需要导入 crypto/tls 和 google.golang.org/grpc/credentials，并修改 grpc.Dial() 方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">creds := credentials.NewTLS( &amp;tls.Config&#123; InsecureSkipVerify: true &#125; )</span><br><span class="line"></span><br><span class="line">// 记得修改地址，使用新的端口</span><br><span class="line"></span><br><span class="line">conn, err := grpc.Dial( address, grpc.WithTransportCredentials( creds ) )</span><br></pre></td></tr></table></figure></p>
 <p>这样就可以加密 gRPC 流量了。在部署到生产环境时，需要将自签名证书换成由可信任证书机构发布的证书，客户端也需要配置成信任该证书。</p>
@@ -134,7 +134,7 @@
 <p>在 NGINX 的配置里，需要将 grpc-pass 配置成上游服务器的地址：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Use grpcs for TLS-encrypted gRPC traffic</span><br><span class="line">grpc_pass grpcs://localhost:50051;</span><br></pre></td></tr></table></figure></p>
 <p><strong>4、路由 gRPC 流量</strong></p>
 <p>如果同时存在多个 gRPC 服务，并且每个服务是由不同的服务器应用程序提供的，那么该怎么办？如果能够将这些服务通过单个 TLS 端点暴露出来是不是更好？</p>
-<p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/03/grpc-nginx-routing-768x345.png" alt=""></p>
+<p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/03/grpc-nginx-routing-768x345.png" alt></p>
 <p>在 NGINX 里，可以对服务和它的方法稍作修改，然后使用 location 指令来路由流量。gRPC 的请求 URL 是使用包名、服务名和方法名来生成的。比如这个叫作 SayHello 的 RPC 方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">package helloworld;</span><br><span class="line"></span><br><span class="line">service Greeter &#123;</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>调用这个方法就会生成一个 POST 请求，URL 是 /helloworld.Greeter/SayHello，这个可以从日志中看出来：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.20.1 - - [01/Mar/2018:13:35:02 +0000] &quot;POST /helloworld.Greeter/SayHello HTTP/2.0&quot; 200 18 &quot;-&quot; “grpc-go/1.11.0-dev&quot;</span><br></pre></td></tr></table></figure>

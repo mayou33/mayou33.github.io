@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,9 +95,9 @@
       <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
       
       
-      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      <a href="/tags/内核/" " title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
       
-      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      <a href="/tags/内存/" " title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
       
     </p>
     
@@ -129,7 +129,7 @@
 
 &amp;nbsp; &amp;nbsp;&amp;nbsp;split_mem_range()根据传入的内存start和end做四舍五入的对齐操作（即round_up和round_down），并根据对齐的情况，把开始、末尾的不对齐部分及中间部分分成了三段，使用save_mr()将其存放在init_mem_mapping()的局部变量数组mr中。划分开来主要是为了允许各部分可以映射不同页面大小，然后如果各划分开来的部分是连续的，映射页面大小也是一致的，则将其合并。最后将映射的情况打印出来，在shell上使用dmesg命令可以看到该打印信息，样例：
 </code></pre><blockquote>
-<p><img src="http://blog.chinaunix.net/attachment/201411/2/26859697_1414916755XAzx.png" alt=""></p>
+<p><img src="http://blog.chinaunix.net/attachment/201411/2/26859697_1414916755XAzx.png" alt></p>
 </blockquote>
 <pre><code>&amp;nbsp;
 

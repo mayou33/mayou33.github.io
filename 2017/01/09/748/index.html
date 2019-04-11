@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/linux/" title="linux" class="post-categories">linux</a>
       
       
-      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      <a href="/tags/linux/" " title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
       
     </p>
     
@@ -110,13 +110,13 @@
 <p>然而这都是扯淡，纯粹的臆想。有良知的自媒体公众账号是讲道理的，正所谓&mdash;&mdash;没代码你说个屁啊!!!;所以我就顺着Linux Kernel的代码挖了下去。</p>
 <p>Linux/Unix一个著名的哲学就是&mdash;&mdash;&ldquo;万物皆文件&rdquo;，无论是一个线程、socket、还是真正的文件都会被当做&ldquo;文件&rdquo;。Too may open files通常意味着&ldquo;文件描述符&rdquo;不足，它一般会发生在&ldquo;创建线程&rdquo;、&ldquo;创建socket&rdquo;、&ldquo;打开文件&rdquo;这种场景下。我选&ldquo;创建socket&rdquo;作为出发点</p>
 <p><strong>文件描述符的限制?不对!!</strong></p>
-<p><a href="http://s4.51cto.com/wyfs02/M02/8C/A8/wKiom1hzTHTS95aOAAJVOMRrGbo265.jpg-wh_651x-s_3819293427.jpg" target="_blank" rel="noopener"><img src="http://s4.51cto.com/wyfs02/M02/8C/A8/wKiom1hzTHTS95aOAAJVOMRrGbo265.jpg-wh_651x-s_3819293427.jpg" alt=""></a></p>
+<p><a href="http://s4.51cto.com/wyfs02/M02/8C/A8/wKiom1hzTHTS95aOAAJVOMRrGbo265.jpg-wh_651x-s_3819293427.jpg" target="_blank" rel="noopener"><img src="http://s4.51cto.com/wyfs02/M02/8C/A8/wKiom1hzTHTS95aOAAJVOMRrGbo265.jpg-wh_651x-s_3819293427.jpg" alt></a></p>
 <p>调用socket函数的时候内核会分两步操作&mdash;&mdash;填充数据结构，分配fd。我们重点看socket_map_fd</p>
-<p><a href="http://s5.51cto.com/wyfs02/M01/8C/A5/wKioL1hzTIGyn7miAAFoyaNfjC8940.jpg" target="_blank" rel="noopener"><img src="http://s5.51cto.com/wyfs02/M01/8C/A5/wKioL1hzTIGyn7miAAFoyaNfjC8940.jpg" alt=""></a></p>
+<p><a href="http://s5.51cto.com/wyfs02/M01/8C/A5/wKioL1hzTIGyn7miAAFoyaNfjC8940.jpg" target="_blank" rel="noopener"><img src="http://s5.51cto.com/wyfs02/M01/8C/A5/wKioL1hzTIGyn7miAAFoyaNfjC8940.jpg" alt></a></p>
 <p>关键的地方来了，get_unused_fd_flags会尝试分配一个fd，但是这个仅仅是fd&mdash;&mdash;是一个数字而已;就是我们常说的&mdash;&mdash;文件描述符。仅仅有一个数字并不代表什么，它相当于一个占位符，系统并没有实际的分配资源。socket_alloc_file才是真正的建立文件结构(内核的数据结构：struct file)。打开get_unsed_fd_flags摸下去：</p>
-<p><a href="http://s3.51cto.com/wyfs02/M02/8C/A8/wKiom1hzTI2AEcAOAADURmQjb10585.jpg" target="_blank" rel="noopener"><img src="http://s3.51cto.com/wyfs02/M02/8C/A8/wKiom1hzTI2AEcAOAADURmQjb10585.jpg" alt=""></a></p>
+<p><a href="http://s3.51cto.com/wyfs02/M02/8C/A8/wKiom1hzTI2AEcAOAADURmQjb10585.jpg" target="_blank" rel="noopener"><img src="http://s3.51cto.com/wyfs02/M02/8C/A8/wKiom1hzTI2AEcAOAADURmQjb10585.jpg" alt></a></p>
 <p>同志们，重点又来了。rlimit(RLIMIT_NOFILE)这个函数得到的是soft nofile，我们继续看__alloc_fd</p>
-<p><a href="http://s5.51cto.com/wyfs02/M02/8C/A5/wKioL1hzTLHi0F9oAAHT26Z9nug673.jpg" target="_blank" rel="noopener"><img src="http://s5.51cto.com/wyfs02/M02/8C/A5/wKioL1hzTLHi0F9oAAHT26Z9nug673.jpg" alt=""></a></p>
+<p><a href="http://s5.51cto.com/wyfs02/M02/8C/A5/wKioL1hzTLHi0F9oAAHT26Z9nug673.jpg" target="_blank" rel="noopener"><img src="http://s5.51cto.com/wyfs02/M02/8C/A5/wKioL1hzTLHi0F9oAAHT26Z9nug673.jpg" alt></a></p>
 <p>fd备用有三部分组成，进程当前预分配的(fd位图中设置了标记，fdt-&gt;next_fd);进程当前可用的(fd位图中没有设置标记，fdt-&gt;max_fds);进程扩展的(fd位图中都不存在，需要执行expand_files扩展fd位图)所以__alloc_fd函数分为了三步尝试分配fd。</p>
 </li>
 <li><p>尝试&ldquo;预分配&rdquo;的fd(直接分配)</p>
@@ -125,7 +125,7 @@
 <li><p>尝试扩展fd位图大小</p>
 <p>如果fd超过soft nofile，这个函数会直接返回&ldquo;错误&rdquo;。所以soft nofile是fd大小限制的第一道关卡，hard nofile全程没用。soft nofile的准确而含义是&mdash;&mdash;当前可以使用多少fd。</p>
 <p>当前是跟&ldquo;进程&rdquo;有关系的，详细内容请看最后一部分。我们继续看&ldquo;扩充&rdquo;fd：</p>
-<p><a href="http://s3.51cto.com/wyfs02/M00/8C/A8/wKiom1hzTMGQHKIeAAHVqSIKBwY441.jpg" target="_blank" rel="noopener"><img src="http://s3.51cto.com/wyfs02/M00/8C/A8/wKiom1hzTMGQHKIeAAHVqSIKBwY441.jpg" alt=""></a></p>
+<p><a href="http://s3.51cto.com/wyfs02/M00/8C/A8/wKiom1hzTMGQHKIeAAHVqSIKBwY441.jpg" target="_blank" rel="noopener"><img src="http://s3.51cto.com/wyfs02/M00/8C/A8/wKiom1hzTMGQHKIeAAHVqSIKBwY441.jpg" alt></a></p>
 <p>fs.nr_open是文件描述符的最后一道关卡，当我们尝试扩充文件描述符的时候只要你不大于它系统就允许你扩充，它的最大值是2147483584。</p>
 <p><strong>结论：</strong></p>
 </li>
@@ -136,7 +136,7 @@
 <p><strong>文件结构体</strong></p>
 <p>文件描述符在内核中其实是一个数字，它代表的是一个&ldquo;索引&rdquo;而索引的内容是&ldquo;文件结构体&rdquo;(内核数据结构 struct file)。内核分配资源的时候把&ldquo;索引&rdquo;和&ldquo;内容&rdquo;当做两种资源来分配。先申请&ldquo;索引&rdquo;后申请&ldquo;内容&rdquo;。跳回sock_map_fd看第二步&mdash;&mdash;分配文件结构，它调用了sock_alloc_file函数。</p>
 <p>顺着这个函数走下去你会发现&mdash;&mdash;file-max(为了节省版面，完整的代码图我附在后面)</p>
-<p><a href="http://s3.51cto.com/wyfs02/M00/8C/A8/wKiom1hzTMzwHEZVAAEtgQAxCvg863.jpg" target="_blank" rel="noopener"><img src="http://s3.51cto.com/wyfs02/M00/8C/A8/wKiom1hzTMzwHEZVAAEtgQAxCvg863.jpg" alt=""></a></p>
+<p><a href="http://s3.51cto.com/wyfs02/M00/8C/A8/wKiom1hzTMzwHEZVAAEtgQAxCvg863.jpg" target="_blank" rel="noopener"><img src="http://s3.51cto.com/wyfs02/M00/8C/A8/wKiom1hzTMzwHEZVAAEtgQAxCvg863.jpg" alt></a></p>
 <p>file-max是指struct file的上限。你可以把soft nofile、fs.nr_open设置成天文数字，但是不设置file-max就意味着没法分配struct file，文件描述符就没用了，依旧资源分配不成功。(像12306，你抢到票还不行还得&ldquo;排队&rdquo;。抢到的仅仅是一个占位符，到最后可能&ldquo;没票了&rdquo;。对，我没买到车票，等大家众筹机票了。)</p>
 <p><strong>总结：</strong></p>
 </li>
@@ -144,7 +144,7 @@
 <p>等等，还没结束</p>
 <p>上面已经扒出了三个参数的真实意义，但是作为一个&mdash;&mdash;有良知的自媒体公众号必须把道理讲清楚。所以我就挖出了soft nofile的前生今世。</p>
 <p>PAM(Pluggable Authentication Modules)是Linux的认证框架，在系统启动成功后无论是后台服务进程还是bash都会通过setup_limits加载/etc/security/limit.conf文件然后调用setrlimit重新设置进程的rlimt&mdash;&mdash;其中就包括了soft nofile。(pam_limit不在内核代码中它有自己独立的代码仓库，为了做有良知的自媒体我是不是特别拼?)</p>
-<p><a href="http://s4.51cto.com/wyfs02/M00/8C/A5/wKioL1hzTNmzEAXAAAGwTqEIFxI241.jpg" target="_blank" rel="noopener"><img src="http://s4.51cto.com/wyfs02/M00/8C/A5/wKioL1hzTNmzEAXAAAGwTqEIFxI241.jpg" alt=""></a></p>
+<p><a href="http://s4.51cto.com/wyfs02/M00/8C/A5/wKioL1hzTNmzEAXAAAGwTqEIFxI241.jpg" target="_blank" rel="noopener"><img src="http://s4.51cto.com/wyfs02/M00/8C/A5/wKioL1hzTNmzEAXAAAGwTqEIFxI241.jpg" alt></a></p>
 <p>ulimit这个命令其实是系统的内部命令(不信你打which ulimit)它也是调用setrlimit完成的设置。二者的区别是pam_limit是自动加载的(属于linux的&ldquo;认证模块&rdquo;)，ulimit你必须动手输入命令。</p>
 </li>
 </ul>

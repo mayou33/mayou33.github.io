@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/nginx/" title="nginx" class="post-categories">nginx</a>
       
       
-      <a href="/tags/nginx/"" title="nginx" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>nginx</a>
+      <a href="/tags/nginx/" " title="nginx" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>nginx</a>
       
     </p>
     
@@ -141,7 +141,7 @@ location = /demo.html {
 
 HTTP/2的命令行工具，比如nghttp
 </code></pre><p>使用开发者工具验证（以Google Chrome为例）</p>
-<p>下面是如何使用浏览器的开发者工具验证服务器端推送是生效的，这里使用Chrome作为例子。在下图中，开发者工具中Network页中的Initiator列显示出我们通过服务器端推送，将几个资源伴随对/demo.html的请求一同返回给了客户端。<br><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-chrome-dev-tools.png" alt=""></p>
+<p>下面是如何使用浏览器的开发者工具验证服务器端推送是生效的，这里使用Chrome作为例子。在下图中，开发者工具中Network页中的Initiator列显示出我们通过服务器端推送，将几个资源伴随对/demo.html的请求一同返回给了客户端。<br><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-chrome-dev-tools.png" alt></p>
 <p>通过命令行工具验证（nghttp）</p>
 <p>除了浏览器的开发者工具，你还可以使用命令行工具nghttp来验证服务器端推送是有效的。你可以从github上下载并安装nghttp，也可以使用操作系统的软件包管理工具来安装（比如在Ubuntu中，使用apt-get安装nghttp2-client）。</p>
 <p>$ nghttp -ans <a href="https://example.com/demo.html" target="_blank" rel="noopener">https://example.com/demo.html</a></p>
@@ -198,14 +198,14 @@ location = /demo.html {
 Preload Hints – Preload hints (Link headers) were included in the first response to tell the browser to load the dependencies
 
 Server Push (HTTP/2 only) – Dependencies were pre‑emptively pushed to the browser
-</code></pre><p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-test-configurations.png" alt=""></p>
+</code></pre><p><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-test-configurations.png" alt></p>
 <p>我们将进行多个测试：</p>
 <pre><code>HTTP使用多个GET请求请求资源，浏览器在发现需呀某个资源时再进行请求。
 
 有preload标识的HTTP在第一次请求返回后得到preload标识，开始让浏览器加载这些依赖资源。
 
 HTTP/2的服务器端推送会预先将资源直接推送给浏览器。
-</code></pre><p>它们的行为是由Chrome的开发者工具衡量的。我们多次重复，取出每一种配置的典型性能，并根据RTT值（由ping得到）进行加权调整后得到下面的数据：<br><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-testing-results.png" alt=""></p>
+</code></pre><p>它们的行为是由Chrome的开发者工具衡量的。我们多次重复，取出每一种配置的典型性能，并根据RTT值（由ping得到）进行加权调整后得到下面的数据：<br><img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2018/02/http2-server-push-testing-results.png" alt></p>
 <p>一些基本的观察</p>
 <pre><code>建立HTTP链接需要一个RTT时间，建立HTTPS或者HTTP/2链接需要两个RTT时间。
 

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,9 +95,9 @@
       <a href="/categories/Linux-3-14-12内存管理笔记/" title="Linux-3.14.12内存管理笔记" class="post-categories">Linux-3.14.12内存管理笔记</a>
       
       
-      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      <a href="/tags/内核/" " title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
       
-      <a href="/tags/内存/"" title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
+      <a href="/tags/内存/" " title="内存" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内存</a>
       
     </p>
     
@@ -194,7 +194,7 @@ extern unsigned long __FIXADDR_TOP;
 
 &amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;span style=&quot;line-height: 1.5; -ms-word-wrap: break-word;&quot;&gt;既然到此，顺便介绍一下内核空间映射情况。&lt;/span&gt;
 </code></pre><blockquote>
-<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201411/2/26859697_1414916565KO9m.png" alt=""></span></p>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201411/2/26859697_1414916565KO9m.png" alt></span></p>
 </blockquote>
 <pre><code>&amp;nbsp;
 
@@ -204,7 +204,7 @@ extern unsigned long __FIXADDR_TOP;
 
 &amp;nbsp;
 </code></pre><blockquote>
-<p>&nbsp;<img src="http://blog.chinaunix.net/attachment/201412/5/26859697_1417738992jux7.jpg" alt=""></p>
+<p>&nbsp;<img src="http://blog.chinaunix.net/attachment/201412/5/26859697_1417738992jux7.jpg" alt></p>
 </blockquote>
 <pre><code>&amp;nbsp; &amp;nbsp;&amp;nbsp;PMD_MASK涉及的宏定义：
 </code></pre><blockquote>
@@ -239,7 +239,7 @@ extern unsigned long __FIXADDR_TOP;
 
 &amp;nbsp; &amp;nbsp;&amp;nbsp;Linux是一个支持多硬件平台的操作系统，各种硬件芯片的分页并非固定的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;2&lt;/span&gt;级（页全局目录和页表），仅仅&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Intel&lt;/span&gt;处理器而言，就存在&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;3&lt;/span&gt;级的情况（页全局目录、页中间目录和页表），而到了&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;64&lt;/span&gt;位系统的时候就成了&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;4&lt;/span&gt;级分页。所以&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Linux&lt;/span&gt;为了保持良好的兼容性和移植性，系统设计成了以下的&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;4&lt;/span&gt;级分页模型，根据平台环境和配置的情况，通过将页上级目录和页中间目录的索引位设置为&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;0&lt;/span&gt;，从而隐藏了页三级目录和页中间目录的存在。也就是为什么存在&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;PMD_SHIFT&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;PUD_SHIFT&lt;/span&gt;和&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;PGDIR_SHIFT&lt;/span&gt;，还有&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;pgtable-nopmd.h&lt;/span&gt;、&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;pgtable-nopud.h&lt;/span&gt;和&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;Pgtable-2level_types.h&lt;/span&gt;的原因了。
 </code></pre><blockquote>
-<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201411/2/26859697_1414916603no2O.png" alt=""></span></p>
+<p><span style="-ms-word-wrap: break-word;"><img src="http://blog.chinaunix.net/attachment/201411/2/26859697_1414916603no2O.png" alt></span></p>
 </blockquote>
 <pre><code>&lt;span style=&quot;line-height: 1.5; -ms-word-wrap: break-word;&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp;由此管中窥豹，看到了&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; -ms-word-wrap: break-word;&quot;&gt;Linux&lt;/span&gt;&lt;span style=&quot;line-height: 1.5; -ms-word-wrap: break-word;&quot;&gt;内存分页映射模型的存在和相关设计，暂且也就先了解这么多。&lt;/span&gt;
 

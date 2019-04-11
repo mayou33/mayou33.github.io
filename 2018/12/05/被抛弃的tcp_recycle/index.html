@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/内核/" title="内核" class="post-categories">内核</a>
       
       
-      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      <a href="/tags/内核/" " title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
       
     </p>
     
@@ -116,16 +116,16 @@
 <p> 3.1</p>
 <p> <strong>TIME_WAIT状态出现原因与查看</strong></p>
 <p> 让我们回顾一下四次挥手的流程：</p>
-<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_jpg/Re4KW51oYRqZFnOjFRDiaOHz3WztCtNDncIialDaHtqKfRIy8I2KibjuZMwT6SKr13T2QIGpbCQ78rIK9LaooJiagw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_jpg/Re4KW51oYRqZFnOjFRDiaOHz3WztCtNDncIialDaHtqKfRIy8I2KibjuZMwT6SKr13T2QIGpbCQ78rIK9LaooJiagw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p> TIME_WAIT永远是出现在主动发送断开连接请求的一方(下文中我们称之为客户)，划重点：这一点面试的时候经常会被问到。  </p>
 <p> 客户在收到服务器端发送的FIN(表示”我们也要断开连接了”)后发送ACK报文，并且进入TIME_WAIT状态，等待2MSL(MaximumSegmentLifetime 最大报文生存时间)。对于Linux，字段为TCP_TIMEWAIT_LEN硬编码为30秒，对于windows为2分钟(可自行调整)。</p>
 <p> 为什么客户端不直接进入CLOSED状态，而是要在TIME_WAIT等待那么久呢，基于如下考虑：</p>
 <p> 1.确保远程端处于关闭状态。也就是说需要确保客户端发出的最后一个ACK报文能够到达服务器。由于网络不可靠，有可能最后一个ACK报文丢失，如果服务器没有收到客户端的ACK，则会重新发送FIN报文，客户端就可以在2MSL时间段内收到这个这个重发的报文，并且重发ACK报文。但如果客户端跳过TIME_WAIT阶段进入了CLOSED，服务端始终无法得到响应，就会处于LAST-ACK状态，此时假如客户端发起了一个新连接，则会以失败告终。</p>
 <p> 异常流程如下：</p>
-<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRqZFnOjFRDiaOHz3WztCtNDnektVT22fqXfgIXK9H6ZJpyC3gHGG2RTd98JLefRCicRX4Ucb5n8YAFQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRqZFnOjFRDiaOHz3WztCtNDnektVT22fqXfgIXK9H6ZJpyC3gHGG2RTd98JLefRCicRX4Ucb5n8YAFQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p> 2.防止上一次连接中的包，迷路后重新出现，影响新连接(经过2MSL,上一次连接中所有的重复包都会消失)，这一点和为啥要执行三次握手而不是两次的原因是一样的。</p>
 <p> 异常流程如下：</p>
-<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRqZFnOjFRDiaOHz3WztCtNDn06zNjGmAGkn2S1HS3iabJVy8gZGu6gMogsh83KnN1vjmWwvF7rEI0oA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRqZFnOjFRDiaOHz3WztCtNDn06zNjGmAGkn2S1HS3iabJVy8gZGu6gMogsh83KnN1vjmWwvF7rEI0oA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p> 查看方式有两种：</p>
 <p> （1）ss -tan state time-wait|wc -l</p>
 <p> （2）netstat -n | awk ‘/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}’</p>
@@ -187,7 +187,7 @@
 <p> 3.收到RST包</p>
 <p> 如果FIN包被及时接收到，并且本地端仍然是TIME-WAIT状态，那ACK包会被发送，此时就是正常的四次挥手流程。</p>
 <p> 如果TIME-WAIT的条目已经被新连接所复用，则新连接的SYN包会被忽略掉，并且会收到FIN包的重传，本地会回复一个RST包(因为此时本地连接为SYN-SENT状态)，这会让远程端跳出LAST-ACK状态，最初的SYN包也会在1秒后重新发送，然后完成连接的建立，整个过程不会中断，只是有轻微的延迟。流程如下:</p>
-<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRqZFnOjFRDiaOHz3WztCtNDnXqUciblrAiaWZeVicfHRNNGJ5cW2YnP9GFxH1vFPjl0PUu6YhJcG2mpmg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt=""></p>
+<p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRqZFnOjFRDiaOHz3WztCtNDnXqUciblrAiaWZeVicfHRNNGJ5cW2YnP9GFxH1vFPjl0PUu6YhJcG2mpmg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p> 需要注意，连接被复用后，TWrecycled计数器会增加(/proc/net/netstat中TWrecycled值)</p>
 <p> 3.4.2 - net.ipv4.tcp_tw_recycle：更激进的设置</p>
 <p> 启用TIME_WAIT 状态的sockets的快速回收，影响所有连入和连出的连接</p>

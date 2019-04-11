@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/web/" title="web" class="post-categories">web</a>
       
       
-      <a href="/tags/web/"" title="web" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>web</a>
+      <a href="/tags/web/" " title="web" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>web</a>
       
     </p>
     
@@ -231,7 +231,7 @@
 <p><strong>数据校验/**</strong>过滤逻辑前置**</p>
 <p>我们服务有两种类型的接口：一种是用户无关的接口，另一种则是用户相关的接口；因此我们使用了两种类型的域名c.3.cn/c0.3.cn/c1.3.cn和cd.jd.com；当我们请求cd.jd.com会带着用户cookie信息到服务端；在我们服务器上会进行请求头的处理，用户无关的所有数据通过参数传递，在接入层会丢弃所有的请求头(保留gzip相关的头)；而用户相关的会从cookie中解出用户信息然后通过参数传递到后端；也就是后端应用从来就不关心请求头及Cookie信息，所有信息通过参数传递。</p>
 <p>请求进入接入层后，会对参数进行校验，如果参数校验不合法直接拒绝这次请求；我们对每个请求的参数进行了最严格的数据校验处理，保证数据的有效性。如下所示，我们对关键参数进行了过滤，如果这些参数不合法就直接拒绝请求。</p>
-<p><img src="http://dl2.iteye.com/upload/attachment/0113/2095/bc02786d-7707-356d-a7ac-0c2a7dc98547.png" alt=""></p>
+<p><img src="http://dl2.iteye.com/upload/attachment/0113/2095/bc02786d-7707-356d-a7ac-0c2a7dc98547.png" alt></p>
 <p>&nbsp;</p>
 <p>另外我们还会对请求的参数进行过滤然后重新按照固定的模式重新拼装URL调度到后端应用，此时URL上的参数是固定的而且是有序的，可以按照URL进行缓存。</p>
 <p>&nbsp;</p>

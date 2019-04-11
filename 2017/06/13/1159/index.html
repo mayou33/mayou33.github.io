@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -97,11 +97,11 @@
       <a href="/categories/linux/Knowledge/" title="知识点" class="post-categories">知识点</a>
       
       
-      <a href="/tags/知识点/"" title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
+      <a href="/tags/知识点/" " title="知识点" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>知识点</a>
       
-      <a href="/tags/linux/"" title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
+      <a href="/tags/linux/" " title="linux" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>linux</a>
       
-      <a href="/tags/内核/"" title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
+      <a href="/tags/内核/" " title="内核" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>内核</a>
       
     </p>
     
@@ -117,7 +117,7 @@
 **Linux 的 IO 体系层次结构**
 
 ![Linux 的 IO 体系层次]
-</code></pre><p><img src="https://www.ibm.com/developerworks/cn/linux/l-cn-read/images/image001.gif" alt=""></p>
+</code></pre><p><img src="https://www.ibm.com/developerworks/cn/linux/l-cn-read/images/image001.gif" alt></p>
 <pre><code>我们可以通过追踪一个 read()系统调用来一窥这些层次的结构，当 read()系统调用发生，内核首先会通过汇编指令引发一个软中断，然后根据中断传入的参数查询系统调用影射表，找到 read()对应的内核调用方法名，并去执行相关调用，这个系统调用名一般情况下就是 sys_read()。从此，便开始了调用在内核中处理的过程的第一步：
 </code></pre><ol>
 <li>VFS 层：虚拟文件系统层。由于内核要跟多种文件系统打交道，而每一种文件系统所实现的数据结构和相关方法都可能不尽相同，所以，内核抽象了这一层，专门用来适配各种文件系统，并对外提供统一操作接口。</li>

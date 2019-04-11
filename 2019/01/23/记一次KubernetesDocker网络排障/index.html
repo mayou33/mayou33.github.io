@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
+  <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -56,7 +56,7 @@
   <article class="aside-show">
     
       <form class="search-from" id="search-from">
-  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
   <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
 </form>
 
@@ -95,7 +95,7 @@
       <a href="/categories/docker/" title="docker" class="post-categories">docker</a>
       
       
-      <a href="/tags/docker/"" title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
+      <a href="/tags/docker/" " title="docker" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>docker</a>
       
     </p>
     
@@ -108,7 +108,7 @@
 <p>我们大概知道用户的集群是这样的版本，Kuberbnetes 是1.7，网络用的是flannel的gw模式，Docker版本未知，操作系统CentOS 7.4，直接在物理机上跑docker，物理的配置很高，512GB内存，若干CPU核，上面运行着几百个Docker容器。</p>
 <h4 id="问题的排查"><a href="#问题的排查" class="headerlink" title="问题的排查"></a>问题的排查</h4><h5 id="问题初查"><a href="#问题初查" class="headerlink" title="问题初查"></a>问题初查</h5><p>首先，我们排除了flannel的问题，因为整个集群的网络通信都正常，只有特定的某一两个pod有问题。而用 <code>telnet ip port</code> 的命令手工测试网络连接时有很大的概率出现 <code>connection refused</code> 错误，大约 1/4的概率，而3/4的情况下是可以正常连接的。</p>
 <p>当时，我们让用户抓个包看看，然后，用户抓到了有问题的TCP连接是收到了 <code>SYN</code> 后，立即返回了 <code>RST, ACK</code></p>
-<p><img src="https://coolshell.cn/wp-content/uploads/2018/12/tcpdump.png" alt=""></p>
+<p><img src="https://coolshell.cn/wp-content/uploads/2018/12/tcpdump.png" alt></p>
 <p>我问一下用户这两个IP所在的位置，知道了，<code>10.233.14.129</code> 是 <code>docker0</code>，<code>10.233.14.145</code> 是容器内的IP。所以，这基本上可以排除了所有和kubernets或是flannel的问题，这就是本地的Docker上的网络的问题。</p>
 <p>对于这样被直接 Reset 的情况，在 <code>telnet</code> 上会显示 <code>connection refused</code> 的错误信息，对于我个人的经验，这种 <code>SYN</code>完直接返回 <code>RST, ACK</code>的情况只会有三种情况：</p>
 <ol>
@@ -213,7 +213,7 @@
       <div class="toc-wrapper">
         <div class="toc-scroll">
           <div class="toc-middle">
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#记一次Kubernetes-Docker网络排障"><span class="toc-text">记一次Kubernetes/Docker网络排障</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#问题的症状"><span class="toc-text">问题的症状</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题的排查"><span class="toc-text">问题的排查</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#问题初查"><span class="toc-text">问题初查</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#重新梳理"><span class="toc-text">重新梳理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#柳暗花明"><span class="toc-text">柳暗花明</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题原因"><span class="toc-text">问题原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它事宜"><span class="toc-text">其它事宜</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#记一次Kubernetes-Docker网络排障"><span class="toc-text">记一次Kubernetes/Docker网络排障</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#问题的症状"><span class="toc-text">问题的症状</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题的排查"><span class="toc-text">问题的排查</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#问题初查"><span class="toc-text">问题初查</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#重新梳理"><span class="toc-text">重新梳理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#柳暗花明"><span class="toc-text">柳暗花明</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题原因"><span class="toc-text">问题原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它事宜"><span class="toc-text">其它事宜</span></a></li></ol></li></ol>
           </div>
         </div>
       </div>
