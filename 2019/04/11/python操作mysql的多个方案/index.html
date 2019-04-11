@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>python操作mysql的多个方案</title>
+  
+
+  <link rel="canonical" href="http://zhangyu33.com/2019/04/11/python操作mysql的多个方案/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value="" autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">python操作mysql的多个方案</h1>
+    <p class="post-meta">
+      <span class="post-time">2019-04-11</span>
+      
+      <a href="/categories/mysql/" title="mysql" class="post-categories">mysql</a>
+      
+      
+      <a href="/tags/mysql/"" title="mysql" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>mysql</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>python操作mysql的多个方案</p>
+<p><a href="http://www.runoob.com/python/python-mysql.html" target="_blank" rel="noopener">http://www.runoob.com/python/python-mysql.html</a></p>
+<p><a href="https://stackoverflow.com/questions/372885/how-do-i-connect-to-a-mysql-database-in-python" target="_blank" rel="noopener">https://stackoverflow.com/questions/372885/how-do-i-connect-to-a-mysql-database-in-python</a></p>
+<p>官方规范：Python数据库API规范v2.0</p>
+<p>PEP 249 -- Python Database API Specification v2.0</p>
+<p><a href="https://www.python.org/dev/peps/pep-0249/" target="_blank" rel="noopener">https://www.python.org/dev/peps/pep-0249/</a></p>
+<p>mysql 官方--MySQL Python API</p>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/apis-python.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/apis-python.html</a></p>
+<p>连接mysql</p>
+<p>方案一：mysql-connector 是 MySQL 官方提供的驱动器</p>
+<p>安装：</p>
+<p>rpm -ivh<br>ftp://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-Python/mysql-connector-python-cext-2.1.7-1.el7.x86_64.rpm</p>
+<p>rpm -ivh<br>ftp://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86_64.rpm</p>
+<p>或者</p>
+<p>python -m pip install mysql-connector 被废弃</p>
+<p>新版</p>
+<p>pip install mysql-connector-python</p>
+<p>教程<br><a href="http://www.runoob.com/python3/python-mysql-connector.html" target="_blank" rel="noopener">[http://www.runoob.com/python3/python-mysql-connector.html]{.underline}</a></p>
+<p>举例：</p>
+<p>import mysql.connector cnx = mysql.connector.connect(user=\’scott\’,<br>password=\’tiger\’, host=\’127.0.0.1\’, database=\’employees\’) try:<br>cursor = cnx.cursor() cursor.execute(\”\”\” select 3 from your_table<br>\”\”\”) result = cursor.fetchall() print result finally: cnx.close()</p>
+<p>-----------------------------------------------------------------------------------------</p>
+<p>方案二</p>
+<p>Python3 使用 PyMySQL</p>
+<p><a href="https://github.com/PyMySQL/PyMySQL" target="_blank" rel="noopener">[https://github.com/PyMySQL/PyMySQL]{.underline}</a></p>
+<p>pip3 install PyMySQL</p>
+<p>python3 -m pip install PyMySQL</p>
+<p>方案三：Python2中则使用mysqldb</p>
+<p>#yum install gcc libffi-devel python-devel openssl-devel urpmi xterm<br>freetds -y</p>
+<p>#yum install MySQL-python</p>
+<p>或者</p>
+<p>rpm -ivh MySQL-python-1.3.6-3.fc22.x86_64.rpm</p>
+<p>或者pip install MySQL-python</p>
+<p>import MySQLdb</p>
+<p>安装MySQLdb，<br><a href="https://pypi.python.org/pypi/MySQL-python" target="_blank" rel="noopener">[https://pypi.python.org/pypi/MySQL-python]{.underline}</a>)从这里可选择适合您的平台的安装包，分为预编译的二进制文件和源代码安装包。</p>
+<p>如果您选择二进制文件发行版本的话，安装过程基本安装提示即可完成。如果从源代码进行安装的话，则需要切换到MySQLdb发行版本的顶级目录，并键入下列命令:</p>
+<p>\$ gunzip MySQL-python-1.2.2.tar.gz \$ tar -xvf MySQL-python-1.2.2.tar\$<br>cd MySQL-python-1.2.2\$ python setup.py build \$ python setup.py install</p>
+<p><strong>注意：</strong>请确保您有root权限来安装上述模块。</p>
+<p>################################</p>
+<p>方案4：<strong>mysqlclient --django官方推荐</strong></p>
+<p>本质是方案三mysqldb第三方修改版支持python3的</p>
+<p>首先安装一下mysql-devel</p>
+<p>yum install python-devel mysql-devel</p>
+<p><strong>Python 3</strong></p>
+<p>yum install python36-devel.x86_64</p>
+<p>然后就可以直接安装mysqlclient了</p>
+<p>pip install mysqlclient</p>
+<p><a href="https://pypi.org/project/mysqlclient/" target="_blank" rel="noopener">[https://pypi.org/project/mysqlclient/]{.underline}</a></p>
+<p><a href="https://github.com/PyMySQL/mysqlclient-python" target="_blank" rel="noopener">[https://github.com/PyMySQL/mysqlclient-python]{.underline}</a></p>
+<p>##############</p>
+<p>方案5：CyMySQL----------For python 3.3</p>
+<p>pip install cymysql</p>
+<p>import cymysql</p>
+<p><a href="https://github.com/nakagami/CyMySQL" target="_blank" rel="noopener">https://github.com/nakagami/CyMySQL</a></p>
+<p>###]<strong>[Python]代码 </strong></p>
+<p>#-*- encoding: utf-8 -*-</p>
+<p><strong>import</strong> os, sys, string</p>
+<p><strong>import</strong> MySQLdb</p>
+<p># 连接数据库　</p>
+<p><strong>try</strong>:</p>
+<pre><code>conn **=**
+</code></pre><p>MySQLdb.connect(host<strong>=</strong>\’localhost\’,user<strong>=</strong>\’root\’,passwd<strong>=</strong>\’xxxx\’,db<strong>=</strong>\’test1\’)</p>
+<p><strong>except</strong> Exception, e:</p>
+<pre><code>print e
+
+sys.exit()
+</code></pre><p># 获取cursor对象来进行操作</p>
+<p>cursor <strong>=</strong> conn.cursor()</p>
+<p># 创建表</p>
+<p>sql <strong>=</strong> \”create table if not exists test1(name varchar(128) primary<br>key, age int(4))\”</p>
+<p>cursor.execute(sql)</p>
+<p># 插入数据</p>
+<p>sql <strong>=</strong> \”insert into test1(name, age) values (\’%s\’, %d)\” <strong>%</strong><br>(\”zhaowei\”, 23)</p>
+<p><strong>try</strong>:</p>
+<pre><code>cursor.execute(sql)
+</code></pre><p><strong>except</strong> Exception, e:</p>
+<pre><code>print e
+</code></pre><p>sql <strong>=</strong> \”insert into test1(name, age) values (\’%s\’, %d)\” <strong>%</strong><br>(\”张三\”, 21)</p>
+<p><strong>try</strong>:</p>
+<pre><code>cursor.execute(sql)
+</code></pre><p><strong>except</strong> Exception, e:</p>
+<pre><code>print e
+</code></pre><p># 插入多条</p>
+<p>sql <strong>=</strong> \”insert into test1(name, age) values (%s, %s)\”</p>
+<p>val <strong>=</strong> ((\”李四\”, 24), (\”王五\”, 25), (\”洪六\”, 26))</p>
+<p><strong>try</strong>:</p>
+<pre><code>cursor.executemany(sql, val)
+</code></pre><p><strong>except</strong> Exception, e:</p>
+<pre><code>print e
+</code></pre><p>#查询出数据</p>
+<p>sql <strong>=</strong> \”select * from test1\”</p>
+<p>cursor.execute(sql)</p>
+<p>alldata <strong>=</strong> cursor.fetchall()</p>
+<p># 如果有数据返回，就循环输出, alldata是有个二维的列表</p>
+<p><strong>if</strong> alldata:</p>
+<pre><code>**for** rec **in** alldata:
+
+    print rec\[0\], rec\[1\]
+</code></pre><p>cursor.close()</p>
+<p>conn.close()</p>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>
