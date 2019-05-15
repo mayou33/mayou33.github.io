@@ -312,11 +312,15 @@ MAPPING_BEYOND_END = PAGE_TABLE_SIZE(LOWMEM_PAGES) &amp;lt;&amp;lt; PAGE_SHIFT
 &amp;nbsp; &amp;nbsp;&amp;nbsp;那么看一下剩下的那部分汇编：
 </code></pre><blockquote>
 <p>addl $__PAGE_OFFSET, %edi</p>
+</blockquote>
+<blockquote>
 <p>movl %edi, pa(_brk_end)</p>
 </blockquote>
 <pre><code>&amp;nbsp; &amp;nbsp;&amp;nbsp;这是为了将页表的边界值的虚拟地址存入到&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;_brk_end&lt;/span&gt;里面。
 </code></pre><blockquote>
 <p>shrl $12, %eax</p>
+</blockquote>
+<blockquote>
 <p>movl %eax, pa(max_pfn_mapped)</p>
 </blockquote>
 <pre><code>&amp;nbsp; &amp;nbsp;&amp;nbsp;而这里把最大映射的页框数量写入&lt;span style=&quot;-ms-word-wrap: break-word;&quot;&gt;max_pfn_mapped&lt;/span&gt;变量中。

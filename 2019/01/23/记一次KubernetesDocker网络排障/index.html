@@ -103,7 +103,9 @@
   <div class="post-content"><p>酷 壳</p>
 <p><a href="https://coolshell.cn/articles/18654.html" target="_blank" rel="noopener">https://coolshell.cn/articles/18654.html</a> </p>
 <blockquote>
-<h1 id="记一次Kubernetes-Docker网络排障"><a href="#记一次Kubernetes-Docker网络排障" class="headerlink" title="记一次Kubernetes/Docker网络排障"></a>记一次Kubernetes/Docker网络排障</h1><p>昨天周五晚上，临下班的时候，用户给我们报了一个比较怪异的Kubernetes集群下的网络不能正常访问的问题，让我们帮助查看一下，我们从下午5点半左右一直跟进到晚上十点左右，在远程不能访问用户机器只能远程遥控用户的情况找到了的问题。这个问题比较有意思，我个人觉得其中的调查用到的的命令以及排障的一些方法可以分享一下，所以写下了这篇文章。</p>
+<h1 id="记一次Kubernetes-Docker网络排障"><a href="#记一次Kubernetes-Docker网络排障" class="headerlink" title="记一次Kubernetes/Docker网络排障"></a>记一次Kubernetes/Docker网络排障</h1></blockquote>
+<blockquote>
+<p>昨天周五晚上，临下班的时候，用户给我们报了一个比较怪异的Kubernetes集群下的网络不能正常访问的问题，让我们帮助查看一下，我们从下午5点半左右一直跟进到晚上十点左右，在远程不能访问用户机器只能远程遥控用户的情况找到了的问题。这个问题比较有意思，我个人觉得其中的调查用到的的命令以及排障的一些方法可以分享一下，所以写下了这篇文章。</p>
 <h4 id="问题的症状"><a href="#问题的症状" class="headerlink" title="问题的症状"></a>问题的症状</h4><p>用户直接在微信里说，他们发现在Kuberbnetes下的某个pod被重启了几百次甚至上千次，于是开启调查这个pod，发现上面的服务时而能够访问，时而不能访问，也就是有一定概率不能访问，不知道是什么原因。而且并不是所有的pod出问题，而只是特定的一两个pod出了网络访问的问题。用户说这个pod运行着Java程序，为了排除是Java的问题，用户用 <code>docker exec -it</code> 命令直接到容器内启了一个 Python的 SimpleHttpServer来测试发现也是一样的问题。</p>
 <p>我们大概知道用户的集群是这样的版本，Kuberbnetes 是1.7，网络用的是flannel的gw模式，Docker版本未知，操作系统CentOS 7.4，直接在物理机上跑docker，物理的配置很高，512GB内存，若干CPU核，上面运行着几百个Docker容器。</p>
 <h4 id="问题的排查"><a href="#问题的排查" class="headerlink" title="问题的排查"></a>问题的排查</h4><h5 id="问题初查"><a href="#问题初查" class="headerlink" title="问题初查"></a>问题初查</h5><p>首先，我们排除了flannel的问题，因为整个集群的网络通信都正常，只有特定的某一两个pod有问题。而用 <code>telnet ip port</code> 的命令手工测试网络连接时有很大的概率出现 <code>connection refused</code> 错误，大约 1/4的概率，而3/4的情况下是可以正常连接的。</p>
@@ -136,10 +138,12 @@
 <li>于是，我们用指定位置的方式查看Docker的network namespace里的IP地址</li>
 </ul>
 <p>这里要动用 <code>nsenter</code> 命令，这个命令可以进入到namespace里执行一些命令。比如</p>
-<p><code>$ nsenter --net=``/var/run/docker/netns/421bdb2accf1</code> <code>ifconfig</code> <code>-a</code></p>
+</blockquote>
+<blockquote>
+<p><code>$ nsenter --net=`</code>/var/run/docker/netns/421bdb2accf1<code></code>ifconfig<code></code>-a`</p>
 <p>上述的命令，到 <code>var/run/docker/netns/421bdb2accf1</code> 这个network namespace里执行了 <code>ifconfig -a</code> 命令。于是我们可以用下面 命令来遍历所有的network namespace。</p>
 <p>1</p>
-<p><code>$</code> <code>ls</code> <code>/var/run/docker/netns</code> <code>|</code> <code>xargs</code> <code>-I {} nsenter --net=``/var/run/docker/netns/``{} ip addr</code></p>
+<p><code>$</code> <code>ls</code> <code>/var/run/docker/netns</code> <code>|</code> <code>xargs</code> <code>-I {} nsenter --net=`</code>/var/run/docker/netns/<code></code>{} ip addr`</p>
 <p>然后，我们发现了比较诡异的事情。</p>
 <ul>
 <li><code>10.233.14.145</code> 我们查到了这个IP，说明，docker的namespace下还有这个IP。</li>
@@ -180,16 +184,20 @@
 <h4 id="其它事宜"><a href="#其它事宜" class="headerlink" title="其它事宜"></a>其它事宜</h4><p>有同学问，为什么我在这个文章里写的是 <code>docker-containe</code> 而不是 <code>containd</code> 进程？这是因为被 <code>pstree</code> 给截断了，用 <code>ps</code> 命令可以看全，只是进程名的名字有一个 <code>docker-</code>的前缀。</p>
 <p>下面是这两种不同安装包的进程树的差别（其中 <code>sleep</code> 是我用 <code>buybox</code> 镜像启动的）</p>
 <p>CentOS 系统安装包</p>
-<p><code>systemd───dockerd─┬─docker-contained─┬─3*[docker-contained-shim─┬─``sleep``]</code></p>
+</blockquote>
+<blockquote>
+<p><code>systemd───dockerd─┬─docker-contained─┬─3*[docker-contained-shim─┬─`</code>sleep<code></code>]`</p>
 <p><code>│                 │                    └─9*[{docker-containe}]]</code></p>
-<p><code>│                 ├─docker-contained-shim─┬─``sleep</code></p>
+<p><code>│                 ├─docker-contained-shim─┬─`</code>sleep`</p>
 <p><code>│                 │                 └─10*[{docker-containe}]</code></p>
 <p><code>│                 └─14*[{docker-contained-shim}]</code></p>
 <p><code>└─17*[{dockerd}]</code></p>
 <p>Docker 官方安装包</p>
-<p><code>systemd───dockerd─┬─containerd─┬─3*[containerd-shim─┬─``sleep``]</code></p>
+</blockquote>
+<blockquote>
+<p><code>systemd───dockerd─┬─containerd─┬─3*[containerd-shim─┬─`</code>sleep<code></code>]`</p>
 <p><code>│            │                 └─9*[{containerd-shim}]</code></p>
-<p><code>│            ├─2*[containerd-shim─┬─``sleep``]</code></p>
+<p><code>│            ├─2*[containerd-shim─┬─`</code>sleep<code></code>]`</p>
 <p><code>│            │                    └─9*[{containerd-shim}]]</code></p>
 <p><code>│            └─11*[{containerd}]</code></p>
 <p><code>└─10*[{dockerd}]</code></p>

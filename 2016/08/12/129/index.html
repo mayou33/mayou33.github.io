@@ -119,7 +119,7 @@ The CoreOS OVA image contains the VMware tools, and a OEM cloud-config which exe
 <pre><code>&lt;pre&gt;
 </code></pre><p>curl -LO <a href="https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova" target="_blank" rel="noopener">https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova</a></p>
 <pre><code>1.  通过 CentOS 从 CoreOS 官网获取 CoreOS 介质--
-</code></pre><ol>
+</code></pre><ol start="2">
 <li>选择 vSphere Client 菜单的&rdquo;File—&gt;Deploy OVF Template…&rdquo;</li>
 <li>在向导中选择&nbsp;D:\iso\coreos_production_vmware_ova.ova</li>
 <li>定义 CoreOS 虚拟机的名字</li>
@@ -129,7 +129,7 @@ The CoreOS OVA image contains the VMware tools, and a OEM cloud-config which exe
 </li>
 <li><p><strong>&nbsp;</strong>要获取 CoreOS 虚拟机访问权限，请执行以下操作：</p>
 <pre><code>1.  打开 CoreOS 虚拟机的电源，然后打开控制台。
-</code></pre><ol>
+</code></pre><ol start="2">
 <li>出现引导加载程序提示时，按<strong>&nbsp;e</strong>&nbsp;键停止引导过程。</li>
 <li>添加&nbsp;<code>coreos.autologin</code>&nbsp;作为内核引导参数，然后按 Ctrl-x 或 F10 进行引导。这会使控制台跳过登录提示，而直接进入用户的 shellcore<code>。</code></li>
 </ol>

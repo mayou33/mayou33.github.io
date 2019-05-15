@@ -166,14 +166,14 @@ location = /myapp {
 }
 </code></pre><p>}</p>
 <p>比如，使用Nginx做请求代理（HTTP，FastCGI，或者其他请求类型）时，上游服务器upstream可以在返回的响应头中增加一个Link字段。</p>
-<p>Link: ; as=style; rel=preload;</p>
+<p>Link: &lt;/style.css&gt;; as=style; rel=preload;</p>
 <p>Nginx解析这个头部字段内容，并自动推送资源/style.css。<br>Link字段中的路径必须是绝对路径，可以带查询参数。</p>
 <p>想要推送多个资源，你可以在头部添加多个Link字段，或者只用一个Link，但用逗号分隔多个资源说明。</p>
-<p> Link ; as=style; rel=preload, ; as=image; rel=preload;</p>
+<p> Link &lt;/style.css&gt;; as=style; rel=preload, &lt;/favicon.ico&gt;; as=image; rel=preload;</p>
 <p>如果你不想让Nginx推送一个已经加载过的资源，向头部加一个nopush参数</p>
-<h1 id="Resource-is-not-pushed"><a href="#Resource-is-not-pushed" class="headerlink" title="Resource is not pushed"></a>Resource is not pushed</h1><p>Link: ; as=image; rel=preload; nopush;</p>
+<h1 id="Resource-is-not-pushed"><a href="#Resource-is-not-pushed" class="headerlink" title="Resource is not pushed"></a>Resource is not pushed</h1><p>Link: &lt;/nginx.png&gt;; as=image; rel=preload; nopush;</p>
 <p>当http2_push_preload已经开启，你也可以在nginx配置中添加Link响应头来推送资源。</p>
-<p>add_header Link “; as=style; rel=preload;”;</p>
+<p>add_header Link “&lt;/style.css&gt;; as=style; rel=preload;”;</p>
 <p>选择性推送资源给客户端</p>
 <p>HTTP/2的标准中没有解决什么资源应该推送、什么资源不需推送的问题。不过很显然，推送的资源最好不是已经缓存过的内容，否则这次推送就没有意义了。</p>
 <p>一个可行的方案是，只在客户端第一次访问网站时推送资源。你可以在程序中检查是否有该客户端对应的session存在，只有在没有session时才推送，换言之，也就是选择性地推送资源。</p>
@@ -190,7 +190,7 @@ location = /demo.html {
     add_header Link $resources;
 }
 </code></pre><p>}</p>
-<p>map $http_cookie $resources {<br>    “~*session=1” “”;<br>    default “; as=style; rel=preload, ; as=image; rel=preload, ; as=style; rel=preload”;<br>}</p>
+<p>map $http_cookie $resources {<br>    “~*session=1” “”;<br>    default “&lt;/style.css&gt;; as=style; rel=preload, &lt;/image1.jpg&gt;; as=image; rel=preload, &lt;/image2.jpg&gt;; as=style; rel=preload”;<br>}</p>
 <p>测试服务器端推送的效果</p>
 <p>为了衡量服务器端推送的效果，我们创建一个简单的页面/demo.html，它引用了一个独立的css文件/style.css，这个css又引用了两个图片，我们使用三种不同的配置测试页面加载的速度：HTTP, HTTPS, HTTP/2。</p>
 <pre><code>Sequential GETs (No optimization) – The browser loaded resources when it discovered they were required

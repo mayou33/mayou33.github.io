@@ -191,7 +191,7 @@
 <p> 需要注意，连接被复用后，TWrecycled计数器会增加(/proc/net/netstat中TWrecycled值)</p>
 <p> 3.4.2 - net.ipv4.tcp_tw_recycle：更激进的设置</p>
 <p> 启用TIME_WAIT 状态的sockets的快速回收，影响所有连入和连出的连接</p>
-<p> [3]<em>kernel sysctl 官方指南 </em>是这么写的</p>
+<p> [3]_kernel sysctl 官方指南 _是这么写的</p>
 <p> Enable fast recycling TIME-WAIT sockets. Default value is 0. It should not be changed without advice/request of technical experts.</p>
 <p> 这次表述的更加模糊，继续翻看源码：</p>
 <p> <strong>net/ipv4/tcp_input.c</strong></p>

@@ -109,7 +109,7 @@
 <p>1024 位或低于它的 DSA 和 RSA 加密是很弱的，请不要使用。当考虑 ssh 客户端向后兼容性的时候，请使用 RSA密匙代替 ECDSA 密匙。所有的 ssh 密钥要么使用 ED25519 ，要么使用 RSA，不要使用其它类型。</p>
 <p>$ ssh-keygen -t key_type -b bits -C “comment”</p>
 <p>示例：</p>
-<p>$ ssh-keygen -t ed25519 -C “Login to production cluster at xyz corp”<br>或<br>$ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa<em>aws</em>$(date +%Y-%m-%d) -C”AWS key for abc corp clients”</p>
+<p>$ ssh-keygen -t ed25519 -C “Login to production cluster at xyz corp”<br>或<br>$ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa_aws_$(date +%Y-%m-%d) -C”AWS key for abc corp clients”</p>
 <p>下一步，使用 ssh-copy-id 命令安装公匙：</p>
 <p>$ ssh-copy-id -i /path/to/public-key-file user@host<br>或<br>$ ssh-copy-id user@remote-server-ip-or-dns-name</p>
 <p>示例：</p>

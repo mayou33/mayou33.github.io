@@ -184,25 +184,25 @@
 <li>MyISAM</li>
 </ul>
 <ul>
-<li>[ ] 热备</li>
+<li style="list-style: none"><input type="checkbox"> 热备</li>
 </ul>
 <ul>
-<li>[x] 温备</li>
+<li style="list-style: none"><input type="checkbox" checked> 温备</li>
 </ul>
 <ul>
-<li>[x] 冷备</li>
+<li style="list-style: none"><input type="checkbox" checked> 冷备</li>
 </ul>
 <ul>
 <li>InnoDB</li>
 </ul>
 <ul>
-<li>[x] 热备</li>
+<li style="list-style: none"><input type="checkbox" checked> 热备</li>
 </ul>
 <ul>
-<li>[x] 温备</li>
+<li style="list-style: none"><input type="checkbox" checked> 温备</li>
 </ul>
 <ul>
-<li>[x] 冷备</li>
+<li style="list-style: none"><input type="checkbox" checked> 冷备</li>
 </ul>
 <pre><code>我们在考虑完数据在备份时, 数据库的运行状态之后还需要考虑对于`&lt;font size=&quot;3&quot;&gt;MySQL&lt;/font&gt;`数据库中数据的备份方式
 </code></pre><ul>
@@ -268,13 +268,13 @@
 </code></pre><ol>
 <li>如果数据量较小, 可以使用第一种方式, 直接复制数据库文件</li>
 </ol>
-<ol>
+<ol start="2">
 <li>如果数据量还行, 可以使用第二种方式, 先使用mysqldump对数据库进行完全备份, 然后定期备份BINARY LOG达到增量备份的效果</li>
 </ol>
-<ol>
+<ol start="3">
 <li>如果数据量一般, 而又不过分影响业务运行, 可以使用第三种方式, 使用<code>&lt;font size=&quot;3&quot;&gt;lvm2&lt;/font&gt;</code>的快照对数据文件进行备份, 而后定期备份BINARY LOG达到增量备份的效果</li>
 </ol>
-<ol>
+<ol start="4">
 <li>如果数据量很大, 而又不过分影响业务运行, 可以使用第四种方式, 使用<code>&lt;font size=&quot;3&quot;&gt;xtrabackup&lt;/font&gt;</code>进行完全备份后, 定期使用<code>&lt;font size=&quot;3&quot;&gt;xtrabackup&lt;/font&gt;</code>进行增量备份或差异备份</li>
 </ol>
 </blockquote>

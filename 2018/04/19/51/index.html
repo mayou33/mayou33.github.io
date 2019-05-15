@@ -194,8 +194,8 @@
 <li>9.9.9.9</li>
 </ul>
 <p>healthcheck</p>
-<p>healthcheck:<br>  test: [“CMD”, “curl”, “-f”, “<a href="http://localhost" target="_blank" rel="noopener">http://localhost</a>“]<br>  interval: 1m30s<br>  timeout: 10s<br>  retries: 3<br>  start_period: 40s</p>
-<p>test: [“CMD”, “curl”, “-f”, “<a href="http://localhost" target="_blank" rel="noopener">http://localhost</a>“]<br>test: [“CMD-SHELL”, “curl -f <a href="http://localhost" target="_blank" rel="noopener">http://localhost</a> || exit 1”]<br>test: curl -f <a href="https://localhost" target="_blank" rel="noopener">https://localhost</a> || exit 1</p>
+<p>healthcheck:<br>  test: [“CMD”, “curl”, “-f”, “<a href="http://localhost&quot;]" target="_blank" rel="noopener">http://localhost&quot;]</a><br>  interval: 1m30s<br>  timeout: 10s<br>  retries: 3<br>  start_period: 40s</p>
+<p>test: [“CMD”, “curl”, “-f”, “<a href="http://localhost&quot;]" target="_blank" rel="noopener">http://localhost&quot;]</a><br>test: [“CMD-SHELL”, “curl -f <a href="http://localhost" target="_blank" rel="noopener">http://localhost</a> || exit 1”]<br>test: curl -f <a href="https://localhost" target="_blank" rel="noopener">https://localhost</a> || exit 1</p>
 <p>sysctls<br>Kernel parameters to set in the container<br>sysctls:<br>  net.core.somaxconn: 1024<br>  net.ipv4.tcp_syncookies: 0</p>
 <p>sysctls:</p>
 <ul>

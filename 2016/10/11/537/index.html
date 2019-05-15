@@ -311,7 +311,7 @@
 <p>五：远程仓库。</p>
 <p>&nbsp; &nbsp; &nbsp;<span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">在了解之前，先注册github账号，由于你的本地Git仓库和github仓库之间的传输是通过SSH加密的，所以需要一点设置：</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">&nbsp; &nbsp; &nbsp;第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果有的话，直接跳过此如下命令，如果没有的话，打开命令行，输入如下命令：</span></p>
-<p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">ssh-keygen&nbsp; -t rsa &ndash;C &ldquo;youremail@example.com&rdquo;, 由于我本地此前运行过一次，所以本地有，如下所示：</span></p>
+<p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">ssh-keygen&nbsp; -t rsa &ndash;C &ldquo;<a href="mailto:youremail@example.com" target="_blank" rel="noopener">youremail@example.com</a>&rdquo;, 由于我本地此前运行过一次，所以本地有，如下所示：</span></p>
 <p>&nbsp;<img src="http://images.cnitblog.com/blog/561794/201410/251355342303027.png" alt></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</span></p>
 <p><span style="line-height: 1.8; font-family: &quot;Microsoft YaHei&quot;; font-size: 16px;">第二步：登录github,打开&rdquo; settings&rdquo;中的SSH Keys页面，然后点击&ldquo;Add SSH Key&rdquo;,填上任意title，在Key文本框里黏贴id_rsa.pub文件的内容。</span></p>

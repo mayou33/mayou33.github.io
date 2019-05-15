@@ -480,7 +480,7 @@ JIMDB集群会进行多机房主从同步，各自机房读取自己机房的从
 <li>&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$template_root&nbsp;&quot;/export/App/nginx-app/template&nbsp;&quot;;&nbsp;&nbsp;</li>
 <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#url映射&nbsp;&nbsp;</li>
 <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;location&nbsp;~*&nbsp;&quot;^/product/(\d+).html$&quot;&nbsp;{&nbsp;&nbsp;</li>
-<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;/product/(.*)&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://item.jd.com/$1&nbsp;permanent;&nbsp;&amp;nbsp" target="_blank" rel="noopener">http://item.jd.com/$1&nbsp;permanent;&nbsp;&amp;nbsp</a>;</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;/product/(.*)&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://item.jd.com/$1&nbsp;permanent;&nbsp;" target="_blank" rel="noopener">http://item.jd.com/$1&nbsp;permanent;&nbsp;</a>&nbsp;</li>
 <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</li>
 <li>&nbsp;&nbsp;&nbsp;&nbsp;location&nbsp;~*&nbsp;&quot;^/(\d{6,12}).html$&quot;&nbsp;{&nbsp;&nbsp;</li>
 <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default_type&nbsp;text/html;&nbsp;&nbsp;</li>

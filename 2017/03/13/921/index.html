@@ -298,14 +298,12 @@ exit(1);
 `shmget 267264 30097568: Invalid argument
 
 Can not get shm...exit!`</pre>
-
 </blockquote>
 <pre><code>错误日志大概告诉我们是获取共享内存出错，通过strace看下：
 </code></pre><blockquote>
 <pre style="margin: 1em 0px; font-family: monospace, serif; font-size: 1em; white-space: pre-wrap; -ms-word-wrap: break-word;">
 
 `strace -tt -f -e trace=ipc ./a_mon_svr &nbsp; &nbsp; ../conf/a_mon_svr.conf`</pre>
-
 </blockquote>
 <pre><code>输出：
 </code></pre><blockquote>
