@@ -115,7 +115,7 @@
 </li>
 </ul>
 <p>结合以上的的 4 个层面的内容，整个后台技术栈的结构如图 2 所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOH0xL5AqDsFZl5FuTBrR54DbXiaBIKEQWG1dXxgiabhR1tZMYdznkfFCibg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOH0xL5AqDsFZl5FuTBrR54DbXiaBIKEQWG1dXxgiabhR1tZMYdznkfFCibg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p><em>图 2：后台技术栈结构</em></p>
 <p>以上的这些内容都需要我们从零开始搭建，在创业公司，没有大公司那些完善的基础设施，需要我们从开源界，从云服务商甚至有些需要自己去组合，去拼装，去开发一个适合自己的组件或系统以达成我们的目标。</p>
 <p>咱们一个个系统和组件的做选型，最终形成我们的后台技术栈。</p>
@@ -155,9 +155,9 @@
 <ul>
 <li><p><strong>支持四层协议请求（包括 TCP、UDP 协议）</strong></p>
 </li>
-<li><p><strong>支持七层协议请求（包括 HTTP、HTTPS 协议）</strong></p>
+<li><p><strong>支持七层协议请求（包括 HTTP、<a href="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https" target="_blank" rel="noopener">http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https</a> 协议）</strong></p>
 </li>
-<li><p><strong>集中化的证书管理系统支持 HTTPS 协议</strong></p>
+<li><p><strong>集中化的证书管理系统支持 <a href="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https" target="_blank" rel="noopener">http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https</a> 协议</strong></p>
 </li>
 <li><p><strong>健康检查</strong></p>
 </li>
@@ -284,7 +284,7 @@
 <li><p><strong>Strider：</strong>Strider 是一个开源的持续集成和部署平台，使用 Node.js 实现，存储使用的是 MongoDB，BSD 许可证，概念上类似 Travis 和 Jenkins。</p>
 </li>
 <li><p><strong>GitLab CI：</strong>从 GitLab 8.0 开始，GitLab CI 就已经集成在 GitLab，我们只要在项目中添加一个 .gitlab-ci.yml 文件，然后添加一个 Runner，即可进行持续集成。</p>
-<p>并且 GitLab 与 Docker 有着非常好的相互协作的能力。免费版与付费版本的不同可以参见：<a href="https://about.gitlab.com/products/feature-comparison/。" target="_blank" rel="noopener">https://about.gitlab.com/products/feature-comparison/。</a></p>
+<p>并且 GitLab 与 Docker 有着非常好的相互协作的能力。免费版与付费版本的不同可以参见：<a href="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://about.gitlab.com/products/feature-comparison/。" target="_blank" rel="noopener">http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://about.gitlab.com/products/feature-comparison/。</a></p>
 </li>
 <li><p><strong>Travis：</strong>Travis 和 GitHub 强关联；闭源代码使用 SaaS 还需考虑安全问题；不可定制；开源项目免费，其他收费。</p>
 </li>
@@ -309,10 +309,10 @@
 <p>因为免费的 ELK 没有任何安全机制，所以这里使用了 Nginx 作反向代理，避免用户直接访问 Kibana 服务器。</p>
 <p>加上配置 Nginx 实现简单的用户认证，一定程度上提高安全性。另外，Nginx 本身具有负载均衡的作用，能够提高系统访问性能。</p>
 <p>ELK 架构如图 4 所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHLFF2gW7tmic4hyRdpYnibVhB6WcqmtBAzgibNJU1icF5jMH8XLzl81TWmw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHLFF2gW7tmic4hyRdpYnibVhB6WcqmtBAzgibNJU1icF5jMH8XLzl81TWmw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p><em>图 4：ELK 流程图</em></p>
 <p>对于有实时计算的需求，可以使用 Flume + Kafka + Storm + MySQL 方案，一般架构如图 5 所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHZGKMw47wt7BibvfmgdW7avvTjn6TI3iadzUtiaiaUyPPkjQrunNd5rpQVQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHZGKMw47wt7BibvfmgdW7avvTjn6TI3iadzUtiaiaUyPPkjQrunNd5rpQVQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p><em>图 5：实时分析系统架构图</em></p>
 <p>其中：</p>
 <ul>
@@ -330,7 +330,7 @@
 <p>常见业务的监控系统先有操作系统层面的监控（这部分较成熟），然后扩展出其他监控，如 Zabbix，小米的 Open-Falcon，也有一出来就是两者都支持的，如 Prometheus。</p>
 <p>如果对业务监控要求比较高一些，在创业选型中建议可以优先考虑 Prometheus。</p>
 <p>这里有一个有趣的分布，如图 6 所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHPTl2rLk8lqYOgrYOBChNlO5YqHLibGxNqVAxKMgQ8b1ibncdsdxxI3lA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHPTl2rLk8lqYOgrYOBChNlO5YqHLibGxNqVAxKMgQ8b1ibncdsdxxI3lA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p><em>图 6：监控系统分布</em></p>
 <p>亚洲区域使用 Zabbix 较多，而美洲和欧洲，以及澳大利亚使用 Prometheus 居多，换句话说，英文国家地区（发达国家？）使用 Prometheus 较多。</p>
 <p>Prometheus 是由 Sound Cloud 开发的开源监控报警系统和时序列数据库（TSDB）。</p>
@@ -375,7 +375,7 @@
 <p>创业公司前期不需要这种复杂，直接上 ZK，弄一个界面管理 ZK 的内容，记录一下所有人的操作日志，程序直连 ZK，或者或者用 Qconf 等基于 ZK 优化后的方案。</p>
 <p><strong>发布系统/部署系统</strong></p>
 <p>从软件生产的层面看，代码到最终服务的典型流程如图 8 所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHDB8dBw5ibetFngvwEyqItQEmIqXA9QGiaZ7EPOHktRCKTQeGZ6SlF9Uw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHDB8dBw5ibetFngvwEyqItQEmIqXA9QGiaZ7EPOHktRCKTQeGZ6SlF9Uw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p><em>图 8：流程图</em></p>
 <p>从上图中可以看出，从开发人员写下代码到服务最终用户是一个漫长过程，整体可以分成三个阶段：</p>
 <ul>
@@ -406,7 +406,7 @@
 </li>
 </ul>
 <p>如图 9 所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHDiaic1j2PcAC2XINp7jGic5xNEibEATFTyQvl94ibSbuuDdibzK0acuYt4Dw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHDiaic1j2PcAC2XINp7jGic5xNEibEATFTyQvl94ibSbuuDdibzK0acuYt4Dw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p><em>图 9：机器管理软件对比</em></p>
 <p>一般创业公司选择 Ansible 能解决大部分问题，其简单，不需要安装额外的客户端，可以从命令行来运行，不需要使用配置文件。</p>
 <p>至于比较复杂的任务，Ansible 配置通过名为 Playbook 的配置文件中的 YAML 语法来加以处理。Playbook 还可以使用模板来扩展其功能。</p>
@@ -472,7 +472,7 @@
 <p>创业过程中需要考虑成本，这里的成本不仅仅是花费多少钱，付出多少工资，有时更重要的是时间成本，很多业务在创业时大家拼的就是时间，就是一个时间窗，过了就没你什么事儿了。</p>
 <p>基于云的创业公司后台技术架构</p>
 <p>结合上面内容的考量，在对一个个系统和组件的做选型之后，以云服务为基础，一个创业公司的后台技术架构如图 10 所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHrjKmmogtoqibZgUrAdv9Mnhh7ic0eIw8odciaEG9OfNqpYPeeNmfXkTqA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNlCQLutAgiaIuxERdrptkmOHrjKmmogtoqibZgUrAdv9Mnhh7ic0eIw8odciaEG9OfNqpYPeeNmfXkTqA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p><em>图 10：后台技术架构</em></p>
 <p><em>作者：潘锦</em></p>
 </blockquote>
