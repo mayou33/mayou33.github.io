@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="keywords" content="undefined">
+  <meta name="description" content="互联网技术">
+  <meta name="author" content="zhangyu">
+
+  
+  <title>1小时学会ansible</title>
+  
+
+  <link rel="canonical" href="http://zhangyu8.me/2019/07/23/1小时学会ansible/index.html">
+  <link rel="shortcut icon" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="undefined">
+  <link rel="stylesheet" href="/font.css">
+</head>
+
+
+  <body>
+    <aside class="aside">
+  <nav class="aside-menu">
+    <ul class="aside-list">
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
+        
+      
+        
+        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
+        
+      
+    </ul>
+  </nav>
+
+  <article class="aside-show">
+    
+      <form class="search-from" id="search-from">
+  <input class="search-text" id="search-text" type="text" name="searchText" value autocomplete="off">
+  <button class="search-btn" id="search-btn" type="button"><i class="search-btn-icon iconfont icon-sousuo-sousuo"></i></button>
+</form>
+
+      <article class="search-data" id="search-data">
+  <button class="search-close" id="search-close"><i class="search-close-icon iconfont icon-houdongfangiconfont10"></i></button>
+
+  <div class="search-wrapper" id="search-wrapper"></div>
+</article>
+
+    
+    <div class="aside-show-wrapper">
+      <figure class="aside-avatar">
+        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
+        <figcaption class="aside-avatar-caption">
+          大雨哥
+          
+          <strong class="aside-avatar-STRONG">个人博客</strong>
+          
+        </figcaption>
+      </figure>
+      <p class="aside-show-description">互联网技术/架构/团队</p>
+    </div>
+  </article>
+</aside>
+
+
+    <article class="main" id="main">
+      <article class="post min-height">
+  
+  <header class="post-header">
+    
+    <h1 class="post-title">1小时学会ansible</h1>
+    <p class="post-meta">
+      <span class="post-time">2019-07-23</span>
+      
+      <a href="/categories/ansible/" title="ansible" class="post-categories">ansible</a>
+      
+      
+      <a href="/tags/ansible/" " title="ansible" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>ansible</a>
+      
+    </p>
+    
+  </header>
+  <div class="post-content"><p>本文转自</p>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1563859948&amp;ver=1745&amp;signature=zpx9swZEYkt-nXDpGeZfAKdS1kWz26acsBVB5oo6xDhxk-ZM0jF-WNQ8m09ele3n5maRDCkYHElGFLmvGMmC8dIElZZZi2a-Bt5-pcLon9gv6KrVsl7AqdAP3rRJXDcx&amp;new=1" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1563859948&amp;ver=1745&amp;signature=zpx9swZEYkt-nXDpGeZfAKdS1kWz26acsBVB5oo6xDhxk-ZM0jF-WNQ8m09ele3n5maRDCkYHElGFLmvGMmC8dIElZZZi2a-Bt5-pcLon9gv6KrVsl7AqdAP3rRJXDcx&amp;new=1</a></p>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1563859948&amp;ver=1745&amp;signature=zpx9swZEYkt-nXDpGeZfAKdS1kWz26acsBVB5oo6xDhxk-ZM0jF-WNQ8m09ele3n5maRDCkYHElGFLmvGMmC8dIElZZZi2a-Bt5-pcLon9gv6KrVsl7AqdAP3rRJXDcx&amp;new=1" target="_blank" rel="noopener">运维之美</a></p>
+<blockquote>
+<p><strong>Ansible?整体架构</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EP1SYj2KUsYHADAY77LOvdibaAqtLbic1CibPIGWibVngTmH4P70kV9DglUQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible?核心组件</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPSdcZMVkEeYFISzAsoQ0wwsKRibn3ic628H2ZbUapw5vemBKAMpncPAPQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible?安装及常用命令和配置文件</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPytXAvPs1icF3Hia1gfthhy8nKyELw2k6umaXAMM5tEYicCMg77EazJdQw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible??Inventory</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPbEOLAame0ia7bibgsn1AFthpyI3qDO5GmFktBqeppHaUJTRZ7QxtOemQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible?使用示例</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPZZmU3sOnGxLJYWSmSkMdwoNUhiaCaYGw4ibsibD0Dlb27IFjJg49jBgnQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible?常用模块</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPD2EQDU70xHPFOic6h90w1By3FAHt6vTjExUqortLtpnzJQ6XsblAicnw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPYjtfHK6tTXccmbF8V9zSH1jKgXpYm1DWbgpRUdba9iaicNu3gYer996g/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook?结构目录</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPOx8CGJx13AkkjiajKAfZZlUGHNA3vmuTica9jC95pibPBLHOyAX3aJTaA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook?角色</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPjap4zEDzlZkcLd8vicCgsib0vEyiawZPXTVJy2Wfibiawa7mNAgcvOjta6A/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook?变量</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPLRrjcVribejVb8SK2CQKPIxAkvgIw8v6XzcvoTCfUMmjEicb4l0P6Dfw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook?模板</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPxakaRtuJPJT0YKbTA5moicBQbNDSrBxMg7icWH08EPYpWvOVemGTaK7Q/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook?任务结果传递</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPRZTqXjJGp1OpNs29yXzibB8wFhoAs84icvMqgfK33JDEBiaQJcBmmspFQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook?数组遍历</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPptDUibqFwUlZEhYuNY4P1gVXnSFPBR68zeSn2gXGmibC18er7M8LOJDQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook?条件判断</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPicdG07ruV63zt7bcYH1JTOxteGCaGjWibLlBib0cTJJQddhuyKPvdtjzA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>Ansible? Playbook??标签</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPAbUlueVrRmxAxdd4jcQCOSxqFX47ztKLe38CwtR0505dpvcgeD9gTQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><strong>**Ansible? Playbook?</strong>异常处理**</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPwTZ1iauZIcict9XKrIaT3YlCrib0iaaZnoJCNeYxp6GMFKJ6g5kfL5ia1pQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p>如果你对通过 Ansible?实现自动化运维非常感兴趣，还可以<strong>后台回复?:**</strong>「<strong><strong>Ansible</strong></strong>」下载相关视频教程哟**~</p>
+<blockquote>
+<p>来源：_简书_<br>原文：<em>http:__//t.cn/E6klEXr</em>题图：<em>来自谷歌图片搜索?</em><br>版权：<em>本文版权归原作者所有</em></p>
+</blockquote>
+</blockquote>
+</div>
+    
+      
+      <div class="toc-wrapper">
+        <div class="toc-scroll">
+          <div class="toc-middle">
+            
+          </div>
+        </div>
+      </div>
+    
+  
+</article>
+
+      <footer class="footer">
+  <p class="footer-text"></p>
+</footer>
+
+    </article>
+
+    <script src="/js/to-top.js"></script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

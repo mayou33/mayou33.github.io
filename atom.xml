@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://zhangyu33.com/"/>
-  <updated>2019-06-02T13:24:55.969Z</updated>
-  <id>http://zhangyu33.com/</id>
+  <link href="http://zhangyu8.me/"/>
+  <updated>2019-07-23T05:46:44.265Z</updated>
+  <id>http://zhangyu8.me/</id>
   
   <author>
     <name>zhangyu</name>
@@ -17,9 +17,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>1小时学会ansible</title>
+    <link href="http://zhangyu8.me/2019/07/23/1%E5%B0%8F%E6%97%B6%E5%AD%A6%E4%BC%9Aansible/"/>
+    <id>http://zhangyu8.me/2019/07/23/1小时学会ansible/</id>
+    <published>2019-07-22T16:00:00.000Z</published>
+    <updated>2019-07-23T05:46:44.265Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文转自</p><p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1563859948&amp;ver=1745&amp;signature=zpx9swZEYkt-nXDpGeZfAKdS1kWz26acsBVB5oo6xDhxk-ZM0jF-WNQ8m09ele3n5maRDCkYHElGFLmvGMmC8dIElZZZi2a-Bt5-pcLon9gv6KrVsl7AqdAP3rRJXDcx&amp;new=1" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1563859948&amp;ver=1745&amp;signature=zpx9swZEYkt-nXDpGeZfAKdS1kWz26acsBVB5oo6xDhxk-ZM0jF-WNQ8m09ele3n5maRDCkYHElGFLmvGMmC8dIElZZZi2a-Bt5-pcLon9gv6KrVsl7AqdAP3rRJXDcx&amp;new=1</a></p><p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1563859948&amp;ver=1745&amp;signature=zpx9swZEYkt-nXDpGeZfAKdS1kWz26acsBVB5oo6xDhxk-ZM0jF-WNQ8m09ele3n5maRDCkYHElGFLmvGMmC8dIElZZZi2a-Bt5-pcLon9gv6KrVsl7AqdAP3rRJXDcx&amp;new=1" target="_blank" rel="noopener">运维之美</a></p><blockquote><p><strong>Ansible?整体架构</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EP1SYj2KUsYHADAY77LOvdibaAqtLbic1CibPIGWibVngTmH4P70kV9DglUQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible?核心组件</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPSdcZMVkEeYFISzAsoQ0wwsKRibn3ic628H2ZbUapw5vemBKAMpncPAPQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible?安装及常用命令和配置文件</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPytXAvPs1icF3Hia1gfthhy8nKyELw2k6umaXAMM5tEYicCMg77EazJdQw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible??Inventory</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPbEOLAame0ia7bibgsn1AFthpyI3qDO5GmFktBqeppHaUJTRZ7QxtOemQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible?使用示例</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPZZmU3sOnGxLJYWSmSkMdwoNUhiaCaYGw4ibsibD0Dlb27IFjJg49jBgnQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible?常用模块</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPD2EQDU70xHPFOic6h90w1By3FAHt6vTjExUqortLtpnzJQ6XsblAicnw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPYjtfHK6tTXccmbF8V9zSH1jKgXpYm1DWbgpRUdba9iaicNu3gYer996g/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook?结构目录</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPOx8CGJx13AkkjiajKAfZZlUGHNA3vmuTica9jC95pibPBLHOyAX3aJTaA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook?角色</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPjap4zEDzlZkcLd8vicCgsib0vEyiawZPXTVJy2Wfibiawa7mNAgcvOjta6A/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook?变量</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPLRrjcVribejVb8SK2CQKPIxAkvgIw8v6XzcvoTCfUMmjEicb4l0P6Dfw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook?模板</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPxakaRtuJPJT0YKbTA5moicBQbNDSrBxMg7icWH08EPYpWvOVemGTaK7Q/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook?任务结果传递</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPRZTqXjJGp1OpNs29yXzibB8wFhoAs84icvMqgfK33JDEBiaQJcBmmspFQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook?数组遍历</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPptDUibqFwUlZEhYuNY4P1gVXnSFPBR68zeSn2gXGmibC18er7M8LOJDQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook?条件判断</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPicdG07ruV63zt7bcYH1JTOxteGCaGjWibLlBib0cTJJQddhuyKPvdtjzA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>Ansible? Playbook??标签</strong></p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPAbUlueVrRmxAxdd4jcQCOSxqFX47ztKLe38CwtR0505dpvcgeD9gTQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p><strong>**Ansible? Playbook?</strong>异常处理**</p><p><img src="https://mmbiz.qpic.cn/mmbiz_png/8ZFzrRjqatoibshtsaVtFMnLj3KxjX3EPwTZ1iauZIcict9XKrIaT3YlCrib0iaaZnoJCNeYxp6GMFKJ6g5kfL5ia1pQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p>如果你对通过 Ansible?实现自动化运维非常感兴趣，还可以<strong>后台回复?:**</strong>「<strong><strong>Ansible</strong></strong>」下载相关视频教程哟**~</p><blockquote><p>来源：_简书_<br>原文：<em>http:__//t.cn/E6klEXr</em>题图：<em>来自谷歌图片搜索?</em><br>版权：<em>本文版权归原作者所有</em></p></blockquote></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本文转自&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s?src=11&amp;amp;timestamp=1563859948&amp;amp;ver=1745&amp;amp;signature=zpx9swZEYkt-nXDpGeZfAKdS1kWz26
+      
+    
+    </summary>
+    
+      <category term="ansible" scheme="http://zhangyu8.me/categories/ansible/"/>
+    
+    
+      <category term="ansible" scheme="http://zhangyu8.me/tags/ansible/"/>
+    
+  </entry>
+  
+  <entry>
     <title>正确的时间管理</title>
-    <link href="http://zhangyu33.com/2019/06/02/%E6%AD%A3%E7%A1%AE%E7%9A%84%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/"/>
-    <id>http://zhangyu33.com/2019/06/02/正确的时间管理/</id>
+    <link href="http://zhangyu8.me/2019/06/02/%E6%AD%A3%E7%A1%AE%E7%9A%84%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/"/>
+    <id>http://zhangyu8.me/2019/06/02/正确的时间管理/</id>
     <published>2019-06-01T16:00:00.000Z</published>
     <updated>2019-06-02T13:24:55.969Z</updated>
     
@@ -35,17 +61,17 @@
     
     </summary>
     
-      <category term="管理" scheme="http://zhangyu33.com/categories/Management/"/>
+      <category term="管理" scheme="http://zhangyu8.me/categories/Management/"/>
     
     
-      <category term="管理" scheme="http://zhangyu33.com/tags/%E7%AE%A1%E7%90%86/"/>
+      <category term="管理" scheme="http://zhangyu8.me/tags/%E7%AE%A1%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>一个牛逼的创业公司后台技术栈搭建方案</title>
-    <link href="http://zhangyu33.com/2019/05/15/%E4%B8%80%E4%B8%AA%E7%89%9B%E9%80%BC%E7%9A%84%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E5%90%8E%E5%8F%B0%E6%8A%80%E6%9C%AF%E6%A0%88%E6%90%AD%E5%BB%BA%E6%96%B9%E6%A1%88/"/>
-    <id>http://zhangyu33.com/2019/05/15/一个牛逼的创业公司后台技术栈搭建方案/</id>
+    <link href="http://zhangyu8.me/2019/05/15/%E4%B8%80%E4%B8%AA%E7%89%9B%E9%80%BC%E7%9A%84%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E5%90%8E%E5%8F%B0%E6%8A%80%E6%9C%AF%E6%A0%88%E6%90%AD%E5%BB%BA%E6%96%B9%E6%A1%88/"/>
+    <id>http://zhangyu8.me/2019/05/15/一个牛逼的创业公司后台技术栈搭建方案/</id>
     <published>2019-05-14T16:00:00.000Z</published>
     <updated>2019-05-15T14:34:10.914Z</updated>
     
@@ -60,17 +86,17 @@
     
     </summary>
     
-      <category term="方案" scheme="http://zhangyu33.com/categories/%E6%96%B9%E6%A1%88/"/>
+      <category term="方案" scheme="http://zhangyu8.me/categories/%E6%96%B9%E6%A1%88/"/>
     
     
-      <category term="方案" scheme="http://zhangyu33.com/tags/%E6%96%B9%E6%A1%88/"/>
+      <category term="方案" scheme="http://zhangyu8.me/tags/%E6%96%B9%E6%A1%88/"/>
     
   </entry>
   
   <entry>
     <title>python操作mysql的多个方案</title>
-    <link href="http://zhangyu33.com/2019/04/11/python%E6%93%8D%E4%BD%9Cmysql%E7%9A%84%E5%A4%9A%E4%B8%AA%E6%96%B9%E6%A1%88/"/>
-    <id>http://zhangyu33.com/2019/04/11/python操作mysql的多个方案/</id>
+    <link href="http://zhangyu8.me/2019/04/11/python%E6%93%8D%E4%BD%9Cmysql%E7%9A%84%E5%A4%9A%E4%B8%AA%E6%96%B9%E6%A1%88/"/>
+    <id>http://zhangyu8.me/2019/04/11/python操作mysql的多个方案/</id>
     <published>2019-04-10T16:00:00.000Z</published>
     <updated>2019-04-11T14:00:02.641Z</updated>
     
@@ -86,17 +112,17 @@
     
     </summary>
     
-      <category term="mysql" scheme="http://zhangyu33.com/categories/mysql/"/>
+      <category term="mysql" scheme="http://zhangyu8.me/categories/mysql/"/>
     
     
-      <category term="mysql" scheme="http://zhangyu33.com/tags/mysql/"/>
+      <category term="mysql" scheme="http://zhangyu8.me/tags/mysql/"/>
     
   </entry>
   
   <entry>
     <title>闲扯Nginx的accept_mutex配置</title>
-    <link href="http://zhangyu33.com/2019/02/28/%E9%97%B2%E6%89%AFNginx%E7%9A%84accept_mutex%E9%85%8D%E7%BD%AE/"/>
-    <id>http://zhangyu33.com/2019/02/28/闲扯Nginx的accept_mutex配置/</id>
+    <link href="http://zhangyu8.me/2019/02/28/%E9%97%B2%E6%89%AFNginx%E7%9A%84accept_mutex%E9%85%8D%E7%BD%AE/"/>
+    <id>http://zhangyu8.me/2019/02/28/闲扯Nginx的accept_mutex配置/</id>
     <published>2019-02-27T16:00:00.000Z</published>
     <updated>2019-02-28T07:15:00.000Z</updated>
     
@@ -112,17 +138,43 @@
     
     </summary>
     
-      <category term="nginx" scheme="http://zhangyu33.com/categories/nginx/"/>
+      <category term="nginx" scheme="http://zhangyu8.me/categories/nginx/"/>
     
     
-      <category term="nginx" scheme="http://zhangyu33.com/tags/nginx/"/>
+      <category term="nginx" scheme="http://zhangyu8.me/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SRE工程师到底是做什么的？</title>
+    <link href="http://zhangyu8.me/2019/02/28/SRE%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%88%B0%E5%BA%95%E6%98%AF%E5%81%9A%E4%BB%80%E4%B9%88%E7%9A%84/"/>
+    <id>http://zhangyu8.me/2019/02/28/SRE工程师到底是做什么的/</id>
+    <published>2019-02-27T16:00:00.000Z</published>
+    <updated>2019-02-28T06:45:48.734Z</updated>
+    
+    <content type="html"><![CDATA[<p>SRE工程师到底是做什么的？ </p><p><a href="https://mp.weixin.qq.com/s/j5Sgrsm90B94jMwn1mA1Gg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/j5Sgrsm90B94jMwn1mA1Gg</a></p><blockquote><p>作者 | Erik Dietrich  </p><p>译者 | 无明</p><p>你是否也对站点可靠性工程师（SRE）这个角色存在很多疑问？本文介绍了 SRE 工程师的职责。</p><p>尽管站点可靠性工程已经存在了一段时间，但也只是最近才在业界获得一些名声。但人们对于站点可靠性工程师（SRE）的作用仍然存在很多疑问。我们所知道的大部分内容来自谷歌的《站点可靠性工程》一书。我们将在这篇文章中多次提到这本书。</p><p>人们将 SRE 与运营、系统管理员等进行比较，但这种比较不足以说明他们在现代软件环境中所发挥的作用。他们承担的责任多于运营。他们通常具有系统管理背景，同时也具备软件开发技能。SRE 结合了所有这些技能，确保复杂的分布式系统能够顺利运行。</p><p>那么他们是怎么做到这一切呢？</p><p>自动化一切</p><p>自动化是 SRE 角色与传统运营团队之间的一个区别。在过去，运营人员会通过执行脚本、按下按钮和其他手动操作来让软件系统保持运行。然而，在 SRE 世界中，人们非常重视自动化。这种驱动力来自 SRE 角色的工程方面。</p><p>当软件开发人员处于日复一日重复相同功能的境地时，他们将被迫实现自动化。这就是软件开发人员最擅长的事情。自动化并不仅限于对软件构建和一些验收测试进行自动化，还包括 CI/CD 和基础设施的创建和修补，以及监控、警报和自动响应某些事件。在谷歌的《站点可靠性工程》一书中，这也被称为消除辛劳：</p><p>辛劳是一种与运行生产服务相关的工作，它往往是手动的、重复的、可自动化的、战术性的，缺乏持久的价值，并随着服务的增长呈线性增长。</p><p>那么为什么我们要如此关注如何减少辛劳呢？减少工作量不仅使流程可重复和自动化，而且还为 SRE 提供了更多的时间用于构建工具和研究基础设施变更以便进一步提高站点可靠性。总之，工作量越少，用于确保软件生态系统可靠运行的时间和资源就越多，你就能越快地实现业务价值。</p><p>监控分布式系统</p><p>随着分布式系统的普及，对监控的需求也在增长。仅仅启动和运行应用程序是不够的。我们还需要确保基础设施运行正常，并确保所有其他内部依赖项都可访问且运行正常。此外，应用程序的业务功能应该提供适当的监控功能，以验证它们是否运行正常。</p><p>提供待命支持</p><p>与传统的运营角色类似，SRE 也有轮班待命的职责。除了监控基础设施和他们自己的服务之外，开发团队还可以向他们咨询和请他们一起进行故障排除。</p><p>轮班待命看起来是怎样的？通常，SRE 根据计划表进行轮班待命，计划表可以让其他 SRE 专注于工程方面，而且不会导致轮班待命工程师感到倦怠。轮换待命可以从几天到一周不等，或者更长时间。</p><p>在发生高优先级的事件时，SRE 需要调查和诊断问题。他们还可能会要求其他工程师或软件开发人员一起来解决问题。根据系统的 SLA，他们可能需要一起工作才能在几分钟内解决问题。对于低优先级问题，SRE 通常会在工作时间内处理它们。对于那些不喜欢在凌晨 3 点钟起床的工程师来说，这是一个好消息。</p><p>管理事件</p><p>管理事件时 SRE 角色的另一个重要部分。你可能会说这与轮班待命没有什么两样。找到问题然后解决它，这能有多难？</p><p>好吧，在管理事件时，SRE 需要运用额外的专业技能来确保一切顺利。例如，在发生中断时，可能有很多方法来诊断和解决问题。因此，为了妥善管理事件，必须有人监督和促进所有相关人员的行为。这就需要定义明确的角色。</p><p>虽然并非所有公司都包含谷歌推荐的角色，但我们至少应该考虑它们。这些角色包括：</p><ul><li><p>一名事件指挥官，对所发生的一切都保持高度关注；</p></li><li><p>处理或修改基础设施或系统的工程师；</p></li><li><p>将正确的信息传递给客户和管理层的沟通者角色；</p></li><li><p>负责规划会议、交接和后勤需求的规划者角色；</p></li><li><p>如果 SRE 没有明确定义的角色，那么当他们在尝试不同的解决方案时，如果没有前期协调和沟通，就容易发生混乱。</p></li></ul><p>事后调查</p><p>我们已经经历并解决了一个事件，现在准备好进行事后调查。通常，SRE 会促进或参与这些事后调查。</p><p>在进行事后调查时，所有相关方都被汇聚在一起，目标是分析事故期间都发生了什么，并找出根本原因。参与者还将决定将来如何防止或修复同样的事件。下面列出了事后调查将产出的内容：</p><ul><li><p>提高可靠性的故事或监控；</p></li><li><p>附加文档，以协助未来事件的处理；</p></li><li><p>进一步调查或测试，以证实与事件有关的任何假设。</p></li></ul><p>跟踪中断</p><p>SRE 的另一个职责是跟踪中断。这最终有助于识别长期趋势和创建合理的 SLO 和 SLA。</p><p>跟踪中断的用途包括监控低优先级事件。这些事件可能不会给消费者带来真正的问题，但是观察长期趋势和时间可以帮助隔离和解决那些似乎找不到原因的烦人 bug。</p><p>与开发团队合作</p><p>除了在轮班待命期间为开发团队提供支持，SRE 还提供咨询和故障排除服务。这样可以帮助其他 SRE 团队和软件开发团队，这些团队苦于处理运营或可靠性问题。</p><p>在这种情况下，SRE 将评估当前问题，并确定哪些可以通过自动化或工程工作进行改进。SRE 还可为可靠性问题提出解决方案。最重要的是，SRE 将推动团队流程的变革。这些变化将确保站点可靠性工程团队能够增强团队交付价值的能力。</p><p>创建服务水平指标和目标</p><p>当你听到有人说服务已经达到或正在努力达到 99.99％的正常运行时间时，他们指的是服务水平目标（SLO）。服务水平指标（SLI）用于衡量这些目标。换句话说，SLI 是关于如何衡量 SLO 的协议。SRE 通过提供历史服务性能数据来协助这些工作。它们还有助于为未来提供切合实际的目标，并可能为客户提供适当的 SLA 建议。</p><p>然后，SRE 会确保你的应用程序满足（但不超过）规定的 SLO。现在你可能会认为没有超过 SLO 会很奇怪。然而，制造超出实际需要的东西是对资源的浪费。SRE 平衡了客户需求和所提供服务的目标。</p><p>职责可能会有所不同</p><p>在这篇文章中，我们讨论了站点可靠性工程师参与的各种活动。虽然这些活动是由 SRE 完成的，但并不是一成不变的。公司会根据需要改变 SRE 的角色和职责。一般而言，处于 SRE 过程不同阶段的公司可能有不同的需求。</p><p>例如，新公司可能需要 SRE 的支持才能控制一般性中断。大部分能量都趋向于可靠性的基本水平。但是，在这一过程中走得更远的其他公司可能已经消除了公司范围的中断。他们可能会花更多时间来改进或验证与业务相关的服务指标。例如，在网站的普遍可用性达到稳定和可靠的状态之后，你的披萨店应用程序可能需要对披萨推荐机制进行新的监控。</p><p>   结论   </p><p>正如你所读到的，SRE 将时间花在技术和流程方面的职责上。他们不仅仅是运营或系统管理团队。他们利用自己的工程技能自动化和减少管理任务所需的人工干预。此外，他们还与其他工程团队合作，提供适当的监控、事件响应和管理。</p><p>随着时间的推移，这些职能提高了分布式系统的可靠性并降低维护成本。最后，他们通过组织传播站点可靠性工程文化，让所有团队都能学会在做出决策时以可靠性作为出发点。</p><p>英文原文：<a href="https://www.scalyr.com/blog/site-reliability-engineer/" target="_blank" rel="noopener">https://www.scalyr.com/blog/site-reliability-engineer/</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;SRE工程师到底是做什么的？ &lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/j5Sgrsm90B94jMwn1mA1Gg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.weixin.qq.co
+      
+    
+    </summary>
+    
+      <category term="devops" scheme="http://zhangyu8.me/categories/devops/"/>
+    
+    
+      <category term="devops" scheme="http://zhangyu8.me/tags/devops/"/>
     
   </entry>
   
   <entry>
     <title>谈谈我的三观</title>
-    <link href="http://zhangyu33.com/2019/02/28/%E8%B0%88%E8%B0%88%E6%88%91%E7%9A%84%E4%B8%89%E8%A7%82/"/>
-    <id>http://zhangyu33.com/2019/02/28/谈谈我的三观/</id>
+    <link href="http://zhangyu8.me/2019/02/28/%E8%B0%88%E8%B0%88%E6%88%91%E7%9A%84%E4%B8%89%E8%A7%82/"/>
+    <id>http://zhangyu8.me/2019/02/28/谈谈我的三观/</id>
     <published>2019-02-27T16:00:00.000Z</published>
     <updated>2019-02-28T09:26:48.000Z</updated>
     
@@ -139,43 +191,17 @@
     
     </summary>
     
-      <category term="胡说八道" scheme="http://zhangyu33.com/categories/%E8%83%A1%E8%AF%B4%E5%85%AB%E9%81%93/"/>
+      <category term="胡说八道" scheme="http://zhangyu8.me/categories/%E8%83%A1%E8%AF%B4%E5%85%AB%E9%81%93/"/>
     
     
-      <category term="胡说八道" scheme="http://zhangyu33.com/tags/%E8%83%A1%E8%AF%B4%E5%85%AB%E9%81%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SRE工程师到底是做什么的？</title>
-    <link href="http://zhangyu33.com/2019/02/28/SRE%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%88%B0%E5%BA%95%E6%98%AF%E5%81%9A%E4%BB%80%E4%B9%88%E7%9A%84/"/>
-    <id>http://zhangyu33.com/2019/02/28/SRE工程师到底是做什么的/</id>
-    <published>2019-02-27T16:00:00.000Z</published>
-    <updated>2019-02-28T06:45:48.734Z</updated>
-    
-    <content type="html"><![CDATA[<p>SRE工程师到底是做什么的？ </p><p><a href="https://mp.weixin.qq.com/s/j5Sgrsm90B94jMwn1mA1Gg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/j5Sgrsm90B94jMwn1mA1Gg</a></p><blockquote><p>作者 | Erik Dietrich  </p><p>译者 | 无明</p><p>你是否也对站点可靠性工程师（SRE）这个角色存在很多疑问？本文介绍了 SRE 工程师的职责。</p><p>尽管站点可靠性工程已经存在了一段时间，但也只是最近才在业界获得一些名声。但人们对于站点可靠性工程师（SRE）的作用仍然存在很多疑问。我们所知道的大部分内容来自谷歌的《站点可靠性工程》一书。我们将在这篇文章中多次提到这本书。</p><p>人们将 SRE 与运营、系统管理员等进行比较，但这种比较不足以说明他们在现代软件环境中所发挥的作用。他们承担的责任多于运营。他们通常具有系统管理背景，同时也具备软件开发技能。SRE 结合了所有这些技能，确保复杂的分布式系统能够顺利运行。</p><p>那么他们是怎么做到这一切呢？</p><p>自动化一切</p><p>自动化是 SRE 角色与传统运营团队之间的一个区别。在过去，运营人员会通过执行脚本、按下按钮和其他手动操作来让软件系统保持运行。然而，在 SRE 世界中，人们非常重视自动化。这种驱动力来自 SRE 角色的工程方面。</p><p>当软件开发人员处于日复一日重复相同功能的境地时，他们将被迫实现自动化。这就是软件开发人员最擅长的事情。自动化并不仅限于对软件构建和一些验收测试进行自动化，还包括 CI/CD 和基础设施的创建和修补，以及监控、警报和自动响应某些事件。在谷歌的《站点可靠性工程》一书中，这也被称为消除辛劳：</p><p>辛劳是一种与运行生产服务相关的工作，它往往是手动的、重复的、可自动化的、战术性的，缺乏持久的价值，并随着服务的增长呈线性增长。</p><p>那么为什么我们要如此关注如何减少辛劳呢？减少工作量不仅使流程可重复和自动化，而且还为 SRE 提供了更多的时间用于构建工具和研究基础设施变更以便进一步提高站点可靠性。总之，工作量越少，用于确保软件生态系统可靠运行的时间和资源就越多，你就能越快地实现业务价值。</p><p>监控分布式系统</p><p>随着分布式系统的普及，对监控的需求也在增长。仅仅启动和运行应用程序是不够的。我们还需要确保基础设施运行正常，并确保所有其他内部依赖项都可访问且运行正常。此外，应用程序的业务功能应该提供适当的监控功能，以验证它们是否运行正常。</p><p>提供待命支持</p><p>与传统的运营角色类似，SRE 也有轮班待命的职责。除了监控基础设施和他们自己的服务之外，开发团队还可以向他们咨询和请他们一起进行故障排除。</p><p>轮班待命看起来是怎样的？通常，SRE 根据计划表进行轮班待命，计划表可以让其他 SRE 专注于工程方面，而且不会导致轮班待命工程师感到倦怠。轮换待命可以从几天到一周不等，或者更长时间。</p><p>在发生高优先级的事件时，SRE 需要调查和诊断问题。他们还可能会要求其他工程师或软件开发人员一起来解决问题。根据系统的 SLA，他们可能需要一起工作才能在几分钟内解决问题。对于低优先级问题，SRE 通常会在工作时间内处理它们。对于那些不喜欢在凌晨 3 点钟起床的工程师来说，这是一个好消息。</p><p>管理事件</p><p>管理事件时 SRE 角色的另一个重要部分。你可能会说这与轮班待命没有什么两样。找到问题然后解决它，这能有多难？</p><p>好吧，在管理事件时，SRE 需要运用额外的专业技能来确保一切顺利。例如，在发生中断时，可能有很多方法来诊断和解决问题。因此，为了妥善管理事件，必须有人监督和促进所有相关人员的行为。这就需要定义明确的角色。</p><p>虽然并非所有公司都包含谷歌推荐的角色，但我们至少应该考虑它们。这些角色包括：</p><ul><li><p>一名事件指挥官，对所发生的一切都保持高度关注；</p></li><li><p>处理或修改基础设施或系统的工程师；</p></li><li><p>将正确的信息传递给客户和管理层的沟通者角色；</p></li><li><p>负责规划会议、交接和后勤需求的规划者角色；</p></li><li><p>如果 SRE 没有明确定义的角色，那么当他们在尝试不同的解决方案时，如果没有前期协调和沟通，就容易发生混乱。</p></li></ul><p>事后调查</p><p>我们已经经历并解决了一个事件，现在准备好进行事后调查。通常，SRE 会促进或参与这些事后调查。</p><p>在进行事后调查时，所有相关方都被汇聚在一起，目标是分析事故期间都发生了什么，并找出根本原因。参与者还将决定将来如何防止或修复同样的事件。下面列出了事后调查将产出的内容：</p><ul><li><p>提高可靠性的故事或监控；</p></li><li><p>附加文档，以协助未来事件的处理；</p></li><li><p>进一步调查或测试，以证实与事件有关的任何假设。</p></li></ul><p>跟踪中断</p><p>SRE 的另一个职责是跟踪中断。这最终有助于识别长期趋势和创建合理的 SLO 和 SLA。</p><p>跟踪中断的用途包括监控低优先级事件。这些事件可能不会给消费者带来真正的问题，但是观察长期趋势和时间可以帮助隔离和解决那些似乎找不到原因的烦人 bug。</p><p>与开发团队合作</p><p>除了在轮班待命期间为开发团队提供支持，SRE 还提供咨询和故障排除服务。这样可以帮助其他 SRE 团队和软件开发团队，这些团队苦于处理运营或可靠性问题。</p><p>在这种情况下，SRE 将评估当前问题，并确定哪些可以通过自动化或工程工作进行改进。SRE 还可为可靠性问题提出解决方案。最重要的是，SRE 将推动团队流程的变革。这些变化将确保站点可靠性工程团队能够增强团队交付价值的能力。</p><p>创建服务水平指标和目标</p><p>当你听到有人说服务已经达到或正在努力达到 99.99％的正常运行时间时，他们指的是服务水平目标（SLO）。服务水平指标（SLI）用于衡量这些目标。换句话说，SLI 是关于如何衡量 SLO 的协议。SRE 通过提供历史服务性能数据来协助这些工作。它们还有助于为未来提供切合实际的目标，并可能为客户提供适当的 SLA 建议。</p><p>然后，SRE 会确保你的应用程序满足（但不超过）规定的 SLO。现在你可能会认为没有超过 SLO 会很奇怪。然而，制造超出实际需要的东西是对资源的浪费。SRE 平衡了客户需求和所提供服务的目标。</p><p>职责可能会有所不同</p><p>在这篇文章中，我们讨论了站点可靠性工程师参与的各种活动。虽然这些活动是由 SRE 完成的，但并不是一成不变的。公司会根据需要改变 SRE 的角色和职责。一般而言，处于 SRE 过程不同阶段的公司可能有不同的需求。</p><p>例如，新公司可能需要 SRE 的支持才能控制一般性中断。大部分能量都趋向于可靠性的基本水平。但是，在这一过程中走得更远的其他公司可能已经消除了公司范围的中断。他们可能会花更多时间来改进或验证与业务相关的服务指标。例如，在网站的普遍可用性达到稳定和可靠的状态之后，你的披萨店应用程序可能需要对披萨推荐机制进行新的监控。</p><p>   结论   </p><p>正如你所读到的，SRE 将时间花在技术和流程方面的职责上。他们不仅仅是运营或系统管理团队。他们利用自己的工程技能自动化和减少管理任务所需的人工干预。此外，他们还与其他工程团队合作，提供适当的监控、事件响应和管理。</p><p>随着时间的推移，这些职能提高了分布式系统的可靠性并降低维护成本。最后，他们通过组织传播站点可靠性工程文化，让所有团队都能学会在做出决策时以可靠性作为出发点。</p><p>英文原文：<a href="https://www.scalyr.com/blog/site-reliability-engineer/" target="_blank" rel="noopener">https://www.scalyr.com/blog/site-reliability-engineer/</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;SRE工程师到底是做什么的？ &lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/j5Sgrsm90B94jMwn1mA1Gg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.weixin.qq.co
-      
-    
-    </summary>
-    
-      <category term="devops" scheme="http://zhangyu33.com/categories/devops/"/>
-    
-    
-      <category term="devops" scheme="http://zhangyu33.com/tags/devops/"/>
+      <category term="胡说八道" scheme="http://zhangyu8.me/tags/%E8%83%A1%E8%AF%B4%E5%85%AB%E9%81%93/"/>
     
   </entry>
   
   <entry>
     <title>2019运维技能风向标</title>
-    <link href="http://zhangyu33.com/2019/02/27/2019%E8%BF%90%E7%BB%B4%E6%8A%80%E8%83%BD%E9%A3%8E%E5%90%91%E6%A0%87/"/>
-    <id>http://zhangyu33.com/2019/02/27/2019运维技能风向标/</id>
+    <link href="http://zhangyu8.me/2019/02/27/2019%E8%BF%90%E7%BB%B4%E6%8A%80%E8%83%BD%E9%A3%8E%E5%90%91%E6%A0%87/"/>
+    <id>http://zhangyu8.me/2019/02/27/2019运维技能风向标/</id>
     <published>2019-02-26T16:00:00.000Z</published>
     <updated>2019-02-27T10:12:20.016Z</updated>
     
@@ -191,17 +217,17 @@
     
     </summary>
     
-      <category term="运维" scheme="http://zhangyu33.com/categories/ops/"/>
+      <category term="运维" scheme="http://zhangyu8.me/categories/ops/"/>
     
     
-      <category term="运维" scheme="http://zhangyu33.com/tags/%E8%BF%90%E7%BB%B4/"/>
+      <category term="运维" scheme="http://zhangyu8.me/tags/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
   <entry>
     <title>一小时快速掌握zabbix配置的高效学习法</title>
-    <link href="http://zhangyu33.com/2019/02/27/%E4%B8%80%E5%B0%8F%E6%97%B6%E5%BF%AB%E9%80%9F%E6%8E%8C%E6%8F%A1zabbix%E9%85%8D%E7%BD%AE%E7%9A%84%E9%AB%98%E6%95%88%E5%AD%A6%E4%B9%A0%E6%B3%95/"/>
-    <id>http://zhangyu33.com/2019/02/27/一小时快速掌握zabbix配置的高效学习法/</id>
+    <link href="http://zhangyu8.me/2019/02/27/%E4%B8%80%E5%B0%8F%E6%97%B6%E5%BF%AB%E9%80%9F%E6%8E%8C%E6%8F%A1zabbix%E9%85%8D%E7%BD%AE%E7%9A%84%E9%AB%98%E6%95%88%E5%AD%A6%E4%B9%A0%E6%B3%95/"/>
+    <id>http://zhangyu8.me/2019/02/27/一小时快速掌握zabbix配置的高效学习法/</id>
     <published>2019-02-26T16:00:00.000Z</published>
     <updated>2019-02-27T10:12:09.965Z</updated>
     
@@ -217,17 +243,17 @@
     
     </summary>
     
-      <category term="zabbix" scheme="http://zhangyu33.com/categories/zabbix/"/>
+      <category term="zabbix" scheme="http://zhangyu8.me/categories/zabbix/"/>
     
     
-      <category term="zabbix" scheme="http://zhangyu33.com/tags/zabbix/"/>
+      <category term="zabbix" scheme="http://zhangyu8.me/tags/zabbix/"/>
     
   </entry>
   
   <entry>
     <title>学习Kubernetes和容器技术体系的最佳方法</title>
-    <link href="http://zhangyu33.com/2019/02/14/%E5%AD%A6%E4%B9%A0Kubernetes%20%E5%92%8C%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E7%9A%84%E6%9C%80%E4%BD%B3%E6%96%B9%E6%B3%95/"/>
-    <id>http://zhangyu33.com/2019/02/14/学习Kubernetes 和容器技术体系的最佳方法/</id>
+    <link href="http://zhangyu8.me/2019/02/14/%E5%AD%A6%E4%B9%A0Kubernetes%20%E5%92%8C%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E7%9A%84%E6%9C%80%E4%BD%B3%E6%96%B9%E6%B3%95/"/>
+    <id>http://zhangyu8.me/2019/02/14/学习Kubernetes 和容器技术体系的最佳方法/</id>
     <published>2019-02-13T16:00:00.000Z</published>
     <updated>2019-02-14T09:56:42.811Z</updated>
     
@@ -243,17 +269,17 @@
     
     </summary>
     
-      <category term="kubernetes" scheme="http://zhangyu33.com/categories/kubernetes/"/>
+      <category term="kubernetes" scheme="http://zhangyu8.me/categories/kubernetes/"/>
     
     
-      <category term="kubernetes" scheme="http://zhangyu33.com/tags/kubernetes/"/>
+      <category term="kubernetes" scheme="http://zhangyu8.me/tags/kubernetes/"/>
     
   </entry>
   
   <entry>
     <title>万兆网卡的Server与千兆网卡的client之间传输问题</title>
-    <link href="http://zhangyu33.com/2019/02/13/%E4%B8%87%E5%85%86%E7%BD%91%E5%8D%A1%E7%9A%84Server%E4%B8%8E%E5%8D%83%E5%85%86%E7%BD%91%E5%8D%A1%E7%9A%84client%E4%B9%8B%E9%97%B4%E4%BC%A0%E8%BE%93%E9%97%AE%E9%A2%98/"/>
-    <id>http://zhangyu33.com/2019/02/13/万兆网卡的Server与千兆网卡的client之间传输问题/</id>
+    <link href="http://zhangyu8.me/2019/02/13/%E4%B8%87%E5%85%86%E7%BD%91%E5%8D%A1%E7%9A%84Server%E4%B8%8E%E5%8D%83%E5%85%86%E7%BD%91%E5%8D%A1%E7%9A%84client%E4%B9%8B%E9%97%B4%E4%BC%A0%E8%BE%93%E9%97%AE%E9%A2%98/"/>
+    <id>http://zhangyu8.me/2019/02/13/万兆网卡的Server与千兆网卡的client之间传输问题/</id>
     <published>2019-02-12T16:00:00.000Z</published>
     <updated>2019-02-13T08:51:29.093Z</updated>
     
@@ -269,17 +295,17 @@
     
     </summary>
     
-      <category term="linux" scheme="http://zhangyu33.com/categories/linux/"/>
+      <category term="linux" scheme="http://zhangyu8.me/categories/linux/"/>
     
     
-      <category term="linux" scheme="http://zhangyu33.com/tags/linux/"/>
+      <category term="linux" scheme="http://zhangyu8.me/tags/linux/"/>
     
   </entry>
   
   <entry>
     <title>面试必备指南-你的系统如何支撑高并发</title>
-    <link href="http://zhangyu33.com/2019/01/24/%E9%9D%A2%E8%AF%95%E5%BF%85%E5%A4%87%E6%8C%87%E5%8D%97-%E4%BD%A0%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E6%94%AF%E6%92%91%E9%AB%98%E5%B9%B6%E5%8F%91/"/>
-    <id>http://zhangyu33.com/2019/01/24/面试必备指南-你的系统如何支撑高并发/</id>
+    <link href="http://zhangyu8.me/2019/01/24/%E9%9D%A2%E8%AF%95%E5%BF%85%E5%A4%87%E6%8C%87%E5%8D%97-%E4%BD%A0%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E6%94%AF%E6%92%91%E9%AB%98%E5%B9%B6%E5%8F%91/"/>
+    <id>http://zhangyu8.me/2019/01/24/面试必备指南-你的系统如何支撑高并发/</id>
     <published>2019-01-23T16:00:00.000Z</published>
     <updated>2019-01-24T06:22:16.774Z</updated>
     
@@ -298,17 +324,17 @@
     
     </summary>
     
-      <category term="架构" scheme="http://zhangyu33.com/categories/architecture/"/>
+      <category term="架构" scheme="http://zhangyu8.me/categories/architecture/"/>
     
     
-      <category term="架构" scheme="http://zhangyu33.com/tags/%E6%9E%B6%E6%9E%84/"/>
+      <category term="架构" scheme="http://zhangyu8.me/tags/%E6%9E%B6%E6%9E%84/"/>
     
   </entry>
   
   <entry>
     <title>记一次Kubernetes/Docker网络排障</title>
-    <link href="http://zhangyu33.com/2019/01/23/%E8%AE%B0%E4%B8%80%E6%AC%A1KubernetesDocker%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/"/>
-    <id>http://zhangyu33.com/2019/01/23/记一次KubernetesDocker网络排障/</id>
+    <link href="http://zhangyu8.me/2019/01/23/%E8%AE%B0%E4%B8%80%E6%AC%A1KubernetesDocker%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/"/>
+    <id>http://zhangyu8.me/2019/01/23/记一次KubernetesDocker网络排障/</id>
     <published>2019-01-22T16:00:00.000Z</published>
     <updated>2019-01-23T06:22:38.180Z</updated>
     
@@ -324,17 +350,68 @@
     
     </summary>
     
-      <category term="docker" scheme="http://zhangyu33.com/categories/docker/"/>
+      <category term="docker" scheme="http://zhangyu8.me/categories/docker/"/>
     
     
-      <category term="docker" scheme="http://zhangyu33.com/tags/docker/"/>
+      <category term="docker" scheme="http://zhangyu8.me/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈TLS1.3</title>
+    <link href="http://zhangyu8.me/2018/12/26/%E6%B5%85%E8%B0%88TLS1.3/"/>
+    <id>http://zhangyu8.me/2018/12/26/浅谈TLS1.3/</id>
+    <published>2018-12-25T16:00:00.000Z</published>
+    <updated>2018-12-26T03:09:34.530Z</updated>
+    
+    <content type="html"><![CDATA[<p> 小米运维<br><a href="https://mp.weixin.qq.com/s/uNKrLV4taafS0AluSBUznw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/uNKrLV4taafS0AluSBUznw</a> </p><p>  <strong>TLS简介</strong></p><p> 按照维基百科的定义，TLS 是一种用于为计算机网络通信提供安全性的密码协议，其前身安全套接层（SSL）想必很多人都听说过。TLS 被广泛应用于基于 IP 的网络协议，如 HTTP、SMTP、FTP 等。最近几年内，Let’s Encrypt 提供的免费证书服务、浏览器只对 HTTPS 站点启用 HTTP/2 和把未使用 HTTPS 而要求输入密码的网站标记为不安全等因素强力推动了 HTTPS 的部署，国际上 HTTPS 的部署率现已超过 50%。在各种因素的推动下，国内站点和应用也在大力推广 TLS 等密码协议的使用。</p><p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycY1hhnHltT8Z0lw235avib3baOZZicUvfhoZoXFFY2uYL6NVJwUzPcHNjw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p> Figure 1: 数据来自谷歌 Transparency Report，2018年9月14日获取</p><p> <strong> TLS 1.3的优势</strong></p><p> <strong>安全保护</strong></p><p> TLS 1.3 移除了很多过时的密码学原型和功能（例如压缩、重协商），强制要求完美前向安全。TLS 1.2 支持了很多加密算法（包括 3DES、静态 DH 等），这导致了 FREAK、Logjam、Sweet32 等攻击的出现。TLS 1.3 缩紧了对加密原型的限制，避免了因服务器启用不安全的算法导致协议的安全性受到影响。在这方面的简化也使得运维和开发者配置 TLS 变得更容易，不再容易误用不安全的配置。</p><p> TLS 1.3 之前，整个握手环节都是没有加密保护的，这泄漏了很多信息，包括客户端和服务器的身份。TLS 1.3 对握手的绝大部分信息进行了加密，这保护了用户隐私，也在一定程度上防止了协议僵化问题。</p><p> <strong>性能提升</strong></p><p> 虽然电脑越变越快，但在互联网上传输数据耗费的时间依然受限于光速，所以两个节点间来回传输一次的时间（RTT）成为了限制协议性能的因素之一。TLS 1.3 只需要一个 RTT 就能完成握手，相比 TLS 1.2 省去了一个 RTT。并且 TLS 1.3 支持 “0-RTT” 模式，在该模式下客户端可以在握手的同时发送数据，极大地加快了页面的加载速度。TLS 1.3 还增加了 ChaCha20/Poly1305 支持，在不支持 AES 硬件指令的老设备上能提升加、解密性能。</p><p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycYjx1icDTU5eT9xhB8KvUK0GjibmHoFqyLvfGZfsearE7H5OtC94wV1CXQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycYE5oLTsPBS1fefianWRPAatYaBDgY8088AO9XyHiamwtvVsQSS6KYlECA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p> <strong> TLS 1.3的部署</strong></p><p> Tengine 2.2.2 / nginx 1.13.0 提供了 TLS 1.3 支持，和 OpenSSL 1.1.1 配合即可将网站升级到 TLS 1.3。在配置文件里将 TLSv1.3 加到 ssl_protocols 中就可以启用 TLS 1.3 支持了。Qualys 的 SSL 服务器测试[1]是很方便的 TLS 配置测试工具，可以很方便地检测公网站点的 TLS 配置及其安全性。</p><p> <strong>协议僵化问题</strong></p><p> 当一个互联网协议长时间不发生变化时，基于该协议开发的设备就可能无视其预留的变通手段而对其特性作出超出标准的假设，这就是协议僵化现象。在 TLS 1.3 的完善过程中，新的协议因协议僵化问题而不得不模拟老协议的一些行为，这大大拖慢了 TLS 1.3 标准化的进度。尽管在制定 TLS 1.3 标准时工作组针对很多实际测试时出现的问题进行了处理，但我们部署到线上环境还是需要注意可能出现的兼容性问题。</p><p> <strong> TLS 1.3发展时间线</strong></p><ul><li><p>2017年4月25日，nginx 1.13.0 发布，增加了 TLS 1.3 支持。</p></li><li><p>2018年3月21日，IESG 批准了 TLS 1.3 草案。</p></li><li><p>2018年4月17日，Chrome 66 默认开启了对 TLS 1.3 草案的支持。</p></li><li><p>2018年5月9日，Firefox 60 默认开启了对 TLS 1.3 草案的支持。</p></li><li><p>2018年8月10日，IETF 发布了 TLS 1.3 标准。</p></li><li><p>2018年9月11日，OpenSSL 1.1.1 (LTS) 版本发布，提供 TLS 1.3 支持。TLS 1.3 超过 TLS 1.0 成为 Cloudflare 上使用率排名第二的 TLS 版本。</p></li><li><p>2018年10月16日，Chrome 70 支持 TLS 1.3 正式标准。</p></li><li><p>2018年10月23日，Firefox 63 支持 TLS 1.3 正式标准。</p></li></ul><p>  <strong>参考资料</strong></p><p> [1]<a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">https://www.ssllabs.com/ssltest/</a></p><p> [2]<a href="https://tools.ietf.org/html/rfc8446" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc8446</a></p><p> [3]<a href="https://en.wikipedia.org/wiki/Transport\_Layer\_Security" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Transport\_Layer\_Security</a></p><p> [4]<a href="https://blog.mozilla.org/security/2018/08/13/tls-1-3-published-in-firefox-today/" target="_blank" rel="noopener">https://blog.mozilla.org/security/2018/08/13/tls-1-3-published-in-firefox-today/</a></p><p> [5]<a href="https://ietf.org/blog/tls13/" target="_blank" rel="noopener">https://ietf.org/blog/tls13/</a></p><p> [6]<a href="https://kinsta.com/blog/tls-1-3/" target="_blank" rel="noopener">https://kinsta.com/blog/tls-1-3/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt; 小米运维&lt;br&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/uNKrLV4taafS0AluSBUznw&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.weixin.qq.com/s/uNKrLV4taa
+      
+    
+    </summary>
+    
+      <category term="web" scheme="http://zhangyu8.me/categories/web/"/>
+    
+    
+      <category term="web" scheme="http://zhangyu8.me/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>谈运维转型期的感悟和分享</title>
+    <link href="http://zhangyu8.me/2018/12/26/%E8%B0%88%E8%BF%90%E7%BB%B4%E8%BD%AC%E5%9E%8B%E6%9C%9F%E7%9A%84%E6%84%9F%E6%82%9F%E5%92%8C%E5%88%86%E4%BA%AB/"/>
+    <id>http://zhangyu8.me/2018/12/26/谈运维转型期的感悟和分享/</id>
+    <published>2018-12-25T16:00:00.000Z</published>
+    <updated>2018-12-26T02:01:44.596Z</updated>
+    
+    <content type="html"><![CDATA[<p> <a href="https://www.ssforce.cn/archives/314" target="_blank" rel="noopener">https://www.ssforce.cn/archives/314</a></p><p>结论：要么成为20%的Ops，要么职能尽量更前置、更顶端</p><p>最初研发兼任运维职能，而后发现运维需要专业化分工，遂拆分独立工种。</p><p>拆分发展期间各方技术&amp;理念不断进化，但运维实质上一直处于被动，成为优质的“背锅侠”，其属性在独立工种阶段难以扭转，这是因为在这期间运维所起到的价值并非由运维自身所决定，而是由整个软件交付体系&amp;生命周期、产品市场运营体系、甚至公司层面所决定。</p><p>在一家公司业务快速扩张过程中，上业务、抢市场这无可厚非，但很可悲的是一方面位于技术体系末端的运维往往眼睛很难看到技术、业务的前头，另一方面，作为优质的“兜底”牺牲自身发展成全业务也是天生其“使命”。</p><p>但自然生存法则不会考虑这些，只认结果，所以大部分Ops如果不能成为20%（跑的更快前置于技术&amp;业务、提升价值&amp;定位），其实结果一定是悲剧的。</p><p>现在无论是谁发起DevOps还是OpsDev，那都是因为运维的职能无法从更宏观角度去满足技术、业务发展的要求，原本对称的社会的供需关系失衡而已，但不管你承认与否，这就是强迫被迫转型而已，只不过有了更好的由头。</p><p>退一步，无论跑的再快快到前置在技术&amp;业务前；积极运作转型，提升运营价值、拔高定位，又如何？况且在一个复杂的技术体系和业务迭代动态过程中，能否做到这点也是个疑问。</p><p>所以，如果作为运维你现在无法抉择，未来是选择技术继续攻坚还是选择管理。没关系，在职能选择上：尽量选择一个更前置、更顶端的职能。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt; &lt;a href=&quot;https://www.ssforce.cn/archives/314&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.ssforce.cn/archives/314&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;结论：要么成为20%的O
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="http://zhangyu8.me/categories/ops/"/>
+    
+    
+      <category term="运维" scheme="http://zhangyu8.me/tags/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
   <entry>
     <title>网站访问速度慢</title>
-    <link href="http://zhangyu33.com/2018/12/26/%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6%E6%85%A2/"/>
-    <id>http://zhangyu33.com/2018/12/26/网站访问速度慢/</id>
+    <link href="http://zhangyu8.me/2018/12/26/%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6%E6%85%A2/"/>
+    <id>http://zhangyu8.me/2018/12/26/网站访问速度慢/</id>
     <published>2018-12-25T16:00:00.000Z</published>
     <updated>2018-12-26T03:15:41.472Z</updated>
     
@@ -351,68 +428,17 @@
     
     </summary>
     
-      <category term="web" scheme="http://zhangyu33.com/categories/web/"/>
+      <category term="web" scheme="http://zhangyu8.me/categories/web/"/>
     
     
-      <category term="web" scheme="http://zhangyu33.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈TLS1.3</title>
-    <link href="http://zhangyu33.com/2018/12/26/%E6%B5%85%E8%B0%88TLS1.3/"/>
-    <id>http://zhangyu33.com/2018/12/26/浅谈TLS1.3/</id>
-    <published>2018-12-25T16:00:00.000Z</published>
-    <updated>2018-12-26T03:09:34.530Z</updated>
-    
-    <content type="html"><![CDATA[<p> 小米运维<br><a href="https://mp.weixin.qq.com/s/uNKrLV4taafS0AluSBUznw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/uNKrLV4taafS0AluSBUznw</a> </p><p>  <strong>TLS简介</strong></p><p> 按照维基百科的定义，TLS 是一种用于为计算机网络通信提供安全性的密码协议，其前身安全套接层（SSL）想必很多人都听说过。TLS 被广泛应用于基于 IP 的网络协议，如 HTTP、SMTP、FTP 等。最近几年内，Let’s Encrypt 提供的免费证书服务、浏览器只对 HTTPS 站点启用 HTTP/2 和把未使用 HTTPS 而要求输入密码的网站标记为不安全等因素强力推动了 HTTPS 的部署，国际上 HTTPS 的部署率现已超过 50%。在各种因素的推动下，国内站点和应用也在大力推广 TLS 等密码协议的使用。</p><p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycY1hhnHltT8Z0lw235avib3baOZZicUvfhoZoXFFY2uYL6NVJwUzPcHNjw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p> Figure 1: 数据来自谷歌 Transparency Report，2018年9月14日获取</p><p> <strong> TLS 1.3的优势</strong></p><p> <strong>安全保护</strong></p><p> TLS 1.3 移除了很多过时的密码学原型和功能（例如压缩、重协商），强制要求完美前向安全。TLS 1.2 支持了很多加密算法（包括 3DES、静态 DH 等），这导致了 FREAK、Logjam、Sweet32 等攻击的出现。TLS 1.3 缩紧了对加密原型的限制，避免了因服务器启用不安全的算法导致协议的安全性受到影响。在这方面的简化也使得运维和开发者配置 TLS 变得更容易，不再容易误用不安全的配置。</p><p> TLS 1.3 之前，整个握手环节都是没有加密保护的，这泄漏了很多信息，包括客户端和服务器的身份。TLS 1.3 对握手的绝大部分信息进行了加密，这保护了用户隐私，也在一定程度上防止了协议僵化问题。</p><p> <strong>性能提升</strong></p><p> 虽然电脑越变越快，但在互联网上传输数据耗费的时间依然受限于光速，所以两个节点间来回传输一次的时间（RTT）成为了限制协议性能的因素之一。TLS 1.3 只需要一个 RTT 就能完成握手，相比 TLS 1.2 省去了一个 RTT。并且 TLS 1.3 支持 “0-RTT” 模式，在该模式下客户端可以在握手的同时发送数据，极大地加快了页面的加载速度。TLS 1.3 还增加了 ChaCha20/Poly1305 支持，在不支持 AES 硬件指令的老设备上能提升加、解密性能。</p><p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycYjx1icDTU5eT9xhB8KvUK0GjibmHoFqyLvfGZfsearE7H5OtC94wV1CXQ/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p> <img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/mmbiz_png/Re4KW51oYRpfwee8BkZnflunRvfWAycYE5oLTsPBS1fefianWRPAatYaBDgY8088AO9XyHiamwtvVsQSS6KYlECA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p><p> <strong> TLS 1.3的部署</strong></p><p> Tengine 2.2.2 / nginx 1.13.0 提供了 TLS 1.3 支持，和 OpenSSL 1.1.1 配合即可将网站升级到 TLS 1.3。在配置文件里将 TLSv1.3 加到 ssl_protocols 中就可以启用 TLS 1.3 支持了。Qualys 的 SSL 服务器测试[1]是很方便的 TLS 配置测试工具，可以很方便地检测公网站点的 TLS 配置及其安全性。</p><p> <strong>协议僵化问题</strong></p><p> 当一个互联网协议长时间不发生变化时，基于该协议开发的设备就可能无视其预留的变通手段而对其特性作出超出标准的假设，这就是协议僵化现象。在 TLS 1.3 的完善过程中，新的协议因协议僵化问题而不得不模拟老协议的一些行为，这大大拖慢了 TLS 1.3 标准化的进度。尽管在制定 TLS 1.3 标准时工作组针对很多实际测试时出现的问题进行了处理，但我们部署到线上环境还是需要注意可能出现的兼容性问题。</p><p> <strong> TLS 1.3发展时间线</strong></p><ul><li><p>2017年4月25日，nginx 1.13.0 发布，增加了 TLS 1.3 支持。</p></li><li><p>2018年3月21日，IESG 批准了 TLS 1.3 草案。</p></li><li><p>2018年4月17日，Chrome 66 默认开启了对 TLS 1.3 草案的支持。</p></li><li><p>2018年5月9日，Firefox 60 默认开启了对 TLS 1.3 草案的支持。</p></li><li><p>2018年8月10日，IETF 发布了 TLS 1.3 标准。</p></li><li><p>2018年9月11日，OpenSSL 1.1.1 (LTS) 版本发布，提供 TLS 1.3 支持。TLS 1.3 超过 TLS 1.0 成为 Cloudflare 上使用率排名第二的 TLS 版本。</p></li><li><p>2018年10月16日，Chrome 70 支持 TLS 1.3 正式标准。</p></li><li><p>2018年10月23日，Firefox 63 支持 TLS 1.3 正式标准。</p></li></ul><p>  <strong>参考资料</strong></p><p> [1]<a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">https://www.ssllabs.com/ssltest/</a></p><p> [2]<a href="https://tools.ietf.org/html/rfc8446" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc8446</a></p><p> [3]<a href="https://en.wikipedia.org/wiki/Transport\_Layer\_Security" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Transport\_Layer\_Security</a></p><p> [4]<a href="https://blog.mozilla.org/security/2018/08/13/tls-1-3-published-in-firefox-today/" target="_blank" rel="noopener">https://blog.mozilla.org/security/2018/08/13/tls-1-3-published-in-firefox-today/</a></p><p> [5]<a href="https://ietf.org/blog/tls13/" target="_blank" rel="noopener">https://ietf.org/blog/tls13/</a></p><p> [6]<a href="https://kinsta.com/blog/tls-1-3/" target="_blank" rel="noopener">https://kinsta.com/blog/tls-1-3/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt; 小米运维&lt;br&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/uNKrLV4taafS0AluSBUznw&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.weixin.qq.com/s/uNKrLV4taa
-      
-    
-    </summary>
-    
-      <category term="web" scheme="http://zhangyu33.com/categories/web/"/>
-    
-    
-      <category term="web" scheme="http://zhangyu33.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>谈运维转型期的感悟和分享</title>
-    <link href="http://zhangyu33.com/2018/12/26/%E8%B0%88%E8%BF%90%E7%BB%B4%E8%BD%AC%E5%9E%8B%E6%9C%9F%E7%9A%84%E6%84%9F%E6%82%9F%E5%92%8C%E5%88%86%E4%BA%AB/"/>
-    <id>http://zhangyu33.com/2018/12/26/谈运维转型期的感悟和分享/</id>
-    <published>2018-12-25T16:00:00.000Z</published>
-    <updated>2018-12-26T02:01:44.596Z</updated>
-    
-    <content type="html"><![CDATA[<p> <a href="https://www.ssforce.cn/archives/314" target="_blank" rel="noopener">https://www.ssforce.cn/archives/314</a></p><p>结论：要么成为20%的Ops，要么职能尽量更前置、更顶端</p><p>最初研发兼任运维职能，而后发现运维需要专业化分工，遂拆分独立工种。</p><p>拆分发展期间各方技术&amp;理念不断进化，但运维实质上一直处于被动，成为优质的“背锅侠”，其属性在独立工种阶段难以扭转，这是因为在这期间运维所起到的价值并非由运维自身所决定，而是由整个软件交付体系&amp;生命周期、产品市场运营体系、甚至公司层面所决定。</p><p>在一家公司业务快速扩张过程中，上业务、抢市场这无可厚非，但很可悲的是一方面位于技术体系末端的运维往往眼睛很难看到技术、业务的前头，另一方面，作为优质的“兜底”牺牲自身发展成全业务也是天生其“使命”。</p><p>但自然生存法则不会考虑这些，只认结果，所以大部分Ops如果不能成为20%（跑的更快前置于技术&amp;业务、提升价值&amp;定位），其实结果一定是悲剧的。</p><p>现在无论是谁发起DevOps还是OpsDev，那都是因为运维的职能无法从更宏观角度去满足技术、业务发展的要求，原本对称的社会的供需关系失衡而已，但不管你承认与否，这就是强迫被迫转型而已，只不过有了更好的由头。</p><p>退一步，无论跑的再快快到前置在技术&amp;业务前；积极运作转型，提升运营价值、拔高定位，又如何？况且在一个复杂的技术体系和业务迭代动态过程中，能否做到这点也是个疑问。</p><p>所以，如果作为运维你现在无法抉择，未来是选择技术继续攻坚还是选择管理。没关系，在职能选择上：尽量选择一个更前置、更顶端的职能。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt; &lt;a href=&quot;https://www.ssforce.cn/archives/314&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.ssforce.cn/archives/314&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;结论：要么成为20%的O
-      
-    
-    </summary>
-    
-      <category term="运维" scheme="http://zhangyu33.com/categories/ops/"/>
-    
-    
-      <category term="运维" scheme="http://zhangyu33.com/tags/%E8%BF%90%E7%BB%B4/"/>
+      <category term="web" scheme="http://zhangyu8.me/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>被抛弃的tcp_recycle</title>
-    <link href="http://zhangyu33.com/2018/12/05/%E8%A2%AB%E6%8A%9B%E5%BC%83%E7%9A%84tcp_recycle/"/>
-    <id>http://zhangyu33.com/2018/12/05/被抛弃的tcp_recycle/</id>
+    <link href="http://zhangyu8.me/2018/12/05/%E8%A2%AB%E6%8A%9B%E5%BC%83%E7%9A%84tcp_recycle/"/>
+    <id>http://zhangyu8.me/2018/12/05/被抛弃的tcp_recycle/</id>
     <published>2018-12-04T16:00:00.000Z</published>
     <updated>2018-12-05T06:15:29.263Z</updated>
     
@@ -427,17 +453,17 @@
     
     </summary>
     
-      <category term="内核" scheme="http://zhangyu33.com/categories/%E5%86%85%E6%A0%B8/"/>
+      <category term="内核" scheme="http://zhangyu8.me/categories/%E5%86%85%E6%A0%B8/"/>
     
     
-      <category term="内核" scheme="http://zhangyu33.com/tags/%E5%86%85%E6%A0%B8/"/>
+      <category term="内核" scheme="http://zhangyu8.me/tags/%E5%86%85%E6%A0%B8/"/>
     
   </entry>
   
   <entry>
     <title>PythonWeb开发和Django入门必读</title>
-    <link href="http://zhangyu33.com/2018/12/03/PythonWeb%E5%BC%80%E5%8F%91%E5%92%8CDjango%E5%85%A5%E9%97%A8%E5%BF%85%E8%AF%BB/"/>
-    <id>http://zhangyu33.com/2018/12/03/PythonWeb开发和Django入门必读/</id>
+    <link href="http://zhangyu8.me/2018/12/03/PythonWeb%E5%BC%80%E5%8F%91%E5%92%8CDjango%E5%85%A5%E9%97%A8%E5%BF%85%E8%AF%BB/"/>
+    <id>http://zhangyu8.me/2018/12/03/PythonWeb开发和Django入门必读/</id>
     <published>2018-12-02T16:00:00.000Z</published>
     <updated>2018-12-03T02:04:36.294Z</updated>
     
@@ -452,17 +478,17 @@
     
     </summary>
     
-      <category term="Django" scheme="http://zhangyu33.com/categories/Django/"/>
+      <category term="Django" scheme="http://zhangyu8.me/categories/Django/"/>
     
     
-      <category term="Django" scheme="http://zhangyu33.com/tags/Django/"/>
+      <category term="Django" scheme="http://zhangyu8.me/tags/Django/"/>
     
   </entry>
   
   <entry>
     <title>负载均衡获得真实源IP的6种方法</title>
-    <link href="http://zhangyu33.com/2018/11/27/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E8%8E%B7%E5%BE%97%E7%9C%9F%E5%AE%9E%E6%BA%90IP%E7%9A%846%E7%A7%8D%E6%96%B9%E6%B3%95/"/>
-    <id>http://zhangyu33.com/2018/11/27/负载均衡获得真实源IP的6种方法/</id>
+    <link href="http://zhangyu8.me/2018/11/27/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E8%8E%B7%E5%BE%97%E7%9C%9F%E5%AE%9E%E6%BA%90IP%E7%9A%846%E7%A7%8D%E6%96%B9%E6%B3%95/"/>
+    <id>http://zhangyu8.me/2018/11/27/负载均衡获得真实源IP的6种方法/</id>
     <published>2018-11-26T16:00:00.000Z</published>
     <updated>2018-12-26T02:02:22.287Z</updated>
     
@@ -477,17 +503,17 @@
     
     </summary>
     
-      <category term="负载均衡" scheme="http://zhangyu33.com/categories/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+      <category term="负载均衡" scheme="http://zhangyu8.me/categories/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     
     
-      <category term="负载均衡" scheme="http://zhangyu33.com/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+      <category term="负载均衡" scheme="http://zhangyu8.me/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     
   </entry>
   
   <entry>
     <title>新一代数据库TiDB在美团的实践</title>
-    <link href="http://zhangyu33.com/2018/11/23/%E6%96%B0%E4%B8%80%E4%BB%A3%E6%95%B0%E6%8D%AE%E5%BA%93TiDB%E5%9C%A8%E7%BE%8E%E5%9B%A2%E7%9A%84%E5%AE%9E%E8%B7%B5/"/>
-    <id>http://zhangyu33.com/2018/11/23/新一代数据库TiDB在美团的实践/</id>
+    <link href="http://zhangyu8.me/2018/11/23/%E6%96%B0%E4%B8%80%E4%BB%A3%E6%95%B0%E6%8D%AE%E5%BA%93TiDB%E5%9C%A8%E7%BE%8E%E5%9B%A2%E7%9A%84%E5%AE%9E%E8%B7%B5/"/>
+    <id>http://zhangyu8.me/2018/11/23/新一代数据库TiDB在美团的实践/</id>
     <published>2018-11-22T16:00:00.000Z</published>
     <updated>2018-11-23T08:15:11.521Z</updated>
     
@@ -502,35 +528,10 @@
     
     </summary>
     
-      <category term="mysql" scheme="http://zhangyu33.com/categories/mysql/"/>
+      <category term="mysql" scheme="http://zhangyu8.me/categories/mysql/"/>
     
     
-      <category term="mysql" scheme="http://zhangyu33.com/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈大型互联网企业入侵检测及防护策略</title>
-    <link href="http://zhangyu33.com/2018/11/23/%E6%B5%85%E8%B0%88%E5%A4%A7%E5%9E%8B%E4%BA%92%E8%81%94%E7%BD%91%E4%BC%81%E4%B8%9A%E5%85%A5%E4%BE%B5%E6%A3%80%E6%B5%8B%E5%8F%8A%E9%98%B2%E6%8A%A4%E7%AD%96%E7%95%A5/"/>
-    <id>http://zhangyu33.com/2018/11/23/浅谈大型互联网企业入侵检测及防护策略/</id>
-    <published>2018-11-22T16:00:00.000Z</published>
-    <updated>2018-11-23T08:44:43.021Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://tech.meituan.com/Intrusion_Detection_Security_Meituan.html" target="_blank" rel="noopener">https://tech.meituan.com/Intrusion_Detection_Security_Meituan.html</a></p><p> 弼政 ·2018-11-08 20:00</p><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 如何知道自己所在的企业是否被入侵了？是没人来“黑”，还是因自身感知能力不足，暂时还无法发现？其实，入侵检测是每一个大型互联网企业都要面对的严峻挑战。价值越高的公司，面临入侵的威胁也越大，即便是Yahoo这样的互联网鼻祖，在落幕（被收购）时仍遭遇全量数据失窃的事情。安全无小事，一旦互联网公司被成功“入侵”，其后果将不堪想象。</p><p> <img src="https://tech.meituan.com/img/Intrusion_Detection/1.jpg" alt></p><p> 基于“攻防对抗”的考量，本文不会提及具体的入侵检测模型、算法和策略，那些希望直接照搬“入侵策略”的同学可能会感到失望。但是我们会将一部分运营思路分享出来，请各位同行指点，如能对后来者起到帮助的作用，那就更好了，也欢迎大家跟我们交流探讨。</p><h2 id="入侵的定义"><a href="#入侵的定义" class="headerlink" title="入侵的定义"></a>入侵的定义</h2><p> 典型的入侵场景：</p><p>  黑客在很远的地方，通过网络远程控制目标的笔记本电脑/手机/服务器/网络设备，进而随意地读取目标的隐私数据，又或者使用目标系统上的功能，包括但不限于使用手机的麦克风监听目标，使用摄像头偷窥监控目标，使用目标设备的计算能力挖矿，使用目标设备的网络能力发动DDoS攻击等等。亦或是破解了一个服务的密码，进去查看敏感资料、控制门禁/红绿灯。以上这些都属于经典的入侵场景。</p><p> 我们可以给入侵下一个定义：就是黑客在未经授权的情况下，控制、使用我方资源（包括但不限于读写数据、执行命令、控制资源等）达到各种目的。从广义上讲，黑客利用SQL注入漏洞窃取数据，或者拿到了目标域名在ISP中的帐号密码，以篡改DNS指向一个黑页，又或者找到了目标的社交帐号，在微博/QQ/邮箱上，对虚拟资产进行非授权的控制，都属于入侵的范畴。</p><h2 id="针对企业的入侵检测"><a href="#针对企业的入侵检测" class="headerlink" title="针对企业的入侵检测"></a>针对企业的入侵检测</h2><p> 企业入侵检测的范围，多数情况下比较狭义：一般特指黑客对PC、系统、服务器、网络（包括办公网、生产网）控制的行为。</p><p> 黑客对PC、服务器等主机资产的控制，最常见的方法是通过Shell去执行指令，获得Shell的这个动作叫做GetShell。</p><p> 比如通过Web服务的上传漏洞，拿到WebShell，或者利用RCE漏洞直接执行命令/代码（RCE环境变相的提供了一个Shell）。另外，通过某种方式先植入“木马后门”，后续直接利用木马集成的SHELL功能对目标远程控制，这个也比较典型。</p><p> 因此，入侵检测可以重点关注GetShell这个动作，以及GetShell成功之后的恶意行为（为了扩大战果，黑客多半会利用Shell进行探测、翻找窃取、横向移动攻击其它内部目标，这些区别于好人的特性也可以作为重要的特征）。</p><p> 有一些同行（包括商业产品），喜欢报告GetShell之前的一些“外部扫描、攻击探测和尝试行为”，并美其名曰“态势感知”，告诉企业有人正在“试图攻击”。在笔者看来，实战价值并不大。包括美团在内的很多企业，基本上无时无刻都在遭受“不明身份”的攻击，知道了有人在“尝试”攻击，如果并不能有效地去行动，无法有效地对行动进行告警，除了耗费心力之外，并没有太大的实际价值。</p><p> 当我们习惯“攻击”是常态之后，就会在这样的常态下去解决问题，可以使用什么加固策略，哪些可以实现常态化的运营，如果有什么策略无法常态化运营，比如需要很多人加班临时突击守着，那这个策略多半在不久之后就会逐渐消逝掉。跟我们做不做这个策略，并没有本质上的区别。</p><p> 类似于SQL注入、XSS等一些不直接GetShell的Web攻击，暂时不在狭义的“入侵检测”考虑范围，建议可以划入“漏洞”、“威胁感知”等领域，另行再做探讨。当然，利用SQL注入、XSS等入口，进行了GetShell操作的，我们仍抓GetShell这个关键点，不必在乎漏洞入口在何处。</p><h2 id="“入侵”和“内鬼”"><a href="#“入侵”和“内鬼”" class="headerlink" title="“入侵”和“内鬼”"></a>“入侵”和“内鬼”</h2><p> 与入侵接近的一种场景是“内鬼”。入侵本身是手段，GetShell只是起点，黑客GetShell的目标是为了之后对资源的控制和数据的窃取。而“内鬼”天然拥有合法的权限，可以合法接触敏感资产，但是基于工作以外的目的，他们对这些资源进行非法的处置，包括拷贝副本、转移外泄、篡改数据牟利等。</p><p> <img src="https://tech.meituan.com/img/Intrusion_Detection/2.jpg" alt></p><p> 内鬼的行为不在“入侵检测”的范畴，一般从内部风险控制的视角进行管理和审计，比如职责分离、双人审计等。也有数据防泄密产品（DLP）对其进行辅助，这里不展开细说。</p><p> 有时候，黑客知道员工A有权限接触目标资产，便定向攻击A，再利用A的权限把数据窃取走，也定性为“入侵”。毕竟A不是主观恶意的“内鬼”。如果不能在黑客攻击A的那一刻捕获，或者无法区分黑客控制的A窃取数据和正常员工A的访问数据，那这个入侵检测也是失败的。</p><h2 id="入侵检测的本质"><a href="#入侵检测的本质" class="headerlink" title="入侵检测的本质"></a>入侵检测的本质</h2><p> 前文已经讲过，入侵就是黑客可以不经过我们的同意，来操作我们的资产，在手段上并没有任何的限制。那么如何找出入侵行为和合法正常行为的区别，将其跟合法行为进行分开，就是“入侵发现”。在算法模型上，这算是一个标记问题（入侵、非入侵）。</p><p> 可惜的是，入侵这种动作的“黑”样本特别稀少，想通过大量的带标签的数据，有监督的训练入侵检测模型，找出入侵的规律比较难。因此，入侵检测策略开发人员，往往需要投入大量的时间，去提炼更精准的表达模型，或者花更多的精力去构造“类似入侵”的模拟数据。</p><p> 一个经典的例子是，为了检测出WebShell，安全从业人员可以去GitHub上搜索一些公开的WebShell样本，数量大约不到1000个。而对于机器学习动辄百万级的训练需求，这些数据远远不够。况且GitHub上的这些样本集，从技术手法上来看，有单一技术手法生成的大量类似样本，也有一些对抗的手法样本缺失。因此，这样的训练，试图让AI去通过“大量的样本”掌握WebShell的特征并区分出它们，原则上不太可能完美地去实现。</p><p> 此时，针对已知样本做技术分类，提炼更精准的表达模型，被称为传统的特征工程。而传统的特征工程往往被视为效率低下的重复劳动，但效果往往比较稳定，毕竟加一个技术特征就可以稳定发现一类WebShell。而构造大量的恶意样本，虽然有机器学习、AI等光环加持，但在实际环境中往往难以获得成功：自动生成的样本很难描述WebShell本来的含义，多半描述的是自动生成的算法特征。</p><p> 另一个方面，入侵的区别是看行为本身是否“授权”，而授权与否本身是没有任何显著的区分特征的。因此，做入侵对抗的时候，如果能够通过某种加固，将合法的访问收敛到有限的通道，并且给该通道做出强有力的区分，也就能大大的降低入侵检测的成本。例如，对访问来源进行严格的认证，无论是自然人，还是程序API，都要求持有合法票据，而派发票据时，针对不同情况做多纬度的认证和授权，再用IAM针对这些票据记录和监控它们可以访问的范围，还能产生更底层的Log做异常访问模型感知。</p><p> 这个全生命周期的风控模型，也是Google的BeyondCorp无边界网络得以实施的前提和基础。</p><p> 因此，入侵检测的主要思路也就有2种：</p><ul><li>根据黑特征进行模式匹配（例如WebShell关键字匹配）。</li><li><p>根据业务历史行为（生成基线模型），对入侵行为做异常对比（非白既黑），如果业务的历史行为不够收敛，就用加固的手段对其进行收敛，再挑出不合规的小众异常行为。</p><h2 id="入侵检测与攻击向量"><a href="#入侵检测与攻击向量" class="headerlink" title="入侵检测与攻击向量"></a>入侵检测与攻击向量</h2><p>根据目标不同，可能暴露给黑客的攻击面会不同，黑客可能采用的入侵手法也就完全不同。比如，入侵我们的PC/笔记本电脑，还有入侵部署在机房/云上的服务器，攻击和防御的方法都有挺大的区别。</p><p>针对一个明确的“目标”，它被访问的渠道可能是有限集，被攻击的必经路径也有限。“攻击方法”+“目标的攻击面”的组合，被称为“攻击向量”。</p><p>因此，谈入侵检测模型效果时，需要先明确攻击向量，针对不同的攻击路径，采集对应的日志（数据），才可能做对应的检测模型。比如，基于SSH登录后的Shell命令数据集，是不能用于检测WebShell的行为。而基于网络流量采集的数据，也不可能感知黑客是否在SSH后的Shell环境中执行了什么命令。</p><p>基于此，如果有企业不提具体的场景，就说做好了APT感知模型，显然就是在“吹嘘”了。</p><p>所以，入侵检测得先把各类攻击向量罗列出来，每一个细分场景分别采集数据（HIDS+NIDS+WAF+RASP+应用层日志+系统日志+PC……），再结合公司的实际数据特性，作出适应公司实际情况的对应检测模型。不同公司的技术栈、数据规模、暴露的攻击面，都会对模型产生重大的影响。比如很多安全工作者特别擅长PHP下的WebShell检测，但是到了一个Java系的公司……</p><h2 id="常见的入侵手法与应对"><a href="#常见的入侵手法与应对" class="headerlink" title="常见的入侵手法与应对"></a>常见的入侵手法与应对</h2><p>如果对黑客的常见入侵手法理解不足，就很难有的放矢，有时候甚至会陷入“政治正确”的陷阱里。比如渗透测试团队说，我们做了A动作，你们竟然没有发现，所以你们不行。而实际情况是，该场景可能不是一个完备的入侵链条，就算不发现该动作，对入侵检测效果可能也没有什么影响。每一个攻击向量对公司造成的危害，发生的概率如何进行排序，解决它耗费的成本和带来的收益如何，都需要有专业经验来做支撑与决策。</p><p><img src="https://tech.meituan.com/img/Intrusion_Detection/3.jpg" alt></p><p>现在简单介绍一下，黑客入侵教程里的经典流程（完整过程可以参考杀伤链模型）：</p><p>入侵一个目标之前，黑客对该目标可能还不够了解，所以第一件事往往是“踩点”，也就是搜集信息，加深了解。比如，黑客需要知道，目标有哪些资产（域名、IP、服务），它们各自的状态如何，是否存在已知的漏洞，管理他们的人有谁（以及如何合法的管理的），存在哪些已知的泄漏信息（比如社工库里的密码等）……</p><p>一旦踩点完成，熟练的黑客就会针对各种资产的特性，酝酿和逐个验证“攻击向量”的可行性，下文列举了常见的攻击方式和防御建议。</p><h3 id="高危服务入侵"><a href="#高危服务入侵" class="headerlink" title="高危服务入侵"></a>高危服务入侵</h3><p>所有的公共服务都是“高危服务”，因为该协议或者实现该协议的开源组件，可能存在已知的攻击方法（高级的攻击者甚至拥有对应的0day），只要你的价值足够高，黑客有足够的动力和资源去挖掘，那么当你把高危服务开启到互联网，面向所有人都打开的那一刻，就相当于为黑客打开了“大门”。</p><p>比如SSH、RDP这些运维管理相关的服务，是设计给管理员用的，只要知道密码/秘钥，任何人都能登录到服务器端，进而完成入侵。而黑客可能通过猜解密码（结合社工库的信息泄露、网盘检索或者暴力破解），获得凭据。事实上这类攻击由于过于常见，黑客早就做成了全自动化的全互联网扫描的蠕虫类工具，云上购买的一个主机如果设置了一个弱口令，往往在几分钟内就会感染蠕虫病毒，就是因为这类自动化的攻击者实在是太多了。</p><p>或许，你的密码设置得非常强壮，但是这并不是你可以把该服务继续暴露在互联网的理由，我们应该把这些端口限制好，只允许自己的IP（或者内部的堡垒主机）访问，彻底断掉黑客通过它入侵我们的可能。</p><p>与此类似的，MySQL、Redis、FTP、SMTP、MSSQL、Rsync等等，凡是自己用来管理服务器或者数据库、文件的服务，都不应该针对互联网无限制的开放。否则，蠕虫化的攻击工具会在短短几分钟内攻破我们的服务，甚至直接加密我们的数据，甚至要求我们支付比特币，进行敲诈勒索。</p><p>还有一些高危服务存在RCE漏洞（远程命令执行），只要端口开放，黑客就能利用现成的exploit，直接GetShell，完成入侵。</p><p><strong>防御建议</strong>： 针对每一个高危服务做入侵检测的成本较高，因为高危服务的具体所指非常的多，不一定存在通用的特征。所以，通过加固方式，收敛攻击入口性价比更高。禁止所有高危端口对互联网开放可能，这样能够减少90%以上的入侵概率。</p><h3 id="Web入侵"><a href="#Web入侵" class="headerlink" title="Web入侵"></a>Web入侵</h3><p>随着高危端口的加固，黑客知识库里的攻击手法很多都会失效了。但是Web服务是现代互联网公司的主要服务形式，不可能都关掉。于是，基于PHP、Java、ASP、ASP.NET、Node、C写的CGI等等动态的Web服务漏洞，就变成了黑客入侵的最主要入口。</p><p>比如，利用上传功能直接上传一个WebShell，利用文件包含功能，直接引用执行一个远程的WebShell（或者代码），然后利用代码执行的功能，直接当作Shell的入口执行任意命令，解析一些图片、视频的服务，上传一个恶意的样本，触发解析库的漏洞……</p><p>Web服务下的应用安全是一个专门的领域（道哥还专门写了本《白帽子讲Web安全》），具体的攻防场景和对抗已经发展得非常成熟了。当然，由于它们都是由Web服务做为入口，所以入侵行为也会存在某种意义上的共性。相对而言，我们比较容易能够找到黑客GetShell和正常业务行为的一些区别。</p><p>针对Web服务的入侵痕迹检测，可以考虑采集WAF日志、Access Log、Auditd记录的系统调用，或者Shell指令，以及网络层面Response相关的数据，提炼出被攻击成功的特征，建议我们将主要的精力放在这些方面。</p><h3 id="0day入侵"><a href="#0day入侵" class="headerlink" title="0day入侵"></a>0day入侵</h3><p>通过泄漏的工具包来看，早些年NSA是拥有直接攻击Apache、Nginx这些服务的0day武器的。这意味着对手很可能完全不用在乎我们的代码和服务写成什么样，拿0day一打，神不知鬼不觉就GetShell了。</p><p>但是对于入侵检测而言，这并不可怕：因为无论对手利用什么漏洞当入口，它所使用的Shellcode和之后的行为本身依然有共性。Apache存在0day漏洞被攻击，还是一个PHP页面存在低级的代码漏洞被利用，从入侵的行为上来看，说不定是完全一样的，入侵检测模型还可以通用。</p><p>所以，把精力聚焦在有黑客GetShell入口和之后的行为上，可能比关注漏洞入口更有价值。当然，具体的漏洞利用还是要实际跟进，然后验证其行为是否符合预期。</p><h3 id="办公终端入侵"><a href="#办公终端入侵" class="headerlink" title="办公终端入侵"></a>办公终端入侵</h3><p>绝大多数APT报告里，黑客是先对人（办公终端）下手，比如发个邮件，哄骗我们打开后，控制我们的PC，再进行长期的观察/翻阅，拿到我们的合法凭据后，再到内网漫游。所以这些报告，多数集中在描述黑客用的木马行为以及家族代码相似度上。而反APT的产品、解决方案，多数也是在办公终端的系统调用层面，用类似的方法，检验“免杀木马”的行为。</p><p>因此，EDR类的产品+邮件安全网关+办公网出口的行为审计+APT产品的沙箱等，联合起来，可以采集到对应的数据，并作出相似的入侵检测感知模型。而最重要的一点，是黑客喜欢关注内部的重要基础设施，包括但不限于AD域控、邮件服务器、密码管理系统、权限管理系统等，一旦拿下，就相当于成为了内网的“上帝”，可以为所欲为。所以对公司来说，重要基础设施要有针对性的攻防加固讨论，微软针对AD的攻防甚至还发过专门的加固白皮书。</p><h2 id="入侵检测基本原则"><a href="#入侵检测基本原则" class="headerlink" title="入侵检测基本原则"></a>入侵检测基本原则</h2><p>不能把每一条告警都彻底跟进的模型，等同于无效模型。入侵发生后，再辩解之前其实有告警，只是太多了没跟过来/没查彻底，这是“马后炮”，等同于不具备发现能力，所以对于日均告警成千上万的产品，安全运营人员往往表示很无奈。</p><p>我们必须屏蔽一些重复发生的相似告警，以集中精力把每一个告警都闭环掉。这会产生白名单，也就是漏报，因此模型的漏报是不可避免的。</p><p>由于任何模型都会存在漏报，所以我们必须在多个纬度上做多个模型，形成关联和纵深。假设WebShell静态文本分析被黑客变形绕过了，在RASP（运行时环境）的恶意调用还可以进行监控，这样可以选择接受单个模型的漏报，但在整体上仍然具备发现能力。</p><p>既然每一个单一场景的模型都有误报漏报，我们做什么场景，不做什么场景，就需要考虑“性价比”。比如某些变形的WebShell可以写成跟业务代码非常相似，人的肉眼几乎无法识别，再追求一定要在文本分析上进行对抗，就是性价比很差的决策。如果通过RASP的检测方案，其性价比更高一些，也更具可行性一些。</p><p>我们不太容易知道黑客所有的攻击手法，也不太可能针对每一种手法都建设策略（考虑到资源总是稀缺的）。所以针对重点业务，需要可以通过加固的方式（还需要常态化监控加固的有效性），让黑客能攻击的路径极度收敛，仅在关键环节进行对抗。起码能针对核心业务具备兜底的保护能力。</p><p>基于上述几个原则，我们可以知道一个事实，或许我们永远不可能在单点上做到100%发现入侵，但是我们可以通过一些组合方式，让攻击者很难绕过所有的点。</p><p>当老板或者蓝军挑战，某个单点的检测能力有缺失时，如果为了“政治正确”，在这个单点上进行无止境的投入，试图把单点做到100%能发现的能力，很多时候可能只是在试图制造一个“永动机”，纯粹浪费人力、资源，而不产生实际的收益。将节省下来的资源，高性价比的布置更多的纵深防御链条，效果显然会更好。</p><h2 id="入侵检测产品的主流形态"><a href="#入侵检测产品的主流形态" class="headerlink" title="入侵检测产品的主流形态"></a>入侵检测产品的主流形态</h2><p>入侵检测终究是要基于数据去建模，比如针对WebShell的检测，首先要识别Web目录，再对Web目录下的文件进行文本分析，这需要做一个采集器。基于Shell命令的入侵检测模型，需要获取所有Shell命令，这可能要Hook系统调用或者劫持Shell。基于网络IP信誉、流量payload进行检测，或者基于邮件网关对内容的检查，可能要植入网络边界中，对流量进行旁路采集。</p><p>也有一些集大成者，基于多个Sensor，将各方日志进行采集后，汇总在一个SOC或者SIEM，再交由大数据平台进行综合分析。因此，业界的入侵检测相关的产品大致上就分成了以下的形态：</p></li><li><p>主机Agent类：黑客攻击了主机后，在主机上进行的动作，可能会产生日志、进程、命令、网络等痕迹，那么在主机上部署一个采集器（也内含一部分检测规则），就叫做基于主机的入侵检测系统，简称HIDS。</p><ul><li>典型的产品：OSSEC、青藤云、安骑士、安全狗，Google最近也发布了一个Alpha版本的类似产品 Cloud Security Command Center。当然，一些APT厂商，往往也有在主机上的Sensor/Agent，比如FireEye等。</li></ul></li><li><p>网络检测类：由于多数攻击向量是会通过网络对目标投放一些payload，或者控制目标的协议本身具备强特征，因此在网络层面具备识别的优势。</p><ul><li>典型的产品：Snort到商业的各种NIDS/NIPS，对应到APT级别，则还有类似于FireEye的NX之类的产品。</li></ul></li><li><p>日志集中存储分析类：这一类产品允许主机、网络设备、应用都输出各自的日志，集中到一个统一的后台，在这个后台，对各类日志进行综合的分析，判断是否可以关联的把一个入侵行为的多个路径刻画出来。例如A主机的的Web访问日志里显示遭到了扫描和攻击尝试，继而主机层面多了一个陌生的进程和网络连接，最后A主机对内网其它主机进行了横向渗透尝试。</p><ul><li>典型的产品：LogRhythm、Splunk等SIEM类产品。</li></ul></li><li><p>APT沙箱：沙箱类产品更接近于一个云端版的高级杀毒软件，通过模拟执行观测行为，以对抗未知样本弱特征的特点。只不过它需要一个模拟运行的过程，性能开销较大，早期被认为是“性价比不高”的解决方案，但由于恶意文件在行为上的隐藏要难于特征上的对抗，因此现在也成为了APT产品的核心组件。通过网络流量、终端采集、服务器可疑样本提取、邮件附件提炼等拿到的未知样本，都可以提交到沙箱里跑一下行为，判断是否恶意。</p><ul><li>典型产品：FireEye、Palo Alto、Symantec、微步。</li></ul></li><li><p>终端入侵检测产品：移动端目前还没有实际的产品，也不太有必要。PC端首先必备的是杀毒软件，如果能够检测到恶意程序，一定程度上能够避免入侵。但是如果碰到免杀的高级0day和木马，杀毒软件可能会被绕过。借鉴服务器上HIDS的思路，也诞生了EDR的概念，主机除了有本地逻辑之外，更重要的是会采集更多的数据到后端，在后端进行综合分析和联动。也有人说下一代杀毒软件里都会带上EDR的能力，只不过目前销售还是分开在卖。</p><ul><li>典型产品：杀毒软件有Bit9、SEP、赛门铁克、卡巴斯基、McAfee ；EDR产品不枚举了，腾讯的iOA、阿里的阿里郎，一定程度上都是可以充当类似的角色；</li></ul><h2 id="入侵检测效果评价指标"><a href="#入侵检测效果评价指标" class="headerlink" title="入侵检测效果评价指标"></a>入侵检测效果评价指标</h2><p>首先，主动发现的入侵案例/所有入侵 = 主动发现率。这个指标一定是最直观的。比较麻烦的是分母，很多真实发生的入侵，如果外部不反馈，我们又没检测到，它就不会出现在分母里，所以有效发现率总是虚高的，谁能保证当前所有的入侵都发现了呢？（但是实际上，只要入侵次数足够多，不管是SRC收到的情报，还是“暗网”上报出来的一个大新闻，把客观上已经知悉的入侵列入分母，总还是能计算出一个主动发现率的。）</p><p>另外，真实的入侵其实是一个低频行为，大型的互联网企业如果一年到头成百上千的被入侵，肯定也不正常。因此，如果很久没出现真实入侵案例，这个指标长期不变化，也无法刻画入侵检测能力是否在提升。</p><p>所以，我们一般还会引入两个指标来观测：</p></li><li><p>蓝军对抗主动发现率</p></li><li><p>已知场景覆盖率</p><p>蓝军主动高频对抗和演习，可以弥补真实入侵事件低频的不足，但是由于蓝军掌握的攻击手法往往也是有限的，他们多次演习后，手法和场景可能会被罗列完毕。假设某一个场景建设方尚未补齐能力，蓝军同样的姿势演习100遍，增加100个未发现的演习案例，对建设方而言并没有更多的帮助。所以，把已知攻击手法的建成覆盖率拿出来，也是一个比较好的评价指标。</p><p>入侵检测团队把精力聚焦在已知攻击手法的优先级评估和快速覆盖上，对建设到什么程度是满足需要的，要有自己的专业判断（参考入侵检测原则里的“性价比”原则）。</p><p>而宣布建成了一个场景的入侵发现能力，是要有基本的验收原则的：</p></li><li><p>该场景日均工单 &lt; X单，峰值 &lt; Y单；当前所有场景日平均&lt;XX，峰值 &lt;YY，超出该指标的策略不予接收，因为过多的告警会导致有效信息被淹没，反而导致此前具备的能力被干扰，不如视为该场景尚未具备对抗能力。</p></li><li>同一个事件只告警首次，多次出现自动聚合。</li><li>具备误报自学习能力。</li><li>告警具备可读性（有清晰的风险阐述、关键信息、处理指引、辅助信息或者索引，便于定性），不鼓励Key-Value模式的告警，建议使用自然语言描述核心逻辑和响应流程。</li><li>有清晰的说明文档，自测报告（就像交付了一个研发产品，产品文档和自测过程是质量的保障）。</li><li>有蓝军针对该场景实战验收报告。</li><li><p>不建议调用微信、短信等接口发告警（告警和事件的区别是，事件可以闭环，告警只是提醒），统一的告警事件框架可以有效的管理事件确保闭环，还能提供长期的基础运营数据，比如止损效率、误报量/率。</p><p>策略人员的文档应当说明当前模型对哪些情况具备感知能力，哪些前提下会无法告警（考验一个人对该场景和自己模型的理解能力）。通过前述判断，可以对策略的成熟度形成自评分，0-100自由大致估算。单个场景往往很难达到100分，但那并没有关系，因为从80分提升到100分的边际成本可能变的很高。不建议追求极致，而是全盘审视，是否快速投入到下一个场景中去。</p><p>如果某个不到满分的场景经常出现真实对抗，又没有交叉的其它策略进行弥补，那自评结论可能需要重审并提高验收的标准。至少解决工作中实际遇到的Case要优先考虑。</p><h2 id="影响入侵检测的关键要素"><a href="#影响入侵检测的关键要素" class="headerlink" title="影响入侵检测的关键要素"></a>影响入侵检测的关键要素</h2><p>讨论影响入侵检测的要素时，我们可以简单看看，曾经发生过哪些错误导致防守方不能主动发现入侵：</p></li><li><p>依赖的数据丢失，比如HIDS在当事机器上，没部署安装/Agent挂了/数据上报过程丢失了/Bug了，或者后台传输链条中丢失数据。</p></li><li>策略脚本Bug，没启动（事实上我们已经失去了这个策略感知能力了）。</li><li>还没建设对应的策略（很多时候入侵发生了才发现这个场景我们还没来得及建设对应的策略）。</li><li>策略的灵敏度/成熟度不够（比如扫描的阈值没达到，WebShell用了变形的对抗手法）。</li><li>模型依赖的部分基础数据错误，做出了错误的判断。</li><li><p>成功告警了，但是负责应急同学错误的判断/没有跟进/辅助信息不足以定性，没有行动起来。</p><p>所以实际上，要让一个入侵事件被捕获，我们需要入侵检测系统长时间、高质量、高可用的运行。这是一件非常专业的工作，超出了绝大多数安全工程师能力和意愿的范畴。所以建议指派专门的运营人员对以下目标负责：</p></li><li><p>数据采集的完整性（全链路的对账）。</p></li><li>每一个策略时刻工作正常（自动化拨测监控）。</li><li>基础数据的准确性。</li><li><p>工单运营支撑平台及追溯辅助工具的便捷性。</p><p>可能有些同学会想，影响入侵检测的关键要素，难道不是模型的有效性么？怎么全是这些乱七八糟的东西？</p><p>实际上，大型互联网企业的入侵检测系统日均数据量可能到达数百T，甚至更多。涉及到数十个业务模块，成百上千台机器。从数字规模上来说，不亚于一些中小型企业的整个数据中心。这样复杂的一个系统，要长期维持在高可用标准，本身就需要有SRE、QA等辅助角色的专业化支持。如果仅依靠个别安全工程师，很难让其研究安全攻防的时候，又兼顾到基础数据质量、服务的可用性和稳定性、发布时候的变更规范性、各类运营指标和运维故障的及时响应。最终的结果就是能力范围内可以发现的入侵，总是有各种意外“恰好”发现不了。</p><p>所以，笔者认为，以多数安全团队运营质量之差，其实根本轮不到拼策略（技术）。当然，一旦有资源投入去跟进这些辅助工作之后，入侵检测就真的需要拼策略了。</p><p>此时，攻击手法有那么多，凭什么先选择这个场景建设？凭什么认为建设到某程度就足够满足当下的需要了？凭什么选择发现某些样本，而放弃另一些样本的对抗？</p><p>这些看似主观性的东西，非常考验专业判断力。而且在领导面前很容易背上“责任心不足”的帽子，比如为困难找借口而不是为目标找方法，这个手法黑客攻击了好多次，凭什么不解决，那个手法凭什么说在视野范围内，但是要明年再解决？</p><h2 id="如何发现APT？"><a href="#如何发现APT？" class="headerlink" title="如何发现APT？"></a>如何发现APT？</h2><p>所谓APT，就是高级持续威胁。既然是高级的，就意味着木马很大可能是免杀的（不能靠杀毒软件或者普通的特征发现），利用的漏洞也是高级的（加固到牙齿可能也挡不住敌人进来的步伐），攻击手法同样很高级（攻击场景可能我们都没有见过）。</p><p>所以，实际上APT的意思，就约等于同于不能被发现的入侵。然而，业界总还有APT检测产品，解决方案的厂商在混饭吃，他们是怎么做的呢？</p></li><li><p>木马免杀的，他们用沙箱+人工分析，哪怕效率低一些，还是试图做出定性，并快速的把IOC（威胁情报）同步给其它客户，发现1例，全球客户都具备同样的感知能力。</p></li><li><p>流量加密变形对抗的，他们用异常检测的模型，把一些不认识的可疑的IP关系、payload给识别出来。当然，识别出来之后，也要运营人员跟进得仔细，才能定性。</p></li><li><p>攻击手法高级的，他们还是会假定黑客就用鱼叉、水坑之类的已知手法去执行，然后在邮箱附件、PC终端等环节采集日志，对用户行为进行分析，UEBA试图寻找出用户异于平常的动作。</p></li></ul><p> 那么，我们呢？笔者也没有什么好的办法，可以发现传说中的“免杀”的木马，但是我们可以针对已知的黑客攻击框架（比如Metasploit、Cobalt Strike）生成的样本、行为进行一些特征的提取。我们可以假设已经有黑客控制了某一台机器，但是它试图进行横向扩散的时候，我们有一些模型可以识别这个主机的横向移动行为。</p><p> 笔者认为，世界上不存在100%能发现APT的方法。但是我们可以等待实施APT的团队犯错，只要我们的纵深足够的多，信息足够不对称，想要完全不触碰我们所有的铃铛，绝对存在一定的困难。</p><p> 甚至，攻击者如果需要小心翼翼的避开所有的检测逻辑，可能也会给对手一种心理上的震慑，这种震慑可能会延缓对手接近目标的速度，拉长时间。而在这个时间里，只要他犯错，就轮到我们出场了。</p><p> 前面所有的高标准，包括高覆盖、低误报，强制每一个告警跟进到底，“掘地三尺”的态度，都是在等待这一刻。抓到一个值得敬佩的对手，那种成就感，还是很值得回味的。</p><p> 所以，希望所有从事入侵检测的安全同行们都能坚持住，即使听过无数次“狼来了”，下一次看到告警，依然可以用最高的敬畏心去迎接对手（告警虐我千百遍，我待告警如初恋）。</p><h2 id="AI在入侵检测领域的正确姿势"><a href="#AI在入侵检测领域的正确姿势" class="headerlink" title="AI在入侵检测领域的正确姿势"></a>AI在入侵检测领域的正确姿势</h2><p> 最近这两年，如果不谈AI的话，貌似故事就不会完整。只不过，随着AI概念的火爆，很多人已经把传统的数据挖掘、统计分析等思想，比如分类、预测、聚类、关联之类的算法，都一律套在AI的帽子里。</p><p> <img src="https://tech.meituan.com/img/Intrusion_Detection/4.jpg" alt></p><p> 其实AI是一种现代的方法，在很多地方有非常实际的产出了。以WebShell的文本分析为例，我们可能需要花很长很长的时间，才能把上千个样本里隐含的几十种样本技术类型拆分开，又花更长的时间去一一建设模型（是的，在这样的场景下，特征工程真的是一个需要更长时间的工作）。</p><p> 而使用AI，做好数据打标的工作，训练、调参，很快就能拿到一个实验室环境不那么过拟合的模型出来，迅速投产到生产环境上。熟练一点可能1-2个月就能做完了。</p><p> 在这种场景下，AI这种现代的方法，的确能极大地提高效率。但问题是，前文也提到过了，黑客的攻击黑样本、WebShell的样本，往往极其稀缺，它不可能是完备的能够描述黑客入侵的完整特征的。因此，AI产出的结果，无论是误报率还是漏报率，都会受训练方法和输入样本的影响较大，我们可以借助AI，但绝对不能完全交给AI。</p><p> 安全领域一个比较常见的现象是，将场景转变成标记问题，要难过于通过数学模型把标记的解给求出来。此时往往需要安全专家先行，算法专家再跟上，而不能直接让算法专家“孤军奋战”。</p><p> 针对一个具体的攻击场景，怎么样采集对应的入侵数据，思考这个入侵动作和正常行为的区别，这个特征的提取过程，往往决定了模型最终的效果。特征决定了效果的上限，而算法模型只能决定了有多接近这个上限。</p><p> 此前，笔者曾见过一个案例，AI团队产出了一个实验室环境效果极佳，误报率达到1/1000000的WebShell模型，但是投放到生产环境里初期日均告警6000单，完全无法运营，同时还存在不少漏报的情况。这些情况随着安全团队和AI工程师共同的努力，后来逐渐地解决。但是并未能成功的取代原有的特征工程模型。</p><p> 目前业界有许多产品、文章在实践AI，但遗憾的是，这些文章和产品大多“浅尝辄止”，没有在真实的环境中实践运营效果。一旦我们用前面的标准去要求它，就会发现，AI虽然是个好东西，但是绝对只是个“半成品”。真正的运营，往往需要传统的特征工程和AI并行，也需要持续地进行迭代。</p><p> 未来必然是AI的天下，但是有多少智能，前面可能就要铺垫多少人工。愿与同行们一起在这个路上继续探索下去，多多交流分享。</p><h2 id="关于美团安全"><a href="#关于美团安全" class="headerlink" title="关于美团安全"></a>关于美团安全</h2><p> 美团安全部的大多数核心开发人员，拥有多年互联网以及安全领域实践经验，很多同学参与过大型互联网公司的安全体系建设，其中也不乏全球化安全运营人才，具备百万级IDC规模攻防对抗的经验。安全部也不乏CVE“挖掘圣手”，有受邀在Black Hat等国际顶级会议发言的讲者，当然还有很多漂亮的运营妹子。</p><p> 目前，美团安全部涉及的技术包括渗透测试、Web防护、二进制安全、内核安全、分布式开发、大数据分析、安全算法等等，同时还有全球合规与隐私保护等策略制定。我们正在建设一套百万级IDC规模、数十万终端接入的移动办公网络自适应安全体系，这套体系构建于零信任架构之上，横跨多种云基础设施，包括网络层、虚拟化/容器层、Server 软件层（内核态/用户态）、语言虚拟机层(JVM/JS V8)、Web应用层、数据访问层等，并能够基于大数据+机器学习技术构建全自动的安全事件感知系统，努力打造成业界最前沿的内置式安全架构和纵深防御体系。</p><p> 随着美团的高速发展，业务复杂度不断提升，安全部门面临更多的机遇和挑战。我们希望将更多代表业界最佳实践的安全项目落地，同时为更多的安全从业者提供一个广阔的发展平台，并提供更多在安全新兴领域不断探索的机会。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;a href=&quot;https://tech.meituan.com/Intrusion_Detection_Security_Meituan.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://tech.meituan.com/Intr
-      
-    
-    </summary>
-    
-      <category term="安全" scheme="http://zhangyu33.com/categories/%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="安全" scheme="http://zhangyu33.com/tags/%E5%AE%89%E5%85%A8/"/>
+      <category term="mysql" scheme="http://zhangyu8.me/tags/mysql/"/>
     
   </entry>
   
