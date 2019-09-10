@@ -102,14 +102,12 @@
   </header>
   <div class="post-content"><p>学习Kubernetes和容器技术体系的最佳方法</p>
 <p><a href="https://www.infoq.cn/article/3yijOyajjpq-Fg809NIj" target="_blank" rel="noopener">https://www.infoq.cn/article/3yijOyajjpq-Fg809NIj</a>)</p>
-<blockquote>
-<p>你好，我是 Kubernetes 社区资深成员与项目维护者张磊，也是极客时间 《深入剖析 Kubernetes 》的专栏作者。今天我来与你谈一谈，学习 Kubernetes 和容器技术体系的最佳方法，到底是什么。</p>
-<p>我认为，学习一门综合性的技术，不应该着急一头扎进去看源码。理清楚自己的定位，才是最重要的。</p>
-<h2 id="定位一：纯粹的开发人员"><a href="#定位一：纯粹的开发人员" class="headerlink" title="定位一：纯粹的开发人员"></a>定位一：纯粹的开发人员</h2><p>如果你是一位纯粹的开发人员，无论是前端、后端，还是应用、游戏的开发，你首先应该明白这样两个道理：</p>
+<p> 你好，我是 Kubernetes 社区资深成员与项目维护者张磊，也是极客时间 《深入剖析 Kubernetes 》的专栏作者。今天我来与你谈一谈，学习 Kubernetes 和容器技术体系的最佳方法，到底是什么。</p>
+<p> 我认为，学习一门综合性的技术，不应该着急一头扎进去看源码。理清楚自己的定位，才是最重要的。</p>
+<h2 id="定位一：纯粹的开发人员"><a href="#定位一：纯粹的开发人员" class="headerlink" title="定位一：纯粹的开发人员"></a>定位一：纯粹的开发人员</h2><p> 如果你是一位纯粹的开发人员，无论是前端、后端，还是应用、游戏的开发，你首先应该明白这样两个道理：</p>
 <ul>
 <li>Kubernetes 和容器技术主要解决的，是代码编写完成后的事情。这不单单是发布或者 CI/CD，而是指从你执行完 git commit &amp;&amp; git push 之后开始，都应该进入容器化的管理流程当中，当然包括后续的发布、运维、升级、回滚等所有阶段。</li>
-<li>Kubernetes 体系的核心，是为开发者提供编写代码过程中的“微服务编程范式”。</li>
-</ul>
+<li><p>Kubernetes 体系的核心，是为开发者提供编写代码过程中的“微服务编程范式”。</p>
 <p>比如，在你编写代码的时候，你应该清楚地知道：我该如何划分模块，就能更方便地利用到 Kubernetes 的 Pod 模型，来构建更加低耦合、高内聚的代码制品，让我后面的升级和重构工作更加容易。</p>
 <p><a href="https://time.geekbang.org/column/article/40092" target="_blank" rel="noopener">拓展阅读「为什么我们需要 pod？」</a></p>
 <p>再比如，当你的代码需要与一个外部资源进行交互的时候，你应该首先想到：我的这个外部资源，是不是可以作为一个 Kubernetes 的 CRD 放到 Etcd 里面。这样，我编写的代码，就可以遵循一个自定义 Controller 或者 Operator 的编程范式，通过声明式 API 的方式来执行业务逻辑。这样写出来的代码一定会更加简单、健壮、容易维护。</p>
@@ -130,7 +128,8 @@
 <p>只有清楚了自己的定位，你才能够在 Kubernetes 这样一个大而全的技术体系面前做到“有所放矢，有的放矢”，才能够把容器和 Kubernetes 这项技术发展浪潮，与自己的技术路线和个人成长历程，真正地关联起来。<br><img src="https://static001.infoq.cn/resource/image/e7/6c/e7a7ad7a95e77d36014d63824a4aa76c.png" alt><br>（Kubernetes 项目核心功能的“全景图”）</p>
 <p>一旦明确了定位，抓到了这其中的精髓和主线，那么接下来的学习过程对于你来说，其实就是“无招胜有招”，可以随心所欲地按照你实际的项目、所关心的领域逐步展开，而完全不必拘泥于某种特定的套路了。</p>
 <p><a href="https://time.geekbang.org/column/article/23132" target="_blank" rel="noopener">拓展阅读：「从容器到容器云：谈谈 Kubernetes 的本质」</a></p>
-</blockquote>
+</li>
+</ul>
 </div>
     
       
