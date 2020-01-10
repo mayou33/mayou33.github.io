@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhangyu8.me/about/index.html</loc>
+    
+    <lastmod>2020-01-10T03:49:50.110Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhangyu8.me/2019/12/18/pt-kill/</loc>
     
     <lastmod>2019-12-18T10:25:47.001Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://zhangyu8.me/2019/10/09/%E4%B8%96%E7%95%8C%E4%B8%8A%E6%B2%A1%E6%9C%89%E6%8A%80%E6%9C%AF%E9%A9%B1%E5%8A%A8%E5%9E%8B%E5%85%AC%E5%8F%B8/</loc>
     
     <lastmod>2019-12-18T09:44:07.631Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://zhangyu8.me/about/index.html</loc>
-    
-    <lastmod>2019-12-18T09:29:06.638Z</lastmod>
     
   </url>
   

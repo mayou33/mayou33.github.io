@@ -1,94 +1,2768 @@
-<!doctype html>
-<html lang="zh-CN">
-  <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  <meta content="yes" name="apple-mobile-web-app-capable">
-  <meta content="black" name="apple-mobile-web-app-status-bar-style">
-  <meta content="telephone=no" name="format-detection">
-  <meta name="keywords" content="undefined">
-  <meta name="description" content="互联网技术">
-  <meta name="author" content="zhangyu">
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <title>如何接手一个新业务的运维工作 | 大雨哥</title>
+  <meta name="keywords" content=" 运维 ">
+  <meta name="description" content="如何接手一个新业务的运维工作 | 大雨哥">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="他山之石，可以攻玉! 本博客主题基于https://github.com/yelog/hexo-theme-3-hexo 文章是从WordPress转移到hexo，许多文章的格式语法都还没有修改。后面有时间在慢慢改。 请多多包涵!!!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhangyu8.me/about/index.html">
+<meta property="og:site_name" content="大雨哥">
+<meta property="og:description" content="他山之石，可以攻玉! 本博客主题基于https://github.com/yelog/hexo-theme-3-hexo 文章是从WordPress转移到hexo，许多文章的格式语法都还没有修改。后面有时间在慢慢改。 请多多包涵!!!">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-10T03:49:50.110Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="about">
+<meta name="twitter:description" content="他山之石，可以攻玉! 本博客主题基于https://github.com/yelog/hexo-theme-3-hexo 文章是从WordPress转移到hexo，许多文章的格式语法都还没有修改。后面有时间在慢慢改。 请多多包涵!!!">
 
-  
-  <title>如何接手一个新业务的运维工作</title>
-  
 
-  <link rel="canonical" href="http://zhangyu8.me/2018/07/12/65/index.html">
-  <link rel="shortcut icon" href="/img/favicon.ico">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="undefined">
-  <link rel="stylesheet" href="/font.css">
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script src="/js/iconfont.js?v=1.0.1"></script>
+
 </head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value>
+</div>
 
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg">
+</a>
+<div class="author">
+    <span>zhangyu</span>
+</div>
 
-  <body>
-    <aside class="aside">
-  <nav class="aside-menu">
-    <ul class="aside-list">
-      
-        
-        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang"></i><a href="/index.html" class="aside-menu-link" title="首页">首页</a></li>
-        
-      
-        
-        <li class="aside-item"><i class="aside-menu-icon iconfont icon-wendang1"></i><a href="/archives/index.html" class="aside-menu-link" title="所有文章">所有文章</a></li>
-        
-      
-        
-        <li class="aside-item"><i class="aside-menu-icon iconfont icon-biaoqian1"></i><a href="/tags/index.html" class="aside-menu-link" title="分类标签">分类标签</a></li>
-        
-      
-        
-        <li class="aside-item"><i class="aside-menu-icon iconfont icon-lianjie"></i><a href="/links/index.html" class="aside-menu-link" title="友情链接">友情链接</a></li>
-        
-      
-        
-        <li class="aside-item"><i class="aside-menu-icon iconfont icon-guanyu"></i><a href="/about/index.html" class="aside-menu-link" title="关于">关于</a></li>
-        
-      
-    </ul>
-  </nav>
-
-  <article class="aside-show">
+<div class="icon">
     
-    <div class="aside-show-wrapper">
-      <figure class="aside-avatar">
-        <img src="/img/avatar.png" alt="avatar" class="aside-avatar-img">
-        <figcaption class="aside-avatar-caption">
-          大雨哥
-          
-          <strong class="aside-avatar-STRONG">个人博客</strong>
-          
-        </figcaption>
-      </figure>
-      <p class="aside-show-description">互联网技术/架构/团队</p>
+        
+        <a title="github" href="https://github.com/mayou33/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"/>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="email" href="mailto:1209453173@qq.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"/>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="qq" href="http://wpa.qq.com/msgrd?v=3&uin=1209453173&site=qq&menu=yes" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-qq"/>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(366)</small></div></li>
+    
+        
+            
+            <li><div data-rel="架构"><i class="fold iconfont icon-right"></i>架构<small>(7)</small></div>
+                
+                    <ul class="sub hide">
+                        
+                        <li><div data-rel="知识点">知识点<small>(2)</small></div>
+                            
+                        </li>
+                            
+                    </ul>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="linux"><i class="fold iconfont icon-right"></i>linux<small>(115)</small></div>
+                
+                    <ul class="sub hide">
+                        
+                        <li><div data-rel="知识点">知识点<small>(8)</small></div>
+                            
+                        </li>
+                            
+                    </ul>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="知识点">知识点<small>(16)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="nginx">nginx<small>(7)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="数据中心运维">数据中心运维<small>(9)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="《大型网站技术架构》">《大型网站技术架构》<small>(8)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="devops">devops<small>(13)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="LFCS">LFCS<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="redis">redis<small>(4)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ansible">ansible<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="LFCE">LFCE<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="docker">docker<small>(20)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="tools">tools<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="mysql">mysql<small>(15)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="vmware">vmware<small>(5)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="胡说八道">胡说八道<small>(5)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="ssh">ssh<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="好文转载">好文转载<small>(13)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="粗制滥造">粗制滥造<small>(11)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="web">web<small>(15)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="git">git<small>(5)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Python">Python<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="python">python<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="管理">管理<small>(9)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+        
+    
+        
+            
+            <li><div data-rel="脚本">脚本<small>(4)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="hadoop">hadoop<small>(8)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="运维">运维<small>(5)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="tomcat">tomcat<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="负载均衡">负载均衡<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="kvm">kvm<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Spring">Spring<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="安全">安全<small>(6)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="内核">内核<small>(3)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="kubernetes">kubernetes<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="mongodb">mongodb<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="网关">网关<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+        
+    
+        
+            
+            <li><div data-rel="配置中心">配置中心<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Linux-3.14.12内存管理笔记">Linux-3.14.12内存管理笔记<small>(31)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="serverless">serverless<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Django">Django<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="cmdb">cmdb<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="容器">容器<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="windows">windows<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="zabbix">zabbix<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="方案">方案<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
     </div>
-  </article>
+    <div><a class="about  hasFriend  site_url" href="/about">关于</a><a style="width: 50%" class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="366">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="http://tech.meituan.com/">美团点评技术团队</a></li>
+            
+            <li><a target="_blank" href="http://taobaofed.org/">淘宝前端团队Taobao FED</a></li>
+            
+            <li><a target="_blank" href="https://imququ.com/">Jerry Qu</a></li>
+            
+            <li><a target="_blank" href="http://blog.chinaunix.net/uid/20543183/abstract/1.html">Linux内核学习</a></li>
+            
+            <li><a target="_blank" href="http://www.makelinux.net/reference">Linux技术参考makelinux</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Linux Performance Tools大神</a></li>
+            
+            <li><a target="_blank" href="http://wiki.jikexueyuan.com/">极客学院</a></li>
+            
+            <li><a target="_blank" href="http://www.zhongweicheng.com/">数据库zhong</a></li>
+            
+            <li><a target="_blank" href="http://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="http://coolshell.cn/">酷 壳 – COOLSHELL</a></li>
+            
+            <li><a target="_blank" href="http://blog.jobbole.com/">伯乐在线</a></li>
+            
+            <li><a target="_blank" href="http://linuxperf.com/">vmunix 专家</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux 学习-看它就够了</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off" id="local-search-input">
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none">
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a class="color3">架构</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">ssh</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">ceph</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">tools</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">nginx</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">运维</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">《大型网站技术架构》</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">知识点</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">devops</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">LFCS</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">redis</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">ansible</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">LFCE</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">docker</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">lvm分区</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">mysql</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">胡说八道</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">WebSockets</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">好文转载</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">算法</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">web</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">linux</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">Git</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">Python</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">情商</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">管理</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">脚本</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Atlas</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">hadoop</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">openssl</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">tomcat</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">jvm</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">负载均衡</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">编程语言</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">yum</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">jdk</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">vmware</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">kvm</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">Spring</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">安全</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">内核</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">vpn</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">python</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">kubernetes</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">MongoDB</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">iotop</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">xfs</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">网关</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">备份</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">rsync</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">IPV6</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">内存</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">配置中心</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">php</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">serverless</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">粗制滥造</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">认证</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">centos7</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">Django</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">cmdb</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">容器</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">zabbix</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">网络</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">方案</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">体系</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">svn</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">双网卡</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">路由</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">CoreOS</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">Percona-Server</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">cdn</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">ambari</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">基础设施</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">ssl</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">jenkins</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">https</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">进程</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a class="架构 " href="/2017/07/18/10/" data-tag="架构" data-author>
+            <span class="post-title" title="创业互联网公司如何搭建自己的技术框架">创业互联网公司如何搭建自己的技术框架</span>
+            <span class="post-date" title="2017-07-18 00:00:00">2017/07/18</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/11/100/" data-tag="ssh" data-author>
+            <span class="post-title" title="ssh可以登录sftp不能登录">ssh可以登录sftp不能登录</span>
+            <span class="post-date" title="2016-08-11 09:14:32">2016/08/11</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/05/22/1003/" data-tag="ceph" data-author>
+            <span class="post-title" title="使用bcache为Ceph OSD加速的具体实践">使用bcache为Ceph OSD加速的具体实践</span>
+            <span class="post-date" title="2017-05-22 15:20:03">2017/05/22</span>
+        </a>
+        
+        <a class="linux " href="/2017/05/31/1027/" data-tag="tools" data-author>
+            <span class="post-title" title="Ranger – 给命令行用户一个基于文本的文件管理器--神器必备">Ranger – 给命令行用户一个基于文本的文件管理器--神器必备</span>
+            <span class="post-date" title="2017-05-31 16:59:52">2017/05/31</span>
+        </a>
+        
+        <a class="nginx " href="/2017/08/04/11/" data-tag="nginx" data-author>
+            <span class="post-title" title="nginx 安装方式">nginx 安装方式</span>
+            <span class="post-date" title="2017-08-04 00:00:00">2017/08/04</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/06/02/1150/" data-tag="运维" data-author>
+            <span class="post-title" title="你的服务器在保修截止日前后半年内吗">你的服务器在保修截止日前后半年内吗</span>
+            <span class="post-date" title="2017-06-02 09:56:36">2017/06/02</span>
+        </a>
+        
+        <a class="《大型网站技术架构》 " href="/2016/08/12/136/" data-tag="《大型网站技术架构》" data-author>
+            <span class="post-title" title="《大型网站技术架构》读书笔记二：大型网站架构模式">《大型网站技术架构》读书笔记二：大型网站架构模式</span>
+            <span class="post-date" title="2016-08-12 12:37:46">2016/08/12</span>
+        </a>
+        
+        <a class="《大型网站技术架构》 " href="/2016/08/12/134/" data-tag="《大型网站技术架构》" data-author>
+            <span class="post-title" title="《大型网站技术架构》读书笔记一：大型网站架构演化">《大型网站技术架构》读书笔记一：大型网站架构演化</span>
+            <span class="post-date" title="2016-08-12 12:35:43">2016/08/12</span>
+        </a>
+        
+        <a class="《大型网站技术架构》 " href="/2016/08/12/138/" data-tag="《大型网站技术架构》" data-author>
+            <span class="post-title" title="《大型网站技术架构》读书笔记三：大型网站核心架构要素">《大型网站技术架构》读书笔记三：大型网站核心架构要素</span>
+            <span class="post-date" title="2016-08-12 15:05:14">2016/08/12</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/08/25/14/" data-tag="知识点" data-author>
+            <span class="post-title" title="史上最全的技术知识图谱秘籍">史上最全的技术知识图谱秘籍</span>
+            <span class="post-date" title="2017-08-25 00:00:00">2017/08/25</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/08/25/15/" data-tag="知识点" data-author>
+            <span class="post-title" title="DNS 解析流程">DNS 解析流程</span>
+            <span class="post-date" title="2017-08-25 00:00:00">2017/08/25</span>
+        </a>
+        
+        <a class="《大型网站技术架构》 " href="/2016/08/12/152/" data-tag="《大型网站技术架构》" data-author>
+            <span class="post-title" title="《大型网站技术架构》读书笔记之八：固若金汤之网站的安全性架构">《大型网站技术架构》读书笔记之八：固若金汤之网站的安全性架构</span>
+            <span class="post-date" title="2016-08-12 15:49:09">2016/08/12</span>
+        </a>
+        
+        <a class="架构 " href="/2017/08/30/16/" data-tag="架构" data-author>
+            <span class="post-title" title="从ITIL到SRE--唯品会运维自动化实践">从ITIL到SRE--唯品会运维自动化实践</span>
+            <span class="post-date" title="2017-08-30 00:00:00">2017/08/30</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/11/06/17/" data-tag="知识点" data-author>
+            <span class="post-title" title="Linux编译安装中configure、make和make install各自的作用">Linux编译安装中configure、make和make install各自的作用</span>
+            <span class="post-date" title="2017-11-06 00:00:00">2017/11/06</span>
+        </a>
+        
+        <a class="devops " href="/2017/11/09/18/" data-tag="devops" data-author>
+            <span class="post-title" title="DevOps 门外汉须知">DevOps 门外汉须知</span>
+            <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
+        </a>
+        
+        <a class="LFCS " href="/2017/11/09/19/" data-tag="LFCS" data-author>
+            <span class="post-title" title="LFCS--linux 基金会认证系统管理员简介">LFCS--linux 基金会认证系统管理员简介</span>
+            <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
+        </a>
+        
+        <a class="redis " href="/2016/08/13/195/" data-tag="redis" data-author>
+            <span class="post-title" title="Redis 命令速查表">Redis 命令速查表</span>
+            <span class="post-date" title="2016-08-13 16:38:41">2016/08/13</span>
+        </a>
+        
+        <a class="ansible " href="/2019/07/23/1小时学会ansible/" data-tag="ansible" data-author>
+            <span class="post-title" title="1小时学会ansible">1小时学会ansible</span>
+            <span class="post-date" title="2019-07-23 00:00:00">2019/07/23</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/06/23/2/" data-tag="知识点" data-author>
+            <span class="post-title" title="解决“此图片来自微信公众平台 未经允许不可引用”的方法">解决“此图片来自微信公众平台 未经允许不可引用”的方法</span>
+            <span class="post-date" title="2017-06-23 00:00:00">2017/06/23</span>
+        </a>
+        
+        <a class="LFCE " href="/2017/11/09/20/" data-tag="LFCE" data-author>
+            <span class="post-title" title="LFCE--Linux基金会认证工程师（LFCE）简介">LFCE--Linux基金会认证工程师（LFCE）简介</span>
+            <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/15/222/" data-tag="docker" data-author>
+            <span class="post-title" title="docker的基础命令及含义">docker的基础命令及含义</span>
+            <span class="post-date" title="2016-08-15 10:36:16">2016/08/15</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/20/262/" data-tag="lvm分区" data-author>
+            <span class="post-title" title="linux磁盘分区 查看dm设备分类">linux磁盘分区 查看dm设备分类</span>
+            <span class="post-date" title="2016-08-20 18:39:01">2016/08/20</span>
+        </a>
+        
+        <a class="tools " href="/2017/12/27/28/" data-tag="tools" data-author>
+            <span class="post-title" title="使用DuckDuckGo在命令行中搜索">使用DuckDuckGo在命令行中搜索</span>
+            <span class="post-date" title="2017-12-27 00:00:00">2017/12/27</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/22/284/" data-tag="docker" data-author>
+            <span class="post-title" title="删除Docker Registry里的镜像怎么那么难">删除Docker Registry里的镜像怎么那么难</span>
+            <span class="post-date" title="2016-08-22 18:49:10">2016/08/22</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/12/28/29/" data-tag="知识点" data-author>
+            <span class="post-title" title="查询dpdk支持的网卡">查询dpdk支持的网卡</span>
+            <span class="post-date" title="2017-12-28 00:00:00">2017/12/28</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/06/28/3/" data-tag="知识点" data-author>
+            <span class="post-title" title="linux查看本机外网IP">linux查看本机外网IP</span>
+            <span class="post-date" title="2017-06-28 00:00:00">2017/06/28</span>
+        </a>
+        
+        <a class="mysql " href="/2016/08/23/296/" data-tag="mysql" data-author>
+            <span class="post-title" title="mysql重置root用户的密码">mysql重置root用户的密码</span>
+            <span class="post-date" title="2016-08-23 15:11:56">2016/08/23</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/12/28/30/" data-tag="知识点" data-author>
+            <span class="post-title" title="把excel变成markdown表格">把excel变成markdown表格</span>
+            <span class="post-date" title="2017-12-28 00:00:00">2017/12/28</span>
+        </a>
+        
+        <a class="redis " href="/2016/08/26/324/" data-tag="redis" data-author>
+            <span class="post-title" title="深入浅出 Redis Cluster 原理">深入浅出 Redis Cluster 原理</span>
+            <span class="post-date" title="2016-08-26 17:07:54">2016/08/26</span>
+        </a>
+        
+        <a class="vmware " href="/2016/08/26/335/" data-tag="架构" data-author>
+            <span class="post-title" title="vmware 产品架构图">vmware 产品架构图</span>
+            <span class="post-date" title="2016-08-26 18:47:01">2016/08/26</span>
+        </a>
+        
+        <a class="胡说八道 " href="/2018/02/26/36/" data-tag="胡说八道" data-author>
+            <span class="post-title" title="一起聊聊运维转型">一起聊聊运维转型</span>
+            <span class="post-date" title="2018-02-26 00:00:00">2018/02/26</span>
+        </a>
+        
+        <a class="ssh " href="/2018/03/16/37/" data-tag="ssh" data-author>
+            <span class="post-title" title="20 个 OpenSSH 最佳安全实践">20 个 OpenSSH 最佳安全实践</span>
+            <span class="post-date" title="2018-03-16 00:00:00">2018/03/16</span>
+        </a>
+        
+        <a class="mysql " href="/2018/03/31/39/" data-tag="mysql" data-author>
+            <span class="post-title" title="58到家MySQL军规升级版">58到家MySQL军规升级版</span>
+            <span class="post-date" title="2018-03-31 00:00:00">2018/03/31</span>
+        </a>
+        
+        <a class="nginx " href="/2016/09/06/396/" data-tag="nginx,WebSockets" data-author>
+            <span class="post-title" title="Nginx 作为 WebSockets 代理">Nginx 作为 WebSockets 代理</span>
+            <span class="post-date" title="2016-09-06 16:55:28">2016/09/06</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/07/10/4/" data-tag="知识点" data-author>
+            <span class="post-title" title="CentOS关机大法">CentOS关机大法</span>
+            <span class="post-date" title="2017-07-10 00:00:00">2017/07/10</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/40/" data-tag="好文转载" data-author>
+            <span class="post-title" title="java并发编程之 java线程基本概念">java并发编程之 java线程基本概念</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2016/09/08/414/" data-tag="算法" data-author>
+            <span class="post-title" title="常用推荐算法（50页干货）">常用推荐算法（50页干货）</span>
+            <span class="post-date" title="2016-09-08 13:48:54">2016/09/08</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/41/" data-tag="好文转载" data-author>
+            <span class="post-title" title="mysql数据类型优化">mysql数据类型优化</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/42/" data-tag="好文转载" data-author>
+            <span class="post-title" title="MySQL命令执行过程和存储引擎概述">MySQL命令执行过程和存储引擎概述</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/43/" data-tag="好文转载" data-author>
+            <span class="post-title" title="MySQL的基本管理">MySQL的基本管理</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="web " href="/2016/09/14/429/" data-tag="web" data-author>
+            <span class="post-title" title="无线性能优化：域名收敛">无线性能优化：域名收敛</span>
+            <span class="post-date" title="2016-09-14 17:02:11">2016/09/14</span>
+        </a>
+        
+        <a class="linux " href="/2016/09/09/426/" data-tag="linux" data-author>
+            <span class="post-title" title="系统之锹sysdig：Linux服务器监控和排障利器">系统之锹sysdig：Linux服务器监控和排障利器</span>
+            <span class="post-date" title="2016-09-09 17:08:33">2016/09/09</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/45/" data-tag="好文转载" data-author>
+            <span class="post-title" title="MySQL的字符集和比较规则">MySQL的字符集和比较规则</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/46/" data-tag="好文转载" data-author>
+            <span class="post-title" title="InnoDB记录存储结构">InnoDB记录存储结构</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/47/" data-tag="好文转载" data-author>
+            <span class="post-title" title="InnoDB数据页结构">InnoDB数据页结构</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/48/" data-tag="好文转载" data-author>
+            <span class="post-title" title="MySQL的索引">MySQL的索引</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/49/" data-tag="好文转载" data-author>
+            <span class="post-title" title="MySQL的索引（中）">MySQL的索引（中）</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="git " href="/2016/09/21/490/" data-tag="Git" data-author>
+            <span class="post-title" title="别说我懂Git——开发必备，全栈基础">别说我懂Git——开发必备，全栈基础</span>
+            <span class="post-date" title="2016-09-21 14:22:01">2016/09/21</span>
+        </a>
+        
+        <a class="Python " href="/2017/07/11/5/" data-tag="Python" data-author>
+            <span class="post-title" title="Google Python 编程风格指南">Google Python 编程风格指南</span>
+            <span class="post-date" title="2017-07-11 00:00:00">2017/07/11</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/50/" data-tag="好文转载" data-author>
+            <span class="post-title" title="java并发编程之背景知识">java并发编程之背景知识</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="linux " href="/2018/04/24/52/" data-tag="linux" data-author>
+            <span class="post-title" title="Linux文件目录权限">Linux文件目录权限</span>
+            <span class="post-date" title="2018-04-24 00:00:00">2018/04/24</span>
+        </a>
+        
+        <a class="python " href="/2016/10/02/523/" data-tag="Python" data-author>
+            <span class="post-title" title="几分钟快速入门Python">几分钟快速入门Python</span>
+            <span class="post-date" title="2016-10-02 17:46:20">2016/10/02</span>
+        </a>
+        
+        <a class="linux " href="/2018/05/09/53/" data-tag="linux" data-author>
+            <span class="post-title" title="yum4软件包管理器">yum4软件包管理器</span>
+            <span class="post-date" title="2018-05-09 00:00:00">2018/05/09</span>
+        </a>
+        
+        <a class="linux " href="/2018/05/09/54/" data-tag="linux" data-author>
+            <span class="post-title" title="DNF软件包管理工具">DNF软件包管理工具</span>
+            <span class="post-date" title="2018-05-09 00:00:00">2018/05/09</span>
+        </a>
+        
+        <a class="管理 " href="/2016/08/10/1/" data-tag="情商,管理" data-author>
+            <span class="post-title" title="转--作为一名基层管理者如何利用情商管理自己和团队（一）">转--作为一名基层管理者如何利用情商管理自己和团队（一）</span>
+            <span class="post-date" title="2016-08-10 11:43:29">2016/08/10</span>
+        </a>
+        
+        <a class="linux 知识点 " href="/2017/05/25/1018/" data-tag="知识点,linux" data-author>
+            <span class="post-title" title="如何在 Linux 中删除超大的（100-200GB）文件">如何在 Linux 中删除超大的（100-200GB）文件</span>
+            <span class="post-date" title="2017-05-25 15:44:57">2017/05/25</span>
+        </a>
+        
+        <a class="linux 知识点 " href="/2017/05/25/1020/" data-tag="知识点" data-author>
+            <span class="post-title" title="一个可以查看linux当前缓存了哪些大文件的小工具">一个可以查看linux当前缓存了哪些大文件的小工具</span>
+            <span class="post-date" title="2017-05-25 15:50:23">2017/05/25</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/06/02/1153/" data-tag="运维" data-author>
+            <span class="post-title" title="【深度干货】数据中心机柜综合布线">【深度干货】数据中心机柜综合布线</span>
+            <span class="post-date" title="2017-06-02 10:00:06">2017/06/02</span>
+        </a>
+        
+        <a class="脚本 " href="/2017/06/13/1164/" data-tag="脚本" data-author>
+            <span class="post-title" title="初始化新装centos6.x服务器脚本-web版本">初始化新装centos6.x服务器脚本-web版本</span>
+            <span class="post-date" title="2017-06-13 11:42:03">2017/06/13</span>
+        </a>
+        
+        <a class="管理 " href="/2017/08/07/12/" data-tag="管理" data-author>
+            <span class="post-title" title="左耳朵耗子：拖累开发团队效率的困局与解决之道">左耳朵耗子：拖累开发团队效率的困局与解决之道</span>
+            <span class="post-date" title="2017-08-07 00:00:00">2017/08/07</span>
+        </a>
+        
+        <a class="《大型网站技术架构》 " href="/2016/08/12/140/" data-tag="《大型网站技术架构》" data-author>
+            <span class="post-title" title="《大型网站技术架构》读书笔记四：瞬时响应之网站的高性能架构">《大型网站技术架构》读书笔记四：瞬时响应之网站的高性能架构</span>
+            <span class="post-date" title="2016-08-12 15:05:52">2016/08/12</span>
+        </a>
+        
+        <a class="《大型网站技术架构》 " href="/2016/08/12/143/" data-tag="《大型网站技术架构》" data-author>
+            <span class="post-title" title="《大型网站技术架构》读书笔记之五：万无一失之网站的高可用架构">《大型网站技术架构》读书笔记之五：万无一失之网站的高可用架构</span>
+            <span class="post-date" title="2016-08-12 15:06:54">2016/08/12</span>
+        </a>
+        
+        <a class="《大型网站技术架构》 " href="/2016/08/12/150/" data-tag="《大型网站技术架构》" data-author>
+            <span class="post-title" title="《大型网站技术架构》读书笔记之七：随需应变之网站的可扩展架构">《大型网站技术架构》读书笔记之七：随需应变之网站的可扩展架构</span>
+            <span class="post-date" title="2016-08-12 15:48:36">2016/08/12</span>
+        </a>
+        
+        <a class="hadoop " href="/2016/08/12/182/" data-tag="Atlas,hadoop" data-author>
+            <span class="post-title" title="Atlas 21000报错">Atlas 21000报错</span>
+            <span class="post-date" title="2016-08-12 17:49:45">2016/08/12</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/11/09/21/" data-tag="知识点" data-author>
+            <span class="post-title" title="12 个全球认可的 Linux 认证">12 个全球认可的 Linux 认证</span>
+            <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
+        </a>
+        
+        <a class="运维 " href="/2019/02/27/2019运维技能风向标/" data-tag="运维" data-author>
+            <span class="post-title" title="2019运维技能风向标">2019运维技能风向标</span>
+            <span class="post-date" title="2019-02-27 00:00:00">2019/02/27</span>
+        </a>
+        
+        <a class="devops " href="/2017/11/10/22/" data-tag="devops" data-author>
+            <span class="post-title" title="DevOps，就是开发吃掉运维？">DevOps，就是开发吃掉运维？</span>
+            <span class="post-date" title="2017-11-10 00:00:00">2017/11/10</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/15/220/" data-tag="docker" data-author>
+            <span class="post-title" title="Docker修改镜像存放目录">Docker修改镜像存放目录</span>
+            <span class="post-date" title="2016-08-15 10:33:13">2016/08/15</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/17/251/" data-tag="docker" data-author>
+            <span class="post-title" title="docker 删除image镜像">docker 删除image镜像</span>
+            <span class="post-date" title="2016-08-17 15:44:10">2016/08/17</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/17/253/" data-tag="linux,openssl" data-author>
+            <span class="post-title" title="openssl 升级到1.0.2h">openssl 升级到1.0.2h</span>
+            <span class="post-date" title="2016-08-17 18:39:55">2016/08/17</span>
+        </a>
+        
+        <a class="tomcat " href="/2016/08/20/260/" data-tag="tomcat" data-author>
+            <span class="post-title" title="tomcat 优化">tomcat 优化</span>
+            <span class="post-date" title="2016-08-20 18:33:42">2016/08/20</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/20/266/" data-tag="jvm" data-author>
+            <span class="post-title" title="Linux与JVM的内存关系分析">Linux与JVM的内存关系分析</span>
+            <span class="post-date" title="2016-08-20 18:52:13">2016/08/20</span>
+        </a>
+        
+        <a class="负载均衡 " href="/2017/12/27/27/" data-tag="负载均衡" data-author>
+            <span class="post-title" title="京东基于DPDK技术的高性能四层负载均衡器SKYLB">京东基于DPDK技术的高性能四层负载均衡器SKYLB</span>
+            <span class="post-date" title="2017-12-27 00:00:00">2017/12/27</span>
+        </a>
+        
+        <a class="mysql " href="/2016/08/23/292/" data-tag="mysql" data-author>
+            <span class="post-title" title="linux 安装mysql5.6.32 -rpm版本">linux 安装mysql5.6.32 -rpm版本</span>
+            <span class="post-date" title="2016-08-23 15:04:08">2016/08/23</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2016/08/24/306/" data-tag="编程语言" data-author>
+            <span class="post-title" title="当前主流的八大编程语言知识库——技能+图谱">当前主流的八大编程语言知识库——技能+图谱</span>
+            <span class="post-date" title="2016-08-24 11:22:38">2016/08/24</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/26/316/" data-tag="yum" data-author>
+            <span class="post-title" title="redhat 6设置CentOS的yum源">redhat 6设置CentOS的yum源</span>
+            <span class="post-date" title="2016-08-26 16:56:55">2016/08/26</span>
+        </a>
+        
+        <a class="redis " href="/2016/08/26/327/" data-tag="redis" data-author>
+            <span class="post-title" title="优酷土豆的Redis服务平台化之路">优酷土豆的Redis服务平台化之路</span>
+            <span class="post-date" title="2016-08-26 17:19:03">2016/08/26</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/26/329/" data-tag="jdk" data-author>
+            <span class="post-title" title="JDK环境变量配置--linux版">JDK环境变量配置--linux版</span>
+            <span class="post-date" title="2016-08-26 18:18:35">2016/08/26</span>
+        </a>
+        
+        <a class="nginx " href="/2018/02/22/33/" data-tag="nginx" data-author>
+            <span class="post-title" title="Nginx 1.13.9支持HTTP2服务器端推送">Nginx 1.13.9支持HTTP2服务器端推送</span>
+            <span class="post-date" title="2018-02-22 00:00:00">2018/02/22</span>
+        </a>
+        
+        <a class="胡说八道 " href="/2018/02/23/34/" data-tag="胡说八道" data-author>
+            <span class="post-title" title="中国的程序员培训是不是有问题？">中国的程序员培训是不是有问题？</span>
+            <span class="post-date" title="2018-02-23 00:00:00">2018/02/23</span>
+        </a>
+        
+        <a class="胡说八道 " href="/2018/02/23/35/" data-tag="胡说八道" data-author>
+            <span class="post-title" title="日本IT业发展怎么样?">日本IT业发展怎么样?</span>
+            <span class="post-date" title="2018-02-23 00:00:00">2018/02/23</span>
+        </a>
+        
+        <a class="nginx " href="/2018/03/22/38/" data-tag="nginx" data-author>
+            <span class="post-title" title="Nginx 支持gRPC">Nginx 支持gRPC</span>
+            <span class="post-date" title="2018-03-22 00:00:00">2018/03/22</span>
+        </a>
+        
+        <a class="vmware " href="/2016/09/09/424/" data-tag="vmware" data-author>
+            <span class="post-title" title="虚拟化资源分配推荐配置">虚拟化资源分配推荐配置</span>
+            <span class="post-date" title="2016-09-09 11:37:16">2016/09/09</span>
+        </a>
+        
+        <a class="docker " href="/2018/04/19/51/" data-tag="docker" data-author>
+            <span class="post-title" title="docker-compose部署">docker-compose部署</span>
+            <span class="post-date" title="2018-04-19 00:00:00">2018/04/19</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/44/" data-tag="好文转载" data-author>
+            <span class="post-title" title="字符集和编码">字符集和编码</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="mysql " href="/2016/10/11/547/" data-tag="mysql" data-author>
+            <span class="post-title" title="mysql只读模式的设置方法">mysql只读模式的设置方法</span>
+            <span class="post-date" title="2016-10-11 11:38:57">2016/10/11</span>
+        </a>
+        
+        <a class="kvm " href="/2018/05/15/55/" data-tag="kvm" data-author>
+            <span class="post-title" title="CentOS7安装kvm虚拟机详解">CentOS7安装kvm虚拟机详解</span>
+            <span class="post-date" title="2018-05-15 00:00:00">2018/05/15</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/12/558/" data-tag="linux" data-author>
+            <span class="post-title" title="linux下查看硬盘型号等信息">linux下查看硬盘型号等信息</span>
+            <span class="post-date" title="2016-10-12 12:17:25">2016/10/12</span>
+        </a>
+        
+        <a class="docker " href="/2018/05/21/56/" data-tag="docker" data-author>
+            <span class="post-title" title="Docker应用三十六计">Docker应用三十六计</span>
+            <span class="post-date" title="2018-05-21 00:00:00">2018/05/21</span>
+        </a>
+        
+        <a class="脚本 " href="/2018/06/12/57/" data-tag="脚本" data-author>
+            <span class="post-title" title="文件变更监控file_monit">文件变更监控file_monit</span>
+            <span class="post-date" title="2018-06-12 00:00:00">2018/06/12</span>
+        </a>
+        
+        <a class="linux " href="/2016/11/07/577/" data-tag="linux" data-author>
+            <span class="post-title" title="Linux bashrc和profile的用途和区别">Linux bashrc和profile的用途和区别</span>
+            <span class="post-date" title="2016-11-07 11:07:16">2016/11/07</span>
+        </a>
+        
+        <a class="mysql " href="/2018/06/14/58/" data-tag="mysql" data-author>
+            <span class="post-title" title="MySQL8与PG10：新版本下的较量谁更胜一筹？">MySQL8与PG10：新版本下的较量谁更胜一筹？</span>
+            <span class="post-date" title="2018-06-14 00:00:00">2018/06/14</span>
+        </a>
+        
+        <a class="docker " href="/2018/06/22/60/" data-tag="docker" data-author>
+            <span class="post-title" title="阿里云 kubernetes yum 仓库镜像">阿里云 kubernetes yum 仓库镜像</span>
+            <span class="post-date" title="2018-06-22 00:00:00">2018/06/22</span>
+        </a>
+        
+        <a class="web " href="/2018/06/28/61/" data-tag="web" data-author>
+            <span class="post-title" title="Web前端入门的自学路线">Web前端入门的自学路线</span>
+            <span class="post-date" title="2018-06-28 00:00:00">2018/06/28</span>
+        </a>
+        
+        <a class="mysql " href="/2016/11/22/609/" data-tag="mysql" data-author>
+            <span class="post-title" title="大众点评订单系统分库分表实践">大众点评订单系统分库分表实践</span>
+            <span class="post-date" title="2016-11-22 18:57:35">2016/11/22</span>
+        </a>
+        
+        <a class="mysql " href="/2016/11/22/611/" data-tag="mysql" data-author>
+            <span class="post-title" title="美团点评的Atlas实践">美团点评的Atlas实践</span>
+            <span class="post-date" title="2016-11-22 18:59:16">2016/11/22</span>
+        </a>
+        
+        <a class="Spring " href="/2018/07/03/62/" data-tag="Spring" data-author>
+            <span class="post-title" title="SpringBoot学习目录[转载]">SpringBoot学习目录[转载]</span>
+            <span class="post-date" title="2018-07-03 00:00:00">2018/07/03</span>
+        </a>
+        
+        <a class="安全 " href="/2018/07/24/66/" data-tag="安全" data-author>
+            <span class="post-title" title="主机系统漏洞扫描分析Nessus">主机系统漏洞扫描分析Nessus</span>
+            <span class="post-date" title="2018-07-24 00:00:00">2018/07/24</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/09/748/" data-tag="linux" data-author>
+            <span class="post-title" title="你真知道“Too many open files”">你真知道“Too many open files”</span>
+            <span class="post-date" title="2017-01-09 17:47:29">2017/01/09</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/13/756/" data-tag="linux,内核" data-author>
+            <span class="post-title" title="Linux Storage IO协议栈框图">Linux Storage IO协议栈框图</span>
+            <span class="post-date" title="2017-01-13 15:09:09">2017/01/13</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/16/761/" data-tag="linux" data-author>
+            <span class="post-title" title="systemtap查看谁在切换我们的进程">systemtap查看谁在切换我们的进程</span>
+            <span class="post-date" title="2017-01-16 11:09:14">2017/01/16</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/16/765/" data-tag="linux" data-author>
+            <span class="post-title" title="systemtap观察page_cache的使用情况">systemtap观察page_cache的使用情况</span>
+            <span class="post-date" title="2017-01-16 11:10:44">2017/01/16</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/01/18/780/" data-tag="运维" data-author>
+            <span class="post-title" title="第七篇：数据中心监控体系建设方法论">第七篇：数据中心监控体系建设方法论</span>
+            <span class="post-date" title="2017-01-18 11:00:32">2017/01/18</span>
+        </a>
+        
+        <a class="nginx " href="/2017/01/19/789/" data-tag="web" data-author>
+            <span class="post-title" title="跟我学OpenResty(Nginx+Lua)开发目录贴">跟我学OpenResty(Nginx+Lua)开发目录贴</span>
+            <span class="post-date" title="2017-01-19 16:31:26">2017/01/19</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/24/808/" data-tag="tools,linux" data-author>
+            <span class="post-title" title="TMUX多终端管理神器">TMUX多终端管理神器</span>
+            <span class="post-date" title="2017-01-24 15:40:18">2017/01/24</span>
+        </a>
+        
+        <a class="管理 " href="/2016/08/10/82/" data-tag="情商,管理" data-author>
+            <span class="post-title" title="转–作为一名基层管理者如何利用情商管理自己和团队（二）">转–作为一名基层管理者如何利用情商管理自己和团队（二）</span>
+            <span class="post-date" title="2016-08-10 16:13:14">2016/08/10</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/20/844/" data-tag="linux" data-author>
+            <span class="post-title" title="如何重置 RHEL7-CentOS7 系统的密码">如何重置 RHEL7-CentOS7 系统的密码</span>
+            <span class="post-date" title="2017-02-20 14:42:15">2017/02/20</span>
+        </a>
+        
+        <a class="devops " href="/2017/02/20/848/" data-tag="devops" data-author>
+            <span class="post-title" title="5 个用于日志记录以及监控的 DevOps 工具">5 个用于日志记录以及监控的 DevOps 工具</span>
+            <span class="post-date" title="2017-02-20 14:44:23">2017/02/20</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/24/871/" data-tag="linux,yum" data-author>
+            <span class="post-title" title="yum下载RPM包不安装">yum下载RPM包不安装</span>
+            <span class="post-date" title="2017-02-24 09:51:35">2017/02/24</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/24/874/" data-tag="linux" data-author>
+            <span class="post-title" title="Linux bashrc和profile的用途和区别">Linux bashrc和profile的用途和区别</span>
+            <span class="post-date" title="2017-02-24 15:48:42">2017/02/24</span>
+        </a>
+        
+        <a class="linux " href="/2017/07/14/9/" data-tag="linux" data-author>
+            <span class="post-title" title="linux程序内存使用情况ps_mem.py--神器必备">linux程序内存使用情况ps_mem.py--神器必备</span>
+            <span class="post-date" title="2017-07-14 00:00:00">2017/07/14</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/08/906/" data-tag="linux" data-author>
+            <span class="post-title" title="Linux服务器如何防止中木马">Linux服务器如何防止中木马</span>
+            <span class="post-date" title="2017-03-08 10:54:36">2017/03/08</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/08/904/" data-tag="linux" data-author>
+            <span class="post-title" title="最全面的常用正则表达式大全">最全面的常用正则表达式大全</span>
+            <span class="post-date" title="2017-03-08 09:55:29">2017/03/08</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/10/908/" data-tag="vpn" data-author>
+            <span class="post-title" title="centos下使用OPENVPN Client">centos下使用OPENVPN Client</span>
+            <span class="post-date" title="2017-03-10 11:46:32">2017/03/10</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/10/911/" data-tag="vpn" data-author>
+            <span class="post-title" title="CentOS安装PPTP VPN Client">CentOS安装PPTP VPN Client</span>
+            <span class="post-date" title="2017-03-10 11:51:02">2017/03/10</span>
+        </a>
+        
+        <a class="管理 " href="/2017/04/26/972/" data-tag="管理" data-author>
+            <span class="post-title" title="开源的员工手册">开源的员工手册</span>
+            <span class="post-date" title="2017-04-26 16:36:23">2017/04/26</span>
+        </a>
+        
+        <a class="linux 知识点 " href="/2017/04/26/974/" data-tag="知识点" data-author>
+            <span class="post-title" title="如何判断GCC的版本">如何判断GCC的版本</span>
+            <span class="post-date" title="2017-04-26 16:40:50">2017/04/26</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2017/05/11/988/" data-tag="管理" data-author>
+            <span class="post-title" title="运维说给研发测试的心底话">运维说给研发测试的心底话</span>
+            <span class="post-date" title="2017-05-11 10:42:59">2017/05/11</span>
+        </a>
+        
+        <a class="python " href="/2018/09/06/Python3入门,看这篇就够了/" data-tag="python" data-author>
+            <span class="post-title" title="Python3入门,看这篇就够了">Python3入门,看这篇就够了</span>
+            <span class="post-date" title="2018-09-06 00:00:00">2018/09/06</span>
+        </a>
+        
+        <a class="mysql " href="/2019/04/11/python操作mysql的多个方案/" data-tag="mysql" data-author>
+            <span class="post-title" title="python操作mysql的多个方案">python操作mysql的多个方案</span>
+            <span class="post-date" title="2019-04-11 00:00:00">2019/04/11</span>
+        </a>
+        
+        <a class href="/2019/12/18/pt-kill/" data-tag data-author>
+            <span class="post-title" title></span>
+            <span class="post-date" title="2019-12-18 16:20:19">2019/12/18</span>
+        </a>
+        
+        <a class="胡说八道 " href="/2018/11/07/一篇非常棒的职业规划文章/" data-tag="胡说八道" data-author>
+            <span class="post-title" title="一篇非常棒的职业规划文章">一篇非常棒的职业规划文章</span>
+            <span class="post-date" title="2018-11-07 00:00:00">2018/11/07</span>
+        </a>
+        
+        <a class="linux " href="/2019/02/13/万兆网卡的Server与千兆网卡的client之间传输问题/" data-tag="linux" data-author>
+            <span class="post-title" title="万兆网卡的Server与千兆网卡的client之间传输问题">万兆网卡的Server与千兆网卡的client之间传输问题</span>
+            <span class="post-date" title="2019-02-13 00:00:00">2019/02/13</span>
+        </a>
+        
+        <a class="mysql " href="/2018/10/15/只安装MySQL客户端/" data-tag="mysql" data-author>
+            <span class="post-title" title="只安装MySQL客户端">只安装MySQL客户端</span>
+            <span class="post-date" title="2018-10-15 00:00:00">2018/10/15</span>
+        </a>
+        
+        <a class="内核 " href="/2018/08/06/如何下载centos-redhat的linux内核源代码/" data-tag="内核" data-author>
+            <span class="post-title" title="如何下载centos-redhat的linux内核源代码">如何下载centos-redhat的linux内核源代码</span>
+            <span class="post-date" title="2018-08-06 00:00:00">2018/08/06</span>
+        </a>
+        
+        <a class="kubernetes " href="/2019/02/14/学习Kubernetes 和容器技术体系的最佳方法/" data-tag="kubernetes" data-author>
+            <span class="post-title" title="学习Kubernetes和容器技术体系的最佳方法">学习Kubernetes和容器技术体系的最佳方法</span>
+            <span class="post-date" title="2019-02-14 00:00:00">2019/02/14</span>
+        </a>
+        
+        <a class="管理 " href="/2019/06/02/正确的时间管理/" data-tag="管理" data-author>
+            <span class="post-title" title="正确的时间管理">正确的时间管理</span>
+            <span class="post-date" title="2019-06-02 00:00:00">2019/06/02</span>
+        </a>
+        
+        <a class="web " href="/2018/12/26/浅谈TLS1.3/" data-tag="web" data-author>
+            <span class="post-title" title="浅谈TLS1.3">浅谈TLS1.3</span>
+            <span class="post-date" title="2018-12-26 00:00:00">2018/12/26</span>
+        </a>
+        
+        <a class="好文转载 " href="/2019/08/14/自学是门手艺/" data-tag="好文转载" data-author>
+            <span class="post-title" title="自学是门手艺">自学是门手艺</span>
+            <span class="post-date" title="2019-08-14 00:00:00">2019/08/14</span>
+        </a>
+        
+        <a class="web " href="/2018/12/26/网站访问速度慢/" data-tag="web" data-author>
+            <span class="post-title" title="网站访问速度慢">网站访问速度慢</span>
+            <span class="post-date" title="2018-12-26 00:00:00">2018/12/26</span>
+        </a>
+        
+        <a class="运维 " href="/2018/12/26/谈运维转型期的感悟和分享/" data-tag="运维" data-author>
+            <span class="post-title" title="谈运维转型期的感悟和分享">谈运维转型期的感悟和分享</span>
+            <span class="post-date" title="2018-12-26 00:00:00">2018/12/26</span>
+        </a>
+        
+        <a class href="/2019/10/12/邓宁-克鲁格效应/" data-tag data-author>
+            <span class="post-title" title></span>
+            <span class="post-date" title="2019-10-12 10:02:43">2019/10/12</span>
+        </a>
+        
+        <a class="负载均衡 " href="/2018/11/27/负载均衡获得真实源IP的6种方法/" data-tag="负载均衡" data-author>
+            <span class="post-title" title="负载均衡获得真实源IP的6种方法">负载均衡获得真实源IP的6种方法</span>
+            <span class="post-date" title="2018-11-27 00:00:00">2018/11/27</span>
+        </a>
+        
+        <a class="nginx " href="/2019/02/28/闲扯Nginx的accept_mutex配置/" data-tag="nginx" data-author>
+            <span class="post-title" title="闲扯Nginx的accept_mutex配置">闲扯Nginx的accept_mutex配置</span>
+            <span class="post-date" title="2019-02-28 00:00:00">2019/02/28</span>
+        </a>
+        
+        <a class="linux 知识点 " href="/2017/05/25/1016/" data-tag="知识点,linux" data-author>
+            <span class="post-title" title="Linux 下清空或删除大文件内容的 5 种方法">Linux 下清空或删除大文件内容的 5 种方法</span>
+            <span class="post-date" title="2017-05-25 15:43:33">2017/05/25</span>
+        </a>
+        
+        <a class="linux 知识点 " href="/2017/05/25/1013/" data-tag="知识点" data-author>
+            <span class="post-title" title="3 个在 Linux 中永久并安全删除文件和目录的方法">3 个在 Linux 中永久并安全删除文件和目录的方法</span>
+            <span class="post-date" title="2017-05-25 15:41:09">2017/05/25</span>
+        </a>
+        
+        <a class="linux 知识点 " href="/2017/05/25/1011/" data-tag="知识点" data-author>
+            <span class="post-title" title="在 Linux 系统下使用 PhotoRec &amp; TestDisk 工具来恢复文件">在 Linux 系统下使用 PhotoRec &amp; TestDisk 工具来恢复文件</span>
+            <span class="post-date" title="2017-05-25 15:37:31">2017/05/25</span>
+        </a>
+        
+        <a class="《大型网站技术架构》 " href="/2016/08/12/148/" data-tag="《大型网站技术架构》" data-author>
+            <span class="post-title" title="《大型网站技术架构》读书笔记之六：永无止境之网站的伸缩性架构">《大型网站技术架构》读书笔记之六：永无止境之网站的伸缩性架构</span>
+            <span class="post-date" title="2016-08-12 15:46:58">2016/08/12</span>
+        </a>
+        
+        <a class="mongodb " href="/2016/08/13/193/" data-tag="MongoDB" data-author>
+            <span class="post-title" title="MongoDB 命令速查表">MongoDB 命令速查表</span>
+            <span class="post-date" title="2016-08-13 16:37:42">2016/08/13</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/16/238/" data-tag="linux,iotop,xfs" data-author>
+            <span class="post-title" title="JDB2导致磁盘io使用率高">JDB2导致磁盘io使用率高</span>
+            <span class="post-date" title="2016-08-16 10:12:59">2016/08/16</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/17/248/" data-tag="docker" data-author>
+            <span class="post-title" title="自定义docker CentOS 镜像">自定义docker CentOS 镜像</span>
+            <span class="post-date" title="2016-08-17 15:39:08">2016/08/17</span>
+        </a>
+        
+        <a class="网关 " href="/2017/12/14/25/" data-tag="网关" data-author>
+            <span class="post-title" title="谈谈基于 OpenResty 的接口网关设计">谈谈基于 OpenResty 的接口网关设计</span>
+            <span class="post-date" title="2017-12-14 00:00:00">2017/12/14</span>
+        </a>
+        
+        <a class="mysql " href="/2016/08/20/258/" data-tag="mysql,备份" data-author>
+            <span class="post-title" title="学会备份MySQL数据库">学会备份MySQL数据库</span>
+            <span class="post-date" title="2016-08-20 18:28:43">2016/08/20</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/22/280/" data-tag="docker" data-author>
+            <span class="post-title" title="CentOS6.8搭建Docker私有仓库">CentOS6.8搭建Docker私有仓库</span>
+            <span class="post-date" title="2016-08-22 18:25:11">2016/08/22</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/22/287/" data-tag="rsync" data-author>
+            <span class="post-title" title="Rsync+sersync双向同步（两边修改的情况）">Rsync+sersync双向同步（两边修改的情况）</span>
+            <span class="post-date" title="2016-08-22 18:53:05">2016/08/22</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/24/311/" data-tag="tools" data-author>
+            <span class="post-title" title="linux环境常用依赖包和工具-必备">linux环境常用依赖包和工具-必备</span>
+            <span class="post-date" title="2016-08-24 22:52:58">2016/08/24</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/26/319/" data-tag="IPV6" data-author>
+            <span class="post-title" title="centos 6 禁用IPV6">centos 6 禁用IPV6</span>
+            <span class="post-date" title="2016-08-26 16:57:42">2016/08/26</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2016/09/19/481/" data-tag="管理" data-author>
+            <span class="post-title" title="什么是工程师文化？">什么是工程师文化？</span>
+            <span class="post-date" title="2016-09-19 16:12:40">2016/09/19</span>
+        </a>
+        
+        <a class="架构 知识点 " href="/2016/09/18/470/" data-tag="架构,知识点" data-author>
+            <span class="post-title" title="缓存知识体系">缓存知识体系</span>
+            <span class="post-date" title="2016-09-18 18:02:12">2016/09/18</span>
+        </a>
+        
+        <a class="管理 " href="/2016/10/11/549/" data-tag="管理" data-author>
+            <span class="post-title" title="论版本号的正确打开方式">论版本号的正确打开方式</span>
+            <span class="post-date" title="2016-10-11 14:27:36">2016/10/11</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/11/553/" data-tag="编程语言" data-author>
+            <span class="post-title" title="Centos  python 2.6 升级到 2.7">Centos  python 2.6 升级到 2.7</span>
+            <span class="post-date" title="2016-10-11 17:18:14">2016/10/11</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/12/556/" data-tag="linux" data-author>
+            <span class="post-title" title="Linux上查看硬件信息的一款神器 ：Inxi">Linux上查看硬件信息的一款神器 ：Inxi</span>
+            <span class="post-date" title="2016-10-12 12:16:30">2016/10/12</span>
+        </a>
+        
+        <a class="linux " href="/2016/11/17/597/" data-tag="内存" data-author>
+            <span class="post-title" title="在 Linux 中热添加内存 (2077955)">在 Linux 中热添加内存 (2077955)</span>
+            <span class="post-date" title="2016-11-17 10:10:43">2016/11/17</span>
+        </a>
+        
+        <a class="管理 " href="/2017/07/12/6/" data-tag="管理" data-author>
+            <span class="post-title" title="我看绩效考核">我看绩效考核</span>
+            <span class="post-date" title="2017-07-12 00:00:00">2017/07/12</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/11/551/" data-tag="编程语言" data-author>
+            <span class="post-title" title="CentOS 安装Python3.5">CentOS 安装Python3.5</span>
+            <span class="post-date" title="2016-10-11 16:59:29">2016/10/11</span>
+        </a>
+        
+        <a class="配置中心 " href="/2018/07/12/64/" data-tag="配置中心" data-author>
+            <span class="post-title" title="微服务架构为什么需要配置中心？">微服务架构为什么需要配置中心？</span>
+            <span class="post-date" title="2018-07-12 00:00:00">2018/07/12</span>
+        </a>
+        
+        <a class="运维 " href="/2018/07/12/65/" data-tag="运维" data-author>
+            <span class="post-title" title="如何接手一个新业务的运维工作">如何接手一个新业务的运维工作</span>
+            <span class="post-date" title="2018-07-12 00:00:00">2018/07/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/704/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【伙伴管理算法（3）】">Linux-3.14.12内存管理笔记【伙伴管理算法（3）】</span>
+            <span class="post-date" title="2016-12-12 12:20:34">2016/12/12</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/09/750/" data-tag="linux" data-author>
+            <span class="post-title" title="如何在 Linux 中找出最近或今天被修改的文件">如何在 Linux 中找出最近或今天被修改的文件</span>
+            <span class="post-date" title="2017-01-09 17:55:39">2017/01/09</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/13/754/" data-tag="linux,内核" data-author>
+            <span class="post-title" title="手把手教你用Dropwatch诊断问题">手把手教你用Dropwatch诊断问题</span>
+            <span class="post-date" title="2017-01-13 15:06:48">2017/01/13</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/01/18/770/" data-tag="运维" data-author>
+            <span class="post-title" title="第二篇：数据中心运维IT运维项目建设之我见">第二篇：数据中心运维IT运维项目建设之我见</span>
+            <span class="post-date" title="2017-01-18 10:34:33">2017/01/18</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/01/18/768/" data-tag="运维" data-author>
+            <span class="post-title" title="第一篇：数据中心运维模型之我见">第一篇：数据中心运维模型之我见</span>
+            <span class="post-date" title="2017-01-18 10:33:18">2017/01/18</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/01/18/778/" data-tag="运维" data-author>
+            <span class="post-title" title="第六篇：告警是数据中心运维的核心驱动力！">第六篇：告警是数据中心运维的核心驱动力！</span>
+            <span class="post-date" title="2017-01-18 10:58:16">2017/01/18</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/01/18/774/" data-tag="运维" data-author>
+            <span class="post-title" title="第四篇：数据中心运维项目失败之我见">第四篇：数据中心运维项目失败之我见</span>
+            <span class="post-date" title="2017-01-18 10:52:04">2017/01/18</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/01/18/772/" data-tag="运维" data-author>
+            <span class="post-title" title="第三篇：漫谈数据中心运维自动化">第三篇：漫谈数据中心运维自动化</span>
+            <span class="post-date" title="2017-01-18 10:50:30">2017/01/18</span>
+        </a>
+        
+        <a class="数据中心运维 " href="/2017/01/18/776/" data-tag="运维" data-author>
+            <span class="post-title" title="第五篇：数据中心改善运维，ITIL与ISO20000如何选择？">第五篇：数据中心改善运维，ITIL与ISO20000如何选择？</span>
+            <span class="post-date" title="2017-01-18 10:56:48">2017/01/18</span>
+        </a>
+        
+        <a class="web " href="/2017/01/19/792/" data-tag="web" data-author>
+            <span class="post-title" title="应用多级缓存模式支撑海量读服务">应用多级缓存模式支撑海量读服务</span>
+            <span class="post-date" title="2017-01-19 16:38:52">2017/01/19</span>
+        </a>
+        
+        <a class="脚本 " href="/2017/07/11/8/" data-tag="脚本" data-author>
+            <span class="post-title" title="初始化新装centos7.x服务器脚本--局域网web版">初始化新装centos7.x服务器脚本--局域网web版</span>
+            <span class="post-date" title="2017-07-11 17:11:21">2017/07/11</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/24/810/" data-tag="tools,linux" data-author>
+            <span class="post-title" title="Linux 删除文件恢复工具-Foremost">Linux 删除文件恢复工具-Foremost</span>
+            <span class="post-date" title="2017-01-24 15:42:59">2017/01/24</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/03/819/" data-tag="linux" data-author>
+            <span class="post-title" title="将rm命令重定义为mv移动到回收站">将rm命令重定义为mv移动到回收站</span>
+            <span class="post-date" title="2017-02-03 11:08:56">2017/02/03</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/20/846/" data-tag="tools,linux" data-author>
+            <span class="post-title" title="如何在 CentOS 中安装 XWiki">如何在 CentOS 中安装 XWiki</span>
+            <span class="post-date" title="2017-02-20 14:43:07">2017/02/20</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/21/863/" data-tag="linux,内核" data-author>
+            <span class="post-title" title="再叙TIME_WAIT">再叙TIME_WAIT</span>
+            <span class="post-date" title="2017-02-21 19:21:53">2017/02/21</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/29/929/" data-tag="linux" data-author>
+            <span class="post-title" title="centos6服务器安全配置">centos6服务器安全配置</span>
+            <span class="post-date" title="2017-03-29 09:30:41">2017/03/29</span>
+        </a>
+        
+        <a class="linux " href="/2017/04/13/950/" data-tag="php" data-author>
+            <span class="post-title" title="yum安装php5.6">yum安装php5.6</span>
+            <span class="post-date" title="2017-04-13 09:41:16">2017/04/13</span>
+        </a>
+        
+        <a class="脚本 " href="/2017/04/26/978/" data-tag="脚本" data-author>
+            <span class="post-title" title="初始化新装centos7.x服务器脚本--离线版">初始化新装centos7.x服务器脚本--离线版</span>
+            <span class="post-date" title="2017-04-26 17:11:21">2017/04/26</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2017/05/11/990/" data-tag="管理" data-author>
+            <span class="post-title" title="如何快速精确的和leader沟通">如何快速精确的和leader沟通</span>
+            <span class="post-date" title="2017-05-11 10:43:40">2017/05/11</span>
+        </a>
+        
+        <a class="devops " href="/2019/02/28/SRE工程师到底是做什么的/" data-tag="devops" data-author>
+            <span class="post-title" title="SRE工程师到底是做什么的？">SRE工程师到底是做什么的？</span>
+            <span class="post-date" title="2019-02-28 00:00:00">2019/02/28</span>
+        </a>
+        
+        <a class="web " href="/2019/10/09/HTTP的前世今生/" data-tag="web" data-author>
+            <span class="post-title" title="HTTP的前世今生">HTTP的前世今生</span>
+            <span class="post-date" title="2019-10-09 00:00:00">2019/10/09</span>
+        </a>
+        
+        <a class="安全 " href="/2018/07/24/开源软件创建SOC的一份清单/" data-tag="安全" data-author>
+            <span class="post-title" title="开源软件创建SOC的一份清单">开源软件创建SOC的一份清单</span>
+            <span class="post-date" title="2018-07-24 00:00:00">2018/07/24</span>
+        </a>
+        
+        <a class="内核 " href="/2018/12/05/被抛弃的tcp_recycle/" data-tag="内核" data-author>
+            <span class="post-title" title="被抛弃的tcp_recycle">被抛弃的tcp_recycle</span>
+            <span class="post-date" title="2018-12-05 00:00:00">2018/12/05</span>
+        </a>
+        
+        <a class="serverless " href="/2018/08/06/迈向serverless/" data-tag="serverless" data-author>
+            <span class="post-title" title="迈向serverless">迈向serverless</span>
+            <span class="post-date" title="2018-08-06 00:00:00">2018/08/06</span>
+        </a>
+        
+        <a class="mysql " href="/2016/10/11/545/" data-tag="mysql" data-author>
+            <span class="post-title" title="yum安装Percona Server on  CentOS">yum安装Percona Server on  CentOS</span>
+            <span class="post-date" title="2016-10-11 11:37:08">2016/10/11</span>
+        </a>
+        
+        <a class="redis " href="/2017/05/31/1025/" data-tag="redis" data-author>
+            <span class="post-title" title="Redis Cluster探索与思考">Redis Cluster探索与思考</span>
+            <span class="post-date" title="2017-05-31 16:24:33">2017/05/31</span>
+        </a>
+        
+        <a class="devops " href="/2017/05/23/1005/" data-tag="devops" data-author>
+            <span class="post-title" title="DevOps绞杀者之路">DevOps绞杀者之路</span>
+            <span class="post-date" title="2017-05-23 09:57:52">2017/05/23</span>
+        </a>
+        
+        <a class="docker " href="/2017/06/01/1044/" data-tag="devops" data-author>
+            <span class="post-title" title="中小企业 DevOps 从 0 到 1—好文推荐–必备">中小企业 DevOps 从 0 到 1—好文推荐–必备</span>
+            <span class="post-date" title="2017-06-01 11:33:22">2017/06/01</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2017/08/09/13/" data-tag="粗制滥造" data-author>
+            <span class="post-title" title="当你在浏览器中输入 google.com 并且按下回车之后发生了什么？">当你在浏览器中输入 google.com 并且按下回车之后发生了什么？</span>
+            <span class="post-date" title="2017-08-09 00:00:00">2017/08/09</span>
+        </a>
+        
+        <a class="hadoop " href="/2016/08/12/162/" data-tag="hadoop,认证" data-author>
+            <span class="post-title" title="hadoop管理员认证">hadoop管理员认证</span>
+            <span class="post-date" title="2016-08-12 16:53:55">2016/08/12</span>
+        </a>
+        
+        <a class="devops " href="/2017/12/11/23/" data-tag="devops" data-author>
+            <span class="post-title" title="智能时代的新运维">智能时代的新运维</span>
+            <span class="post-date" title="2017-12-11 00:00:00">2017/12/11</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/17/246/" data-tag="docker" data-author>
+            <span class="post-title" title="docker centos7 安装ssh">docker centos7 安装ssh</span>
+            <span class="post-date" title="2016-08-17 15:38:21">2016/08/17</span>
+        </a>
+        
+        <a class="网关 " href="/2017/12/14/24/" data-tag="网关" data-author>
+            <span class="post-title" title="深入浅出聊聊企业级API网关">深入浅出聊聊企业级API网关</span>
+            <span class="post-date" title="2017-12-14 00:00:00">2017/12/14</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/29/349/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux Memory Hotplug--翻译文档">Linux Memory Hotplug--翻译文档</span>
+            <span class="post-date" title="2016-08-29 19:25:56">2016/08/29</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/27/346/" data-tag="内核,centos7" data-author>
+            <span class="post-title" title="centos7升级内核后 grub2  改变启动顺序">centos7升级内核后 grub2  改变启动顺序</span>
+            <span class="post-date" title="2016-08-27 16:57:03">2016/08/27</span>
+        </a>
+        
+        <a class="mysql " href="/2016/09/28/506/" data-tag="mysql" data-author>
+            <span class="post-title" title="MySQL数据库物理服务器安装标准规范">MySQL数据库物理服务器安装标准规范</span>
+            <span class="post-date" title="2016-09-28 11:48:07">2016/09/28</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/11/539/" data-tag="内核" data-author>
+            <span class="post-title" title="性能跟踪工具 ：LTTng">性能跟踪工具 ：LTTng</span>
+            <span class="post-date" title="2016-10-11 11:30:13">2016/10/11</span>
+        </a>
+        
+        <a class="linux " href="/2016/11/08/594/" data-tag="linux" data-author>
+            <span class="post-title" title="Linux 技巧：让进程在后台可靠运行的几种方法">Linux 技巧：让进程在后台可靠运行的几种方法</span>
+            <span class="post-date" title="2016-11-08 14:39:09">2016/11/08</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/17/563/" data-tag="linux" data-author>
+            <span class="post-title" title="软件包管理工具 DNF">软件包管理工具 DNF</span>
+            <span class="post-date" title="2016-10-17 17:23:18">2016/10/17</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/678/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【X86内存映射小结（1）】">Linux-3.14.12内存管理笔记【X86内存映射小结（1）】</span>
+            <span class="post-date" title="2016-12-12 11:11:55">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/690/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【构建内存管理框架（1）】">Linux-3.14.12内存管理笔记【构建内存管理框架（1）】</span>
+            <span class="post-date" title="2016-12-12 11:34:20">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/696/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【构建内存管理框架（4）】">Linux-3.14.12内存管理笔记【构建内存管理框架（4）】</span>
+            <span class="post-date" title="2016-12-12 12:16:24">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/718/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【SLUB分配算法（2）】">Linux-3.14.12内存管理笔记【SLUB分配算法（2）】</span>
+            <span class="post-date" title="2016-12-12 12:29:51">2016/12/12</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/16/763/" data-tag="linux" data-author>
+            <span class="post-title" title="systemtap如何知道文件被那个进程写">systemtap如何知道文件被那个进程写</span>
+            <span class="post-date" title="2017-01-16 11:10:07">2017/01/16</span>
+        </a>
+        
+        <a class="管理 " href="/2017/01/18/782/" data-tag="管理" data-author>
+            <span class="post-title" title="技术人员的发展之路">技术人员的发展之路</span>
+            <span class="post-date" title="2017-01-18 12:30:03">2017/01/18</span>
+        </a>
+        
+        <a class="web " href="/2017/01/19/797/" data-tag="web" data-author>
+            <span class="post-title" title="京东商品详情页服务闭环实践">京东商品详情页服务闭环实践</span>
+            <span class="post-date" title="2017-01-19 16:44:18">2017/01/19</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/24/806/" data-tag="linux" data-author>
+            <span class="post-title" title="比特、字节及进制">比特、字节及进制</span>
+            <span class="post-date" title="2017-01-24 15:38:48">2017/01/24</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/14/837/" data-tag="tools" data-author>
+            <span class="post-title" title="ssh双向互信神器gpssh-exkeys">ssh双向互信神器gpssh-exkeys</span>
+            <span class="post-date" title="2017-02-14 14:37:19">2017/02/14</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/20/850/" data-tag="tools" data-author>
+            <span class="post-title" title="Cgroups基础">Cgroups基础</span>
+            <span class="post-date" title="2017-02-20 15:12:39">2017/02/20</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/20/852/" data-tag="tools" data-author>
+            <span class="post-title" title="用 cgroups 管理 cpu 资源">用 cgroups 管理 cpu 资源</span>
+            <span class="post-date" title="2017-02-20 15:13:18">2017/02/20</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/20/854/" data-tag="tools" data-author>
+            <span class="post-title" title="用 cgroups 管理进程磁盘 io">用 cgroups 管理进程磁盘 io</span>
+            <span class="post-date" title="2017-02-20 15:13:40">2017/02/20</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/20/856/" data-tag="tools" data-author>
+            <span class="post-title" title="用 cgruops 管理进程内存占用">用 cgruops 管理进程内存占用</span>
+            <span class="post-date" title="2017-02-20 15:14:04">2017/02/20</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/10/915/" data-tag="tools" data-author>
+            <span class="post-title" title="Linux网络工具之fping">Linux网络工具之fping</span>
+            <span class="post-date" title="2017-03-10 13:33:40">2017/03/10</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/04/07/945/" data-tag="知识点" data-author>
+            <span class="post-title" title="Linux网络 - 数据包的发送过程">Linux网络 - 数据包的发送过程</span>
+            <span class="post-date" title="2017-04-07 16:51:32">2017/04/07</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/04/07/942/" data-tag="知识点" data-author>
+            <span class="post-title" title="Linux网络 - 数据包的接收过程">Linux网络 - 数据包的接收过程</span>
+            <span class="post-date" title="2017-04-07 16:50:07">2017/04/07</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/04/20/956/" data-tag="知识点" data-author>
+            <span class="post-title" title="系统管理员资源大全">系统管理员资源大全</span>
+            <span class="post-date" title="2017-04-20 09:28:23">2017/04/20</span>
+        </a>
+        
+        <a class="linux " href="/2017/04/24/964/" data-tag="知识点" data-author>
+            <span class="post-title" title="Centos修改镜像为国内源">Centos修改镜像为国内源</span>
+            <span class="post-date" title="2017-04-24 18:03:55">2017/04/24</span>
+        </a>
+        
+        <a class="linux " href="/2017/05/03/982/" data-tag="tools" data-author>
+            <span class="post-title" title="pyDash：一个基于 web 的 Linux 性能监测工具">pyDash：一个基于 web 的 Linux 性能监测工具</span>
+            <span class="post-date" title="2017-05-03 18:47:57">2017/05/03</span>
+        </a>
+        
+        <a class="linux " href="/2017/05/03/984/" data-tag="tools" data-author>
+            <span class="post-title" title="cpustat：在 Linux 下根据运行的进程监控 CPU 使用率">cpustat：在 Linux 下根据运行的进程监控 CPU 使用率</span>
+            <span class="post-date" title="2017-05-03 18:50:22">2017/05/03</span>
+        </a>
+        
+        <a class href="/2019/10/11/IT从运维到运营/" data-tag data-author>
+            <span class="post-title" title></span>
+            <span class="post-date" title="2019-10-11 09:14:58">2019/10/11</span>
+        </a>
+        
+        <a class="Django " href="/2018/12/03/PythonWeb开发和Django入门必读/" data-tag="Django" data-author>
+            <span class="post-title" title="PythonWeb开发和Django入门必读">PythonWeb开发和Django入门必读</span>
+            <span class="post-date" title="2018-12-03 00:00:00">2018/12/03</span>
+        </a>
+        
+        <a class href="/2019/10/09/世界上没有技术驱动型公司/" data-tag data-author>
+            <span class="post-title" title></span>
+            <span class="post-date" title="2019-10-09 09:20:17">2019/10/09</span>
+        </a>
+        
+        <a class="cmdb " href="/2018/10/24/从0到1构建可落地的CMDB/" data-tag="cmdb" data-author>
+            <span class="post-title" title="从0到1构建可落地的CMDB">从0到1构建可落地的CMDB</span>
+            <span class="post-date" title="2018-10-24 00:00:00">2018/10/24</span>
+        </a>
+        
+        <a class="mysql " href="/2018/11/23/新一代数据库TiDB在美团的实践/" data-tag="mysql" data-author>
+            <span class="post-title" title="新一代数据库TiDB在美团的实践">新一代数据库TiDB在美团的实践</span>
+            <span class="post-date" title="2018-11-23 00:00:00">2018/11/23</span>
+        </a>
+        
+        <a class="容器 " href="/2018/08/07/有关容器的六大误区和八大正确场景/" data-tag="容器" data-author>
+            <span class="post-title" title="有关容器的六大误区和八大正确场景">有关容器的六大误区和八大正确场景</span>
+            <span class="post-date" title="2018-08-07 00:00:00">2018/08/07</span>
+        </a>
+        
+        <a class="运维 " href="/2018/10/24/给1到10年运维人的修仙指南/" data-tag="运维" data-author>
+            <span class="post-title" title="给1到10年运维人的修仙指南">给1到10年运维人的修仙指南</span>
+            <span class="post-date" title="2018-10-24 00:00:00">2018/10/24</span>
+        </a>
+        
+        <a class="docker " href="/2018/07/30/虚拟机与Docker容器概念全解析/" data-tag="docker" data-author>
+            <span class="post-title" title="虚拟机与Docker容器概念全解析">虚拟机与Docker容器概念全解析</span>
+            <span class="post-date" title="2018-07-30 00:00:00">2018/07/30</span>
+        </a>
+        
+        <a class="安全 " href="/2018/07/25/互联网企业数据安全体系建设/" data-tag="安全" data-author>
+            <span class="post-title" title="互联网企业数据安全体系建设">互联网企业数据安全体系建设</span>
+            <span class="post-date" title="2018-07-25 00:00:00">2018/07/25</span>
+        </a>
+        
+        <a class="docker " href="/2019/01/23/记一次KubernetesDocker网络排障/" data-tag="docker" data-author>
+            <span class="post-title" title="记一次Kubernetes/Docker网络排障">记一次Kubernetes/Docker网络排障</span>
+            <span class="post-date" title="2019-01-23 00:00:00">2019/01/23</span>
+        </a>
+        
+        <a class="胡说八道 " href="/2019/02/28/谈谈我的三观/" data-tag="胡说八道" data-author>
+            <span class="post-title" title="谈谈我的三观">谈谈我的三观</span>
+            <span class="post-date" title="2019-02-28 00:00:00">2019/02/28</span>
+        </a>
+        
+        <a class="架构 " href="/2019/01/24/面试必备指南-你的系统如何支撑高并发/" data-tag="架构" data-author>
+            <span class="post-title" title="面试必备指南-你的系统如何支撑高并发">面试必备指南-你的系统如何支撑高并发</span>
+            <span class="post-date" title="2019-01-24 00:00:00">2019/01/24</span>
+        </a>
+        
+        <a class="hadoop " href="/2016/08/12/168/" data-tag="hadoop" data-author>
+            <span class="post-title" title="Ambari 卸载已安装的 Service">Ambari 卸载已安装的 Service</span>
+            <span class="post-date" title="2016-08-12 17:11:33">2016/08/12</span>
+        </a>
+        
+        <a class="tomcat " href="/2016/08/22/275/" data-tag="tomcat" data-author>
+            <span class="post-title" title="Tomcat 安装配置APR 模式">Tomcat 安装配置APR 模式</span>
+            <span class="post-date" title="2016-08-22 10:53:37">2016/08/22</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/20/264/" data-tag="linux,内存" data-author>
+            <span class="post-title" title="Linux 内存中Page cache和buffer cache 的区别">Linux 内存中Page cache和buffer cache 的区别</span>
+            <span class="post-date" title="2016-08-20 18:40:27">2016/08/20</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/26/341/" data-tag="内核" data-author>
+            <span class="post-title" title="Centos用yum升级内核">Centos用yum升级内核</span>
+            <span class="post-date" title="2016-08-26 23:09:30">2016/08/26</span>
+        </a>
+        
+        <a class="git " href="/2016/09/08/422/" data-tag="Git" data-author>
+            <span class="post-title" title="Git操作指南">Git操作指南</span>
+            <span class="post-date" title="2016-09-08 14:47:20">2016/09/08</span>
+        </a>
+        
+        <a class="linux " href="/2016/09/19/485/" data-tag="内核" data-author>
+            <span class="post-title" title="终极 Shell---zsh">终极 Shell---zsh</span>
+            <span class="post-date" title="2016-09-19 16:17:31">2016/09/19</span>
+        </a>
+        
+        <a class="linux " href="/2016/09/26/493/" data-tag="ssh" data-author>
+            <span class="post-title" title="批量建立linux机器之间的ssh互信的自动化脚本">批量建立linux机器之间的ssh互信的自动化脚本</span>
+            <span class="post-date" title="2016-09-26 11:04:50">2016/09/26</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/680/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【X86内存映射小结（2）】">Linux-3.14.12内存管理笔记【X86内存映射小结（2）】</span>
+            <span class="post-date" title="2016-12-12 11:17:27">2016/12/12</span>
+        </a>
+        
+        <a class="管理 " href="/2017/07/12/7/" data-tag="管理" data-author>
+            <span class="post-title" title="如何提高学习能力？">如何提高学习能力？</span>
+            <span class="post-date" title="2017-07-12 00:00:00">2017/07/12</span>
+        </a>
+        
+        <a class="web " href="/2017/01/09/743/" data-tag="web" data-author>
+            <span class="post-title" title="彻底弄懂 HTTP 缓存机制 —— 基于缓存策略三要素分解法">彻底弄懂 HTTP 缓存机制 —— 基于缓存策略三要素分解法</span>
+            <span class="post-date" title="2017-01-09 12:36:24">2017/01/09</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/17/842/" data-tag="tools,linux" data-author>
+            <span class="post-title" title="centos中使用 tuned---tuned-adm工具动态调优系统">centos中使用 tuned---tuned-adm工具动态调优系统</span>
+            <span class="post-date" title="2017-02-17 14:06:54">2017/02/17</span>
+        </a>
+        
+        <a class="windows " href="/2017/02/14/826/" data-tag="tools" data-author>
+            <span class="post-title" title="6 Free PDF Password Remover Tools">6 Free PDF Password Remover Tools</span>
+            <span class="post-date" title="2017-02-14 09:51:11">2017/02/14</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2017/03/21/927/" data-tag data-author>
+            <span class="post-title" title="常坐电脑前面，这些健康问题你注意到了么？">常坐电脑前面，这些健康问题你注意到了么？</span>
+            <span class="post-date" title="2017-03-21 11:16:01">2017/03/21</span>
+        </a>
+        
+        <a class="架构 " href="/2017/04/20/954/" data-tag="架构" data-author>
+            <span class="post-title" title="韩晓光：系统运维体系架构规划">韩晓光：系统运维体系架构规划</span>
+            <span class="post-date" title="2017-04-20 09:26:32">2017/04/20</span>
+        </a>
+        
+        <a class="zabbix " href="/2019/02/27/一小时快速掌握zabbix配置的高效学习法/" data-tag="zabbix" data-author>
+            <span class="post-title" title="一小时快速掌握zabbix配置的高效学习法">一小时快速掌握zabbix配置的高效学习法</span>
+            <span class="post-date" title="2019-02-27 00:00:00">2019/02/27</span>
+        </a>
+        
+        <a class="好文转载 " href="/2019/09/10/中台禁区/" data-tag="好文转载" data-author>
+            <span class="post-title" title="中台禁区">中台禁区</span>
+            <span class="post-date" title="2019-09-10 00:00:00">2019/09/10</span>
+        </a>
+        
+        <a class="linux 知识点 " href="/2017/06/13/1159/" data-tag="知识点,linux,内核" data-author>
+            <span class="post-title" title="Cgroup - Linux 的 IO 资源隔离--好文">Cgroup - Linux 的 IO 资源隔离--好文</span>
+            <span class="post-date" title="2017-06-13 11:31:10">2017/06/13</span>
+        </a>
+        
+        <a class="git " href="/2016/08/13/191/" data-tag="Git" data-author>
+            <span class="post-title" title="别说我懂Git——开发必备，全栈基础">别说我懂Git——开发必备，全栈基础</span>
+            <span class="post-date" title="2016-08-13 16:34:42">2016/08/13</span>
+        </a>
+        
+        <a class="安全 " href="/2018/01/30/31/" data-tag="安全" data-author>
+            <span class="post-title" title="如何做好首席安全官 – 企业安全体系与架构实现">如何做好首席安全官 – 企业安全体系与架构实现</span>
+            <span class="post-date" title="2018-01-30 00:00:00">2018/01/30</span>
+        </a>
+        
+        <a class="windows " href="/2016/08/26/332/" data-tag="jdk" data-author>
+            <span class="post-title" title="JDK环境变量配置--windows版">JDK环境变量配置--windows版</span>
+            <span class="post-date" title="2016-08-26 18:21:08">2016/08/26</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/08/526/" data-tag="网络" data-author>
+            <span class="post-title" title="ntop网络流量分析产品">ntop网络流量分析产品</span>
+            <span class="post-date" title="2016-10-08 14:55:32">2016/10/08</span>
+        </a>
+        
+        <a class="linux " href="/2016/11/07/586/" data-tag="linux" data-author>
+            <span class="post-title" title="Linux下查找指定时间内修改过的文件 — find命令">Linux下查找指定时间内修改过的文件 — find命令</span>
+            <span class="post-date" title="2016-11-07 11:25:49">2016/11/07</span>
+        </a>
+        
+        <a class="docker " href="/2018/06/22/59/" data-tag="docker" data-author>
+            <span class="post-title" title="使用现成的二进制文件部署K8S集群-有证书">使用现成的二进制文件部署K8S集群-有证书</span>
+            <span class="post-date" title="2018-06-22 00:00:00">2018/06/22</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/666/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【初探保护模式（2）】">Linux-3.14.12内存管理笔记【初探保护模式（2）】</span>
+            <span class="post-date" title="2016-12-12 10:58:19">2016/12/12</span>
+        </a>
+        
+        <a class="web " href="/2018/07/04/63/" data-tag="web" data-author>
+            <span class="post-title" title="系统管理员资源大全">系统管理员资源大全</span>
+            <span class="post-date" title="2018-07-04 00:00:00">2018/07/04</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/686/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【建立内核页表（2）】">Linux-3.14.12内存管理笔记【建立内核页表（2）】</span>
+            <span class="post-date" title="2016-12-12 11:22:52">2016/12/12</span>
+        </a>
+        
+        <a class="nginx " href="/2017/01/19/794/" data-tag="web" data-author>
+            <span class="post-title" title="使用Nginx+Lua(OpenResty)开发高性能Web应用">使用Nginx+Lua(OpenResty)开发高性能Web应用</span>
+            <span class="post-date" title="2017-01-19 16:41:06">2017/01/19</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/21/865/" data-tag="linux,内核" data-author>
+            <span class="post-title" title="TCP洪水攻击（SYN Flood）的诊断和处理">TCP洪水攻击（SYN Flood）的诊断和处理</span>
+            <span class="post-date" title="2017-02-21 19:25:55">2017/02/21</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/02/894/" data-tag="linux,yum" data-author>
+            <span class="post-title" title="使用yum历史查找已安装或已删除的软件包信息">使用yum历史查找已安装或已删除的软件包信息</span>
+            <span class="post-date" title="2017-03-02 17:01:32">2017/03/02</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/04/07/938/" data-tag="知识点" data-author>
+            <span class="post-title" title="网络分层概述">网络分层概述</span>
+            <span class="post-date" title="2017-04-07 16:47:27">2017/04/07</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/11/97/" data-tag="linux,内存" data-author>
+            <span class="post-title" title="《Linux Used内存到底哪里去了？》总结">《Linux Used内存到底哪里去了？》总结</span>
+            <span class="post-date" title="2016-08-11 11:39:20">2016/08/11</span>
+        </a>
+        
+        <a class="devops " href="/2018/07/24/DevOps转型实践/" data-tag="devops" data-author>
+            <span class="post-title" title="DevOps转型实践">DevOps转型实践</span>
+            <span class="post-date" title="2018-07-24 00:00:00">2018/07/24</span>
+        </a>
+        
+        <a class="运维 " href="/2018/10/24/IT运维发展趋势及运维人的转型升级/" data-tag="运维" data-author>
+            <span class="post-title" title="IT运维发展趋势及运维人的转型升级">IT运维发展趋势及运维人的转型升级</span>
+            <span class="post-date" title="2018-10-24 00:00:00">2018/10/24</span>
+        </a>
+        
+        <a class="内核 " href="/2019/09/20/Linux内核优化详解/" data-tag="内核" data-author>
+            <span class="post-title" title="Linux内核优化详解-天师巨献">Linux内核优化详解-天师巨献</span>
+            <span class="post-date" title="2019-09-20 00:00:00">2019/09/20</span>
+        </a>
+        
+        <a class="方案 " href="/2019/05/15/一个牛逼的创业公司后台技术栈搭建方案/" data-tag="方案" data-author>
+            <span class="post-title" title="一个牛逼的创业公司后台技术栈搭建方案">一个牛逼的创业公司后台技术栈搭建方案</span>
+            <span class="post-date" title="2019-05-15 00:00:00">2019/05/15</span>
+        </a>
+        
+        <a class="安全 " href="/2018/11/23/浅谈大型互联网企业入侵检测及防护策略/" data-tag="安全" data-author>
+            <span class="post-title" title="浅谈大型互联网企业入侵检测及防护策略">浅谈大型互联网企业入侵检测及防护策略</span>
+            <span class="post-date" title="2018-11-23 00:00:00">2018/11/23</span>
+        </a>
+        
+        <a class="mysql " href="/2016/09/28/508/" data-tag="mysql" data-author>
+            <span class="post-title" title="配置MySQL使用HugePages">配置MySQL使用HugePages</span>
+            <span class="post-date" title="2016-09-28 11:48:56">2016/09/28</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/731/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【kmalloc与kfree实现】">Linux-3.14.12内存管理笔记【kmalloc与kfree实现】</span>
+            <span class="post-date" title="2016-12-12 12:35:05">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/716/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【SLUB分配算法（1）】">Linux-3.14.12内存管理笔记【SLUB分配算法（1）】</span>
+            <span class="post-date" title="2016-12-12 12:29:02">2016/12/12</span>
+        </a>
+        
+        <a class="web " href="/2017/01/19/801/" data-tag="web" data-author>
+            <span class="post-title" title="聊聊高并发系统之HTTP缓存">聊聊高并发系统之HTTP缓存</span>
+            <span class="post-date" title="2017-01-19 16:50:15">2017/01/19</span>
+        </a>
+        
+        <a class="linux " href="/2016/09/07/405/" data-tag="内核" data-author>
+            <span class="post-title" title="动态追踪技术漫谈">动态追踪技术漫谈</span>
+            <span class="post-date" title="2016-09-07 12:06:41">2016/09/07</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2016/09/08/420/" data-tag="体系" data-author>
+            <span class="post-title" title="研发体系这点事">研发体系这点事</span>
+            <span class="post-date" title="2016-09-08 14:40:44">2016/09/08</span>
+        </a>
+        
+        <a class="git " href="/2016/10/11/537/" data-tag="Git" data-author>
+            <span class="post-title" title="手把手教你使用Git">手把手教你使用Git</span>
+            <span class="post-date" title="2016-10-11 11:27:08">2016/10/11</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/664/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【初探保护模式（1）】">Linux-3.14.12内存管理笔记【初探保护模式（1）】</span>
+            <span class="post-date" title="2016-12-12 10:57:30">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/668/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【初探保护模式（3）】">Linux-3.14.12内存管理笔记【初探保护模式（3）】</span>
+            <span class="post-date" title="2016-12-12 10:59:32">2016/12/12</span>
+        </a>
+        
+        <a class="web " href="/2017/01/19/786/" data-tag="web" data-author>
+            <span class="post-title" title="聊聊高并发系统之HTTP缓存">聊聊高并发系统之HTTP缓存</span>
+            <span class="post-date" title="2017-01-19 14:46:20">2017/01/19</span>
+        </a>
+        
+        <a class="linux " href="/2017/04/13/948/" data-tag="php" data-author>
+            <span class="post-title" title="编译安装php5.6">编译安装php5.6</span>
+            <span class="post-date" title="2017-04-13 09:39:55">2017/04/13</span>
+        </a>
+        
+        <a class="linux 知识点 " href="/2017/04/07/940/" data-tag="知识点,linux" data-author>
+            <span class="post-title" title="详解Linux交换空间（swap space）">详解Linux交换空间（swap space）</span>
+            <span class="post-date" title="2017-04-07 16:48:57">2017/04/07</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/684/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【建立内核页表（1）】">Linux-3.14.12内存管理笔记【建立内核页表（1）】</span>
+            <span class="post-date" title="2016-12-12 11:21:50">2016/12/12</span>
+        </a>
+        
+        <a class="linux " href="/2017/04/20/961/" data-tag="tools,知识点" data-author>
+            <span class="post-title" title="Linux服务器上监控网络带宽的18个常用命令">Linux服务器上监控网络带宽的18个常用命令</span>
+            <span class="post-date" title="2017-04-20 10:19:32">2017/04/20</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/24/812/" data-tag="tools,linux" data-author>
+            <span class="post-title" title="Linux下高效数据恢复软件extundelete应用实战---必备">Linux下高效数据恢复软件extundelete应用实战---必备</span>
+            <span class="post-date" title="2017-01-24 15:44:38">2017/01/24</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/10/917/" data-tag="tools,linux" data-author>
+            <span class="post-title" title="centos6搭建vnc服务器">centos6搭建vnc服务器</span>
+            <span class="post-date" title="2017-03-10 15:29:01">2017/03/10</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/08/528/" data-tag="网络" data-author>
+            <span class="post-title" title="CentOS安装PF_RING">CentOS安装PF_RING</span>
+            <span class="post-date" title="2016-10-08 15:03:53">2016/10/08</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/10/535/" data-tag="linux" data-author>
+            <span class="post-title" title="系统监控工具大全">系统监控工具大全</span>
+            <span class="post-date" title="2016-10-10 12:20:48">2016/10/10</span>
+        </a>
+        
+        <a class="devops " href="/2017/05/23/1008/" data-tag="devops" data-author>
+            <span class="post-title" title="从实践中长出的 DevOps 大树">从实践中长出的 DevOps 大树</span>
+            <span class="post-date" title="2017-05-23 10:03:55">2017/05/23</span>
+        </a>
+        
+        <a class="linux " href="/2016/12/09/654/" data-tag="linux" data-author>
+            <span class="post-title" title="ftp服务器vsftpd">ftp服务器vsftpd</span>
+            <span class="post-date" title="2016-12-09 15:21:43">2016/12/09</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/04/01/934/" data-tag="知识点" data-author>
+            <span class="post-title" title="RAID级别规划">RAID级别规划</span>
+            <span class="post-date" title="2017-04-01 11:36:21">2017/04/01</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/10/913/" data-tag="tools" data-author>
+            <span class="post-title" title="CentOS7.3  安装SecureCRT8.1">CentOS7.3  安装SecureCRT8.1</span>
+            <span class="post-date" title="2017-03-10 13:28:45">2017/03/10</span>
+        </a>
+        
+        <a class="git " href="/2016/08/13/188/" data-tag="Git" data-author>
+            <span class="post-title" title="Git 命令分类速查表">Git 命令分类速查表</span>
+            <span class="post-date" title="2016-08-13 16:32:07">2016/08/13</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/15/218/" data-tag="docker" data-author>
+            <span class="post-title" title="docker安装程序镜像-Nginx/tomcat">docker安装程序镜像-Nginx/tomcat</span>
+            <span class="post-date" title="2016-08-15 09:56:37">2016/08/15</span>
+        </a>
+        
+        <a class="安全 " href="/2017/12/20/26/" data-tag="安全" data-author>
+            <span class="post-title" title="加盐密码哈希：如何正确使用">加盐密码哈希：如何正确使用</span>
+            <span class="post-date" title="2017-12-20 00:00:00">2017/12/20</span>
+        </a>
+        
+        <a class="vmware " href="/2016/12/08/646/" data-tag="vmware" data-author>
+            <span class="post-title" title="vmware ESXi 使用NUMA">vmware ESXi 使用NUMA</span>
+            <span class="post-date" title="2016-12-08 16:50:53">2016/12/08</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/670/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【开启分页管理】">Linux-3.14.12内存管理笔记【开启分页管理】</span>
+            <span class="post-date" title="2016-12-12 11:02:18">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/702/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【伙伴管理算法（2）】">Linux-3.14.12内存管理笔记【伙伴管理算法（2）】</span>
+            <span class="post-date" title="2016-12-12 12:19:32">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/722/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【SLUB分配算法（4）】">Linux-3.14.12内存管理笔记【SLUB分配算法（4）】</span>
+            <span class="post-date" title="2016-12-12 12:32:49">2016/12/12</span>
+        </a>
+        
+        <a class="hadoop " href="/2017/03/03/899/" data-tag="hadoop" data-author>
+            <span class="post-title" title="如何搭建一个易于维护的 Hadoop 集群？">如何搭建一个易于维护的 Hadoop 集群？</span>
+            <span class="post-date" title="2017-03-03 17:46:58">2017/03/03</span>
+        </a>
+        
+        <a class="hadoop " href="/2017/03/03/896/" data-tag="hadoop" data-author>
+            <span class="post-title" title="如何为Hadoop集群选择合适的硬件">如何为Hadoop集群选择合适的硬件</span>
+            <span class="post-date" title="2017-03-03 17:43:36">2017/03/03</span>
+        </a>
+        
+        <a class="zabbix " href="/2017/04/25/968/" data-tag="zabbix" data-author>
+            <span class="post-title" title="一篇文章全面了解监控知识体系">一篇文章全面了解监控知识体系</span>
+            <span class="post-date" title="2017-04-25 17:30:02">2017/04/25</span>
+        </a>
+        
+        <a class="知识点 " href="/2017/05/18/1000/" data-tag="知识点" data-author>
+            <span class="post-title" title="localhost，127.0.0.1 和 本机IP的区别">localhost，127.0.0.1 和 本机IP的区别</span>
+            <span class="post-date" title="2017-05-18 10:18:11">2017/05/18</span>
+        </a>
+        
+        <a class="架构 知识点 " href="/2016/09/18/478/" data-tag="架构,知识点" data-author>
+            <span class="post-title" title="运维知识体系V2.0-赵班长">运维知识体系V2.0-赵班长</span>
+            <span class="post-date" title="2016-09-18 18:11:23">2016/09/18</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/660/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【内存布局探测】">Linux-3.14.12内存管理笔记【内存布局探测】</span>
+            <span class="post-date" title="2016-12-12 10:02:24">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/700/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【伙伴管理算法（1）】">Linux-3.14.12内存管理笔记【伙伴管理算法（1）】</span>
+            <span class="post-date" title="2016-12-12 12:18:43">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/710/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【页面迁移】">Linux-3.14.12内存管理笔记【页面迁移】</span>
+            <span class="post-date" title="2016-12-12 12:24:30">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/688/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【建立内核页表（3）】">Linux-3.14.12内存管理笔记【建立内核页表（3）】</span>
+            <span class="post-date" title="2016-12-12 11:24:15">2016/12/12</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/22/803/" data-tag="linux" data-author>
+            <span class="post-title" title="linux部署tmpfs缓存">linux部署tmpfs缓存</span>
+            <span class="post-date" title="2017-01-22 15:58:11">2017/01/22</span>
+        </a>
+        
+        <a class="devops " href="/2016/11/30/615/" data-tag="svn" data-author>
+            <span class="post-title" title="svn服务器安装">svn服务器安装</span>
+            <span class="post-date" title="2016-11-30 10:46:11">2016/11/30</span>
+        </a>
+        
+        <a class="linux " href="/2017/02/14/833/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="理解LINUX的MEMORY OVERCOMMIT">理解LINUX的MEMORY OVERCOMMIT</span>
+            <span class="post-date" title="2017-02-14 10:00:47">2017/02/14</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/706/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【伙伴管理算法（4）】">Linux-3.14.12内存管理笔记【伙伴管理算法（4）】</span>
+            <span class="post-date" title="2016-12-12 12:22:13">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/698/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【构建内存管理框架（5）】">Linux-3.14.12内存管理笔记【构建内存管理框架（5）】</span>
+            <span class="post-date" title="2016-12-12 12:17:36">2016/12/12</span>
+        </a>
+        
+        <a class="docker " href="/2016/09/07/407/" data-tag="docker" data-author>
+            <span class="post-title" title="Docker run命令的使用方法">Docker run命令的使用方法</span>
+            <span class="post-date" title="2016-09-07 15:46:27">2016/09/07</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/729/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【SLUB分配算法（6）】">Linux-3.14.12内存管理笔记【SLUB分配算法（6）】</span>
+            <span class="post-date" title="2016-12-12 12:34:14">2016/12/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/727/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【SLUB分配算法（5）】">Linux-3.14.12内存管理笔记【SLUB分配算法（5）】</span>
+            <span class="post-date" title="2016-12-12 12:33:31">2016/12/12</span>
+        </a>
+        
+        <a class="docker " href="/2017/05/11/986/" data-tag="docker" data-author>
+            <span class="post-title" title="沪江容器化运维实践">沪江容器化运维实践</span>
+            <span class="post-date" title="2017-05-11 10:41:44">2017/05/11</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/694/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【构建内存管理框架（3）】">Linux-3.14.12内存管理笔记【构建内存管理框架（3）】</span>
+            <span class="post-date" title="2016-12-12 12:15:15">2016/12/12</span>
+        </a>
+        
+        <a class="web " href="/2017/01/19/799/" data-tag="web" data-author>
+            <span class="post-title" title="聊聊高并发系统之限流特技">聊聊高并发系统之限流特技</span>
+            <span class="post-date" title="2017-01-19 16:48:22">2017/01/19</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/692/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【构建内存管理框架（2）】">Linux-3.14.12内存管理笔记【构建内存管理框架（2）】</span>
+            <span class="post-date" title="2016-12-12 12:14:03">2016/12/12</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/12/158/" data-tag="linux,双网卡,路由" data-author>
+            <span class="post-title" title="CentOS添加路由表-支持双网卡双网关">CentOS添加路由表-支持双网卡双网关</span>
+            <span class="post-date" title="2016-08-12 16:41:36">2016/08/12</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/15/216/" data-tag="docker" data-author>
+            <span class="post-title" title="docker使用阿里云Docker镜像库加速">docker使用阿里云Docker镜像库加速</span>
+            <span class="post-date" title="2016-08-15 09:53:56">2016/08/15</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/17/567/" data-tag="linux,双网卡" data-author>
+            <span class="post-title" title="CentOS 7.x网卡名称eno16777736改为eth0">CentOS 7.x网卡名称eno16777736改为eth0</span>
+            <span class="post-date" title="2016-10-17 17:34:21">2016/10/17</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/708/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【伙伴管理算法（5）】">Linux-3.14.12内存管理笔记【伙伴管理算法（5）】</span>
+            <span class="post-date" title="2016-12-12 12:23:21">2016/12/12</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/15/214/" data-tag="docker" data-author>
+            <span class="post-title" title="centos安装docker">centos安装docker</span>
+            <span class="post-date" title="2016-08-15 09:43:53">2016/08/15</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/682/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【系统启动阶段的memblock算法（1）】">Linux-3.14.12内存管理笔记【系统启动阶段的memblock算法（1）】</span>
+            <span class="post-date" title="2016-12-12 11:20:50">2016/12/12</span>
+        </a>
+        
+        <a class="架构 " href="/2016/08/25/313/" data-tag="架构" data-author>
+            <span class="post-title" title="互联网架构，如何进行容量设计？">互联网架构，如何进行容量设计？</span>
+            <span class="post-date" title="2016-08-25 11:44:42">2016/08/25</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/714/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【内存溢出保护机制（OOM）】">Linux-3.14.12内存管理笔记【内存溢出保护机制（OOM）】</span>
+            <span class="post-date" title="2016-12-12 12:28:03">2016/12/12</span>
+        </a>
+        
+        <a class="web " href="/2016/09/27/496/" data-tag="web" data-author>
+            <span class="post-title" title="99%的人都理解错了HTTP中GET与POST的区别">99%的人都理解错了HTTP中GET与POST的区别</span>
+            <span class="post-date" title="2016-09-27 09:29:59">2016/09/27</span>
+        </a>
+        
+        <a class="docker " href="/2016/08/12/129/" data-tag="docker,CoreOS" data-author>
+            <span class="post-title" title="安装-配置 CoreOS ---vmware版本">安装-配置 CoreOS ---vmware版本</span>
+            <span class="post-date" title="2016-08-12 09:45:17">2016/08/12</span>
+        </a>
+        
+        <a class="devops " href="/2016/12/02/629/" data-tag="svn" data-author>
+            <span class="post-title" title="svn web管理之iF.SVNAdmin--推荐">svn web管理之iF.SVNAdmin--推荐</span>
+            <span class="post-date" title="2016-12-02 09:52:55">2016/12/02</span>
+        </a>
+        
+        <a class="mysql " href="/2016/08/23/301/" data-tag="mysql,Percona-Server" data-author>
+            <span class="post-title" title="安装 Percona-Server-5.7.13-6 -二进制tar包">安装 Percona-Server-5.7.13-6 -二进制tar包</span>
+            <span class="post-date" title="2016-08-23 18:26:52">2016/08/23</span>
+        </a>
+        
+        <a class="linux " href="/2016/12/21/740/" data-tag="linux,内核" data-author>
+            <span class="post-title" title="centos用rpm升级内核">centos用rpm升级内核</span>
+            <span class="post-date" title="2016-12-21 17:18:17">2016/12/21</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2016/08/26/322/" data-tag="cdn" data-author>
+            <span class="post-title" title="使用CDN后的http请求处理流程">使用CDN后的http请求处理流程</span>
+            <span class="post-date" title="2016-08-26 17:01:29">2016/08/26</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/24/815/" data-tag="tools,linux" data-author>
+            <span class="post-title" title="一个cheat命令 == Linux命令小抄大全---必备">一个cheat命令 == Linux命令小抄大全---必备</span>
+            <span class="post-date" title="2017-01-24 17:27:07">2017/01/24</span>
+        </a>
+        
+        <a class="linux " href="/2016/09/28/511/" data-tag="web" data-author>
+            <span class="post-title" title="HTTPS工作原理和TCP握手机制">HTTPS工作原理和TCP握手机制</span>
+            <span class="post-date" title="2016-09-28 15:25:13">2016/09/28</span>
+        </a>
+        
+        <a class="hadoop " href="/2016/08/12/184/" data-tag="hadoop,ambari" data-author>
+            <span class="post-title" title="ambari-加从节点DataNode">ambari-加从节点DataNode</span>
+            <span class="post-date" title="2016-08-12 17:52:10">2016/08/12</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/720/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【SLUB分配算法（3）】">Linux-3.14.12内存管理笔记【SLUB分配算法（3）】</span>
+            <span class="post-date" title="2016-12-12 12:30:52">2016/12/12</span>
+        </a>
+        
+        <a class="devops " href="/2016/12/01/626/" data-tag="svn" data-author>
+            <span class="post-title" title="svn web管理之submin">svn web管理之submin</span>
+            <span class="post-date" title="2016-12-01 15:54:52">2016/12/01</span>
+        </a>
+        
+        <a class="hadoop " href="/2016/08/12/166/" data-tag="hadoop" data-author>
+            <span class="post-title" title="Ambari安装前概述">Ambari安装前概述</span>
+            <span class="post-date" title="2016-08-12 17:09:30">2016/08/12</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2016/09/08/416/" data-tag="基础设施" data-author>
+            <span class="post-title" title="谈谈互联网后端基础设施">谈谈互联网后端基础设施</span>
+            <span class="post-date" title="2016-09-08 14:32:25">2016/09/08</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/29/932/" data-tag="linux,内核" data-author>
+            <span class="post-title" title="KDUMP简介">KDUMP简介</span>
+            <span class="post-date" title="2017-03-29 09:42:23">2017/03/29</span>
+        </a>
+        
+        <a class="Linux-3.14.12内存管理笔记 " href="/2016/12/12/712/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="Linux-3.14.12内存管理笔记【连续内存分配器（CMA）】">Linux-3.14.12内存管理笔记【连续内存分配器（CMA）】</span>
+            <span class="post-date" title="2016-12-12 12:25:28">2016/12/12</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/13/921/" data-tag="内核" data-author>
+            <span class="post-title" title="运维利器：万能的strace">运维利器：万能的strace</span>
+            <span class="post-date" title="2017-03-13 15:13:22">2017/03/13</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/22/289/" data-tag="linux,内存" data-author>
+            <span class="post-title" title="linux的可用内存到底怎样计算">linux的可用内存到底怎样计算</span>
+            <span class="post-date" title="2016-08-22 18:56:40">2016/08/22</span>
+        </a>
+        
+        <a class="粗制滥造 " href="/2017/05/11/992/" data-tag="知识点,管理" data-author>
+            <span class="post-title" title="一张图教你如何选择开源协议">一张图教你如何选择开源协议</span>
+            <span class="post-date" title="2017-05-11 10:57:03">2017/05/11</span>
+        </a>
+        
+        <a class="linux " href="/2016/11/08/589/" data-tag="linux" data-author>
+            <span class="post-title" title="Linux 下的两种分层存储方案">Linux 下的两种分层存储方案</span>
+            <span class="post-date" title="2016-11-08 14:27:22">2016/11/08</span>
+        </a>
+        
+        <a class="linux " href="/2016/12/09/656/" data-tag="架构,linux,内核" data-author>
+            <span class="post-title" title="linux  numa架构">linux  numa架构</span>
+            <span class="post-date" title="2016-12-09 18:19:56">2016/12/09</span>
+        </a>
+        
+        <a class="web " href="/2016/09/18/432/" data-tag="ssl" data-author>
+            <span class="post-title" title="https-SSL协议---原理详解">https-SSL协议---原理详解</span>
+            <span class="post-date" title="2016-09-18 15:05:34">2016/09/18</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/13/198/" data-tag="内核" data-author>
+            <span class="post-title" title="Linux kernel-map">Linux kernel-map</span>
+            <span class="post-date" title="2016-08-13 17:14:25">2016/08/13</span>
+        </a>
+        
+        <a class="devops " href="/2016/12/05/633/" data-tag="jenkins" data-author>
+            <span class="post-title" title="centos安装 Jenkins">centos安装 Jenkins</span>
+            <span class="post-date" title="2016-12-05 17:15:43">2016/12/05</span>
+        </a>
+        
+        <a class="linux " href="/2016/12/12/733/" data-tag="linux" data-author>
+            <span class="post-title" title="Vim快捷键键位图">Vim快捷键键位图</span>
+            <span class="post-date" title="2016-12-12 14:29:53">2016/12/12</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/13/209/" data-tag="tools" data-author>
+            <span class="post-title" title="Linux性能调优工具大全 (2)">Linux性能调优工具大全 (2)</span>
+            <span class="post-date" title="2016-08-13 21:30:11">2016/08/13</span>
+        </a>
+        
+        <a class="linux " href="/2017/01/13/752/" data-tag="linux,内核" data-author>
+            <span class="post-title" title="dropwatch 网络协议栈丢包检查利器">dropwatch 网络协议栈丢包检查利器</span>
+            <span class="post-date" title="2017-01-13 15:05:55">2017/01/13</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/02/879/" data-tag="linux" data-author>
+            <span class="post-title" title="明白 Buffer 和 Cache 之间区别">明白 Buffer 和 Cache 之间区别</span>
+            <span class="post-date" title="2017-03-02 10:34:15">2017/03/02</span>
+        </a>
+        
+        <a class="linux " href="/2016/10/11/541/" data-tag="内核" data-author>
+            <span class="post-title" title="系统性能测量和调试诊断工具：Systemtap">系统性能测量和调试诊断工具：Systemtap</span>
+            <span class="post-date" title="2016-10-11 11:32:00">2016/10/11</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/29/361/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="linux memory hotplug 图解之ACPI &amp; Memory Hot-Plug（2）">linux memory hotplug 图解之ACPI &amp; Memory Hot-Plug（2）</span>
+            <span class="post-date" title="2016-08-29 20:38:07">2016/08/29</span>
+        </a>
+        
+        <a class="linux " href="/2016/09/29/513/" data-tag="内核" data-author>
+            <span class="post-title" title="提高Linux下块设备IO的整体性能-选对IO调度算法">提高Linux下块设备IO的整体性能-选对IO调度算法</span>
+            <span class="post-date" title="2016-09-29 09:41:14">2016/09/29</span>
+        </a>
+        
+        <a class="vmware " href="/2016/08/29/353/" data-tag="内存" data-author>
+            <span class="post-title" title="vmware esxi 内存虚拟化">vmware esxi 内存虚拟化</span>
+            <span class="post-date" title="2016-08-29 19:35:16">2016/08/29</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/13/201/" data-tag="tools" data-author>
+            <span class="post-title" title="Linux性能调优工具大全 (1)">Linux性能调优工具大全 (1)</span>
+            <span class="post-date" title="2016-08-13 21:10:55">2016/08/13</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/29/370/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="linux memory hotplug 图解之 Memory Hot-add（2）">linux memory hotplug 图解之 Memory Hot-add（2）</span>
+            <span class="post-date" title="2016-08-29 20:48:56">2016/08/29</span>
+        </a>
+        
+        <a class="web " href="/2017/03/02/882/" data-tag="web,https" data-author>
+            <span class="post-title" title="也许，这样理解HTTPS更容易">也许，这样理解HTTPS更容易</span>
+            <span class="post-date" title="2017-03-02 10:58:23">2017/03/02</span>
+        </a>
+        
+        <a class="linux " href="/2016/11/07/579/" data-tag="centos7" data-author>
+            <span class="post-title" title="CentOS系统启动流程">CentOS系统启动流程</span>
+            <span class="post-date" title="2016-11-07 11:08:18">2016/11/07</span>
+        </a>
+        
+        <a class="hadoop " href="/2016/08/12/170/" data-tag="hadoop" data-author>
+            <span class="post-title" title="离线安装Ambari-2.2.2.0 HDP-2.4.2">离线安装Ambari-2.2.2.0 HDP-2.4.2</span>
+            <span class="post-date" title="2016-08-12 17:12:14">2016/08/12</span>
+        </a>
+        
+        <a class="linux " href="/2016/09/28/499/" data-tag="内存" data-author>
+            <span class="post-title" title="ptmalloc,tcmalloc和jemalloc内存分配策略研究">ptmalloc,tcmalloc和jemalloc内存分配策略研究</span>
+            <span class="post-date" title="2016-09-28 10:26:43">2016/09/28</span>
+        </a>
+        
+        <a class="devops " href="/2016/11/30/618/" data-tag="svn" data-author>
+            <span class="post-title" title="svn web管理之Subversion Edge">svn web管理之Subversion Edge</span>
+            <span class="post-date" title="2016-11-30 10:54:41">2016/11/30</span>
+        </a>
+        
+        <a class="vmware " href="/2016/09/02/388/" data-tag="内存" data-author>
+            <span class="post-title" title="vmware vSphere 内存虚拟化">vmware vSphere 内存虚拟化</span>
+            <span class="post-date" title="2016-09-02 16:07:49">2016/09/02</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/29/357/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="linux memory hotplug 图解之ACPI &amp; Memory Hot-Plug（1）">linux memory hotplug 图解之ACPI &amp; Memory Hot-Plug（1）</span>
+            <span class="post-date" title="2016-08-29 20:37:03">2016/08/29</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/31/381/" data-tag="进程" data-author>
+            <span class="post-title" title="Linux性能及调优指南：进程管理(2)">Linux性能及调优指南：进程管理(2)</span>
+            <span class="post-date" title="2016-08-31 11:18:27">2016/08/31</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/31/375/" data-tag="进程" data-author>
+            <span class="post-title" title="Linux性能及调优指南：进程管理(1)">Linux性能及调优指南：进程管理(1)</span>
+            <span class="post-date" title="2016-08-31 11:15:17">2016/08/31</span>
+        </a>
+        
+        <a class="linux " href="/2016/08/29/366/" data-tag="内核,内存" data-author>
+            <span class="post-title" title="linux memory hotplug 图解之 Memory Hot-add（1）">linux memory hotplug 图解之 Memory Hot-add（1）</span>
+            <span class="post-date" title="2016-08-29 20:42:24">2016/08/29</span>
+        </a>
+        
+        <a class="linux " href="/2017/03/01/876/" data-tag="linux,内核" data-author>
+            <span class="post-title" title="linux系统启动流程">linux系统启动流程</span>
+            <span class="post-date" title="2017-03-01 15:06:17">2017/03/01</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
 </aside>
-
-
-    <article class="main" id="main">
-      <article class="post min-height">
-  
-  <header class="post-header">
+<div class="post">
+    <div class="pjax">
+        <article id="post-65" class="article article-type-post" itemscope itemprop="blogPost">
     
-    <h1 class="post-title">如何接手一个新业务的运维工作</h1>
-    <p class="post-meta">
-      <span class="post-time">2018-07-12</span>
-      
-      <a href="/categories/ops/" title="运维" class="post-categories">运维</a>
-      
-      
-      <a href="/tags/运维/" " title="运维" class="post-tags"><i class="post-tags-icon iconfont icon-biaoqian"></i>运维</a>
-      
-    </p>
+        <h1 class="article-title">如何接手一个新业务的运维工作</h1>
     
-  </header>
-  <div class="post-content"><p>作者：秦晓辉</p>
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a data-rel="运维">运维</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color3">运维</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title="更新时间: 2018-07-12 17:21:10">2018-07-12 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#丑话说前头"><span class="toc-text">丑话说前头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#业务概要了解"><span class="toc-text">业务概要了解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#业务串讲"><span class="toc-text">业务串讲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资产梳理"><span class="toc-text">资产梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基础监控"><span class="toc-text">基础监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务梳理"><span class="toc-text">服务梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#业务监控"><span class="toc-text">业务监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标准化改造"><span class="toc-text">标准化改造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SOP梳理"><span class="toc-text">SOP梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#故障演练"><span class="toc-text">故障演练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再谈业务监控"><span class="toc-text">再谈业务监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API成功率、延迟统计"><span class="toc-text">API成功率、延迟统计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线上问题梳理"><span class="toc-text">线上问题梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#成本优化"><span class="toc-text">成本优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#容量规划"><span class="toc-text">容量规划</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于沟通"><span class="toc-text">关于沟通</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作者：秦晓辉</p>
 <p>链接：<a href="https://www.jianshu.com/p/65a01b5d61c7" target="_blank" rel="noopener">https://www.jianshu.com/p/65a01b5d61c7</a></p>
 <h3 id="丑话说前头"><a href="#丑话说前头" class="headerlink" title="丑话说前头"></a><strong>丑话说前头</strong></h3><p>先跟研发leader沟通，灌输运维理念，丑话说在前头，我们不做保姆式运维，我们会致力于线上服务安全、稳定、低成本、快速迭代，从运维视角提高产品力。开发机、测试环境，研发自己搞，我们可以协助帮忙，做专业的咨询服务，想让我们直接操刀开发环境的变更，免谈！</p>
 <h3 id="业务概要了解"><a href="#业务概要了解" class="headerlink" title="业务概要了解"></a><strong>业务概要了解</strong></h3><p>了解业务相关的人，对应的研发同学、研发leader、测试同学、测试leader、产品经理分别是谁，联系方式存下来，拉个群，出了问题可以找到对应的人。</p>
@@ -123,27 +2797,269 @@
 <h3 id="容量规划"><a href="#容量规划" class="headerlink" title="容量规划"></a><strong>容量规划</strong></h3><p>容量规划和成本优化实际是紧密相关的，容量规划的重点是根据自然增量和运营需求，提前规划准备相应的容量，容量可能包括带宽、专线、网络设备、机器等等；当业务量下来的时候，可以腾挪相关资源支持其他业务线，让这些硬件尽量满负荷运转，物有所值。</p>
 <p>业务精细化运维可以想出各种事情来搞，除了做这事，另一个需要长期投入的是构建运维基础平台，像什么监控系统、部署系统、产品库、资源利用率平台、域名管理、四七层接入配置平台、日志平台、Trace系统等等等等，嗯，其实运维还是挺忙的。</p>
 <h3 id="关于沟通"><a href="#关于沟通" class="headerlink" title="关于沟通"></a><strong>关于沟通</strong></h3><p>最后说一点，接手一个新业务运维，势必与研发有各种沟通，每次沟通都要写会议纪要，发邮件出来，跟进人是谁，时间点是啥时候都要写明白，邮件发送双方团队邮件组，cc各方老大。事后关键节点做check，如未完成，线下沟通，达成一致后追此邮件给结论，说明延期原因以及新的时间点。如果沟通不畅，让老大去协调。</p>
-</div>
-    
+
       
-      <div class="toc-wrapper">
-        <div class="toc-scroll">
-          <div class="toc-middle">
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#丑话说前头"><span class="toc-text">丑话说前头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#业务概要了解"><span class="toc-text">业务概要了解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#业务串讲"><span class="toc-text">业务串讲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资产梳理"><span class="toc-text">资产梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基础监控"><span class="toc-text">基础监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务梳理"><span class="toc-text">服务梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#业务监控"><span class="toc-text">业务监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标准化改造"><span class="toc-text">标准化改造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SOP梳理"><span class="toc-text">SOP梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#故障演练"><span class="toc-text">故障演练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再谈业务监控"><span class="toc-text">再谈业务监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API成功率、延迟统计"><span class="toc-text">API成功率、延迟统计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线上问题梳理"><span class="toc-text">线上问题梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#成本优化"><span class="toc-text">成本优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#容量规划"><span class="toc-text">容量规划</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于沟通"><span class="toc-text">关于沟通</span></a></li></ol>
-          </div>
-        </div>
-      </div>
-    
-  
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1209453173@qq.com </span>
+    </div>
 </article>
 
-      <footer class="footer">
-  <p class="footer-text"></p>
-</footer>
 
-    </article>
 
-    <script src="/js/to-top.js"></script>
-    <script src="/js/search.js"></script>
-  </body>
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>如何接手一个新业务的运维工作</p>
+    
+    <p><span class="copy-title">本文作者:</span><a title="zhangyu">zhangyu</a></p>
+    <p><span class="copy-title">发布时间:</span>2018-07-12, 00:00:00</p>
+    <p><span class="copy-title">最后更新:</span>2018-07-12, 17:21:10</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2018/07/12/65/" title="如何接手一个新业务的运维工作">http://zhangyu8.me/2018/07/12/65/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2020 大雨哥</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class id="rocket"></a>
+
+    </div>
+</div>
+<div class="acParent"></div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.0.1"></script>
+
+<script src="/js/script.js?v=1.0.1"></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#架构','#ssh','#ceph','#tools','#nginx','#运维','#《大型网站技术架构》','#知识点','#devops','#LFCS','#redis','#ansible','#LFCE','#docker','#lvm分区','#mysql','#胡说八道','#WebSockets','#好文转载','#算法','#web','#linux','#Git','#Python','#情商','#管理','#脚本','#Atlas','#hadoop','#openssl','#tomcat','#jvm','#负载均衡','#编程语言','#yum','#jdk','#vmware','#kvm','#Spring','#安全','#内核','#vpn','#python','#kubernetes','#MongoDB','#iotop','#xfs','#网关','#备份','#rsync','#IPV6','#内存','#配置中心','#php','#serverless','#粗制滥造','#认证','#centos7','#Django','#cmdb','#容器','#zabbix','#网络','#方案','#体系','#svn','#双网卡','#路由','#CoreOS','#Percona-Server','#cdn','#ambari','#基础设施','#ssl','#jenkins','#https','#进程',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+        .nav .hide-list.fullscreen {
+            left: 492px
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
 </html>
