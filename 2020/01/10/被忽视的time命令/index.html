@@ -2548,7 +2548,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-01-10 17:05:49">2020-01-10 17:13</time>
+        创建时间:<time class="date" title="更新时间: 2020-01-10 17:12:21">2020-01-10 17:13</time>
         
     </div>
     <div class="article-meta">
@@ -2578,7 +2578,7 @@
         <p>火丁笔记<br> <a href="https://blog.huoding.com/2019/12/08/788" target="_blank" rel="noopener">https://blog.huoding.com/2019/12/08/788</a> </p>
 <p> 如果要选 Linux 下最容易被忽视的命令，time 应该算一个。简单来说，它是一个用来计算命令运行时间的工具，之所以说它容易被忽视，一方面很多人根本不知道 time 的存在，而是习惯在命令启动前后记录两个时间戳，然后手动计算命令运行时间；另一方面很多人虽然知道 time 的存在，但是却并没有真正理解它的含义。</p>
 <p> 下面让我们通过若干例子来理解 time 的真正含义：</p>
-<p> shell time ls</p>
+<p> #time ls</p>
 <p> real    0m0.003s<br> user    0m0.001s<br> sys    0m0.002s</p>
 <p> 大概意思是 ls 命令运行花了 0.003 秒，其中用户态花了 0.001 秒，内核态花了 0.002 秒，看上去似乎「real = user + sys」？此等式是否成立，在回答这个问题之前我们不妨看看 real、user、sys 的确切含义，如下定义源自 <a href="https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1" target="_blank" rel="noopener">Stackoverflow</a>：</p>
 <ul>
@@ -2589,12 +2589,12 @@
 <li><p>Sys is the amount of CPU time spent in the kernel within the process. This means executing CPU time spent in system calls within the kernel, as opposed to library code, which is still running in user-space. Like ‘user’, this is only CPU time used by the process.</p>
 <p>总的来说，real 是我们直观感受到的消耗的时间，如果命令运行时被堵塞了，那么堵塞时间也是被统计在内的， user 统计在用户态态模式下消耗的 CPU 时间，如果命令运行时被堵塞了，那么堵塞时间并不被统计在内，sys 统计在内核态模式下消耗的 CPU 时间，如果命令运行时被堵塞了，那么堵塞时间并不被统计在内。</p>
 <p>看上去是否统计堵塞时间是区分 real 和 user、sys 的关键，看看下面这个 sleep 例子：</p>
-<p>shell time sleep 1</p>
+<p>#time sleep 1</p>
 <p>real    0m1.002s<br>user    0m0.001s<br>sys    0m0.001s</p>
 <p>那么除了堵塞时间，还有别的关键点么，让我们再看看下面两个例子：</p>
-<p>shell time find /etc -type f | xargs -n1 -I{} cat {}  /dev/null</p>
+<p>#time find /etc -type f | xargs -n1 -I{} cat {}  /dev/null</p>
 <p>real    0m2.050s<br>user    0m0.626s<br>sys    0m1.533s</p>
-<p>shell time find /etc -type f | xargs -n1 -I{} -P2 cat {}  /dev/null</p>
+<p>#time find /etc -type f | xargs -n1 -I{} -P2 cat {}  /dev/null</p>
 <p>real    0m1.079s<br>user    0m0.681s<br>sys    0m1.486s</p>
 <p>前后两个例子的区别在于后者在使用 xargs 的时候通过「-P」选项激活了多进程，换句话说，后者可以同时用到多个 CPU。</p>
 <p>了解了相关知识之后，我们通过 real、user、sys 的大小就可以判断程序的行为：</p>
@@ -2619,7 +2619,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-01-10, 17:13:47</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-10, 17:05:49</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-10, 17:12:21</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/10/被忽视的time命令/" title="被忽视的time命令">http://zhangyu8.me/2020/01/10/被忽视的time命令/</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
