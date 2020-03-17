@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhangyu8.me/2020/03/17/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E8%AE%B2%E8%A7%A3/</loc>
+    
+    <lastmod>2020-03-17T08:56:33.462Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhangyu8.me/2020/01/10/%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84time%E5%91%BD%E4%BB%A4/</loc>
     
     <lastmod>2020-01-10T09:12:21.608Z</lastmod>
@@ -891,14 +898,14 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2017/02/20/848/</loc>
+    <loc>http://zhangyu8.me/2016/12/01/626/</loc>
     
     <lastmod>2017-06-22T01:24:07.760Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2016/12/01/626/</loc>
+    <loc>http://zhangyu8.me/2017/02/20/848/</loc>
     
     <lastmod>2017-06-22T01:24:07.760Z</lastmod>
     
@@ -975,7 +982,7 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2016/08/15/222/</loc>
+    <loc>http://zhangyu8.me/2017/05/11/986/</loc>
     
     <lastmod>2017-06-22T01:23:44.875Z</lastmod>
     
@@ -989,6 +996,13 @@
   </url>
   
   <url>
+    <loc>http://zhangyu8.me/2016/08/15/216/</loc>
+    
+    <lastmod>2017-06-22T01:23:44.875Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhangyu8.me/2016/08/15/214/</loc>
     
     <lastmod>2017-06-22T01:23:44.875Z</lastmod>
@@ -996,14 +1010,7 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2016/08/22/284/</loc>
-    
-    <lastmod>2017-06-22T01:23:44.875Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://zhangyu8.me/2017/05/11/986/</loc>
+    <loc>http://zhangyu8.me/2016/08/15/222/</loc>
     
     <lastmod>2017-06-22T01:23:44.875Z</lastmod>
     
@@ -1017,7 +1024,7 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2016/08/15/216/</loc>
+    <loc>http://zhangyu8.me/2016/08/22/284/</loc>
     
     <lastmod>2017-06-22T01:23:44.875Z</lastmod>
     
@@ -1031,7 +1038,7 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2016/09/08/422/</loc>
+    <loc>http://zhangyu8.me/2016/09/21/490/</loc>
     
     <lastmod>2017-06-22T01:23:24.813Z</lastmod>
     
@@ -1045,7 +1052,7 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2016/09/21/490/</loc>
+    <loc>http://zhangyu8.me/2016/09/08/422/</loc>
     
     <lastmod>2017-06-22T01:23:24.813Z</lastmod>
     
@@ -1178,14 +1185,14 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2017/02/20/852/</loc>
+    <loc>http://zhangyu8.me/2017/05/03/982/</loc>
     
     <lastmod>2017-06-21T11:44:37.285Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2017/05/03/982/</loc>
+    <loc>http://zhangyu8.me/2017/02/20/850/</loc>
     
     <lastmod>2017-06-21T11:44:37.285Z</lastmod>
     
@@ -1234,7 +1241,7 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2017/02/20/850/</loc>
+    <loc>http://zhangyu8.me/2017/02/20/852/</loc>
     
     <lastmod>2017-06-21T11:44:37.285Z</lastmod>
     
