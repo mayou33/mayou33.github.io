@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhangyu8.me/"/>
-  <updated>2020-05-06T06:05:38.644Z</updated>
+  <updated>2020-06-18T14:00:33.541Z</updated>
   <id>http://zhangyu8.me/</id>
   
   <author>
@@ -17,27 +17,53 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>做容灾，双活、多活、同城、异地、多云，到底应该怎么选</title>
-    <link href="http://zhangyu8.me/2020/05/06/%E5%81%9A%E5%AE%B9%E7%81%BE%EF%BC%8C%E5%8F%8C%E6%B4%BB%E3%80%81%E5%A4%9A%E6%B4%BB%E3%80%81%E5%90%8C%E5%9F%8E%E3%80%81%E5%BC%82%E5%9C%B0%E3%80%81%E5%A4%9A%E4%BA%91%EF%BC%8C%E5%88%B0%E5%BA%95%E5%BA%94%E8%AF%A5%E6%80%8E%E4%B9%88%E9%80%89/"/>
-    <id>http://zhangyu8.me/2020/05/06/做容灾，双活、多活、同城、异地、多云，到底应该怎么选/</id>
-    <published>2020-05-06T06:00:00.000Z</published>
-    <updated>2020-05-06T06:05:38.644Z</updated>
+    <title>k8s桌面客户端Lens</title>
+    <link href="http://zhangyu8.me/2020/06/18/K8s%E6%A1%8C%E9%9D%A2%E5%AE%A2%E6%88%B7%E7%AB%AFLens/"/>
+    <id>http://zhangyu8.me/2020/06/18/K8s桌面客户端Lens/</id>
+    <published>2020-06-18T03:00:00.000Z</published>
+    <updated>2020-06-18T14:00:33.541Z</updated>
     
-    <content type="html"><![CDATA[<p> 做容灾，双活、多活、同城、异地、多云，到底应该怎么选？<br><a href="https://mp.weixin.qq.com/s/_NGqq-xvDtFrvKwbdGIhwQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/_NGqq-xvDtFrvKwbdGIhwQ</a> </p><p> 原创 Cheng哥 成哥的世界 2019-03-11 </p><blockquote><p>去年写过一篇 &lt;&lt;做容灾，冷备是不是个好方案？&gt;&gt;，当时提出来，冷备或者主备，其实并不是一个理想的方案，而且绝大多数情况下，只能是一个心理安慰，真正发生故障的情况下，这样的容灾模式根本起不到作用。  </p><p>原因我就不重复了，大家如果有兴趣可以直接看那篇文章。</p><p>最近，公有云又出了些大故障，各大群和朋友圈又开始沸沸扬扬，但是整体看下来，声音无非两种：</p><ul><li><p>单站点不靠谱，要有容灾，出现这种情况就得马上切，所以回去赶紧建设容灾站点；</p></li><li><p>鸡蛋不能放在一个篮子里，单云不靠谱，要多云。所以，多云就要选我们家的xx云，或者我们提供xx多云服务。</p></li></ul><p>我在我的一个讨论群里就提出来，第一种声音是有意识的建设，有这个意识很好，但是把这个事情想得太简单了。第二种声音，基本就是不动脑子的瞎BB，原因我下面讲。</p><p>转回正题来，既然上篇提到主备模式不靠谱，那到底怎么选？而且整天见各类技术文章，不是双活，就是多活，不是同城，就是异地，现在又出来个多云，好复杂。</p><p>下面我就谈谈我的理解：</p><p>首先，这么多名词是什么含义，要搞清楚，然后再看适不适合。</p><p>先讲相对简单的双活（简不简单，看后面就明白了），其实就是两个站点，同时承载业务流量，可以根据用户ID、地域或者其他业务属性也决定怎么分担流量，当一个站点故障时，可以快速（分钟级）切换到另一个站点，理想情况下，对业务基本是无损或者非常小的。</p><p>这里就跟前面讲的主备不同了，主备的另一个站点完全是不承载任何流量的。</p><p>这里再往深里看一眼，同时承载流量，也要看承载到那一层，也就是流量在统一站点内闭环，所有调用都是本机房内完成，还是只有应用层这样的无状态组件双活，但是数据访问、异步消息这些有状态的部件还是回到主站点调用，这两种模式又是不一样的。</p><p>其实第二种，就比前面讲的主备模式要好一些，因为这样至少可以保证应用层随时可用，不过真出故障的时候，还是少不了数据层的切换，这个其实是非常耗时的。跟主备模式一样，基本无法演练，因为代价太高，数据会有损。（如果数据层没有这么复杂，只有几个数据库，那是没问题问题的，但是分布式的场景下，上百个，几百个实例切换，这个代价和成本还是很大的。）</p><p>所以，再往下推导，如果想要做到有效果的双活，就必须保证每个站点，都是独立运行，所有的调用都是本机房调用且闭环，底层做好数据同步即可。</p><p>只有做到这个程度，当一个站点发生故障不可用时，就可以从接入层把故障站点的流量切换到另一个站点，双活的效果也就有了。</p><p>不过，做到这个程度，就不是说我们想要做就能做到的，如果您做个类似的架构设计，你会知道这里有三个关键的技术点：</p><p><strong>第一个，本机房调用</strong></p><p>也就是一个分布式请求不能跨机房调来调去，这个是不行的，必须要保证本机房调用闭环。所以从分布式服务的路由策略上，以及服务化框架上，必须得支持这也中调用模式，同理，数据访问层，以及消息组件也要支持这种特性。</p><p><strong>第二个，数据分片和一致性</strong></p><p>为什么要做这个事情？我们知道一个系统中数据准确性、完整性和一致性是非常关键的，放到双活这个场景下，最关键的就是数据一致性，我们不能允许有同一个记录两边同时在变更，还要双向同步，比如用户交易和支付类的数据，同时变更的情况下，我们无法确认哪边是准确的。</p><p>前面提到，两个站点是同时承载不同的流量的，这就要根据一些业务属性来分配，比如用户ID、所属地域等等策略，这里为的就是能够在数据层面也要做好隔离，一个站点内只提供固定部分的用户访问。</p><p>这样就保证了单站点内同一分片的数据，不会在另外一个站点被变更，后续的同步也可以做到单向。</p><p>所以，这里的关键，就是数据要做分片，就要用到分布式的数据中间件，要做数据访问的路由设计，数据要同机房读写，还要做数据拆分这样的工作，技术门槛和工作量也不低。</p><p><strong>这两点如果能够做到，其实就是我们经常说的“单元化”架构达成了，理论上，我们可以选择任何一个机房和地域，把系统搭建起来，就可以提供业务访问了。</strong></p><p>但现实是更为复杂的，因为用户业务系统产生的数据，有可能会被其它系统用到，比如商品库存这样的系统，这就要涉及异步消息和数据的同步问题，而<strong>数据同步不仅仅是一个技术问题，而是个物理问题</strong>，我们接下来讲。</p><p><strong>第三个，数据同步。</strong></p><p>其实单从同步角度而言，目前很多的同步工具和开源产品已经比较完善，所以这里最大的问题，其实不在技术层面，而是在物理层面。</p><p>准确点，就是物理距离上的时延问题，这个无论是双活、多活，还是同城、异地，都绕不开的痛苦问题。</p><p>既然要双活，必然会选择另一个跟当前机房有一定距离的机房（同城或异地），而且距离必须得拉开才有意义，如果都在一个园区里面，就没有任何容灾意义了。</p><p>距离一旦拉开，物理距离就出来了，即使是专线相连，中间也要经过很多网络设备，如果是云化的网络架构下，经过的软硬设备就更多，还有可能涉及协议转换，如果中途跨运营商，就更难保障，这样一来时延肯定是几倍、十几倍，甚至是上百倍的上涨，直接从0.x毫秒，上涨到秒级别。</p><p>对于同城来说，这个问题还好，但是一旦跨省就完全不可控，特别是机房如果不是自己的，根本无法控制。所以，想大公司自建机房，一定会在这个层面做大量的优化，尽最大可能降低时延。</p><p>就以淘宝、天猫为例，按照之前了解的情况，基本也是杭州和上海这两个城市为主做双活，再远时延这个问题就绕不开了。</p><p>数据同步及时性为什么这么重要，一个是业务体验，不能说库存都没了，其他用户看到的还是有货，这个是不会被接受的。</p><p>再就是故障时，如果同步不及时，极有可能造成几秒钟内的交易数据丢失，或者不一致，像淘宝这样每秒4位数订单量的系统，丢几秒钟数据，造成的损失也是巨大的。所以，这里就必须要建设有一整套的数据完整性和一致性保障措施，尽最大程度降低业务损失。  </p><p>所以，数<strong>据同步所依赖的时延问题，其实就已经超出了绝大部分公司所能掌控的范畴，也不是单纯靠自身技术能解决的问题，要看天时和地利。</strong></p><p>讲到这里，我想多活就不用讲了，时延这个问题解决不了，多活就是扯淡，至于同城和异地，我想看明白的读者，也知道怎么选择了，其实一样，还是取决于时延。</p><p><strong>我们可以得出的几个结论：</strong></p><ul><li><p>不管怎么选择容灾方案，我们自己的业务系统，从<strong>自身架构上，一定要支持单元化，一定要支持数据同步才行</strong>，如果这都不支持，讲双活和多活，就是特么的扯淡。所以，打算搞双活，先从这里下手，当然牵出来就要涉及到分布式，还有很多大量细节技术问题。</p></li><li><p><strong>一个合理的建设节奏应该是，同城双活—异地双活—两地三中心（同城双活+异地多活）</strong>，因为你要解决的问题的复杂度和难度也是在逐步上升的，不可能一蹴而就。</p></li><li><p><strong>题目里这些个名词，不是孤立的</strong>，而是从不同维度看到的结论，但是如果你偏离自己的业务场景去看，孤立的去看，就一定会被带到沟里去，而且不知道该如何下手，所以，一定别偏离你的业务场景，然后把它们联系起来。</p></li><li><p><strong>一切都是ROI</strong>，为了保证高可用，就一定会有成本，高可用程度越高，成本就一定越高，所以成本投入得到的收益到底划不划算，这个只能自家公司自家评判。</p></li><li><p>现实情况，比我写的要复杂的多的多，推荐大家看两个成功案例，<strong>一个是毕玄的异地多活数据中心，一个是饿了么异地多活</strong>，几个关键字google一下就有了，里面涉及到的场景化的细节对大家理解这件事情的复杂度会有更帮助。</p></li></ul><p>写的有点多了，关于多云先不写了，就当问题吧，大家觉得是不是需要多云建设？你怎么看？</p></blockquote>]]></content>
+    <content type="html"><![CDATA[<p>Kubernetes 的桌面客户端有那么几个，  Kubernetic  (<a href="https://kubernetic.com/)应该是最好用的，但是收费。" target="_blank" rel="noopener">https://kubernetic.com/)应该是最好用的，但是收费。</a></p><p>最近有个叫 Lens 的 APP 改变了这个格局，功能比 Kubernetic 多，使用体验更好，适合广大系统重启工程师装逼。<br><a href="https://github.com/lensapp/lens" target="_blank" rel="noopener">https://github.com/lensapp/lens</a></p><p><a href="https://k8slens.dev/" target="_blank" rel="noopener">https://k8slens.dev/</a></p><p>Lens 就是一个强大的 IDE，可以实时查看集群状态，实时查看日志流，方便排查故障。<br>日志流界面可以选择显示或隐藏时间戳，也可以指定显示的行数</p><p>Lens 可以管理多集群，它使用内置的 kubectl 通过 kubeconfig  来访问集群，支持本地集群和外部集群（如EKS、AKS、GKE、Pharos、UCP、Rancher 等）</p><p>Lens 内置了资源利用率的仪表板，支持多种对接 Prometheus 的方式：</p><p>Lens 内置了 kubectl，它的内置终端会确保集群的 API Server 版本与 kubectl 版本兼容，所以你不需要在本地安装 kubectl。 </p><p>Lens 内置了 helm 模板商店，可直接点击安装：</p><p>下载安装<br><a href="https://github.com/lensapp/lens/releases/download/v3.5.0/Lens-Setup-3.5.0.exe" target="_blank" rel="noopener">https://github.com/lensapp/lens/releases/download/v3.5.0/Lens-Setup-3.5.0.exe</a></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt; 做容灾，双活、多活、同城、异地、多云，到底应该怎么选？&lt;br&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/_NGqq-xvDtFrvKwbdGIhwQ&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.wei
+        &lt;p&gt;Kubernetes 的桌面客户端有那么几个，  Kubernetic  (&lt;a href=&quot;https://kubernetic.com/)应该是最好用的，但是收费。&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://kubernetic.c
       
     
     </summary>
     
-      <category term="容灾" scheme="http://zhangyu8.me/categories/%E5%AE%B9%E7%81%BE/"/>
+      <category term="kubernetes" scheme="http://zhangyu8.me/categories/kubernetes/"/>
     
     
-      <category term="容灾" scheme="http://zhangyu8.me/tags/%E5%AE%B9%E7%81%BE/"/>
+      <category term="kubernetes" scheme="http://zhangyu8.me/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java线程池里面到底该设置多少个线程</title>
+    <link href="http://zhangyu8.me/2020/06/16/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%87%8C%E9%9D%A2%E5%88%B0%E5%BA%95%E8%AF%A5%E8%AE%BE%E7%BD%AE%E5%A4%9A%E5%B0%91%E4%B8%AA%E7%BA%BF%E7%A8%8B/"/>
+    <id>http://zhangyu8.me/2020/06/16/Java线程池里面到底该设置多少个线程/</id>
+    <published>2020-06-16T03:00:00.000Z</published>
+    <updated>2020-06-18T14:07:24.226Z</updated>
+    
+    <content type="html"><![CDATA[<p>根据CPU核心数确定线程池并发线程数</p><p><a href="https://www.cnblogs.com/dennyzhangdd/p/6909771.html" target="_blank" rel="noopener">https://www.cnblogs.com/dennyzhangdd/p/6909771.html</a></p><blockquote><h2 id="一、抛出问题"><a href="#一、抛出问题" class="headerlink" title="一、抛出问题"></a>一、抛出问题</h2><p>关于如何计算并发线程数，一般分两派，来自两本书，且都是好书，到底哪个是对的？问题追踪后，整理如下：</p><p>第一派：《Java Concurrency in Practice》即《java并发编程实践》，如下图：</p><p><img src="https://images2015.cnblogs.com/blog/584866/201705/584866-20170526162253247-2075463115.png" alt></p><p>如上图，在《Java Concurrency in Practice》一书中，给出了估算线程池大小的公式：</p><p>Nthreads=Ncpu*Ucpu*(1+w/c)，其中</p><p>Ncpu=CPU核心数</p><p>Ucpu=cpu使用率，0~1</p><p>W/C=等待时间与计算时间的比率</p><p>第二派：《Programming Concurrency on the JVM Mastering》即《Java 虚拟机并发编程》</p><p><img src="https://images2015.cnblogs.com/blog/584866/201705/584866-20170526170508450-925520860.png" alt></p><p>线程数=Ncpu/（1-阻塞系数）</p></blockquote><blockquote><h2 id="二、分析"><a href="#二、分析" class="headerlink" title="二、分析"></a>二、分析</h2><p>对于派系一，假设cpu100%运转，即撇开CPU使用率这个因素，线程数\=Ncpu*(1+w/c)。</p><p>现在假设将派系二的公式等于派系一公式，即Ncpu/（1-阻塞系数）=Ncpu*(1+w/c),===》阻塞系数=w/(w+c)，即阻塞系数=阻塞时间/（阻塞时间+计算时间），这个结论在派系二后续中得到应征，如下图：</p><p><img src="https://images2015.cnblogs.com/blog/584866/201705/584866-20170526171225919-888895376.png" alt></p><p>由此可见，派系一和派系二其实是一个公式……这样我就放心了……</p></blockquote><blockquote><h2 id="三、实际应用"><a href="#三、实际应用" class="headerlink" title="三、实际应用"></a>三、实际应用</h2><p>那么实际使用中并发线程数如何设置呢？分析如下（我们以派系一公式为例）：</p><p>Nthreads=Ncpu*(1+w/c)</p><p>IO密集型：一般情况下，如果存在IO，那么肯定w/c&gt;1（阻塞耗时一般都是计算耗时的很多倍）,但是需要考虑系统内存有限（每开启一个线程都需要内存空间），这里需要上服务器测试具体多少个线程数适合（CPU占比、线程数、总耗时、内存消耗）。如果不想去测试，保守点取1即，Nthreads=Ncpu*(1+1)=2Ncpu。这样设置一般都OK。</p><p>计算密集型：假设没有等待w=0，则W/C=0. Nthreads=Ncpu。</p><p><strong>至此结论就是：</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; </span><br><span class="line">&gt; ```计算密集型\=Ncpu（常出现于线程中：复杂算法）</span><br></pre></td></tr></table></figure></blockquote><blockquote><p><strong>java中：Ncpu=<code>Runtime.getRuntime().availableProcessors()</code></strong></p><p>=========================此处可略过=============================================</p><p>当然派系一种《Java Concurrency in Practice》还有一种说法，</p><p><img src="https://images2015.cnblogs.com/blog/584866/201705/584866-20170526173437372-976370152.png" alt></p><p>即对于计算密集型的任务，在拥有N个处理器的系统上，当线程池的大小为N+1时，通常能实现最优的效率。(即使当计算密集型的线程偶尔由于缺失故障或者其他原因而暂停时，这个额外的线程也能确保CPU的时钟周期不会被浪费。)</p><p><code>即，计算密集型\=Ncpu+1，但是这种做法导致的多一个cpu上下文切换是否值得</code>，这里不考虑。读者可自己考量。  </p><p>======================================================================</p></blockquote><blockquote><h2 id="四、总结："><a href="#四、总结：" class="headerlink" title="四、总结："></a><strong>四、总结</strong>：</h2><p>选择线程池并发线程数的因素很多：任务类型、内存等线程中使用到所有资源都需要考虑</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;根据CPU核心数确定线程池并发线程数&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.cnblogs.com/dennyzhangdd/p/6909771.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.cnblog
+      
+    
+    </summary>
+    
+      <category term="java" scheme="http://zhangyu8.me/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://zhangyu8.me/tags/java/"/>
     
   </entry>
   
@@ -59,6 +85,31 @@
 &lt;blockquote&gt;
 &lt;p&gt;主备、冷备、热备、双活、多活、同城、异地、多云，等等等等，这些保证业务高可用和容灾名词，我们经常会听到，不绝于耳。  &lt;/p&gt;
 
+      
+    
+    </summary>
+    
+      <category term="容灾" scheme="http://zhangyu8.me/categories/%E5%AE%B9%E7%81%BE/"/>
+    
+    
+      <category term="容灾" scheme="http://zhangyu8.me/tags/%E5%AE%B9%E7%81%BE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>做容灾，双活、多活、同城、异地、多云，到底应该怎么选</title>
+    <link href="http://zhangyu8.me/2020/05/06/%E5%81%9A%E5%AE%B9%E7%81%BE%EF%BC%8C%E5%8F%8C%E6%B4%BB%E3%80%81%E5%A4%9A%E6%B4%BB%E3%80%81%E5%90%8C%E5%9F%8E%E3%80%81%E5%BC%82%E5%9C%B0%E3%80%81%E5%A4%9A%E4%BA%91%EF%BC%8C%E5%88%B0%E5%BA%95%E5%BA%94%E8%AF%A5%E6%80%8E%E4%B9%88%E9%80%89/"/>
+    <id>http://zhangyu8.me/2020/05/06/做容灾，双活、多活、同城、异地、多云，到底应该怎么选/</id>
+    <published>2020-05-06T06:00:00.000Z</published>
+    <updated>2020-05-06T06:05:38.644Z</updated>
+    
+    <content type="html"><![CDATA[<p> 做容灾，双活、多活、同城、异地、多云，到底应该怎么选？<br><a href="https://mp.weixin.qq.com/s/_NGqq-xvDtFrvKwbdGIhwQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/_NGqq-xvDtFrvKwbdGIhwQ</a> </p><p> 原创 Cheng哥 成哥的世界 2019-03-11 </p><blockquote><p>去年写过一篇 &lt;&lt;做容灾，冷备是不是个好方案？&gt;&gt;，当时提出来，冷备或者主备，其实并不是一个理想的方案，而且绝大多数情况下，只能是一个心理安慰，真正发生故障的情况下，这样的容灾模式根本起不到作用。  </p><p>原因我就不重复了，大家如果有兴趣可以直接看那篇文章。</p><p>最近，公有云又出了些大故障，各大群和朋友圈又开始沸沸扬扬，但是整体看下来，声音无非两种：</p><ul><li><p>单站点不靠谱，要有容灾，出现这种情况就得马上切，所以回去赶紧建设容灾站点；</p></li><li><p>鸡蛋不能放在一个篮子里，单云不靠谱，要多云。所以，多云就要选我们家的xx云，或者我们提供xx多云服务。</p></li></ul><p>我在我的一个讨论群里就提出来，第一种声音是有意识的建设，有这个意识很好，但是把这个事情想得太简单了。第二种声音，基本就是不动脑子的瞎BB，原因我下面讲。</p><p>转回正题来，既然上篇提到主备模式不靠谱，那到底怎么选？而且整天见各类技术文章，不是双活，就是多活，不是同城，就是异地，现在又出来个多云，好复杂。</p><p>下面我就谈谈我的理解：</p><p>首先，这么多名词是什么含义，要搞清楚，然后再看适不适合。</p><p>先讲相对简单的双活（简不简单，看后面就明白了），其实就是两个站点，同时承载业务流量，可以根据用户ID、地域或者其他业务属性也决定怎么分担流量，当一个站点故障时，可以快速（分钟级）切换到另一个站点，理想情况下，对业务基本是无损或者非常小的。</p><p>这里就跟前面讲的主备不同了，主备的另一个站点完全是不承载任何流量的。</p><p>这里再往深里看一眼，同时承载流量，也要看承载到那一层，也就是流量在统一站点内闭环，所有调用都是本机房内完成，还是只有应用层这样的无状态组件双活，但是数据访问、异步消息这些有状态的部件还是回到主站点调用，这两种模式又是不一样的。</p><p>其实第二种，就比前面讲的主备模式要好一些，因为这样至少可以保证应用层随时可用，不过真出故障的时候，还是少不了数据层的切换，这个其实是非常耗时的。跟主备模式一样，基本无法演练，因为代价太高，数据会有损。（如果数据层没有这么复杂，只有几个数据库，那是没问题问题的，但是分布式的场景下，上百个，几百个实例切换，这个代价和成本还是很大的。）</p><p>所以，再往下推导，如果想要做到有效果的双活，就必须保证每个站点，都是独立运行，所有的调用都是本机房调用且闭环，底层做好数据同步即可。</p><p>只有做到这个程度，当一个站点发生故障不可用时，就可以从接入层把故障站点的流量切换到另一个站点，双活的效果也就有了。</p><p>不过，做到这个程度，就不是说我们想要做就能做到的，如果您做个类似的架构设计，你会知道这里有三个关键的技术点：</p><p><strong>第一个，本机房调用</strong></p><p>也就是一个分布式请求不能跨机房调来调去，这个是不行的，必须要保证本机房调用闭环。所以从分布式服务的路由策略上，以及服务化框架上，必须得支持这也中调用模式，同理，数据访问层，以及消息组件也要支持这种特性。</p><p><strong>第二个，数据分片和一致性</strong></p><p>为什么要做这个事情？我们知道一个系统中数据准确性、完整性和一致性是非常关键的，放到双活这个场景下，最关键的就是数据一致性，我们不能允许有同一个记录两边同时在变更，还要双向同步，比如用户交易和支付类的数据，同时变更的情况下，我们无法确认哪边是准确的。</p><p>前面提到，两个站点是同时承载不同的流量的，这就要根据一些业务属性来分配，比如用户ID、所属地域等等策略，这里为的就是能够在数据层面也要做好隔离，一个站点内只提供固定部分的用户访问。</p><p>这样就保证了单站点内同一分片的数据，不会在另外一个站点被变更，后续的同步也可以做到单向。</p><p>所以，这里的关键，就是数据要做分片，就要用到分布式的数据中间件，要做数据访问的路由设计，数据要同机房读写，还要做数据拆分这样的工作，技术门槛和工作量也不低。</p><p><strong>这两点如果能够做到，其实就是我们经常说的“单元化”架构达成了，理论上，我们可以选择任何一个机房和地域，把系统搭建起来，就可以提供业务访问了。</strong></p><p>但现实是更为复杂的，因为用户业务系统产生的数据，有可能会被其它系统用到，比如商品库存这样的系统，这就要涉及异步消息和数据的同步问题，而<strong>数据同步不仅仅是一个技术问题，而是个物理问题</strong>，我们接下来讲。</p><p><strong>第三个，数据同步。</strong></p><p>其实单从同步角度而言，目前很多的同步工具和开源产品已经比较完善，所以这里最大的问题，其实不在技术层面，而是在物理层面。</p><p>准确点，就是物理距离上的时延问题，这个无论是双活、多活，还是同城、异地，都绕不开的痛苦问题。</p><p>既然要双活，必然会选择另一个跟当前机房有一定距离的机房（同城或异地），而且距离必须得拉开才有意义，如果都在一个园区里面，就没有任何容灾意义了。</p><p>距离一旦拉开，物理距离就出来了，即使是专线相连，中间也要经过很多网络设备，如果是云化的网络架构下，经过的软硬设备就更多，还有可能涉及协议转换，如果中途跨运营商，就更难保障，这样一来时延肯定是几倍、十几倍，甚至是上百倍的上涨，直接从0.x毫秒，上涨到秒级别。</p><p>对于同城来说，这个问题还好，但是一旦跨省就完全不可控，特别是机房如果不是自己的，根本无法控制。所以，想大公司自建机房，一定会在这个层面做大量的优化，尽最大可能降低时延。</p><p>就以淘宝、天猫为例，按照之前了解的情况，基本也是杭州和上海这两个城市为主做双活，再远时延这个问题就绕不开了。</p><p>数据同步及时性为什么这么重要，一个是业务体验，不能说库存都没了，其他用户看到的还是有货，这个是不会被接受的。</p><p>再就是故障时，如果同步不及时，极有可能造成几秒钟内的交易数据丢失，或者不一致，像淘宝这样每秒4位数订单量的系统，丢几秒钟数据，造成的损失也是巨大的。所以，这里就必须要建设有一整套的数据完整性和一致性保障措施，尽最大程度降低业务损失。  </p><p>所以，数<strong>据同步所依赖的时延问题，其实就已经超出了绝大部分公司所能掌控的范畴，也不是单纯靠自身技术能解决的问题，要看天时和地利。</strong></p><p>讲到这里，我想多活就不用讲了，时延这个问题解决不了，多活就是扯淡，至于同城和异地，我想看明白的读者，也知道怎么选择了，其实一样，还是取决于时延。</p><p><strong>我们可以得出的几个结论：</strong></p><ul><li><p>不管怎么选择容灾方案，我们自己的业务系统，从<strong>自身架构上，一定要支持单元化，一定要支持数据同步才行</strong>，如果这都不支持，讲双活和多活，就是特么的扯淡。所以，打算搞双活，先从这里下手，当然牵出来就要涉及到分布式，还有很多大量细节技术问题。</p></li><li><p><strong>一个合理的建设节奏应该是，同城双活—异地双活—两地三中心（同城双活+异地多活）</strong>，因为你要解决的问题的复杂度和难度也是在逐步上升的，不可能一蹴而就。</p></li><li><p><strong>题目里这些个名词，不是孤立的</strong>，而是从不同维度看到的结论，但是如果你偏离自己的业务场景去看，孤立的去看，就一定会被带到沟里去，而且不知道该如何下手，所以，一定别偏离你的业务场景，然后把它们联系起来。</p></li><li><p><strong>一切都是ROI</strong>，为了保证高可用，就一定会有成本，高可用程度越高，成本就一定越高，所以成本投入得到的收益到底划不划算，这个只能自家公司自家评判。</p></li><li><p>现实情况，比我写的要复杂的多的多，推荐大家看两个成功案例，<strong>一个是毕玄的异地多活数据中心，一个是饿了么异地多活</strong>，几个关键字google一下就有了，里面涉及到的场景化的细节对大家理解这件事情的复杂度会有更帮助。</p></li></ul><p>写的有点多了，关于多云先不写了，就当问题吧，大家觉得是不是需要多云建设？你怎么看？</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt; 做容灾，双活、多活、同城、异地、多云，到底应该怎么选？&lt;br&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/_NGqq-xvDtFrvKwbdGIhwQ&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.wei
       
     
     </summary>
@@ -485,58 +536,6 @@
     
     
       <category term="方案" scheme="http://zhangyu8.me/tags/%E6%96%B9%E6%A1%88/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python操作mysql的多个方案</title>
-    <link href="http://zhangyu8.me/2019/04/11/python%E6%93%8D%E4%BD%9Cmysql%E7%9A%84%E5%A4%9A%E4%B8%AA%E6%96%B9%E6%A1%88/"/>
-    <id>http://zhangyu8.me/2019/04/11/python操作mysql的多个方案/</id>
-    <published>2019-04-10T16:00:00.000Z</published>
-    <updated>2019-04-11T14:00:02.641Z</updated>
-    
-    <content type="html"><![CDATA[<p>python操作mysql的多个方案</p><p><a href="http://www.runoob.com/python/python-mysql.html" target="_blank" rel="noopener">http://www.runoob.com/python/python-mysql.html</a></p><p><a href="https://stackoverflow.com/questions/372885/how-do-i-connect-to-a-mysql-database-in-python" target="_blank" rel="noopener">https://stackoverflow.com/questions/372885/how-do-i-connect-to-a-mysql-database-in-python</a></p><p>官方规范：Python数据库API规范v2.0</p><p>PEP 249 -- Python Database API Specification v2.0</p><p><a href="https://www.python.org/dev/peps/pep-0249/" target="_blank" rel="noopener">https://www.python.org/dev/peps/pep-0249/</a></p><p>mysql 官方--MySQL Python API</p><p><a href="https://dev.mysql.com/doc/refman/5.7/en/apis-python.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/apis-python.html</a></p><p>连接mysql</p><p>方案一：mysql-connector 是 MySQL 官方提供的驱动器</p><p>安装：</p><p>rpm -ivh<br><a href="ftp://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-Python/mysql-connector-python-cext-2.1.7-1.el7.x86\_64.rpm" target="_blank" rel="noopener">ftp://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-Python/mysql-connector-python-cext-2.1.7-1.el7.x86\_64.rpm</a></p><p>rpm -ivh<br><a href="ftp://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86\_64.rpm" target="_blank" rel="noopener">ftp://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86\_64.rpm</a></p><p>或者</p><p>python -m pip install mysql-connector 被废弃</p><p>新版</p><p>pip install mysql-connector-python</p><p>教程<br><a href="http://www.runoob.com/python3/python-mysql-connector.html" target="_blank" rel="noopener">[http://www.runoob.com/python3/python-mysql-connector.html]{.underline}</a></p><p>举例：</p><p>import mysql.connector cnx = mysql.connector.connect(user=\’scott\’,<br>password=\’tiger\’, host=\’127.0.0.1\’, database=\’employees\’) try:<br>cursor = cnx.cursor() cursor.execute(\”\”\” select 3 from your_table<br>\”\”\”) result = cursor.fetchall() print result finally: cnx.close()</p><p>-----------------------------------------------------------------------------------------</p><p>方案二</p><p>Python3 使用 PyMySQL</p><p><a href="https://github.com/PyMySQL/PyMySQL" target="_blank" rel="noopener">[https://github.com/PyMySQL/PyMySQL]{.underline}</a></p><p>pip3 install PyMySQL</p><p>python3 -m pip install PyMySQL</p><p>方案三：Python2中则使用mysqldb</p><p>#yum install gcc libffi-devel python-devel openssl-devel urpmi xterm<br>freetds -y</p><p>#yum install MySQL-python</p><p>或者</p><p>rpm -ivh MySQL-python-1.3.6-3.fc22.x86_64.rpm</p><p>或者pip install MySQL-python</p><p>import MySQLdb</p><p>安装MySQLdb，<br><a href="https://pypi.python.org/pypi/MySQL-python" target="_blank" rel="noopener">[https://pypi.python.org/pypi/MySQL-python]{.underline}</a>)从这里可选择适合您的平台的安装包，分为预编译的二进制文件和源代码安装包。</p><p>如果您选择二进制文件发行版本的话，安装过程基本安装提示即可完成。如果从源代码进行安装的话，则需要切换到MySQLdb发行版本的顶级目录，并键入下列命令:</p><p>\$ gunzip MySQL-python-1.2.2.tar.gz \$ tar -xvf MySQL-python-1.2.2.tar\$<br>cd MySQL-python-1.2.2\$ python setup.py build \$ python setup.py install</p><p><strong>注意：</strong>请确保您有root权限来安装上述模块。</p><p>################################</p><p>方案4：<strong>mysqlclient --django官方推荐</strong></p><p>本质是方案三mysqldb第三方修改版支持python3的</p><p>首先安装一下mysql-devel</p><p>yum install python-devel mysql-devel</p><p><strong>Python 3</strong></p><p>yum install python36-devel.x86_64</p><p>然后就可以直接安装mysqlclient了</p><p>pip install mysqlclient</p><p><a href="https://pypi.org/project/mysqlclient/" target="_blank" rel="noopener">[https://pypi.org/project/mysqlclient/]{.underline}</a></p><p><a href="https://github.com/PyMySQL/mysqlclient-python" target="_blank" rel="noopener">[https://github.com/PyMySQL/mysqlclient-python]{.underline}</a></p><p>##############</p><p>方案5：CyMySQL----------For python 3.3</p><p>pip install cymysql</p><p>import cymysql</p><p><a href="https://github.com/nakagami/CyMySQL" target="_blank" rel="noopener">https://github.com/nakagami/CyMySQL</a></p><p>###]<strong>[Python]代码 </strong></p><p>#-*- encoding: utf-8 -*-</p><p><strong>import</strong> os, sys, string</p><p><strong>import</strong> MySQLdb</p><p># 连接数据库　</p><p><strong>try</strong>:</p><pre><code>conn **=**</code></pre><p>MySQLdb.connect(host<strong>=</strong>\’localhost\’,user<strong>=</strong>\’root\’,passwd<strong>=</strong>\’xxxx\’,db<strong>=</strong>\’test1\’)</p><p><strong>except</strong> Exception, e:</p><pre><code>print esys.exit()</code></pre><p># 获取cursor对象来进行操作</p><p>cursor <strong>=</strong> conn.cursor()</p><p># 创建表</p><p>sql <strong>=</strong> \”create table if not exists test1(name varchar(128) primary<br>key, age int(4))\”</p><p>cursor.execute(sql)</p><p># 插入数据</p><p>sql <strong>=</strong> \”insert into test1(name, age) values (\’%s\’, %d)\” <strong>%</strong><br>(\”zhaowei\”, 23)</p><p><strong>try</strong>:</p><pre><code>cursor.execute(sql)</code></pre><p><strong>except</strong> Exception, e:</p><pre><code>print e</code></pre><p>sql <strong>=</strong> \”insert into test1(name, age) values (\’%s\’, %d)\” <strong>%</strong><br>(\”张三\”, 21)</p><p><strong>try</strong>:</p><pre><code>cursor.execute(sql)</code></pre><p><strong>except</strong> Exception, e:</p><pre><code>print e</code></pre><p># 插入多条</p><p>sql <strong>=</strong> \”insert into test1(name, age) values (%s, %s)\”</p><p>val <strong>=</strong> ((\”李四\”, 24), (\”王五\”, 25), (\”洪六\”, 26))</p><p><strong>try</strong>:</p><pre><code>cursor.executemany(sql, val)</code></pre><p><strong>except</strong> Exception, e:</p><pre><code>print e</code></pre><p>#查询出数据</p><p>sql <strong>=</strong> \”select * from test1\”</p><p>cursor.execute(sql)</p><p>alldata <strong>=</strong> cursor.fetchall()</p><p># 如果有数据返回，就循环输出, alldata是有个二维的列表</p><p><strong>if</strong> alldata:</p><pre><code>**for** rec **in** alldata:    print rec\[0\], rec\[1\]</code></pre><p>cursor.close()</p><p>conn.close()</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;python操作mysql的多个方案&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://www.runoob.com/python/python-mysql.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.runoob.com/p
-      
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://zhangyu8.me/categories/mysql/"/>
-    
-    
-      <category term="mysql" scheme="http://zhangyu8.me/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>闲扯Nginx的accept_mutex配置</title>
-    <link href="http://zhangyu8.me/2019/02/28/%E9%97%B2%E6%89%AFNginx%E7%9A%84accept_mutex%E9%85%8D%E7%BD%AE/"/>
-    <id>http://zhangyu8.me/2019/02/28/闲扯Nginx的accept_mutex配置/</id>
-    <published>2019-02-27T16:00:00.000Z</published>
-    <updated>2019-09-10T05:56:25.210Z</updated>
-    
-    <content type="html"><![CDATA[<p> 闲扯Nginx的accept_mutex配置</p><p><a href="https://huoding.com/2013/08/24/281" target="_blank" rel="noopener">https://huoding.com/2013/08/24/281</a><br> 让我们看看accept_mutex的意义：当一个新连接到达时，如果激活了accept_mutex，那么多个Worker将以串行方式来处理，其中有一个Worker会被唤醒，其他的Worker继续保持休眠状态；如果没有激活accept_mutex，那么所有的Worker都会被唤醒，不过只有一个Worker能获取新连接，其它的Worker会重新进入休眠状态，这就是「<a href="http://en.wikipedia.org/wiki/Thundering_herd_problem" target="_blank" rel="noopener">惊群问题</a>」。</p><p> Nginx缺省激活了accept_mutex，也就是说不会有惊群问题，但真的有那么严重么？实际上Nginx作者Igor Sysoev曾经给过相关的<a href="http://forum.nginx.org/read.php?2,1641,1686#msg-1686" target="_blank" rel="noopener">解释</a>：</p><p>  OS may wake all processes waiting on accept() and select(), this is called thundering herd problem. This is a problem if you have a lot of workers as in Apache (hundreds and more), but this insensible if you have just several workers as nginx usually has. Therefore turning accept_mutex off is as scheduling incoming connection by OS via select/kqueue/epoll/etc (but not accept()).</p><p> 简单点说：Apache动辄就会启动成百上千的进程，如果发生惊群问题的话，影响相对较大；但是对Nginx而言，一般来说，<a href="http://wiki.nginx.org/CoreModule#worker_processes" target="_blank" rel="noopener">worker_processes</a>会设置成CPU个数，所以最多也就几十个，即便发生惊群问题的话，影响相对也较小。</p><p> …</p><p> 假设你养了一百只小鸡，现在你有一粒粮食，那么有两种喂食方法：</p><ul><li>你把这粒粮食直接扔到小鸡中间，一百只小鸡一起上来抢，最终只有一只小鸡能得手，其它九十九只小鸡只能铩羽而归。这就相当于关闭了accept_mutex。</li><li><p>你主动抓一只小鸡过来，把这粒粮食塞到它嘴里，其它九十九只小鸡对此浑然不知，该睡觉睡觉。这就相当于激活了accept_mutex。</p><p>可以看到此场景下，激活accept_mutex相对更好一些，让我们修改一下问题的场景，我不再只有一粒粮食，而是一盆粮食，怎么办？</p><p>此时如果仍然采用主动抓小鸡过来塞粮食的做法就太低效了，一盆粮食不知何年何月才能喂完，大家可以设想一下几十只小鸡排队等着喂食时那种翘首以盼的情景。此时更好的方法是把这盆粮食直接撒到小鸡中间，让它们自己去抢，虽然这可能会造成一定程度的混乱，但是整体的效率无疑大大增强了。</p><p>Nginx缺省激活了accept_mutex（最新版缺省禁用），是一种保守的选择。如果关闭了它，可能会引起一定程度的惊群问题，表现为上下文切换增多（sar -w）或者负载上升，但是如果你的网站访问量比较大，为了系统的吞吐量，我还是建议大家关闭它。</p></li></ul><p>最新 nginx-1.11.4开始默认关闭了accept_mutex。</p><p>从tengine2.2开始accept_mutex 参数由默认的 on 改为了 off ，为什么要改呢。与时俱进。</p><p>当初这个参数是为了避免在 epoll_wait 所出现惊群效应。可以参考（<a href="https://www.jianshu.com/p/21c3e5b99f4a）。" target="_blank" rel="noopener">https://www.jianshu.com/p/21c3e5b99f4a）。</a></p><p>新版内核已经有了处理这个方法，不再需要 nginx 单独配置。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt; 闲扯Nginx的accept_mutex配置&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://huoding.com/2013/08/24/281&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://huoding.com/2013/08/24
-      
-    
-    </summary>
-    
-      <category term="nginx" scheme="http://zhangyu8.me/categories/nginx/"/>
-    
-    
-      <category term="nginx" scheme="http://zhangyu8.me/tags/nginx/"/>
     
   </entry>
   
