@@ -18,8 +18,8 @@
   
   <entry>
     <title>小米Redis的K8s容器化部署实践</title>
-    <link href="http://zhangyu8.me/2020/06/22/%E5%B0%8F%E7%B1%B3Redis%E7%9A%84Kubernetes%E5%AE%B9%E5%99%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5%20/"/>
-    <id>http://zhangyu8.me/2020/06/22/小米Redis的Kubernetes容器化部署实践 /</id>
+    <link href="http://zhangyu8.me/2020/06/22/%E5%B0%8F%E7%B1%B3Redis%E7%9A%84Kubernetes%E5%AE%B9%E5%99%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/"/>
+    <id>http://zhangyu8.me/2020/06/22/小米Redis的Kubernetes容器化部署实践/</id>
     <published>2020-06-22T03:00:00.000Z</published>
     <updated>2020-06-22T02:28:29.352Z</updated>
     
