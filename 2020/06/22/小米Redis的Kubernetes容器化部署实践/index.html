@@ -2612,7 +2612,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-06-22 10:28:29">2020-06-22 11:00</time>
+        创建时间:<time class="date" title="更新时间: 2020-06-22 11:13:53">2020-06-22 11:00</time>
         
     </div>
     <div class="article-meta">
@@ -2645,25 +2645,25 @@
 <blockquote>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>小米的Redis使用规模很大，现在有数万个实例，并且每天有百万亿次的访问频率，支撑了几乎所有的产品线和生态链公司。之前所有的Redis都部署在物理机上，也没有做资源隔离，给管理治理带来了很大的困难。我们的运维人员工作压力很大，机器宕机网络抖动导致的Redis节点下线都经常需要人工介入处理。由于没有做CPU的资源隔离，slave节点打RDB或者由于流量突增导致节点QPS升高造成的节点CPU使用率升高，都可能对本集群或其他集群的节点造成影响，导致无法预测的时延增加。</p>
 <p>Redis分片方式采用社区的Redis Cluster协议，集群自主分片。Redis Cluster带来了一定的易用性的同时，也提高了应用开发的门槛，应用开发人员需要一定程度上了解Redis Cluster，同时需要使用智能客户端访问Redis Cluster。这些智能客户端配置参数繁多，应用开发人员并无法完全掌握并设置这些参数，踩了很多坑。同时，由于智能客户端需要做分片计算，给应用端的机器也带来了一定的负载。</p>
-<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRpnDfGTj2hakEapXh4jdmcVtxn9dUon7LbJnGJOOQkEZziaRaedAMJIkY8TaKru5STJXBtKibNxt7Ow/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRpnDfGTj2hakEapXh4jdmcVtxn9dUon7LbJnGJOOQkEZziaRaedAMJIkY8TaKru5STJXBtKibNxt7Ow/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <h2 id="Why-K8S"><a href="#Why-K8S" class="headerlink" title="Why K8S"></a>Why K8S</h2><h2 id="资源隔离"><a href="#资源隔离" class="headerlink" title="资源隔离"></a><strong>资源隔离</strong></h2><p>当前的Redis Cluster部署在物理机集群上，为了提高资源利用率节约成本，多业务线的Redis集群都是混布的。由于没有做CPU的资源隔离，经常出现某Redis节点CPU使用率过高导致其他Redis集群的节点争抢不到CPU资源引起时延抖动。因为不同的集群混布，这类问题很难快速定位，影响运维效率。K8s容器化部署可以指定 CPU request 和 CPU limit ，在提高资源利用率的同时避免了资源争抢。</p>
 <h2 id><a href="#" class="headerlink" title=" "></a> </h2><h2 id="自动化部署"><a href="#自动化部署" class="headerlink" title="自动化部署"></a><strong>自动化部署</strong></h2><p>自动化部署。当前Redis Cluster在物理机上的部署过程十分繁琐，需要通过查看元信息数据库查找有空余资源的机器，手动修改很多配置文件再逐个部署节点，最后使用redis_trib工具创建集群，新集群的初始化工作经常需要一两个小时。</p>
 <p>K8s通过StatefulSet部署Redis集群，使用configmap管理配置文件，新集群部署时间只需要几分钟，大大提高了运维效率。</p>
 <h2 id="How-K8S"><a href="#How-K8S" class="headerlink" title="How K8S"></a>How K8S</h2><p>客户端通过LVS的VIP统一接入，通过Redis Proxy转发服务请求到Redis Cluster集群。这里我们引入了Redis Proxy来转发请求。</p>
-<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRpnDfGTj2hakEapXh4jdmcV9yKs0YScPnxtplmyDUUxl1miaEib7Ekn9L73dKS2Tia7fA6XCOd3CDTNA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRpnDfGTj2hakEapXh4jdmcV9yKs0YScPnxtplmyDUUxl1miaEib7Ekn9L73dKS2Tia7fA6XCOd3CDTNA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <h2 id="Redis-Cluster部署方式"><a href="#Redis-Cluster部署方式" class="headerlink" title="Redis Cluster部署方式"></a><strong>Redis Cluster部署方式</strong></h2><p>Redis部署为StatefulSet，作为有状态的服务，选择StatefulSet最为合理，可以将节点的RDB/AOF持久化到分布式存储中。当节点重启漂移到其他机器上时，可通过挂载的PVC(PersistentVolumeClaim)拿到原来的RDB/AOF来同步数据。我们选择的持久化存储PV(PersistentVolume)是Ceph Block Service。Ceph的读写性能低于本地磁盘，会带来100~200ms的读写时延。但由于Redis的RDB/AOF的写出都是异步的，分布式存储带来的读写延迟对服务并没有影响。</p>
-<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRpnDfGTj2hakEapXh4jdmcVPzdQYX28SbZqwYl5tlFBkqfpxM3xOC3IQa3qEq2hnEYISoMWmrXFqA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRpnDfGTj2hakEapXh4jdmcVPzdQYX28SbZqwYl5tlFBkqfpxM3xOC3IQa3qEq2hnEYISoMWmrXFqA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <h2 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h2><h2 id="Proxy选型"><a href="#Proxy选型" class="headerlink" title="Proxy选型"></a><strong>Proxy选型</strong></h2><p>## </p>
 <p>开源的Redis Proxy有很多，常见的开源Redis Proxy如下:</p>
-<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRrJAgO3tqmgH2KF0EcfGqqW2pJcs1rgdmyqibPpJbRM4PiabXStSXeyObE7y8wqvZqeLZ7N4RVNfIog/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRrJAgO3tqmgH2KF0EcfGqqW2pJcs1rgdmyqibPpJbRM4PiabXStSXeyObE7y8wqvZqeLZ7N4RVNfIog/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p>我们希望能够继续使用Redis Cluster来管理Redis集群，所以Codis和Twemproxy不再考虑。redis-cluster-proxy是Redis官方在6.0版本推出的支持Redis Cluster协议的Proxy，但是目前还没有稳定版，暂时也无法大规模应用。</p>
 <p>备选就只有Cerberus和Predixy两种。我们在K8s环境上对Cerberus和Predixy进行了性能测试，结果如下:</p>
 <h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a><strong>测试环境</strong></h3><p>测试工具: redis-benchmark</p>
 <p>Proxy CPU: 2 core</p>
 <p>Client CPU: 2 core</p>
 <p>Redis Cluster: 3 master nodes, 1 CPU per node</p>
-<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a><strong>测试结果</strong></h3><p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRrJAgO3tqmgH2KF0EcfGqqWdUeLMTycZ2acica48JEiahLtSuFbULukibvVAFqbDOC4fcQRqKhx8RqgQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
-<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRpnDfGTj2hakEapXh4jdmcVNwHM46icecJg2NzJJQMZqP9CicfnyK7LeTAt3kPoGe3ldvpRgZX5erwA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a><strong>测试结果</strong></h3><p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRrJAgO3tqmgH2KF0EcfGqqWdUeLMTycZ2acica48JEiahLtSuFbULukibvVAFqbDOC4fcQRqKhx8RqgQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRpnDfGTj2hakEapXh4jdmcVNwHM46icecJg2NzJJQMZqP9CicfnyK7LeTAt3kPoGe3ldvpRgZX5erwA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p>## </p>
 <p>在相同workload和配置下，Predixy的最高QPS要优于Cerberus，时延也比较接近。综合来看，Predixy比Cerberus的性能要高33%~60%，并且数据的key/value越大，Predixy优势越明显，所以最后我们选择了Predixy。</p>
 <p>为了适应业务和K8s环境，在上线前我们对Predixy做了大量的改动，增加了很多新的功能，比如动态切换后端Redis Cluster、黑白名单、异常操作审计等。</p>
@@ -2690,7 +2690,7 @@
 <h2 id="Proxy-带来的问题"><a href="#Proxy-带来的问题" class="headerlink" title="Proxy 带来的问题"></a>Proxy 带来的问题</h2><h2 id="多一跳带来的时延"><a href="#多一跳带来的时延" class="headerlink" title="多一跳带来的时延"></a><strong>多一跳带来的时延</strong></h2><p>Proxy在客户端和Redis实例之间，客户端访问Redis数据需要先访问Proxy再访问Redis节点，多了一跳，会导致时延增加。经测试，多一跳会增加0.2~0.3ms的时延，不过通常这对业务来说是可以接受的。</p>
 <h2 id="Pod漂移造成IP变化"><a href="#Pod漂移造成IP变化" class="headerlink" title="Pod漂移造成IP变化"></a><strong>Pod漂移造成IP变化</strong></h2><p>Proxy在K8s上是通过deployment部署的，一样会有节点重启导致IP变化的问题。我们K8s的LB方案可以感知到Proxy的IP变化，动态的将LVS的流量切到重启后的Proxy上。</p>
 <h2 id="LVS带来的时延"><a href="#LVS带来的时延" class="headerlink" title="LVS带来的时延"></a><strong>LVS带来的时延</strong></h2><p>LVS也会带来时延，如下表中的测试，不同的数据长度get/set操作，LVS引入的时延小于0.1ms。</p>
-<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRrJAgO3tqmgH2KF0EcfGqqWNBgfVsEkDqxONt4P9Wicn7rg44gSnFS6GgK2bt97NbeWGQmiaFc6PQiaA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="http://img01.store.sogou.com/net/a/04/link?appid=100520029&amp;url=https://mmbiz.qpic.cn/sz_mmbiz_png/Re4KW51oYRrJAgO3tqmgH2KF0EcfGqqWNBgfVsEkDqxONt4P9Wicn7rg44gSnFS6GgK2bt97NbeWGQmiaFc6PQiaA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <h2 id="K8S-带来的好处"><a href="#K8S-带来的好处" class="headerlink" title="K8S 带来的好处"></a>K8S 带来的好处</h2><h2 id="部署方便"><a href="#部署方便" class="headerlink" title="部署方便"></a><strong>部署方便</strong></h2><p>通过运维平台调用K8s API部署集群，大大提高了运维效率。</p>
 <h2 id="解决端口管理问题"><a href="#解决端口管理问题" class="headerlink" title="解决端口管理问题"></a><strong>解决端口管理问题</strong></h2><p>目前小米在物理机上部署Redis实例是通过端口来区分的，并且下线的端口不能复用，也就是说整个公司每个Redis实例都有唯一的端口号。目前65535个端口已经用到了40000多，按现在的业务发展速度，将在两年内耗尽端口资源。而通过K8s部署，每一个Redis实例对应的K8s pod都有独立的IP，不存在端口耗尽问题和复杂的管理问题。</p>
 <h2 id="降低客户使用门槛"><a href="#降低客户使用门槛" class="headerlink" title="降低客户使用门槛"></a><strong>降低客户使用门槛</strong></h2><p>对应用来说，只需要使用单机版的非智能客户端连接VIP，降低了使用门槛，避免了繁琐复杂的参数设置。同时由于VIP和端口是固定不变的，应用程序不再需要自己管理Redis Cluster的拓扑。</p>
@@ -2759,7 +2759,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-06-22, 11:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-06-22, 10:28:29</p>
+    <p><span class="copy-title">最后更新:</span>2020-06-22, 11:13:53</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/06/22/小米Redis的Kubernetes容器化部署实践/" title="小米Redis的K8s容器化部署实践">http://zhangyu8.me/2020/06/22/小米Redis的Kubernetes容器化部署实践/</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
