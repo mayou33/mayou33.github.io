@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhangyu8.me/2020/07/13/%E4%BD%BF%E7%94%A8GitLab-CI%E4%B8%8EArgo-CD%E8%BF%9B%E8%A1%8CGitOps%E5%AE%9E%E8%B7%B5/</loc>
+    
+    <lastmod>2020-07-13T07:59:19.948Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhangyu8.me/2020/07/13/GitOps/</loc>
+    
+    <lastmod>2020-07-13T07:58:43.243Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhangyu8.me/2020/07/03/%E7%90%86%E8%A7%A3Kubernetes%E6%9E%B6%E6%9E%84/</loc>
     
     <lastmod>2020-07-03T03:22:12.479Z</lastmod>
@@ -1213,14 +1227,14 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2017/02/24/874/</loc>
+    <loc>http://zhangyu8.me/2017/05/03/982/</loc>
     
     <lastmod>2017-06-21T11:44:37.285Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2017/05/03/982/</loc>
+    <loc>http://zhangyu8.me/2017/02/24/871/</loc>
     
     <lastmod>2017-06-21T11:44:37.285Z</lastmod>
     
@@ -1311,7 +1325,7 @@
   </url>
   
   <url>
-    <loc>http://zhangyu8.me/2017/02/24/871/</loc>
+    <loc>http://zhangyu8.me/2017/02/24/874/</loc>
     
     <lastmod>2017-06-21T11:44:37.285Z</lastmod>
     
