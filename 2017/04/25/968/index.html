@@ -6,17 +6,28 @@
   <meta name="keywords" content=" zabbix ">
   <meta name="description" content="一篇文章全面了解监控知识体系 | 大雨哥">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https://github.com/yelog/hexo-theme-3-hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="大雨哥">
-<meta property="og:url" content="http://zhangyu8.me/about/index.html">
+<meta name="description" content="GitOps - 在 Kubernetes 中进行 DevOps 的方式  什么是 GitOps？GitOps 是一个概念，将软件的端到端描述放置到 Git 中，然后尝试着让集群状态和 Git 仓库持续同步，其中有两个概念需要说明下。  软件的描述表示：Kubernetes、应用和底层基础架构之间的关系是一种声明式的，我们用声明式方式（YAML）来描述我们需要的基础架构。这些 YAML 的实现细">
+<meta name="keywords" content="devops">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitOps">
+<meta property="og:url" content="http://zhangyu8.me/2020/07/13/GitOps/index.html">
 <meta property="og:site_name" content="大雨哥">
-<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https://github.com/yelog/hexo-theme-3-hexo">
+<meta property="og:description" content="GitOps - 在 Kubernetes 中进行 DevOps 的方式  什么是 GitOps？GitOps 是一个概念，将软件的端到端描述放置到 Git 中，然后尝试着让集群状态和 Git 仓库持续同步，其中有两个概念需要说明下。  软件的描述表示：Kubernetes、应用和底层基础架构之间的关系是一种声明式的，我们用声明式方式（YAML）来描述我们需要的基础架构。这些 YAML 的实现细">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-01-10T07:09:32.535Z">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5cezgWwU6NE50RPybSiauPxOMibG7ycygsHBhlesTN2Cw5JY3D38I5hlRg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5cEibKKfVx9n7ziaTLss4Ee8kpnAtaEg2iamLYNF7ecZOCtw0y4p67w5cHA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5cCpLKt5qIvNNOM1x2c1iazNoYPV2WKme8Zmo2lZKrc9TMCxAHuQm2CcQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5cq6k4LwFZwMibibjr5QsEOpw7dckGPTvbovB08OC57dwXwnSQP17NbdGw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5crKDdUgNZDpCOyWicuISxVibCScHxLDXRDkMlPjibBHU8wUFDMGOSRSoBQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5cb9oVNicve4A2ribtmX4CE3xC1DFUjqjqSNwibsp1qxBazPCxHiaIq6MyPw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5cjySamdPt5BtuuUstOzIm8C6uAOrkVcU0C67JQoyh3mppdlYnonPeEg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5c2mpOqEica4h1icq3G7crcqbDH0llawQMfOS7nuNXLCzDbPQvgsiaZYHRg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5cpMDSbOoen7N0BhnC7OAarv386DMCagr4f285nibvpL7M7abQFRD6rZg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:updated_time" content="2020-07-13T09:14:41.549Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大雨哥">
-<meta name="twitter:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https://github.com/yelog/hexo-theme-3-hexo">
+<meta name="twitter:title" content="GitOps">
+<meta name="twitter:description" content="GitOps - 在 Kubernetes 中进行 DevOps 的方式  什么是 GitOps？GitOps 是一个概念，将软件的端到端描述放置到 Git 中，然后尝试着让集群状态和 Git 仓库持续同步，其中有两个概念需要说明下。  软件的描述表示：Kubernetes、应用和底层基础架构之间的关系是一种声明式的，我们用声明式方式（YAML）来描述我们需要的基础架构。这些 YAML 的实现细">
+<meta name="twitter:image" content="http://img01.store.sogou.com/net/a/04/link?appid=100520029&url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtzpvYZ3AW5MmTl26FAjX5cezgWwU6NE50RPybSiauPxOMibG7ycygsHBhlesTN2Cw5JY3D38I5hlRg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 
 
 <link rel="icon" href="/img/favicon.ico">
@@ -79,7 +90,7 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(350)</small></div></li>
+    <li><div class="all active">全部文章<small>(351)</small></div></li>
     
         
             
@@ -491,7 +502,7 @@
     </div>
     <div><a class="about  hasFriend  site_url" href="/about">关于</a><a style="width: 50%" class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="350">
+<input type="hidden" id="yelog_site_posts_number" value="351">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -875,6 +886,11 @@
     
     <nav id="title-list-nav">
         
+        <a class href="/2020/08/12/在Kubernetes上部署MySQL数据库/" data-tag data-author>
+            <span class="post-title" title></span>
+            <span class="post-date" title="2020-08-12 16:40:34">2020/08/12</span>
+        </a>
+        
         <a class="devops " href="/2020/07/13/GitOps/" data-tag="devops" data-author>
             <span class="post-title" title="GitOps">GitOps</span>
             <span class="post-date" title="2020-07-13 15:00:00">2020/07/13</span>
@@ -915,13 +931,13 @@
             <span class="post-date" title="2020-06-16 11:00:00">2020/06/16</span>
         </a>
         
-        <a class="容灾 " href="/2020/05/06/做容灾，双活、多活、同城、异地、多云，到底应该怎么选/" data-tag="容灾" data-author>
-            <span class="post-title" title="做容灾，双活、多活、同城、异地、多云，到底应该怎么选">做容灾，双活、多活、同城、异地、多云，到底应该怎么选</span>
+        <a class="容灾 " href="/2020/05/06/做容灾，冷备是不是个好方案/" data-tag="容灾" data-author>
+            <span class="post-title" title="做容灾，冷备是不是个好方案">做容灾，冷备是不是个好方案</span>
             <span class="post-date" title="2020-05-06 14:00:00">2020/05/06</span>
         </a>
         
-        <a class="容灾 " href="/2020/05/06/做容灾，冷备是不是个好方案/" data-tag="容灾" data-author>
-            <span class="post-title" title="做容灾，冷备是不是个好方案">做容灾，冷备是不是个好方案</span>
+        <a class="容灾 " href="/2020/05/06/做容灾，双活、多活、同城、异地、多云，到底应该怎么选/" data-tag="容灾" data-author>
+            <span class="post-title" title="做容灾，双活、多活、同城、异地、多云，到底应该怎么选">做容灾，双活、多活、同城、异地、多云，到底应该怎么选</span>
             <span class="post-date" title="2020-05-06 14:00:00">2020/05/06</span>
         </a>
         
@@ -1010,6 +1026,11 @@
             <span class="post-date" title="2019-04-11 00:00:00">2019/04/11</span>
         </a>
         
+        <a class="胡说八道 " href="/2019/02/28/谈谈我的三观/" data-tag="胡说八道" data-author>
+            <span class="post-title" title="谈谈我的三观">谈谈我的三观</span>
+            <span class="post-date" title="2019-02-28 00:00:00">2019/02/28</span>
+        </a>
+        
         <a class="devops " href="/2019/02/28/SRE工程师到底是做什么的/" data-tag="devops" data-author>
             <span class="post-title" title="SRE工程师到底是做什么的？">SRE工程师到底是做什么的？</span>
             <span class="post-date" title="2019-02-28 00:00:00">2019/02/28</span>
@@ -1020,18 +1041,13 @@
             <span class="post-date" title="2019-02-28 00:00:00">2019/02/28</span>
         </a>
         
-        <a class="胡说八道 " href="/2019/02/28/谈谈我的三观/" data-tag="胡说八道" data-author>
-            <span class="post-title" title="谈谈我的三观">谈谈我的三观</span>
-            <span class="post-date" title="2019-02-28 00:00:00">2019/02/28</span>
+        <a class="运维 " href="/2019/02/27/2019运维技能风向标/" data-tag="运维" data-author>
+            <span class="post-title" title="2019运维技能风向标">2019运维技能风向标</span>
+            <span class="post-date" title="2019-02-27 00:00:00">2019/02/27</span>
         </a>
         
         <a class="zabbix " href="/2019/02/27/一小时快速掌握zabbix配置的高效学习法/" data-tag="zabbix" data-author>
             <span class="post-title" title="一小时快速掌握zabbix配置的高效学习法">一小时快速掌握zabbix配置的高效学习法</span>
-            <span class="post-date" title="2019-02-27 00:00:00">2019/02/27</span>
-        </a>
-        
-        <a class="运维 " href="/2019/02/27/2019运维技能风向标/" data-tag="运维" data-author>
-            <span class="post-title" title="2019运维技能风向标">2019运维技能风向标</span>
             <span class="post-date" title="2019-02-27 00:00:00">2019/02/27</span>
         </a>
         
@@ -1055,6 +1071,11 @@
             <span class="post-date" title="2019-01-23 00:00:00">2019/01/23</span>
         </a>
         
+        <a class="运维 " href="/2018/12/26/谈运维转型期的感悟和分享/" data-tag="运维" data-author>
+            <span class="post-title" title="谈运维转型期的感悟和分享">谈运维转型期的感悟和分享</span>
+            <span class="post-date" title="2018-12-26 00:00:00">2018/12/26</span>
+        </a>
+        
         <a class="web " href="/2018/12/26/网站访问速度慢/" data-tag="web" data-author>
             <span class="post-title" title="网站访问速度慢">网站访问速度慢</span>
             <span class="post-date" title="2018-12-26 00:00:00">2018/12/26</span>
@@ -1062,11 +1083,6 @@
         
         <a class="web " href="/2018/12/26/浅谈TLS1.3/" data-tag="web" data-author>
             <span class="post-title" title="浅谈TLS1.3">浅谈TLS1.3</span>
-            <span class="post-date" title="2018-12-26 00:00:00">2018/12/26</span>
-        </a>
-        
-        <a class="运维 " href="/2018/12/26/谈运维转型期的感悟和分享/" data-tag="运维" data-author>
-            <span class="post-title" title="谈运维转型期的感悟和分享">谈运维转型期的感悟和分享</span>
             <span class="post-date" title="2018-12-26 00:00:00">2018/12/26</span>
         </a>
         
@@ -1150,13 +1166,13 @@
             <span class="post-date" title="2018-07-25 00:00:00">2018/07/25</span>
         </a>
         
-        <a class="安全 " href="/2018/07/24/开源软件创建SOC的一份清单/" data-tag="安全" data-author>
-            <span class="post-title" title="开源软件创建SOC的一份清单">开源软件创建SOC的一份清单</span>
+        <a class="devops " href="/2018/07/24/DevOps转型实践/" data-tag="devops" data-author>
+            <span class="post-title" title="DevOps转型实践">DevOps转型实践</span>
             <span class="post-date" title="2018-07-24 00:00:00">2018/07/24</span>
         </a>
         
-        <a class="devops " href="/2018/07/24/DevOps转型实践/" data-tag="devops" data-author>
-            <span class="post-title" title="DevOps转型实践">DevOps转型实践</span>
+        <a class="安全 " href="/2018/07/24/开源软件创建SOC的一份清单/" data-tag="安全" data-author>
+            <span class="post-title" title="开源软件创建SOC的一份清单">开源软件创建SOC的一份清单</span>
             <span class="post-date" title="2018-07-24 00:00:00">2018/07/24</span>
         </a>
         
@@ -1190,13 +1206,13 @@
             <span class="post-date" title="2018-06-28 00:00:00">2018/06/28</span>
         </a>
         
-        <a class="docker " href="/2018/06/22/60/" data-tag="docker" data-author>
-            <span class="post-title" title="阿里云 kubernetes yum 仓库镜像">阿里云 kubernetes yum 仓库镜像</span>
+        <a class="docker " href="/2018/06/22/59/" data-tag="docker" data-author>
+            <span class="post-title" title="使用现成的二进制文件部署K8S集群-有证书">使用现成的二进制文件部署K8S集群-有证书</span>
             <span class="post-date" title="2018-06-22 00:00:00">2018/06/22</span>
         </a>
         
-        <a class="docker " href="/2018/06/22/59/" data-tag="docker" data-author>
-            <span class="post-title" title="使用现成的二进制文件部署K8S集群-有证书">使用现成的二进制文件部署K8S集群-有证书</span>
+        <a class="docker " href="/2018/06/22/60/" data-tag="docker" data-author>
+            <span class="post-title" title="阿里云 kubernetes yum 仓库镜像">阿里云 kubernetes yum 仓库镜像</span>
             <span class="post-date" title="2018-06-22 00:00:00">2018/06/22</span>
         </a>
         
@@ -1240,43 +1256,13 @@
             <span class="post-date" title="2018-04-19 00:00:00">2018/04/19</span>
         </a>
         
-        <a class="好文转载 " href="/2018/04/17/40/" data-tag="好文转载" data-author>
-            <span class="post-title" title="java并发编程之 java线程基本概念">java并发编程之 java线程基本概念</span>
-            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
-        </a>
-        
         <a class="好文转载 " href="/2018/04/17/43/" data-tag="好文转载" data-author>
             <span class="post-title" title="MySQL的基本管理">MySQL的基本管理</span>
             <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
         </a>
         
-        <a class="好文转载 " href="/2018/04/17/44/" data-tag="好文转载" data-author>
-            <span class="post-title" title="字符集和编码">字符集和编码</span>
-            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
-        </a>
-        
-        <a class="好文转载 " href="/2018/04/17/45/" data-tag="好文转载" data-author>
-            <span class="post-title" title="MySQL的字符集和比较规则">MySQL的字符集和比较规则</span>
-            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
-        </a>
-        
-        <a class="好文转载 " href="/2018/04/17/41/" data-tag="好文转载" data-author>
-            <span class="post-title" title="mysql数据类型优化">mysql数据类型优化</span>
-            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
-        </a>
-        
-        <a class="好文转载 " href="/2018/04/17/47/" data-tag="好文转载" data-author>
-            <span class="post-title" title="InnoDB数据页结构">InnoDB数据页结构</span>
-            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
-        </a>
-        
-        <a class="好文转载 " href="/2018/04/17/48/" data-tag="好文转载" data-author>
-            <span class="post-title" title="MySQL的索引">MySQL的索引</span>
-            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
-        </a>
-        
-        <a class="好文转载 " href="/2018/04/17/49/" data-tag="好文转载" data-author>
-            <span class="post-title" title="MySQL的索引（中）">MySQL的索引（中）</span>
+        <a class="好文转载 " href="/2018/04/17/46/" data-tag="好文转载" data-author>
+            <span class="post-title" title="InnoDB记录存储结构">InnoDB记录存储结构</span>
             <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
         </a>
         
@@ -1285,13 +1271,43 @@
             <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
         </a>
         
+        <a class="好文转载 " href="/2018/04/17/45/" data-tag="好文转载" data-author>
+            <span class="post-title" title="MySQL的字符集和比较规则">MySQL的字符集和比较规则</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/40/" data-tag="好文转载" data-author>
+            <span class="post-title" title="java并发编程之 java线程基本概念">java并发编程之 java线程基本概念</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/41/" data-tag="好文转载" data-author>
+            <span class="post-title" title="mysql数据类型优化">mysql数据类型优化</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/49/" data-tag="好文转载" data-author>
+            <span class="post-title" title="MySQL的索引（中）">MySQL的索引（中）</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/48/" data-tag="好文转载" data-author>
+            <span class="post-title" title="MySQL的索引">MySQL的索引</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
+        <a class="好文转载 " href="/2018/04/17/44/" data-tag="好文转载" data-author>
+            <span class="post-title" title="字符集和编码">字符集和编码</span>
+            <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
+        </a>
+        
         <a class="好文转载 " href="/2018/04/17/42/" data-tag="好文转载" data-author>
             <span class="post-title" title="MySQL命令执行过程和存储引擎概述">MySQL命令执行过程和存储引擎概述</span>
             <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
         </a>
         
-        <a class="好文转载 " href="/2018/04/17/46/" data-tag="好文转载" data-author>
-            <span class="post-title" title="InnoDB记录存储结构">InnoDB记录存储结构</span>
+        <a class="好文转载 " href="/2018/04/17/47/" data-tag="好文转载" data-author>
+            <span class="post-title" title="InnoDB数据页结构">InnoDB数据页结构</span>
             <span class="post-date" title="2018-04-17 00:00:00">2018/04/17</span>
         </a>
         
@@ -1315,13 +1331,13 @@
             <span class="post-date" title="2018-02-26 00:00:00">2018/02/26</span>
         </a>
         
-        <a class="胡说八道 " href="/2018/02/23/34/" data-tag="胡说八道" data-author>
-            <span class="post-title" title="中国的程序员培训是不是有问题？">中国的程序员培训是不是有问题？</span>
+        <a class="胡说八道 " href="/2018/02/23/35/" data-tag="胡说八道" data-author>
+            <span class="post-title" title="日本IT业发展怎么样?">日本IT业发展怎么样?</span>
             <span class="post-date" title="2018-02-23 00:00:00">2018/02/23</span>
         </a>
         
-        <a class="胡说八道 " href="/2018/02/23/35/" data-tag="胡说八道" data-author>
-            <span class="post-title" title="日本IT业发展怎么样?">日本IT业发展怎么样?</span>
+        <a class="胡说八道 " href="/2018/02/23/34/" data-tag="胡说八道" data-author>
+            <span class="post-title" title="中国的程序员培训是不是有问题？">中国的程序员培训是不是有问题？</span>
             <span class="post-date" title="2018-02-23 00:00:00">2018/02/23</span>
         </a>
         
@@ -1360,13 +1376,13 @@
             <span class="post-date" title="2017-12-20 00:00:00">2017/12/20</span>
         </a>
         
-        <a class="网关 " href="/2017/12/14/25/" data-tag="网关" data-author>
-            <span class="post-title" title="谈谈基于 OpenResty 的接口网关设计">谈谈基于 OpenResty 的接口网关设计</span>
+        <a class="网关 " href="/2017/12/14/24/" data-tag="网关" data-author>
+            <span class="post-title" title="深入浅出聊聊企业级API网关">深入浅出聊聊企业级API网关</span>
             <span class="post-date" title="2017-12-14 00:00:00">2017/12/14</span>
         </a>
         
-        <a class="网关 " href="/2017/12/14/24/" data-tag="网关" data-author>
-            <span class="post-title" title="深入浅出聊聊企业级API网关">深入浅出聊聊企业级API网关</span>
+        <a class="网关 " href="/2017/12/14/25/" data-tag="网关" data-author>
+            <span class="post-title" title="谈谈基于 OpenResty 的接口网关设计">谈谈基于 OpenResty 的接口网关设计</span>
             <span class="post-date" title="2017-12-14 00:00:00">2017/12/14</span>
         </a>
         
@@ -1380,16 +1396,6 @@
             <span class="post-date" title="2017-11-10 00:00:00">2017/11/10</span>
         </a>
         
-        <a class="LFCE " href="/2017/11/09/20/" data-tag="LFCE" data-author>
-            <span class="post-title" title="LFCE--Linux基金会认证工程师（LFCE）简介">LFCE--Linux基金会认证工程师（LFCE）简介</span>
-            <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
-        </a>
-        
-        <a class="devops " href="/2017/11/09/18/" data-tag="devops" data-author>
-            <span class="post-title" title="DevOps 门外汉须知">DevOps 门外汉须知</span>
-            <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
-        </a>
-        
         <a class="LFCS " href="/2017/11/09/19/" data-tag="LFCS" data-author>
             <span class="post-title" title="LFCS--linux 基金会认证系统管理员简介">LFCS--linux 基金会认证系统管理员简介</span>
             <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
@@ -1397,6 +1403,16 @@
         
         <a class="知识点 " href="/2017/11/09/21/" data-tag="知识点" data-author>
             <span class="post-title" title="12 个全球认可的 Linux 认证">12 个全球认可的 Linux 认证</span>
+            <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
+        </a>
+        
+        <a class="LFCE " href="/2017/11/09/20/" data-tag="LFCE" data-author>
+            <span class="post-title" title="LFCE--Linux基金会认证工程师（LFCE）简介">LFCE--Linux基金会认证工程师（LFCE）简介</span>
+            <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
+        </a>
+        
+        <a class="devops " href="/2017/11/09/18/" data-tag="devops" data-author>
+            <span class="post-title" title="DevOps 门外汉须知">DevOps 门外汉须知</span>
             <span class="post-date" title="2017-11-09 00:00:00">2017/11/09</span>
         </a>
         
@@ -1410,13 +1426,13 @@
             <span class="post-date" title="2017-08-30 00:00:00">2017/08/30</span>
         </a>
         
-        <a class="知识点 " href="/2017/08/25/14/" data-tag="知识点" data-author>
-            <span class="post-title" title="史上最全的技术知识图谱秘籍">史上最全的技术知识图谱秘籍</span>
+        <a class="知识点 " href="/2017/08/25/15/" data-tag="知识点" data-author>
+            <span class="post-title" title="DNS 解析流程">DNS 解析流程</span>
             <span class="post-date" title="2017-08-25 00:00:00">2017/08/25</span>
         </a>
         
-        <a class="知识点 " href="/2017/08/25/15/" data-tag="知识点" data-author>
-            <span class="post-title" title="DNS 解析流程">DNS 解析流程</span>
+        <a class="知识点 " href="/2017/08/25/14/" data-tag="知识点" data-author>
+            <span class="post-title" title="史上最全的技术知识图谱秘籍">史上最全的技术知识图谱秘籍</span>
             <span class="post-date" title="2017-08-25 00:00:00">2017/08/25</span>
         </a>
         
@@ -1445,13 +1461,13 @@
             <span class="post-date" title="2017-07-14 00:00:00">2017/07/14</span>
         </a>
         
-        <a class="管理 " href="/2017/07/12/7/" data-tag="管理" data-author>
-            <span class="post-title" title="如何提高学习能力？">如何提高学习能力？</span>
+        <a class="管理 " href="/2017/07/12/6/" data-tag="管理" data-author>
+            <span class="post-title" title="我看绩效考核">我看绩效考核</span>
             <span class="post-date" title="2017-07-12 00:00:00">2017/07/12</span>
         </a>
         
-        <a class="管理 " href="/2017/07/12/6/" data-tag="管理" data-author>
-            <span class="post-title" title="我看绩效考核">我看绩效考核</span>
+        <a class="管理 " href="/2017/07/12/7/" data-tag="管理" data-author>
+            <span class="post-title" title="如何提高学习能力？">如何提高学习能力？</span>
             <span class="post-date" title="2017-07-12 00:00:00">2017/07/12</span>
         </a>
         
