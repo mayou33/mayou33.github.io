@@ -2725,7 +2725,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-11-03 16:12:06">2020-10-10 00:00</time>
+        创建时间:<time class="date" title="更新时间: 2020-11-03 17:41:50">2020-10-10 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -2762,8 +2762,7 @@
 <h1 id="unack消息的积压问题"><a href="#unack消息的积压问题" class="headerlink" title="unack消息的积压问题"></a>unack消息的积压问题</h1><p>首先，我们要给大家介绍一下RabbitMQ的<code>prefetch count</code>这个概念。</p>
 <p>大家看过上篇文章之后应该都知道了，对每个 <code>channel</code>（其实对应了一个消费者服务实例，你大体可以这么来认为），RabbitMQ 投递消息的时候，都是会带上本次消息投递的一个<code>delivery tag</code>的，唯一标识一次消息投递。</p>
 <p>然后，我们进行 ack 时，也会带上这个 <code>delivery tag</code>，基于同一个 <code>channel</code> 进行 ack，ack 消息里会带上 <code>delivery tag</code> 让RabbitMQ知道是对哪一次消息投递进行了 ack，此时就可以对那条消息进行删除了。</p>
-<p>大家先来看一张图，帮助大家回忆一下这个<code>delivery tag</code>的概念。</p>
-<p><a href="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119201956874-1938458409.png" target="_blank" rel="noopener"><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119201956874-1938458409.png" alt></a></p>
+<p>大家先来看一张图，帮助大家回忆一下这个<code>delivery tag</code>的概念。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119201956874-1938458409.png" width="100%" height="100%"></p>
 <p>所以大家可以考虑一下，对于每个<code>channel</code>而言（你就认为是针对每个消费者服务实例吧，比如一个仓储服务实例），其实都有一些处于<code>unack</code>状态的消息。</p>
 <p>比如RabbitMQ正在投递一条消息到<code>channel</code>，此时消息肯定是<code>unack</code>状态吧？</p>
 <p>然后仓储服务接收到一条消息以后，要处理这条消息需要耗费时间，此时消息肯定是<code>unack</code>状态吧？</p>
@@ -2772,8 +2771,7 @@
 <p>明显是不能的，如果 RabbitMQ 给你的消费者服务实例推送的消息过多过快，比如都有几千条消息积压在某个消费者服务实例的内存中。</p>
 <p>那么此时这几千条消息都是<code>unack</code>的状态，一直积压着，是不是有可能会导致消费者服务实例的内存溢出？内存消耗过大？甚至内存泄露之类的问题产生？</p>
 <p>所以说，RabbitMQ 是必须要考虑一下消费者服务的处理能力的。</p>
-<p>大家看看下面的图，感受一下如果消费者服务实例的内存中积压消息过多，都是<code>unack</code>的状态，此时会怎么样。</p>
-<p><a href="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202028721-10842096.png" target="_blank" rel="noopener"><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202028721-10842096.png" alt></a></p>
+<p>大家看看下面的图，感受一下如果消费者服务实例的内存中积压消息过多，都是<code>unack</code>的状态，此时会怎么样。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202028721-10842096.png" width="100%" height="100%"></p>
 <h1 id="如何解决unack消息的积压问题"><a href="#如何解决unack消息的积压问题" class="headerlink" title="如何解决unack消息的积压问题"></a>如何解决unack消息的积压问题</h1><p>正是因为这个原因，RabbitMQ基于一个<code>prefetch count</code>来控制这个<code>unack message</code>的数量。</p>
 <p>你可以通过<code>“channel.basicQos(10)”</code>这个方法来设置当前<code>channel</code>的<code>prefetch count</code>。</p>
 <p>举个例子，比如你要是设置为10的话，那么意味着当前这个<code>channel</code>里，<code>unack message</code>的数量不能超过10个，以此来避免消费者服务实例积压unack message过多。</p>
@@ -2781,8 +2779,7 @@
 <p>如果你要简单粗浅的理解的话，也大致可以理解为这个<code>prefetch count</code>就代表了一个消费者服务同时最多可以获取多少个 message 来处理。所以这里也点出了 prefetch 这个单词的意思。</p>
 <p>prefetch 就是预抓取的意思，就意味着你的消费者服务实例预抓取多少条 message 过来处理，但是最多只能同时处理这么多消息。</p>
 <p>如果一个 channel 里的<code>unack message</code>超过了<code>prefetch count</code>指定的数量，此时RabbitMQ就会停止给这个 channel 投递消息了，必须要等待已经投递过去的消息被 ack 了，此时才能继续投递下一个消息。</p>
-<p>老规矩，给大家上一张图，我们一起来看看这个东西是啥意思。</p>
-<p><a href="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202058498-1935372139.png" target="_blank" rel="noopener"><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202058498-1935372139.png" alt></a></p>
+<p>老规矩，给大家上一张图，我们一起来看看这个东西是啥意思。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202058498-1935372139.png" width="100%" height="100%"></p>
 <h1 id="高并发场景下的内存溢出问题"><a href="#高并发场景下的内存溢出问题" class="headerlink" title="高并发场景下的内存溢出问题"></a>高并发场景下的内存溢出问题</h1><p>好！现在大家对 ack 机制底层的另外一个核心机制：prefetch 机制也有了一个深刻的理解了。</p>
 <p>此时，咱们就应该来考虑一个问题了。就是如何来设置这个<code>prefetch count</code>呢？这个东西设置的过大或者过小有什么影响呢？</p>
 <p>其实大家理解了上面的图就很好理解这个问题了。</p>
@@ -2793,8 +2790,7 @@
 <p>那么对一个channel，RabbitMQ就会最多容忍10万个unack状态的消息，在高并发下也就最多可能积压10万条消息在消费者服务的内存里。</p>
 <p>那么此时导致的结果，就是消费者服务直接被击垮了，内存溢出，OOM，服务宕机，然后大量unack的消息会被重新投递给其他的消费者服务，此时其他消费者服务一样的情况，直接宕机，最后造成雪崩效应。</p>
 <p>所有的消费者服务因为扛不住这么大的数据量，全部宕机。</p>
-<p>大家来看看下面的图，自己感受一下现场的氛围。</p>
-<p><a href="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202121988-833235887.png" target="_blank" rel="noopener"><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202121988-833235887.png" alt></a></p>
+<p>大家来看看下面的图，自己感受一下现场的氛围。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202121988-833235887.png" width="100%" height="100%"></p>
 <h1 id="低吞吐量问题"><a href="#低吞吐量问题" class="headerlink" title="低吞吐量问题"></a>低吞吐量问题</h1><p>那么如果反过来呢，我们要是把prefetch count设置的很小会如何呢？</p>
 <p>比如说我们把 prefetch count 设置为1？此时就必然会导致消费者服务的吞吐量极低。因为你即使处理完一条消息，执行ack了也是异步的。</p>
 <p>给你举个例子，假如说你的 <code>prefetch count = 1</code>，RabbitMQ最多投递给你1条消息处于 unack 状态。</p>
@@ -2802,8 +2798,7 @@
 <p>那么100ms之后RabbitMQ感知到消息被ack了，此时才会投递给你下一条消息！</p>
 <p>这就尴尬了，在这100ms期间，你的消费者服务是不是啥都没干啊？</p>
 <p>这不就直接导致了你的消费者服务处理消息的吞吐量可能下降10倍，甚至百倍，千倍，都有这种可能！</p>
-<p>大家看看下面的图，感受一下低吞吐量的现场。</p>
-<p><a href="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202156488-260456800.png" target="_blank" rel="noopener"><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202156488-260456800.png" alt></a></p>
+<p>大家看看下面的图，感受一下低吞吐量的现场。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190119202156488-260456800.png" width="100%" height="100%"></p>
 <h1 id="合理的设置prefetch-count"><a href="#合理的设置prefetch-count" class="headerlink" title="合理的设置prefetch count"></a>合理的设置prefetch count</h1><p>所以鉴于上面两种极端情况，RabbitMQ官方给出的建议是prefetch count一般设置在100~300之间。</p>
 <p>也就是一个消费者服务最多接收到100~300个message来处理，允许处于unack状态。</p>
 <p>这个状态下可以兼顾吞吐量也很高，同时也不容易造成内存溢出的问题。</p>
@@ -2838,7 +2833,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-10-10, 00:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-11-03, 16:12:06</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-03, 17:41:50</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/10/10/如何保证消息中间件全链路数据100%不丢失-第三篇/" title="如何保证消息中间件全链路数据100%不丢失：第三篇">http://zhang-yu.me/2020/10/10/如何保证消息中间件全链路数据100%不丢失-第三篇/</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
