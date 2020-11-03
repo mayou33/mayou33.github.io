@@ -2735,7 +2735,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-11-03 23:00:59">2020-10-29 11:00</time>
+        创建时间:<time class="date" title="更新时间: 2020-11-03 23:15:05">2020-10-29 11:00</time>
         
     </div>
     <div class="article-meta">
@@ -2786,7 +2786,7 @@
 <p><strong>Load Average</strong></p>
 <p>不少人都认为，Load代表正在CPU上运行&amp;等待运行的进程数，即<br><img src="https://ucc.alicdn.com/pic/developer-ecology/96cb14429ca744a4b69c4b49801225dd.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <p>但Linux系统中，这种描述并不完全准确。</p>
-<p>以下为Linux内核源码中Load Average计算方法，可以看出来，因此除了可执行态进程，不可中断睡眠态进程也会被一起纳入计算，即：<br><img src="https://ucc.alicdn.com/pic/developer-ecology/6c209bcb66f41508572a829a3081367.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
+<p>以下为Linux内核源码中Load Average计算方法，可以看出来，因此除了可执行态进程，不可中断睡眠态进程也会被一起纳入计算，即：<br><img src="https://ucc.alicdn.com/pic/developer-ecology/16c209bcb66f41508572a829a3081367.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <pre><code>602staticunsignedlongcount_active_tasks(void)
 603 {
 604structtask_struct*p;
@@ -2814,7 +2814,7 @@
 638 }
 </code></pre><p>在前文 Linux进程状态 中有提到过，不可中断睡眠态的进程(TASK_UNINTERRUTED)一般都在进行I/O等待，比如磁盘、网络或者其他外设等待。由此我们可以看出，Load Average在Linux中体现的是整体系统负载，即CPU负载 + Disk负载 + 网络负载 + 其余外设负载，并不能完全等同于CPU使用率(这种情况只出现在Linux中，其余系统比如Unix，Load还是只代表CPU负载)。</p>
 <p><strong>CPU使用率</strong></p>
-<p>CPU的时间分片一般可分为4大类：用户进程运行时间 - User Time, 系统内核运行时间 - System Time, 空闲时间 - Idle Time, 被抢占时间 - Steal Time。除了Idle Time外，其余时间CPU都处于工作运行状态。<br><img src="https://ucc.alicdn.com/pic/developer-ecology/db4155049419b40cd9755adf475011979.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
+<p>CPU的时间分片一般可分为4大类：用户进程运行时间 - User Time, 系统内核运行时间 - System Time, 空闲时间 - Idle Time, 被抢占时间 - Steal Time。除了Idle Time外，其余时间CPU都处于工作运行状态。<br><img src="https://ucc.alicdn.com/pic/developer-ecology/b4155049419b40cd9755adf475011979.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <p>通常而言，我们泛指的整体CPU使用率为User Time 和 Systime占比之和(例如tsar中CPU util)，即：<br><img src="https://ucc.alicdn.com/pic/developer-ecology/309084761b534400a9cfd95619bad787.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <p>为了便于定位问题，大多数性能统计工具都将这4类时间片进一步细化成了8类，如下为TOP对CPU时间片的分类。<br><img src="https://ucc.alicdn.com/pic/developer-ecology/228ef627fdeb4c59aaa2769c22ded5d1.png" referrerpolicy="no-referrer" width="100%" height="100%"> </p>
 <ul>
@@ -2828,7 +2828,7 @@
 <li>st：虚拟化时被其余VM窃取时间百分比</li>
 </ul>
 <p>这8类分片中，除wa和id外，其余分片CPU都处于工作态。</p>
-<h3 id="二-资源-amp-瓶颈分析"><a href="#二-资源-amp-瓶颈分析" class="headerlink" title="二 资源&amp;瓶颈分析"></a>二 资源&amp;瓶颈分析</h3><p>从上文我们了解到，Load Average和CPU使用率可被细分为不同的子域指标，指向不同的资源瓶颈。总体来说，指标与资源瓶颈的对应关系基本如下图所示。<br><img src="https://ucc.alicdn.com/pic/developer-ecology/7e703e3393c453b95848736cdf7ce65.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
+<h3 id="二-资源-amp-瓶颈分析"><a href="#二-资源-amp-瓶颈分析" class="headerlink" title="二 资源&amp;瓶颈分析"></a>二 资源&amp;瓶颈分析</h3><p>从上文我们了解到，Load Average和CPU使用率可被细分为不同的子域指标，指向不同的资源瓶颈。总体来说，指标与资源瓶颈的对应关系基本如下图所示。<br><img src="https://ucc.alicdn.com/pic/developer-ecology/17e703e3393c453b95848736cdf7ce65.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <h4 id="Load高-amp-CPU高"><a href="#Load高-amp-CPU高" class="headerlink" title="Load高 &amp; CPU高"></a>Load高 &amp; CPU高</h4><p>这是我们最常遇到的一类情况，即load上涨是CPU负载上升导致。根据CPU具体资源分配表现，可分为以下几类：</p>
 <p><strong>CPU sys高</strong></p>
 <p>这种情况CPU主要开销在于系统内核，可进一步查看上下文切换情况。</p>
@@ -2926,7 +2926,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-10-29, 11:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-11-03, 23:00:59</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-03, 23:15:05</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/10/29/CPU飙高如何排查/" title="CPU飙高如何排查">http://zhang-yu.me/2020/10/29/CPU飙高如何排查/</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
