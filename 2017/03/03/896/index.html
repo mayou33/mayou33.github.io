@@ -6,17 +6,22 @@
   <meta name="keywords" content=" hadoop ">
   <meta name="description" content="如何为Hadoop集群选择合适的硬件 | 大雨哥">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https://github.com/yelog/hexo-theme-3-hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="大雨哥">
-<meta property="og:url" content="http://zhang-yu.me/about/index.html">
+<meta name="description" content="来源：【微信公众号 - 石杉的架构笔记】 互联网面试必杀：如何保证消息中间件全链路数据100%不丢失：第一篇    背景引入这篇文章，我们来聊聊在线上生产环境使用消息中间件技术的时候，从前到后的全链路到底如何保证数据不能丢失。 这个问题，在互联网公司面试的时候高频出现，而且也是非常现实的生产环境问题。 如果你的简历中写了自己熟悉MQ技术（RabbitMQ、RocketMQ、Kafka），而且在项目">
+<meta name="keywords" content="中间件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何保证消息中间件全链路数据100%不丢失-第一篇">
+<meta property="og:url" content="http://zhang-yu.me/2020/10/10/如何保证消息中间件全链路数据100%不丢失-第一篇/index.html">
 <meta property="og:site_name" content="大雨哥">
-<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https://github.com/yelog/hexo-theme-3-hexo">
+<meta property="og:description" content="来源：【微信公众号 - 石杉的架构笔记】 互联网面试必杀：如何保证消息中间件全链路数据100%不丢失：第一篇    背景引入这篇文章，我们来聊聊在线上生产环境使用消息中间件技术的时候，从前到后的全链路到底如何保证数据不能丢失。 这个问题，在互联网公司面试的时候高频出现，而且也是非常现实的生产环境问题。 如果你的简历中写了自己熟悉MQ技术（RabbitMQ、RocketMQ、Kafka），而且在项目">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-01-10T07:09:32.535Z">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111212900106-165253661.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111212925797-142776737.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213004493-756910885.png">
+<meta property="og:updated_time" content="2020-11-03T10:15:57.666Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大雨哥">
-<meta name="twitter:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https://github.com/yelog/hexo-theme-3-hexo">
+<meta name="twitter:title" content="如何保证消息中间件全链路数据100%不丢失-第一篇">
+<meta name="twitter:description" content="来源：【微信公众号 - 石杉的架构笔记】 互联网面试必杀：如何保证消息中间件全链路数据100%不丢失：第一篇    背景引入这篇文章，我们来聊聊在线上生产环境使用消息中间件技术的时候，从前到后的全链路到底如何保证数据不能丢失。 这个问题，在互联网公司面试的时候高频出现，而且也是非常现实的生产环境问题。 如果你的简历中写了自己熟悉MQ技术（RabbitMQ、RocketMQ、Kafka），而且在项目">
+<meta name="twitter:image" content="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111212900106-165253661.png">
 
 
 <link rel="icon" href="/img/favicon.ico">
