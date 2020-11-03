@@ -2725,7 +2725,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-11-03 21:46:34">2020-10-10 11:00</time>
+        创建时间:<time class="date" title="更新时间: 2020-11-03 22:00:55">2020-10-10 11:00</time>
         
     </div>
     <div class="article-meta">
@@ -2769,7 +2769,7 @@
 <p>再次提醒一下大家，如果还对手动ack机制不太熟悉的同学，可以回头看一下之前的一篇文章：<a href="http://mp.weixin.qq.com/s?__biz=MzU0OTk3ODQ3Ng==&amp;mid=2247484204&amp;idx=1&amp;sn=6fc43b0620857b653dbef20693d1c6c6&amp;chksm=fba6eb2fccd16239056e4b52dc0895585292b830bfd2652dea81b7360556fe36aceac0951761&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">《扎心！线上服务宕机时，如何保证数据100%不丢失？》</a>。然后这篇文章，我们将继续深入探讨一下ack机制的实现原理。</p>
 <h1 id="ack机制实现原理：delivery-tag"><a href="#ack机制实现原理：delivery-tag" class="headerlink" title="ack机制实现原理：delivery tag"></a>ack机制实现原理：delivery tag</h1><p>如果你写好了一个消费者服务的代码，让他开始从RabbitMQ消费数据，这时这个消费者服务实例就会自己注册到RabbitMQ。</p>
 <p>所以，RabbitMQ其实是知道有哪些消费者服务实例存在的。</p>
-<p>大家看看下面的图，直观的感受一下：<br> <img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213354238-905111691.png" width="100%" height="100%"></p>
+<p>大家看看下面的图，直观的感受一下：<br> <img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213354238-905111691.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <p>接着，RabbitMQ就会通过自己内部的一个“basic.delivery”方法来投递消息到仓储服务里去，让他消费消息。</p>
 <p>投递的时候，会给这次消息的投递带上一个重要的东西，就是“delivery tag”，你可以认为是本次消息投递的一个唯一标识。</p>
 <p>这个所谓的唯一标识，有点类似于一个ID，比如说消息本次投递到一个仓储服务实例的唯一ID。通过这个唯一ID，我们就可以定位一次消息投递。</p>
@@ -2786,12 +2786,12 @@
 </blockquote>
 <blockquote>
 <p>Channel channel = connection.createChannel();</p>
-<p>而且如果大家还有点印象的话，我们在仓储服务里对消息的消费、ack等操作，全部都是基于这个channel来进行的，channel又有点类似于是我们跟RabbitMQ进行通信的这么一个句柄，比如看看下面的代码：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111214453240-695115936.png" width="100%" height="100%"></p>
+<p>而且如果大家还有点印象的话，我们在仓储服务里对消息的消费、ack等操作，全部都是基于这个channel来进行的，channel又有点类似于是我们跟RabbitMQ进行通信的这么一个句柄，比如看看下面的代码：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111214453240-695115936.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <blockquote>
 <p>另外这里提一句：之前写那篇文章讲解手动ack保证数据不丢失的时候，有很多人提出疑问：为什么上面代码里直接是try finally，如果代码有异常，那还是会直接执行finally里的手动ack？其实很简单，自己加上catch就可以了。</p>
 </blockquote>
 <p>好的，咱们继续。你大概可以认为这个channel就是进行数据传输的一个管道吧。对于每个channel而言，一个“delivery tag”就可以唯一的标识一次消息投递，这个delivery tag大致而言就是一个不断增长的数字。</p>
-<p>大家来看看下面的图，相信会很好理解的：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213504848-417638307.png" width="100%" height="100%"></p>
+<p>大家来看看下面的图，相信会很好理解的：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213504848-417638307.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <p>如果采用手动ack机制，实际上仓储服务每次消费了一条消息，处理完毕完成调度发货之后，就会发送一个ack消息给RabbitMQ服务器，这个ack消息是会带上自己本次消息的delivery tag的。</p>
 <p>咱们看看下面的ack代码，是不是带上了一个delivery tag？</p>
 <pre><code>channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
@@ -2799,7 +2799,7 @@
 <p>接下来就可以对那条消息删除，标识为已经处理完毕。</p>
 <p>这里大家必须注意的一点，就是delivery tag仅仅在一个channel内部是唯一标识消息投递的。</p>
 <p>所以说，你ack一条消息的时候，必须是通过接受这条消息的同一个channel来进行。</p>
-<p>大家看看下面的图，直观的感受一下。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213612518-291570713.png" width="100%" height="100%"></p>
+<p>大家看看下面的图，直观的感受一下。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213612518-291570713.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <p>其实这里还有一个很重要的点，就是我们可以设置一个参数，然后就批量的发送ack消息给RabbitMQ，这样可以提升整体的性能和吞吐量。</p>
 <p>比如下面那行代码，把第二个参数设置为true就可以了。</p>
 <pre><code>channel.basicAck(delivery.getEnvelope().getDeliveryTag(), true);
@@ -2814,8 +2814,8 @@
 <p>我们想一想就知道，RabbitMQ之前既然收到了仓储服务实例的注册，因此他们之间必然是建立有某种联系的。</p>
 <p>一旦某个仓储服务实例宕机，那么RabbitMQ就必然会感知到他的宕机，而且对发送给他的还没ack的消息，都发送给其他仓储服务实例。</p>
 <p>所以这个问题以后有机会我们可以深入聊一聊，在这里，大家其实先建立起来这种认识即可。</p>
-<p>我们再回头看看下面的架构图：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213730961-1499375762.png" width="100%" height="100%"></p>
-<h1 id="仓储服务处理失败时的消息重发"><a href="#仓储服务处理失败时的消息重发" class="headerlink" title="仓储服务处理失败时的消息重发"></a>仓储服务处理失败时的消息重发</h1><p>首先，我们来看看下面一段代码：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111214524017-261713897.png" width="100%" height="100%"></p>
+<p>我们再回头看看下面的架构图：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213730961-1499375762.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
+<h1 id="仓储服务处理失败时的消息重发"><a href="#仓储服务处理失败时的消息重发" class="headerlink" title="仓储服务处理失败时的消息重发"></a>仓储服务处理失败时的消息重发</h1><p>首先，我们来看看下面一段代码：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111214524017-261713897.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <p>假如说某个仓储服务实例处理某个消息失败了，此时会进入catch代码块，那么此时我们怎么办呢？难道还是直接ack消息吗？</p>
 <p>当然不是了，你要是还是ack，那会导致消息被删除，但是实际没有完成调度发货。</p>
 <p>这样的话，数据不是还是丢失了吗？因此，合理的方式是使用nack操作。</p>
@@ -2824,7 +2824,7 @@
 <pre><code>channel.basicNack(delivery.getEnvelope().getDeliveryTag(),  true);
 </code></pre><p>注意上面第二个参数是true，意思就是让RabbitMQ把这条消息重新投递给其他的仓储服务实例，因为自己没处理成功。</p>
 <p>你要是设置为false的话，就会导致RabbitMQ知道你处理失败，但是还是删除这条消息，这是不对的。</p>
-<p>同样，我们还是来一张图，大家一起来感受一下：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213911750-654802068.png" width="100%" height="100%"></p>
+<p>同样，我们还是来一张图，大家一起来感受一下：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213911750-654802068.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <h1 id="阶段总结"><a href="#阶段总结" class="headerlink" title="阶段总结"></a>阶段总结</h1><p>这篇文章对之前的ack机制做了进一步的分析，包括底层的delivery tag机制，以及消息处理失败时的消息重发。</p>
 <p>通过ack机制、消息重发等这套机制的落地实现，就可以保证一个消费者服务自身突然宕机、消息处理失败等场景下，都不会丢失数据。</p>
 </blockquote>
@@ -2841,7 +2841,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-10-10, 11:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-11-03, 21:46:34</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-03, 22:00:55</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/10/10/如何保证消息中间件全链路数据不丢失-第二篇 /" title="如何保证消息中间件全链路数据不丢失-第二篇">http://zhang-yu.me/2020/10/10/如何保证消息中间件全链路数据不丢失-第二篇 /</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。

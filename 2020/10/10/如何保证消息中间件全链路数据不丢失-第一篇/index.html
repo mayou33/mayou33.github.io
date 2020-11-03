@@ -2725,7 +2725,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-11-03 21:46:23">2020-10-10 11:00</time>
+        创建时间:<time class="date" title="更新时间: 2020-11-03 22:00:21">2020-10-10 11:00</time>
         
     </div>
     <div class="article-meta">
@@ -2790,17 +2790,17 @@
 <p>那么这条消息不就丢失了么？不会有任何一个消费者处理到这条消息了。</p>
 <p>所以之前我们详细讨论过，通过在消费者服务中调整为手动ack机制，来确保消息一定是已经成功处理完了，才会发送ack通知给MQ集群。</p>
 <p>否则没发送ack之前消费者服务宕机，此时MQ集群会自动感知到，然后重发消息给其他的消费者服务实例。</p>
-<p><a href="http://mp.weixin.qq.com/s?__biz=MzU0OTk3ODQ3Ng==&amp;mid=2247484204&amp;idx=1&amp;sn=6fc43b0620857b653dbef20693d1c6c6&amp;chksm=fba6eb2fccd16239056e4b52dc0895585292b830bfd2652dea81b7360556fe36aceac0951761&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">《扎心！线上服务宕机时，如何保证数据100%不丢失？》</a>这篇文章，详细讨论了这个问题，手动ack机制之下的架构图如下所示：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111212900106-165253661.png" width="100%" height="100%"></p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzU0OTk3ODQ3Ng==&amp;mid=2247484204&amp;idx=1&amp;sn=6fc43b0620857b653dbef20693d1c6c6&amp;chksm=fba6eb2fccd16239056e4b52dc0895585292b830bfd2652dea81b7360556fe36aceac0951761&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">《扎心！线上服务宕机时，如何保证数据100%不丢失？》</a>这篇文章，详细讨论了这个问题，手动ack机制之下的架构图如下所示：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111212900106-165253661.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <p>当时除了这个数据丢失问题之外，还有另外一个问题，就是MQ集群自身如果突然宕机，是不是会导致数据丢失？</p>
 <p>默认情况下是肯定会的，因为queue和message都没采用持久化的方式来投递，所以MQ集群重启会导致部分数据丢失。</p>
 <p>所以<a href="http://mp.weixin.qq.com/s?__biz=MzU0OTk3ODQ3Ng==&amp;mid=2247484257&amp;idx=1&amp;sn=e7704f92a1008ab7a292e2826bd079aa&amp;chksm=fba6eb62ccd1627451d439bbc21e46e6fc1d7bfbe2a431fd887cf974a7bd0d9d482697f0e4fd&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">《消息中间件集群崩溃，如何保证百万生产数据不丢失？》</a>这篇文章，我们分析了如何采用持久化的方式来创建queue，同时采用持久化的方式来投递消息到MQ集群，这样MQ集群会将消息持久化到磁盘上去。</p>
 <p>此时如果消息还没来得及投递给消费者服务，然后MQ集群突然宕机了，数据是不会丢失的，因为MQ集群重启之后会自动从磁盘文件里加载出来没投递出去的消息，然后继续投递给消费者服务。</p>
-<p>同样，该方案沉淀下来的系统架构图，如下所示：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111212925797-142776737.png" width="100%" height="100%"></p>
+<p>同样，该方案沉淀下来的系统架构图，如下所示：<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111212925797-142776737.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <h1 id="数据100-不丢失了吗？"><a href="#数据100-不丢失了吗？" class="headerlink" title="数据100%不丢失了吗？"></a>数据100%不丢失了吗？</h1><p>大家想一想，到目前为止，咱们的架构一定可以保证数据不丢失了吗？</p>
 <p>其实，现在的架构，还是有一个数据可能会丢失的问题。</p>
 <p>那就是上面作为生产者的订单服务把消息投递到MQ集群之后，暂时还驻留在MQ的内存里，还没来得及持久化到磁盘上，同时也还没来得及投递到作为消费者的仓储服务。</p>
 <p>此时要是MQ集群自身突然宕机，咋办呢？</p>
-<p>尴尬了吧，驻留在内存里的数据是一定会丢失的，我们来看看下面的图示。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213004493-756910885.png" width="100%" height="100%"></p>
+<p>尴尬了吧，驻留在内存里的数据是一定会丢失的，我们来看看下面的图示。<br><img src="https://img2018.cnblogs.com/blog/1162587/201901/1162587-20190111213004493-756910885.png" referrerpolicy="no-referrer" width="100%" height="100%"></p>
 <h1 id="按需制定技术方案"><a href="#按需制定技术方案" class="headerlink" title="按需制定技术方案"></a>按需制定技术方案</h1><p>现在，我们需要考虑的技术方案是：订单服务如何保证消息一定已经持久化到磁盘？</p>
 <p>实际上，作为生产者的订单服务把消息投递到MQ集群的过程是很容易丢数据的。</p>
 <p>比如说网络出了点什么故障，数据压根儿没传输过去，或者就是上面说的消息刚刚被MQ接收但是还驻留在内存里，没落地到磁盘上，此时MQ集群宕机就会丢数据。</p>
@@ -2830,7 +2830,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-10-10, 11:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-11-03, 21:46:23</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-03, 22:00:21</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/10/10/如何保证消息中间件全链路数据不丢失-第一篇/" title="如何保证消息中间件全链路数据不丢失-第一篇">http://zhang-yu.me/2020/10/10/如何保证消息中间件全链路数据不丢失-第一篇/</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
