@@ -2725,7 +2725,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-11-03 17:31:05">2020-09-28 11:00</time>
+        创建时间:<time class="date" title="更新时间: 2020-11-03 17:55:31">2020-09-28 11:00</time>
         
     </div>
     <div class="article-meta">
@@ -2736,7 +2736,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#硬件选择"><span class="toc-text">硬件选择</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#———————————–-Paths-————————————-Path-to-directory-where-to-store-the-data-separate-multiple-locations-by-comma-path-data-path-to-data-Path-to-log-files"><span class="toc-text">———————————– Paths ———————————— # # Path to directory where to store the data (separate multiple locations by comma): # path.data: /path/to/data # # Path to log files:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#内部压缩"><span class="toc-text">内部压缩</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#倒排列表-postings-list"><span class="toc-text">倒排列表 - postings list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Frame-Of-Reference"><span class="toc-text">Frame Of Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Roaring-bitmaps-（RBM）"><span class="toc-text">Roaring bitmaps （RBM）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分片策略"><span class="toc-text">分片策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#合理设置分片数"><span class="toc-text">合理设置分片数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调整分片分配器的类型"><span class="toc-text">调整分片分配器的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推迟分片分配"><span class="toc-text">推迟分片分配</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#索引优化"><span class="toc-text">索引优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mapping建模"><span class="toc-text">Mapping建模</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引设置"><span class="toc-text">索引设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查询效率"><span class="toc-text">查询效率</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ES的内存设置"><span class="toc-text">ES的内存设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调整JVM设置"><span class="toc-text">调整JVM设置#</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#硬件选择"><span class="toc-text">硬件选择</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#内部压缩"><span class="toc-text">内部压缩</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#倒排列表-postings-list"><span class="toc-text">倒排列表 - postings list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Frame-Of-Reference"><span class="toc-text">Frame Of Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Roaring-bitmaps-（RBM）"><span class="toc-text">Roaring bitmaps （RBM）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分片策略"><span class="toc-text">分片策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#合理设置分片数"><span class="toc-text">合理设置分片数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调整分片分配器的类型"><span class="toc-text">调整分片分配器的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推迟分片分配"><span class="toc-text">推迟分片分配</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#索引优化"><span class="toc-text">索引优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mapping建模"><span class="toc-text">Mapping建模</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引设置"><span class="toc-text">索引设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查询效率"><span class="toc-text">查询效率</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ES的内存设置"><span class="toc-text">ES的内存设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调整JVM设置"><span class="toc-text">调整JVM设置#</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -2755,8 +2755,11 @@
         <p><a href="https://www.cnblogs.com/jajian/category/1280015.html" target="_blank" rel="noopener">https://www.cnblogs.com/jajian/category/1280015.html</a><br><a href="https://www.cnblogs.com/jajian/p/10465519.html" target="_blank" rel="noopener">https://www.cnblogs.com/jajian/p/10465519.html</a></p>
 <blockquote>
 <h1 id="硬件选择"><a href="#硬件选择" class="headerlink" title="硬件选择"></a>硬件选择</h1><p>Elasticsearch（后文简称 ES）的基础是 Lucene，所有的索引和文档数据是存储在本地的磁盘中，具体的路径可在 ES 的配置文件<code>../config/elasticsearch.yml</code>中配置，如下：</p>
-<h1 id="———————————–-Paths-————————————-Path-to-directory-where-to-store-the-data-separate-multiple-locations-by-comma-path-data-path-to-data-Path-to-log-files"><a href="#———————————–-Paths-————————————-Path-to-directory-where-to-store-the-data-separate-multiple-locations-by-comma-path-data-path-to-data-Path-to-log-files" class="headerlink" title="———————————– Paths ———————————— # # Path to directory where to store the data (separate multiple locations by comma): # path.data: /path/to/data # # Path to log files:"></a>———————————– Paths ———————————— # # Path to directory where to store the data (separate multiple locations by comma): # path.data: /path/to/data # # Path to log files:</h1><pre><code>path.logs: /path/to/logs
-</code></pre><p>磁盘在现代服务器上通常都是瓶颈。Elasticsearch 重度使用磁盘，你的磁盘能处理的吞吐量越大，你的节点就越稳定。这里有一些优化磁盘 I/O 的技巧：</p>
+</blockquote>
+<p><a href="https://www.cnblogs.com/jajian/p/10465519.html" target="_blank" rel="noopener">Elasticsearch 技术分析（七）： Elasticsearch 的性能优化 - JaJian - 博客园</a></p>
+<blockquote>
+<p># ———————————– Paths ———————————— # # Path to directory where to store the data (separate multiple locations by comma): # path.data: /path/to/data # # Path to log files: # path.logs: /path/to/logs   </p>
+<p>磁盘在现代服务器上通常都是瓶颈。Elasticsearch 重度使用磁盘，你的磁盘能处理的吞吐量越大，你的节点就越稳定。这里有一些优化磁盘 I/O 的技巧：</p>
 <ul>
 <li>使用 SSD。就像其他地方提过的， 他们比机械磁盘优秀多了。</li>
 <li>使用 RAID 0。条带化 RAID 会提高磁盘 I/O，代价显然就是当一块硬盘故障时整个就故障了。不要使用镜像或者奇偶校验 RAID 因为副本已经提供了这个功能。</li>
@@ -2770,7 +2773,8 @@
 <p>新的文档首先被添加到内存索引缓存中，然后写入到一个基于磁盘的段。在每个 segment 内文档都会有一个 0 到文档个数之间的标识符（最高值 2^31 -1），称之为 <strong>doc ID</strong>。这在概念上类似于数组中的索引：它本身不做存储，但足以识别每个item 数据。</p>
 <p>Segments 按顺序存储有关文档的数据，在一个Segments 中 doc ID 是 文档的索引。因此，segment 中的第一个文档的 doc ID 为0，第二个为1，等等。直到最后一个文档，其 doc ID 等于 segment 中文档的总数减1。</p>
 <p>那么这些 doc ID 有什么用呢？倒排索引需要将 terms 映射到包含该单词 （term） 的文档列表，这样的映射列表我们称之为：<strong>倒排列表（postings list）</strong>。具体某一条映射数据称之为：<strong>倒排索引项（Posting）</strong>。</p>
-<p>举个例子，文档和词条之间的关系如下图所示，右边的关系表即为倒排列表：<br><img src="https://img2018.cnblogs.com/blog/1162587/201903/1162587-20190311154646364-1594632349.png" width="100%" height="100%"></p>
+<p>举个例子，文档和词条之间的关系如下图所示，右边的关系表即为倒排列表：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1162587/201903/1162587-20190311154646364-1594632349.png" width="100%" height="100%"></p>
 <blockquote>
 <p><strong>倒排列表</strong> 用来记录有哪些文档包含了某个单词（Term）。一般在文档集合里会有很多文档包含某个单词，每个文档会记录文档编号（doc ID），单词在这个文档中出现的次数（TF）及单词在文档中哪些位置出现过等信息，这样与一个文档相关的信息被称做 <strong>倒排索引项（Posting）</strong>，包含这个单词的一系列倒排索引项形成了列表结构，这就是某个单词对应的 <strong>倒排列表</strong> 。</p>
 </blockquote>
@@ -2996,7 +3000,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-09-28, 11:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-11-03, 17:31:05</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-03, 17:55:31</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/09/28/Elasticsearch性能优化/" title="Elasticsearch性能优化">http://zhang-yu.me/2020/09/28/Elasticsearch性能优化/</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
