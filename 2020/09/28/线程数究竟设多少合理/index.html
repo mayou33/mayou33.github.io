@@ -2725,7 +2725,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-11-03 17:27:49">2020-09-28 11:00</time>
+        创建时间:<time class="date" title="更新时间: 2020-11-03 20:48:06">2020-09-28 11:00</time>
         
     </div>
     <div class="article-meta">
@@ -2773,7 +2773,7 @@
 <p>该代码一直不停的占用CPU资源进行计算，会使CPU占用率达到100%</p>
 <p>3）通常来说，Worker线程一般不会一直占用CPU进行计算，此时即使CPU是单核，增加Worker线程也能够提高并发，因为这个线程在休息的时候，其他的线程可以继续工作</p>
 <h2 id="三、常见服务线程模型"><a href="#三、常见服务线程模型" class="headerlink" title="三、常见服务线程模型"></a><strong>三、常见服务线程模型</strong></h2><p>了解常见的服务线程模型，有助于理解服务并发的原理，一般来说互联网常见的服务线程模型有如下两种</p>
-<p><strong>IO**</strong>线程与工作线程通过队列解耦类模型**<br><img src="http://mmbiz.qpic.cn/mmbiz/YrezxckhYOxxdwicwqAoloPIfAMycKW160iciaY0RV9GHHLbOoMyEhj4kAicViaSMZQYxybjzFFIQfSmbRd3oTpQuIA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" width="100%" height="100%"><br>如上图，大部分Web-Server与服务框架都是使用这样的一种“IO线程与Worker线程通过队列解耦”类线程模型：</p>
+<p><strong>IO**</strong>线程与工作线程通过队列解耦类模型**<br><img src="https://img2018.cnblogs.com/blog/1162587/201905/1162587-20190514151730305-485918824.png" width="100%" height="100%"><br>如上图，大部分Web-Server与服务框架都是使用这样的一种“IO线程与Worker线程通过队列解耦”类线程模型：</p>
 <p>1）<strong>有少数几个IO线程</strong>监听上游发过来的请求，并进行收发包（生产者）</p>
 <p>2）<strong>有一个或者多个任务队列</strong>，作为IO线程与Worker线程异步解耦的数据传输通道（临界资源）</p>
 <p>3）<strong>有多个工作线程</strong>执行正真的任务（消费者）</p>
@@ -2784,7 +2784,7 @@
 <p>2）程序员更习惯写同步代码，callback的方式对代码的可读性有冲击，对程序员的要求也更高</p>
 <p>3）框架更复杂，往往需要server端收发组件，server端队列，client端收发组件，client端队列，上下文管理组件，有限状态机组件，超时管理组件的支持</p>
 <p>however，这个模型不是今天讨论的重点。</p>
-<h2 id="四、工作线程的工作模式"><a href="#四、工作线程的工作模式" class="headerlink" title="四、工作线程的工作模式"></a><strong>四、工作线程的工作模式</strong></h2><p>了解工作线程的工作模式，对量化分析线程数的设置非常有帮助：<br> <img src="http://mmbiz.qpic.cn/mmbiz/YrezxckhYOxxdwicwqAoloPIfAMycKW16qTYL2nyXku8PkxicFEuJSQCFmwZtZOoOeTicjx4lBdp2TjvRItJInpNQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" width="100%" height="100%"><br>上图是一个典型的工作线程的处理过程，从开始处理start到结束处理end，该任务的处理共有7个步骤：</p>
+<h2 id="四、工作线程的工作模式"><a href="#四、工作线程的工作模式" class="headerlink" title="四、工作线程的工作模式"></a><strong>四、工作线程的工作模式</strong></h2><p>了解工作线程的工作模式，对量化分析线程数的设置非常有帮助：<br> <img src="https://img2018.cnblogs.com/blog/1162587/201905/1162587-20190514151718013-879900903.png" width="100%" height="100%"><br>上图是一个典型的工作线程的处理过程，从开始处理start到结束处理end，该任务的处理共有7个步骤：</p>
 <p>1）从工作队列里拿出任务，进行一些<strong>本地</strong>初始化计算，例如http协议分析、参数解析、参数校验等</p>
 <p>2）<strong>访问cache</strong>拿一些数据</p>
 <p>3）拿到cache里的数据后，再进行一些<strong>本地</strong>计算，这些计算和业务逻辑相关</p>
@@ -2824,7 +2824,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-09-28, 11:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-11-03, 17:27:49</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-03, 20:48:06</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/09/28/线程数究竟设多少合理/" title="线程数究竟设多少合理">http://zhang-yu.me/2020/09/28/线程数究竟设多少合理/</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
