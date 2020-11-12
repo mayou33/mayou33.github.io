@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhang-yu.me/2020/11/12/%E5%9B%BE%E8%A7%A3Kubernetes-Serverless/</loc>
+    
+    <lastmod>2020-11-12T15:17:11.457Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhang-yu.me/2020/11/12/%E5%9B%BE%E8%A7%A3Kubernetes-Ingress/</loc>
+    
+    <lastmod>2020-11-12T15:16:54.878Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhang-yu.me/2020/11/12/%E5%9B%BE%E8%A7%A3Kubernetes-Service/</loc>
+    
+    <lastmod>2020-11-12T15:16:37.644Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhang-yu.me/2020/11/12/%E5%9B%BE%E8%A7%A3Istio/</loc>
+    
+    <lastmod>2020-11-12T15:16:21.570Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhang-yu.me/2020/10/29/CPU%E9%A3%99%E9%AB%98%E5%A6%82%E4%BD%95%E6%8E%92%E6%9F%A5/</loc>
     
     <lastmod>2020-11-03T15:15:05.811Z</lastmod>
