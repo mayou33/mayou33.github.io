@@ -899,11 +899,6 @@
     
     <nav id="title-list-nav">
         
-        <a class="k8s " href="/2020/11/12/图解Istio/" data-tag="k8s" data-author>
-            <span class="post-title" title="图解Istio">图解Istio</span>
-            <span class="post-date" title="2020-11-12 11:00:00">2020/11/12</span>
-        </a>
-        
         <a class="k8s " href="/2020/11/12/图解Kubernetes-Service/" data-tag="k8s" data-author>
             <span class="post-title" title="图解Kubernetes-Service">图解Kubernetes-Service</span>
             <span class="post-date" title="2020-11-12 11:00:00">2020/11/12</span>
@@ -916,6 +911,11 @@
         
         <a class="k8s " href="/2020/11/12/图解Kubernetes-Serverless/" data-tag="k8s" data-author>
             <span class="post-title" title="图解Kubernetes-Serverless">图解Kubernetes-Serverless</span>
+            <span class="post-date" title="2020-11-12 11:00:00">2020/11/12</span>
+        </a>
+        
+        <a class="k8s " href="/2020/11/12/图解Kubernetes-Istio/" data-tag="k8s" data-author>
+            <span class="post-title" title="图解Kubernetes-Istio">图解Kubernetes-Istio</span>
             <span class="post-date" title="2020-11-12 11:00:00">2020/11/12</span>
         </a>
         
@@ -2755,7 +2755,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2020-11-12 23:16:54">2020-11-12 11:00</time>
+        创建时间:<time class="date" title="更新时间: 2020-11-12 23:34:23">2020-11-12 11:00</time>
         
     </div>
     <div class="article-meta">
@@ -2788,7 +2788,7 @@
 <p>我们可以使用 Ingress 来使内部服务暴露到集群外部去，它为你节省了宝贵的静态 IP，因为你不需要声明多个 LoadBalancer 服务了，此次，它还可以进行更多的额外配置。下面我们通过一个简单的示例来对 Ingress 进行一些说明吧。</p>
 <h2 id="简单-HTTP-server"><a href="#简单-HTTP-server" class="headerlink" title="简单 HTTP server"></a>简单 HTTP server</h2><p>首先，我们先回到容器、Kubernetes 之前的时代。</p>
 <p>之前我们更多会使用一个（Nginx）HTTP server 来托管我们的服务，它可以通过 HTTP 协议接收到一个特定文件路径的请求，然后在文件系统中检查这个文件路径，如果存在则就返回即可。</p>
-<p><meta name="referrer" content="never"><br><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&amp;url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtBmsVT6jlW52Uqnb7wDPI6q2HTkwVCGaRPC6xDxI10lnnwvh9Omt5icgwmWXT89kTDWjE334U0icLQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&amp;url=https://mmbiz.qpic.cn/mmbiz_png/z9BgVMEm7YtBmsVT6jlW52Uqnb7wDPI6q2HTkwVCGaRPC6xDxI10lnnwvh9Omt5icgwmWXT89kTDWjE334U0icLQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
 <p>例如，在 Nginx 中，我们可以通过下面的配置来实现这个功能。</p>
 <p> location /folder {<br>  root /var/www/;<br> index index.html;<br>}  </p>
 <p>除了上面提到的功能之外，我们可以当 HTTP server 接收到请求后，将该请求重定向到另一个服务器（意味着它作为代理）去，然后将该服务器的响应重定向到客户端去。对于客户端来说，什么都没有改变，接收到的结果仍然还是请求的文件（如果存在的话）。</p>
@@ -2901,7 +2901,7 @@
     
     <p><span class="copy-title">本文作者:</span><a title="大雨哥">大雨哥</a></p>
     <p><span class="copy-title">发布时间:</span>2020-11-12, 11:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-11-12, 23:16:54</p>
+    <p><span class="copy-title">最后更新:</span>2020-11-12, 23:34:23</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/11/12/图解Kubernetes-Ingress/" title="图解Kubernetes-Ingress">http://zhang-yu.me/2020/11/12/图解Kubernetes-Ingress/</a>
     <p>
         <span class="copy-title">许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"知识共享-保持署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
