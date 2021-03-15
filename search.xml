@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>nginx-knowledge-graph</title>
+    <title>nginx核心知识100讲知识图谱</title>
     <url>/2021/03/15/nginx-knowledge-graph/</url>
     <content><![CDATA[<p>nginx核心知识100讲知识图谱</p>
 <p><img src="https://img-blog.csdnimg.cn/20190116152033544.jpg"></p>
 ]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
   </entry>
 </search>
