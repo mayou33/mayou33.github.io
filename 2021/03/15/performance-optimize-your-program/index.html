@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>性能之癫-优化你的程序 | 大雨哥</title>
+  <meta name="keywords" content=" 性能 ">
+  <meta name="description" content="性能之癫-优化你的程序 | 大雨哥">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhang-yu.me/about/index.html">
+<meta property="og:site_name" content="大雨哥">
+<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
+<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="article:author" content="zhangyu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="大雨哥" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>zhangyu</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/mayou33"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(2)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="优化">
+                        
+                        优化
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="2">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="https://blog.huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="https://canon88.github.io/">网络安全canon</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux学习</a></li>
+            
+            <li><a target="_blank" href="https://www.makelinux.net/reference/">linux技术参考</a></li>
+            
+            <li><a target="_blank" href="https://coolshell.cn">酷壳CoolShell</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Systems-Performance</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>性能</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 nginx "
+           href="/2021/03/15/nginx-knowledge-graph/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx核心知识100讲知识图谱">nginx核心知识100讲知识图谱</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2021/03/15/performance-optimize-your-program/"
+           data-tag="性能"
+           data-author="" >
+            <span class="post-title" title="性能之癫-优化你的程序">性能之癫-优化你的程序</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-performance-optimize-your-program" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">性能之癫-优化你的程序</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="优化">优化</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color3">性能</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2021-03-15 23:31:40'>2021-03-15 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28107929/article/details/108427945">性能优化——性能之巅_不死奇迹的博客-CSDN博客</a></p>
+<blockquote>
+<p>原创 码砖杂役 2019-08-16 20:36:41<br>性能之巅-优化你的程序<br>​<img src="https://img-blog.csdnimg.cn/20200906093653393.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>outline：关注&amp;指标&amp;度量，基础理论知识，工具&amp;方法，最佳实践，参考资料<br><img src="https://img-blog.csdnimg.cn/20200906093737257.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>性能优化关注：CPU、内存、磁盘IO、网络IO等四个方面。<br><img src="https://img-blog.csdnimg.cn/20200906093958459.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>性能指标：吞吐率、响应时间、QPS/IOPS、TP99、资源使用率是我们经常关注的指标。<br><img src="https://img-blog.csdnimg.cn/20200906094045945.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>时间度量：从cpu cycle到网络IO，自上到下，时间量级越大。<br><img src="https://img-blog.csdnimg.cn/20200906094117137.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>监控、分析、优化，三部曲，以终为始，循环往复。<br><img src="https://img-blog.csdnimg.cn/20200906094141925.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>优化性能，需要一些系统编程知识。<br><img src="https://img-blog.csdnimg.cn/20200906094238439.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>提升处理能力、减少计算量是优化的2个根本方向。<br><img src="https://img-blog.csdnimg.cn/20200906094309434.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>优化大师格雷格画的图，吊炸天，你应该很熟悉，gregg亲手实现了一些工具。<br><img src="https://img-blog.csdnimg.cn/20200906094341812.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>借助工具定位性能瓶颈。gprof2dot.py可以处理多种采样输出数据</p>
+<p>建议使用perf等非侵入式的profiling工具。<br><img src="https://img-blog.csdnimg.cn/20200906094406573.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>perf不仅仅可以定位cpu瓶颈，还可以查看很多方面，比如缺页，分支预测失败，上下文切换等。<br><img src="https://img-blog.csdnimg.cn/20200906094522750.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>IO瓶颈，你应该知道的知识。<br><img src="https://img-blog.csdnimg.cn/20200906094600545.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>有关锁的知识，你应该知道的。<br><img src="https://img-blog.csdnimg.cn/20200906094624185.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>多线程的学问很大<br><img src="https://img-blog.csdnimg.cn/20200906094658391.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>内存管理的方方面面<br><img src="https://img-blog.csdnimg.cn/20200906094724130.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>最佳实践，没有足够理由，你不应该违背。<br><img src="https://img-blog.csdnimg.cn/20200906094743624.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>你应该懂得的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200906094850672.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>关于排序，你应该知道的。<br><img src="https://img-blog.csdnimg.cn/20200906094917988.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>这些资料不错，你值得拥有。</p>
+<p>如果对你有帮助，请帮忙转发，让更多朋友收益。</p>
+<p>一般性原则<br>依据数据而不是凭空猜测<br>忌过早优化<br>忌过度优化<br>深入理解业务<br>性能优化是持久战<br>选择合适的衡量指标、测试用例、测试环境<br>性能优化的层次<br>需求阶段<br>设计阶段<br>实现阶段<br>一般性方法<br>缓存<br>并发<br>惰性<br>批量，合并<br>更高效的实现<br>缩小解空间<br>性能优化与代码质量<br>总结<br>依据数据而不是凭空猜测</p>
+<p>这是性能优化的第一原则，当我们怀疑性能有问题的时候，应该通过测试、日志、profillig来分析出哪里有问题，有的放矢，而不是凭感觉、撞运气。一个系统有了性能问题，瓶颈有可能是CPU，有可能是内存，有可能是IO（磁盘IO，网络IO），大方向的定位可以使用top以及stat系列来定位（vmstat，iostat，netstat…），针对单个进程，可以使用pidstat来分析。</p>
+<p>在本文中，主要讨论的是CPU相关的性能问题。按照80/20定律，绝大多数的时间都耗费在少量的代码片段里面，找出这些代码唯一可靠的办法就是profile，我所知的编程语言，都有相关的profile工具，熟练使用这些profile工具是性能优化的第一步。</p>
+<p>忌过早优化</p>
+<p>The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming.<br>我并不十分清楚Donald Knuth说出这句名言的上下文环境，但我自己是十分认同这个观念的。在我的工作环境（以及典型的互联网应用开发）与编程模式下，追求的是快速的迭代与试错，过早的优化往往是无用功。而且，过早的优化很容易拍脑袋，优化的点往往不是真正的性能瓶颈。</p>
+<p>忌过度优化</p>
+<p>As performance is part of the specification of a program – a program that is unusably slow is not fit for purpose<br>性能优化的目标是追求合适的性价比。</p>
+<p>在不同的阶段，我们对系统的性能会有一定的要求，比如吞吐量要达到多少多少。如果达不到这个指标，就需要去优化。如果能满足预期，那么就无需花费时间精力去优化，比如只有几十个人使用的内部系统，就不用按照十万在线的目标去优化。</p>
+<p>而且，后面也会提到，一些优化方法是“有损”的，可能会对代码的可读性、可维护性有副作用。这个时候，就更不能过度优化。</p>
+<p>深入理解业务</p>
+<p>代码是服务于业务的，也许是服务于最终用户，也许是服务于其他程序员。不了解业务，很难理解系统的流程，很难找出系统设计的不足之处。后面还会提及对业务理解的重要性。</p>
+<p>性能优化是持久战</p>
+<p>当核心业务方向明确之后，就应该开始关注性能问题，当项目上线之后，更应该持续的进行性能检测与优化。</p>
+<p>现在的互联网产品，不再是一锤子买卖，在上线之后还需要持续的开发，用户的涌入也会带来性能问题。因此需要自动化的检测性能问题，保持稳定的测试环境，持续的发现并解决性能问题，而不是被动地等到用户的投诉。</p>
+<p>选择合适的衡量指标、测试用例、测试环境</p>
+<p>正因为性能优化是一个长期的行为，所以需要固定衡量指标、测试用例、测试环境，这样才能客观反映性能的实际情况，也能展现出优化的效果。</p>
+<p>衡量性能有很多指标，比如系统响应时间、系统吞吐量、系统并发量。不同的系统核心指标是不一样的，首先要明确本系统的核心性能诉求，固定测试用例；其次也要兼顾其他指标，不能顾此失彼。</p>
+<p>测试环境也很重要，有一次突然发现我们的QPS高了许多，但是程序压根儿没优化，查了半天，才发现是换了一个更牛逼的物理机做测试服务器。</p>
+</blockquote>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-2021 zhangyu
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

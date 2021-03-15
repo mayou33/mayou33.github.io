@@ -18,8 +18,8 @@
   
   <entry>
     <title>nginx核心知识100讲知识图谱</title>
-    <link href="http://zhang-yu.me/2021/03/15/nginx_knowledge_graph/"/>
-    <id>http://zhang-yu.me/2021/03/15/nginx_knowledge_graph/</id>
+    <link href="http://zhang-yu.me/2021/03/15/nginx-knowledge-graph/"/>
+    <id>http://zhang-yu.me/2021/03/15/nginx-knowledge-graph/</id>
     <published>2021-03-14T16:00:00.000Z</published>
     <updated>2021-03-15T15:07:57.974Z</updated>
     
@@ -39,6 +39,32 @@
     
     
     <category term="nginx" scheme="http://zhang-yu.me/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>性能之癫-优化你的程序</title>
+    <link href="http://zhang-yu.me/2021/03/15/performance-optimize-your-program/"/>
+    <id>http://zhang-yu.me/2021/03/15/performance-optimize-your-program/</id>
+    <published>2021-03-14T16:00:00.000Z</published>
+    <updated>2021-03-15T15:31:40.508Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/qq_28107929/article/details/108427945">性能优化——性能之巅_不死奇迹的博客-CSDN博客</a></p><blockquote><p>原创 码砖杂役 2019-08-16 20:36:41<br>性能之巅-优化你的程序<br>​<img src="https://img-blog.csdnimg.cn/20200906093653393.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>outline：关注&amp;指标&amp;度量，基础理论知识，工具&amp;方法，最佳实践，参考资料<br><img src="https://img-blog.csdnimg.cn/20200906093737257.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>性能优化关注：CPU、内存、磁盘IO、网络IO等四个方面。<br><img src="https://img-blog.csdnimg.cn/20200906093958459.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>性能指标：吞吐率、响应时间、QPS/IOPS、TP99、资源使用率是我们经常关注的指标。<br><img src="https://img-blog.csdnimg.cn/20200906094045945.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>时间度量：从cpu cycle到网络IO，自上到下，时间量级越大。<br><img src="https://img-blog.csdnimg.cn/20200906094117137.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>监控、分析、优化，三部曲，以终为始，循环往复。<br><img src="https://img-blog.csdnimg.cn/20200906094141925.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>优化性能，需要一些系统编程知识。<br><img src="https://img-blog.csdnimg.cn/20200906094238439.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>提升处理能力、减少计算量是优化的2个根本方向。<br><img src="https://img-blog.csdnimg.cn/20200906094309434.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>优化大师格雷格画的图，吊炸天，你应该很熟悉，gregg亲手实现了一些工具。<br><img src="https://img-blog.csdnimg.cn/20200906094341812.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>借助工具定位性能瓶颈。gprof2dot.py可以处理多种采样输出数据</p><p>建议使用perf等非侵入式的profiling工具。<br><img src="https://img-blog.csdnimg.cn/20200906094406573.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>perf不仅仅可以定位cpu瓶颈，还可以查看很多方面，比如缺页，分支预测失败，上下文切换等。<br><img src="https://img-blog.csdnimg.cn/20200906094522750.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>IO瓶颈，你应该知道的知识。<br><img src="https://img-blog.csdnimg.cn/20200906094600545.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>有关锁的知识，你应该知道的。<br><img src="https://img-blog.csdnimg.cn/20200906094624185.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>多线程的学问很大<br><img src="https://img-blog.csdnimg.cn/20200906094658391.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>内存管理的方方面面<br><img src="https://img-blog.csdnimg.cn/20200906094724130.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>最佳实践，没有足够理由，你不应该违背。<br><img src="https://img-blog.csdnimg.cn/20200906094743624.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>你应该懂得的。</p><p><img src="https://img-blog.csdnimg.cn/20200906094850672.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>关于排序，你应该知道的。<br><img src="https://img-blog.csdnimg.cn/20200906094917988.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>这些资料不错，你值得拥有。</p><p>如果对你有帮助，请帮忙转发，让更多朋友收益。</p><p>一般性原则<br>依据数据而不是凭空猜测<br>忌过早优化<br>忌过度优化<br>深入理解业务<br>性能优化是持久战<br>选择合适的衡量指标、测试用例、测试环境<br>性能优化的层次<br>需求阶段<br>设计阶段<br>实现阶段<br>一般性方法<br>缓存<br>并发<br>惰性<br>批量，合并<br>更高效的实现<br>缩小解空间<br>性能优化与代码质量<br>总结<br>依据数据而不是凭空猜测</p><p>这是性能优化的第一原则，当我们怀疑性能有问题的时候，应该通过测试、日志、profillig来分析出哪里有问题，有的放矢，而不是凭感觉、撞运气。一个系统有了性能问题，瓶颈有可能是CPU，有可能是内存，有可能是IO（磁盘IO，网络IO），大方向的定位可以使用top以及stat系列来定位（vmstat，iostat，netstat…），针对单个进程，可以使用pidstat来分析。</p><p>在本文中，主要讨论的是CPU相关的性能问题。按照80/20定律，绝大多数的时间都耗费在少量的代码片段里面，找出这些代码唯一可靠的办法就是profile，我所知的编程语言，都有相关的profile工具，熟练使用这些profile工具是性能优化的第一步。</p><p>忌过早优化</p><p>The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming.<br>我并不十分清楚Donald Knuth说出这句名言的上下文环境，但我自己是十分认同这个观念的。在我的工作环境（以及典型的互联网应用开发）与编程模式下，追求的是快速的迭代与试错，过早的优化往往是无用功。而且，过早的优化很容易拍脑袋，优化的点往往不是真正的性能瓶颈。</p><p>忌过度优化</p><p>As performance is part of the specification of a program – a program that is unusably slow is not fit for purpose<br>性能优化的目标是追求合适的性价比。</p><p>在不同的阶段，我们对系统的性能会有一定的要求，比如吞吐量要达到多少多少。如果达不到这个指标，就需要去优化。如果能满足预期，那么就无需花费时间精力去优化，比如只有几十个人使用的内部系统，就不用按照十万在线的目标去优化。</p><p>而且，后面也会提到，一些优化方法是“有损”的，可能会对代码的可读性、可维护性有副作用。这个时候，就更不能过度优化。</p><p>深入理解业务</p><p>代码是服务于业务的，也许是服务于最终用户，也许是服务于其他程序员。不了解业务，很难理解系统的流程，很难找出系统设计的不足之处。后面还会提及对业务理解的重要性。</p><p>性能优化是持久战</p><p>当核心业务方向明确之后，就应该开始关注性能问题，当项目上线之后，更应该持续的进行性能检测与优化。</p><p>现在的互联网产品，不再是一锤子买卖，在上线之后还需要持续的开发，用户的涌入也会带来性能问题。因此需要自动化的检测性能问题，保持稳定的测试环境，持续的发现并解决性能问题，而不是被动地等到用户的投诉。</p><p>选择合适的衡量指标、测试用例、测试环境</p><p>正因为性能优化是一个长期的行为，所以需要固定衡量指标、测试用例、测试环境，这样才能客观反映性能的实际情况，也能展现出优化的效果。</p><p>衡量性能有很多指标，比如系统响应时间、系统吞吐量、系统并发量。不同的系统核心指标是不一样的，首先要明确本系统的核心性能诉求，固定测试用例；其次也要兼顾其他指标，不能顾此失彼。</p><p>测试环境也很重要，有一次突然发现我们的QPS高了许多，但是程序压根儿没优化，查了半天，才发现是换了一个更牛逼的物理机做测试服务器。</p></blockquote>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/qq_28107929/article/details/108427945&quot;&gt;性能优化——性能之巅_不死奇迹的博客-CSDN博客&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原创 码砖杂役 2019-08-1</summary>
+      
+    
+    
+    
+    <category term="优化" scheme="http://zhang-yu.me/categories/%E4%BC%98%E5%8C%96/"/>
+    
+    
+    <category term="性能" scheme="http://zhang-yu.me/tags/%E6%80%A7%E8%83%BD/"/>
     
   </entry>
   
