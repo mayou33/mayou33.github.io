@@ -6,7 +6,7 @@
   <link href="http://zhang-yu.me/atom.xml" rel="self"/>
   
   <link href="http://zhang-yu.me/"/>
-  <updated>2021-03-15T14:03:45.941Z</updated>
+  <updated>2021-03-15T14:32:41.725Z</updated>
   <id>http://zhang-yu.me/</id>
   
   <author>
@@ -17,18 +17,19 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>nginx核心知识100讲知识图谱</title>
+    <title>nginx-knowledge-graph</title>
     <link href="http://zhang-yu.me/2021/03/15/nginx-knowledge-graph/"/>
     <id>http://zhang-yu.me/2021/03/15/nginx-knowledge-graph/</id>
     <published>2021-03-14T16:00:00.000Z</published>
-    <updated>2021-03-15T14:03:45.941Z</updated>
+    <updated>2021-03-15T14:32:41.725Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="https://img-blog.csdnimg.cn/20190116152033544.jpg"></p>]]></content>
+    <content type="html"><![CDATA[<p>nginx核心知识100讲知识图谱</p><p><img src="https://img-blog.csdnimg.cn/20190116152033544.jpg"></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20190116152033544.jpg&quot;&gt;&lt;/p&gt;
+    <summary type="html">&lt;p&gt;nginx核心知识100讲知识图谱&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20190116152033544.jpg&quot;&gt;&lt;/p&gt;
 </summary>
       
     
