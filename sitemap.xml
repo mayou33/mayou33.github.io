@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://zhang-yu.me/2021/03/15/nginx%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/</loc>
+    
+    <lastmod>2021-03-15</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhang-yu.me/about/index.html</loc>
+    
+    <lastmod>2021-03-15</lastmod>
+    
+  </url>
+  
+
+  <url>
+    <loc>http://zhang-yu.me/</loc>
+    <lastmod>2021-03-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  
+
+  
+</urlset>
