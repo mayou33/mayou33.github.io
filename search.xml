@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Flannel-Calico怎么选择</title>
+    <url>/2021/03/24/Flannel-Calico/</url>
+    <content><![CDATA[<p>网络插件Flannel-Calico怎么选择</p>
+<h3 id="Kubernetes中常见的网络插件有哪些？"><a href="#Kubernetes中常见的网络插件有哪些？" class="headerlink" title="Kubernetes中常见的网络插件有哪些？"></a>Kubernetes中常见的网络插件有哪些？</h3><p>1.flannel：能提供ip地址，但不支持网络策略</p>
+<p>2.calico：既提供ip地址，又支持网络策略</p>
+<p>3.canal：flannel和calico结合，通过flannel提供ip地址，calico提供网络策略</p>
+<h3 id="什么叫做网络策略？"><a href="#什么叫做网络策略？" class="headerlink" title="什么叫做网络策略？"></a>什么叫做网络策略？</h3><p>网络策略：可以达到多租户网络隔离，可以控制入网和出网流量，入网和出网ip访问的一种策略</p>
+<h3 id="各种CNI网络方案的差异对比"><a href="#各种CNI网络方案的差异对比" class="headerlink" title="各种CNI网络方案的差异对比"></a>各种CNI网络方案的差异对比</h3><p>参考<br><a href="https://helpcdn.aliyun.com/document_detail/97621.html">https://helpcdn.aliyun.com/document_detail/97621.html</a></p>
+<h3 id="flannel和calico网络性能分析"><a href="#flannel和calico网络性能分析" class="headerlink" title="flannel和calico网络性能分析"></a>flannel和calico网络性能分析</h3><p>官方指标如下</p>
+<p>flannel host-gw = flannel  vxlan-directrouting = calico bgp&gt; calico ipip &gt; flannel vxlan-vxlan&gt;flannel-udp</p>
+<p>官方推荐使用的网络方案：<br>所有节点在同一个网段推荐使用calico的bgp模式和flannel的host-gw模式</p>
+<h3 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h3><p>1.如果需要多集群的跨网络分段的网络，选择Calico</p>
+<p>2.如果需要管理网络策略，做网络隔离等，选择Calico</p>
+<p>3.大部分公司生产环境业务不复杂的，开发测试环境就几台机器的，不存在多数据中心的。</p>
+<p>选择用Flannel 就行了。</p>
+<pre><code> 部署在公有云上，封装 backend 选择vxlan-directrouting。
+ 部署在私有云上，封装 backend 选择host-gw。</code></pre>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>Kubernetes集群网络规划</p>
+<p><a href="https://helpcdn.aliyun.com/document_detail/86500.html">https://helpcdn.aliyun.com/document_detail/86500.html</a></p>
+<p>使用网络策略（Network Policy）</p>
+<p><a href="https://helpcdn.aliyun.com/document_detail/97621.html">https://helpcdn.aliyun.com/document_detail/97621.html</a></p>
+]]></content>
+      <categories>
+        <category>Kubernetes</category>
+      </categories>
+      <tags>
+        <tag>flannel</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>nginx核心知识100讲知识图谱</title>
     <url>/2021/03/15/nginx-knowledge-graph/</url>
     <content><![CDATA[<p>nginx核心知识100讲知识图谱</p>
