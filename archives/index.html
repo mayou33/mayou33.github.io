@@ -6,17 +6,23 @@
   <meta name="keywords" content="">
   <meta name="description" content="大雨哥">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://zhang-yu.me/about/index.html">
+<meta name="description" content="Kubernetes Ingress 控制器的技术选型技巧  作者：厉辉，腾讯云中间件API网关核心研发成员    在 Kubernetes 的实践、部署中，为了解决 Pod 迁移、Node Pod 端口、域名动态分配等问题，需要开发人员选择合适的 Ingress 解决方案。面对市场上众多Ingress产品，开发者该如何分辨它们的优缺点？又该如何结合自身的技术栈选择合适的技术方案呢？在本文中，腾">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes Ingress 控制器的技术选型技巧">
+<meta property="og:url" content="http://zhang-yu.me/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/index.html">
 <meta property="og:site_name" content="大雨哥">
-<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:description" content="Kubernetes Ingress 控制器的技术选型技巧  作者：厉辉，腾讯云中间件API网关核心研发成员    在 Kubernetes 的实践、部署中，为了解决 Pod 迁移、Node Pod 端口、域名动态分配等问题，需要开发人员选择合适的 Ingress 解决方案。面对市场上众多Ingress产品，开发者该如何分辨它们的优缺点？又该如何结合自身的技术栈选择合适的技术方案呢？在本文中，腾">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
-<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="og:image" content="http://img.blog.itpub.net/blog/2020/02/24/02cb35c80ce70416.jpeg?x-oss-process=style/bb">
+<meta property="og:image" content="http://img.blog.itpub.net/blog/2020/02/24/95f705c188d9885d.jpeg?x-oss-process=style/bb">
+<meta property="og:image" content="http://img.blog.itpub.net/blog/2020/02/24/be165da4dc6dd12e.jpeg?x-oss-process=style/bb">
+<meta property="og:image" content="http://img.blog.itpub.net/blog/2020/02/24/9754e33944740096.jpeg?x-oss-process=style/bb">
+<meta property="article:published_time" content="2021-04-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-08T08:56:51.700Z">
 <meta property="article:author" content="zhangyu">
+<meta property="article:tag" content="Ingress">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.blog.itpub.net/blog/2020/02/24/02cb35c80ce70416.jpeg?x-oss-process=style/bb">
 
 
 <link rel="icon" href="/img/favicon.ico">
@@ -91,7 +97,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(3)</small>
+                <small>(4)</small>
             
         </div>
     </li>
@@ -102,6 +108,20 @@
                     <div data-rel="nginx">
                         
                         nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Ingress">
+                        
+                        Ingress
                         <small>(1)</small>
                         
                     </div>
@@ -156,7 +176,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="3">
+<input type="hidden" id="yelog_site_posts_number" value="4">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -219,6 +239,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>nginx</a>
             </li>
         
@@ -232,6 +256,14 @@
 
     
     <nav id="title-list-nav">
+        
+        <a  class="全部文章 Ingress "
+           href="/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"
+           data-tag="Ingress"
+           data-author="" >
+            <span class="post-title" title="Kubernetes Ingress 控制器的技术选型技巧">Kubernetes Ingress 控制器的技术选型技巧</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
         
         <a  class="全部文章 Kubernetes "
            href="/2021/03/24/Flannel-Calico/"
