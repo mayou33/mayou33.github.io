@@ -6,7 +6,7 @@
     <content><![CDATA[<blockquote>
 <p>参考<br><a href="https://mp.weixin.qq.com/s/ZKoO041TqyR2guVooPegrg">https://mp.weixin.qq.com/s/ZKoO041TqyR2guVooPegrg</a></p>
 <p>从行业趋势来看，Docker 已经和 Kubernetes 社区渐行渐远，以?Containerd?为代表的实现了?CRI?接口的容器运行时将会受到 Kubernetes 的青睐。<br>但纯粹使用 Containerd 还是有诸多困扰，比如不方便通过 CLI 来创建管理容器，有了?nerdctl?这个 CLI 工具，就就可以填补 Containerd 易用性的空缺</p>
-<h2 id="现有-CLI-的不足"><a href="#现有-CLI-的不足" class="headerlink" title="现有 CLI 的不足"></a>现有 CLI 的不足</h2><p>虽然 Docker 能干的事情，现在 <code>Containerd</code> 都能干，但 <code>Containerd</code> 还有一个非常明显的缺陷：<strong>CLI 不够友好</strong>。它无法像 Docker 和 Podman 一样通过一条简单的命令启动一个容器，它的两个 CLI 工具 ctr[1] 和 crictl[2] 都无法实现这么一件非常简单的需求，而这个需求是大多数人都需要的，我总不能为了在本地测试容器而专门部署一个 Kubernetes 集群吧？</p>
+<h2 id="现有-CLI-的不足"><a href="#现有-CLI-的不足" class="headerlink" title="现有 CLI 的不足"></a>现有 CLI 的不足</h2><p>虽然 Docker 能干的事情，现在 <code>Containerd</code> 都能干，但 <code>Containerd</code> 还有一个非常明显的缺陷：<strong>CLI 不够友好</strong>。它无法像 Docker 和 Podman 一样通过一条简单的命令启动一个容器，它的两个 CLI 工具 ctr 和 crictl都无法实现这么一件非常简单的需求，而这个需求是大多数人都需要的，我总不能为了在本地测试容器而专门部署一个 Kubernetes 集群吧？</p>
 <p>ctr 的设计对人类不太友好，例如缺少以下这些和 Docker 类似的功能：</p>
 <ul>
 <li><p>  <code>docker run -p &lt;PORT&gt;</code></p>
