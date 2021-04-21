@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhang-yu.me/2021/04/21/kubernetes-best-practices-in-production/</loc>
+    
+    <lastmod>2021-04-21</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhang-yu.me/2021/04/19/jishuchengzhang/</loc>
     
     <lastmod>2021-04-19</lastmod>
@@ -67,7 +74,7 @@
 
   <url>
     <loc>http://zhang-yu.me/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -75,49 +82,56 @@
   
   <url>
     <loc>http://zhang-yu.me/tags/nginx/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/tags/%E6%80%A7%E8%83%BD/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/tags/flannel/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/tags/Ingress/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/tags/Kubernetes/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/tags/containerd/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/tags/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://zhang-yu.me/tags/kubernetes/</loc>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -126,42 +140,49 @@
   
   <url>
     <loc>http://zhang-yu.me/categories/nginx/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/categories/%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/categories/Kubernetes/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/categories/Ingress/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/categories/containerd/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://zhang-yu.me/categories/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/</loc>
-    <lastmod>2021-04-19</lastmod>
+    <lastmod>2021-04-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://zhang-yu.me/categories/kubernetes/</loc>
+    <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

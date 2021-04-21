@@ -1,6 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>生产环境中的Kubernetes最佳实践</title>
+    <url>/2021/04/21/kubernetes-best-practices-in-production/</url>
+    <content><![CDATA[<blockquote>
+<p>生产环境中的Kubernetes最佳实践<br><a href="https://mp.weixin.qq.com/s?__biz=MzA5OTAyNzQ2OA==&amp;mid=2649721992&amp;idx=1&amp;sn=31b9a4352a147a1fa585b8d8ef4c68b0&amp;scene=21#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzA5OTAyNzQ2OA==&amp;mid=2649721992&amp;idx=1&amp;sn=31b9a4352a147a1fa585b8d8ef4c68b0&amp;scene=21#wechat_redirect</a></p>
+</blockquote>
+<blockquote>
+<p>DevOps从提出到现在，已经走过了一段很长的路。包括Docker和Kubernetes在内的多种平台也已经帮助企业用前所未有的速度实现了软件应用的交付。同时，随着应用的容器化构建和发布比率不断上升，作为事实上的容器编排工具，Kubernetes在企业用户中备受欢迎和广泛认可。</p>
+<p>Kubernetes具有支持伸缩、零中断部署、服务发现、自动更迭和自动回滚等卓越功能特性。在管理大规模容器部署方面，Kubernetes因支持资源和工作负载的灵活分配能力，而成为了企业的必选工具，在生产环境中广泛应用。但与此同时，Kubernetes的应用需要操作人员花许多时间来熟悉和掌握它，存在一定技术门槛。鉴于目前许多公司都希望在生产中使用Kubernetes，因此有必要率先梳理这方面的最佳实践。在本文中，我们将介绍Kubernetes在生产环境中的一些最佳实践。</p>
+<p><strong>生产环境中Kubernetes表现</strong></p>
+<p>根据Garner的预测，到2022年时，全球超过75%的组织将在生产环境中运行容器化应用。这个比率在当前还不足30%，而预计到2025年时，这个比率将在2022年的基础上，继续增长到85%。快速增长的一个主要原因是云原生的软件应用在基础设施自动化、DevOps、专业操作技能方面的需求越来越强烈，而且这些工具和技术在企业的IT组织中往往很难找到。</p>
+<p>其次，业界普遍认为在生产环境中运行容器并不容易，需要大量的计算资源和相关工作投入。目前市场上有多款容器编排平台产品可供选择，但已经获得了主要云提供商的支持和认可的平台只有Kubernetes。</p>
+<p>再次，Kubernetes、容器化和微服务给企业用户带来的技术受益的同时，也带来了新的安全挑战。Kubernetes的Pod具备在所有基础设施类之间快速切换的能力，从而导致更多的内部流量和与之相关的安全风险，加上Kubernetes被攻击面往往比我们预期的更大，以及Kubernetes的高度动态和临时的环境与原有安全工具的融合差距等因素，可以预测使用Kubernetes并非是一件容易的事情。</p>
+<p>最后，Kubernetes丰富的功能导致它的学习曲线复杂而陡峭，在生产环境中的操作需应尽可能小心和谨慎。企业如果没有熟悉这方面的专业人员，可以考虑外购Kubernetes-as-a-service（KaaS）提供商的服务，获取Kubernetes最佳实践。但假设用户是完全依靠自己的能力，管理生产环境中的Kubernetes集群，在这种情况下，理解和实现Kubernetes最佳实践尤其重要，特别是在可观察性、日志记录、集群监控和安全配置等方面。</p>
+<p>综上所述，非常有必要开发一套Kubernetes管理策略，以实现在安全性、监视、网络、容器生命周期管理和平台选择等方面应用最佳实践。如下是Kubernetes应用管理需要重点考虑的措施。</p>
+<p><strong>使用服务状态探针进行健康检查</strong></p>
+<p>管理大型分布式系统是一件复杂的工作，尤其是出现问题的时候。因此为了确保应用的实例工作正常，配置Kubernetes健康检查至关重要。通过创建自定义运行状况检查，可以更好地满足用户的环境和应用的检测需要。服务状态探针包括服务就绪探针和服务活性探针。</p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNkB6J5V0Nc60PuqDdXQvlj8I28smu4bPSWrfFU5d4wLibxmJD1aSmcD4keAVBrSGgInJdVLY8KK67A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>就绪探针：目的是让Kubernetes知道应用程序是否准备好提供服务。Kubernetes始终会在确认准备就绪探针通过检测后，然后才允许向POD发送服务请求流量。</p>
+<p>活性探针：目的是帮助用户确认应用程序是否正常存活，如果应用出现了异常，Kubernetes将启动新的Pod，替换异常的Pod。</p>
+<p><strong>资源管理</strong></p>
+<p>为单个容器指定资源需求和资源限制是一个很好的实践。另一个好的实践是为不同团队、部门、应用程序和客户端，划分独立的Kubernetes命名空间环境。提供相对独立的运行资源环境，减少资源使用冲突。</p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNkB6J5V0Nc60PuqDdXQvlj8AYrhpfjXWnEIaNHbxeZKtM9KX35ibebLCe7paVMjfPfGqrfrxS0uicUQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><strong>资源使用</strong></p>
+<p>Kubernetes资源使用情况掌握了生产环境中容器/Pod的资源数量使用情况。因此，密切关注Pod和容器的资源使用情况非常重要，资源使用越多，运行成本就越高。</p>
+<p><strong>资源利用</strong></p>
+<p>运维团队通常致力于优化和最大化Pod分配资源的利用百分比。资源使用情况往往也是Kubernetes优化程度的重要指标之一。可以说，优化最好的Kubernetes环境，内部运行容器的平均CPU利用率也是最优的。</p>
+<p><strong>开启RBAC策略</strong></p>
+<p>基于角色的访问控制（RBAC）是系统或网络中限制用户和应用程序的接入或访问的一种控制方法。</p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNkB6J5V0Nc60PuqDdXQvlj8YJs2T6MOKQsubH9FUcVqW1sfuTxNtJPn9kNqt4eth58rs0pWhqFibpw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>Kubernetes 从1.8版本开始，引入了RBAC访问控制技术，使用rbac.authorization.k8s.io程序API创建授权策略。RBAC的授权使用包括开启访问用户或帐户、添加/删除权限、设置规则等。它为Kubernetes集群添加了一个额外的安全层，限制哪些访问可以到达Kubernetes集群的生产环境。</p>
+<p> <strong>集群配置和负载均衡</strong></p>
+<p>生产级Kubernetes基础设施通常需要具备高可用性，具备多控制节点、多etcd集群等关键特性。此类集群特性的配置实现通常需要借助如Terraform或Ansible等工具实现。</p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNkB6J5V0Nc60PuqDdXQvlj8N4ibk2H5RicBicKdfNpOHlibEZft9a2anPc5fERHEI1icXMOkw93nb3CHow/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>通常情况下，当集群的所有配置都完成，并创建了Pod时，此时的Pod基本都会配置有负载均衡器，用于将流量路由到适当的应用服务。但这其中的负载均衡器并不是Kubernetes项目的默认配置，而是由Kubernetes Ingress控制器的扩展集成工具提供的。</p>
+<p><strong>标注Kubernetes对象</strong></p>
+<p>为Kubernetes的Pod等对象打上键/值对类型的标签，通常可以用来标记重要的对象属性，特别是对用户意义重大的属性。因此，在生产环境中使用Kubernetes时，不能忽视的重要实践就是利用标签功能，它们可以帮助实现Kubernetes对象的批量查询和批量操作。同时，标签还具有将Kubernetes对象组织成集群的独特作用，这样做的一个最佳实践应用就是能够根据应用对Pod进行分组管理。除此之外，标签没有数量和内容的限制，运维团队可以任意创建和使用。</p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNkB6J5V0Nc60PuqDdXQvlj8g7OGBLqD9AZXShRQhg0icYXr8ziaw6c7hc8Qiax9F534NOPYeoLRyBaMQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><strong>设置网络策略</strong></p>
+<p>网络策略设置对于生产环境中的Kubernetes平台非常重要。</p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNkB6J5V0Nc60PuqDdXQvlj8IV4SpicMa9AZrKaA7lepNoXgvJlVlfSViaGNukHVo4NDlBeyxuJuDrmA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>网络策略本质上也是一种对象，让用户能够声明和决定哪些流量是允许或禁止传输的。Kubernetes能够阻止所有不需要的和不合规的流量。因此，强烈建议Kubernetes将网络策略配置作为基本和必要的安全措施之一，执行定义和限制集群中的网络流量。</p>
+<p>Kubernetes中的每条网络策略都被定义成一个授权连接列表。无论何时创建的网络策略，平台全部的Pod都有权利建立或接受该连接列表。简单来说，网络策略其实就是授权和允许连接的请求白名单，无论是“输入”还是“输出”到Pod，在至少有一条网络策略允许的情况下，到该Pod流量才被允许通行。</p>
+<p><strong>集群监控与日志</strong></p>
+<p>监控对于运行状态的Kubernetes至关重要，它直接影响到平台配置、性能和流量的安全。能够帮助用户及时掌握平台状态，执行问题诊断、确保运行合规，是平台运行的必要功能部署。在开启集群监视时，必须在平台的每一层都开启日志记录，让产生的日志能够执行安全、审计和性能分析。</p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNkB6J5V0Nc60PuqDdXQvlj8sTSFxPwJzprBTygBMqvBZ3KcibdFE8icRrf2IibDtPFuuAve9YKt8VKjw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><strong>采用无状态应用</strong></p>
+<p>虽然这种观念正随着Kubernetes应用组织的增加在不断改变，但管理和运行无状态应用要比有状态应用要容易很多。事实上，对于刚接触Kubernetes的团队，建议一开始就采用无状态应用的设计。同时，还建议采用无状态的后端程序，从而让开发人员更有效地部署应用程序，实现服务的零停机时间。但前提是需要开发团队确保后端没有长时间运行的连接，不会影响到运行环境的弹性扩展。无状态应用还被认为具备根据业务需要进行简便迁移和快速扩展的能力。</p>
+<p><strong>启用自动扩展</strong></p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/mmbiz_png/A1HKVXsfHNkB6J5V0Nc60PuqDdXQvlj8aAFQQ0gBbZNH10mQhX3SdsUyicrjiasaRY57iaQMyYF7pUB9410uWMblg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>Kubernetes的服务部署拥有3个自动扩展能力：Pod水平自动扩展（HPA），Pod垂直自动扩展（VPA）和集群自动扩展。</p>
+<p>Pod水平自动扩展能够基于CPU的利用率，自动扩展运行应用的Pod数量，调整副本控制器、副本集或状态配置。</p>
+<p>Pod垂直自动扩展建议为应用设定适当的CPU，内存的需求值和上限值。VPA能够根据情况，自动伸缩配置适当的资源数量。</p>
+<p>集群自动扩展能够伸缩工作节点的资源池规模，从而根据当前的资源使用情况，自动调整Kubernetes集群的大小。</p>
+<p><strong>控制运行时的资源</strong></p>
+<p>如果允许Pod从公共库中拉取镜像，而不知道其真正运行内容的时候，用户应该控制所运行容器集群的资源，以避免资源使用的失控。而如果是从受信任的注册节点提取镜像，则可以在注册节点上采用控制策略，限制只允许提取安全且经过认证的镜像。</p>
+<p><strong>保持持续学习</strong></p>
+<p>对应用程序的状态不断评估、学习和改进。例如，通过查看容器的历史内存使用情况，确定可以分配更少的内存来节省成本。</p>
+<p><strong>重点保护核心服务</strong></p>
+<p>使用Pod优先级功能，可以为不同的服务设置重要度。例如，可以配置RabbitMQ Pod的优先级高于应用程序Pod，以获得更好的稳定性。或为输入控制器Pod配置比数据处理Pod更高的重要度，以保持服务的可用性。</p>
+<p><strong>保证服务零停机</strong></p>
+<p>服务的零停机能力可以通过全方位HA架构，支持集群和服务的零停机升级。从而为客户获得更高的服务可用性提供了保证。使用Pod反亲和性配置，确保多个副本Pod被调度到不同的节点上，从而保证计划和非计划的集群节点停机不会影响服务的可用性，或使用Pod中断预备能力，确保在可用成本内，保留最少的副本数量。</p>
+<p><strong>为失败指定计划</strong></p>
+<p>借用一句名言来理解如果应对硬件故障。“Hardware eventually fails. Software eventually works.”（Michael Hartung）。</p>
+<p><strong>结论</strong></p>
+<p>业界共知的Kubernetes，实际上已经是DevOps的标配编配平台。生产环境中运行的Kubernetes环境必须具备可用性、可伸缩性、安全性、弹性、资源管理和监控等功能和性能特征。由于许多公司都在生产中使用Kubernetes，因此建议遵循上面提到的Kubernetes最佳实践，以便顺利、可靠地运维和管理应用程序。</p>
+<p>原文链接：<a href="https://containerjournal.com/topics/container-management/kubernetes-best-practices-in-production/">https://containerjournal.com/topics/container-management/kubernetes-best-practices-in-production/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>kubernetes</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>你的技术成长战略是什么</title>
     <url>/2021/04/19/jishuchengzhang/</url>
     <content><![CDATA[<p>你的技术成长战略是什么?_架构师波波的专栏-CSDN博客</p>
