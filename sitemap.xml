@@ -129,13 +129,6 @@
     <priority>0.6</priority>
   </url>
   
-  <url>
-    <loc>http://zhang-yu.me/tags/kubernetes/</loc>
-    <lastmod>2021-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
 
   
   <url>
@@ -175,13 +168,6 @@
   
   <url>
     <loc>http://zhang-yu.me/categories/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/</loc>
-    <lastmod>2021-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://zhang-yu.me/categories/kubernetes/</loc>
     <lastmod>2021-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
