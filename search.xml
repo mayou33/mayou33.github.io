@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CTO观点：如何为企业选择合适的消息系统</title>
+    <title>Pulsar vs Kafka，CTO 如何抉择</title>
     <url>/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/</url>
     <content><![CDATA[<blockquote>
 <p><a href="https://dzone.com/articles/comparing-pulsar-and-kafka-from-a-ctos-point-of-vi">https://dzone.com/articles/comparing-pulsar-and-kafka-from-a-ctos-point-of-vi</a></p>
 </blockquote>
 <blockquote>
-<p>作者 | Jesse Anderson<br>译者 | Sijia</p>
-</blockquote>
-<blockquote>
-<p>在评估新技术时，高层管理人员的视角通常与中层管理人员、架构师、数据工程师等有所不同。高层管理人员不仅要关注基准测试结果、产品支持的特性，还要从长远角度考虑新技术的可靠性，新技术能够为企业带来哪些竞争优势，以及是否可以缩短上市时间、节约开销。</p>
+<p>作者 | Jesse Anderson<br>译者 | Sijia<br><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1619338804&amp;ver=3029&amp;signature=LstPwE5cJ7yKmBlTCfazpUH3EqJ3tPgHscCjhRBoc1lJ1IHTlI57lOKONxCKmfLeWlqDAKdaKutZXVdxm3XEVFDvKt2z3fNX6eoKV0qMt">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1619338804&amp;ver=3029&amp;signature=LstPwE5cJ7yKmBlTCfazpUH3EqJ3tPgHscCjhRBoc1lJ1IHTlI57lOKONxCKmfLeWlqDAKdaKutZXVdxm3XEVFDvKt2z3fNX6eoKV0qMt</a><br>在评估新技术时，高层管理人员的视角通常与中层管理人员、架构师、数据工程师等有所不同。高层管理人员不仅要关注基准测试结果、产品支持的特性，还要从长远角度考虑新技术的可靠性，新技术能够为企业带来哪些竞争优势，以及是否可以缩短上市时间、节约开销。</p>
 <p>我是 Big Data Institute 的常务董事，技术评估是我的一项主要工作。我们帮助企业根据业务需求选择并落地最合适的技术。我们不与供应商合作，因此客户尤为看中我们能够客观地评估不同的技术。</p>
 <p>在本文中，我将从 CTO 的视角出发，对比 Apache Pulsar 和 Apache Kafka。只进行理论上的对比空洞无效，也不能帮助我们作出决策，实际用例才真正值得参考。所以，在本文中，我会通过一些常见的实际使用场景来对比 Pulsar 和 Kafka，即简单消息使用场景、复杂消息使用场景和高级消息使用场景。在这些实际使用场景下，Pulsar 和 Kafka 的表现能够帮助我们更好地理解二者的性能和优势，进而作出决策。</p>
 <h1 id="简单消息使用场景"><a href="#简单消息使用场景" class="headerlink" title="简单消息使用场景"></a>简单消息使用场景</h1><p>假设有一个企业，之前从未使用过消息系统，现在需要通过一个简单的消息系统，将消息从位置 A 发送到位置 B，但不需要复制消息。</p>
