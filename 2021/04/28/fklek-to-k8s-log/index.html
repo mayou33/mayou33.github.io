@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Kubernetes Ingress 控制器的技术选型技巧 | 大雨哥</title>
-  <meta name="keywords" content=" Ingress ">
-  <meta name="description" content="Kubernetes Ingress 控制器的技术选型技巧 | 大雨哥">
+  <title>使用fklek搭建Kubernetes日志收集工具栈 | 大雨哥</title>
+  <meta name="keywords" content=" 日志 ">
+  <meta name="description" content="使用fklek搭建Kubernetes日志收集工具栈 | 大雨哥">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
 <meta property="og:type" content="website">
@@ -471,9 +471,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-Technical-selection-of-Kubernetes-Ingress-controller" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-fklek-to-k8s-log" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Kubernetes Ingress 控制器的技术选型技巧</h1>
+        <h1 class="article-title">使用fklek搭建Kubernetes日志收集工具栈</h1>
     
     <div class="article-meta">
         
@@ -483,7 +483,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="Ingress">Ingress</a>
+            <a  data-rel="日志">日志</a>
             
         </span>
         
@@ -491,14 +491,14 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color3">Ingress</a>
+            <a class="color3">日志</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-04-08 16:56:51'>2021-04-08 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2021-04-28 13:58:46'>2021-04-28 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -509,7 +509,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kubernetes-Ingress-%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E6%8A%80%E5%B7%A7"><span class="toc-text">Kubernetes Ingress 控制器的技术选型技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E8%BD%AF%E4%BB%B6"><span class="toc-text">2.基础软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82"><span class="toc-text">3.功能需求</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -526,116 +526,10 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<h3 id="Kubernetes-Ingress-控制器的技术选型技巧"><a href="#Kubernetes-Ingress-控制器的技术选型技巧" class="headerlink" title="Kubernetes Ingress 控制器的技术选型技巧"></a>Kubernetes Ingress 控制器的技术选型技巧</h3></blockquote>
-<blockquote>
-<p>作者：厉辉，腾讯云中间件API网关核心研发成员  </p>
-<blockquote>
-<p>在 Kubernetes 的实践、部署中，为了解决 Pod 迁移、Node Pod 端口、域名动态分配等问题，需要开发人员选择合适的 Ingress 解决方案。面对市场上众多Ingress产品，开发者该如何分辨它们的优缺点？又该如何结合自身的技术栈选择合适的技术方案呢？在本文中，腾讯云中间件核心研发工程师厉辉将为你介绍如何进行 Kubernates Ingress 控制器的技术选型。</p>
-</blockquote>
-<p><strong><strong>名词解释</strong></strong></p>
-<p>阅读本文需要熟悉以下基本概念：</p>
-<ul>
-<li><p>  集群：是指容器运行所需云资源的集合，包含了若干台云服务器、负载均衡器等云资源。</p>
-</li>
-<li><p>  实例（Pod）：由相关的一个或多个容器构成一个实例，这些容器共享相同的存储和网络空间。</p>
-</li>
-<li><p>  工作负载（Node）：Kubernetes 资源对象，用于管理 Pod 副本的创建、调度以及整个生命周期的自动控制。</p>
-</li>
-<li><p>  服务（Service）：由多个相同配置的实例（Pod）和访问这些实例（Pod）的规则组成的微服务。</p>
-</li>
-<li><p>  Ingress：Ingress 是用于将外部 HTTP（S）流量路由到服务（Service）的规则集合。</p>
-</li>
-</ul>
-<p><strong><strong>Kubernetes 访问现状</strong></strong></p>
-<p><img src="http://img.blog.itpub.net/blog/2020/02/24/02cb35c80ce70416.jpeg?x-oss-process=style/bb"></p>
-<p> Kubernetes 的外部访问方式</p>
-<p>在 Kubernetes 中，服务跟 Pod IP 主要供服务在集群内访问使用，对于集群外的应用是不可见的。怎么解决这个问题呢？为了让外部的应用能够访问 Kubernetes 集群中的服务，通常解决办法是 NodePort 和 LoadBalancer。</p>
-<p>这两种方案其实各自都存在一些缺点：</p>
-<ul>
-<li>  NodePort 的缺点是一个端口只能挂载一个 Service，而且为了更高的可用性，需要额外搭建一个负载均衡。</li>
-</ul>
-<ul>
-<li>  LoadBalancer 的缺点则是每个服务都必须要有一个自己的 IP，不论是内网 IP 或者外网 IP。更多情况下，为了保证 LoadBalancer 的能力，一般需要依赖于云服务商。</li>
-</ul>
-<p>在Kubernetes的实践、部署中，为了解决像 Pod 迁移、Node Pod 端口、域名动态分配，或者是 Pod 后台地址动态更新这种问题，就产生了 Ingress 解决方案</p>
-<p><strong><strong>Nginx Ingress 的缺点</strong></strong></p>
-<p>Ingress 是Kubernetes中非常重要的外网流量入口。在Kubernetes中所推荐的默认值为Nginx Ingress，为了与后面Nginx 提供的商业版 Ingress 区分开来，我就称它为Kubernetes Ingress。</p>
-<p>Kubernetes Ingress，顾名思义基于 Nginx 的平台，Nginx 现在是世界上最流行的 Nginx HTTP Sever，相信大家都对 Nginx 也比较熟悉，这是一个优点。它还有一个优点是 Nginx Ingress 接入 Kubernetes 集群所需的配置非常少，而且有很多文档来指引你如何使用它。这对于大部分刚接触 Kubernetes 的人或者创业公司来说，Nginx Ingress 的确是一个非常好的选择。</p>
-<p>但是当 Nginx Ingress 在一些大环境上使用时，就会出现很多问题：</p>
-<ul>
-<li>  第一个问题：Nginx Ingress用了一些 OpenResty 的特性，但最终配置加载还是依赖于原有的 Nginx config reload。当路由配置非常大时，Nginx reload 会耗时很久，时间长达几秒甚至十几秒，这样就会严重影响业务，甚至造成业务中断。</li>
-</ul>
-<ul>
-<li>  第二个问题：Nginx Ingress 的插件开发非常困难。如果你认为 Nginx Ingress 本身插件不够用，需要使用一些定制化插件，这个额外的开发任务对程序员来说是十分痛苦的。因为Nginx Ingress自身的插件能力和可扩展性非常差。</li>
-</ul>
-<p><strong><strong>Ingress 选型原则</strong></strong></p>
-<p>既然发现了 Nginx Ingress 有很多问题，那是不是考虑选择其他开源的、更好用的 Ingress？市场上比 Kubernetes Ingress 好用的Ingress起码有十几家，那么如何从这么多 Ingress 中选择适合自己的呢？</p>
-<p>Ingress 自身是基于 HTTP 网关的，市面上 HTTP 网关主要有这么几种：Nginx、Golang 原生的网关，以及新崛起的 Envoy 。但是每个开发人员所擅长的技术栈不同，所以适合的 Ingress 也会不一样。</p>
-<p>那么问题来了，我们如何选择一个更加好用的 Ingress 呢？或者缩小点范围，熟悉 Nginx 或 OpenResty 的开发人员，应该选择哪一个 Ingress 呢？</p>
-<p>下面来介绍一下我对 Ingress 控制器选型的一些经验。</p>
-<p><img src="http://img.blog.itpub.net/blog/2020/02/24/95f705c188d9885d.jpeg?x-oss-process=style/bb"></p>
-<p>选型原则</p>
-<p><strong>1.基本特点</strong>  </p>
-<p>首先我认为Ingress 控制器应该具备以下基本功能，如果连这些功能都没有，那完全可以直接pass。</p>
-<ul>
-<li><p>  必须开源的，不开源的无法使用。</p>
-</li>
-<li><p>  Kubernetes 中Pod 变化非常频繁，服务发现非常重要。</p>
-</li>
-<li><p>  现在 HTTPS 已经很普及了，TLS 或者 SSL 的能力也非常重要，比如证书管理的功能。</p>
-</li>
-<li><p>  支持 WebSocket 等常见协议，在某些情况下，可能还需要支持 HTTP2 、QUIC 等协议。</p>
-</li>
-</ul>
-<h3 id="2-基础软件"><a href="#2-基础软件" class="headerlink" title="2.基础软件"></a><strong>2.基础软件</strong></h3><p>前面有提到，每个人擅长的技术平台不一样，所以选择自己更加熟悉的 HTTP 网关也显得至关重要。比如 Nginx、HAProxy、Envoy 或者是 Golang 原生网关。因为你熟悉它的原理，在使用中可以实现快速落地。</p>
-<p>在生产环境上，高性能是一个很重要的特性，但比之更重要的是高可用。这意味着你选择的网关，它的可用性、稳定性一定要非常强，只有这样，服务才能稳定。</p>
-<h3 id="3-功能需求"><a href="#3-功能需求" class="headerlink" title="3.功能需求"></a><strong>3.功能需求</strong></h3><p>抛开上述两点，就是公司业务对网关的特殊需求。你选择一个开源产品，最好肯定是开箱能用的。比如你需要 GRPC 协议转换的能力，那当然希望选的网关具备这样的功能。这里简单列一下影响选择的因素：  </p>
-<ul>
-<li><p>  协议：是否支持 HTTP2、HTTP3；</p>
-</li>
-<li><p>  负载均衡算法：最基本的WRR、一致性哈希负载均衡算法是否能够满足需求，还是需要更加复杂的类似EWMA负载均衡算法。</p>
-</li>
-<li><p>  鉴权限流：仅需要简单的鉴权，或更进阶的鉴权方式。又或者需要集成，能够快速的开发出像腾讯云 IM 的鉴权功能。Kubernetes Ingress除了前面我们提到的存在Nginx reload 耗时长、插件扩展能力差的问题，另外它还存在后端节点调整权重的能力不够灵活的问题。</p>
-</li>
-</ul>
-<p><strong><strong>选择 APISIX</strong></strong></p>
-<p>相比Kubernetes Ingress，我个人更推荐 APISIX 作为Ingress ?controller。虽然它在功能上比 Kong 会少很多，但是 APISIX 很好的路由能力、灵活的插件能力，以及本身的高性能，能够弥补在 Ingress 选型上的一些缺点。对于基于 Nginx 或 Openresty 开发的程序员，如果对现在的 Ingress 不满意，我推荐你们去使用 APISIX 作为 Ingress。  </p>
-<p>如何将 APISIX 作为 Ingress 呢？我们首先要做出一个区分，Ingress 是 Kubernetes 名称的定义或者规则定义，Ingress controller 是将 Kubernetes 集群状态同步到网关的一个组件。但 APISIX 本身只是 API 网关，怎么把 APISIX 实现成 Ingress controller 呢？我们先来简要了解一下如何实现 Ingress。</p>
-<p>实现 Ingress，本质上就只有两部分内容：</p>
-<ul>
-<li><p>  第一部分：需要将 Kubernetes 集群中的配置、或 Kubernetes 集群中的状态同步到 APISIX 集群。</p>
-</li>
-<li><p>  第二部分：需要将 APISIX中 的一些概念，比如像服务、upstream 等概念定义为 Kubernetes 中的 CRD。</p>
-</li>
-</ul>
-<p>如果实现了第二部分，通过 Kubernetes Ingress 的配置，便可以很快的产生 APISIX。通过 APISIX Ingress controller 就可以产生 APISIX 相关的配置。当前为了快速的将 APISIX 落地为能够支持 Kubernetes 的 Ingress ，我们创建了一个开源项目，叫 Ingress Controller。</p>
-<p><img src="http://img.blog.itpub.net/blog/2020/02/24/be165da4dc6dd12e.jpeg?x-oss-process=style/bb"></p>
-<p>ingress controller 架构图</p>
-<p>上图为Ingress controller 项目的整体架构图。左边部分为 Kubernetes 集群，这里可以导入一些 yaml 文件，对 Kubernetes 的配置进行变更。右边部分则是 APISIX 集群，以及它的控制面和数据面。从架构图中可以看出，APISIX Ingress 充当了 Kubernetes 集群以及 APISIX 集群之间的连接者。它主要负责监听 Kubernetes 集群中节点的变化，将集群中的状态同步到 APISIX 集群。另外，由于Kubernetes 倡导所有组件都要具备高可用的特性，所以在 APISIX Ingress 设计之初，我们通过双节点或多节点的模式来保证 APISIX ?Ingress Controller 的保障高可用。</p>
-<p><strong><strong>总结</strong></strong></p>
-<p> <img src="http://img.blog.itpub.net/blog/2020/02/24/9754e33944740096.jpeg?x-oss-process=style/bb"> 各类 Ingress 横向对比  </p>
-<p>相对于市面上流行的 Ingress 控制器，我们简单对比来看看 APISIX ingress 有什么优缺点。上图是外国开发人员针对 Kubernetes Ingress 选型做的一张表格。我在原来表格的基础上，结合自己的理解，将 APISIX Ingress 的功能加入了进来。我们可以看到，最左边的是APISIX，后边就是 Kubernetes Ingress 和 Kong Ingress，后面的 Traefik，就是基于 Golang 的 Ingress。HAproxy 是比较常见的，过去是比较流行的负载均衡器。Istio 和 Ambassador 是国外非常流行的两个Ingress。</p>
+<p>使用 Fluentd+Kafka+Logstash+Elasticsearch+Kibana搭建 Kubernetes 日志收集工具栈</p>
 </blockquote>
 <blockquote>
-<p>接下来我们总结下这些 Ingress各自的优缺点：</p>
-<ul>
-<li><p>  APISIX Ingress：APISIX Ingress 的优点前面也提到了，它具有非常强大的路由能力、灵活的插件拓展能力，在性能上表现也非常优秀。同时，它的缺点也非常明显，尽管APISIX开源后有非常多的功能，但是缺少落地案例，没有相关的文档指引大家如何使用这些功能。</p>
-</li>
-<li><p>  Kubernetes Ingress：即 Kubernetes 推荐默认使用的 Nginx Ingress。它的主要优点为简单、易接入。缺点是Nginx reload耗时长的问题根本无法解决。另外，虽然可用插件很多，但插件扩展能力非常弱。</p>
-</li>
-<li><p>  Nginx Ingress：主要优点是在于它完全支持 TCP 和 UDP 协议，但是缺失了鉴权方式、流量调度等其他功能。</p>
-</li>
-<li><p>  Kong：其本身就是一个 API 网关，它也算是开创了先河，将 API 网关引入到 Kubernetes 中当 Ingress。另外相对边缘网关，Kong 在鉴权、限流、灰度部署等方面做得非常好。Kong Ingress 还有一个很大的优点：提供了一些 API、服务的定义，可以抽象成 Kubernetes 的 CRD，通过K8S Ingress 配置便可完成同步状态至 Kong 集群。缺点就是部署特别困难，另外在高可用方面，与 APISIX 相比也是相形见绌。</p>
-</li>
-<li><p>  Traefik ：基于 Golang 的 Ingress，它本身是一个微服务网关，在 Ingress 的场景应用比较多。他的主要平台基于 Golang，自身支持的协议也非常多，总体来说是没有什么缺点。如果大家熟悉 Golang 的话，也推荐一用。</p>
-</li>
-<li><p>  HAproxy：是一个久负盛名的负载均衡器。它主要优点是具有非常强大的负载均衡能力，其他方面并不占优势。</p>
-</li>
-<li><p>  Istio Ingress 和 Ambassador Ingress 都是基于非常流行的 Envoy。说实话，我认为这两个 Ingress 没有什么缺点，可能唯一的缺点是他们基于 Envoy 平台，大家对这个平台都不是很熟悉，上手门槛会比较高。</p>
-</li>
-</ul>
-<p>综上所述，大家在了解了各个 Ingress 的优劣势后，可以结合自身情况快速选择适合自己的 Ingress。</p>
-<p>来自 “ ITPUB博客 ” ，链接：<a target="_blank" rel="noopener" href="http://blog.itpub.net/31559354/viewspace-2677027/">http://blog.itpub.net/31559354/viewspace-2677027/</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/lPeYavvFJ6GdivkT0iwTGw">https://mp.weixin.qq.com/s/lPeYavvFJ6GdivkT0iwTGw</a></p>
 </blockquote>
 
       
