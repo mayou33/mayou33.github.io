@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhang-yu.me/2021/03/24/Flannel-Calico/</loc>
+    
+    <lastmod>2021-05-26</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhang-yu.me/2021/05/26/Cilium-Network-Overview/</loc>
     
     <lastmod>2021-05-26</lastmod>
@@ -82,13 +89,6 @@
     <loc>http://zhang-yu.me/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/</loc>
     
     <lastmod>2021-04-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://zhang-yu.me/2021/03/24/Flannel-Calico/</loc>
-    
-    <lastmod>2021-03-24</lastmod>
     
   </url>
   

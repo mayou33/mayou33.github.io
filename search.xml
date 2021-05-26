@@ -1509,10 +1509,11 @@ spec:
   <entry>
     <title>Flannel-Calico怎么选择</title>
     <url>/2021/03/24/Flannel-Calico/</url>
-    <content><![CDATA[<p>网络插件Flannel-Calico怎么选择</p>
+    <content><![CDATA[<p>网络插件怎么选择<br><img src="https://www.talkwithtrend.com/club/attachments/month_2009/2009081142a1e2e6b6a2db712a.png"></p>
 <h3 id="Kubernetes中常见的网络插件有哪些？"><a href="#Kubernetes中常见的网络插件有哪些？" class="headerlink" title="Kubernetes中常见的网络插件有哪些？"></a>Kubernetes中常见的网络插件有哪些？</h3><p>1.flannel：能提供ip地址，但不支持网络策略</p>
 <p>2.calico：既提供ip地址，又支持网络策略</p>
 <p>3.canal：flannel和calico结合，通过flannel提供ip地址，calico提供网络策略</p>
+<p>4.Cilium  着重强调网络安全，实现Kubernetes中网络的可观察性以及基本的网络隔离、故障排查等安全策略； 突破传统主机防火墙仅支持L3、L4微隔离的限制，支持基于API的网络安全过滤能力。 </p>
 <h3 id="什么叫做网络策略？"><a href="#什么叫做网络策略？" class="headerlink" title="什么叫做网络策略？"></a>什么叫做网络策略？</h3><p>网络策略：可以达到多租户网络隔离，可以控制入网和出网流量，入网和出网ip访问的一种策略</p>
 <h3 id="各种CNI网络方案的差异对比"><a href="#各种CNI网络方案的差异对比" class="headerlink" title="各种CNI网络方案的差异对比"></a>各种CNI网络方案的差异对比</h3><p>参考<br><a href="https://helpcdn.aliyun.com/document_detail/97621.html">https://helpcdn.aliyun.com/document_detail/97621.html</a></p>
 <h3 id="flannel和calico网络性能分析"><a href="#flannel和calico网络性能分析" class="headerlink" title="flannel和calico网络性能分析"></a>flannel和calico网络性能分析</h3><p>官方指标如下</p>
