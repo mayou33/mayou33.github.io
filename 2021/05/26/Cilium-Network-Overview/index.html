@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Cilium������� | 大雨哥</title>
+  <meta name="keywords" content=" Cilium ">
+  <meta name="description" content="Cilium������� | 大雨哥">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhang-yu.me/about/index.html">
+<meta property="og:site_name" content="大雨哥">
+<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
+<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="article:author" content="zhangyu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="大雨哥" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>zhangyu</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/mayou33"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(15)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="containerd">
+                        
+                        containerd
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Ingress">
+                        
+                        Ingress
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Kubernetes">
+                        
+                        Kubernetes
+                        <small>(6)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="优化">
+                        
+                        优化
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="日志">
+                        
+                        日志
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="消息系统">
+                        
+                        消息系统
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="职业发展">
+                        
+                        职业发展
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="胡说八道">
+                        
+                        胡说八道
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="15">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="https://blog.huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="https://canon88.github.io/">网络安全canon</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux学习</a></li>
+            
+            <li><a target="_blank" href="https://www.makelinux.net/reference/">linux技术参考</a></li>
+            
+            <li><a target="_blank" href="https://coolshell.cn">酷壳CoolShell</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Systems-Performance</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cilium</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>containerd</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>flannel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pulsar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>上线</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>性能</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>职业发展</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>黑话</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/26/Cilium-Network-Overview/"
+           data-tag="Cilium"
+           data-author="" >
+            <span class="post-title" title="Cilium�������">Cilium�������</span>
+            <span class="post-date" title="2021-05-26 00:00:00">2021/05/26</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/19/generating-yaml-for-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="快速生成k8s的yaml配置的4种方法">快速生成k8s的yaml配置的4种方法</span>
+            <span class="post-date" title="2021-05-19 00:00:00">2021/05/19</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2021/04/28/fklek-to-k8s-log/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="使用fklek搭建Kubernetes日志收集工具栈">使用fklek搭建Kubernetes日志收集工具栈</span>
+            <span class="post-date" title="2021-04-28 00:00:00">2021/04/28</span>
+        </a>
+        
+        <a  class="全部文章 胡说八道 "
+           href="/2021/04/27/heihua/"
+           data-tag="黑话"
+           data-author="" >
+            <span class="post-title" title="只有黑话，才能拯救互联网人">只有黑话，才能拯救互联网人</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 胡说八道 "
+           href="/2021/04/27/manhua-shangxian/"
+           data-tag="上线"
+           data-author="" >
+            <span class="post-title" title="漫画 一个NB互联网项目的上线过程">漫画 一个NB互联网项目的上线过程</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 消息系统 "
+           href="/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"
+           data-tag="Pulsar"
+           data-author="" >
+            <span class="post-title" title="Pulsar vs Kafka，CTO 如何抉择">Pulsar vs Kafka，CTO 如何抉择</span>
+            <span class="post-date" title="2021-04-24 00:00:00">2021/04/24</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/21/kubernetes-best-practices-in-production/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="生产环境中的Kubernetes最佳实践">生产环境中的Kubernetes最佳实践</span>
+            <span class="post-date" title="2021-04-21 00:00:00">2021/04/21</span>
+        </a>
+        
+        <a  class="全部文章 职业发展 "
+           href="/2021/04/19/jishuchengzhang/"
+           data-tag="职业发展"
+           data-author="" >
+            <span class="post-title" title="你的技术成长战略是什么">你的技术成长战略是什么</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        <a  class="全部文章 containerd "
+           href="/2021/04/12/nerdctl-to-containerd/"
+           data-tag="containerd"
+           data-author="" >
+            <span class="post-title" title="使用nerdctl玩转containerd">使用nerdctl玩转containerd</span>
+            <span class="post-date" title="2021-04-12 00:00:00">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/09/Kubernetes-network/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes网络和云厂商实践浅析">Kubernetes网络和云厂商实践浅析</span>
+            <span class="post-date" title="2021-04-09 00:00:00">2021/04/09</span>
+        </a>
+        
+        <a  class="全部文章 Ingress "
+           href="/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"
+           data-tag="Ingress"
+           data-author="" >
+            <span class="post-title" title="Kubernetes Ingress 控制器的技术选型技巧">Kubernetes Ingress 控制器的技术选型技巧</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/08/Kubernetes-remen/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes入门-进阶实战">Kubernetes入门-进阶实战</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/03/24/Flannel-Calico/"
+           data-tag="flannel"
+           data-author="" >
+            <span class="post-title" title="Flannel-Calico怎么选择">Flannel-Calico怎么选择</span>
+            <span class="post-date" title="2021-03-24 00:00:00">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 nginx "
+           href="/2021/03/15/nginx-knowledge-graph/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx核心知识100讲知识图谱">nginx核心知识100讲知识图谱</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2021/03/15/performance-optimize-your-program/"
+           data-tag="性能"
+           data-author="" >
+            <span class="post-title" title="性能之癫-优化你的程序">性能之癫-优化你的程序</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Cilium-Network-Overview" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Cilium�������</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Kubernetes">Kubernetes</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color2">Cilium</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2021-05-26 10:37:28'>2021-05-26 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BF%BD%DC%B9%EF%BF%BD"><span class="toc-text">�ܹ�</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDg%CA%BD"><span class="toc-text">����ģʽ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Overlay%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-text">Overlay����</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDPod%CD%A8%EF%BF%BD%EF%BF%BD"><span class="toc-text">������Podͨ��</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BDPod%CD%A8%EF%BF%BD%EF%BF%BD-1"><span class="toc-text">������Podͨ��</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API%EF%BF%BD%EF%BF%BD%D6%AA%EF%BF%BDI%EF%BF%BDo%EF%BF%BD%EF%BF%BD"><span class="toc-text">API��֪�İ�ȫ��</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BF%BD%EF%BF%BDo%EF%BF%BD%EF%BF%BD%EF%BF%BD%D3%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-text">��ȫ���ӻ������</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%CE%A2%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD"><span class="toc-text">΢����</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BF%BD%DC%BD%EF%BF%BD"><span class="toc-text">�ܽ�</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>ԭ�����ӣ�<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NrlxI5uMqQQ3sDrrPSKhZA">https://mp.weixin.qq.com/s/NrlxI5uMqQQ3sDrrPSKhZA</a></p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://cilium.io/">Cilium</a>��һ�ֿ�Դ����ʵ�ַ��������������緽����ͬ���ǣ�Cilium����ǿ�����������簲ȫ�ϵ����ƣ�����͸���Ķ�Kubernetes����������ƽ̨�ϵ�Ӧ�ó������֮����������ӽ��а�ȫ������  </p>
+<p>Cilium����ƺ�ʵ���ϣ�����Linux��һ���µ��ں˼���<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/pPDO4NpDoIblh4taJXVuzw">eBPF</a>��������Linux�ڲ���̬����ǿ��İ�ȫ�ԡ��ɼ��Ժ���������߼�����Ӧ�İ�ȫ���Կ����ڲ��޸�Ӧ�ó��������������õ�����½���Ӧ�ú͸��¡�  </p>
+<p>Cilium��������϶Բ�Ʒ�Ķ�λ��Ϊ��API-aware Networking and Security������˿��Կ�������������Ҫ�����������棺  </p>
+<ol>
+<li> �ṩKubernetes�л��������绥����ͨ��������ʵ��������Ⱥ�а���Pod��Service�����ڵĻ���������ͨ���ܣ�</li>
+<li> ����eBPF��ʵ��Kubernetes������Ŀɹ۲����Լ�������������롢�����Ų�Ȱ�ȫ���ԣ�</li>
+<li> ����eBPF��ͻ�ƴ�ͳ��������ǽ��֧��L3��L4΢��������ƣ�֧�ֻ���API�����簲ȫ����������Cilium�ṩ��һ�ּ򵥶���Ч�ķ����������ִ�л�������/Pod���ݣ�Identity Based����������Ӧ�ò㣨����HTTP/gRPC/Kafka�ȣ���ȫ���ԡ�</li>
+</ol>
+<h3 id="�ܹ�"><a href="#�ܹ�" class="headerlink" title="�ܹ�"></a>�ܹ�</h3><p>Cilium�ٷ����������µ�<a target="_blank" rel="noopener" href="https://cilium.readthedocs.io/en/stable/concepts/overview/">�ο��ܹ�</a>��Ciliumλ����������ϵͳ��Linux Kernel֮�䣬���Ͽ���ͨ������ƽ̨Ϊ�������������Լ���Ӧ�İ�ȫ���ã����¿���ͨ����Linux�ں˹���eBPF�������������������ת����Ϊ�Լ���ȫ����ִ�С�  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/859f9434d6a416bfd931e42490650aae.png"><img src="http://dockone.io/uploads/article/20200711/859f9434d6a416bfd931e42490650aae.png" alt="1.png" title="1.png"></a></p>
+<p><em>ͼ1 Cilium�ܹ�</em>  </p>
+<p>��Cilium�ļܹ��У�����Key-Value���ݴ洢֮�⣬��Ҫ�������Cilium Agent��Cilium Operator������һ���ͻ��˵������й���Cilium CLI��  </p>
+<p>Cilium Agent��Ϊ�����ܹ�������ĵ������ͨ��DaemonSet�ķ�ʽ������Ȩ������ģʽ�������ڼ�Ⱥ��ÿ�������ϡ�Cilium Agent��Ϊ�û��ռ��ػ�����ͨ���������������ʱ����������ϵͳ���н���������Ϊ�����ϵ��������������Լ���ȫ��������á�ͬʱ�ṩ�˿��ŵ�API��������������е��á�  </p>
+<p>Cilium Agent�ڽ�������Ͱ�ȫ���������ʱ������eBPF�������ʵ�֡�Cilium Agent���������ʶ����صĲ��ԣ�����eBPF���򣬲���eBPF�������Ϊ�ֽ��룬�����Ǵ��ݵ�Linux�ںˡ�  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/fe83d4296fd13bb110abc64da30ed48b.png"><img src="http://dockone.io/uploads/article/20200711/fe83d4296fd13bb110abc64da30ed48b.png" alt="2.png" title="2.png"></a></p>
+<p><em>ͼ2 Cilium����ܹ�</em>  </p>
+<p>Cilium Operator ��Ҫ���������Ⱥ�е����񣬾����ܵı�֤�Լ�ȺΪ��λ�������ǵ������Խڵ�Ϊ��λ��������������Ҫ������ͨ��etcdΪ�ڵ�֮��ͬ����Դ��Ϣ��ȷ��Pod��DNS���Ա�Cilium��������ȺNetworkPolicy�Ĺ����͸��µȡ�  </p>
+<h3 id="����gʽ"><a href="#����gʽ" class="headerlink" title="����ģʽ"></a>����ģʽ</h3><p>Cilium�ṩ��������ģʽ��Ĭ�ϲ��û���VXLAN��Overlay����������֮�⣬��������  </p>
+<ol>
+<li> ͨ��BGP·�ɵķ�ʽ��ʵ�ּ�Ⱥ��Pod�������ͻ�����</li>
+<li> ��AWS��ENI��Elastic Network Interfaces��ģʽ�²���ʹ��Cilium��</li>
+<li> Flannel��Cilium�ļ��ɲ���</li>
+<li> ���û���ipvlan��������������Ĭ�ϵĻ���veth��</li>
+<li> Cluster Mesh������ʵ�ֿ���Kubernetes��Ⱥ��������ͨ�Ͱ�ȫ�Եȶ���<a target="_blank" rel="noopener" href="https://cilium.readthedocs.io/en/stable/gettingstarted/#advanced-networking">����ģʽ</a>��</li>
+</ol>
+<p>���Ľ����Ĭ�ϵĻ���vxlan��overlay������������ȵ�ԭ�������ݰ�·��������  </p>
+<h3 id="Overlay����"><a href="#Overlay����" class="headerlink" title="Overlay����"></a>Overlay����</h3><p>ʹ�ùٷ�������yaml�ļ���ͨ���������ʵ��Cilium�Ŀ��ٲ���  </p>
+<p>root@u18-161:~# kubectl create -f <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/cilium/cilium/v1.6.5/install/kubernetes/quick-install.yaml">https://raw.githubusercontent.com/cilium/cilium/v1.6.5/install/kubernetes/quick-install.yaml</a>  </p>
+<p>����ɹ������ǿ��Է��֣��ڼ�Ⱥ��ÿ�������ϣ�������һ��Cilium Agent��cilium-k54qt��cilium-v7fx4����������Ⱥ������һ��Cilium Operator��cilium-operator-cdb4d8bb6-8mj5w����  </p>
+<p>root@u18-161:~# kubectl get pods –all-namespaces -o wide | grep cilium<br>NAMESPACE              NAME                                              READY  STATUS     RESTARTS    AGE           IP                       NODE<br>kube-system    cilium-k54qt                                       1/1     Running     0              80d     192.168.19.161    u18-161<br>kube-system    cilium-v7fx4                                       1/1     Running     0              80d     192.168.19.162    u18-162<br>kube-system    cilium-operator-cdb4d8bb6-8mj5w     1/1    Running     1              80d     192.168.19.162    u18-162      </p>
+<p>������Ĭ�ϵ���������£������ϵ����緢�������±仯����������root�����ռ䣬����������ͼ��ʾ���ĸ���������ӿڣ�����cilium_vxlan��Ҫ�Ǵ��������ݰ���vxlan��������������metadataģʽ��������Ϊ����ӿڷ���ip��ַ��cilium_host��Ϊ�����ϸ�������һ�����أ�������node-161Ϊ���Զ�������IP��ַ10.244.0.26/32��cilium_net��cilium_host��Ϊһ��veth������������һ��lxc_health��  </p>
+<p>��ÿ�������ϣ����Խ���Cilium Agent���鿴���������á������������node-161�ϵ�Cilium Agent cilium-k54qt������cilium bpf tunnel list�����Կ�������Ϊ��Ⱥ�е���һ̨����node-162��192.168.19.162���ϵ���������10.244.1.0������һ��������ͬ����node-162��Ҳ��һ���������������á�  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/73c789ae538f1bba67988459142b6344.jpg"><img src="http://dockone.io/uploads/article/20200711/73c789ae538f1bba67988459142b6344.jpg" alt="3.jpg" title="3.jpg"></a></p>
+<p><em>ͼ3 CiliumĬ��Overlay����</em>  </p>
+<p>����������Pod1��Pod2������node-161��Pod3��Pod4������node-162������������root�����ռ䣬ͨ��veth-pair���ӣ�����ͼ��ʾ��  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/2ebac6da02d4feea46447d6f9830708f.jpg"><img src="http://dockone.io/uploads/article/20200711/2ebac6da02d4feea46447d6f9830708f.jpg" alt="4.jpg" title="4.jpg"></a></p>
+<p><em>ͼ4 ���Ի�������ʾ��</em>  </p>
+<p>����Pod1�����Է��֣�Cilium�Ѿ�Ϊ�������IP��ַ������������Ĭ�ϵ�·�ɣ�Ĭ��·��ָ���˱�����cilium_host����ʼ״̬Pod�ڵ�arp��Ϊ�ա�  </p>
+<p>root@u18-161:~# kubectl exec -it test-1-7cd5798f46-vzf9s  -n test-1 bash<br>root@test-1-7cd5798f46-vzf9s:/# route -n<br>Kernel IP routing table<br>Destination          Gateway                  Genmask                  Flags       Metric    Ref    Use   Iface<br>0.0.0.0                10.244.0.26           0.0.0.0                      UG               0            0        0   eth0<br>10.244.0.26          0.0.0.0                255.255.255.255       UH              0            0        0    eth0<br>root@test-1-7cd5798f46-vzf9s:/# arp<br>root@test-1-7cd5798f46-vzf9s:/#           </p>
+<p>��Pod1��ping Pod2��ͨ��ץ�����Է��֣�Pod������ARP�������Ӧ��ARP��Ӧֱ��ͨ����Զ˵�veth-pair �ӿڷ��أ�52:c6:5e:ef:6e:97��5e:2d:20:9d:b1:a8��Pod1��Ӧ��veth-pair�������ARP��Ӧ��ͨ��Cilium Agentͨ�����ص�eBPF����ʵ�ֵ��Զ�Ӧ�𣬲��ҽ�veth-pair�Զ˵�MAC��ַ���أ����������������е�ARP�㲥���⡣  </p>
+<p>No.  Time             Source                       Destination         Protocol  Length           Info<br>133  39.536478  52:c6:5e:ef:6e:97  5e:2d:20:9d:b1:a8    ARP          42       Who has 10.244.0.26  Tell 10.244.0.71<br>134  39.536617  5e:2d:20:9d:b1:a8  52:c6:5e:ef:6e:97    ARP          42       10.244.0.26 is at 5e:2d:20:9d:b1:a8  </p>
+<h4 id="������Podͨ��"><a href="#������Podͨ��" class="headerlink" title="������Podͨ��"></a>������Podͨ��</h4><p>����������״̬֮����ôͬһ�������ڣ�����Pod��ͨ�ŵ�������ͺ����������ˡ����磬Pod1��Pod2������������ͨ·����ͼ��ʾPod1 –&gt; eth0 –&gt; lxc909734ef58f7 –&gt; lxc7c0fcdd49dd0 –&gt; eth0 –&gt; Pod2��  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/262700242ac65b3f7790badcecd3f060.jpg"><img src="http://dockone.io/uploads/article/20200711/262700242ac65b3f7790badcecd3f060.jpg" alt="5.jpg" title="5.jpg"></a></p>
+<p><em>ͼ5 ������Podͨ��·��</em>  </p>
+<h4 id="������Podͨ��-1"><a href="#������Podͨ��-1" class="headerlink" title="������Podͨ��"></a>������Podͨ��</h4><p>������Overlay����ģʽ�£�Pod��ڵ�֮���ͨ�ţ�ͨ��vxlanʵ�������ķ�װ��������·������ͼ��ʾpod1 –&gt; eth0 –&gt; lxc909734ef58f7 –&gt; cilium_vxlan –&gt; eth0(node-161) –&gt; eth0(node-162) –&gt; cilium_vxlan –&gt; lxc2df34a40a888 –&gt; eth0 –&gt; pod3��  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/3d306943aeb25f4a42028f3fafcc8dd1.jpg"><img src="http://dockone.io/uploads/article/20200711/3d306943aeb25f4a42028f3fafcc8dd1.jpg" alt="6.jpg" title="6.jpg"></a></p>
+<p><em>ͼ6 �������ڵ�Podͨ��·��</em>  </p>
+<p>������cilium_vxlan��������ӿ���ץ����������ʾ����ץ���������Կ�����Linux�ں˽�Pod1������ԭʼ���ݰ����͵�cilium_vxlan����������صķ�������������Ȼ���ٽ���������������������eth0��  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/125ed1e32f02eef93549893f8a220eec.png"><img src="http://dockone.io/uploads/article/20200711/125ed1e32f02eef93549893f8a220eec.png" alt="7.png" title="7.png"></a></p>
+<p><em>ͼ7 cilium_vxlanץ��</em>  </p>
+<p>����������eth0ץ�����Է��֣�Pod1���������ݰ�����cilium_vxlan�ķ�װ����֮����ԴĿ�ĵ�ַ�Ѿ������������node-161��node-162�����Ǿ����overlay��װ��ͬʱ�������Է��֣�cilium_vxlan���˶����ݰ�������������װ֮�⣬����ԭʼ���ݰ�������TLS���ܴ��������������ݰ�������������������еİ�ȫ�ԡ�  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/d0c918edc075885b35df262586d82b63.png"><img src="http://dockone.io/uploads/article/20200711/d0c918edc075885b35df262586d82b63.png" alt="8.png" title="8.png"></a></p>
+<p><em>ͼ8 node-161 eth0ץ��</em>  </p>
+<h3 id="API��֪�I�o��"><a href="#API��֪�I�o��" class="headerlink" title="API��֪�İ�ȫ��"></a>API��֪�İ�ȫ��</h3><h4 id="��o���ӻ������"><a href="#��o���ӻ������" class="headerlink" title="��ȫ���ӻ������"></a>��ȫ���ӻ������</h4><p>Cilium��1.17�汾֮���Ƴ�����Դ����������ӻ����<a target="_blank" rel="noopener" href="https://cilium.io/blog/2019/11/19/announcing-hubble/">Hubble</a>��Hubble�ǽ�����Cilium��eBPF֮�ϣ���һ����ȫ͸���ķ�ʽ���ṩ���������ʩͨ���Լ�Ӧ����Ϊ����ȿ��ӻ�����һ��Ӧ������ԭ���������أ���ȫ�ֲ�ʽ������Ͱ�ȫ�ɹ۲���ƽ̨��  </p>
+<p>Hubble�ܹ�����Cilium�ṩ��eBPF����·������ö�KubernetesӦ�úͷ���������������ȿɼ��ԡ���Щ����������Ϣ���ԶԽ�Hubble CLI��UI���ߣ�����ͨ������ʽ�ķ�ʽ���ٷ��������ص����������밲ȫ���⡣Hubble���������ļ�ع��ߣ������ԶԽ���Prometheus��Grafana����������ԭ�������ϵ��ʵ�ֿ���չ�ļ�ز��ԡ�  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/a8058c725e572c0919972f1e811aecab.png"><img src="http://dockone.io/uploads/article/20200711/a8058c725e572c0919972f1e811aecab.png" alt="9.png" title="9.png"></a></p>
+<p><em>ͼ9 Hubble�ܹ�ͼ</em>  </p>
+<p>����ͼ�ļܹ��Լ�Hubble������Կ�����Hubble��Cilium Agent֮�ϣ���DaemonSet�ķ�ʽ�����Լ���Agent����������Ĳ���ʾ������Hubble UI��������չʾ��ص������Լ���ȫ���ݡ�  </p>
+<p>root@u18-163:~# kubectl get pods –all-namespaces -o wide | grep hubble<br>kube-system  hubble-5tvzc                           1/1  Running  16  66d  10.244.1.209  u18-164  <none>  <none><br>kube-system  hubble-k9ft8                           1/1  Running  0   34m  10.244.0.198  u18-163  <none>  <none><br>kube-system  hubble-ui-5f9fc85849-x7lnl  1/1  Running  4   67d  10.244.0.109  u18-163  <none>  <none>  </p>
+<p>������Hubble����Ķ��������ݺ���Ϊ�Ŀɹ۲��ԣ������Ϊ����Ͱ�ȫ��ά��Ա�ṩ�������������  </p>
+<p>����������ϵ��ͨ��ӳ�����ˣ����磬����֪����Щ����֮�����໥ͨ�ţ���Щ����ͨ�ŵ�Ƶ���Ƕ��٣�����������ϵͼ��ʲô���ģ����ڽ���ʲôHTTP���ã������������ѻ�������ЩKafka��Topic�ȡ�  </p>
+<p>����ʱ�������غ͸澯�����磬����֪���Ƿ�������ͨ��ʧ���ˣ�Ϊʲôͨ�Ż�ʧ�ܣ���DNS�����⣿����Ӧ�ó�������⣿�����������⣿���ڵ�4��(TCP)���7��(HTTP)�ķ�����ͨ���жϵȣ���Щ�����ڹ�ȥ5������������DNS���������⣿��Щ�������������TCP�����жϻ򿴵����ӳ�ʱ TCP SYN�����δ�ش����Ƕ��� �ȵȡ�  </p>
+<p>Ӧ�ó���ļ�أ����磬����֪������ض��ķ����缯Ⱥ����HTTP 4xx����5xx��Ӧ�������Ƕ��٣����ҵļ�Ⱥ��HTTP�������Ӧ֮��ĵ�95�͵�99�ٷ�λ�ӳ��Ƕ��� ��Щ������������ ��������֮����ӳ���ʲô �ȵ���Щ���⡣  </p>
+<p>��ȫ�ɹ۲��ԣ����磬����֪����Щ�����������Ϊ������Զ����������Ӽ�Ⱥ�ⲿ��������Щ������Щ����������ض���DNS���ƣ��ȵȡ�  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/3a5e7effd086ed4d3f395dc461ade074.png"><img src="http://dockone.io/uploads/article/20200711/3a5e7effd086ed4d3f395dc461ade074.png" alt="10.png" title="10.png"></a></p>
+<p><em>ͼ10 Hubble���湦��</em>  </p>
+<p>����ͼHubble�Ľ��棬���ǿ��Լ򵥵Ŀ����䲿�ֹ��ܺ����ݣ����磬����ֱ�۵���ʾ����·�ͷ���֮���ͨ�Ź�ϵ�����Բ鿴Flows�Ķ�����ϸ����ָ�꣬���Բ鿴��Ӧ�İ�ȫ�������������ͨ��namespace�Թ۲������й��˵ȵȡ�  </p>
+<h4 id="΢����"><a href="#΢����" class="headerlink" title="΢����"></a>΢����</h4><p>Ĭ������£�Cilium������������һ�����ṩ��������Ⱥ�������ȫ������ͨ���û���Ҫ�����Լ���Ӧ�÷�������趨��Ӧ�İ�ȫ������ԡ�����ͼ��ʾ��ÿ���û��´���һ��Pod������������һ����ȫ���ԣ�Cilium Agent����������Ӧ��������������������Ӧ��eBPF����ʵ��������ͨ�Լ����ݰ�ȫ���Զ����ݰ����й��ˡ����磬����ͨ�����������NetworkPolicyʵ��һ��������L3/L4�����簲ȫ���ԡ�  </p>
+<p>apiVersion: “cilium.io/v2”<br>kind: CiliumNetworkPolicy<br>description: “L3-L4 policy to restrict deathstar access to empire ships only”<br>metadata:<br>name: “rule1”<br>spec:<br>endpointSelector:<br>    matchLabels:<br>        org: empire<br>     class: deathstar<br>ingress:  </p>
+<ul>
+<li>fromEndpoints:    </li>
+<li>matchLabels:  <pre><code>     org: empire  </code></pre>
+toPorts:  </li>
+<li>ports:  <ul>
+<li>port: “80”<br> protocol: TCP       </li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/2d97601bb58407968f11799252dbd6a4.png"><img src="http://dockone.io/uploads/article/20200711/2d97601bb58407968f11799252dbd6a4.png" alt="11.png" title="11.png"></a></p>
+<p><em>ͼ11 Cilium������뷽��ʾ��ͼ</em>  </p>
+<p>Ȼ������΢����ܹ��У�һ������΢�����Ӧ�ó���ͨ�����ָ��һЩ�����ķ�����Щ����ͨ��API��ʹ��HTTP��gRPC��Kafka��������Э�飩ʵ�ֱ˴˵�ͨ�š���ˣ���ʵ����L3/L4������簲ȫ���ԣ�ȱ������΢�����Ŀɼ����Լ���API��ϸ���ȸ�����ʿ��ƣ���΢����ܹ����ǲ����ġ�  </p>
+<p>���ǿ��Կ�����������ӣ�Job Postings�������¶�������Ľ�����顢�Լ�һЩ����ɾ���ġ����API��Gordon��Ϊһ����ְ�ߣ���Ҫ����Job Postings�ṩ��Jobs�����Ϣ�����մ�ͳ��L3/L4��ĸ��뷽��������ͨ��iptables -s 10.1.1.1 -p tcp �Cdport 80 -j ACCEPT������Gordon������Job Postings��80�˿��ṩ��HTTP���񡣵���������������򣬵���Gordonͬ�����Է��ʰ���������Ϣ���޸���Ϣ��������ɾ����Ϣ�������ӿڡ�����������϶������ǵķ������������ϣ�������ģ�ͬʱҲ���������صİ�ȫ������  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/3b6fe1bb1ad7433a96315e782b4b51fa.png"><img src="http://dockone.io/uploads/article/20200711/3b6fe1bb1ad7433a96315e782b4b51fa.png" alt="12.png" title="12.png"></a></p>
+<p><em>ͼ12 L7΢����ʾ��</em>  </p>
+<p>��ˣ�ʵ��΢������L7����룬ʵ�����Ӧ��API����ķ��ʿ��ƣ���΢��������΢�����һ����Ҫ���֡�Cilium��ΪDocker��Kubernetes�Ȼ���Linux����������ṩ��֧��API��������簲ȫ����������ͨ��ʹ��eBPF��Cilium�ṩ��һ�ּ򵥶���Ч�ķ����������ִ�л�������/pod���ݵ�������Ӧ�ò㰲ȫ���ԡ����ǿ���ͨ�����������NetworkPolicyʵ��һ��L7�����簲ȫ���ԡ�  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/989a29fe05e37ace4af2547f7bac62f3.png"><img src="http://dockone.io/uploads/article/20200711/989a29fe05e37ace4af2547f7bac62f3.png" alt="13.png" title="13.png"></a></p>
+<p><em>ͼ13 Ciliumʵ��΢����ȫ</em>  </p>
+<p>apiVersion: “cilium.io/v2”<br>kind: CiliumNetworkPolicy<br>description: “L7 policy to restrict access to specific HTTP call”<br>metadata:<br>name: “rule1”<br>spec:<br> endpointSelector:<br>     matchLabels:<br>      org: empire<br>     class: deathstar<br>ingress:  </p>
+<ul>
+<li>fromEndpoints:  <ul>
+<li>matchLabels:<br>   org: empire<br>toPorts:  </li>
+<li>ports:  <ul>
+<li>port: “80”<br>protocol: TCP<br>rules:<br>   http:  <ul>
+<li>method: “POST”<br> path: “/v1/request-landing”  </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Cilium���ṩ��һ�ֻ���Proxy��ʵ�ַ�ʽ�����Ը�����Ķ�L7Э�������չ������ͼ��ʾ��Cilium Agent����eBPFʵ�ֶ����ݰ����ض��򣬽���Ҫ���й��˵����ݰ�����ת����Proxy������Proxy������������Ӧ�Ĺ��˹��򣬶��յ������ݰ����й��ˣ�Ȼ���ٽ��䷢�������ݰ���ԭʼ·������Proxy�������й��˵Ĺ�����ͨ��Cilium Agent�����·��͹�����  </p>
+<p>����Ҫ��չЭ��ʱ��ֻ��Ҫ��Proxy�����У����Ӷ���Э��Ĵ��������߼��Լ��������߼�������ʵ����Ӧ�Ĺ���������  </p>
+<p><a target="_blank" rel="noopener" href="http://dockone.io/uploads/article/20200711/4f823d0a351a00b903d25e113f10add9.png"><img src="http://dockone.io/uploads/article/20200711/4f823d0a351a00b903d25e113f10add9.png" alt="14.png" title="14.png"></a></p>
+<p><em>ͼ14 L7����ʿ���Э����չԭ��ͼ</em>  </p>
+<h3 id="�ܽ�"><a href="#�ܽ�" class="headerlink" title="�ܽ�"></a>�ܽ�</h3><p>Cilium��һ������eBPF��XDP�ĸ��������緽�����������ؽ�������ԭ���Լ�Ĭ�ϵ�overlay����ͨ�š����˻���������ͨ�������⣬Cilium�������˻���eBPF�ĸ��ؾ���������L3/L4/L7�İ�ȫ������������ص����ݣ���������и���ϸ��ʵ��������  </p>
+</blockquote>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-至今 zhangyu
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 572px;
+    }
+    .nav.fullscreen {
+        margin-left: -572px;
+    }
+    .nav-left {
+        width: 150px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
