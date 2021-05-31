@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>性能之癫-优化你的程序 | 大雨哥</title>
-  <meta name="keywords" content=" 性能 ">
-  <meta name="description" content="性能之癫-优化你的程序 | 大雨哥">
+  <title>在Kubernetes中实施审计策略 | 大雨哥</title>
+  <meta name="keywords" content=" Kubernetes ">
+  <meta name="description" content="在Kubernetes中实施审计策略 | 大雨哥">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
 <meta property="og:type" content="website">
@@ -515,9 +515,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-performance-optimize-your-program" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-enforce-audit-policy-in-k8s" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">性能之癫-优化你的程序</h1>
+        <h1 class="article-title">在Kubernetes中实施审计策略</h1>
     
     <div class="article-meta">
         
@@ -527,7 +527,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="优化">优化</a>
+            <a  data-rel="Kubernetes">Kubernetes</a>
             
         </span>
         
@@ -535,14 +535,14 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color3">性能</a>
+            <a class="color1">Kubernetes</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-03-15 23:33:48'>2021-03-15 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2021-05-31 20:49:59'>2021-05-31 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -553,7 +553,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Log-all-requests-at-the-Metadata-level"><span class="toc-text">Log all requests at the Metadata level.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Log-the-request-body-of-configmap-changes-in-kube-system"><span class="toc-text">Log the request body of configmap changes in kube-system.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Log-configmap-and-secret-changes-in-all-other-namespaces-at-the-Metadata-level"><span class="toc-text">Log configmap and secret changes in all other namespaces at the Metadata level.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A-catch-all-rule-to-log-all-other-requests-at-the-Metadata-level"><span class="toc-text">A catch-all rule to log all other requests at the Metadata level.</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -569,30 +569,165 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>原创 码砖杂役<br>性能之巅-优化你的程序<br>​<img src="https://img-blog.csdnimg.cn/20200906093653393.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>outline：关注&amp;指标&amp;度量，基础理论知识，工具&amp;方法，最佳实践，参考资料<br><img src="https://img-blog.csdnimg.cn/20200906093737257.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>性能优化关注：CPU、内存、磁盘IO、网络IO等四个方面。<br><img src="https://img-blog.csdnimg.cn/20200906093958459.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>性能指标：吞吐率、响应时间、QPS/IOPS、TP99、资源使用率是我们经常关注的指标。<br><img src="https://img-blog.csdnimg.cn/20200906094045945.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>时间度量：从cpu cycle到网络IO，自上到下，时间量级越大。<br><img src="https://img-blog.csdnimg.cn/20200906094117137.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>监控、分析、优化，三部曲，以终为始，循环往复。<br><img src="https://img-blog.csdnimg.cn/20200906094141925.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>优化性能，需要一些系统编程知识。<br><img src="https://img-blog.csdnimg.cn/20200906094238439.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>提升处理能力、减少计算量是优化的2个根本方向。<br><img src="https://img-blog.csdnimg.cn/20200906094309434.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>优化大师格雷格画的图，吊炸天，你应该很熟悉，gregg亲手实现了一些工具。<br><img src="https://img-blog.csdnimg.cn/20200906094341812.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>借助工具定位性能瓶颈。gprof2dot.py可以处理多种采样输出数据</p>
-<p>建议使用perf等非侵入式的profiling工具。<br><img src="https://img-blog.csdnimg.cn/20200906094406573.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>perf不仅仅可以定位cpu瓶颈，还可以查看很多方面，比如缺页，分支预测失败，上下文切换等。<br><img src="https://img-blog.csdnimg.cn/20200906094522750.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>IO瓶颈，你应该知道的知识。<br><img src="https://img-blog.csdnimg.cn/20200906094600545.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>有关锁的知识，你应该知道的。<br><img src="https://img-blog.csdnimg.cn/20200906094624185.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>多线程的学问很大<br><img src="https://img-blog.csdnimg.cn/20200906094658391.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>内存管理的方方面面<br><img src="https://img-blog.csdnimg.cn/20200906094724130.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>最佳实践，没有足够理由，你不应该违背。<br><img src="https://img-blog.csdnimg.cn/20200906094743624.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>你应该懂得的。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200906094850672.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>关于排序，你应该知道的。<br><img src="https://img-blog.csdnimg.cn/20200906094917988.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4MTA3OTI5,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>这些资料不错，你值得拥有。</p>
-<p>如果对你有帮助，请帮忙转发，让更多朋友收益。</p>
-<p>一般性原则<br>依据数据而不是凭空猜测<br>忌过早优化<br>忌过度优化<br>深入理解业务<br>性能优化是持久战<br>选择合适的衡量指标、测试用例、测试环境<br>性能优化的层次<br>需求阶段<br>设计阶段<br>实现阶段<br>一般性方法<br>缓存<br>并发<br>惰性<br>批量，合并<br>更高效的实现<br>缩小解空间<br>性能优化与代码质量<br>总结<br>依据数据而不是凭空猜测</p>
-<p>这是性能优化的第一原则，当我们怀疑性能有问题的时候，应该通过测试、日志、profillig来分析出哪里有问题，有的放矢，而不是凭感觉、撞运气。一个系统有了性能问题，瓶颈有可能是CPU，有可能是内存，有可能是IO（磁盘IO，网络IO），大方向的定位可以使用top以及stat系列来定位（vmstat，iostat，netstat…），针对单个进程，可以使用pidstat来分析。</p>
-<p>在本文中，主要讨论的是CPU相关的性能问题。按照80/20定律，绝大多数的时间都耗费在少量的代码片段里面，找出这些代码唯一可靠的办法就是profile，我所知的编程语言，都有相关的profile工具，熟练使用这些profile工具是性能优化的第一步。</p>
-<p>忌过早优化</p>
-<p>The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming.<br>我并不十分清楚Donald Knuth说出这句名言的上下文环境，但我自己是十分认同这个观念的。在我的工作环境（以及典型的互联网应用开发）与编程模式下，追求的是快速的迭代与试错，过早的优化往往是无用功。而且，过早的优化很容易拍脑袋，优化的点往往不是真正的性能瓶颈。</p>
-<p>忌过度优化</p>
-<p>As performance is part of the specification of a program – a program that is unusably slow is not fit for purpose<br>性能优化的目标是追求合适的性价比。</p>
-<p>在不同的阶段，我们对系统的性能会有一定的要求，比如吞吐量要达到多少多少。如果达不到这个指标，就需要去优化。如果能满足预期，那么就无需花费时间精力去优化，比如只有几十个人使用的内部系统，就不用按照十万在线的目标去优化。</p>
-<p>而且，后面也会提到，一些优化方法是“有损”的，可能会对代码的可读性、可维护性有副作用。这个时候，就更不能过度优化。</p>
-<p>深入理解业务</p>
-<p>代码是服务于业务的，也许是服务于最终用户，也许是服务于其他程序员。不了解业务，很难理解系统的流程，很难找出系统设计的不足之处。后面还会提及对业务理解的重要性。</p>
-<p>性能优化是持久战</p>
-<p>当核心业务方向明确之后，就应该开始关注性能问题，当项目上线之后，更应该持续的进行性能检测与优化。</p>
-<p>现在的互联网产品，不再是一锤子买卖，在上线之后还需要持续的开发，用户的涌入也会带来性能问题。因此需要自动化的检测性能问题，保持稳定的测试环境，持续的发现并解决性能问题，而不是被动地等到用户的投诉。</p>
-<p>选择合适的衡量指标、测试用例、测试环境</p>
-<p>正因为性能优化是一个长期的行为，所以需要固定衡量指标、测试用例、测试环境，这样才能客观反映性能的实际情况，也能展现出优化的效果。</p>
-<p>衡量性能有很多指标，比如系统响应时间、系统吞吐量、系统并发量。不同的系统核心指标是不一样的，首先要明确本系统的核心性能诉求，固定测试用例；其次也要兼顾其他指标，不能顾此失彼。</p>
-<p>测试环境也很重要，有一次突然发现我们的QPS高了许多，但是程序压根儿没优化，查了半天，才发现是换了一个更牛逼的物理机做测试服务器。</p>
+        <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/samvVSGqTlW0DJ9RGvZckQ">在Kubernetes 中实施审计策略</a></p>
+<blockquote>
+<blockquote>
+<p>作者：Vinod Kumar Nair</p>
+<p>翻译：Bach (K8sMeetup)</p>
+<p>校对：星空下的文仔</p>
+</blockquote>
+<p>如果我们想检查 Kubernetes 生产环境中的以下活动：</p>
+<ol>
+<li><p> 谁登录了 Kubernetes 集群？</p>
+</li>
+<li><p> 哪个服务帐户或用户访问了集群中的哪些资源？</p>
+</li>
+<li><p> 谁创建了 secret 或 configmap？</p>
+</li>
+<li><p> 谁看了 ETCD 的 secrets ，或者其他更多？</p>
+</li>
+</ol>
+<p><strong>那么在 Kubernetes 中执行审计策略（Audit Policy）是非常正确的选择。</strong></p>
+<p><strong>典型的 Kubernetes 环境</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1e9ia4YcKpMMibwFg0B7oGbtf3HFMvdN1R3wm3HPPHB13HXNUiaTK0UU19nKicDP1u2Er5Pmfx4TZfWTicYjSc80jKQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>没有审计策略的 Kubernetes  </p>
+<p><strong>启用后，审计记录将在 kube-apiserver 组件内开始其生命周期。</strong>每个请求在其执行的每个阶段都会生成一个审计事件，然后根据特定策略对其进行预处理，并写入后端。该策略确定记录的内容，后端将保留记录。当前的后端实现包括日志文件和 webhooks。</p>
+<p><strong>每个请求都可以记录一个关联的阶段（stage）。</strong>定义的阶段有：</p>
+<ul>
+<li><p>  <code>RequestReceived</code> - 此阶段对应审计处理器接收到请求后，并且在委托给其余处理器之前生成的事件。</p>
+</li>
+<li><p>  <code>ResponseStarted</code> - 在响应消息的头部发送后，响应消息体发送前生成的事件。只有长时间运行的请求（例如 watch）才会生成这个阶段。</p>
+</li>
+<li><p>  <code>ResponseComplete</code> - 当响应消息体完成并且没有更多数据需要传输的时候。</p>
+</li>
+<li><p>  <code>Panic</code> - 当 panic 发生时生成。</p>
+</li>
+</ul>
+<p><strong>审计策略规则和级别</strong></p>
+<p>审计策略定义了有关应该记录哪些事件以及应包含哪些数据的规则。审核策略对象结构在 <code>audit.k8s.io</code>API 组中定义。<strong>处理事件时，会按顺序将其与规则列表进行比较。第一个匹配规则设置事件的级别（audit levels）。</strong>定义的审核级别有：</p>
+<ul>
+<li><p>  <code>None</code> - 符合这条规则的日志将不会记录。</p>
+</li>
+<li><p>  <code>Metadata</code> - 记录请求的元数据（请求的用户、时间戳、资源、动词等等），但是不记录请求或者响应的消息体。</p>
+</li>
+<li><p>  <code>Request</code> - 记录事件的元数据和请求的消息体，但是不记录响应的消息体。这不适用于非资源类型的请求。</p>
+</li>
+<li><p>  <code>RequestResponse</code> - 记录事件的元数据，请求和响应的消息体。这不适用于非资源类型的请求。</p>
+</li>
+</ul>
+<p>下面是一个典型的审计策略文件：</p>
+<h1 id="Log-all-requests-at-the-Metadata-level"><a href="#Log-all-requests-at-the-Metadata-level" class="headerlink" title="Log all requests at the Metadata level."></a>Log all requests at the Metadata level.</h1><p>apiVersion: audit.k8s.io/v1<br>kind: Policy<br>rules:<br>- level: Metadata  </p>
+<p>复杂一点就是：</p>
+<p>apiVersion: audit.k8s.io/v1<br>kind: Policy<br>omitStages:  </p>
+<ul>
+<li><p>“RequestReceived”<br>rules:  </p>
+</li>
+<li><p>level: RequestResponse<br>resources:  </p>
+<ul>
+<li>group: “”<br>resources: [“pods”]  </li>
+</ul>
+</li>
+<li><p>level: Metadata<br>resources:  </p>
+<ul>
+<li>group: “”<br>resources: [“pods/log”, “pods/status”]  </li>
+</ul>
+</li>
+<li><p>level: None<br>resources:  </p>
+<ul>
+<li>group: “”<br>resources: [“configmaps”]<br>resourceNames: [“controller-leader”]  </li>
+</ul>
+</li>
+<li><p>level: None<br>users: [“system:kube-proxy”]<br>verbs: [“watch”]<br>resources:  </p>
+<ul>
+<li>group: “” # core API group<br>resources: [“endpoints”, “services”]  </li>
+</ul>
+</li>
+<li><p>level: None<br>userGroups: [“system:authenticated”]<br>nonResourceURLs:  </p>
+<ul>
+<li>“/api*“ # Wildcard matching.  </li>
+<li>“/version”  </li>
+</ul>
+</li>
+<li><p>level: Request<br>resources:  </p>
+<ul>
+<li>group: “” # core API group<br>resources: [“configmaps”]<br>namespaces: [“kube-system”]  </li>
+</ul>
+</li>
+<li><p>level: Metadata<br>resources:  </p>
+<ul>
+<li>group: “” # core API group<br>resources: [“secrets”, “configmaps”]  </li>
+</ul>
+</li>
+<li><p>level: Request<br>resources:  </p>
+<ul>
+<li>group: “” # core API group  </li>
+<li>group: “extensions” # Version of group should NOT be included.  </li>
+</ul>
+</li>
+<li><p>level: Metadata<br>omitStages:  </p>
+<ul>
+<li>“RequestReceived”</li>
+</ul>
+</li>
+</ul>
+<p><strong>架构-Kubernetes 中的审计策略</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1e9ia4YcKpMMibwFg0B7oGbtf3HFMvdN1R9KOuibkzD2FAb7zpSibyBIBwx7Qibuc8ftHXbuS2AVicpkHViarttwApmgg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>Kubernetes 启用了审计策略  </p>
+<p>我们可以使用 Webhooks 将审核日志发送到文件或远程 Web API。</p>
+<p>在本文中，我们将强制 kube api-server 将审核日志发送到文件。</p>
+<p><strong>在 Kubernetes 中启用审计策略（对于审计日志文件）</strong></p>
+<ol>
+<li> <strong>创建审计策略 YAML 文件</strong>：前往 Kubernetes 集群，并使用以下规则创建 audit-policy.yaml：</li>
+</ol>
+<p>apiVersion: audit.k8s.io/v1<br>kind: Policy<br>rules:   </p>
+<h1 id="Log-the-request-body-of-configmap-changes-in-kube-system"><a href="#Log-the-request-body-of-configmap-changes-in-kube-system" class="headerlink" title="Log the request body of configmap changes in kube-system."></a>Log the request body of configmap changes in kube-system.</h1><ul>
+<li><p>level: Request<br>resources:  </p>
+<ul>
+<li>group: “” # core API group<br>resources: [“configmaps”]<br>namespaces: [“kube-system”]  </li>
+</ul>
+<h1 id="Log-configmap-and-secret-changes-in-all-other-namespaces-at-the-Metadata-level"><a href="#Log-configmap-and-secret-changes-in-all-other-namespaces-at-the-Metadata-level" class="headerlink" title="Log configmap and secret changes in all other namespaces at the Metadata level."></a>Log configmap and secret changes in all other namespaces at the Metadata level.</h1></li>
+<li><p>level: Metadata<br>resources:  </p>
+<ul>
+<li>group: “” # core API group<br>resources: [“secrets”, “configmaps”]  </li>
+</ul>
+<h1 id="A-catch-all-rule-to-log-all-other-requests-at-the-Metadata-level"><a href="#A-catch-all-rule-to-log-all-other-requests-at-the-Metadata-level" class="headerlink" title="A catch-all rule to log all other requests at the Metadata level."></a>A catch-all rule to log all other requests at the Metadata level.</h1></li>
+<li><p>level: Metadata<br>omitStages:  </p>
+<ul>
+<li>“RequestReceived”  </li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li> <strong>更新 kube api-server 清单文件：</strong></li>
+</ol>
+<p>- kube-apiserver<br>    - –advertise-address=10.156.0.6<br>    - –audit-policy-file=/etc/kubernetes/audit-policy.yaml<br>    - –audit-log-path=/var/log/audit.log   </p>
+<hr>
+<ul>
+<li>mountPath: /etc/kubernetes/audit-policy.yaml<br>name: audit<br>readOnly: true<br>— mountPath: /var/log/audit.log<br>name: audit-log<br>readOnly: false<br>-–<br>volumes:  </li>
+<li>name: audit<br>hostPath:<br> path: /etc/kubernetes/audit-policy.yaml<br> type: File  </li>
+<li>name: audit-log<br>hostPath:<br>  path: /var/log/audit.log<br>  type: FileOrCreate  </li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1e9ia4YcKpMMibwFg0B7oGbtf3HFMvdN1RkAmtrPeKpNCZictbkKYRVQL0TfMRsqAocOzULjSjS2KEn9Py3cJTLAw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>k8s-api-server —清单文件  </p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1e9ia4YcKpMMibwFg0B7oGbtf3HFMvdN1RLXZkqic7qsIwsxib441A8nJRKY8hPsS22hriawx2fyGQLQk9C4IBPhdFA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>k8s-api-server —清单文件  </p>
+<p>就这样，转到生成的审计日志文件。</p>
+<p>在这个案例中，这是 audit.log。我们可以看到在阶段级别捕获的有关 Kubernetes 集群的审计日志信息，如以下示例中所示：</p>
+<p>{<br> “kind”:”Event”,<br> “apiVersion”:”audit.k8s.io/v1”,<br> “level”:”Metadata”,<br> “auditID”:”a42fa658-f143–43d8-b5e6–4e101d3e15ea”,<br> “stage”:”ResponseComplete”,<br> “requestURI”:”/api/v1/namespaces/default/secrets?fieldManager=kubectl-create”,<br> “verb”:”create”,<br> “user”:{<br> “username”:”kubernetes-admin”,<br> “groups”:[<br> “system:masters”,<br> “system:authenticated”<br> ]<br> },<br> “sourceIPs”:[<br> “10.156.0.2”<br> ],<br> “userAgent”:”kubectl/v1.20.2 (linux/amd64) kubernetes/faecb19”,<br> “objectRef”:{<br> “resource”:”secrets”,<br> “namespace”:”default”,<br> “name”:”test-secret”,<br> “apiVersion”:”v1”<br> },<br> “responseStatus”:{<br> “metadata”:{  </p>
+<p> },<br> “code”:201<br> },<br> “requestReceivedTimestamp”:”2021–04–03T13:50:37.009656Z”,<br> “stageTimestamp”:”2021–04–03T13:50:38.040874Z”,<br> “annotations”:{<br> “authorization.k8s.io/decision”:”allow”,<br> “authorization.k8s.io/reason”:””<br> }<br>}<br>{<br> “kind”:”Event”,<br> “apiVersion”:”audit.k8s.io/v1”,<br> “level”:”Metadata”,<br> “auditID”:”f1466b01–9b68–45ec-b3bb-b440397f6481”,<br> “stage”:”ResponseComplete”,<br> “requestURI”:”/api/v1/namespaces/default/secrets/test-secret”,<br> “verb”:”get”,<br> “user”:{<br> “username”:”kubernetes-admin”,<br> “groups”:[<br> “system:masters”,<br> “system:authenticated”<br> ]<br> },<br> “sourceIPs”:[<br> “10.156.0.2”<br> ],<br> “userAgent”:”kubectl/v1.20.2 (linux/amd64) kubernetes/faecb19”,<br> “objectRef”:{<br> “resource”:”secrets”,<br> “namespace”:”default”,<br> “name”:”test-secret”,<br> “apiVersion”:”v1”<br> },<br> “responseStatus”:{<br> “metadata”:{  </p>
+<p> },<br> “code”:200<br> },<br> “requestReceivedTimestamp”:”2021–04–03T13:51:08.603724Z”,<br> “stageTimestamp”:”2021–04–03T13:51:08.607716Z”,<br> “annotations”:{<br> “authorization.k8s.io/decision”:”allow”,<br> “authorization.k8s.io/reason”:””<br> }<br>}<br>{<br> “kind”:”Event”,<br> “apiVersion”:”audit.k8s.io/v1”,<br> “level”:”Metadata”,<br> “auditID”:”30be8c70-fda6–44de-8a83–3fe56161d44e”,<br> “stage”:”ResponseComplete”,<br> “requestURI”:”/api/v1/namespaces/default/secrets/test-secret”,<br> “verb”:”get”,<br> “user”:{<br> “username”:”kubernetes-admin”,<br> “groups”:[<br> “system:masters”,<br> “system:authenticated”<br> ]<br> },<br> “sourceIPs”:[<br> “10.156.0.2”<br> ],<br> “userAgent”:”kubectl/v1.20.2 (linux/amd64) kubernetes/faecb19”,<br> “objectRef”:{<br> “resource”:”secrets”,<br> “namespace”:”default”,<br> “name”:”test-secret”,<br> “apiVersion”:”v1”<br> },<br> “responseStatus”:{<br> “metadata”:{  </p>
+<p> },<br> “code”:200<br> },<br> “requestReceivedTimestamp”:”2021–04–03T13:54:57.867317Z”,<br> “stageTimestamp”:”2021–04–03T13:54:57.871369Z”,<br> “annotations”:{<br> “authorization.k8s.io/decision”:”allow”,<br> “authorization.k8s.io/reason”:””<br> }<br>}  </p>
+<p>此外， 我们可以使用以下 kube-apiserver 标志配置 Log 审计后端，来更改审计日志文件的状态：</p>
+<ul>
+<li><p>  <code>--audit-log-maxage</code> 定义保留旧审计日志文件的最大天数。</p>
+</li>
+<li><p>  <code>--audit-log-maxbackup</code> 定义要保留的审计日志文件的最大数量。</p>
+</li>
+<li><p>  <code>--audit-log-maxsize</code> 定义审计日志文件的最大大小（兆字节）。</p>
+</li>
+</ul>
+<p><strong>总结</strong></p>
+<p><strong>审计策略会检查 Kubernetes 集群中发生的所有请求、响应。</strong>这是一个最佳实践，应在早期阶段就启用。在本文示例中，和大家展示了如何将审计数据发送到文件。</p>
 </blockquote>
 
       

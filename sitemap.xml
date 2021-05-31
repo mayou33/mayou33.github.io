@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhang-yu.me/2021/05/31/enforce-audit-policy-in-k8s/</loc>
+    
+    <lastmod>2021-05-31</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhang-yu.me/2021/05/31/docker-shell-signal/</loc>
     
     <lastmod>2021-05-31</lastmod>
