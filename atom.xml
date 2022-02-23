@@ -3,11 +3,11 @@
   <title>大雨哥</title>
   
   
-  <link href="http://zhang-yu.me/atom.xml" rel="self"/>
+  <link href="http://zhangyu.info/atom.xml" rel="self"/>
   
-  <link href="http://zhang-yu.me/"/>
+  <link href="http://zhangyu.info/"/>
   <updated>2021-05-31T12:41:15.290Z</updated>
-  <id>http://zhang-yu.me/</id>
+  <id>http://zhangyu.info/</id>
   
   <author>
     <name>zhangyu</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>开启shareProcessNamespace后容器异常</title>
-    <link href="http://zhang-yu.me/2021/05/31/cotainer-init/"/>
-    <id>http://zhang-yu.me/2021/05/31/cotainer-init/</id>
+    <link href="http://zhangyu.info/2021/05/31/cotainer-init/"/>
+    <id>http://zhangyu.info/2021/05/31/cotainer-init/</id>
     <published>2021-05-30T16:00:00.000Z</published>
     <updated>2021-05-31T12:41:15.290Z</updated>
     
@@ -35,17 +35,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/tags/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/tags/Kubernetes/"/>
     
   </entry>
   
   <entry>
     <title>k8s中shell脚本启动如何传递信号</title>
-    <link href="http://zhang-yu.me/2021/05/31/docker-shell-signal/"/>
-    <id>http://zhang-yu.me/2021/05/31/docker-shell-signal/</id>
+    <link href="http://zhangyu.info/2021/05/31/docker-shell-signal/"/>
+    <id>http://zhangyu.info/2021/05/31/docker-shell-signal/</id>
     <published>2021-05-30T16:00:00.000Z</published>
     <updated>2021-05-31T12:43:18.387Z</updated>
     
@@ -61,17 +61,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/tags/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/tags/Kubernetes/"/>
     
   </entry>
   
   <entry>
     <title>在Kubernetes中实施审计策略</title>
-    <link href="http://zhang-yu.me/2021/05/31/enforce-audit-policy-in-k8s/"/>
-    <id>http://zhang-yu.me/2021/05/31/enforce-audit-policy-in-k8s/</id>
+    <link href="http://zhangyu.info/2021/05/31/enforce-audit-policy-in-k8s/"/>
+    <id>http://zhangyu.info/2021/05/31/enforce-audit-policy-in-k8s/</id>
     <published>2021-05-30T16:00:00.000Z</published>
     <updated>2021-05-31T12:49:59.507Z</updated>
     
@@ -88,17 +88,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/tags/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/tags/Kubernetes/"/>
     
   </entry>
   
   <entry>
     <title>Cilium网络概述</title>
-    <link href="http://zhang-yu.me/2021/05/26/Cilium-Network-Overview/"/>
-    <id>http://zhang-yu.me/2021/05/26/Cilium-Network-Overview/</id>
+    <link href="http://zhangyu.info/2021/05/26/Cilium-Network-Overview/"/>
+    <id>http://zhangyu.info/2021/05/26/Cilium-Network-Overview/</id>
     <published>2021-05-25T16:00:00.000Z</published>
     <updated>2021-05-26T02:49:26.327Z</updated>
     
@@ -114,17 +114,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="Cilium" scheme="http://zhang-yu.me/tags/Cilium/"/>
+    <category term="Cilium" scheme="http://zhangyu.info/tags/Cilium/"/>
     
   </entry>
   
   <entry>
     <title>快速生成k8s的yaml配置的4种方法</title>
-    <link href="http://zhang-yu.me/2021/05/19/generating-yaml-for-k8s/"/>
-    <id>http://zhang-yu.me/2021/05/19/generating-yaml-for-k8s/</id>
+    <link href="http://zhangyu.info/2021/05/19/generating-yaml-for-k8s/"/>
+    <id>http://zhangyu.info/2021/05/19/generating-yaml-for-k8s/</id>
     <published>2021-05-18T16:00:00.000Z</published>
     <updated>2021-05-19T07:34:35.208Z</updated>
     
@@ -138,17 +138,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/tags/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/tags/Kubernetes/"/>
     
   </entry>
   
   <entry>
     <title>使用fklek搭建Kubernetes日志收集工具栈</title>
-    <link href="http://zhang-yu.me/2021/04/28/fklek-to-k8s-log/"/>
-    <id>http://zhang-yu.me/2021/04/28/fklek-to-k8s-log/</id>
+    <link href="http://zhangyu.info/2021/04/28/fklek-to-k8s-log/"/>
+    <id>http://zhangyu.info/2021/04/28/fklek-to-k8s-log/</id>
     <published>2021-04-27T16:00:00.000Z</published>
     <updated>2021-04-28T05:58:46.365Z</updated>
     
@@ -166,17 +166,17 @@
     
     
     
-    <category term="日志" scheme="http://zhang-yu.me/categories/%E6%97%A5%E5%BF%97/"/>
+    <category term="日志" scheme="http://zhangyu.info/categories/%E6%97%A5%E5%BF%97/"/>
     
     
-    <category term="日志" scheme="http://zhang-yu.me/tags/%E6%97%A5%E5%BF%97/"/>
+    <category term="日志" scheme="http://zhangyu.info/tags/%E6%97%A5%E5%BF%97/"/>
     
   </entry>
   
   <entry>
     <title>只有黑话，才能拯救互联网人</title>
-    <link href="http://zhang-yu.me/2021/04/27/heihua/"/>
-    <id>http://zhang-yu.me/2021/04/27/heihua/</id>
+    <link href="http://zhangyu.info/2021/04/27/heihua/"/>
+    <id>http://zhangyu.info/2021/04/27/heihua/</id>
     <published>2021-04-26T16:00:00.000Z</published>
     <updated>2021-04-27T05:40:09.445Z</updated>
     
@@ -197,17 +197,17 @@
     
     
     
-    <category term="胡说八道" scheme="http://zhang-yu.me/categories/%E8%83%A1%E8%AF%B4%E5%85%AB%E9%81%93/"/>
+    <category term="胡说八道" scheme="http://zhangyu.info/categories/%E8%83%A1%E8%AF%B4%E5%85%AB%E9%81%93/"/>
     
     
-    <category term="黑话" scheme="http://zhang-yu.me/tags/%E9%BB%91%E8%AF%9D/"/>
+    <category term="黑话" scheme="http://zhangyu.info/tags/%E9%BB%91%E8%AF%9D/"/>
     
   </entry>
   
   <entry>
     <title>漫画 一个NB互联网项目的上线过程</title>
-    <link href="http://zhang-yu.me/2021/04/27/manhua-shangxian/"/>
-    <id>http://zhang-yu.me/2021/04/27/manhua-shangxian/</id>
+    <link href="http://zhangyu.info/2021/04/27/manhua-shangxian/"/>
+    <id>http://zhangyu.info/2021/04/27/manhua-shangxian/</id>
     <published>2021-04-26T16:00:00.000Z</published>
     <updated>2021-04-27T05:57:50.505Z</updated>
     
@@ -227,17 +227,17 @@
     
     
     
-    <category term="胡说八道" scheme="http://zhang-yu.me/categories/%E8%83%A1%E8%AF%B4%E5%85%AB%E9%81%93/"/>
+    <category term="胡说八道" scheme="http://zhangyu.info/categories/%E8%83%A1%E8%AF%B4%E5%85%AB%E9%81%93/"/>
     
     
-    <category term="上线" scheme="http://zhang-yu.me/tags/%E4%B8%8A%E7%BA%BF/"/>
+    <category term="上线" scheme="http://zhangyu.info/tags/%E4%B8%8A%E7%BA%BF/"/>
     
   </entry>
   
   <entry>
     <title>Pulsar vs Kafka，CTO 如何抉择</title>
-    <link href="http://zhang-yu.me/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"/>
-    <id>http://zhang-yu.me/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/</id>
+    <link href="http://zhangyu.info/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"/>
+    <id>http://zhangyu.info/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/</id>
     <published>2021-04-23T16:00:00.000Z</published>
     <updated>2021-04-25T08:20:42.115Z</updated>
     
@@ -252,17 +252,17 @@
     
     
     
-    <category term="消息系统" scheme="http://zhang-yu.me/categories/%E6%B6%88%E6%81%AF%E7%B3%BB%E7%BB%9F/"/>
+    <category term="消息系统" scheme="http://zhangyu.info/categories/%E6%B6%88%E6%81%AF%E7%B3%BB%E7%BB%9F/"/>
     
     
-    <category term="Pulsar" scheme="http://zhang-yu.me/tags/Pulsar/"/>
+    <category term="Pulsar" scheme="http://zhangyu.info/tags/Pulsar/"/>
     
   </entry>
   
   <entry>
     <title>生产环境中的Kubernetes最佳实践</title>
-    <link href="http://zhang-yu.me/2021/04/21/kubernetes-best-practices-in-production/"/>
-    <id>http://zhang-yu.me/2021/04/21/kubernetes-best-practices-in-production/</id>
+    <link href="http://zhangyu.info/2021/04/21/kubernetes-best-practices-in-production/"/>
+    <id>http://zhangyu.info/2021/04/21/kubernetes-best-practices-in-production/</id>
     <published>2021-04-20T16:00:00.000Z</published>
     <updated>2021-04-21T08:50:20.907Z</updated>
     
@@ -277,17 +277,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/tags/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/tags/Kubernetes/"/>
     
   </entry>
   
   <entry>
     <title>你的技术成长战略是什么</title>
-    <link href="http://zhang-yu.me/2021/04/19/jishuchengzhang/"/>
-    <id>http://zhang-yu.me/2021/04/19/jishuchengzhang/</id>
+    <link href="http://zhangyu.info/2021/04/19/jishuchengzhang/"/>
+    <id>http://zhangyu.info/2021/04/19/jishuchengzhang/</id>
     <published>2021-04-18T16:00:00.000Z</published>
     <updated>2021-04-19T16:03:49.781Z</updated>
     
@@ -302,17 +302,17 @@
     
     
     
-    <category term="职业发展" scheme="http://zhang-yu.me/categories/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/"/>
+    <category term="职业发展" scheme="http://zhangyu.info/categories/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/"/>
     
     
-    <category term="职业发展" scheme="http://zhang-yu.me/tags/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/"/>
+    <category term="职业发展" scheme="http://zhangyu.info/tags/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/"/>
     
   </entry>
   
   <entry>
     <title>使用nerdctl玩转containerd</title>
-    <link href="http://zhang-yu.me/2021/04/12/nerdctl-to-containerd/"/>
-    <id>http://zhang-yu.me/2021/04/12/nerdctl-to-containerd/</id>
+    <link href="http://zhangyu.info/2021/04/12/nerdctl-to-containerd/"/>
+    <id>http://zhangyu.info/2021/04/12/nerdctl-to-containerd/</id>
     <published>2021-04-11T16:00:00.000Z</published>
     <updated>2021-04-12T13:02:31.269Z</updated>
     
@@ -328,17 +328,17 @@
     
     
     
-    <category term="containerd" scheme="http://zhang-yu.me/categories/containerd/"/>
+    <category term="containerd" scheme="http://zhangyu.info/categories/containerd/"/>
     
     
-    <category term="containerd" scheme="http://zhang-yu.me/tags/containerd/"/>
+    <category term="containerd" scheme="http://zhangyu.info/tags/containerd/"/>
     
   </entry>
   
   <entry>
     <title>Kubernetes网络和云厂商实践浅析</title>
-    <link href="http://zhang-yu.me/2021/04/09/Kubernetes-network/"/>
-    <id>http://zhang-yu.me/2021/04/09/Kubernetes-network/</id>
+    <link href="http://zhangyu.info/2021/04/09/Kubernetes-network/"/>
+    <id>http://zhangyu.info/2021/04/09/Kubernetes-network/</id>
     <published>2021-04-08T16:00:00.000Z</published>
     <updated>2021-04-09T03:00:20.304Z</updated>
     
@@ -352,17 +352,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/tags/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/tags/Kubernetes/"/>
     
   </entry>
   
   <entry>
     <title>Kubernetes Ingress 控制器的技术选型技巧</title>
-    <link href="http://zhang-yu.me/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"/>
-    <id>http://zhang-yu.me/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/</id>
+    <link href="http://zhangyu.info/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"/>
+    <id>http://zhangyu.info/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/</id>
     <published>2021-04-07T16:00:00.000Z</published>
     <updated>2021-04-08T08:56:51.700Z</updated>
     
@@ -377,17 +377,17 @@
     
     
     
-    <category term="Ingress" scheme="http://zhang-yu.me/categories/Ingress/"/>
+    <category term="Ingress" scheme="http://zhangyu.info/categories/Ingress/"/>
     
     
-    <category term="Ingress" scheme="http://zhang-yu.me/tags/Ingress/"/>
+    <category term="Ingress" scheme="http://zhangyu.info/tags/Ingress/"/>
     
   </entry>
   
   <entry>
     <title>Kubernetes入门-进阶实战</title>
-    <link href="http://zhang-yu.me/2021/04/08/Kubernetes-remen/"/>
-    <id>http://zhang-yu.me/2021/04/08/Kubernetes-remen/</id>
+    <link href="http://zhangyu.info/2021/04/08/Kubernetes-remen/"/>
+    <id>http://zhangyu.info/2021/04/08/Kubernetes-remen/</id>
     <published>2021-04-07T16:00:00.000Z</published>
     <updated>2021-04-08T09:59:59.264Z</updated>
     
@@ -402,17 +402,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/tags/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/tags/Kubernetes/"/>
     
   </entry>
   
   <entry>
     <title>Flannel-Calico怎么选择</title>
-    <link href="http://zhang-yu.me/2021/03/24/Flannel-Calico/"/>
-    <id>http://zhang-yu.me/2021/03/24/Flannel-Calico/</id>
+    <link href="http://zhangyu.info/2021/03/24/Flannel-Calico/"/>
+    <id>http://zhangyu.info/2021/03/24/Flannel-Calico/</id>
     <published>2021-03-23T16:00:00.000Z</published>
     <updated>2021-05-26T03:01:53.590Z</updated>
     
@@ -427,17 +427,17 @@
     
     
     
-    <category term="Kubernetes" scheme="http://zhang-yu.me/categories/Kubernetes/"/>
+    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
     
     
-    <category term="flannel" scheme="http://zhang-yu.me/tags/flannel/"/>
+    <category term="flannel" scheme="http://zhangyu.info/tags/flannel/"/>
     
   </entry>
   
   <entry>
     <title>nginx核心知识100讲知识图谱</title>
-    <link href="http://zhang-yu.me/2021/03/15/nginx-knowledge-graph/"/>
-    <id>http://zhang-yu.me/2021/03/15/nginx-knowledge-graph/</id>
+    <link href="http://zhangyu.info/2021/03/15/nginx-knowledge-graph/"/>
+    <id>http://zhangyu.info/2021/03/15/nginx-knowledge-graph/</id>
     <published>2021-03-14T16:00:00.000Z</published>
     <updated>2021-03-15T15:07:57.974Z</updated>
     
@@ -453,17 +453,17 @@
     
     
     
-    <category term="nginx" scheme="http://zhang-yu.me/categories/nginx/"/>
+    <category term="nginx" scheme="http://zhangyu.info/categories/nginx/"/>
     
     
-    <category term="nginx" scheme="http://zhang-yu.me/tags/nginx/"/>
+    <category term="nginx" scheme="http://zhangyu.info/tags/nginx/"/>
     
   </entry>
   
   <entry>
     <title>性能之癫-优化你的程序</title>
-    <link href="http://zhang-yu.me/2021/03/15/performance-optimize-your-program/"/>
-    <id>http://zhang-yu.me/2021/03/15/performance-optimize-your-program/</id>
+    <link href="http://zhangyu.info/2021/03/15/performance-optimize-your-program/"/>
+    <id>http://zhangyu.info/2021/03/15/performance-optimize-your-program/</id>
     <published>2021-03-14T16:00:00.000Z</published>
     <updated>2021-03-15T15:33:48.965Z</updated>
     
@@ -478,10 +478,10 @@
     
     
     
-    <category term="优化" scheme="http://zhang-yu.me/categories/%E4%BC%98%E5%8C%96/"/>
+    <category term="优化" scheme="http://zhangyu.info/categories/%E4%BC%98%E5%8C%96/"/>
     
     
-    <category term="性能" scheme="http://zhang-yu.me/tags/%E6%80%A7%E8%83%BD/"/>
+    <category term="性能" scheme="http://zhangyu.info/tags/%E6%80%A7%E8%83%BD/"/>
     
   </entry>
   
