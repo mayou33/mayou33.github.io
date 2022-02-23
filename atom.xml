@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>大雨哥</title>
+  <title>张天师</title>
   
   
   <link href="http://zhangyu.info/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>http://zhangyu.info/</id>
   
   <author>
-    <name>zhangyu</name>
+    <name>张天师</name>
     
   </author>
   
