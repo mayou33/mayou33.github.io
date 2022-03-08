@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>快速生成k8s的yaml配置的4种方法 | 张天师</title>
-  <meta name="keywords" content=" Kubernetes ">
-  <meta name="description" content="快速生成k8s的yaml配置的4种方法 | 张天师">
+  <title>云上资源自动化部署新模式 | 张天师</title>
+  <meta name="keywords" content=" SRE ">
+  <meta name="description" content="云上资源自动化部署新模式 | 张天师">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
 <meta property="og:type" content="website">
@@ -575,9 +575,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-generating-yaml-for-k8s" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-云上资源自动化部署新模式" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">快速生成k8s的yaml配置的4种方法</h1>
+        <h1 class="article-title">云上资源自动化部署新模式</h1>
     
     <div class="article-meta">
         
@@ -587,7 +587,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="Kubernetes">Kubernetes</a>
+            <a  data-rel="SRE">SRE</a>
             
         </span>
         
@@ -595,14 +595,14 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color1">Kubernetes</a>
+            <a class="color4">SRE</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-05-19 15:34:35'>2021-05-19 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2022-03-09 01:15:38'>2022-03-08 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -613,7 +613,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90k8s%E7%9A%84yaml%E9%85%8D%E7%BD%AE%E7%9A%844%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="toc-text">快速生成k8s的yaml配置的4种方法</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -629,133 +629,109 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>[快速生成kubernetes(k8s)的yaml配置的4种方法](<a target="_blank" rel="noopener" href="https://www.toutiao.com/i6952422377816965639/">https://www.toutiao.com/i6952422377816965639/</a> wid=1621396706552)</p>
+        <blockquote>
+<p>从原子操作走向模板部署，详解云上资源自动化部署新模式<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/bjchenxu/article/details/117794680">https://blog.csdn.net/bjchenxu/article/details/117794680</a></p>
+</blockquote>
 <blockquote>
-<h1 id="快速生成k8s的yaml配置的4种方法"><a href="#快速生成k8s的yaml配置的4种方法" class="headerlink" title="快速生成k8s的yaml配置的4种方法"></a>快速生成k8s的yaml配置的4种方法</h1><p>1、通过kubectl命令行快速生成一个deployment及service的yaml标准配置</p>
-<pre><code>#我们在后面加上`--dry-run -o yaml`
---dry-run代表这条命令不会实际在K8s执行，-o yaml是会将试运行结果以yaml的格式打印出来，这样我们就能轻松获得yaml配置了
-
-# kubectl create deployment nginx --image=nginx --dry-run -o yaml       
-
-apiVersion: apps/v1     # &lt;---  apiVersion 是当前配置格式的版本
-kind: Deployment     #&lt;--- kind 是要创建的资源类型，这里是 Deployment
-metadata:        #&lt;--- metadata 是该资源的元数据，name 是必需的元数据项
-  creationTimestamp: null
-  labels:
-    app: nginx
-  name: nginx
-spec:        #&lt;---    spec 部分是该 Deployment 的规格说明
-  replicas: 1        #&lt;---  replicas 指明副本数量，默认为 1
-  selector:
-    matchLabels:
-      app: nginx
-  strategy: &#123;&#125;
-  template:        #&lt;---   template 定义 Pod 的模板，这是配置文件的重要部分
-    metadata:        #&lt;---     metadata 定义 Pod 的元数据，至少要定义一个 label。label 的 key 和 value 可以任意指定
-      creationTimestamp: null
-      labels:
-        app: nginx
-    spec:           #&lt;---  spec 描述 Pod 的规格，此部分定义 Pod 中每一个容器的属性，name 和 image 是必需的
-      containers:
-      - image: nginx
-        name: nginx
-        resources: &#123;&#125;
-status: &#123;&#125;
-
-
-# 基于上面的deployment服务生成service的yaml配置
-
-# kubectl expose deployment nginx --port=80 --target-port=80 --dry-run -o yaml
-apiVersion: v1
-kind: Service
-metadata:
-  creationTimestamp: null
-  labels:
-    app: nginx
-  name: nginx
-spec:
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-  selector:
-    app: nginx
-status:
-  loadBalancer: &#123;&#125;</code></pre>
-<p>2、利用helm查看各种官方标准复杂的yaml配置以供参考</p>
-<pre><code># 以查看rabbitmq集群安装的配置举例
-# 首先添加chart仓库
-helm repo add aliyun-apphub https://apphub.aliyuncs.com
-helm repo update
-
-# 这里我们在后面加上 --dry-run --debug 就是模拟安装并且打印输出所有的yaml配置
-
-helm install -n rq rabbitmq-ha aliyun-apphub/rabbitmq-ha --dry-run --debug </code></pre>
-<p>3、将docker-compose转成k8s的yaml格式配置</p>
-<pre><code># 下载二进制包
-# https://github.com/kubernetes/kompose/releases
-
-# 开始转发yaml配置
-./kompose-linux-amd64 -f docker-compose.yml convert</code></pre>
-<p>4、docker命令输出转换成对应的yaml文件示例</p>
-<pre><code>这里以 Prometheus Node Exporter 为例演示如何运行自己的 DaemonSet。
-Prometheus 是流行的系统监控方案，Node Exporter 是 Prometheus 的 agent，以 Daemon 的形式运行在每个被监控节点上。
-如果是直接在 Docker 中运行 Node Exporter 容器，命令为：
-
-docker run -d \
-    -v &quot;/proc:/host/proc&quot; \
-    -v &quot;/sys:/host/sys&quot; \  
-    -v &quot;/:/rootfs&quot; \
-    --net=host \  
-    prom/node-exporter \  
-    --path.procfs /host/proc \  
-    --path.sysfs /host/sys \  
-    --collector.filesystem.ignored-mount-points &quot;^/(sys|proc|dev|host|etc)($|/)&quot;
-
-
-
-将其转换为 DaemonSet 的 YAML 配置文件 node_exporter.yml：
-
-apiVersion: extensions/v1beta1
-kind: DaemonSet
-metadata:
-  name: node-exporter-daemonset
-spec:
-  template:
-    metadata:
-      labels:
-        app: prometheus
-    spec:
-      hostNetwork: true      # &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; 1 直接使用 Host 的网络
-      containers:
-      - name: node-exporter
-        image: prom/node-exporter
-        imagePullPolicy: IfNotPresent
-        command:             # &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; 2 设置容器启动命令
-        - /bin/node_exporter
-        - --path.procfs
-        - /host/proc
-        - --path.sysfs
-        - /host/sys
-        - --collector.filesystem.ignored-mount-points
-        - ^/(sys|proc|dev|host|etc)($|/)
-        volumeMounts:        # &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; 3 通过Volume将Host路径/proc、/sys 和 / 映射到容器中
-        - name: proc
-          mountPath: /host/proc
-        - name: sys
-          mountPath: /host/sys
-        - name: root
-          mountPath: /rootfs
-      volumes:
-      - name: proc
-        hostPath:
-          path: /proc
-      - name: sys
-        hostPath:
-          path: /sys
-      - name: root
-        hostPath:
-          path: /</code></pre>
+<p>5 月 29 日，阿里[云开发]者大会的《应用开发的基础设施云上优化》分论坛上，阿里云技术专家王斌鑫发表了主题为《云上资源自动化部署新模式》的分享，详细阐述了云上资源自动化部署新模式——基于资源编排、Terraform托管、ROS CDK的自动化部署最佳实践。 </p>
+<p>本文为根据王斌鑫的演讲整理成文。</p>
+<p><strong>当前云上资源部署模式</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/24b9fc89a519dc332fe03e0b28385183.png"></p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/7e4c9dadd6be2d88862ad013689be882.png"> 云上资源传统部署模式的挑战</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c23409c9c64b612469505d70ec996224.png"></p>
+<p>大部分用户一般是通过控制台/API/SDK等传统模式进行云上资源的部署，这种部署模式会面临规模、效率、规范和成本四个方面的挑战：</p>
+<p>1. 规模上，随着业务的发展需要管理的资源规模不断上升，部署和管理种类繁多的资源带来挑战。</p>
+<p>2. 效率上，随着规模上升，手动批量部署变得难以为继。</p>
+<p>3. 规范上，如何确保对基础设施的变更均符合组织管理规范。</p>
+<p>4. 成本上，手动部署的方式无法极致地利用云上弹性能力，其成本仍有优化空间。</p>
+<p><strong>阿里云自动化部署模式</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9df336d655e3cdf6f5b9ab8a8246db39.png"></p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/c522f57920978ac9dc843a0bce5e3eda.png"> 资源编排服务（ROS）的核心价值</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/540b08d8eddbc42017d33fcf59dea10a.png"></p>
+<p>面对传统部署模式的挑战，我们在想是否能够帮助客户对云上资源进行自动化部署？因此有了阿里云资源编排服务（ROS），它基于基础设施即代码（IaC）的理念，让开发者和管理员使用模版的方式，编排云上的多种资源，进行自动化部署。</p>
+<p>对比手动部署，使用资源编排服务ROS进行自动化部署会带来如下好处：</p>
+<p>• 效率提升，针对诸如SAP这样复杂的解决方案能有效提升部署效率，也能够帮助MSP、ISV、onECS服务提升部署效率；</p>
+<p>• 架构优化，ROS提供了种类丰富的阿里云最佳实践模板，用户无需丰富的架构经验即可部署解决方案级别的架构；</p>
+<p>• 流程管控，由IT管理员统一管理基础设施以避免各类风险，且可基于模板进行审核再进一步结合CI/CD以规范化IT管理流程；</p>
+<p>• 节省成本，自动化部署方式可以按需部署和释放资源，从而极致地使用云上弹性能力来降低成本。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/709d01bc7735abb89a16fe4a2fdb11d0.png"> ROS 的使用流程和核心功能</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/15eef602c39d93cad3e2c7884843db03.png"></p>
+<p>使用 ROS 进行自动化部署的过程非常简单：</p>
+<p>1. 按照ROS 模板语法编写模板，定义想要创建的各类云上资源。</p>
+<p>2. 在 ROS 控制台 使用模板创建资源栈，以执行部署。其中，资源栈是一组资源的集合，这些资源均是模板中定义的资源。</p>
+<p>3. 在 ROS 控制台 查看资源栈，可以查看栈中各种资源的创建情况，并可以跳转到对应资源的控制台。</p>
+<p>值得一提的是，ROS 服务本身完全免费，集成了身份认证和安全审计的功能，资源创建结果是可视化的，且能够进行多账号跨地域地部署，支持资源栈和实际资源的差异检测并进行修正。</p>
+<p>除了直接使用 ROS 模板来做自动化部署，是否还有别的方式呢？</p>
+<p><strong>新模式一：Terraform 托管</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e796ee7e140d7f9826418a65889d1dbe.png"></p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/289bdc006e85574c97571e01220f9ba8.png"> Terraform 是什么</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/286749609a5e7f83db5e76e1f6d01ea1.png"></p>
+<p>Terraform 同 ROS 一样，也是基于基础设施即代码（IaC）的理念的自动化编排工具。它使用一种特定的配置语言（HCL, Hashicorp Configuration Language）来描述基础设施资源，语法样例如上图所示。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/067e98d9e2b4e79a91f95602126a4abc.png"> Terraform &amp; ROS</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d678cab3d14ea3784164e49ca49627bb.png"></p>
+<p>既然 Terraform 和 ROS 都是基于相同的理念的自动化编排工具，那它们的目标也是一致的，都是为用户打造良好的云上部署体验。</p>
+<p>两者有很多相同之处，比方说 Terraform 的配置文件相当于ROS的模板，Terraform 的状态相当于 ROS 的资源栈，Terraform 的 CLI 程序则相当于 ROS 的编排引擎。</p>
+<p>两者也各有优势，Terraform 的语法更简洁，对多云支持地很完善；而 ROS 则提供免费的服务托管，且有云原生的鉴权和审计能力。</p>
+<p>那么是否能够将两者的优势结合呢？因此就有了 Terraform 托管能力。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/52542d43be98a0f5958dae5799770642.png"> Terraform 托管</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7960f35892c01e3e993aa75558933106.png"></p>
+<p>用户直接在本地使用 Terraform 时，需要根据当前的操作系统下载对应的 Terraform CLI，编写模板，管理所使用的各类 Provider 的版本，且要管理状态等文件。</p>
+<p>而使用 Terraform 托管功能时，只需在 ROS 的控制台编写 Terraform 模板便可直接部署，后续则通过资源栈来管理模板中定义的资源。底层的各类管理都交给 ROS。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/22080bda7054cfb486c535ad80afed77.png"></p>
+<p>在使用原理上，ROS 控制台会将 Terraform 模板组合成符合 ROS 语法规范的模板，ROS 服务端会其进行语法校验，生成租户信息，调度到 ROS 的 Terraform 服务进行资源的部署。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/193c29ec55cac1a44dbd923e0241a89d.png"> 定时与多云场景实践</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4f3f8f74e52ef3ec3329b65cf7508075.png"></p>
+<p>我们可以在很多场景中使用 Terraform 托管的功能。</p>
+<p><strong>场景一：定时部署资源</strong></p>
+<p>假设我们需要通过 Terraform 定时部署资源，传统方式下需要本地创建定时任务，执行 Terraform CLI 来做。而在云上，我们可以：</p>
+<p>• 事先编写一个 Terraform 模板，声明想要部署的云资源；</p>
+<p>• 事先编写一个 OOS 运维模板来声明由它调用 ROS 进行资源部署；</p>
+<p>• 在 OOS 中设置为定时执行，OOS 会定时触发 ROS，ROS 则会使用 Terraform 托管功能进行资源部署。</p>
+<p><strong>场景二：多云管理</strong></p>
+<p>如果我们既想要对多种云平台（如阿里云、AWS等）的资源进行部署，又想有可视化的结果反馈，可以直接编写 Terraform 的模板来声明各个云上资源，并使用 ROS 的 Terraform 托管功能来进行部署。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/e961a4ee3bc4582eb6dd00476c896e80.png"> Terraofrm 托管总结</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ca11506c44b156269ba51e99f688de95.png"></p>
+<p>Terraform 托管功能能让用户在云上直接使用 Terraform，和直接使用 ROS 模板部署有一致的控制台体验，且兼容了 ROS 原生的API，同时兼备了统一的身份认证和权限控制。相比于本地使用 Terraform，不再需要管理多种 Provider 和多个 Terraform CLI版本。</p>
+<p><strong>新模式二：ROS CDK</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8b8488afd1dc0fa0018d4beb74361a98.png"></p>
+<p>现有资源定义方式的不足</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e0a8043d524e99c41110ddd35e69cd3b.png"></p>
+<p>事实上，通过直接编写 ROS 模板，或者通过可视化编辑器生成模板，然后进行资源部署的方式是能够大大提升资源的部署效率的，但是也有一些不足之处：</p>
+<p>• 缺少对过程式的支持</p>
+<p>• 复杂场景的编写效率较低</p>
+<p>• 对程序的友好性较低</p>
+<p>• 动态性支持较差</p>
+<p>针对这些问题，是否可以更进一步，在模板之上解决这些不足呢？</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/999d4c3c955c789527cdc10294611ca2.png"> ROS CDK 是什么</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8b24a382fda35494e2fef14ed9cf4454.png"></p>
+<p>ROS CDK 是资源编排（ROS）提供的一种命令行工具和多语言SDK，利用面向对象的高级抽象模式对云资源进行标准定义，从而快速构建云资源。</p>
+<p>ROS CDK 以应用作为资源管理的入口，一个应用管理多个资源栈，而每个资源栈中则可以有多个构件。构件可以理解为云上资源的组件，能包含一个或多个资源。</p>
+<p>我们可以选择自己熟悉的编程语言（TypeScript/JavaScript/Java/Python/C#）编写应用代码声明想要部署的资源，ROS CDK 会将项目代码转换成 ROS 模板，然后使用该模板进行自动化部署。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/1a673c55b4faed9d2766520819c42994.png"> 使用步骤和项目生命周期</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/51ef8420238d988a392751231fd1c8e9.png"></p>
+<p>ROS CDK 的使用步骤也很简单：</p>
+<p>1. 首先，就是初始化项目，配置阿里云的访问凭证（AccessKey）</p>
+<p>2. 其次，就是编写资源代码和测试用例进行本地测试</p>
+<p>3. 最后，通过CDK CLI或者直接程序进行资源部署，并管理资源栈</p>
+<p>在进行部署的阶段，CDK会根据用户编写的资源代码进行构造，实例化出各种资源对象；然后在准备阶段做终态前的调整（通常由框架自动完成）；进而验证各种资源属性，确保能够正确部署；最终合成出一个 ROS 模板，并使用该模板部署为资源栈。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/8b263adbeff900ebd508a06ae6b62a03.png"> 代码、模板示例</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2fcc1dca6a8b2b40013a900e91a0613d.png"></p>
+<p>上图中，左边是 ROS CDK的资源代码，其中声明了一个 VPC，并使用循环动态生成3个 VSwitch。而右边则是由 ROS CDK 生成的 ROS 模板。由此可以看出针对动态生成的场景，ROS CDK 可以大大简化模板编写的复杂度。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/43a6ae4020d382aeb6b588a46daf5dc4.png"> 应用程序集成CDK实现持续部署场景</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/79917e2930ff3965e3005a46c6629938.png"></p>
+<p>假设我们需要实现一个CI/CD系统，能够部署这样的资源架构：使用API网关中提供API，使用函数计算的函数提供业务逻辑，要分别部署测试、预发、线上环境的资源，并且支持从测试发布到预发，从预发部署到线上。</p>
+<p>针对这样的资源架构，在直接使用 ROS 模板的方式中，需要分别为三个环境准备三个模板，而环境间的部署则还需要动态拼接模板，对应用程序来说并不友好。这里就建议使用ROS CDK，这样应用程序可以根据环境的不同指定对应的变量，生产对应的资源，从而满足环境的动态性部署。</p>
+<p> <strong><img src="https://img-blog.csdnimg.cn/img_convert/c14256d12bb210176c8d641ceedded8b.png"> ROS CDK 总结</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e04fd164b14ab98cf4009335a379b47b.png"></p>
+<p>相较于直接使用 ROS 模板部署，使用 ROS CDK 允许开发者选择自己熟悉的编程语言，并能借助其动态特性来实现复杂的编排效果。ROS CDK 能够非常容易地集成到应用程序中，从而能够方便地在程序中进行资源部署。</p>
+<p><strong>总结</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a3f31815d8657df380b9e7a311e445ae.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/98abf46ef0f4214e97696676528d1f32.png"></p>
+<p>企业上云规模逐渐增大，企业云上资源的部署方式从人工开始走向自动，从单云走向多云，从<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C&spm=1001.2101.3001.7020">原子操作</a>走向模板部署。随着基础设施即代码的理念而兴起，资源的部署模式也因场景的不同而不同，总体来说有以下四个部署模式的建议：</p>
+<p>1. 作为入门级用户，只需管理有限几个资源，直接使用控制台的方式是最为简单直观的；</p>
+<p>2. 作为企业IT管理员，需管理规模较大的云上资源，使用 ROS 模板管理基础设施会是最有效率的选择；</p>
+<p>3. 作为运维研发人员，需要在业务系统中实现资源部署逻辑，那么 ROS CDK 会是最佳选择；</p>
+<p>4. 作为多云管理员，需可视化管理阿里云、AWS、Azure等多种云的资源，使用 ROS Terraform 托管功能是不二之选。</p>
 </blockquote>
 
       
