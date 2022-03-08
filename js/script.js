@@ -436,26 +436,30 @@ container.hover(function () {
 })
 var clickScrollTo = false
 function syncOutline(_this) {
-    if ($('#outline-list .toc-link[href!="#"]').length > 0 && !clickScrollTo) {
-        var activeIndex = null
-        $('#outline-list .toc-link[href!="#"]').each(function (index) {
-            var diff = _this.scrollTop - $(_this).find(decodeURI($(this).attr('href')))[0].offsetTop
-            if (diff < -20) {
-                activeIndex = index === 0 ? 0 : index - 1
-                return false
+    try{
+        if ($('#outline-list .toc-link[href!="#"]').length > 0 && !clickScrollTo) {
+            var activeIndex = null
+            $('#outline-list .toc-link[href!="#"]').each(function (index) {
+                var diff = _this.scrollTop - $(_this).find(decodeURI($(this).attr('href')))[0].offsetTop
+                if (diff < -20) {
+                    activeIndex = index === 0 ? 0 : index - 1
+                    return false
+                }
+            })
+            $('#outline-list .toc-link[href!="#"].active').removeClass('active')
+            if (activeIndex === null) {
+                $('#outline-list .toc-link[href!="#"]:last').addClass('active')
+            } else {
+                $('#outline-list .toc-link[href!="#"]:eq(' + activeIndex + ')').addClass('active')
             }
-        })
-        $('#outline-list .toc-link[href!="#"].active').removeClass('active')
-        if (activeIndex === null) {
-            $('#outline-list .toc-link[href!="#"]:last').addClass('active')
-        } else {
-            $('#outline-list .toc-link[href!="#"]:eq(' + activeIndex + ')').addClass('active')
+            if ($('#outline-list .toc-link[href!="#"].active')[0].offsetTop - $outlineList.height() - $outlineList[0].scrollTop > -80) {
+                $outlineList.scrollTop($('#outline-list .toc-link[href!="#"].active')[0].offsetTop + 80 - $outlineList.height())
+            } else if ($('#outline-list .toc-link[href!="#"].active')[0].offsetTop < $outlineList[0].scrollTop) {
+                $outlineList.scrollTop($('#outline-list .toc-link[href!="#"].active')[0].offsetTop)
+            }
         }
-        if ($('#outline-list .toc-link[href!="#"].active')[0].offsetTop - $outlineList.height() - $outlineList[0].scrollTop > -80) {
-            $outlineList.scrollTop($('#outline-list .toc-link[href!="#"].active')[0].offsetTop + 80 - $outlineList.height())
-        } else if ($('#outline-list .toc-link[href!="#"].active')[0].offsetTop < $outlineList[0].scrollTop) {
-            $outlineList.scrollTop($('#outline-list .toc-link[href!="#"].active')[0].offsetTop)
-        }
+    } catch (e) {
+        console.error('同步toc位置失败！', e)
     }
 }
 
@@ -666,6 +670,22 @@ function bind() {
     //初始化文章toc
     // $(".post-toc-content").html($("#post .pjax article .toc-ref .toc").clone());
     $("#outline-list").html($("#post .pjax article .toc-ref .toc").clone());
+    // 修复自定义标题的关联关系
+    $("#outline-list").find('.toc-link').each(function() {
+        if (!$(this).attr('href')) {
+            var tocText = $(this).text().replaceAll(/[^a-zA-Z0-9]/g, '')
+            $(this).attr('href', '#' + encodeURIComponent(tocText))
+            $(this).parent().attr('class').split(' ').forEach(function (item) {
+                if (item.indexOf('toc-level-') !== -1) {
+                    $('#post').find('h'+item.replace('toc-level-', '')).each(function () {
+                        if ($(this).text().replaceAll(/[^a-zA-Z0-9]/g, '') === tocText) {
+                            $(this).attr('id', encodeURIComponent(tocText))
+                        }
+                    })
+                }
+            })
+        }
+    })
     syncOutline(container[0])
     //绑定文章toc的滚动事件
     $("a[href^='#']").click(function () {
@@ -795,7 +815,7 @@ function copy (text) {
         window.getSelection().removeAllRanges();
         isSuccess = true
     } catch (e) {
-        console.log('复制失败')
+        console.error('复制失败')
     }
 
     if (text) {
