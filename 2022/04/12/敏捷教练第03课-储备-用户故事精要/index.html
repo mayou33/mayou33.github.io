@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>敏捷教练第03课-储备-用户故事精要 | 张天师</title>
+  <meta name="keywords" content=" Scrum ">
+  <meta name="description" content="敏捷教练第03课-储备-用户故事精要 | 张天师">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhangyu.info/about/index.html">
+<meta property="og:site_name" content="张天师">
+<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
+<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="article:author" content="张天师">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="张天师" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>张天师</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/mayou33"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(33)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="containerd">
+                        
+                        containerd
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Ingress">
+                        
+                        Ingress
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Kubernetes">
+                        
+                        Kubernetes
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Scrum">
+                        
+                        Scrum
+                        <small>(11)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SRE">
+                        
+                        SRE
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="优化">
+                        
+                        优化
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="日志">
+                        
+                        日志
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="消息系统">
+                        
+                        消息系统
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="职业发展">
+                        
+                        职业发展
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="胡说八道">
+                        
+                        胡说八道
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="阿里云">
+                        
+                        阿里云
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="33">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="https://blog.huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="https://canon88.github.io/">网络安全canon</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux学习</a></li>
+            
+            <li><a target="_blank" href="https://www.makelinux.net/reference/">linux技术参考</a></li>
+            
+            <li><a target="_blank" href="https://coolshell.cn">酷壳CoolShell</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Systems-Performance</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cilium</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>containerd</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ECS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>flannel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pulsar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SRE</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>上线</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>优化</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>性能</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>职业发展</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>黑话</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 优化 "
+           href="/2022/04/12/%E8%B0%88%E8%B0%88%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%A5%BD%E7%BD%91%E7%AB%99%E7%9A%84URL/"
+           data-tag="优化"
+           data-author="" >
+            <span class="post-title" title="谈谈如何设计好网站的URL">谈谈如何设计好网站的URL</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC01%E8%AF%BE-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%92%8CScrumMaster%E5%9F%BA%E6%9C%AC%E5%8A%9F%E5%9B%9B%E9%83%A8%E6%9B%B2/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲">敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC02%E8%AF%BE-%E5%82%A8%E5%A4%87-Scrum%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第02课-储备-Scrum精要">敏捷教练第02课-储备-Scrum精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第03课-储备-用户故事精要">敏捷教练第03课-储备-用户故事精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC04%E8%AF%BE-%E5%82%A8%E5%A4%87-scrum%E7%9A%8420%E4%B8%AA%E5%AD%90%E6%A8%A1%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第04课-储备-scrum的20个子模式">敏捷教练第04课-储备-scrum的20个子模式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC05%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%B2%BE%E7%9B%8A%E4%BD%93%E7%B3%BB%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第05课-储备-精益体系精要">敏捷教练第05课-储备-精益体系精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC08%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8B%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）">敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC09%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E6%8F%90%E5%8D%87%E4%B8%89%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第09课-技巧-敏捷教练的提升三式">敏捷教练第09课-技巧-敏捷教练的提升三式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC10%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%94%B9%E5%96%84%E5%92%8C%E7%B3%BB%E7%BB%9F%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第10课-技巧-持续改善和系统思考方法">敏捷教练第10课-技巧-持续改善和系统思考方法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC11%E8%AF%BE-%E5%AE%9E%E6%88%98-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%AE%9E%E6%88%98%E5%91%A8%E6%9C%9FV%E5%BD%A2%E5%85%AD%E6%AD%A5%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第11课-实战-敏捷教练实战周期V形六步法">敏捷教练第11课-实战-敏捷教练实战周期V形六步法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC06%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BF%83%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第06课-技巧-敏捷教练的四种心法">敏捷教练第06课-技巧-敏捷教练的四种心法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC07%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8A%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）">敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 阿里云 "
+           href="/2022/03/08/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ECS%E9%80%89%E8%B4%AD%E6%8C%87%E5%8D%97%E5%8F%8A%E7%9C%81%E9%92%B1%E6%B3%95%E5%AE%9D/"
+           data-tag="ECS"
+           data-author="" >
+            <span class="post-title" title="云服务器ECS选购指南及省钱法宝">云服务器ECS选购指南及省钱法宝</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E9%98%BF%E9%87%8C%E4%BA%91%E5%BC%B9%E6%80%A7%E8%AE%A1%E7%AE%97%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E4%BB%8E0%E5%88%B01%E8%87%AA%E5%BB%BASRE%E4%BD%93%E7%B3%BB/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="阿里云弹性计算研发团队如何从0到1自建SRE体系">阿里云弹性计算研发团队如何从0到1自建SRE体系</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E4%BA%91%E4%B8%8A%E8%B5%84%E6%BA%90%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B0%E6%A8%A1%E5%BC%8F/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="云上资源自动化部署新模式">云上资源自动化部署新模式</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/cotainer-init/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="开启shareProcessNamespace后容器异常">开启shareProcessNamespace后容器异常</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/docker-shell-signal/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="k8s中shell脚本启动如何传递信号">k8s中shell脚本启动如何传递信号</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/enforce-audit-policy-in-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="在Kubernetes中实施审计策略">在Kubernetes中实施审计策略</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/26/Cilium-Network-Overview/"
+           data-tag="Cilium"
+           data-author="" >
+            <span class="post-title" title="Cilium网络概述">Cilium网络概述</span>
+            <span class="post-date" title="2021-05-26 00:00:00">2021/05/26</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/19/generating-yaml-for-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="快速生成k8s的yaml配置的4种方法">快速生成k8s的yaml配置的4种方法</span>
+            <span class="post-date" title="2021-05-19 00:00:00">2021/05/19</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2021/04/28/fklek-to-k8s-log/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="使用fklek搭建Kubernetes日志收集工具栈">使用fklek搭建Kubernetes日志收集工具栈</span>
+            <span class="post-date" title="2021-04-28 00:00:00">2021/04/28</span>
+        </a>
+        
+        <a  class="全部文章 胡说八道 "
+           href="/2021/04/27/%E5%8F%AA%E6%9C%89%E9%BB%91%E8%AF%9D%E6%89%8D%E8%83%BD%E6%8B%AF%E6%95%91%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%BA/"
+           data-tag="黑话"
+           data-author="" >
+            <span class="post-title" title="只有黑话，才能拯救互联网人">只有黑话，才能拯救互联网人</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 胡说八道 "
+           href="/2021/04/27/%E6%BC%AB%E7%94%BB%E4%B8%80%E4%B8%AANB%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%B8%8A%E7%BA%BF%E8%BF%87%E7%A8%8B/"
+           data-tag="上线"
+           data-author="" >
+            <span class="post-title" title="漫画一个NB互联网项目的上线过程">漫画一个NB互联网项目的上线过程</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 消息系统 "
+           href="/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"
+           data-tag="Pulsar"
+           data-author="" >
+            <span class="post-title" title="Pulsar vs Kafka，CTO 如何抉择">Pulsar vs Kafka，CTO 如何抉择</span>
+            <span class="post-date" title="2021-04-24 00:00:00">2021/04/24</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/21/kubernetes-best-practices-in-production/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="生产环境中的Kubernetes最佳实践">生产环境中的Kubernetes最佳实践</span>
+            <span class="post-date" title="2021-04-21 00:00:00">2021/04/21</span>
+        </a>
+        
+        <a  class="全部文章 职业发展 "
+           href="/2021/04/19/jishuchengzhang/"
+           data-tag="职业发展"
+           data-author="" >
+            <span class="post-title" title="你的技术成长战略是什么">你的技术成长战略是什么</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        <a  class="全部文章 containerd "
+           href="/2021/04/12/nerdctl-to-containerd/"
+           data-tag="containerd"
+           data-author="" >
+            <span class="post-title" title="使用nerdctl玩转containerd">使用nerdctl玩转containerd</span>
+            <span class="post-date" title="2021-04-12 00:00:00">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/09/Kubernetes-network/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes网络和云厂商实践浅析">Kubernetes网络和云厂商实践浅析</span>
+            <span class="post-date" title="2021-04-09 00:00:00">2021/04/09</span>
+        </a>
+        
+        <a  class="全部文章 Ingress "
+           href="/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"
+           data-tag="Ingress"
+           data-author="" >
+            <span class="post-title" title="Kubernetes Ingress 控制器的技术选型技巧">Kubernetes Ingress 控制器的技术选型技巧</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/08/Kubernetes-remen/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes入门-进阶实战">Kubernetes入门-进阶实战</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/03/24/Flannel-Calico/"
+           data-tag="flannel"
+           data-author="" >
+            <span class="post-title" title="Flannel-Calico怎么选择">Flannel-Calico怎么选择</span>
+            <span class="post-date" title="2021-03-24 00:00:00">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 nginx "
+           href="/2021/03/15/nginx-knowledge-graph/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx核心知识100讲知识图谱">nginx核心知识100讲知识图谱</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2021/03/15/performance-optimize-your-program/"
+           data-tag="性能"
+           data-author="" >
+            <span class="post-title" title="性能之癫-优化你的程序">性能之癫-优化你的程序</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-敏捷教练第03课-储备-用户故事精要" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">敏捷教练第03课-储备-用户故事精要</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Scrum">Scrum</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">Scrum</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-04-12 09:56:56'>2022-04-12 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B"><span class="toc-text">理解用户故事</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A7%E5%93%81%E6%84%BF%E6%99%AF%E6%98%AF%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84%E7%BB%9F%E6%91%84"><span class="toc-text">产品愿景是用户故事的统摄</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%BB%BA%E6%A8%A1%EF%BC%8C%E6%98%AF%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84%E8%B5%B7%E7%82%B9"><span class="toc-text">用户建模，是用户故事的起点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B"><span class="toc-text">用户故事</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E6%98%AF%E4%BB%8E%E7%94%A8%E6%88%B7%E7%9A%84%E8%A7%92%E5%BA%A6%E6%8F%8F%E8%BF%B0%E5%8A%9F%E8%83%BD%E3%80%82"><span class="toc-text">用户故事是从用户的角度描述功能。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84-AC%EF%BC%88Acceptance-Criteria%EF%BC%89%E9%AA%8C%E6%94%B6%E6%A0%87%E5%87%86"><span class="toc-text">用户故事的 AC（Acceptance Criteria）验收标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E9%9B%86%E6%95%85%E4%BA%8B%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-text">搜集故事的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%81"><span class="toc-text">用户故事的一些重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84-3C%EF%BC%8C%E9%BC%93%E5%8A%B1%E9%80%9A%E8%BF%87%E4%BA%A4%E8%B0%88%E4%BA%86%E8%A7%A3%E7%BB%86%E8%8A%82"><span class="toc-text">用户故事的 3C，鼓励通过交谈了解细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E4%BC%98%E5%85%88%E7%BA%A7%E8%A6%81%E8%80%83%E8%99%91%E7%9A%84%E8%A6%81%E7%B4%A0"><span class="toc-text">排优先级要考虑的要素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E4%BC%98%E5%85%88%E7%BA%A7%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9E%8B"><span class="toc-text">关于优先级的两个模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84-INVEST-%E5%87%86%E5%88%99"><span class="toc-text">用户故事的 INVEST 准则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E5%8E%9F%E5%88%99"><span class="toc-text">用户故事的一些其他原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%85%E4%BA%8B%E5%88%86%E7%BA%A7"><span class="toc-text">故事分级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E5%88%86%E8%A7%A3"><span class="toc-text">用户故事分解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%9D%E5%AF%B9%E4%BC%B0%E7%AE%97%E4%B8%8E%E7%9B%B8%E5%AF%B9%E4%BC%B0%E7%AE%97"><span class="toc-text">绝对估算与相对估算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%B0%E7%AE%97%E7%BA%B8%E7%89%8C"><span class="toc-text">估算纸牌</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E5%8F%82%E4%B8%8E%E3%80%81%E4%BA%A7%E5%93%81%E6%8E%A2%E7%B4%A2%E5%92%8C%E4%BA%A7%E5%93%81%E4%BA%A4%E4%BB%98%E7%9A%84%E5%85%A8%E6%B5%81%E7%A8%8B"><span class="toc-text">客户参与、产品探索和产品交付的全流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%EF%BC%8C%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA%E6%94%B6%E9%9B%86%E9%9C%80%E6%B1%82%E3%80%82%E5%88%A9%E7%94%A8%E5%89%8D%E6%96%87%E8%AE%B2%E5%88%B0%E7%9A%84%E5%AE%A2%E6%88%B7%E5%9B%A2%E9%98%9F%E5%92%8C%E9%9C%80%E6%B1%82%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95%E3%80%82%E9%9C%80%E6%B1%82%E6%9D%A5%E8%87%AA%E5%AE%A2%E6%88%B7%E5%92%8C%E5%B9%B2%E7%B3%BB%E4%BA%BA%EF%BC%8C%E4%B9%9F%E6%9D%A5%E8%87%AA%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA%E7%9A%84%E6%80%9D%E8%80%83%E3%80%82%E9%9C%80%E6%B1%82%E4%BB%A5%E4%B8%9A%E5%8A%A1%E8%A7%92%E5%BA%A6%E4%B8%BA%E4%B8%BB%EF%BC%8C%E4%B9%9F%E8%80%83%E8%99%91%E6%8A%80%E6%9C%AF%E8%A7%92%E5%BA%A6%E3%80%82%E9%9C%80%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA%E4%B8%8E%E6%8A%80%E6%9C%AF%E9%A2%86%E5%9F%9F%E7%9A%84%E6%9E%B6%E6%9E%84%E5%B8%88%E7%AD%89%E5%AF%86%E5%88%87%E5%8D%8F%E4%BD%9C%E5%AE%8C%E6%88%90%E9%9C%80%E6%B1%82%E7%9A%84%E6%A2%B3%E7%90%86%E3%80%82"><span class="toc-text">第一，产品负责人收集需求。利用前文讲到的客户团队和需求收集方法。需求来自客户和干系人，也来自产品负责人的思考。需求以业务角度为主，也考虑技术角度。需产品负责人与技术领域的架构师等密切协作完成需求的梳理。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%EF%BC%8C%E4%BA%A7%E5%93%81%E6%8E%A2%E7%B4%A2%E5%9B%A2%E9%98%9F%E5%88%A9%E7%94%A8%E6%95%85%E4%BA%8B%E5%86%99%E4%BD%9C%E7%A0%94%E8%AE%A8%E4%BC%9A%E5%AF%B9%E7%94%A8%E6%88%B7%E5%BB%BA%E6%A8%A1%EF%BC%8C%E7%BC%96%E5%86%99%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%EF%BC%8C%E6%94%BE%E5%85%A5%E5%BE%85%E5%8A%9E%E5%88%97%E8%A1%A8%EF%BC%8C%E6%8E%92%E5%BA%8F%EF%BC%8C%E4%BC%B0%E7%AE%97%EF%BC%8C%E5%88%B6%E5%AE%9A%E5%8F%91%E5%B8%83%E8%AE%A1%E5%88%92%E3%80%82"><span class="toc-text">第二，产品探索团队利用故事写作研讨会对用户建模，编写用户故事，放入待办列表，排序，估算，制定发布计划。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%EF%BC%8C%E4%B8%8E%E5%AE%A2%E6%88%B7%E7%A1%AE%E8%AE%A4%E5%8F%91%E5%B8%83%E8%AE%A1%E5%88%92%E3%80%82"><span class="toc-text">第三，与客户确认发布计划。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%EF%BC%8C%E4%B8%8E%E4%BA%A4%E4%BB%98%E5%9B%A2%E9%98%9F%E6%A2%B3%E7%90%86%E6%95%85%E4%BA%8B%EF%BC%8C%E8%BE%BE%E5%88%B0%E5%87%86%E5%A4%87%E5%A5%BD%E7%9A%84%E7%8A%B6%E6%80%81%EF%BC%88DoR-Definition-of-Ready%EF%BC%89%E3%80%82%E6%95%85%E4%BA%8B%E8%A6%81%E6%9C%89%E6%B8%85%E6%99%B0%E7%9A%84%E9%AA%8C%E6%94%B6%E6%A0%87%E5%87%86%EF%BC%8C%E4%BC%98%E5%85%88%E7%BA%A7%E5%92%8C%E4%BC%B0%E7%AE%97%E3%80%82%E5%9B%A2%E9%98%9F%E6%88%90%E5%91%98%E6%9C%89%E5%85%85%E5%88%86%E7%9A%84%E7%90%86%E8%A7%A3%E3%80%82"><span class="toc-text">第四，与交付团队梳理故事，达到准备好的状态（DoR - Definition of Ready）。故事要有清晰的验收标准，优先级和估算。团队成员有充分的理解。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%EF%BC%8C%E8%BF%AD%E4%BB%A3%E8%AE%A1%E5%88%92%EF%BC%8C%E5%88%86%E8%A7%A3%E4%BB%BB%E5%8A%A1%EF%BC%8C%E7%94%9F%E6%88%90%E8%BF%AD%E4%BB%A3%E5%BE%85%E5%8A%9E%E5%88%97%E8%A1%A8%E3%80%82"><span class="toc-text">第五，迭代计划，分解任务，生成迭代待办列表。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%EF%BC%8C%E6%AF%8F%E6%97%A5%E5%B7%A5%E4%BD%9C%EF%BC%8C%E6%8C%89%E6%95%85%E4%BA%8B%E5%92%8C%E4%BB%BB%E5%8A%A1%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E6%89%A7%E8%A1%8C%E3%80%82"><span class="toc-text">第六，每日工作，按故事和任务的优先级执行。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%EF%BC%8C%E8%BF%AD%E4%BB%A3%E9%AA%8C%E6%94%B6%E5%92%8C%E6%BC%94%E7%A4%BA%E3%80%82%E6%9C%80%E5%A5%BD%E8%83%BD%E6%9C%89%E5%AE%A2%E6%88%B7%E5%8F%82%E4%B8%8E%EF%BC%8C%E4%BB%A5%E8%8E%B7%E5%BE%97%E5%8F%8D%E9%A6%88%E3%80%82"><span class="toc-text">第七，迭代验收和演示。最好能有客户参与，以获得反馈。</span></a></li></ol></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本节课程我们主要解决三个问题：为什么要有用户故事？用户故事是什么，它们具有哪些属性、内涵和特征？在产品开发的全流程中怎么使用用户故事？  </p>
+<h1 id="理解用户故事"><a href="#理解用户故事" class="headerlink" title="理解用户故事"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%90%86%E8%A7%A3%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B" title="理解用户故事"></a>理解用户故事</h1><p><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E7%90%86%E8%A7%A3%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B.jpg"><img src="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E7%90%86%E8%A7%A3%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B.jpg"></a><br>理解用户故事，从两个问题开始。</p>
+<p>用户想要达到的目标是什么？</p>
+<ul>
+<li>  达到这个目标的成本是多少？</li>
+<li>  为了回答这两个问题，我们需要把大目标分解为小目标，排优先级和估算。</li>
+</ul>
+<p>用户故事是这个过程中使用的基本单元载体。比用户故事大或者模糊的可以叫做史诗，主题或者只是一个产品点子。</p>
+<p>关于上面两个根本问题，“@左耳朵”有很好的描述：</p>
+<blockquote>
+<p>亚马逊里挑战产品和运营的方法论是 T-shirt Size Estimation。就是用 T 恤的尺寸来做评估。你要做这个东西可以，但是产品和运营必须得拿出证据说明你要做的这个东西是什么样尺寸的。</p>
+<p>比如说 XXL 可以带来一百万人民币或一百万用户受益，XL 就是 50 万，L 是 25 万，这样砍下去，然后这些需求给到技术团队，这边技术团队也会做个评估。XXL 是要六个月做完，XL 是三个月，L 是一个月，M 是两周，S 是一周。这样两边一对。如果说业务影响力比较高，而且技术实施比较轻，这就是小而美，那就是最高优先级；如果是反过来，技术这边要花好大的力气，业务影响力又不是特别高，那就坚定不移地把它砍掉；如果两个都是中等，那就是自由行事；如果两个都是 XXL 的话，那能不能需求这边降低一个维度。比如将 XXL 降到 XL，我这边可以降好几个档次，两三个星期就可以实现出来，这样可能会是一个比较好的方式。</p>
+</blockquote>
+<h2 id="产品愿景是用户故事的统摄"><a href="#产品愿景是用户故事的统摄" class="headerlink" title="产品愿景是用户故事的统摄"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E4%BA%A7%E5%93%81%E6%84%BF%E6%99%AF%E6%98%AF%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84%E7%BB%9F%E6%91%84" title="产品愿景是用户故事的统摄"></a>产品愿景是用户故事的统摄</h2><p><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E4%BB%B7%E5%80%BC%E5%8F%91%E7%8E%B0.jpg"><img src="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E4%BB%B7%E5%80%BC%E5%8F%91%E7%8E%B0.jpg"></a><br>产品愿景要回答三个问题：</p>
+<ul>
+<li>  Who：它的用户是谁？</li>
+<li>  What：它是什么？一是要有清晰的画面感，二是与已有产品不同。</li>
+<li>  Why：它意味着什么？有什么价值和目的？</li>
+</ul>
+<p>两个产品愿景的例子：</p>
+<ul>
+<li>  我们要在10年的时间里，把一个人送到月亮上，还要让他回来。</li>
+<li>  把1000首歌装在口袋里。</li>
+</ul>
+<p>产品愿景可以从最初的一个点子开始，慢慢打磨成熟。而在产品愿景打磨的过程中，把大而模糊的点子敲碎成清晰而可执行的小块，就是用户故事。产品愿景与用户故事同生同长，用户故事全部做完了，产品愿景就实现了。</p>
+<h2 id="用户建模，是用户故事的起点"><a href="#用户建模，是用户故事的起点" class="headerlink" title="用户建模，是用户故事的起点"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E5%BB%BA%E6%A8%A1%EF%BC%8C%E6%98%AF%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84%E8%B5%B7%E7%82%B9" title="用户建模，是用户故事的起点"></a>用户建模，是用户故事的起点</h2><p>用户建模可以考虑用户的两点：</p>
+<ul>
+<li>  Pain 痛点：用户在产品目标领域目前有什么痛点？</li>
+<li>  Gain 收益点：我们的产品能给用户带来什么收益？</li>
+</ul>
+<p>用户角色建模，要以用户为中心。建模的 BSCR 步骤：</p>
+<ul>
+<li>  Brainstorm：产品探索团队头脑风暴出用户角色。</li>
+<li>  Sort：对头脑风暴出的用户角色快速分组和识别层级。</li>
+<li>  Consolidate：对每一角色逐一讨论，整合角色。</li>
+<li>  Refine：提炼角色。识别用户角色的：</li>
+</ul>
+<p>用户角色分组可以考虑用户的：</p>
+<ul>
+<li>  使用频次</li>
+<li>  领域知识</li>
+<li>  IT 知识</li>
+<li>  使用目标</li>
+</ul>
+<p>用户建模的其他技术：</p>
+<ul>
+<li>  典型用户画像。针对一种角色，虚构出一个人物，描述他的行为特征，使用场景，核心诉求。还可以给出画像。打印出来放在团队可见的地方，让团队在开发产品时对用户的需求能感同身受。</li>
+<li>  极端用户。想象一个极端用户会有什么诉求，以产生新的灵感。这方面不用太用力。</li>
+</ul>
+<h2 id="用户故事"><a href="#用户故事" class="headerlink" title="用户故事"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B" title="用户故事"></a>用户故事</h2><p><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B.jpg"><img src="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B.jpg"></a></p>
+<h3 id="用户故事是从用户的角度描述功能。"><a href="#用户故事是从用户的角度描述功能。" class="headerlink" title="用户故事是从用户的角度描述功能。"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E6%98%AF%E4%BB%8E%E7%94%A8%E6%88%B7%E7%9A%84%E8%A7%92%E5%BA%A6%E6%8F%8F%E8%BF%B0%E5%8A%9F%E8%83%BD%E3%80%82" title="用户故事是从用户的角度描述功能。"></a>用户故事是从用户的角度描述功能。</h3><p>用户故事的 WWW 及格式</p>
+<ul>
+<li>  Who：谁要使用这个功能？</li>
+<li>  What：需要完成什么样的功能？</li>
+<li>  Why：这个功能带来的价值是什么？</li>
+</ul>
+<p>用户故事的格式</p>
+<ul>
+<li>  英文：As &lt; a user &gt; ，I want &lt; to do something &gt;， so that &lt; I can achieve some purpose &gt;.</li>
+<li>  中文：作为 &lt; 一个用户 &gt;，我想要 &lt; 做什么 &gt;，以便 &lt; 达成什么目的 &gt;。</li>
+</ul>
+<p>例子：</p>
+<p>作为一个求职者，我想要发布简历，以便用人单位找到我。</p>
+<p>现存世界上第一张用户故事卡，from @张克强。</p>
+<h3 id="用户故事的-AC（Acceptance-Criteria）验收标准"><a href="#用户故事的-AC（Acceptance-Criteria）验收标准" class="headerlink" title="用户故事的 AC（Acceptance Criteria）验收标准"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84-AC%EF%BC%88Acceptance-Criteria%EF%BC%89%E9%AA%8C%E6%94%B6%E6%A0%87%E5%87%86" title="用户故事的 AC（Acceptance Criteria）验收标准"></a>用户故事的 AC（Acceptance Criteria）验收标准</h3><ul>
+<li>  验收标准也是迭代结束时 Demo 的标准</li>
+<li>  更多代表外部质量</li>
+<li>  简洁与完备之间平衡</li>
+<li>  包含成功路径和失败路径</li>
+</ul>
+<p>对前述故事的验收标准例子：</p>
+<ul>
+<li>  我想要发布 Word 简历</li>
+<li>  我想要发布 PDF 简历</li>
+<li>  发前能预览</li>
+<li>  发后能检查</li>
+<li>  可以设置公开或私密状态</li>
+<li>  失败有原因提示</li>
+</ul>
+<h3 id="搜集故事的方式"><a href="#搜集故事的方式" class="headerlink" title="搜集故事的方式"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E6%90%9C%E9%9B%86%E6%95%85%E4%BA%8B%E7%9A%84%E6%96%B9%E5%BC%8F" title="搜集故事的方式"></a>搜集故事的方式</h3><ul>
+<li>  用户访谈：不设定立场，问开放式问题和背景无关问题。</li>
+<li>  问卷调查：问卷可简单直接，比如了解用户使用软件功能的频率。</li>
+<li>  直接观察用户如何使用产品。</li>
+<li>  产品探索团队使用故事编写工作坊，头脑风暴，输出简单原型和用户故事。</li>
+</ul>
+<h3 id="用户故事的一些重要特征"><a href="#用户故事的一些重要特征" class="headerlink" title="用户故事的一些重要特征"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%81" title="用户故事的一些重要特征"></a>用户故事的一些重要特征</h3><ul>
+<li>  一目了然格式一致的表达。</li>
+<li>  用户故事有两个部分：描述部分和验收标准。描述部分的常用格式是：As &lt;用户&gt;，I want &lt;功能&gt;，so that &lt;目的&gt;。验收标准可以有多条，常用的格式是：Given &lt;前提条件&gt;，When &lt;动作&gt;，Then &lt;结果&gt;。</li>
+<li>鼓励推迟细节，只需有足够的信息以使项目前行。<br>  我们不需要一次性把项目的所有需求搞清楚，我们只需要在迭代之前把一个迭代要做的事搞清楚即可，而以用户故事作为基本单元，可以支持这种开发模式。</li>
+<li>  用户故事以合适的颗粒度，方便理解，方便排优先级，保证重要的事先做。随着时间的推移，不重要的事也许就不需要了。</li>
+<li>  用户故事鼓励通过交谈了解细节。强调对话而不是书面沟通。</li>
+<li>  用户故事的验收标准保证成果可以被审核验证。</li>
+<li>  以用户故事为载体，促进结构化沟通，使谈话有落地点。</li>
+<li>  从业务角度描述，可以同时被业务人员和开发人员理解。</li>
+<li>  用户故事的大小适合估算和做计划。颗粒度适合迭代开发。</li>
+<li>  支持随机应变的开发，检视和适应。</li>
+<li>  鼓励各方参与交流，传播隐性知识。</li>
+</ul>
+<h3 id="用户故事的-3C，鼓励通过交谈了解细节"><a href="#用户故事的-3C，鼓励通过交谈了解细节" class="headerlink" title="用户故事的 3C，鼓励通过交谈了解细节"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84-3C%EF%BC%8C%E9%BC%93%E5%8A%B1%E9%80%9A%E8%BF%87%E4%BA%A4%E8%B0%88%E4%BA%86%E8%A7%A3%E7%BB%86%E8%8A%82" title="用户故事的 3C，鼓励通过交谈了解细节"></a>用户故事的 3C，鼓励通过交谈了解细节</h3><ul>
+<li><p>  Card 卡片：用户故事通常写在卡片上，描述用户想要达到的目标，突出对用户有价值。</p>
+</li>
+<li><p>  Conversation 对话：书面文档是一种低带宽沟通，表达信息的能力受限，接受信息的体验受限，信息传递能力受限。面对面交流是高宽带沟通，利用检验，适应和反馈促进沟通的有效性。用户故事模式鼓励对话。无形的对话为有形的卡片补充细节。</p>
+</li>
+<li><p>  Confirmation 验收标准：无形的对话再次落实到有形的验收标准，并成为故事的一部分。</p>
+</li>
+</ul>
+<h3 id="排优先级要考虑的要素"><a href="#排优先级要考虑的要素" class="headerlink" title="排优先级要考虑的要素"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E6%8E%92%E4%BC%98%E5%85%88%E7%BA%A7%E8%A6%81%E8%80%83%E8%99%91%E7%9A%84%E8%A6%81%E7%B4%A0" title="排优先级要考虑的要素"></a>排优先级要考虑的要素</h3><ul>
+<li>  大部分用户对该功能的渴望程度。</li>
+<li>  少部分重要用户对该功能的渴望程度。</li>
+<li>  故事之间的关系，是否有开发的先后顺序。</li>
+<li>  技术实现的难度。</li>
+<li>  成本高低。</li>
+</ul>
+<h3 id="关于优先级的两个模型"><a href="#关于优先级的两个模型" class="headerlink" title="关于优先级的两个模型"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E5%85%B3%E4%BA%8E%E4%BC%98%E5%85%88%E7%BA%A7%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9E%8B" title="关于优先级的两个模型"></a>关于优先级的两个模型</h3><ul>
+<li><p>  MoSCoW 莫斯科定律：Must have 必须有；Should have 要有；Could have 可以有；Woudn’t have 不会有。</p>
+</li>
+<li><p>  Kano 模型：没有不行的功能，线性功能，尖叫功能。</p>
+</li>
+</ul>
+<h3 id="用户故事的-INVEST-准则"><a href="#用户故事的-INVEST-准则" class="headerlink" title="用户故事的 INVEST 准则"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84-INVEST-%E5%87%86%E5%88%99" title="用户故事的 INVEST 准则"></a>用户故事的 INVEST 准则</h3><ul>
+<li><p>  Independent：用户故事之间是独立的。如果不独立，可能是划分的方法有问题，可重新划分。</p>
+</li>
+<li><p>  Negotiable：用户故事是可讨论的。使用卡片是为了提醒对话。讨论的细节会变成测试。</p>
+</li>
+<li><p>  Valuable：用户故事对用户有价值。有条件的话，让用户写或确认用户故事。</p>
+</li>
+<li><p>  Estimatable：用户故事是可估算的。不可估算的原因可能是：缺乏领域知识（多与客户讨论，学习对方的语言，了解对方的想法，事实往往比想象的简单），缺乏技术知识（可以把故事分为两部分：探针实验 spike，和实际开发），故事太大(分拆)。</p>
+</li>
+<li><p>  Size appropriately：大小适中。故事的合适大小取决于团队，容量和使用的技术。</p>
+</li>
+</ul>
+<p>需要分割的故事，可能是复合故事（按 CRUD 分拆），或复杂故事（可以分探针实验 spike 和实际开发两个故事，与其他故事一起排排优先级，然后在不同的迭代完成探针实验 spike 和实际开发）。需要合并的故事，包括若干小 bug，或小改动。</p>
+<ul>
+<li>  Testable：用户故事是可测试的。故事的描述需使用具体的量化的描述，而不是绝对的含糊的描述。</li>
+</ul>
+<p>其中有价值和可估算是第一级标准，对应着本文开始时提到的产品开发所要回答的两个根本问题。另外四个标准更多是为了方便迭代开发。</p>
+<h3 id="用户故事的一些其他原则"><a href="#用户故事的一些其他原则" class="headerlink" title="用户故事的一些其他原则"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E5%8E%9F%E5%88%99" title="用户故事的一些其他原则"></a>用户故事的一些其他原则</h3><ul>
+<li>  从目标开始，大目标分解成小目标。</li>
+<li>  切蛋糕式划分故事，竖切而不是横切。</li>
+<li>  故事的描述要封闭，有完成感。故事针对一个场景，一个画面，一次完整的动作。</li>
+<li>  约束也可以作为一个故事。</li>
+<li>  故事的冰山法则：近期要开发的要划分的细而清晰，远期开发的可粗而模糊。</li>
+<li>  文档也可以作为故事。</li>
+<li>  故事中要包含用户角色，一个故事只包含一种用户。</li>
+<li>  为了表述简单，故事使用主动语态。</li>
+<li>  有可能的话，让用户编写故事。</li>
+<li>  故事不用编号。可提炼出作为标识的关键词以方便讨论时引用。</li>
+<li>  一定不要忘记故事的意图。</li>
+<li>  避免镀金，开发不需要的功能。团队公开透明的工作方式可以帮助这一点。</li>
+<li>  非功能需求可以作为故事。</li>
+<li>  缺陷可以作为故事。</li>
+</ul>
+<h3 id="故事分级"><a href="#故事分级" class="headerlink" title="故事分级"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E6%95%85%E4%BA%8B%E5%88%86%E7%BA%A7" title="故事分级"></a>故事分级</h3><p><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E5%88%86%E7%BA%A7%E5%8F%8A%E4%BC%B0%E7%AE%97.jpg"><img src="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E5%88%86%E7%BA%A7%E5%8F%8A%E4%BC%B0%E7%AE%97.jpg"></a></p>
+<ul>
+<li>  Epic 史诗：一个很大的故事。</li>
+<li>  Theme 主题：安放一组类似故事的篮子。</li>
+<li>  Story 故事：业务角度。</li>
+<li>  Task 任务：技术角度，一个故事可分解为多个任务。</li>
+</ul>
+<h3 id="用户故事分解"><a href="#用户故事分解" class="headerlink" title="用户故事分解"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E5%88%86%E8%A7%A3" title="用户故事分解"></a>用户故事分解</h3><p>大故事拆成小故事，9种不同切分方法。</p>
+<ul>
+<li><p>按工作流程步骤切分<br>  是否可以先完成工作流程的头尾部分，再添加中间步骤去完善该故事呢？</p>
+</li>
+<li><p>按操作切分<br>  是否可以把不同操作切分成独立的故事呢？（比如是有关“管理”或“配置”某物）</p>
+</li>
+<li><p>按不同业务规则切分<br>  是否可以先完成业务规则的一个子集，后续再添加其他规则呢？（比如故事中有没有范围型词语像是“灵活的日期”来暗示着多种变化呢？）</p>
+</li>
+<li><p>按不同类型数据切分<br>  是否可以先处理一种类型的数据，后续再处理其他类型的数据呢？</p>
+</li>
+<li><p>按实现先后依赖切分<br>  该故事的实现背后是否依赖另一个流程的数据输入？</p>
+</li>
+<li><p>按照体验质量切分<br>  是否可以先完成一个低体验质量的故事，然后再提高体验水平？</p>
+</li>
+<li><p>按不同界面切分<br>  是否能先简化复杂界面，先完成一个简单版本？如果多个界面获取相同类型数据，是否可以先从一个界面处理数据，后续再增添其他界面呢？</p>
+</li>
+<li><p>按简单/复杂切分<br>  如果简单的核心就能提供大部分价值，是否可以先完成简单核心，再通过后续的故事来扩充它呢？</p>
+</li>
+<li><p>延迟性能优化<br>  是否可以先使其工作，后续再满足非功能性需求呢？（当复杂主要来自非功能性需求时）</p>
+</li>
+</ul>
+<h3 id="绝对估算与相对估算"><a href="#绝对估算与相对估算" class="headerlink" title="绝对估算与相对估算"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%BB%9D%E5%AF%B9%E4%BC%B0%E7%AE%97%E4%B8%8E%E7%9B%B8%E5%AF%B9%E4%BC%B0%E7%AE%97" title="绝对估算与相对估算"></a>绝对估算与相对估算</h3><p>绝对估算：按天或小时。</p>
+<p>相对估算：</p>
+<ul>
+<li>  按倍增数列：1，2，4，8，16，32，64</li>
+<li>  按斐波那契数列：1，2，3，5，8，13，20，40，100</li>
+<li>  按T恤衫尺寸：XS，S，M，L，XL</li>
+</ul>
+<h3 id="估算纸牌"><a href="#估算纸牌" class="headerlink" title="估算纸牌"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E4%BC%B0%E7%AE%97%E7%BA%B8%E7%89%8C" title="估算纸牌"></a>估算纸牌</h3><ul>
+<li>  产品负责人讲一个故事</li>
+<li>  团队提问澄清</li>
+<li>  团队成员独立出牌估算，互不干扰，喊统一翻牌时才翻牌</li>
+<li>  出到最小点数和最大点数的人讲讲话</li>
+<li>  其他人可参与对话</li>
+<li>  第二轮出牌</li>
+<li>  对同一个故事不超过三轮出牌</li>
+</ul>
+<h2 id="客户参与、产品探索和产品交付的全流程"><a href="#客户参与、产品探索和产品交付的全流程" class="headerlink" title="客户参与、产品探索和产品交付的全流程"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E5%AE%A2%E6%88%B7%E5%8F%82%E4%B8%8E%E3%80%81%E4%BA%A7%E5%93%81%E6%8E%A2%E7%B4%A2%E5%92%8C%E4%BA%A7%E5%93%81%E4%BA%A4%E4%BB%98%E7%9A%84%E5%85%A8%E6%B5%81%E7%A8%8B" title="客户参与、产品探索和产品交付的全流程"></a>客户参与、产品探索和产品交付的全流程</h2><p><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E4%BA%A7%E5%93%81%E4%BA%A4%E4%BB%98%E6%B5%81%E7%A8%8B.jpg"><img src="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/%E4%BA%A7%E5%93%81%E4%BA%A4%E4%BB%98%E6%B5%81%E7%A8%8B.jpg"></a></p>
+<h3 id="第一，产品负责人收集需求。利用前文讲到的客户团队和需求收集方法。需求来自客户和干系人，也来自产品负责人的思考。需求以业务角度为主，也考虑技术角度。需产品负责人与技术领域的架构师等密切协作完成需求的梳理。"><a href="#第一，产品负责人收集需求。利用前文讲到的客户团队和需求收集方法。需求来自客户和干系人，也来自产品负责人的思考。需求以业务角度为主，也考虑技术角度。需产品负责人与技术领域的架构师等密切协作完成需求的梳理。" class="headerlink" title="第一，产品负责人收集需求。利用前文讲到的客户团队和需求收集方法。需求来自客户和干系人，也来自产品负责人的思考。需求以业务角度为主，也考虑技术角度。需产品负责人与技术领域的架构师等密切协作完成需求的梳理。"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%AC%AC%E4%B8%80%EF%BC%8C%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA%E6%94%B6%E9%9B%86%E9%9C%80%E6%B1%82%E3%80%82%E5%88%A9%E7%94%A8%E5%89%8D%E6%96%87%E8%AE%B2%E5%88%B0%E7%9A%84%E5%AE%A2%E6%88%B7%E5%9B%A2%E9%98%9F%E5%92%8C%E9%9C%80%E6%B1%82%E6%94%B6%E9%9B%86%E6%96%B9%E6%B3%95%E3%80%82%E9%9C%80%E6%B1%82%E6%9D%A5%E8%87%AA%E5%AE%A2%E6%88%B7%E5%92%8C%E5%B9%B2%E7%B3%BB%E4%BA%BA%EF%BC%8C%E4%B9%9F%E6%9D%A5%E8%87%AA%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA%E7%9A%84%E6%80%9D%E8%80%83%E3%80%82%E9%9C%80%E6%B1%82%E4%BB%A5%E4%B8%9A%E5%8A%A1%E8%A7%92%E5%BA%A6%E4%B8%BA%E4%B8%BB%EF%BC%8C%E4%B9%9F%E8%80%83%E8%99%91%E6%8A%80%E6%9C%AF%E8%A7%92%E5%BA%A6%E3%80%82%E9%9C%80%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA%E4%B8%8E%E6%8A%80%E6%9C%AF%E9%A2%86%E5%9F%9F%E7%9A%84%E6%9E%B6%E6%9E%84%E5%B8%88%E7%AD%89%E5%AF%86%E5%88%87%E5%8D%8F%E4%BD%9C%E5%AE%8C%E6%88%90%E9%9C%80%E6%B1%82%E7%9A%84%E6%A2%B3%E7%90%86%E3%80%82" title="第一，产品负责人收集需求。利用前文讲到的客户团队和需求收集方法。需求来自客户和干系人，也来自产品负责人的思考。需求以业务角度为主，也考虑技术角度。需产品负责人与技术领域的架构师等密切协作完成需求的梳理。"></a>第一，产品负责人收集需求。利用前文讲到的客户团队和需求收集方法。需求来自客户和干系人，也来自产品负责人的思考。需求以业务角度为主，也考虑技术角度。需产品负责人与技术领域的架构师等密切协作完成需求的梳理。</h3><h3 id="第二，产品探索团队利用故事写作研讨会对用户建模，编写用户故事，放入待办列表，排序，估算，制定发布计划。"><a href="#第二，产品探索团队利用故事写作研讨会对用户建模，编写用户故事，放入待办列表，排序，估算，制定发布计划。" class="headerlink" title="第二，产品探索团队利用故事写作研讨会对用户建模，编写用户故事，放入待办列表，排序，估算，制定发布计划。"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%AC%AC%E4%BA%8C%EF%BC%8C%E4%BA%A7%E5%93%81%E6%8E%A2%E7%B4%A2%E5%9B%A2%E9%98%9F%E5%88%A9%E7%94%A8%E6%95%85%E4%BA%8B%E5%86%99%E4%BD%9C%E7%A0%94%E8%AE%A8%E4%BC%9A%E5%AF%B9%E7%94%A8%E6%88%B7%E5%BB%BA%E6%A8%A1%EF%BC%8C%E7%BC%96%E5%86%99%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%EF%BC%8C%E6%94%BE%E5%85%A5%E5%BE%85%E5%8A%9E%E5%88%97%E8%A1%A8%EF%BC%8C%E6%8E%92%E5%BA%8F%EF%BC%8C%E4%BC%B0%E7%AE%97%EF%BC%8C%E5%88%B6%E5%AE%9A%E5%8F%91%E5%B8%83%E8%AE%A1%E5%88%92%E3%80%82" title="第二，产品探索团队利用故事写作研讨会对用户建模，编写用户故事，放入待办列表，排序，估算，制定发布计划。"></a>第二，产品探索团队利用故事写作研讨会对用户建模，编写用户故事，放入待办列表，排序，估算，制定发布计划。</h3><p>好的故事估算方法</p>
+<ul>
+<li>  允许团队随着对产品了解的加深随时改变想法。</li>
+<li>  要能适用于史诗和小故事。 估算精度随故事变大而变小。</li>
+<li>  估算快速。</li>
+<li>  能帮助提供进度和剩余工作的有用信息。</li>
+<li>  要能做到不精确也没事。</li>
+<li>  可以用来制定发布计划。</li>
+<li>  团队集体估算。</li>
+<li>  故事估算的单位可采用故事点或者理想天。</li>
+</ul>
+<p>具体的估算方法</p>
+<ul>
+<li>  产品负责人拿起一个故事，进行讲解，团队成员提问澄清。</li>
+<li>  团队成员用斐波那契序列的纸牌出牌估算，出到点数最大和最小的人说明，其他人可参与讨论。独立出牌估算，翻牌前不要把估算讲出来，也不要受他人估算的影响。</li>
+<li>  大多数故事的估算会在一到两轮出牌后收敛。最多也不要超过三轮出牌。</li>
+<li>  还可用冒泡分桶法进行快速估算。把故事按从小到大从左到友排成一排，从冒泡法排到大家都认可为止。然后分组分到不同的桶里。桶的大小排列也是斐波那契序列。</li>
+<li>  每个迭代能完成的故事点数是速率。速率是一个靠谱的指标的依据是：故事的估算值与实际大小的偏差呈正态分布。每个迭代选取的故事的正负偏移可以彼此抵消。因此故事估算的精度不会影响速率指标的可靠性。速率指标可靠的前提是：在项目过程中始终采用一致化的估算方法，迭代之间的故事没有交叉重叠，项目过程中没有发生影响速率的大的异常。</li>
+</ul>
+<p>速率和估算的几个注意事项</p>
+<ul>
+<li>  不要拿速率来比团队。</li>
+<li>  分解后小故事估算的总合不一定等于大故事的估算。</li>
+<li>  任务工时的总和不需要跟故事点成正比。</li>
+<li>  结对编程不影响对故事的估算方法。</li>
+<li>  做到一半的故事不能计入速率。没有完全完成的事情是不靠谱的。鼓励一件流。迭代完成后不要修订速率。</li>
+<li>  发布计划的制定</li>
+<li>  选定迭代长度。</li>
+<li>  预测速率。</li>
+<li>  产品的总故事点除以速率，即得出需要多少个迭代完成。</li>
+</ul>
+<p>速率预测可采用</p>
+<ul>
+<li>  历史值</li>
+<li>  执行一轮看看速率是多少</li>
+<li>  猜测</li>
+</ul>
+<p>可视化发布计划的方法</p>
+<ul>
+<li>  墙</li>
+<li>  电子表格</li>
+<li>  甘特图</li>
+</ul>
+<h3 id="第三，与客户确认发布计划。"><a href="#第三，与客户确认发布计划。" class="headerlink" title="第三，与客户确认发布计划。"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%AC%AC%E4%B8%89%EF%BC%8C%E4%B8%8E%E5%AE%A2%E6%88%B7%E7%A1%AE%E8%AE%A4%E5%8F%91%E5%B8%83%E8%AE%A1%E5%88%92%E3%80%82" title="第三，与客户确认发布计划。"></a>第三，与客户确认发布计划。</h3><h3 id="第四，与交付团队梳理故事，达到准备好的状态（DoR-Definition-of-Ready）。故事要有清晰的验收标准，优先级和估算。团队成员有充分的理解。"><a href="#第四，与交付团队梳理故事，达到准备好的状态（DoR-Definition-of-Ready）。故事要有清晰的验收标准，优先级和估算。团队成员有充分的理解。" class="headerlink" title="第四，与交付团队梳理故事，达到准备好的状态（DoR - Definition of Ready）。故事要有清晰的验收标准，优先级和估算。团队成员有充分的理解。"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%AC%AC%E5%9B%9B%EF%BC%8C%E4%B8%8E%E4%BA%A4%E4%BB%98%E5%9B%A2%E9%98%9F%E6%A2%B3%E7%90%86%E6%95%85%E4%BA%8B%EF%BC%8C%E8%BE%BE%E5%88%B0%E5%87%86%E5%A4%87%E5%A5%BD%E7%9A%84%E7%8A%B6%E6%80%81%EF%BC%88DoR-Definition-of-Ready%EF%BC%89%E3%80%82%E6%95%85%E4%BA%8B%E8%A6%81%E6%9C%89%E6%B8%85%E6%99%B0%E7%9A%84%E9%AA%8C%E6%94%B6%E6%A0%87%E5%87%86%EF%BC%8C%E4%BC%98%E5%85%88%E7%BA%A7%E5%92%8C%E4%BC%B0%E7%AE%97%E3%80%82%E5%9B%A2%E9%98%9F%E6%88%90%E5%91%98%E6%9C%89%E5%85%85%E5%88%86%E7%9A%84%E7%90%86%E8%A7%A3%E3%80%82" title="第四，与交付团队梳理故事，达到准备好的状态（DoR - Definition of Ready）。故事要有清晰的验收标准，优先级和估算。团队成员有充分的理解。"></a>第四，与交付团队梳理故事，达到准备好的状态（DoR - Definition of Ready）。故事要有清晰的验收标准，优先级和估算。团队成员有充分的理解。</h3><h3 id="第五，迭代计划，分解任务，生成迭代待办列表。"><a href="#第五，迭代计划，分解任务，生成迭代待办列表。" class="headerlink" title="第五，迭代计划，分解任务，生成迭代待办列表。"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%AC%AC%E4%BA%94%EF%BC%8C%E8%BF%AD%E4%BB%A3%E8%AE%A1%E5%88%92%EF%BC%8C%E5%88%86%E8%A7%A3%E4%BB%BB%E5%8A%A1%EF%BC%8C%E7%94%9F%E6%88%90%E8%BF%AD%E4%BB%A3%E5%BE%85%E5%8A%9E%E5%88%97%E8%A1%A8%E3%80%82" title="第五，迭代计划，分解任务，生成迭代待办列表。"></a>第五，迭代计划，分解任务，生成迭代待办列表。</h3><ul>
+<li>  在迭代计划会上</li>
+<li>  选取本迭代要完成的故事。</li>
+<li>  把业务故事分解为技术任务。分解也是做设计。不能技能的人员可以在同一个故事中合作。</li>
+<li>  团队做出承诺。</li>
+</ul>
+<h3 id="第六，每日工作，按故事和任务的优先级执行。"><a href="#第六，每日工作，按故事和任务的优先级执行。" class="headerlink" title="第六，每日工作，按故事和任务的优先级执行。"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%AC%AC%E5%85%AD%EF%BC%8C%E6%AF%8F%E6%97%A5%E5%B7%A5%E4%BD%9C%EF%BC%8C%E6%8C%89%E6%95%85%E4%BA%8B%E5%92%8C%E4%BB%BB%E5%8A%A1%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E6%89%A7%E8%A1%8C%E3%80%82" title="第六，每日工作，按故事和任务的优先级执行。"></a>第六，每日工作，按故事和任务的优先级执行。</h3><ul>
+<li>  测量和监控速率的方法</li>
+<li>  迭代故事点燃尽图。</li>
+<li>  迭代工时燃机图。</li>
+<li>  每迭代计划速率和实际速率趋势图。</li>
+<li>  每迭代计划和实际速率累计图。</li>
+</ul>
+<p>这些图表只是团队监测趋势的工具。团队要在每天的工作中检视和适应以保证能达到完成迭代目标的趋势。</p>
+<h3 id="第七，迭代验收和演示。最好能有客户参与，以获得反馈。"><a href="#第七，迭代验收和演示。最好能有客户参与，以获得反馈。" class="headerlink" title="第七，迭代验收和演示。最好能有客户参与，以获得反馈。"></a><a target="_blank" rel="noopener" href="https://www.expectfly.com/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/#%E7%AC%AC%E4%B8%83%EF%BC%8C%E8%BF%AD%E4%BB%A3%E9%AA%8C%E6%94%B6%E5%92%8C%E6%BC%94%E7%A4%BA%E3%80%82%E6%9C%80%E5%A5%BD%E8%83%BD%E6%9C%89%E5%AE%A2%E6%88%B7%E5%8F%82%E4%B8%8E%EF%BC%8C%E4%BB%A5%E8%8E%B7%E5%BE%97%E5%8F%8D%E9%A6%88%E3%80%82" title="第七，迭代验收和演示。最好能有客户参与，以获得反馈。"></a>第七，迭代验收和演示。最好能有客户参与，以获得反馈。</h3><p>在 Scrum 中，用户故事运转在两条轨道上。一条是产品级别的产品列表精化，既帮助产品的长远规划，也为迭代的开始做好准备。另一条是迭代级别，故事经过精化准备好之后，经由迭代计划会进入迭代，经由每一天的检查与适应，在迭代评审会议上展现为产品增量和可工作的软件，在经过迭代回顾会议探讨下一个迭代如何做得更好。</p>
+</blockquote>
+<p> 本文作者： <a href="mailto:&#x6a;&#111;&#x6e;&#105;&#64;&#101;&#102;&#x62;&#105;&#122;&#x2e;&#111;&#x72;&#x67;">&#x6a;&#111;&#x6e;&#105;&#64;&#101;&#102;&#x62;&#105;&#122;&#x2e;&#111;&#x72;&#x67;</a><br>本文链接： <a target="_blank" rel="noopener" href="https://github.com/efbiz/2018/05/14/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/">https://github.com/efbiz/2018/05/14/敏捷教练第03课-储备-用户故事精要/</a> </p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    Copyright©2016-至今   张天师
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 572px;
+    }
+    .nav.fullscreen {
+        margin-left: -572px;
+    }
+    .nav-left {
+        width: 150px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
