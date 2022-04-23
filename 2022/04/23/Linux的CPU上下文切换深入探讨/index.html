@@ -810,7 +810,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2022-04-23 22:19:54'>2022-04-23 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2022-04-23 23:03:30'>2022-04-23 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -837,7 +837,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/3fJvAjgPmi6N8XUQ4QII4w">探讨 Linux CPU 的上下文切换</a></p>
+        <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/3fJvAjgPmi6N8XUQ4QII4w">https://mp.weixin.qq.com/s/3fJvAjgPmi6N8XUQ4QII4w</a></p>
 <blockquote>
 <p><em>链接：<a target="_blank" rel="noopener" href="https://medium.com/geekculture/linux-cpu-context-switch-deep-dive-764bfdae4f01">https://medium.com/geekculture/linux-cpu-context-switch-deep-dive-764bfdae4f01</a></em></p>
 </blockquote>
@@ -846,7 +846,7 @@
 <h2 id="CPU-上下文（CPU-Context）"><a href="#CPU-上下文（CPU-Context）" class="headerlink" title="CPU 上下文（CPU Context）"></a>CPU 上下文（CPU Context）</h2><p>在每个任务运行之前，CPU 需要知道在哪里加载和启动任务。这意味着系统需要提前帮助设置 CPU <strong>寄存器</strong>和<strong>程序计数器</strong>。</p>
 <p>CPU 寄存器是内置于 CPU 中的小型但速度极快的内存。程序计数器用于存储 CPU 正在执行的或下一条要执行指令的位置。</p>
 <p>它们都是 CPU 在运行任何任务之前必须依赖的依赖环境，因此也被称为 “CPU 上下文”。如下图所示：</p>
-<p><img src="https://miro.medium.com/max/438/0*EGtuokcAbzA33aGb.png" alt="图片"></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/QFzRdz9libEa4QiaK9HAa6licygbok94QEpljrPgEZa2rHcgdQc0BG8icMAkOabSYqPjVaP9ulIZNKZ9RAwm7j26Fg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
 <p>知道了 CPU 上下文是什么，我想你理解 <strong>CPU 上下文切换</strong>就很容易了。“CPU上下文切换”指的是先保存上一个任务的 CPU 上下文（CPU寄存器和程序计数器），然后将新任务的上下文加载到这些寄存器和程序计数器中，最后跳转到程序计数器。</p>
 <p>这些保存的上下文存储在系统内核中，并在重新安排任务执行时再次加载。这确保了任务的原始状态不受影响，并且任务似乎在持续运行。</p>
 <h2 id="CPU-上下文切换的类型"><a href="#CPU-上下文切换的类型" class="headerlink" title="CPU 上下文切换的类型"></a>CPU 上下文切换的类型</h2><p>你可能会说 CPU 上下文切换无非就是更新 CPU 寄存器和程序计数器值，而这些寄存器是为了快速运行任务而设计的，那为什么会影响 CPU 性能呢？</p>
@@ -869,7 +869,7 @@
 <li><p>  <strong>用户空间</strong>（<code>Ring 3</code>）只能访问受限资源，不能直接访问内存等硬件设备。它必须通过<strong>系统调用</strong>被<strong>陷入（trapped）</strong>内核中才能访问这些特权资源。</p>
 </li>
 </ul>
-<p><img src="https://miro.medium.com/max/600/0*mLfZnFzGvTr3czV5" alt="图片"></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/QFzRdz9libEa4QiaK9HAa6licygbok94QEpMSWZMNUExiaibUIoicUEeT7jdF4d59q7lJQicHQ6Xhe3kbicscVKu3GRBKg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
 <p>从另一个角度看，一个进程既可以在用户空间也可以在内核空间运行。当一个进程在<strong>用户空间</strong>运行时，称为该进程的<strong>用户态</strong>，当它落入<strong>内核空间</strong>时，称为该进程的<strong>内核态</strong>。</p>
 <p>从<strong>用户态</strong>到<strong>内核态</strong>的转换需要通过<strong>系统调用</strong>来完成。例如，当我们查看一个文件的内容时，我们需要以下系统调用：</p>
 <ul>
