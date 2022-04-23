@@ -118,6 +118,32 @@
   </entry>
   
   <entry>
+    <title>企业完成云转型的成功之道：云成本优化管理</title>
+    <link href="http://zhangyu.info/2022/04/23/%E4%BC%81%E4%B8%9A%E5%AE%8C%E6%88%90%E4%BA%91%E8%BD%AC%E5%9E%8B%E7%9A%84%E6%88%90%E5%8A%9F%E4%B9%8B%E9%81%93-%E4%BA%91%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E7%AE%A1%E7%90%86/"/>
+    <id>http://zhangyu.info/2022/04/23/%E4%BC%81%E4%B8%9A%E5%AE%8C%E6%88%90%E4%BA%91%E8%BD%AC%E5%9E%8B%E7%9A%84%E6%88%90%E5%8A%9F%E4%B9%8B%E9%81%93-%E4%BA%91%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E7%AE%A1%E7%90%86/</id>
+    <published>2022-04-22T16:00:00.000Z</published>
+    <updated>2022-04-23T14:47:42.471Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://zhuanlan.zhihu.com/p/498641381">https://zhuanlan.zhihu.com/p/498641381</a></p><blockquote><p>近年来，各行各业的企业的云采用率迅速增加，预计向云的迁移将继续加速，以实现快速的敏捷性以及以最少的资本支出获得规模和弹性。即用即付定价带来的成本优势也是推动云采用的关键驱动因素之一。</p><p>然而，随着企业将更多的工作负载（业务应用程序和数据）转移到云上，在缺乏明确定义的云成本管理策略的情况下，它们的成本优势会迅速消失。</p><p>为了快速迁移到云计算上，企业通常采用直接迁移策略来迁移云，但会导致与本地部署相同的低效率。这些效率低下的表现形式可能是内存、计算或存储容量过剩。如果在迁移过程中或迁移之后没有针对云计算进行架构和优化，则基本成本要素保持不变，不会提供成本优势，并且在许多情况下会增加成本。</p><p>此外，很多时候会使用旧的预算和预测实践来管理云上的成本。云财务管理必须区别对待，它需要实时跟踪、准确预测，并在发生任何事件时立即采取行动。不能像以前那样将其留作每月或每季度的审查。</p><p>因此，有效的云成本管理是所有云转型过程中的基本要素。</p><p><strong>1、控制云成本 – 框架和策略</strong></p><p>云采用被认为是按使用付费的模式。但是，其提供的所有服务都是收费的，无论它们是否已被充分利用。对云服务的无纪律、不受监管和不受监控的使用会导致云预算激增，企业难以控制其不断增长的云支出。有许多公司在迁移到云时大大超过其本地基础设施成本。</p><p>云成本管理需要从整体角度严格监控和控制云成本。这可以通过定义和实施清晰的云成本管理框架来管理云经济来实现。该框架应允许企业了解和基线化云计算需求，提供对云服务相关支出的可见性、优化使用的能力和工具、实施建议、与利益相关者的成本透明度以及向业务线（LoB）回收成本的机制。</p><p><strong>2、云成本管理框架</strong></p><p>以下是应考虑的云成本管理框架的核心组件。</p><p><strong>1）预算和控制</strong></p><p>定义、分配和管理分配给部门或项目的预算。此功能是计划和控制资源利用率，跟踪预算与实际运行成本并针对变化采取行动。这将为企业提供可预测的成本消耗预算。</p><p><strong>2）基线和优化</strong></p><p>为云计算设定合适的初始规模以基线化成本并定期重复以进一步优化。</p><p><strong>3）监控和分析</strong></p><p>了解使用的云资源，以便对其进行有效管理。应审查当前和过去的消费、非标准、未使用或未优化使用的云服务等详细信息并采取行动。应该对云使用模式和成本趋势进行分析，以便对 LoB 和产品组合进行精细预算和预测。另一个有助于云成本管理的方面是基于事件的干预定义和自动化。</p><p><strong>4）治理和标准化</strong></p><p>每个角色的企业范围内基于策略的访问和权限。标准化云基础设施配置，例如创建已批准的虚拟机配置、内置安全性、网络设置等的预定义模板，开发人员可以配置这些模板以提高生产力和自动化。</p><p>使用元数据设置自动警报机制，当云服务使用量超过预定义级别时通知管理员或通知未使用的资源、未充分利用的资源和自动响应的标签。</p><p>建立与不同环境的运行时间相关的治理（例如，在不使用时可以作为候选关闭的开发/测试环境），定期审查与 CSP 的计费协议，并根据预期的工作负载变化重新协商。</p><p><strong>5）成本透明度</strong></p><p>为不同的 LoB 和部门带来云使用成本的可见性和透明度。使用元数据和资源标签对 LoB 和部门的云使用情况进行跟踪和基于计量的显示和计费。</p><p><strong>3、云成本优化策略</strong></p><p>以下是可用于优化云费用的一些策略和最佳实践：</p><p><strong>1）正确调整内存、计算、存储和其他资源的大小</strong></p><p>很多时候，特别是如果一个企业采用了一种提升和转移的方法来迁移到云，基础设施资源就会被过度配置。由于按使用付费实际上是按订单付费，因此最初正确调整大小并定期进行审查和重新调整大小是必不可少的。这消除了过度配置或次优化使用的机会。</p><p><strong>2）消除未使用的资源和服务</strong></p><p>识别云设置中未使用的资源并删除它们是一项关键策略。这通常发生在为临时目的创建服务器然后被遗忘时。同样，无法删除附加到虚拟机实例的服务——诸如块级存储卷或静态公共 IP 地址之类的服务，过时的快照，即使实例已经终止，仍然会产生成本。</p><p>识别和消除未使用的服务将降低成本。</p><p><strong>3）使用正确的服务和生命周期策略进行存储</strong></p><p>云存储服务的定价因使用模式而异。根据业务需求选择合适的云服务。根据预期的使用模式和延迟要求，使用存储生命周期策略将内容移动到正确的存储桶。</p><p><strong>4）安排可用时间</strong></p><p>设置不同环境的运行时间，尤其是非生产实例。例如，识别不需要全天候运行的虚拟机并设置最具成本效益的动态停止和启动计划。</p><p><strong>5）使用预留实例，现货定价</strong></p><p>估算云服务的计划使用量并购买预留实例。预留实例具有折扣价，可以显著降低成本。这种方法更适合具有长期承诺的和具有相对较低可变性的应用程序的企业。</p><p>但是，如果不能准确地估计，这可能会导致总成本增加（由于使用不足）。为此，对历史使用模式的分析和推断至关重要。同样，使用虚拟机的现货定价可以获得显著的成本效益。这最适合容错和无状态应用程序，例如大数据和分析、高性能和高吞吐量计算、机器学习和人工智能应用程序。</p><p><strong>6）架构优化</strong></p><p>无论云服务提供商如何，为云构建解决方案并选择正确的服务对于从云中获得最大价值至关重要。使用 IaaS 和云原生 PaaS 服务的正确组合可以降低成本，因为它们是基于使用的收费模式。例如，从虚拟机上的数据库迁移到完全托管的弹性数据库即服务。</p><p>此外，建立企业标准并确保在云上加入的所有应用程序都遵循优化的架构。此外，定期评估并避免解决方案中所有成本低效的架构元素，例如，最小化来自云的数据出口。</p><p><strong>7）使用容器</strong></p><p>容器提供了一种在同一虚拟机上以隔离方式运行多个应用程序的轻量级和可移植方式。与传统的虚拟机托管相比，它们能够以更高的单位硬件密度运行应用程序。如果操作正确，这可以降低总体计算成本。此外，容器还具有敏捷性、跨环境简化部署和可移植性的优势。</p><p><strong>8）AI/ML 的训练环境</strong></p><p>在大型数据集上完成 AI/ML 训练需要大量计算，并且重复执行以微调和提高模型的准确性。在公共云上重复执行此操作可能会变得昂贵，尤其是对于大型数据集。其中一种方法是在内部设置 AI/ML 培训基础设施，并在公共云上运行经过培训的模型。这样可以更好地控制与培训相关的成本。</p><p>有些供应商提供专用硬件 (GPU) 和软件的捆绑解决方案，以在本地设置 AI/ML 培训基础设施。关于 AI/ML 培训设置的基础设施位置的决策应在考虑业务需求和成本的情况下整体完成。</p><p><strong>9）使用工具监控使用情况、重新基线并时常调整</strong></p><p>使用工具查看云费用。所有云供应商都提供云原生服务，许多第三方供应商提供解决方案来组织、预算、跟踪、监控、报告和优化云成本。使用资源标记和元数据来查看和跟踪资源，以获得使用情况、成本跟踪和缓解的实时情况。这需要主动管理而不是被动管理，因为每次延误都要花费金钱。</p><p><strong>4、结论</strong></p><p>云成本管理可以将云成本智能嵌入到企业的工作中。这样，云成本管理将成为云转型不可或缺的一部分，实现优化成本的框架应该嵌入到云采用生命周期中。有了适当的防范措施，它将推动一种注重成本的文化，并将成为目标运营模式的重要组成部分。</p></blockquote>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/498641381&quot;&gt;https://zhuanlan.zhihu.com/p/498641381&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;近年来，各行各业的企业的云采用率迅速增加，预计向云</summary>
+      
+    
+    
+    
+    <category term="架构" scheme="http://zhangyu.info/categories/%E6%9E%B6%E6%9E%84/"/>
+    
+    
+    <category term="架构" scheme="http://zhangyu.info/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+  </entry>
+  
+  <entry>
     <title>谈谈如何设计好网站的URL</title>
     <link href="http://zhangyu.info/2022/04/12/%E8%B0%88%E8%B0%88%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%A5%BD%E7%BD%91%E7%AB%99%E7%9A%84URL/"/>
     <id>http://zhangyu.info/2022/04/12/%E8%B0%88%E8%B0%88%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%A5%BD%E7%BD%91%E7%AB%99%E7%9A%84URL/</id>
@@ -509,32 +535,6 @@
     
     
     <category term="SRE" scheme="http://zhangyu.info/tags/SRE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>开启shareProcessNamespace后容器异常</title>
-    <link href="http://zhangyu.info/2021/05/31/cotainer-init/"/>
-    <id>http://zhangyu.info/2021/05/31/cotainer-init/</id>
-    <published>2021-05-30T16:00:00.000Z</published>
-    <updated>2021-05-31T12:41:15.290Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://qingwave.github.io/cotainer-init/">https://qingwave.github.io/cotainer-init/</a></p><blockquote><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>目前k8s不支持容器启动顺序，部分业务通过开启<code>shareProcessNamespace</code>监控某些进程状态。当开启共享pid后，有用户反馈某个容器主进程退出，但是容器并没有重启，执行<code>exec</code>会卡住，现象参考<a href="https://qingwave.github.io/cotainer-init/3">issue</a></p><h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a><a href="https://qingwave.github.io/cotainer-init/#%E5%A4%8D%E7%8E%B0" title="复现"></a>复现</h2><ol><li> 创建deployment</li></ol><ul><li><p>apiVersion: apps/v1<br>  kind: Deployment<br>  metadata:<br>   labels:<br>   app: nginx<br>   name: nginx<br>  spec:<br>   selector:<br>   matchLabels:<br>   app: nginx<br>   template:<br>   metadata:<br>   labels:<br>   app: nginx<br>   name: nginx<br>   spec:<br>   shareProcessNamespace: true<br>   containers:  </p><ul><li>image: nginx:alpine<br>name: nginx  </li></ul></li><li><p>查看进程信息<br>  由于开启了<code>shareProcessNamespace</code>, <code>pause</code>变为<code>pid 1</code>, <code>nginx daemon</code>pid为<code>6</code>, ppid为<code>containerd-shim</code></p></li><li><p># 查看容器内进程<br>  / # ps -efo “pid,ppid,comm,args”<br>  PID   PPID  COMMAND          COMMAND<br>   1     0 pause            /pause<br>   6     0 nginx            nginx: master process nginx -g daemon off;<br>   11     6 nginx            nginx: worker process<br>   12     6 nginx            nginx: worker process<br>   13     6 nginx            nginx: worker process<br>   14     6 nginx            nginx: worker process<br>   15     0 sh               sh<br>   47    15 ps               ps -efo pid,ppid,comm,args  </p></li><li><p>删除主进程<br>  子进程被<code>pid 1</code>回收, 有时也会被<code>containerd-shim</code>回收</p></li></ul><ol><li><p>/ # kill -9 6<br> / #<br> / # ps -efo “pid,ppid,comm,args”<br> PID   PPID  COMMAND          COMMAND<br>  1     0 pause            /pause<br>  11     1 nginx            nginx: worker process<br>  12     1 nginx            nginx: worker process<br>  13     1 nginx            nginx: worker process<br>  14     1 nginx            nginx: worker process<br>  15     0 sh               sh<br>  48    15 ps               ps -efo pid,ppid,comm,args  </p></li><li><p>docker hang<br> 此时对此容器执行docker命令(<code>inspect, logs, exec</code>)将卡住， 同样通过<code>kubectl</code>执行会超时。</p></li></ol><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a><a href="https://qingwave.github.io/cotainer-init/#%E5%88%86%E6%9E%90" title="分析"></a>分析</h2><p>在未开启<code>shareProcessNamespace</code>的容器中，主进程退出<code>pid 1</code>, 此pid namespace销毁，系统会<code>kill</code>其下的所有进程。开启后，<code>pid 1</code>为<code>pause</code>进程，容器主进程退出，由于共享pid namespace，其他进程没有退出变成孤儿进程。此时调用docker相关接口去操作容器，docker首先去找主进程，但主进程已经不存在了，导致异常(待确认)。</p><p>清理掉这些孤儿进程容器便会正常退出，可以<code>kill</code>掉这些进程或者<code>kill</code>pause进程，即可恢复。</p><h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a><a href="https://qingwave.github.io/cotainer-init/#%E6%96%B9%E6%A1%88" title="方案"></a>方案</h2><p>有没有优雅的方式解决此种问题，如果主进程退出子进程也一起退出便符合预期，这就需要进程管理工具来实现，在宿主机中有<code>systemd</code>、<code>god</code>，容器中也有类似的工具即<code>init进程</code>(传递信息，回收子进程)，常见的有</p><ol><li> <code>docker init</code>, docker自带的init进程(即<code>tini</code>)</li><li> <a href="https://github.com/krallin/tini"><code>tini</code></a>, 可回收孤儿进程/僵尸进程，<code>kill</code>进程组等</li><li> <a href="https://github.com/Yelp/dumb-init"><code>dumb-init</code></a>, 可管理进程，重写信号等</li></ol><p>经过测试，<code>tini</code>进程只能回收前台程序，对于后台程序则无能为力(例如<code>nohup</code>, <code>&amp;</code>启动的程序)，<code>dumb-init</code>在主进程退出时，会传递信号给子进程，符合预期。</p><p>开启<code>dumb-init</code>进程的<code>dockerfile</code>如下，<code>tini</code>也类似  </p><p>FROM nginx:alpine  </p><p># tini<br># RUN apk add –no-cache tini<br># ENTRYPOINT [“/sbin/tini”, “-s”, “-g”, “–”]  </p><p># dumb-init<br>RUN wget -O /usr/bin/dumb-init <a href="https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init/_1.2.2/_amd64">https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init\_1.2.2\_amd64</a><br>RUN chmod +x /usr/bin/dumb-init<br>ENTRYPOINT [“/usr/bin/dumb-init”, “-v”, “–”]  </p><p>CMD [“nginx”, “-g”, “daemon off;”]  </p><p>init方式对于此问题是一种临时的解决方案，需要docker从根本上解决此种情况。容器推荐单进程运行，但某些情况必须要运行多进程，如果不想处理处理传递回收进程等，可以通过<code>init</code>进程，无需更改代码即可实现。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a><a href="https://qingwave.github.io/cotainer-init/#%E5%8F%82%E8%80%83" title="参考"></a>参考</h2><p>[1] <a href="https://github.com/Yelp/dumb-init">https://github.com/Yelp/dumb-init</a><br>[2] <a href="https://github.com/krallin/tini">https://github.com/krallin/tini</a><br>[3] <a href="https://github.com/kubernetes/kubernetes/issues/92214">https://github.com/kubernetes/kubernetes/issues/92214</a></p></blockquote>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://qingwave.github.io/cotainer-init/&quot;&gt;https://qingwave.github.io/cotainer-init/&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#</summary>
-      
-    
-    
-    
-    <category term="Kubernetes" scheme="http://zhangyu.info/categories/Kubernetes/"/>
-    
-    
-    <category term="Kubernetes" scheme="http://zhangyu.info/tags/Kubernetes/"/>
     
   </entry>
   
