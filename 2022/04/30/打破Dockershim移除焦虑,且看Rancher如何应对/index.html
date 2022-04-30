@@ -938,7 +938,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2022-04-30 18:46:15'>2022-04-30 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2022-04-30 22:43:29'>2022-04-30 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -965,7 +965,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/swhQtu0pb_1AwQtMfTyd9Q">打破 Dockershim 移除焦虑，且看 Rancher 如何应对</a></p>
+        <p>打破 Dockershim 移除焦虑，且看 Rancher 如何应对<br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/swhQtu0pb_1AwQtMfTyd9Q">https://mp.weixin.qq.com/s/swhQtu0pb_1AwQtMfTyd9Q</a></p>
 <blockquote>
 <p><strong>前 言</strong></p>
 <p>早在 2020 年 12 月，Kubernetes 就宣布将要弃用 Dockershim（<a target="_blank" rel="noopener" href="https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/%EF%BC%89%E3%80%82%E5%9C%A8">https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/）。在</a> Kubernetes 中，Dockershim 是一个适配器组件，Dockershim 适配器允许 Kubelet 与 Docker 交互，就好像 Docker 是一个与 CRI 兼容的运行时一样。</p>
@@ -986,15 +986,23 @@
 </ul>
 <p><strong>配置RKE cluster.yml 文件</strong></p>
 <p>在 RKE 的集群配置文件 cluster.yml 中通过增加  enable_cri_dockerd: true  选项来启用外部 Dockershim 支持。本例使用最精简文件示例，如需个性化设置，请根据需求调整选项：</p>
-<pre><code>~$ cat cluster.yml</code></pre>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">~$ cat cluster.yml</span><br><span class="line">nodes:</span><br><span class="line">  - address: 192.168.205.19</span><br><span class="line">    user: ubuntu</span><br><span class="line">    role:</span><br><span class="line">      - controlplane</span><br><span class="line">      - etcd</span><br><span class="line">      - worker</span><br><span class="line">enable_cri_dockerd: true</span><br></pre></td></tr></table></figure>
+<blockquote>
 <p><strong>通过 RKE 创建 Kubernetes 集群</strong></p>
-<pre><code>~$ rke up</code></pre>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">~$ rke up</span><br><span class="line">INFO[0000] Running RKE version: v1.3.9</span><br><span class="line">INFO[0000] Initiating Kubernetes cluster</span><br><span class="line">INFO[0000] cri-dockerd is enabled for cluster version [v1.22.7-rancher1-2]</span><br><span class="line">INFO[0000] [certificates] GenerateServingCertificate is disabled, checking if there are unused Kubelet certificates</span><br><span class="line">INFO[0000] [certificates] Generating admin certificates and kubeconfig</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">INFO[1130] [ingress] ingress controller nginx deployed successfully</span><br><span class="line">INFO[1130] [addons] Setting up user addons</span><br><span class="line">INFO[1130] [addons] no user addons defined</span><br><span class="line">INFO[1130] Finished building Kubernetes cluster successfully</span><br></pre></td></tr></table></figure>
+<blockquote>
 <p><strong>确认启用 cri-dockerd</strong>  </p>
 <p>集群创建成功后，连接到下游集群的主机查看进程，可以发现增加了一个 cri-dockerd 的进程：</p>
-<pre><code>root@dev-1:~# ps -ef | grep cri-dockerd</code></pre>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@dev-1:~# ps -ef | grep cri-dockerd</span><br><span class="line">root     26211 25813  3 11:26 ?        00:04:13 &#x2F;opt&#x2F;rke-tools&#x2F;bin&#x2F;cri-dockerd --network-plugin&#x3D;cni --cni-conf-dir&#x3D;&#x2F;etc&#x2F;cni&#x2F;net.d --cni-bin-dir&#x3D;&#x2F;opt&#x2F;cni&#x2F;bin --pod-infra-container-image&#x3D;rancher&#x2F;mirrored-pause:3.6</span><br></pre></td></tr></table></figure>
+<blockquote>
 <p>Cri-dockerd 其实就是从被移除的 Dockershim 中，独立出来的一个项目。为 Docker Engine 提供了一个垫片（shim），可以通过 Kubernetes CRI 控制 Docker。这意味着你可以像以前一样继续基于 Docker Engine 构建 Kubernetes，只需从内置的 Dockershim 切换到外部的 Dockershim 即可。</p>
 <p>接下来，我们再观察 Kubelet 的参数变化：</p>
-<pre><code>root@dev-1:~# docker inspect kubelet</code></pre>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@dev-1:~# docker inspect kubelet</span><br><span class="line">            &quot;Entrypoint&quot;: [</span><br><span class="line">                ...</span><br><span class="line">                &quot;--container-runtime&#x3D;remote&quot;,</span><br><span class="line">                &quot;--container-runtime-endpoint&#x3D;&#x2F;var&#x2F;run&#x2F;Dockershim.sock&quot;,</span><br><span class="line">                ...</span><br><span class="line">            ],</span><br></pre></td></tr></table></figure>
+<blockquote>
 <p>可以看到，增加 enable_cri_dockerd: true 参数启动的 Kubernetes 集群增加了 --container-runtime=remote 和 --container-runtime-endpoint=/var/run/Dockershim.sock 两个 Kubelet 参数。通过这两个 Kubelet 参数可以设置 Kubernetes 集群利用外部 Dockershim 继续使用 Docker 作为 CRI 运行时。 </p>
 <p><strong>通过 Rancher 创建 RKE 集群</strong></p>
 <p>如果你是 Rancher 的长期用户，你肯定会知道从 Rancher UI 上创建的自定义集群就是通过 RKE 来去实现的。只不过通过 Rancher UI 创建的 RKE 集群可以省去配置 RKE cluster.yml 的烦恼，只需要从 UI 上做一些简单的配置即可。</p>
