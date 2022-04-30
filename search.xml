@@ -1,6 +1,1163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SpringBoot性能太差,教你几招轻松搞定</title>
+    <url>/2022/04/30/SpringBoot%E6%80%A7%E8%83%BD%E5%A4%AA%E5%B7%AE,%E6%95%99%E4%BD%A0%E5%87%A0%E6%8B%9B%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A/</url>
+    <content><![CDATA[<p>SpringBoot性能太差,教你几招轻松搞定 </p>
+<p>Java派 2022-04-30 09:27</p>
+<p><a href="https://mp.weixin.qq.com/s/lreQia3XL5cl0XKrN47KCA">https://mp.weixin.qq.com/s/lreQia3XL5cl0XKrN47KCA</a></p>
+<p><a href="https://mp.weixin.qq.com/s/lreQia3XL5cl0XKrN47KCA">Spring Boot性能太差，教你几招轻松搞定</a></p>
+<blockquote>
+<p><strong>目录</strong></p>
+<ul>
+<li><p>  异步执行</p>
+</li>
+<li><p>  增加内嵌 Tomcat 的最大连接数</p>
+</li>
+<li><p>  使用 @ComponentScan()</p>
+</li>
+<li><p>  默认 Tomcat 容器改为 Undertow</p>
+</li>
+<li><p>  使用 BufferedWriter 进行缓冲</p>
+</li>
+<li><p>  Deferred 方式实现异步调用</p>
+</li>
+<li><p>  异步调用可以使用 AsyncHandlerInterceptor 进行拦截</p>
+</li>
+</ul>
+<p><strong>异步执行</strong></p>
+<p>实现方式二种：</p>
+<ul>
+<li><p>  使用异步注解 @aysnc、启动类：添加 @EnableAsync 注解</p>
+</li>
+<li><p>  JDK 8 本身有一个非常好用的 Future 类——CompletableFuture</p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@AllArgsConstructor</span><br><span class="line">public class AskThread implements Runnable&#123;</span><br><span class="line">    private CompletableFuture&lt;Integer&gt; re &#x3D; null;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        int myRe &#x3D; 0;</span><br><span class="line">        try &#123;</span><br><span class="line">            myRe &#x3D; re.get() * re.get();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(myRe);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        final CompletableFuture&lt;Integer&gt; future &#x3D; new CompletableFuture&lt;&gt;();</span><br><span class="line">        new Thread(new AskThread(future)).start();</span><br><span class="line">        &#x2F;&#x2F;模拟长时间的计算过程</span><br><span class="line">        Thread.sleep(1000);</span><br><span class="line">        &#x2F;&#x2F;告知完成结果</span><br><span class="line">        future.complete(60);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在该示例中，启动一个线程，此时 AskThread 对象还没有拿到它需要的数据，执行到  myRe = re.get() * re.get() 会阻塞。</p>
+<p>我们用休眠 1 秒来模拟一个长时间的计算过程，并将计算结果告诉 future 执行结果，AskThread 线程将会继续执行。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Calc &#123;</span><br><span class="line">    public static Integer calc(Integer para) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            &#x2F;&#x2F;模拟一个长时间的执行</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return para * para;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) throws ExecutionException, InterruptedException &#123;</span><br><span class="line">        final CompletableFuture&lt;Void&gt; future &#x3D; CompletableFuture.supplyAsync(() -&gt; calc(50))</span><br><span class="line">                .thenApply((i) -&gt; Integer.toString(i))</span><br><span class="line">                .thenApply((str) -&gt; &quot;\&quot;&quot; + str + &quot;\&quot;&quot;)</span><br><span class="line">                .thenAccept(System.out::println);</span><br><span class="line">        future.get();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>CompletableFuture.supplyAsync 方法构造一个 CompletableFuture 实例，在 supplyAsync() 方法中，它会在一个新线程中，执行传入的参数。</p>
+<p>在这里它会执行 calc() 方法，这个方法可能是比较慢的，但这并不影响 CompletableFuture 实例的构造速度，supplyAsync() 会立即返回。</p>
+<p>而返回的 CompletableFuture 实例就可以作为这次调用的契约，在将来任何场合，用于获得最终的计算结果。</p>
+<p>supplyAsync 用于提供返回值的情况，CompletableFuture 还有一个不需要返回值的异步调用方法 runAsync(Runnable runnable)，一般我们在优化 Controller 时，使用这个方法比较多。</p>
+<p>这两个方法如果在不指定线程池的情况下，都是在 ForkJoinPool.common 线程池中执行，而这个线程池中的所有线程都是 Daemon（守护）线程，所以，当主线程结束时，这些线程无论执行完毕都会退出系统。</p>
+<p>核心代码：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CompletableFuture.runAsync(() -&gt;</span><br><span class="line">   this.afterBetProcessor(betRequest,betDetailResult,appUser,id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>异步调用使用 Callable 来实现：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@RestController  </span><br><span class="line">public class HelloController &#123;</span><br><span class="line">    private static final Logger logger &#x3D; LoggerFactory.getLogger(HelloController.class);</span><br><span class="line">    @Autowired  </span><br><span class="line">    private HelloService hello;</span><br><span class="line">    @GetMapping(&quot;&#x2F;helloworld&quot;)</span><br><span class="line">    public String helloWorldController() &#123;</span><br><span class="line">        return hello.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 异步调用restful</span><br><span class="line">     * 当controller返回值是Callable的时候，springmvc就会启动一个线程将Callable交给TaskExecutor去处理</span><br><span class="line">     * 然后DispatcherServlet还有所有的spring拦截器都退出主线程，然后把response保持打开的状态</span><br><span class="line">     * 当Callable执行结束之后，springmvc就会重新启动分配一个request请求，然后DispatcherServlet就重新</span><br><span class="line">     * 调用和处理Callable异步执行的返回结果， 然后返回视图</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     *&#x2F;  </span><br><span class="line">    @GetMapping(&quot;&#x2F;hello&quot;)</span><br><span class="line">    public Callable&lt;String&gt; helloController() &#123;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 进入helloController方法&quot;);</span><br><span class="line">        Callable&lt;String&gt; callable &#x3D; new Callable&lt;String&gt;() &#123;</span><br><span class="line">            @Override  </span><br><span class="line">            public String call() throws Exception &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 进入call方法&quot;);</span><br><span class="line">                String say &#x3D; hello.sayHello();</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 从helloService方法返回&quot;);</span><br><span class="line">                return say;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 从helloController方法返回&quot;);</span><br><span class="line">        return callable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>异步调用的方式 WebAsyncTask：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@RestController  </span><br><span class="line">public class HelloController &#123;</span><br><span class="line">    private static final Logger logger &#x3D; LoggerFactory.getLogger(HelloController.class);</span><br><span class="line">    @Autowired  </span><br><span class="line">    private HelloService hello;</span><br><span class="line">        &#x2F;**</span><br><span class="line">     * 带超时时间的异步请求 通过WebAsyncTask自定义客户端超时间</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     *&#x2F;  </span><br><span class="line">    @GetMapping(&quot;&#x2F;world&quot;)</span><br><span class="line">    public WebAsyncTask&lt;String&gt; worldController() &#123;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 进入helloController方法&quot;);</span><br><span class="line">        &#x2F;&#x2F; 3s钟没返回，则认为超时</span><br><span class="line">        WebAsyncTask&lt;String&gt; webAsyncTask &#x3D; new WebAsyncTask&lt;&gt;(3000, new Callable&lt;String&gt;() &#123;</span><br><span class="line">            @Override  </span><br><span class="line">            public String call() throws Exception &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 进入call方法&quot;);</span><br><span class="line">                String say &#x3D; hello.sayHello();</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 从helloService方法返回&quot;);</span><br><span class="line">                return say;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 从helloController方法返回&quot;);</span><br><span class="line">        webAsyncTask.onCompletion(new Runnable() &#123;</span><br><span class="line">            @Override  </span><br><span class="line">            public void run() &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 执行完毕&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        webAsyncTask.onTimeout(new Callable&lt;String&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override  </span><br><span class="line">            public String call() throws Exception &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; onTimeout&quot;);</span><br><span class="line">                &#x2F;&#x2F; 超时的时候，直接抛异常，让外层统一处理超时异常</span><br><span class="line">                throw new TimeoutException(&quot;调用超时&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        return webAsyncTask;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 异步调用，异常处理，详细的处理流程见MyExceptionHandler类</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     *&#x2F;  </span><br><span class="line">    @GetMapping(&quot;&#x2F;exception&quot;)</span><br><span class="line">    public WebAsyncTask&lt;String&gt; exceptionController() &#123;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 进入helloController方法&quot;);</span><br><span class="line">        Callable&lt;String&gt; callable &#x3D; new Callable&lt;String&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override  </span><br><span class="line">            public String call() throws Exception &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 进入call方法&quot;);</span><br><span class="line">                throw new TimeoutException(&quot;调用超时!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 从helloController方法返回&quot;);</span><br><span class="line">        return new WebAsyncTask&lt;&gt;(20000, callable);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>增加内嵌 Tomcat 的最大连接数</strong></p>
+<h6 id=""><a href="#" class="headerlink" title=""></a></h6><h6 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class TomcatConfig &#123;</span><br><span class="line">    @Bean</span><br><span class="line">    public ConfigurableServletWebServerFactory webServerFactory() &#123;</span><br><span class="line">        TomcatServletWebServerFactory tomcatFactory &#x3D; new TomcatServletWebServerFactory();</span><br><span class="line">        tomcatFactory.addConnectorCustomizers(new MyTomcatConnectorCustomizer());</span><br><span class="line">        tomcatFactory.setPort(8005);</span><br><span class="line">        tomcatFactory.setContextPath(&quot;&#x2F;api-g&quot;);</span><br><span class="line">        return tomcatFactory;</span><br><span class="line">    &#125;</span><br><span class="line">    class MyTomcatConnectorCustomizer implements TomcatConnectorCustomizer &#123;</span><br><span class="line">        public void customize(Connector connector) &#123;</span><br><span class="line">            Http11NioProtocol protocol &#x3D; (Http11NioProtocol) connector.getProtocolHandler();</span><br><span class="line">            &#x2F;&#x2F;设置最大连接数</span><br><span class="line">            protocol.setMaxConnections(20000);</span><br><span class="line">            &#x2F;&#x2F;设置最大线程数</span><br><span class="line">            protocol.setMaxThreads(2000);</span><br><span class="line">            protocol.setConnectionTimeout(30000);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="-1"><a href="#-1" class="headerlink" title=""></a></h6><p><strong>使用 @ComponentScan()</strong></p>
+<h6 id="-2"><a href="#-2" class="headerlink" title=""></a></h6><h6 id="使用-ComponentScan-定位扫包比-SpringBootApplication-扫包更快。"><a href="#使用-ComponentScan-定位扫包比-SpringBootApplication-扫包更快。" class="headerlink" title="使用 @ComponentScan() 定位扫包比 @SpringBootApplication 扫包更快。"></a>使用 @ComponentScan() 定位扫包比 @SpringBootApplication 扫包更快。</h6><h6 id="-3"><a href="#-3" class="headerlink" title=""></a></h6><p><strong>默认 Tomcat 容器改为 Undertow</strong></p>
+<h6 id="-4"><a href="#-4" class="headerlink" title=""></a></h6><h6 id="默认-Tomcat-容器改为-Undertow（Jboss-下的服务器，Tomcat-吞吐量-5000，Undertow-吞吐量-8000）"><a href="#默认-Tomcat-容器改为-Undertow（Jboss-下的服务器，Tomcat-吞吐量-5000，Undertow-吞吐量-8000）" class="headerlink" title="默认 Tomcat 容器改为 Undertow（Jboss 下的服务器，Tomcat 吞吐量 5000，Undertow 吞吐量 8000）"></a>默认 Tomcat 容器改为 Undertow（Jboss 下的服务器，Tomcat 吞吐量 5000，Undertow 吞吐量 8000）</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;exclusions&gt;</span><br><span class="line">  &lt;exclusion&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-boot-starter-tomcat&lt;&#x2F;artifactId&gt;</span><br><span class="line">  &lt;&#x2F;exclusion&gt;</span><br><span class="line">&lt;&#x2F;exclusions&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>改为：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-undertow&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>使用 BufferedWriter 进行缓冲</strong></p>
+<p>这里不给大家举例，可自行尝试。</p>
+<p><strong>Deferred 方式实现异步调用</strong></p>
+<h6 id="代码如下：-1"><a href="#代码如下：-1" class="headerlink" title="代码如下："></a>代码如下：</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class AsyncDeferredController &#123;</span><br><span class="line">    private final Logger logger &#x3D; LoggerFactory.getLogger(this.getClass());</span><br><span class="line">    private final LongTimeTask taskService;</span><br><span class="line">    @Autowired</span><br><span class="line">    public AsyncDeferredController(LongTimeTask taskService) &#123;</span><br><span class="line">        this.taskService &#x3D; taskService;</span><br><span class="line">    &#125;</span><br><span class="line">    @GetMapping(&quot;&#x2F;deferred&quot;)</span><br><span class="line">    public DeferredResult&lt;String&gt; executeSlowTask() &#123;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot;进入executeSlowTask方法&quot;);</span><br><span class="line">        DeferredResult&lt;String&gt; deferredResult &#x3D; new DeferredResult&lt;&gt;();</span><br><span class="line">        &#x2F;&#x2F; 调用长时间执行任务</span><br><span class="line">        taskService.execute(deferredResult);</span><br><span class="line">        &#x2F;&#x2F; 当长时间任务中使用deferred.setResult(&quot;world&quot;);这个方法时，会从长时间任务中返回，继续controller里面的流程</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot;从executeSlowTask方法返回&quot;);</span><br><span class="line">        &#x2F;&#x2F; 超时的回调方法</span><br><span class="line">        deferredResult.onTimeout(new Runnable()&#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void run() &#123;</span><br><span class="line">    logger.info(Thread.currentThread().getName() + &quot; onTimeout&quot;);</span><br><span class="line">    &#x2F;&#x2F; 返回超时信息</span><br><span class="line">    deferredResult.setErrorResult(&quot;time out!&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">        &#x2F;&#x2F; 处理完成的回调方法，无论是超时还是处理成功，都会进入这个回调方法</span><br><span class="line">        deferredResult.onCompletion(new Runnable()&#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void run() &#123;</span><br><span class="line">    logger.info(Thread.currentThread().getName() + &quot; onCompletion&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">        return deferredResult;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="-5"><a href="#-5" class="headerlink" title=""></a></h6><p><strong>异步调用可以使用 AsyncHandlerInterceptor 进行拦截</strong></p>
+<h6 id="-6"><a href="#-6" class="headerlink" title=""></a></h6><h6 id="代码如下：-2"><a href="#代码如下：-2" class="headerlink" title="代码如下："></a>代码如下：</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class MyAsyncHandlerInterceptor implements AsyncHandlerInterceptor &#123;</span><br><span class="line"> private static final Logger logger &#x3D; LoggerFactory.getLogger(MyAsyncHandlerInterceptor.class);</span><br><span class="line"> @Override</span><br><span class="line"> public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)</span><br><span class="line">   throws Exception &#123;</span><br><span class="line">  return true;</span><br><span class="line"> &#125;</span><br><span class="line"> @Override</span><br><span class="line"> public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,</span><br><span class="line">   ModelAndView modelAndView) throws Exception &#123;</span><br><span class="line">&#x2F;&#x2F; HandlerMethod handlerMethod &#x3D; (HandlerMethod) handler;</span><br><span class="line">  logger.info(Thread.currentThread().getName()+ &quot;服务调用完成，返回结果给客户端&quot;);</span><br><span class="line"> &#125;</span><br><span class="line"> @Override</span><br><span class="line"> public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span><br><span class="line">   throws Exception &#123;</span><br><span class="line">  if(null !&#x3D; ex)&#123;</span><br><span class="line">   System.out.println(&quot;发生异常:&quot;+ex.getMessage());</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> @Override</span><br><span class="line"> public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler)</span><br><span class="line">   throws Exception &#123;</span><br><span class="line">  &#x2F;&#x2F; 拦截之后，重新写回数据，将原来的hello world换成如下字符串</span><br><span class="line">  String resp &#x3D; &quot;my name is chhliu!&quot;;</span><br><span class="line">  response.setContentLength(resp.length());</span><br><span class="line">  response.getOutputStream().write(resp.getBytes());</span><br><span class="line">  logger.info(Thread.currentThread().getName() + &quot; 进入afterConcurrentHandlingStarted方法&quot;);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>SpringBoot</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>API网关的功能用途及实现方式</title>
+    <url>/2022/04/30/API%E7%BD%91%E5%85%B3%E7%9A%84%E5%8A%9F%E8%83%BD%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<p>API网关的功能用途及实现方式 - 东风微鸣技术博客<br><a href="https://ewhisper.cn/posts/52291/">https://ewhisper.cn/posts/52291/</a></p>
+<blockquote>
+<h2 id="1-API-网关诞生背景"><a href="#1-API-网关诞生背景" class="headerlink" title="1. API 网关诞生背景"></a>1. API 网关诞生背景</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>API 经济生态链已经在全球范围覆盖， 绝大多数企业都已经走在数字化转型的道路上，API 成为企业连接业务的核心载体， 并产生巨大的盈利空间。快速增长的 API 规模以及调用量，使得企业 IT 在架构上、模式上面临着更多的挑战。</p>
+<h3 id="API-是什么"><a href="#API-是什么" class="headerlink" title="API 是什么"></a>API 是什么</h3><p>API 网关是一个服务器，是系统的唯一入口。从面向对象设计的角度看，它与外观模式类似。API 网关封装了系统内部架构，为每个客户端提供一个定制的 API。它可能还具有其它职责，如身份验证、监控、负载均衡、缓存、请求分片与管理、静态响应处理。API 网关方式的核心要点是，所有的客户端和消费端都通过统一的网关接入微服务，在网关层处理所有的非业务功能。通常，网关也是提供 REST/HTTP 的访问 API。服务端通过 API-GW 注册和管理服务。</p>
+<h4 id="1-API-开放数量不断增加"><a href="#1-API-开放数量不断增加" class="headerlink" title="1. API 开放数量不断增加"></a>1. API 开放数量不断增加</h4><p>毋庸置疑，随着企业的数据化进展，微服务改造，不同领域的 API 层出不穷，早在 2014 年 ProgrammableWeb 便预测 API 矢量可达到 100,000 到 200,000，并会不断增长。API 开发数量的增加给边缘系统带来机会，也随即演变了 API 网关的出现。大规模的 API 管理系统成为核心的发展趋势。</p>
+<p><a href="https://pic-cdn.ewhisper.cn/img/2021/08/25/56946b95ef344c0b542764b063961940-total-number-of-APis-growth-of-the-API-industry.png" title="The API Economy Disruption and the Business of APIs，Nordic APIs"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/56946b95ef344c0b542764b063961940-total-number-of-APis-growth-of-the-API-industry.png" alt="The API Economy Disruption and the Business of APIs，Nordic APIs"></a></p>
+<p><a href="https://pic-cdn.ewhisper.cn/img/2021/08/25/56946b95ef344c0b542764b063961940-total-number-of-APis-growth-of-the-API-industry.png" title="The API Economy Disruption and the Business of APIs，Nordic APIs">The API Economy Disruption and the Business of APIs，Nordic APIs</a></p>
+<h4 id="2-API-服务平台多样化"><a href="#2-API-服务平台多样化" class="headerlink" title="2. API 服务平台多样化"></a>2. API 服务平台多样化</h4><p>最初的 API 主要针对不同单体应用的网络单元之间信息交互，现已演变到服务间快速通讯。随着人工智能 EI，IOT 的不断演进，依赖 API 的平台不断更新，如 Web，Mobile，终端等，未来将会出现更多的服务体系。包括不限于：</p>
+<ul>
+<li>  浏览器</li>
+<li>  IOS</li>
+<li>  Android</li>
+<li>  macOS</li>
+<li>  Windows</li>
+<li>  Linux</li>
+<li>  IOT</li>
+<li>  其他移动端</li>
+<li>  小程序</li>
+<li>  终端设备（如智慧零售、工业的终端等）</li>
+<li>  …</li>
+</ul>
+<p><a href="https://pic-cdn.ewhisper.cn/img/2021/08/25/7a9615fedf5505fd3fc6094d38af448d-20210825104220.png"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/7a9615fedf5505fd3fc6094d38af448d-20210825104220.png"></a></p>
+<h4 id="3-逐步替换原有企业的服务模式，API-即商品"><a href="#3-逐步替换原有企业的服务模式，API-即商品" class="headerlink" title="3. 逐步替换原有企业的服务模式，API 即商品"></a>3. 逐步替换原有企业的服务模式，API 即商品</h4><p>卖计算，卖软件，卖能力，最终的企业的销售模式会逐步转变，能力变现，释放数据价值，依托不同的 API 管理平台创造新的盈利。</p>
+<h3 id="API-网关诞生背景"><a href="#API-网关诞生背景" class="headerlink" title="API 网关诞生背景"></a>API 网关诞生背景</h3><p>随着 API 的整体趋势发展，每个时期都面临着不同的挑战，架构也随之变化，具体如下图：</p>
+<ol>
+<li> 1960-1980：阿帕网、ATTP、TCP</li>
+<li> 1980-1990：点对点</li>
+<li> 1990-2000：消息中间件、ESB（企业服务总线，Enterprise service bus），SOA（面向服务的架构）</li>
+<li> 2000 至今：Integration as a service，RESTful services，API 管理，云上编排</li>
+</ol>
+<p><a href="https://pic-cdn.ewhisper.cn/img/2021/08/25/e8fdff5629ec5d463b570ddeb01e8bb5-API-Infographic-Final.webp" title="API economy From systems to business services"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/e8fdff5629ec5d463b570ddeb01e8bb5-API-Infographic-Final.webp" alt="API economy From systems to business services"></a></p>
+<p><a href="https://pic-cdn.ewhisper.cn/img/2021/08/25/e8fdff5629ec5d463b570ddeb01e8bb5-API-Infographic-Final.webp" title="API economy From systems to business services">API economy From systems to business services</a></p>
+<p>从最原始的“传输协议通讯” -&gt; “简单的接口集成” -&gt; “消息中间件” -&gt; “标准 REST”， 可以看到 API 的发展更趋向于简洁， 集成，规范化， 这也促使更多的系统边界组件不断涌现，在承载了万亿级的 API 经济的背景下， API 网关应运而生。</p>
+<p>如果没有合适的 API 管理工具， API 经济不可能顺利开展。 同时提出了对于 API 管理系统的生命周期定义： planning（规划）, design（设计）， implementation（实施）， publication（发布），operation（运维）, consumption（消费）, maintenance（维护） and retirement of APIs（下架）</p>
+<p>如果没有合适的 API 管理工具， API 经济不可能顺利开展。 同时提出了对于 API 管理系统的生命周期定义： planning（规划）, design（设计）， implementation（实施）， publication（发布），operation（运维）, consumption（消费）, maintenance（维护） and retirement of APIs（下架）</p>
+<p>– <em>Magic Quadrant for Full Life Cycle API Management，Gartner, 2016-10-27</em></p>
+<h2 id="2-API-网关核心功能"><a href="#2-API-网关核心功能" class="headerlink" title="2. API 网关核心功能"></a>2. API 网关核心功能</h2><ul>
+<li>API 生命周期管理<ul>
+<li>  planning（规划）</li>
+<li>  design（设计）</li>
+<li>  implementation（实施）</li>
+<li>  publication（发布）</li>
+<li>  operation（运维）</li>
+<li>  consumption（消费）</li>
+<li>  maintenance（维护）</li>
+<li>  retirement（下架）</li>
+</ul>
+</li>
+<li>API 网关基础功能<ul>
+<li>  认证</li>
+<li>  鉴权</li>
+<li>  服务发现和集成</li>
+<li>  负载均衡</li>
+<li>  日志</li>
+<li>  链路追踪</li>
+<li>  监控</li>
+<li>  重试</li>
+<li>  限流</li>
+<li>  QoS</li>
+<li>  熔断器</li>
+<li>  映射</li>
+<li>  缓存</li>
+<li>  Header、query 字符串 等 转义</li>
+<li>  API 文档</li>
+<li>  API 测试</li>
+<li>  SDK 生成</li>
+</ul>
+</li>
+<li>  API 多版本、多环境管理</li>
+<li>  插件</li>
+<li>  API 集中式 metrics、logging、tracing 管理</li>
+<li>安全<ul>
+<li>  HTTPS</li>
+<li>  IP 黑白名单</li>
+</ul>
+</li>
+<li>高可用<ul>
+<li>  可热重启</li>
+</ul>
+</li>
+<li>  高性能</li>
+<li>可扩展性<ul>
+<li>  无状态横向扩展</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-API-网关的用途"><a href="#3-API-网关的用途" class="headerlink" title="3. API 网关的用途"></a>3. API 网关的用途</h2><h3 id="OpenAPI"><a href="#OpenAPI" class="headerlink" title="OpenAPI"></a>OpenAPI</h3><p>企业需要将自身数据、能力等作为开发平台向外开放，通常会以 rest 的方式向外提供。最好的例子就是淘宝开放平台、腾讯公司的 QQ 开发平台、微信开放平台。</p>
+<p>Open API 开放平台必然涉及到客户应用的接入、API 权限的管理、调用次数管理等，必然会有一个统一的入口进行管理，这正是 API 网关可以发挥作用的时候。</p>
+<h3 id="微服务网关"><a href="#微服务网关" class="headerlink" title="微服务网关"></a>微服务网关</h3><p>在微服务架构中，有一个组件可以说是必不可少的，那就是微服务网关，微服务网关处理了负载均衡，缓存，路由，访问控制，服务代理，监控，日志等。</p>
+<p>API 网关在微服务架构中正是以微服务网关的身份存在。</p>
+<h3 id="API-中台"><a href="#API-中台" class="headerlink" title="API 中台"></a>API 中台</h3><p>上述的微服务架构对企业来说有可能实施上是困难的，企业有很多遗留系统，要全部抽取为微服务改动太大，对企业来说成本太高。</p>
+<p>但是由于不同系统间存在大量的 API 服务互相调用，因此需要对系统间服务调用进行管理，清晰地看到各系统调用关系，对系统间调用进行监控等。</p>
+<p>API 网关可以解决这些问题，我们可以认为如果没有大规模的实施微服务架构，那么对企业来说微服务网关就是企业的 API 中台。</p>
+<h2 id="4-API-网关的价值"><a href="#4-API-网关的价值" class="headerlink" title="4. API 网关的价值"></a>4. API 网关的价值</h2><p>通过 API 网关，可以封装后端各种服务，以 API 的形式，提供给各方使用。API 网关产品的优势总结如下：</p>
+<ul>
+<li>  API 全生命周期管理：协助开发者轻松完成 API 的创建、维护、发布、监控等整个生命周期的管理。</li>
+<li>  丰富的服务治理能力：支持 API 限流，参数校验，元数据维护，SDK 生成，批量操作等能力，协助开发者高效管理服务。</li>
+<li>  可观察性：通过 API 网关，支持对调用次数，前后端错误次数等丰富监控指标的可视和告警能力；通过全面的监控告警，保证用户服务的可用性。</li>
+<li>  可运营性：支持 企业 OpenAPI 定价，账单等运营功能</li>
+<li>  服务安全：通过接入多种认证方式，确保用户 API 的访问安全性；通过严格的流量控制，避免用户服务的过载。</li>
+<li>  前后端业务解耦</li>
+<li>  多类型后端打通</li>
+</ul>
+<h2 id="5-API-网关的实现方式"><a href="#5-API-网关的实现方式" class="headerlink" title="5. API 网关的实现方式"></a>5. API 网关的实现方式</h2><h3 id="主流-API-网关"><a href="#主流-API-网关" class="headerlink" title="主流 API 网关"></a>主流 API 网关</h3><ul>
+<li>  Istio</li>
+<li>  Linkerd</li>
+<li>  NGINX 及其商业版</li>
+<li>  KONG</li>
+<li>  Traefik</li>
+<li>  APISIX</li>
+<li>  RedHat 3scale</li>
+<li>  Netflix Zuul</li>
+<li>  Spring Cloud Gateway</li>
+<li>  Amazon API Gateway</li>
+<li>  阿里云 API 网关</li>
+<li>  腾讯云 API 网关</li>
+<li>  MuleSoft</li>
+</ul>
+<h3 id="OpenAPI-1"><a href="#OpenAPI-1" class="headerlink" title="OpenAPI"></a>OpenAPI</h3><p>对于定位 OpenAPI 平台的 API 网关，目前只能选择专业的 API 网关作为解决方案。</p>
+<h3 id="微服务网关-1"><a href="#微服务网关-1" class="headerlink" title="微服务网关"></a>微服务网关</h3><p>对于定位为「微服务网关」的 API 网关，业务有多种实现方式：</p>
+<h4 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h4><p>典型的如 Istio，架构如下：</p>
+<p><a href="https://pic-cdn.ewhisper.cn/img/2021/08/25/942a1801e1aa084b7301e0afedcb05d2-service_mesh_5.png"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/942a1801e1aa084b7301e0afedcb05d2-service_mesh_5.png"></a><br><a href="https://pic-cdn.ewhisper.cn/img/2021/08/25/7a65f5e28f37fa8cb670d84618bb113d-service_mesh_2.png"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/7a65f5e28f37fa8cb670d84618bb113d-service_mesh_2.png"></a></p>
+<h4 id="通用反向代理"><a href="#通用反向代理" class="headerlink" title="通用反向代理"></a>通用反向代理<a href="https://ewhisper.cn/posts/52291/#%E9%80%9A%E7%94%A8%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"></a></h4><p>基于 NGINX 或 NGINX + LUA + OpenResty 的实现。典型如：</p>
+<ul>
+<li><a href="https://www.nginx.com/">Nginx 及其 商业版</a><ul>
+<li>  NGINX Controller（API 管理、App 交付）</li>
+<li>  NGINX Plus（API Gateway，负载均衡，仪表板）</li>
+<li>  NGINX Ingress Controller</li>
+<li>  NGINX Service Mesh</li>
+</ul>
+</li>
+<li>  <a href="https://github.com/Kong/kong">KONG</a></li>
+<li>  <a href="https://doc.traefik.io/traefik/">Traefik</a></li>
+<li>  <a href="https://www.redhat.com/en/technologies/jboss-middleware/3scale">3scale</a></li>
+</ul>
+<h4 id="API-网关框架"><a href="#API-网关框架" class="headerlink" title="API 网关框架"></a>API 网关框架</h4><ul>
+<li>  <a href="https://github.com/Netflix/zuul">Netflix Zuul</a>，zuul 是 spring cloud 的一个推荐组件</li>
+<li>  <a href="https://spring.io/projects/spring-cloud-gateway">Spring Cloud Gateway</a></li>
+</ul>
+<h4 id="公有云解决方案"><a href="#公有云解决方案" class="headerlink" title="公有云解决方案"></a>公有云解决方案</h4><p>其实公有云的解决方案也是基于以上方案的定制化开发并产品化后发布到公有云上，主流的也是基于：NGINX + LUA + OpenResty 的实现</p>
+<ul>
+<li>  <a href="https://aws.amazon.com/cn/api-gateway/">Amazon API Gateway</a></li>
+<li>  <a href="https://www.aliyun.com/product/apigateway/">阿里云 API 网关</a></li>
+<li>  <a href="https://cloud.tencent.com/product/apigateway">腾讯云 API 网关</a></li>
+</ul>
+<h4 id="其他方案"><a href="#其他方案" class="headerlink" title="其他方案"></a>其他方案</h4><ul>
+<li>  基于 Netty、非阻塞 IO 模型。</li>
+<li>  基于 Node.js 的方案。这种方案是应用了 Node.js 的非阻塞的特性。</li>
+<li>  基于 Java，如 <a href="https://docs.mulesoft.com/general/">MuleSoft</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>API网关</category>
+      </categories>
+      <tags>
+        <tag>API网关</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于容器的PaaS混合云的几种形式</title>
+    <url>/2022/04/30/%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E7%9A%84PaaS%E6%B7%B7%E5%90%88%E4%BA%91%E7%9A%84%E5%87%A0%E7%A7%8D%E5%BD%A2%E5%BC%8F/</url>
+    <content><![CDATA[<p> 基于容器的 PaaS 混合云的几种形式 - 东风微鸣技术博客<br><a href="https://ewhisper.cn/posts/57201/">https://ewhisper.cn/posts/57201/</a>) </p>
+<blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>这是 Gartner 的一个图，提供了全球的基于容器的 PaaS 公有云、混合云服务的梳理展示：<br><a href="https://pic-cdn.ewhisper.cn/img/2021/09/17/a11d88b4ce770c547025af0bee5102bb-v2-c3e894db6f71442f6f959b09f8ed5cc1_b.jpeg"><img src="https://pic-cdn.ewhisper.cn/img/2021/09/17/a11d88b4ce770c547025af0bee5102bb-v2-c3e894db6f71442f6f959b09f8ed5cc1_b.jpeg"></a></p>
+<p>这里提供一个其他的视角：<br>中国市场，基于容器的 PaaS 混合云（公有云 + 私有云）的相关厂商及产品。</p>
+<p>❗️ 注意：</p>
+<p>文章目前还是初版，只是厂商和产品的一个简单罗列，后面会进一步细化。<br>另外由于作者认知所限，无法罗列所有相关厂商和产品。请见谅。</p>
+<h2 id="软件-容器平台"><a href="#软件-容器平台" class="headerlink" title="软件 - 容器平台"></a>软件 - 容器平台</h2><p>指的是通过售卖软件形式提供的容器平台（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。<br>这里的「容器平台」指的是：基于 Kubernetes 的容器平台，有的容器平台会提供更丰富的功能，如：镜像仓库，监控，日志，Tracing，DevOps，微服务治理，ServiceMesh、Servless 等</p>
+<ol>
+<li> RedHat - OpenShift Container Platform</li>
+<li> Rancher - RKE</li>
+<li> 青云 - Kubesphere</li>
+<li> 时速云 - TCS（TenxCloud Container Service）</li>
+<li> 灵雀云 - ACP（Alauda Container Platform）</li>
+<li> 博云 - BeyondContainer</li>
+<li> DaoCLoud - DaoCloud Enterprise</li>
+<li> 腾讯 - TKE Enterprise（基于灵雀云）</li>
+<li> VMware - VSphere 7+</li>
+</ol>
+<h2 id="软件-多云容器管理平台"><a href="#软件-多云容器管理平台" class="headerlink" title="软件 - 多云容器管理平台"></a>软件 - 多云容器管理平台</h2><p>指的是通过售卖软件形式提供的多云容器管理平台（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。<br>这里的「多云容器管理平台」指的是：基于 Kubernetes 的容器平台，或基于 Kubernetes 联邦（如华为 MCP），或基于自研多集群能力（如 Rancher），实现对异构、公有云及私有云的 Kubernetes 集群的纳管、甚至安装、运维、统一监控等能力。</p>
+<p>❗️ 注意：</p>
+<p>这类「多云容器管理平台」虽然可以纳管异构 Kubernetes 集群，但是某些高级功能，只有使用供应商推荐的 Kubernetes 产品才能使用。<br>如：Rancher 的安装、监控、日志等高级功能；RedHat 的安装、安全策略、GitOps 等功能</p>
+<h3 id="优劣"><a href="#优劣" class="headerlink" title="优劣"></a>优劣</h3><p>优势：</p>
+<ul>
+<li>  灵活</li>
+<li>  适用于：全内网环境（对于安全级别要求高的如金融行业会非常关注）</li>
+</ul>
+<p>劣势：</p>
+<ul>
+<li>  购买方需要提供硬件</li>
+<li>  需要安装搭建，无法开箱即用</li>
+</ul>
+<h3 id="供应商及产品"><a href="#供应商及产品" class="headerlink" title="供应商及产品"></a>供应商及产品</h3><ol>
+<li> Rancher - Rancher</li>
+<li> 华为 - MCP（多云容器平台）</li>
+<li> DaoCloud - DaoCloud Service Platform</li>
+<li> RedHat - ACM（Advanced Cluster Management for Kubernetes）</li>
+<li> 青云 - Kubesphere（<a href="https://kubesphere.com.cn/docs/multicluster-management/">Kubesphere 3.0 以后支持多集群管理</a>）</li>
+<li> VMware - Tanzu</li>
+</ol>
+<h2 id="托管-公有云托管-K8S-集群"><a href="#托管-公有云托管-K8S-集群" class="headerlink" title="托管 - 公有云托管 K8S 集群"></a>托管 - 公有云托管 K8S 集群</h2><p>指的是公有云提供的 K8S 集群，提供公有云算力，也提供托管 Kubernetes 服务。计费方式为：按量计费或包年包月等。</p>
+<p>✍️ 备注：</p>
+<p>暂不包括公有云实例服务及 Servless 服务。</p>
+<ol>
+<li> Amazon - EKS（Elastic Kubernetes Service）</li>
+<li> 阿里 - ACK（Alibaba Cloud Container Service for Kubernetes）</li>
+<li> 腾讯 - TKE（Tencent Kubernetes Engine）</li>
+<li> 微软 - AKS（Azure Kubernetes Service）</li>
+<li> 华为 - CCE（云容器引擎）</li>
+<li> 青云 - QKE（KubeSphere on QingCloud）</li>
+</ol>
+<h2 id="软件-公有云-K8S-集群产品私有化输出"><a href="#软件-公有云-K8S-集群产品私有化输出" class="headerlink" title="软件 - 公有云 K8S 集群产品私有化输出"></a>软件 - 公有云 K8S 集群产品私有化输出</h2><p>指的是通过售卖软件形式提供的和公有云架构类似的「公有云 K8S 集群产品私有化输出」（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。</p>
+<ol>
+<li> 华为 - CCE（云容器引擎）</li>
+<li> 阿里 - 阿里飞天专有云敏捷版</li>
+<li> 腾讯 - TCS（Tencent Cloud-Native Suite）</li>
+</ol>
+<h2 id="托管-公有云多云容器管理平台"><a href="#托管-公有云多云容器管理平台" class="headerlink" title="托管 - 公有云多云容器管理平台"></a>托管 - 公有云多云容器管理平台</h2><p>指的是公有云提供的 多云容器管理平台，提供公有云算力，也提供管理 Kubernetes 服务。计费方式为：按量计费或包年包月等。<br>但是有个前提：如果是私有云 Kubernetes 集群或其他公有云提供商的 Kubernetes 集群，必须通过专线或互联网等形式与供应商网络联通。</p>
+<h3 id="优劣-1"><a href="#优劣-1" class="headerlink" title="优劣"></a>优劣</h3><p>优势：</p>
+<ul>
+<li>  标准化产品，灵活性欠缺</li>
+<li>  适用于：互联网环境</li>
+<li>  按需付费</li>
+<li>  开箱即用</li>
+</ul>
+<p>劣势：</p>
+<ul>
+<li>  无法纳管 没有互联网或连接公有云专线的 Kubernetes 集群</li>
+<li>  安全性担忧</li>
+<li>  <strong>对于被纳管集群的要求较多</strong>（如：EKS Anywhere 目前仅支持两种特定 Kubernetes 集群的纳管）</li>
+</ul>
+<h3 id="供应商及产品-1"><a href="#供应商及产品-1" class="headerlink" title="供应商及产品"></a>供应商及产品</h3><ol>
+<li> 华为 - MCP（多云容器平台）</li>
+<li> 腾讯 - <a href="https://mp.weixin.qq.com/s/aERPT13Rs_xgAnrOz2mmvg">TKE Everywhere</a>（❗️ 注意：这个和其他 2 家的 Anywhere 还不太一样，云上云下是 <strong>一个</strong> 集群，云下的 Node 由云上的 Master 纳管。本质上是一个边缘容器管理方案。而且还在内测中。）</li>
+<li> Amazon - <a href="https://aws.amazon.com/cn/eks/eks-anywhere/">EKS Anywhere</a></li>
+<li> 阿里云 - <a href="https://www.aliyun.com/product/kubernetes">AKS Anywhere</a></li>
+</ol>
+<p>🧠 <strong>思考：2 家 xxx Anywhere 具体是啥做法？</strong></p>
+<p>2 家的 Anywhere 做法是极为一致的。本质上就是「公有云私有化，线上线下我全都要」。优势是：（兼听则明啊，经过实战检验才知道效果如何…）</p>
+<ul>
+<li>一致体验<ul>
+<li>  统一集群管理</li>
+<li>  统一资源调度</li>
+<li>  统一数据容灾</li>
+<li>  统一应用交付</li>
+</ul>
+</li>
+<li>  弹性算力</li>
+<li>能力下沉<ul>
+<li>  云原生可观测</li>
+<li>  安全防护能力</li>
+<li>  中间件</li>
+<li>  数据库</li>
+<li>  数据分析</li>
+<li>  AI</li>
+</ul>
+</li>
+<li>  简化容灾</li>
+</ul>
+<p>以阿里云为例：<br>阿里云推出了一云多形态的部署架构，提供中心云、本地云、边缘云、云盒等多种部署形态，ACKAnywhere 的全面升级意味着公共云能力向本地化进一步延伸，客户在自建的数据中心内也能体验到低成本、低延迟、本地化的公共云产品。<br>随着云计算的普及和云原生技术的发展，容器服务已成为各大公司上云用云的必备基础设施。…此次升级的 ACK Anywhere 拥有「一致体验、弹性算力、能力下沉、简化容灾」四大核心能力，使企业在任何业务场景下使用容器服务时，都能实现「统一集群管理、统一资源调度、统一数据容灾和统一应用交付」。<br>得益于阿里云公共云丰富的产品能力，ACK Anywhere 可将成熟的云原生可观测、安全防护能力部署到用户环境，更可以将云端先进的中间件、数据分析和 AI 能力下沉到本地，满足客户对于产品丰富度以及数据管控的需求，加速业务创新。</p>
+<p>业务连续性是现代企业 IT 架构关注的重点，ACK Anywhere 内建的备份中心，实现了备份、容灾、迁移一体化；支持 Kubernetes 集群配置与数据卷的备份恢复。结合阿里云丰富的业务多活容灾经验，帮助企业全面提升系统稳定性和业务连续性。</p>
+<p>❗️ 注意：</p>
+<p>由于上面所说的原因：「对于被纳管集群的要求较多」，所以这类产品往往也会推荐用户安装自己提供的 Kubernetes 产品，如：华为的 CCE，腾讯的 TKE 开源版，或 Amazon EKS Anywhere 的 <a href="https://aws.amazon.com/cn/eks/eks-distro/">EKS Distro</a> 产品，或阿里云的 ACK Distro。</p>
+<h2 id="其他玩家"><a href="#其他玩家" class="headerlink" title="其他玩家"></a>其他玩家</h2><ol>
+<li> 京东云</li>
+<li> UCloud</li>
+<li> 百度云</li>
+<li> 金山云</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>PaaS</category>
+      </categories>
+      <tags>
+        <tag>PaaS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>打破Dockershim移除焦虑,且看Rancher如何应对</title>
+    <url>/2022/04/30/%E6%89%93%E7%A0%B4Dockershim%E7%A7%BB%E9%99%A4%E7%84%A6%E8%99%91,%E4%B8%94%E7%9C%8BRancher%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9/</url>
+    <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/swhQtu0pb_1AwQtMfTyd9Q">打破 Dockershim 移除焦虑，且看 Rancher 如何应对</a></p>
+<blockquote>
+<p><strong>前 言</strong></p>
+<p>早在 2020 年 12 月，Kubernetes 就宣布将要弃用 Dockershim（<a href="https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/%EF%BC%89%E3%80%82%E5%9C%A8">https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/）。在</a> Kubernetes 中，Dockershim 是一个适配器组件，Dockershim 适配器允许 Kubelet 与 Docker 交互，就好像 Docker 是一个与 CRI 兼容的运行时一样。</p>
+<p>Kubernetes 即将发布的 v1.24 版本最主要的变化就是删除了 Dockershim（<a href="https://github.com/kubernetes/enhancements/issues/2221%EF%BC%89%E3%80%82%E4%B9%9F%E5%B0%B1%E6%98%AF%E8%AF%B4%EF%BC%8CKubernetes">https://github.com/kubernetes/enhancements/issues/2221）。也就是说，Kubernetes</a> v1.24 无法再通过 in-tree 的形式来支持 Docker 作为它的 CRI 运行时。</p>
+<p>随着 Kubernetes 的发展， 虽然 Docker 日渐式微，但还是有大量用户群体离不开 Docker，或者说暂时无法切换到 containerd 或 CRI-O 作为它的 CRI 运行时。 Rancher 为了满足继续使用 Docker 作为 CRI 运行时的需求，通过 RKE 集群支持外部 Dockershim 继续使用 Docker 作为 CRI 运行时。</p>
+<p>虽然 Rancher 最新的 v2.6.4 目前还不支持 Kubernetes v1.24，但早在 Kubernetes v1.21 中就采用了 Mirantis 和 Docker 宣布的上游开源社区外部 Dockershim （该项目称为 cri-dockerd：<a href="https://github.com/kubernetes/enhancements/issues/2221%EF%BC%89%E6%9D%A5%E7%A1%AE%E4%BF%9D">https://github.com/kubernetes/enhancements/issues/2221）来确保</a> RKE 集群可以继续使用 Docker。换句话说，你可以像之前一样继续基于 Docker Engine 构建 Kubernetes，唯一的区别就是 Dockershim 由内置方案变成了外部方案。</p>
+<p>要启用外部 Dockershim，只需要在 RKE 配置中设置以下选项：</p>
+<pre><code>enable_cri_dockerd: true    </code></pre>
+<p>由于外部 Dockershim 的支持是从 RKE 创建的 Kubernetes 1.21 及以上的版本中开始支持，所以我们需要通过 RKE 创建一个 Kubernetes 1.21 及以上的 Kubernetes 版本才能支持这种方案。  </p>
+<p>下面将演示如何在 RKE 创建的 Kubernetes 集群中启用外部 Dockershim。</p>
+<p><strong>通过 RKE CLI 创建集群</strong></p>
+<p>说明：</p>
+<ul>
+<li><p>  RKE 的安装及使用，请参考官方文档（<a href="http://docs.rancher.cn/rke%EF%BC%89%EF%BC%8C">http://docs.rancher.cn/rke），</a> 这里不再详细说明。</p>
+</li>
+<li><p>  本次 demo 使用的 RKE 版本为 `v1.3.9`。</p>
+</li>
+</ul>
+<p><strong>配置RKE cluster.yml 文件</strong></p>
+<p>在 RKE 的集群配置文件 cluster.yml 中通过增加  enable_cri_dockerd: true  选项来启用外部 Dockershim 支持。本例使用最精简文件示例，如需个性化设置，请根据需求调整选项：</p>
+<pre><code>~$ cat cluster.yml</code></pre>
+<p><strong>通过 RKE 创建 Kubernetes 集群</strong></p>
+<pre><code>~$ rke up</code></pre>
+<p><strong>确认启用 cri-dockerd</strong>  </p>
+<p>集群创建成功后，连接到下游集群的主机查看进程，可以发现增加了一个 cri-dockerd 的进程：</p>
+<pre><code>root@dev-1:~# ps -ef | grep cri-dockerd</code></pre>
+<p>Cri-dockerd 其实就是从被移除的 Dockershim 中，独立出来的一个项目。为 Docker Engine 提供了一个垫片（shim），可以通过 Kubernetes CRI 控制 Docker。这意味着你可以像以前一样继续基于 Docker Engine 构建 Kubernetes，只需从内置的 Dockershim 切换到外部的 Dockershim 即可。</p>
+<p>接下来，我们再观察 Kubelet 的参数变化：</p>
+<pre><code>root@dev-1:~# docker inspect kubelet</code></pre>
+<p>可以看到，增加 enable_cri_dockerd: true 参数启动的 Kubernetes 集群增加了 --container-runtime=remote 和 --container-runtime-endpoint=/var/run/Dockershim.sock 两个 Kubelet 参数。通过这两个 Kubelet 参数可以设置 Kubernetes 集群利用外部 Dockershim 继续使用 Docker 作为 CRI 运行时。 </p>
+<p><strong>通过 Rancher 创建 RKE 集群</strong></p>
+<p>如果你是 Rancher 的长期用户，你肯定会知道从 Rancher UI 上创建的自定义集群就是通过 RKE 来去实现的。只不过通过 Rancher UI 创建的 RKE 集群可以省去配置 RKE cluster.yml 的烦恼，只需要从 UI 上做一些简单的配置即可。</p>
+<p>本节，将给大家介绍如何通过 Rancher 创建 RKE 集群并启用外部 Dockershim 支持。</p>
+<p><strong>安装 Rancher</strong></p>
+<p>Rancher 的安装及使用，请参考官方文档，这里不再详细说明。因为 RKE 创建的Kubernetes 1.21 及以上的版本中才开始支持外部 Dockershim，并且只有 Rancher v2.6.x 才支持 Kubernetes 1.21 或以上版本。所以，我们本次示例选择 Rancher 2.6.4 作为 demo 环境。</p>
+<p><strong>创建自定义集群</strong></p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/sz_mmbiz_png/0peJZSmaUqUcbsgHAnQdTkKXk0ia0N2YXLIvXEYiay5f0XPpZu0HkC4yLr2o5YNNkst1LEFcGVXTTDlPwZxERb6A/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><strong>通过 Edit as YAML 来设置 enable_cri_dockerd 参数值为 true</strong></p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/sz_mmbiz_png/0peJZSmaUqUcbsgHAnQdTkKXk0ia0N2YX91OOE4jouqebegsnhCHQfs8NgpzvFkiaUhIkKjEDHLd9adrDggiaerpA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>将 enable_cri_dockerd 的值修改为  true ，保存并创建集群</p>
+<p><img src="https://img01.sogoucdn.com/net/a/04/link?appid=100520033&url=https://mmbiz.qpic.cn/sz_mmbiz_png/0peJZSmaUqUcbsgHAnQdTkKXk0ia0N2YXfrcnGKZCTFOE9nKk3AV0Fib9Fb6Z4clKC3uTibBXyu4JMcqvaWvIszhw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><strong>确认启用 cri-dockerd</strong></p>
+<p>可以参考上面“通过 RKE CLI 创建集群”章节的步骤去检查下游集群是否成功启用了 cri-docker，为了节省篇幅，这里就不重复说明。</p>
+<p><strong>常见问题</strong></p>
+<p><strong>问：如果要获得 Rancher 对上游 Dockershim 的支持，需要升级 Rancher 吗？</strong></p>
+<p>答：对于 RKE，Dockershim 的上游支持从 Kubernetes 1.21 开始。你需要使用支持 RKE 1.21 的 Rancher 版本。详情请参见我们的支持矩阵。</p>
+<p><strong>问：我目前的 RKE 使用 Kubernetes 1.20。为了避免出现不再支持 Dockershim 的情况，我是否需要尽早将 RKE 升级到 Kubernetes 1.21？</strong></p>
+<p>答：在使用 Kubernetes 1.20 的 RKE 中，Dockershim 版本依然可用，而且在下一个发行版发行之前不会被弃用。有关时间线的更多信息，请参见 [Kubernetes Dockershim 弃用相关的常见问题](<a href="https://kubernetes.io/blog/2020/12/02/Dockershim-faq/#when-will-Dockershim-be-removed)%E3%80%82Kubernetes">https://kubernetes.io/blog/2020/12/02/Dockershim-faq/#when-will-Dockershim-be-removed)。Kubernetes</a> 会发出将会弃用 Dockershim 的警告，而 Rancher 在 RKE 中已经用 Kubernetes 1.21 缓解了这个问题。你可以按照计划正常升级到 1.21。</p>
+<p><strong>问：如果不想再依赖 Dockershim，还有什么选择？</strong></p>
+<p>答：你可以为 Kubernetes 使用不需要 Dockershim 支持的运行时，如 Containerd。RKE2 和 K3s 就是其中的两个选项。</p>
+<p><strong>问：如果目前使用 RKE1，但想切换到 RKE2，可以怎样进行迁移？</strong></p>
+<p>答：你可以构建一个新集群，然后将工作负载迁移到使用 Containerd 的新 RKE2 集群。Rancher 也在探索就地升级路径的可能性。</p>
+<p><strong>问：如果已经通过 RKE 创建了 Kubernetes v1.21 以上的集群，当我切换到外部 Dockershim 时，是否会对集群有影响？</strong></p>
+<p>答：没影响，因为容器运行时没有变化，Dockershim 只是由内置方案变成了外部方案。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>k8s</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>API网关为K8s容器应用集群提供强大的接入能力</title>
+    <url>/2022/04/30/API%E7%BD%91%E5%85%B3%E4%B8%BAK8s%E5%AE%B9%E5%99%A8%E5%BA%94%E7%94%A8%E9%9B%86%E7%BE%A4%E6%8F%90%E4%BE%9B%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%8E%A5%E5%85%A5%E8%83%BD%E5%8A%9B/</url>
+    <content><![CDATA[<p>API网关为K8s容器应用集群提供强大的接入能力<br><a href="https://help.aliyun.com/document_detail/71623.html">https://help.aliyun.com/document_detail/71623.html</a></p>
+<blockquote>
+<h2 id="1-Kubernetes-集群介绍"><a href="#1-Kubernetes-集群介绍" class="headerlink" title="1. Kubernetes 集群介绍"></a>1. Kubernetes 集群介绍</h2><p>Kubernetes（k8s）作为自动化容器操作的开源平台已经名声大噪，目前已经成为容器玩家主流选择。Kubernetes在容器技术的基础上，增加调度和节点集群间扩展能力，可以非常轻松地让你快速建立一个企业级容器应用集群，这个集群主要拥有以下能力：</p>
+<ul>
+<li><p>  自动化容器的部署和复制</p>
+</li>
+<li><p>  随时扩展或收缩容器规模</p>
+</li>
+<li><p>  将容器组织成组，并且提供容器间的负载均衡</p>
+</li>
+<li><p>  很容易地升级应用程序容器的新版本</p>
+</li>
+<li><p>  提供容器弹性，如果容器失效就替换它</p>
+</li>
+</ul>
+<p>下面是一个典型的Kubernetes架构图：</p>
+<p><img src="http://help-docs-aliyun.aliyuncs.com/assets/pic/71623/cn_zh/1525425558172/d56441427680948fb56a00af57bda690.png"></p>
+<h2 id="2-API网关作为Kubernetes集群的接入层架构"><a href="#2-API网关作为Kubernetes集群的接入层架构" class="headerlink" title="2. API网关作为Kubernetes集群的接入层架构"></a>2. API网关作为Kubernetes集群的接入层架构</h2><p>我们可以看到Kubernetes集群是有足够理由作为应用服务的首选，但是Kubernetes集群没有足够的接入能力，特别在大型应用中，它是不能够直接对用户提供服务的，否则会有非常大的安全风险。而API网关作为成熟的云产品，已经集成了非常丰富的接入能力，把API网关放在Kubernetes集群前面作为应用集群的接入服务使用，将大大提高Kubernetes集群的服务能力，可以作为标准的大型互联网应用的标准架构。下面是使用阿里云架构图：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/4354359951/p96242.png"></p>
+<p><strong>是否启用Ingress Control？</strong></p>
+<p>从架构图中我们可以看到，API网关作为Kubernetes集群的桥头堡，负责处理所有客户端的接入及安全工作，API网关和Kubernetes集群中Ingress Control的内网SLB或者服务的内网SLB进行通信。具体什么时候用Ingress Control呢？如果Kubernetes集群内只有一个服务，网关直接和此服务关联的内网SLB进行通信最高效。如果Kubernetes集群内有多个服务，如果使用服务的内网SLB对网关提供服务，将会生成很多SLB，资源管理起来会比较麻烦，此时我们可以使用Ingress Control做Kubernetes中服务发现与七层代理工作，API网关的所有请求发送到Ingress Control关联的内网SLB上，由Ingress Control将请求分发到Kubernetes集群内的容器内，这样我们也只需要一个内网SLB就能将Kubernetes集群内的所有服务暴露出去了。</p>
+<h2 id="3-API网关接入能力"><a href="#3-API网关接入能力" class="headerlink" title="3. API网关接入能力"></a>3. API网关接入能力</h2><p>读者要问了，接入了API网关具体能为整个架构带来哪些好处呢？下面我们列一下这种架构中，API网关具体能给整个应用带来什么价值。</p>
+<p>1.API网关允许客户端和API网关使用多种协议进行通信，其中包括：</p>
+<pre><code>* HTTP  
+* HTTP2  
+* WebScoket</code></pre>
+<p>2.API网关使用多种方法保证和客户端之间的通信安全：</p>
+<pre><code>* 允许定义API和APP之间的授权关系，只有授权的APP允许调用；
+* 全链路通信都使用签名验证机制，包括客户端和API网关之间的通信和API网关和后端服务之间的通信，保证请求在整个链路上不会被篡改；
+* 支持用户使用自己的SSL证书进行HTTPS通信；
+* 支持OPENID CONNECT；</code></pre>
+<p>3.API网关具备iOS/Android/Java三种SDK的自动生成能力，并且具备API调用文档自动生成能力；</p>
+<p>4.API网关支持入参混排能力，请求中的参数可以映射到后端请求中的任何位置；</p>
+<p>5.API网关提供参数清洗能力，用户定义API的时候可以指定参数的类型，正则等规则，API网关会帮用户确认传输给后端服务的请求是符合规则的数据；</p>
+<p>6.API网关支持流量控制能力，支持的维度为用户/APP/API；</p>
+<p>7.API网关提供双向通信的能力；</p>
+<p>8.API网关提供基于请求数/错误数/应答超时时间/流量监控报警能力，所有的报警信息会使用短信或者邮件在一分钟内发出；</p>
+<p>9.API网关已经和阿里云的SLS产品打通，用户可以将所有请求日志自动上传到用户自己的SLS中，后继好对访问日志进行统计分析；</p>
+<p>10.API网关支持Mock模式，在联调中这个能力非常方便；</p>
+<p>11.API网关支持用户配置调用方的IP白名单和黑名单； 12.API网关结合阿里云的云市场，为Provider提供向API使用者收费的能力。</p>
+<p>阿里云的API网关是一个上线数年的成熟云产品，在稳定性和性能方面，经过了时间和阿里云的工程师的不断打磨，有高性能需求的用户尽管放马过来。</p>
+<h2 id="4-在阿里云快速配置Kubernetes集群和API网关"><a href="#4-在阿里云快速配置Kubernetes集群和API网关" class="headerlink" title="4. 在阿里云快速配置Kubernetes集群和API网关"></a>4. 在阿里云快速配置Kubernetes集群和API网关</h2><p>阿里云支持快速创建Kubernetes集群，同一个Region内的Kubernetes集群和API网关的集成也非常简单，下面我们来一步一步地在阿里云中配置出本文第二节中架构设计。第二节中的架构设计中，API网关和Kubernetes有两种结合的模式，一种是API网关将请求发送到Ingress Control前的SLB，由Ingress Control将请求路由到Kubernetes对应的节点中，第二种是API网关直接将请求发送到Kubernetes中服务前的SLB，由SLB直接将请求转发到Kubernetes中服务对应的节点中。第一种模式只需要Ingress Control前有一个SLB就可以了，由Ingress Contro做服务发现与路由，第二种模式每个服务前都需要申请一个SLB，适合并发量大的场景。</p>
+<h2 id="4-1-Ingress-Control模式的配置方式"><a href="#4-1-Ingress-Control模式的配置方式" class="headerlink" title="4.1 Ingress Control模式的配置方式"></a>4.1 Ingress Control模式的配置方式</h2><h2 id="4-1-1-创建带有Ingress-Control组件的Kubernetes集群"><a href="#4-1-1-创建带有Ingress-Control组件的Kubernetes集群" class="headerlink" title="4.1.1 创建带有Ingress Control组件的Kubernetes集群"></a>4.1.1 创建带有Ingress Control组件的Kubernetes集群</h2><p>首先我们来通过控制台创建一个具备Ingress Control组件的Kubernetes集群。</p>
+<p>1.进入Kubernetes集群管理控制台界面：<a href="https://cs.console.aliyun.com/#/k8s/cluster/list">https://cs.console.aliyun.com/#/k8s/cluster/list</a></p>
+<p>2.点击左上角“创建Kubernetes集群”按钮，进入</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/4354359951/p96396.png"></p>
+<p>3.在创建Kubernetes集群页面选择不同规格的，具体创建选项和常规创建参数一致，在组件配置子页面，需要注意勾选创建Ingress组件：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/4354359951/p96275.png"></p>
+<p>4.创建成功后可以在Kubernetes列表页面看到刚才创建的集群。</p>
+<h2 id="4-1-2-在Kubernetes集群内创建一个多容器的服务"><a href="#4-1-2-在Kubernetes集群内创建一个多容器的服务" class="headerlink" title="4.1.2 在Kubernetes集群内创建一个多容器的服务"></a>4.1.2 在Kubernetes集群内创建一个多容器的服务</h2><p>现在集群有了，我们需要在集群内创建一个服务，这个服务由2个容器组成，每个容器都由最新的Tomcat镜像生成。容器的端口是8080，Ingress Control提供服务的端口是80。</p>
+<p>1.进入Kubernetes集群管理控制台界面：<a href="https://cs.console.aliyun.com/#/k8s/cluster/list">https://cs.console.aliyun.com/#/k8s/cluster/list</a></p>
+<p>2.进入Kubernetes集群的控制台页面后，点击左边菜单栏的“应用”菜单下的“无状态”按钮，进入应用列表页面后，点击右上角的“使用模板创建”按钮进入创建页面：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/4354359951/p96278.png"></p>
+<p>3.进入创建页面后，点击使用文本创建按钮，输入下面的资源编排文本点击上传按钮进行创建：</p>
+<pre><code>apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: tomcat-demo
+  labels:
+    app: tomcat
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: tomcat:latest
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: tomcat
+  sessionAffinity: None
+  type: NodePort</code></pre>
+<p>对这段编排模板创建文本做下解释：使用最新的Tomcat镜像创建两个容器的意思，容器的服务端口是8080，并且创建一个命名为tomcat-service的服务，对外服务的端口为80，映射到容器8080的端口；</p>
+<p>好了，目前为止，我们已经创建了一个Kubernetes集群，并且在这个集群下面创建了两个容器，每个容器上面跑着一个最新的Tomcat。这两个容器组成一个无状态应用，并且组成了一个命名为tomcat-service的服务。我们可以进入无状态应用详情页面看到整个应用的运行情况。目前我们的API网关没有办法访问到这个服务，需要我们在Ingress Control上建立一条到这个服务的路由才能把全链路打通</p>
+<h2 id="4-1-3-在Ingress-Control上给服务加上路由"><a href="#4-1-3-在Ingress-Control上给服务加上路由" class="headerlink" title="4.1.3 在Ingress Control上给服务加上路由"></a>4.1.3 在Ingress Control上给服务加上路由</h2><p>现在我们有应用了，还需要在Ingress Control上为这个应用建立一个服务，然后在服务上建立一条路由，这样API网关将请求发送给Ingress Control时，Ingress Control会根据配置的路由信息将请求代理到对应的应用节点上。</p>
+<p>1.在容器服务控制台上点击“路由与负载均衡”菜单下的“服务”按钮，点击右上角的“创建”按钮；</p>
+<p>2.在创建路由页面填写服务对应的域名，所监听的端口等：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96324.png"></p>
+<h2 id="4-1-4-在API网关对Ingress-Control的内网SLB授权"><a href="#4-1-4-在API网关对Ingress-Control的内网SLB授权" class="headerlink" title="4.1.4 在API网关对Ingress Control的内网SLB授权"></a>4.1.4 在API网关对Ingress Control的内网SLB授权</h2><p>API网关如果要访问Ingress Control的内网SLB，需要增加VPC网络的授权，首先我们需要准备VPC的标识和内网SLB的实例ID，我们可以在SLB控制台获取。</p>
+<p>1.在Kubernetes管理控制台的“服务于负载均衡”菜单下点击“服务”菜单，进入服务管理页面后，选择命名空间为”所有命名空间”后可以在列表中看到Ingress Control的内网SLB地址：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96341.png"></p>
+<p>2.登录SLB控制台（<a href="https://slb.console.aliyun.com/%EF%BC%89%EF%BC%8C%E6%89%BE%E5%88%B0%E5%88%9A%E6%89%8D%E5%88%9B%E5%BB%BAKubernetes%E6%9C%8D%E5%8A%A1%E6%97%B6%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E7%9A%84VPC%EF%BC%8C%E7%82%B9%E5%87%BB%E8%BF%9B%E5%8E%BB%E6%9F%A5%E7%9C%8B%E8%AF%A6%E6%83%85%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%9C%A8%E8%BF%99%E4%B8%AA%E9%A1%B5%E9%9D%A2%E7%9C%8B%E5%88%B0VPC%E7%9A%84%E6%A0%87%E8%AF%86%EF%BC%9A">https://slb.console.aliyun.com/），找到刚才创建Kubernetes服务时自动创建的VPC，点击进去查看详情，我们可以在这个页面看到VPC的标识：</a></p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96332.png"></p>
+<p>好了，目前我们已经获取到了VPC的ID和SLB的实例ID,下面我们来创建API网关的授权：</p>
+<p>3.进入API网关授权页面：<a href="https://apigateway.console.aliyun.com/#/cn-beijing/vpcAccess/list">https://apigateway.console.aliyun.com/#/cn-beijing/vpcAccess/list</a> ，点击右上角的创建授权按钮，弹出创建VPC授权的小页面，将刚才查询到的VPC标识和SLB实例ID填入到对应的内容中：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96333.png"></p>
+<p>点击确认按钮后，授权关系就创建好了，需要记住刚才填写的授权名称。</p>
+<h2 id="4-1-5-创建API"><a href="#4-1-5-创建API" class="headerlink" title="4.1.5 创建API"></a>4.1.5 创建API</h2><p>在API网关控制台创建API的时候，后端服务这块，有两点需要注意的：</p>
+<p>1.我们需要填写刚才创建的VPC授权名称；</p>
+<p>2.在创建API页面的常量参数添加一个名字为host，位置header的参数，参数值设置为4.1.3节中设置的路由中填写的域名。</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96380.png"></p>
+<h2 id="4-1-6-调用测试"><a href="#4-1-6-调用测试" class="headerlink" title="4.1.6 调用测试"></a>4.1.6 调用测试</h2><p>API建立好了以后，我们把API发布到线上就可以使用API网关的测试工具进行测试，看看能否将请求发送到刚才创建的Kubernetes集群中去。 我们进入刚才创建好的API的详情页面，点击左侧菜单中的调试API，进入调试页面。在调试页面填写好相应的参数，点击“发起请求”按钮。</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96378.png"></p>
+<p>我们可以看到，请求发送到了Kubernetes的集群中的容器中，并且收到了容器中tomcate的404的应答（因为没有配置对应的页面）。</p>
+<h2 id="4-2-Kubernetes服务内网SLB结合模式的配置方式"><a href="#4-2-Kubernetes服务内网SLB结合模式的配置方式" class="headerlink" title="4.2 Kubernetes服务内网SLB结合模式的配置方式"></a>4.2 Kubernetes服务内网SLB结合模式的配置方式</h2><p>通过Kubernetes服务的SLB结合API网关与Kubernetes的模式的配置方式与前一节中通过Ingress Control结合模式的配置方式有两点不同：1.申请Kubernetes中的容器服务时，需要指定生成内网SLB，2.找到这个SLB的VPC ID与SLB ID，使用这两个ID到API网关去进行授权即可。上一节中描述的创建Kubernetes集群的步骤，本节不再冗余描述。本节主要描述创建携带内网SLB的Kubernetes服务，并且找到这个内网SLB的IP地址。在找到SLB的IP地址后，具体授权方法和4.1.4中描述的一致，本节也不再重复描述。</p>
+<h2 id="4-2-1-生成携带内网SLB的Kubernetes服务"><a href="#4-2-1-生成携带内网SLB的Kubernetes服务" class="headerlink" title="4.2.1 生成携带内网SLB的Kubernetes服务"></a>4.2.1 生成携带内网SLB的Kubernetes服务</h2><p>在4.1.1操作之后，我们有了一个Kubernetes集群，现在我们通过资源编排文本在这个集群中创建带有内网SLB的服务。我们注意下，本段资源编排代码和4.1.2中的资源编排代码不同的是，我们把最后一行的Type变成了LoadBalancer，并且指定了这个SLBLoadBalancer为内网：</p>
+<pre><code>apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: tomcat-demo
+  labels:
+    app: tomcat
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: tomcat:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+  annotations:
+    service.beta.kubernetes.io/alicloud-loadbalancer-address-type: intranet
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: tomcat
+  type: LoadBalancer</code></pre>
+<p>对这段编排模板创建文本做下解释：使用最新的Tomcat镜像创建两个容器的意思，容器的服务端口是8080，并且创建一个命名为tomcat-service的服务，这个服务前有一个内网SLB，对外服务的端口为80，映射到容器8080的端口。</p>
+<h2 id="4-2-2-在Kubernetes控制台找到服务的内网SLB地址"><a href="#4-2-2-在Kubernetes控制台找到服务的内网SLB地址" class="headerlink" title="4.2.2 在Kubernetes控制台找到服务的内网SLB地址"></a>4.2.2 在Kubernetes控制台找到服务的内网SLB地址</h2><p>现在我们成功创建了一个携带内网SLB的服务，我们可以在Kubernetes控制台的“路由与负载均衡”菜单的“服务”子页面找到这个内网SLB的内网IP：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96549.png"></p>
+<p>找到内网SLB之后，就可以像4.1.4中一样，去SLB的控制台找到这个SLB的VPC ID和SLB ID，并且使用这个SLB的VPC ID和SLB ID到API网关去授权了。</p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><p>让我们总结一下本文的内容，在前三节中，我们描述了Kubernetes集群和API网关的各项能力，并且画出了结合他俩作为后端应用服务生产的架构图。我们结合API网关+Kubernetes集群的架构，让系统具备了动态伸缩，动态路由，支持多协议接入，SDK自动生成，双向通信等各项能力，成为可用性更高，更灵活，更可靠的一套架构。</p>
+<h2 id="5-1-配置总结"><a href="#5-1-配置总结" class="headerlink" title="5.1 配置总结"></a>5.1 配置总结</h2><p>在最后一节，我们描述了在阿里云的公有云如何创建一整套API网关加Kubernetes的流程，关键点在于Kubernetes集群通过Ingress Control组件服务发现，在API网关对Ingress Control组件的内网SLB进行授权后，将所有请求发送到SLB上。下面我们再总结一下通过Ingress结合API网关与Kubernetes的步骤：</p>
+<ol>
+<li><p> 创建一个带有Ingress Control组件的Kubernetes的集群；</p>
+</li>
+<li><p> 使用资源编排命令，在Kubernetes集群中创建两个运行这最新版本的Tomcat的容器，并且基于这两个容器创建对应的服务；</p>
+</li>
+<li><p> 在控制台上给Ingress Control加上一条服务路由；</p>
+</li>
+<li><p> 到SLB控制台找到Ingress Control内网SLB的实例ID，在API网关创建一个VPC授权；</p>
+</li>
+<li><p> 在API网关创建API，后端服务使用刚才创建的VPC授权，并且设定一个名为host的参数，参数值使用Ingress Control服务路由设置的域名。API的请求将发送到Kubernetes集群的Ingress Control的SLB上，由Ingress Control将请求路由到容器内部的Tomcat服务上。</p>
+</li>
+</ol>
+<p>在高并发场景或者只有一个服务的场景，我们可以跳过Ingress Control，直接在服务前面架设一个内网SLB，并且将这个内网SLB授权给API网关，供API网关进行访问。</p>
+<h2 id="5-2-Ingress-Control和SLB两种方案对比"><a href="#5-2-Ingress-Control和SLB两种方案对比" class="headerlink" title="5.2 Ingress Control和SLB两种方案对比"></a>5.2 Ingress Control和SLB两种方案对比</h2><p>1. 使用SLB+Ingress Control。Ingress Control可以做Kubernetes集群的服务发现和七层代理工作，如果Kubernetes集群中有多个服务，可以统一使用Ingress Control进行路由，同时只需要一个内网SLB就可以对外暴露多个服务。便于运维管理和Kubernetes集群的服务扩充。推荐使用此种方式。</p>
+<p>2. 直接使用SLB。如果集群中某个服务的业务压力很大，可以考虑为此服务单独建立一个SLB，API网关直接连接此SLB，从而达到更高的通信效率。此种方式的弊端也比较明显，如果Kubernetes集群内有多个服务，需要为每个服务配置一个SLB，因此给运维管理带来较大工作量。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>API网关</category>
+      </categories>
+      <tags>
+        <tag>API网关</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>云原生环境下的日志采集、存储、分析实践</title>
+    <url>/2022/04/30/%E4%BA%91%E5%8E%9F%E7%94%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86-%E5%AD%98%E5%82%A8-%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<p> 以下文章来源于火山引擎开发者社区<br>作者：刘卯银｜火山引擎日志系统架构师</p>
+<p>云原生环境下的日志采集、存储、分析实践<br><a href="https://mp.weixin.qq.com/s/L2bPGFL2cNamaFrxeyU48Q">https://mp.weixin.qq.com/s/L2bPGFL2cNamaFrxeyU48Q</a></p>
+<blockquote>
+<p>谈到日志系统，首先要从日志说起，日志在 IT 系统里无处不在，也是 IT系统大数据的关键来源。日志的种类和样式非常多，以在线教育系统为例，日志包括客户端日志、服务端日志。服务端日志又包括业务的运行/运维日志以及业务使用的云产品产生的日志。要管理诸多类型的日志，就需要一套统一的日志系统，对日志进行采集、加工、存储、查询、分析、可视化、告警以及消费投递，将日志的生命周期进行闭环。</p>
+<p>Kubernetes 下日志采集的开源自建方案</p>
+<p><strong>开源自建</strong></p>
+<p>火山引擎早期为了快速上线业务，各团队基于开源项目搭建了自己的日志系统，以满足基本的日志查询需求，例如使用典型的开源日志平台 <strong>Filebeat+Logstash+ES+Kibana</strong> 的方案。但是在使用过程中，我们发现了开源日志系统的不足：</p>
+<ul>
+<li><p>  各业务模块自己搭建日志系统，造成重复建设。</p>
+</li>
+<li><p>  以 ES 为中心的日志架构可以利用 ES 查询便利的优势，但是资源开销大、成本高。而且 ES 与 Kibana 在界面上强绑定，不利于功能扩展。</p>
+</li>
+<li><p>  开源方案一般采用单机 yaml 做采集配置，当节点数很多的时候，配置非常繁琐。</p>
+</li>
+<li><p>  开源系统的采集配置难以管理，数据源也比较单一。</p>
+</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083FmjVjJ2EheTOKXIWcL2QCrDNF5t1ujPv14aWR6ytFwRdS7iaEnkbImdZ2w/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><strong>Kubernetes 下的日志采集</strong></p>
+<p>Kubernetes 下如何采集日志呢？官方推荐了四种日志采集方案：</p>
+<ul>
+<li><p>  DaemonSet：在每台宿主机上搭建一个 DaemonSet 容器来部署 Agent。业务容器将容器标准输出存储到宿主机上的文件，Agent 采集对应宿主机上的文件。</p>
+</li>
+<li><p>  Streaming Sidecar：有一些业务系统的日志不是标准输出，而是文件输出。Streaming Sidecar 的方式可以把这些文件输出通过 Sidecar 容器转换成容器的标准输出，然后采集。</p>
+</li>
+<li><p>  Sidecar Logging Agent：业务 Pod 内单独部署 Agent 的 Sidecar 容器。这种方式的资源隔离性强。</p>
+</li>
+<li><p>  API/SDK：直接在容器内使用 API 或 SDK 接口将日志采集到后端。</p>
+</li>
+</ul>
+<p>以上前三种采集方案都只支持采集容器的标准输出，第四种方案需要改造业务代码，这几种方式对采集容器文件都不友好。但用户对于日志文件有分类的需求，标准输出将所有日志混在一起，不利于用户进行分类。如果用户要把所有日志都转到标准输出上，还需要开发或者配置，难以推广。因此 Kubernetes 官方推荐的方案无法完全满足用户需求，给我们的实际使用带来了很多不便。</p>
+<p><strong>自建日志采集系统的困境与挑战</strong></p>
+<p>云原生场景下<strong>日志种类多、数量多、动态非永久</strong>，开源系统在采集云原生日志时面临诸多困难，主要包括以下问题：</p>
+<p><strong>一、采集难</strong></p>
+<ul>
+<li><p>  <strong>配置复杂</strong>：系统规模越来越大，节点数越来越多，每个节点的配置都不一样，手工配置很容易出错，系统的变更变得非常困难。</p>
+</li>
+<li><p>  <strong>需求不满足</strong>：开源系统无法完全满足实际场景的用户需求，例如不具备多行日志采集、完整正则匹配、过滤、时间解析等功能，容器文件的采集也比较困难。</p>
+</li>
+<li><p>  <strong>运维难度高</strong>：大规模场景下大量 Agent 的升级是个挑战，系统无法实时监控 Agent 的状态，当Agent 状态异常时也没有故障告警。</p>
+</li>
+</ul>
+<p><strong>二、产品化能力不足</strong></p>
+<ul>
+<li><p>  <strong>可用性低</strong>：因为缺少流控，突发的业务容易使后端系统过载，业务之间容易相互影响。</p>
+</li>
+<li><p>  <strong>资源使用效率低</strong>：如果配置的资源是固定的，在突发场景下容易造成性能不足的问题；但如果配置的资源过多，普通场景下资源利用率就会很低；不同的组件配置不均衡还会导致性能瓶颈浪费资源。ES 的原始数据和索引使用相同的资源配置，也会导致高成本。</p>
+</li>
+<li><p>  <strong>功能不足</strong>：比如 ES 的投递和消费能力弱、分析能力固化、没有告警能力、可视化能力有限。</p>
+</li>
+</ul>
+<p>火山引擎统一日志平台 TLS  </p>
+<p>在遇到这些问题以后，我们研发了一套统一的日志管理平台——**火山引擎日志服务（Tinder Log Service，简称为 TLS)**。TLS 的整体架构如下：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083FmjYA33Zyhiav3lzlJhTQemLCOh6K6cfWrQ2xIh0h7ibdBH5JV63wKUOQOw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>面对各种日志源，TLS 通过自研的 LogCollector/SDK/API，可支持专有协议、 OpenTelemetry 和 Kafka 协议上传日志。支持多种类型的终端、多种开发语言以及开源生态标准协议。</p>
+<p>采集到的日志首先会存入<strong>高速缓冲集群</strong>，削峰填谷，随后日志会匀速流入<strong>存储集群</strong>，根据用户配置再流转到<strong>数据加工集群</strong>进行日志加工，或者到<strong>索引集群</strong>建立索引。建立索引后用户可以进行实时查询和分析。TLS 提供标准的 Lucene 查询语法、SQL 92 分析语法、可视化仪表盘以及丰富的监控告警能力。</p>
+<p>当日志存储达到一定周期，不再需要实时分析之后，用户可以把日志投递到成本更低的火山引擎对象存储服务中，或者通过 Kafka 协议投递到其他云产品。如果用户有更高阶的分析需求，TLS 也支持把日志消费到实时计算、流式计算或离线计算进行更深入的分析。</p>
+<p>TLS 的系统设计遵循<strong>高可用、高性能、分层设计</strong>的原则。</p>
+<ul>
+<li><p>  <strong>高可用</strong>：通过存算分离，所有服务都是无状态的，故障快速恢复。</p>
+</li>
+<li><p>  <strong>高性能</strong>：所有集群都可横向扩展，没有热点。</p>
+</li>
+<li><p>  <strong>分层设计</strong>：各模块之间低耦合，模块之间定义标准接口，组件可替换。</p>
+</li>
+</ul>
+<p>以上就是火山引擎自研的日志存储平台 TLS 的系统架构，下面将详细介绍 TLS 相较于开源系统做的优化。</p>
+<p><strong>系统优化</strong></p>
+<p><strong>中心化白屏化的配置管理</strong></p>
+<p>当日志系统中采集 Agent 数量较多时，不再适合在每台机器上手工配置，因此我们开发了中心化、白屏化的配置管理功能，支持动态下发采集配置，并支持查看 Agent 运行状态监控、支持客户端自动升级。</p>
+<p>中心化配置的实现流程如下：</p>
+<ol>
+<li><p> 客户端主动向服务端发起心跳，携带自身版本信息。</p>
+</li>
+<li><p> 服务端收到心跳，检查版本。</p>
+</li>
+<li><p> 服务端判断是否需要下发配置信息给客户端。</p>
+</li>
+<li><p> 客户端收到配置信息，热加载到本地配置，以新的配置进行采集。</p>
+</li>
+</ol>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083FmjqSrAjh32gBkHzHr4KHbRSSCDGPZXJbW1SibapEZmrKRVxWkS4TEB45w/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>中心化配置管理的优势在于：</p>
+<ul>
+<li><p>  可靠：中心化管理，配置不丢失，白屏化配置不容易出错。</p>
+</li>
+<li><p>  高效：各种环境下所有的配置都是统一处理，无论 LogCollector 部署在移动端、容器还是物理机上，用户都可以在服务端相同的界面上配置，配置以机器组为单位批量下发，快速高效。</p>
+</li>
+<li><p>  轻松运维：用户可以在服务端查看客户端的运行状态，对客户端的异常发出告警。通过中心化配置，TLS 可以向客户端推送最新版本，自动升级。</p>
+</li>
+</ul>
+<p><strong>CRD 云原生配置方式</strong></p>
+<p>中心化、白屏化的配置方式是适合运维人员的配置方式。在开发测试自动化的场景下，最优的方式是 CRD。传统的方式通过 API 接口去做采集配置，用户通常需要写数千行代码来实现。TLS 提供了云原生 CRD 的方式来进行配置，用户只需要在 yaml 文件里配置要采集的容器、容器内的日志路径以及采集规则即可完成采集配置。因为不再需要编写代码，CRD 方式大幅提高了日志接入效率。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083FmjYP0hTUYJJwLgzT60iasNJwsicvYG5Jj6eqXbTcInZ3XFDjGEaUDibZSyw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>CRD 的配置流程如下：</p>
+<ol>
+<li><p> 使用 Kubectl 命令创建 TLS LogConfig CRD；</p>
+</li>
+<li><p> TLS Controller 监听到 CRD 配置更新；</p>
+</li>
+<li><p> TLS Controller 根据 CRD 配置向 TLS Server 发送命令，创建 topic、创建机器组，创建日志采集配置；</p>
+</li>
+<li><p> LogCollector 定期请求 TLS Server，获取新的采集配置并进行热加载；</p>
+</li>
+<li><p> LogCollector 根据采集配置采集各个容器上的标准输出或文本日志；</p>
+</li>
+<li><p> LogCollector 将采集到的日志发送给 TLS Server。</p>
+</li>
+</ol>
+<p><strong>适合大规模、多租户场景的客户端</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083FmjEB0Hw5nv6B6SibRJVfvjQhHrSEkUWKcueLCwZLRvbTiaJMHaDnOB1HOw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>开源日志采集客户端一般只支持一个 Output，多个 Input 采用相同的 Pipeline，相互影响。为了适应大规模、多租户场景，火山引擎自研了日志采集的客户端 LogCollector。LogCollector 对不同的 Input 采用不同的 Pipeline 做资源隔离，减少多租户之间的相互影响。一个 LogCollector 支持多个 Output，可以根据不同的 Output 单独做租户鉴权。同时我们还在 LogCollector 内实现了自适应反压机制，如果服务端忙碌，LogCollector 会自动延迟退避，服务端空闲时再发送，减少算力负担。</p>
+<p><strong>产品优化</strong></p>
+<p><strong>可用性提升</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083Fmjic1FUdj20kJXxkxgzQCQt19sJekvm0ficRQh14rny7h8KQVNYZ4IFLQg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>在可用性方面，TLS 支持多级全局流控，能杜绝因业务突发导致的故障扩散问题。</p>
+<ul>
+<li><p>  在日志采集到高速缓冲集群时，按照用户的 Shard 数控制写入高速缓冲区的流量。</p>
+</li>
+<li><p>  当数据从高速缓冲区流向存储集群时，按存储集群控制单个存储集群的流量。</p>
+</li>
+<li><p>  从存储集群到索引集群，按索引集群控制单个索引集群的写入流控以及查询分析并发数。</p>
+</li>
+</ul>
+<p><strong>效率提升</strong></p>
+<p><strong>索引和原始数据分离</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083FmjZWzzN512awjorhGKgnDNk5YJujrX5DpKfEibfUnOaO0j7NO0PcAVayA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>ES 的索引和数据存在一起，我们在设计过程发现索引和原始数据分离会更优，主要表现在：</p>
+<ul>
+<li><p>  提升数据流动性：存储集群支持批量消费接口，消费数据不经过索引集群。相对于从索引集群先查询后消费的模式，直接从存储集群消费性能更高，有效提升数据流动性。</p>
+</li>
+<li><p>  降低成本：索引和存储可以采用不同成本的存储，整体的存储成本就会降低。用户可以随时按需创建索引，进一步降低索引成本。</p>
+</li>
+<li><p>  提升可用性：索引可以异步创建，流量突发时创建索引慢不会影响存储写入速率。</p>
+</li>
+</ul>
+<p><strong>索引管理和调度</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083FmjomGWwa6uDIge2s5E3JSUYvXtpjyfNFgMgRNNsA3fcGdjC6D1PcCmicA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>索引的流量是不可预测的，因此我们在效率方面的另一个优化是支持索引的管理和调度，实现弹性伸缩，从而提升可用性，解决规模问题。我们的解决方案是在多个索引集群之间做数据流动，基于负载、资源、容量自动迁移索引，支持动态跨集群在线迁移索引，平衡索引集群负载。  </p>
+<p><strong>功能优化</strong></p>
+<ul>
+<li>  <strong>消费投递</strong>：在消费投递方面我们支持了丰富的消费投递接口，包括：</li>
+</ul>
+<ul>
+<li><p>  消费者</p>
+</li>
+<li><p>  消费组</p>
+</li>
+<li><p>  Kafka 协议：通过 Kafka 协议进行标准协议的消费；</p>
+</li>
+<li><p>  S3 协议：支持通过 S3 对象存储的协议把日志投递到对象存储。</p>
+</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/fgbJnuXT4EqeiaZn0NZBVcfngVp083Fmj0sTazoYHCq7VCMRTENlib89eGtJxdu3bXmBh871Gb0mAGicrxy9iaxTJw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<ul>
+<li><p>  <strong>查询分析</strong>：支持先查询过滤后分析，减少分析数据量提高性能。分析支持标准的 SQL 92，分析结果支持图表可视化。</p>
+</li>
+<li><p>  <strong>日志告警</strong>：通过实时监控日志，基于用户配置的监控规则组合以及告警触发条件，满足条件就可以通过短信、邮件、飞书等方式发送告警给用户或用户组。</p>
+</li>
+<li><p>  <strong>可视化仪表盘</strong>：TLS 提供多种可视化仪表盘，实现实时监测，且仪表盘可以关联告警。</p>
+</li>
+</ul>
+<p>TLS 实践案例</p>
+<p>接下来为大家介绍两个 TLS 的典型案例。</p>
+<p><strong>火山引擎内部业务及运维日志采集</strong></p>
+<p>TLS 目前支撑了火山引擎全国多个 Region 运维日志的采集分析。日志类型包括业务的文件日志、容器标准输出。业务分别部署在内网、外网以及混合云，日志都通过 TLS 平台统一做采集和分析。</p>
+<p>相较于前期各业务模块自己搭建日志系统，采用 TLS 获得了如下收益：</p>
+<ul>
+<li><p>  经济高效：资源利用率由之前的 20% 提升到现在的 **80%**，大幅降低资源成本；</p>
+</li>
+<li><p>  可用性较高：多级流控加缓存，抗突发能力强，即使在索引系统故障的时候也不会影响原始数据的流量；</p>
+</li>
+<li><p>  轻松运维：TLS 的统一运维提升了运维人员的能力，少量运维人员即可完成整个系统的运维。</p>
+</li>
+<li><p>  快速接入：TLS 可以在一小时内完成一个新业务的采集、查询、分析、消费的快速接入。</p>
+</li>
+</ul>
+<p><strong>某教育行业头部客户日志采集</strong></p>
+<p>该客户的系统业务主要采集的日志包括：</p>
+<ul>
+<li><p>  文件日志</p>
+</li>
+<li><p>  App 日志</p>
+</li>
+<li><p>  Kubernetes 集群后端业务的日志</p>
+</li>
+<li><p>  用户行为日志</p>
+</li>
+</ul>
+<p>TLS 把这几个平台的日志统一采集到云端，进行实时查询分析以及进行告警。客户自建有大数据分析平台，TLS 可将日志数据通过消费的方式流转到该平台进行在线、离线等更高阶的大数据分析。对于时间长的历史数据，则投递到对象存储进行归档，从而降低整个系统的成本。</p>
+<p>用户的管理员可在 TLS 上统一查看所有平台的各种日志，整个系统的建设和运维成本也降低了。TLS 使用标准接口，可以兼容云上自建的分析平台，用户在快速上线的同时也能保证系统的高度兼容。</p>
+<p>展望未来</p>
+<p>未来，TLS 平台会不断进行更深层次的优化：</p>
+<ul>
+<li><p>  云产品的一键日志采集</p>
+</li>
+<li><p>  搜索引擎的深度优化</p>
+</li>
+<li><p>  数据清洗和加工的函数式接口</p>
+</li>
+<li><p>  集成更多第三方平台，火山引擎云产品深度融合</p>
+</li>
+</ul>
+<p><strong>Q&amp;A</strong></p>
+<p><strong>Q：中心化配置，各个业务的日志采集配置是 OP 负责还是 RD 负责？</strong><br><strong>A</strong>：日志采集的中心化配置是 Web 方式，配置非常简单，无论是 RD 或是 OP 负责都可以。火山引擎上 Web 配置由 OP 来负责，容器自动化采集是用 CRD 的方式，一般是 RD 负责。</p>
+<p><strong>Q：采集端 Agent 的使用资源可以限制吗？是否会影响业务的资源使用？</strong><br><strong>A</strong>：CPU 占用量、内存占用量这些是可以配置的，不会影响业务的资源使用。</p>
+<p><strong>Q：CRD 和中心化配置不会冲突吗？</strong><br><strong>A</strong>：通常情况下不会冲突。CRD 有特定的命名规则，只要 Web 配置和 CRD 配置的名字不冲突就不会报错。如果名字冲突，配置会失败，改名字后重试即可。</p>
+<p><strong>Q：Node 节点宕机是否会丢日志？</strong><br><strong>A</strong>：不会。LogCollector 有 Checkpoint，Checkpoint 会定期更新。如果节点宕机没有更新 Checkpoint，日志会从上次 Checkpoint 点重新采集，所以是不会丢的。</p>
+<p><strong>Q：日志采集的延迟情况如何？</strong><br><strong>A</strong>：一般在秒级延迟，后端业务忙的时候可能是几秒到十几秒的延迟。</p>
+<p><strong>Q：Kafka 协议是如何暴露的？通过实现 Kafka Server 吗？</strong><br><strong>A</strong>：我们是在服务端实现的 Kafka 协议。用户以 Kafka 的协议方式接入，鉴权也是以 Kafka 的鉴权协议来做的。用户看到的其实就是一个 Kafka。这样可以对用户做到透明。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>日志</category>
+      </categories>
+      <tags>
+        <tag>日志</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>公有云降本增效最佳实践</title>
+    <url>/2022/04/30/%E5%85%AC%E6%9C%89%E4%BA%91%E9%99%8D%E6%9C%AC%E5%A2%9E%E6%95%88%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<p><a href="https://ewhisper.cn/posts/59535/">https://ewhisper.cn/posts/59535/</a></p>
+<blockquote>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="整体"><a href="#整体" class="headerlink" title="整体"></a>整体</h3><h4 id="首选公有云服务而非自建"><a href="#首选公有云服务而非自建" class="headerlink" title="首选公有云服务而非自建"></a>首选公有云服务而非自建</h4><p>公有云除了提供 IaaS（计算、存储、网络等）外，也会提供 PaaS（微服务、中间件、数据库、大数据、开发套件等）和 SaaS 服务。</p>
+<p>在公有云提供的服务（如 MySQL 数据库）可以满足需求的前提下，建议首选公有云上的 MySQL 数据库服务，而非自建。</p>
+<p>理由简单说明如下：</p>
+<p>对比项</p>
+<p>成本</p>
+<p>性能</p>
+<p>伸缩性</p>
+<p>维护方</p>
+<p>可靠性</p>
+<p>监控</p>
+<p>易用性</p>
+<p>自建</p>
+<p>高</p>
+<p>低</p>
+<p>弱</p>
+<p>我方</p>
+<p>低</p>
+<p>无</p>
+<p>难</p>
+<p>云上服务</p>
+<p>中</p>
+<p>高</p>
+<p>高</p>
+<p>云提供商</p>
+<p>高</p>
+<p>有</p>
+<p>易用</p>
+<ul>
+<li><strong>成本</strong>：<ul>
+<li>  自建，需要人员维护和优化的成本，需要自行考虑高可靠（可能需要购买多台服务器）和高性能（可能需要购买高性能存储），使得成本偏高。</li>
+<li>  云上服务，通过规模效应、资源池化、参数调优等实现成本相对不高。</li>
+</ul>
+</li>
+<li><strong>性能</strong>：<ul>
+<li>  自建，不一定知道所有的参数优化项，也不一定同价位能买到专用的高性能硬件。</li>
+<li>  云上服务，性能明码标价，按需选择适合自己的性能配置。</li>
+</ul>
+</li>
+<li><strong>伸缩性</strong><ul>
+<li>  自建，伸缩较麻烦，要不手动，要不通过 历经检验的 DevOps 脚本，伸缩性弱。</li>
+<li>  云上服务，很多 PaaS 类服务可以一键升配。</li>
+</ul>
+</li>
+<li><strong>维护方</strong><ul>
+<li>  自建，我方自行兜底</li>
+<li>  云上服务，云提供商提供 SLA 兜底。</li>
+</ul>
+</li>
+<li><strong>可靠性</strong><ul>
+<li>  自建，不一定能实现该组件的集群模式或高可用模式的全部最佳实践。</li>
+<li>  云上服务，会做好网络高可用（甚至是跨 AZ 的高可用）、存储多副本、计算跨物理服务器 / 机架 /AZ 甚至 region、服务监控及自愈、备份等多种措施保障可靠性。</li>
+</ul>
+</li>
+<li><strong>监控</strong>：<ul>
+<li>  自建，要不没监控，要不监控需要从头（采集端）到尾（告警通知）实现一遍</li>
+<li>  云上服务，监控具备，且和公有云监控无缝对接。</li>
+</ul>
+</li>
+<li><strong>易用性</strong>：<ul>
+<li>  自建：一般没有 Web 界面，需要通过线下或流程平台或 CLI 来申请和操作</li>
+<li>  云上服务：有易用的 web 界面，可以在 web 界面上完成大部分功能。</li>
+</ul>
+</li>
+</ul>
+<p>比如云数据库：</p>
+<ul>
+<li>运维架构：<ul>
+<li>  存储的数据规模及后期扩展，采用的高可用架构；</li>
+<li>  异常切换</li>
+</ul>
+</li>
+<li>硬件及基础环境部署<ul>
+<li>  选择什么配置的服务器，服务器型号及对应磁盘阵列；</li>
+<li>  操作系统环境及内核设置；</li>
+</ul>
+</li>
+<li>数据库安装及优化<ul>
+<li>  数据库版本安装部署及配置；</li>
+<li>  数据库配置参数调优；</li>
+</ul>
+</li>
+<li>SQL 语句优化；<ul>
+<li>  慢查询，对 SQL 语句及索引做优化</li>
+</ul>
+</li>
+<li>数据库日常备份及恢复。<ul>
+<li>  备份；</li>
+<li>  热备还是冷备？物理备份还是逻辑备份？</li>
+<li>  备份策略、周期、频率</li>
+</ul>
+</li>
+</ul>
+<p>使用云数据库，这些步骤云数据库都帮你做了。其他 PaaS（中间件、大数据、微服务、DevOps 等）也类似。</p>
+<h4 id="做好安全防护"><a href="#做好安全防护" class="headerlink" title="做好安全防护"></a>做好安全防护</h4><p>公有云最大的风险就是数据泄露。所以一定要做好安全防护。这个安全防护是多方面的。详细见 <a href="https://ewhisper.cn/posts/59535/#%E5%AE%89%E5%85%A8">安全</a> 部分。</p>
+<h4 id="云的优势是「分布式」"><a href="#云的优势是「分布式」" class="headerlink" title="云的优势是「分布式」"></a>云的优势是「分布式」</h4><p>如果对比单台服务器，可能云主机的性能差一些。「分布式」是云计算的最大优势。在实践中，不要只追求单台机器的性能，而是要通过分布式的设计思想来保障业务的高性能。最佳实践推荐，服务器标配 4C8G，低配也可以采用 2C4G 的配置。通过分布式充分压榨了单台服务器的资源，从而最大限度地保障了最终的低成本。<br>所以，在云上，一般情况下应用服务器的选择条件是：更多的低配的云服务胜于更少的高配的云服务器。<br>所以，在云上，对于数据库来说，如果数据量非常大，也推荐使用「分布式数据库」，而非在云上自建 Oracle。</p>
+<h4 id="云的优势是「弹性」"><a href="#云的优势是「弹性」" class="headerlink" title="云的优势是「弹性」"></a>云的优势是「弹性」</h4><p>所以，在云上，不要按照业务峰值购买全量的资源，而是推荐：</p>
+<ul>
+<li>  买满足日常需求的资源</li>
+<li>  高峰时，再提前购买一些弹性的资源，弹性扩容。</li>
+</ul>
+<p>另外，不仅仅是服务器资源，对于网络也适用，如果您的系统经常搞活动，网络负载差距很大，那么推荐：「大带宽按量付费」而不是「固定带宽固定计费」。</p>
+<h4 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h4><p>静态：放 CDN + 对象存储上，或者放 NGINX 服务器上也好，不要直接用应用服务器（如 tomcat 或 nodejs）来处理静态资源。（浪费，术业有专攻）<br>动态：典型架构是 LB - NGINX - 应用服务器 - redis - 数据库。</p>
+<h4 id="上云前做好业务量的评估"><a href="#上云前做好业务量的评估" class="headerlink" title="上云前做好业务量的评估"></a>上云前做好业务量的评估</h4><p>上云前做好业务量的评估，为云上的资源规划做好资源预算。<br>可以通过：</p>
+<ul>
+<li>  压测</li>
+<li>  已有监控数据分析</li>
+</ul>
+<p>等方式评估业务量。</p>
+<p>常用的业务量指标如下：</p>
+<p>指标</p>
+<p>计算周期</p>
+<p>指标含义</p>
+<p>PV</p>
+<p>天</p>
+<p>Page View。指 B/S 架构中的 Web 类业务一天内页面的访问次数，每打开或刷新一次页面，算一个 PV。</p>
+<p>UV</p>
+<p>天</p>
+<p>UV 是 Unique Visitor 的简写。指 B/S 架构中 Web 类业务一天内访问站点的用户数（以 cookie 为依据）</p>
+<p>IP</p>
+<p>天</p>
+<p>B/S 架构中 Web 类业务一天内有多少个独立的 IP 浏览了页面，即统计不同的 IP 浏览用户数量。</p>
+<p>用户数</p>
+<p>–</p>
+<p>业务系统的注册用户数</p>
+<p>活跃用户数</p>
+<p>天</p>
+<p>注册用户数中，一天中实际使用了业务系统的用户数量，跟 UV 的概念一样</p>
+<p>在线用户数</p>
+<p>天</p>
+<p>一天的活跃用户数中，用户同时在一定的时间段内在线的数量</p>
+<p>并发用户数</p>
+<p>–</p>
+<p>指在线用户数基础上，某一时刻同时指向服务器发送请求的用户数</p>
+<p>具体的性能监控指标如何和业务指标进行转换就先略过了。</p>
+<h4 id="推荐几个公有云云产品"><a href="#推荐几个公有云云产品" class="headerlink" title="推荐几个公有云云产品"></a>推荐几个公有云云产品</h4><p>这些公有云产品是基本上都会用到的，历经检验，且比较实用的产品。</p>
+<ol>
+<li> 云服务器</li>
+<li> 关系型数据库</li>
+<li> 负载均衡</li>
+<li> 对象存储</li>
+<li> VPC（Virtual Private Cloud）：专有网络</li>
+<li> CDN</li>
+<li> Redis</li>
+<li> 安全类的基本产品（如：安全组、ACL、漏扫、WAF、DDoS 防护等）</li>
+</ol>
+<h3 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h3><h4 id="云服务器配置以中低配为主"><a href="#云服务器配置以中低配为主" class="headerlink" title="云服务器配置以中低配为主"></a>云服务器配置以中低配为主</h4><p>云服务器一般用于承载应用，推荐以更多台数的中低配为主，避免资源的浪费。<br>建议一般配置不要超过：16C32G，主流配置为：</p>
+<ul>
+<li>  4C8G 甚至更低</li>
+<li>  8C16G</li>
+</ul>
+<h4 id="推荐使用容器服务"><a href="#推荐使用容器服务" class="headerlink" title="推荐使用容器服务"></a>推荐使用容器服务</h4><p>容器服务有诸多优势，推荐无状态应用使用容器服务。</p>
+<ul>
+<li>  资源粒度更细，细粒度到: 0.1C, 内存 MB。</li>
+<li>  自动扩缩容更方便</li>
+<li>  扩容后 pod 自动加入负载均衡</li>
+<li>  …</li>
+</ul>
+<h4 id="按需购买"><a href="#按需购买" class="headerlink" title="按需购买"></a>按需购买</h4><p>在云上，不要按照业务峰值购买全量的资源，而是推荐：买满足日常需求的资源</p>
+<h4 id="弹性扩容"><a href="#弹性扩容" class="headerlink" title="弹性扩容"></a>弹性扩容</h4><p>在云上，如果需要搞活动，再通过「容器」或「API + 镜像 + 快照」批量购买、弹性扩容。</p>
+<p>比如在某手机的秒杀活动中，会瞬间开启 200 台机器且持续 2H 来应对，IT 资源花费 600 元人民币：</p>
+<ol>
+<li> 搭建好环境，制作好镜像；</li>
+<li> 活动前通过 API 秒开 200 台服务器来应对活动；</li>
+<li> 活动结束后，通过 API 瞬间释放资源</li>
+</ol>
+<p>这在传统架构中，根本不可想象。比如传统架构，搞「双十一」，都要提前一个月准备 IT 资源。</p>
+<p>另外上面的场景也可以利用 「弹性伸缩服务」或「容器 HPA」来动态调整。</p>
+<h4 id="使用-Ansible-等-DevOps-工具"><a href="#使用-Ansible-等-DevOps-工具" class="headerlink" title="使用 Ansible 等 DevOps 工具"></a>使用 Ansible 等 DevOps 工具</h4><p>既然云的优势是「分布式」，资源多，那么 Ansible 这种批量的 DevOps 工具是必不可少的，可以大幅度提升效率。<br>具体应用，可以通过 Ansible，定制对应的 Playbook，自动化批量安装和运维。</p>
+<h4 id="通过镜像提升云端部署效率"><a href="#通过镜像提升云端部署效率" class="headerlink" title="通过镜像提升云端部署效率"></a>通过镜像提升云端部署效率</h4><p>先开通一台云服务器，并对这台云服务器做运维规范方面的系统调优、安全加固等措施。然后把这台云服务器做成一个基础镜像，批量开通 其他同样环境的服务器，可以大大提升部署效率。</p>
+<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><h4 id="域名备案要先行"><a href="#域名备案要先行" class="headerlink" title="域名备案要先行"></a>域名备案要先行</h4><p>上云的最后一步，是要将域名的 IP 解析到 负载均衡 公网 IP 上。但需要提前在共有云上对域名进行备案，如果到最后域名解析到公有云上后才发现域名被拉黑，业务访问被拒绝，这将会变得非常麻烦。因此需要提前通过公有云进行域名备案，或者已经在其他供应商进行备案，那么需要将域名备案转接入公有云。</p>
+<h4 id="推荐必备-CN-域名"><a href="#推荐必备-CN-域名" class="headerlink" title="推荐必备 .CN 域名"></a>推荐必备 .CN 域名</h4><p>近期国际形势愈演愈烈，中美摩擦进一步升级，形势紧张。要做最坏的打算：美国可能会断掉您的 .COM 域名的解析。<br>另外国家最近有指引，不要使用外国管控的根域名作为基础设施的一级域名。<br>.cn 是国家根域，.com.cn、[net.cn]、[org.cn] 等这些都是可以的。</p>
+<h4 id="严禁每台服务器都能访问公网"><a href="#严禁每台服务器都能访问公网" class="headerlink" title="严禁每台服务器都能访问公网"></a>严禁每台服务器都能访问公网</h4><p>出于安全（受攻击面太大）和成本（公网 IP 都是钱）的考虑。<br>而且没必要，如果是业务访问，入向通过负载均衡进来，出向通过 NAT 网关出去。<br>如果是运维，推荐通过 VPN + 跳板机（中小企业）或专线 + 堡垒机（大企业）来实现运维管理。</p>
+<h4 id="如果需要出公网，建议使用-NAT-网关而非在某台机器绑定公网-IP"><a href="#如果需要出公网，建议使用-NAT-网关而非在某台机器绑定公网-IP" class="headerlink" title="如果需要出公网，建议使用 NAT 网关而非在某台机器绑定公网 IP"></a>如果需要出公网，建议使用 NAT 网关而非在某台机器绑定公网 IP</h4><p>原因：可靠性更高，更安全。</p>
+<h4 id="利用低成本高负载的按量带宽"><a href="#利用低成本高负载的按量带宽" class="headerlink" title="利用低成本高负载的按量带宽"></a>利用低成本高负载的按量带宽</h4><p>对于中小规模企业，如果您的系统经常搞活动，网络负载差距很大，那么推荐：「大带宽按量付费」而不是「固定带宽固定计费」，比如：「1Gbps 峰值带宽按量计费」对比「100Mbps 固定带宽」：</p>
+<ul>
+<li>  费用可能更低</li>
+<li>  带宽更大，活动期间可能会超过 100Mbps，那这时候固定带宽就会影响用户体验，而 1Gbps 峰值带宽是完全可以支撑的住的。</li>
+</ul>
+<p>以某客户上云前后为例，在 IDC 机房，200Mbps 的独享电信带宽，一年的成本大概是 1Mbps/100 元 / 月 x 12 个月 x 200 = 24 万。而在云端，采用 1Gbps 峰值的 BGP 多线 SLB 带宽，在带宽质量上面提升了几个量级。另外，带宽费用采用按量付费，大大降低了维护成本。</p>
+<h4 id="推荐使用云上软负载均衡"><a href="#推荐使用云上软负载均衡" class="headerlink" title="推荐使用云上软负载均衡"></a>推荐使用云上软负载均衡</h4><p>推荐使用公有云提供的负载均衡，可以作为反向代理，防止客户端直连云服务器带来的安全和稳定性风险。</p>
+<p>加入 负载均衡 可以保障架构灵活扩展性：加入 负载均衡 后，架构变得更加灵活。典型场景是将所有域名先绑定到 负载均衡 上，然后转到后端 Nginx，通过 Nginx 做虚拟主机等七层更灵活的控制。</p>
+<h4 id="高并发情况下，推荐使用-4-层负载均衡"><a href="#高并发情况下，推荐使用-4-层负载均衡" class="headerlink" title="高并发情况下，推荐使用 4 层负载均衡"></a>高并发情况下，推荐使用 4 层负载均衡</h4><p>采用 4 层 负载均衡 保障性能：在实践中，面对高并发性能的场景时，发现 7 层的负载均衡，相比 4 层的负载均衡，在性能上面有很大差距。7 层负载均衡只能达到万级别并发，而 4 层的负载均衡能达到几十万级，甚至上百万级的并发量。所以在电商等网站应用中，对于 负载均衡，优先选择 TCP 层。四层 LB 能扛得住 10w-50w 的并发。</p>
+<h4 id="DNS-记录调整要注意"><a href="#DNS-记录调整要注意" class="headerlink" title="DNS 记录调整要注意"></a>DNS 记录调整要注意</h4><p>用户的 DNS TTL 我们是无法控制的，如果调整了某域名的 DNS 记录，可能某些用户已生效，某些用户没有生效。<br>针对这种情况，需要在原有 IP 上做 302 重定向跳转，将依旧访问原 IP 的客户引流到新 IP 上，这将大大提高用户的访问体验。</p>
+<h4 id="大型企业-DNS-负载均衡实践"><a href="#大型企业-DNS-负载均衡实践" class="headerlink" title="大型企业 - DNS 负载均衡实践"></a>大型企业 - DNS 负载均衡实践</h4><p>大规模应用。当后端有一两百台云服务器，而一台负载均衡 性能有限时，可以采用多个 负载均衡，前边通过 DNS 负载均衡。典型如：淘宝、阿里云官网。</p>
+<p>DNS 有个最大的问题，就是 本地 DNS 缓存。</p>
+<ol>
+<li> 可以让 DNS TTL 生效快一点；</li>
+<li> DNS 配置的是负载均衡 IP，而不是云服务器的 IP。</li>
+<li> 如果还是有部分用户出问题，指导用户清理 DNS 缓存，或强制绑定本机 host 指向域名解析。</li>
+</ol>
+<p>智能解析 – 跨地域分布式架构中必不可少。根据 ClientIP，选择返回对应地域、运营商的 IP。</p>
+<h5 id="运营商线路解析"><a href="#运营商线路解析" class="headerlink" title="运营商线路解析"></a>运营商线路解析</h5><p>如：DNS 记录：</p>
+<ul>
+<li>  默认线路：电信服务器 IP</li>
+<li>  网通：网通 IP</li>
+<li>  移动：移动 IP</li>
+<li>  教育网：教育网 IP</li>
+<li>  海外：海外 IP</li>
+</ul>
+<p>如果有 BGP 线路，那就更简单了：</p>
+<ul>
+<li>  默认线路：负载均衡的公网 IP</li>
+</ul>
+<h5 id="地域线路解析"><a href="#地域线路解析" class="headerlink" title="地域线路解析"></a>地域线路解析</h5><p>如：用户请求访问域名，DNS 自动判断访问者 IP 是「上海联通」还是「北京联通」，然后智能返回设置的对应的「上海联通」和「北京联通」的服务器 IP 地址完成域名解析。</p>
+<p>海外：可以选择「海外、海外大洲、海外（国家 / 地区）」来细分解析。</p>
+<p>如:</p>
+<ul>
+<li>  海外 - 亚洲地区 - 新加坡线路：指向新加坡服务器的 IP</li>
+<li>  海外 - 北美洲 - 美国线路：指向美国服务器的 IP</li>
+<li>  海外 - 欧洲 - 德国线路：指向德国服务器的 IP</li>
+<li>  默认线路：指向新加坡服务器的 IP</li>
+</ul>
+<h4 id="CDN-就是智能解析的最佳实践"><a href="#CDN-就是智能解析的最佳实践" class="headerlink" title="CDN 就是智能解析的最佳实践"></a>CDN 就是智能解析的最佳实践</h4><h3 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h3><h4 id="云上善用「对象存储服务」"><a href="#云上善用「对象存储服务」" class="headerlink" title="云上善用「对象存储服务」"></a>云上善用「对象存储服务」</h4><p>云上建议尽量不要使用类 NAS 的共享文件存储服务，而应该使用 <strong>对象存储服务</strong> 来替代。<br>在传统环境，NAS 的典型使用场景如下：</p>
+<ul>
+<li><p><strong>负载均衡</strong>：使用 LB + 多台 云服务器（如：Web 服务器）部署的业务。多台 云服务器 需要访问同一个存储空间，以便多台 云服务器 共享数据。</p>
+<ul>
+<li>  <strong>替代方案</strong>：直接使用普通云数据盘，通过 DevOps 等工具实现批量部署及数据一致。</li>
+</ul>
+</li>
+<li><p><strong>代码共享</strong>：多台 云服务器 应用，部署的代码一致。将代码放在同一个存储空间，提供给多台 云服务器 同时访问。代码集中管理。</p>
+<ul>
+<li>  <strong>替代方案</strong>：代码放在代码仓库中集中管理。</li>
+</ul>
+</li>
+<li><p><strong>日志共享</strong>：多台 云服务器 应用，需要将日志写入到同一个存储空间，以便做集中的日志数据处理和分析</p>
+<ul>
+<li>  <strong>替代方案</strong>：日志定期存储到对象存储中，可以根据策略、冷热数据的实际情况选择分别存储到「标准对象存储」、「低频对象存储」和「归档存储」中进一步压缩成本；或直接使用云上的「日志服务」。</li>
+</ul>
+</li>
+<li><p><strong>企业办公文件共享场景</strong>：企业有公共的文件需要共享给多组业务使用，需要集中的共享存储来存放数据。</p>
+<ul>
+<li>  <strong>替代方案</strong>：使用对象存储来替代。</li>
+</ul>
+</li>
+<li><p><strong>容器服务的场景</strong>：部署的容器服务需要共享访问某个文件数据源，特别是在资源编排的容器服务。对应的容器可能会在不同的服务器中进行服务漂移，所以文件共享访问尤为重要。</p>
+<ul>
+<li>  <strong>替代方案</strong>：这种场景确实需要用到云上文件系统服务。</li>
+</ul>
+</li>
+<li><p><strong>备份的场景</strong>：用户希望将数据备份到云上，可以通过挂载文件系统来存储数据备份。</p>
+<ul>
+<li>  <strong>替代方案</strong>：备份到对象存储的「归档存储」中，进一步降低成本。</li>
+</ul>
+</li>
+</ul>
+<h4 id="错误用法：NGINX-做公网转发到对象存储"><a href="#错误用法：NGINX-做公网转发到对象存储" class="headerlink" title="错误用法：NGINX 做公网转发到对象存储"></a>错误用法：NGINX 做公网转发到对象存储</h4><p>在某个客户场景中，静态资源放到 对象存储 中，前端对静态资源的请求通过 Nginx 反向代理转发给 对象存储。但这种做法，在云端架构上是不推荐的，因为它会带来几个问题：</p>
+<ul>
+<li>  访问静态资源的流量走 云服务器 的带宽流量，特别是中大型的 Web 应用中。流量走 云服务器 的带宽，很可能出现性能瓶颈。</li>
+<li>  Nginx 是通过公网将请求反向代理转发给 对象存储 的，所以在网络传输上会影响速度性能。</li>
+<li>  通过 Nginx 反向代理，不仅增加运维成本，还要维护 Nginx 配置文件等。</li>
+</ul>
+<p>所以，添加 Nginx 做反向代理是多此一举。云端不推荐这么做。该客户这么用，主要原因是业务代码侧，静态资源的请求，都是通过目录划分。如果将静态资源单独放在二级域名，跨域等问题代码侧没很好地解决，从而产生这种不伦不类的架构。最终在业务代码侧进行了优化调整，对 对象存储 静态资源的使用规范如下：</p>
+<ul>
+<li>  业务侧使用单独的二级域名来管理静态资源（如：&lt;<a href="http://pic-cdn.ewhisper.cn/">pic-cdn.ewhisper.cn</a>&gt;)，静态资源统一放在 对象存储 中；</li>
+<li>  静态资源的二级域名直接将 CNAME 绑定在 对象存储 的 URL 地址上（访问量很少的情况下），这样就直接跳过「使用 Nginx 做反向代理」这个冗余的步骤了</li>
+<li>如果想要进一步提升 对象存储 中存放的静态资源的访问速度，可以无缝接入 CDN。 CDN 的回源请求，会直接通过内网回源请求 对象存储 中的源数据。相比 Nginx 反向代理走公网请求 对象存储，速度和效率会提升得更高，价格特定情况下也会更划算。<ul>
+<li>  👉 <a href="https://ewhisper.cn/posts/59535/#%E5%85%B8%E5%9E%8B%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9ACDN-%20%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8">典型使用场景：CDN 对象存储</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><h4 id="数据库推荐云服务-且必须有高可用保障"><a href="#数据库推荐云服务-且必须有高可用保障" class="headerlink" title="数据库推荐云服务 且必须有高可用保障"></a>数据库推荐云服务 且必须有高可用保障</h4><p>数据库不推荐自建，推荐直接使用云提供商的相关数据库服务，且推荐必备高可用保障，如集群模式或多副本，以及数据备份。<br>数据库优先采用云提供商的相关数据库服务 ，低成本高效率：如果在云上购买云服务器自建 MySQL 主从部署并维护的模式，使得后期的维护管理成本很大。即我们要监控及维护主从状态，并且在出现问题时需要及时处理，保障业务对数据库读写的连续性。在采用云提供商的相关数据库服务 后，这些问题都可以自动化解决。即对数据库主从的监控、备份、后期维护、故障切换等，都是全自动。</p>
+<h4 id="对于可靠性要求特别高的-DB，可以选择跨-AZ-高可用的集群方案"><a href="#对于可靠性要求特别高的-DB，可以选择跨-AZ-高可用的集群方案" class="headerlink" title="对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案"></a>对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案</h4><p>对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案。比如：Redis、MongoDB、MySQL 都有类似的跨 AZ 高可用的集群方案提供。</p>
+<h4 id="按需选择合适的数据库"><a href="#按需选择合适的数据库" class="headerlink" title="按需选择合适的数据库"></a>按需选择合适的数据库</h4><p>数据库多种多样，根据自己的实际需求进行选择，以下列出部分：</p>
+<ul>
+<li>关系型数据库<ul>
+<li>  MySQL</li>
+<li>  SQL Server</li>
+<li>  Postgresql</li>
+<li>  MariaDB</li>
+<li>  分布式数据库（如 OceanBase 或 TDSQL 等）</li>
+</ul>
+</li>
+<li>非关系型：内存数据库<ul>
+<li>  Redis</li>
+<li>  Memcache</li>
+</ul>
+</li>
+<li>  文档数据库：MongoDB</li>
+<li>列数据库<ul>
+<li>  HBase 等</li>
+</ul>
+</li>
+<li>时序数据库<ul>
+<li>  InfluxDB</li>
+<li>  TSDB</li>
+</ul>
+</li>
+</ul>
+<h3 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h3><h4 id="典型使用场景：CDN-对象存储"><a href="#典型使用场景：CDN-对象存储" class="headerlink" title="典型使用场景：CDN + 对象存储"></a>典型使用场景：CDN + 对象存储</h4><ul>
+<li>  <strong>数据分发</strong>：适用于搭建下载行为较多的 APP、音视频平台、网站等，用户可结合 CDN + 对象存储 的能力，将静态内容（包括音视频、图片等文件）托管在对象存储中，并将热点文件提前下发至 CDN 边缘节点，降低下载访问延迟</li>
+<li>  <strong>网站托管</strong>：适用于官方网站等偏静态的站点，将网站的静态资源快速托管存储在对象存储中，同时通过 CDN + 对象存储 分发，通过 CDN 配置的域名作为静态网站访客的访问地址入口，快速建好一个网站</li>
+</ul>
+<h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><h4 id="必须设置强密码"><a href="#必须设置强密码" class="headerlink" title="必须设置强密码"></a>必须设置强密码</h4><p>典型如：MongoDB、Redis、ES，默认无密码或弱密码，已经发生过多轮、大规模的数据泄露事件，所以针对这些服务，一定要设置强密码。<br>至于云服务器、云账户、关系型数据库等，更是要保障强密码或者更强力的安全措施。</p>
+<h4 id="客户端访问必须-HTTPS"><a href="#客户端访问必须-HTTPS" class="headerlink" title="客户端访问必须 HTTPS"></a>客户端访问必须 HTTPS</h4><p>这个就不多说了。</p>
+<ul>
+<li>  给域名申请证书，放在 Nginx 或 LB 上 管理。</li>
+<li>  业务侧，保留 HTTP 80 端口，做 80 -&gt; 443 的重定向。LB 上 80 和 443 端口监听都要开启。</li>
+</ul>
+<h4 id="一定要配置安全组和-ACL"><a href="#一定要配置安全组和-ACL" class="headerlink" title="一定要配置安全组和 ACL"></a>一定要配置安全组和 ACL</h4><p>最基本的安全防护</p>
+<h4 id="不要-root-直连"><a href="#不要-root-直连" class="headerlink" title="不要 root 直连"></a>不要 root 直连</h4><p>不要 root 直连，用普通用户，登陆过去按需 sudo 切换到 root</p>
+<h4 id="建议暴露公网的-SSH-端口不要用-22"><a href="#建议暴露公网的-SSH-端口不要用-22" class="headerlink" title="建议暴露公网的 SSH 端口不要用 22"></a>建议暴露公网的 SSH 端口不要用 22</h4><p>建议不要用默认的 22 端口，防止被扫描。另外还有建议用证书认证等方式，就不一一赘述了。</p>
+<h4 id="免费安全产品别忘领"><a href="#免费安全产品别忘领" class="headerlink" title="免费安全产品别忘领"></a>免费安全产品别忘领</h4><p>如每开通一台云服务器，都会赠送一些免费额度的「DDoS 防护和主机安全防护」。有基本的防护，会比裸奔安全很多。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>公有云</category>
+      </categories>
+      <tags>
+        <tag>公有云</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>为什么互联网大厂一边大规模裁员又一边招聘</title>
     <url>/2022/04/23/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%92%E8%81%94%E7%BD%91%E5%A4%A7%E5%8E%82%E4%B8%80%E8%BE%B9%E5%A4%A7%E8%A7%84%E6%A8%A1%E8%A3%81%E5%91%98%E5%8F%88%E4%B8%80%E8%BE%B9%E6%8B%9B%E8%81%98/</url>
     <content><![CDATA[<p>作者：东岳老师</p>
@@ -7207,10 +8364,10 @@ handler.sink = sink;
 </blockquote>
 ]]></content>
       <categories>
-        <category>阿里云</category>
+        <category>公有云</category>
       </categories>
       <tags>
-        <tag>ECS</tag>
+        <tag>公有云</tag>
       </tags>
   </entry>
   <entry>

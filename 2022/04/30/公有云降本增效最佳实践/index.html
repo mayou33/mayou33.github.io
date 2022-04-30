@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>公有云降本增效最佳实践 | 张天师</title>
+  <meta name="keywords" content=" 公有云 ">
+  <meta name="description" content="公有云降本增效最佳实践 | 张天师">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhangyu.info/about/index.html">
+<meta property="og:site_name" content="张天师">
+<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
+<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="article:author" content="张天师">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="张天师" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>张天师</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/mayou33"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(45)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="linux">
+                        
+                        linux
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="架构">
+                        
+                        架构
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="监控">
+                        
+                        监控
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="API网关">
+                        
+                        API网关
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="containerd">
+                        
+                        containerd
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Ingress">
+                        
+                        Ingress
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="k8s">
+                        
+                        k8s
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Kubernetes">
+                        
+                        Kubernetes
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="PaaS">
+                        
+                        PaaS
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Scrum">
+                        
+                        Scrum
+                        <small>(11)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SpringBoot">
+                        
+                        SpringBoot
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SRE">
+                        
+                        SRE
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="优化">
+                        
+                        优化
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="公有云">
+                        
+                        公有云
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="我假装讲，你假装看">
+                        
+                        我假装讲，你假装看
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="日志">
+                        
+                        日志
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="消息系统">
+                        
+                        消息系统
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="职业发展">
+                        
+                        职业发展
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="45">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="https://blog.huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="https://canon88.github.io/">网络安全canon</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux学习</a></li>
+            
+            <li><a target="_blank" href="https://www.makelinux.net/reference/">linux技术参考</a></li>
+            
+            <li><a target="_blank" href="https://coolshell.cn">酷壳CoolShell</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Systems-Performance</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>API网关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cilium</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>containerd</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>flannel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>k8s</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PaaS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pulsar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SpringBoot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SRE</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>优化</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>公有云</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>性能</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>我假装讲，你假装看</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>架构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>监控</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>职业发展</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 SpringBoot "
+           href="/2022/04/30/SpringBoot%E6%80%A7%E8%83%BD%E5%A4%AA%E5%B7%AE,%E6%95%99%E4%BD%A0%E5%87%A0%E6%8B%9B%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A/"
+           data-tag="SpringBoot"
+           data-author="" >
+            <span class="post-title" title="SpringBoot性能太差,教你几招轻松搞定">SpringBoot性能太差,教你几招轻松搞定</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E7%9A%84%E5%8A%9F%E8%83%BD%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关的功能用途及实现方式">API网关的功能用途及实现方式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 PaaS "
+           href="/2022/04/30/%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E7%9A%84PaaS%E6%B7%B7%E5%90%88%E4%BA%91%E7%9A%84%E5%87%A0%E7%A7%8D%E5%BD%A2%E5%BC%8F/"
+           data-tag="PaaS"
+           data-author="" >
+            <span class="post-title" title="基于容器的PaaS混合云的几种形式">基于容器的PaaS混合云的几种形式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 k8s "
+           href="/2022/04/30/%E6%89%93%E7%A0%B4Dockershim%E7%A7%BB%E9%99%A4%E7%84%A6%E8%99%91,%E4%B8%94%E7%9C%8BRancher%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9/"
+           data-tag="k8s"
+           data-author="" >
+            <span class="post-title" title="打破Dockershim移除焦虑,且看Rancher如何应对">打破Dockershim移除焦虑,且看Rancher如何应对</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E4%B8%BAK8s%E5%AE%B9%E5%99%A8%E5%BA%94%E7%94%A8%E9%9B%86%E7%BE%A4%E6%8F%90%E4%BE%9B%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%8E%A5%E5%85%A5%E8%83%BD%E5%8A%9B/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关为K8s容器应用集群提供强大的接入能力">API网关为K8s容器应用集群提供强大的接入能力</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2022/04/30/%E4%BA%91%E5%8E%9F%E7%94%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86-%E5%AD%98%E5%82%A8-%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="云原生环境下的日志采集、存储、分析实践">云原生环境下的日志采集、存储、分析实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/04/30/%E5%85%AC%E6%9C%89%E4%BA%91%E9%99%8D%E6%9C%AC%E5%A2%9E%E6%95%88%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="公有云降本增效最佳实践">公有云降本增效最佳实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2022/04/23/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%92%E8%81%94%E7%BD%91%E5%A4%A7%E5%8E%82%E4%B8%80%E8%BE%B9%E5%A4%A7%E8%A7%84%E6%A8%A1%E8%A3%81%E5%91%98%E5%8F%88%E4%B8%80%E8%BE%B9%E6%8B%9B%E8%81%98/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="为什么互联网大厂一边大规模裁员又一边招聘">为什么互联网大厂一边大规模裁员又一边招聘</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 linux "
+           href="/2022/04/23/Linux%E7%9A%84CPU%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux的CPU上下文切换深入探讨">Linux的CPU上下文切换深入探讨</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%8F%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="微服务架构及设计模式">微服务架构及设计模式</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 监控 "
+           href="/2022/04/23/%E6%89%93%E9%80%A0%E4%B8%80%E5%A5%97%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8A%9F%E8%83%BD%E6%9C%80%E5%85%A8%E7%9A%84APM%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/"
+           data-tag="监控"
+           data-author="" >
+            <span class="post-title" title="打造一套客户端功能最全的APM监控系统">打造一套客户端功能最全的APM监控系统</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E4%BC%81%E4%B8%9A%E5%AE%8C%E6%88%90%E4%BA%91%E8%BD%AC%E5%9E%8B%E7%9A%84%E6%88%90%E5%8A%9F%E4%B9%8B%E9%81%93-%E4%BA%91%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E7%AE%A1%E7%90%86/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="企业完成云转型的成功之道：云成本优化管理">企业完成云转型的成功之道：云成本优化管理</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2022/04/12/%E8%B0%88%E8%B0%88%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%A5%BD%E7%BD%91%E7%AB%99%E7%9A%84URL/"
+           data-tag="优化"
+           data-author="" >
+            <span class="post-title" title="谈谈如何设计好网站的URL">谈谈如何设计好网站的URL</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC01%E8%AF%BE-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%92%8CScrumMaster%E5%9F%BA%E6%9C%AC%E5%8A%9F%E5%9B%9B%E9%83%A8%E6%9B%B2/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲">敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC02%E8%AF%BE-%E5%82%A8%E5%A4%87-Scrum%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第02课-储备-Scrum精要">敏捷教练第02课-储备-Scrum精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第03课-储备-用户故事精要">敏捷教练第03课-储备-用户故事精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC04%E8%AF%BE-%E5%82%A8%E5%A4%87-scrum%E7%9A%8420%E4%B8%AA%E5%AD%90%E6%A8%A1%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第04课-储备-scrum的20个子模式">敏捷教练第04课-储备-scrum的20个子模式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC05%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%B2%BE%E7%9B%8A%E4%BD%93%E7%B3%BB%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第05课-储备-精益体系精要">敏捷教练第05课-储备-精益体系精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC08%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8B%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）">敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC09%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E6%8F%90%E5%8D%87%E4%B8%89%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第09课-技巧-敏捷教练的提升三式">敏捷教练第09课-技巧-敏捷教练的提升三式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC10%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%94%B9%E5%96%84%E5%92%8C%E7%B3%BB%E7%BB%9F%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第10课-技巧-持续改善和系统思考方法">敏捷教练第10课-技巧-持续改善和系统思考方法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC11%E8%AF%BE-%E5%AE%9E%E6%88%98-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%AE%9E%E6%88%98%E5%91%A8%E6%9C%9FV%E5%BD%A2%E5%85%AD%E6%AD%A5%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第11课-实战-敏捷教练实战周期V形六步法">敏捷教练第11课-实战-敏捷教练实战周期V形六步法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC06%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BF%83%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第06课-技巧-敏捷教练的四种心法">敏捷教练第06课-技巧-敏捷教练的四种心法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC07%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8A%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）">敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/03/08/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ECS%E9%80%89%E8%B4%AD%E6%8C%87%E5%8D%97%E5%8F%8A%E7%9C%81%E9%92%B1%E6%B3%95%E5%AE%9D/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="云服务器ECS选购指南及省钱法宝">云服务器ECS选购指南及省钱法宝</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E9%98%BF%E9%87%8C%E4%BA%91%E5%BC%B9%E6%80%A7%E8%AE%A1%E7%AE%97%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E4%BB%8E0%E5%88%B01%E8%87%AA%E5%BB%BASRE%E4%BD%93%E7%B3%BB/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="阿里云弹性计算研发团队如何从0到1自建SRE体系">阿里云弹性计算研发团队如何从0到1自建SRE体系</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E4%BA%91%E4%B8%8A%E8%B5%84%E6%BA%90%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B0%E6%A8%A1%E5%BC%8F/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="云上资源自动化部署新模式">云上资源自动化部署新模式</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/cotainer-init/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="开启shareProcessNamespace后容器异常">开启shareProcessNamespace后容器异常</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/docker-shell-signal/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="k8s中shell脚本启动如何传递信号">k8s中shell脚本启动如何传递信号</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/enforce-audit-policy-in-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="在Kubernetes中实施审计策略">在Kubernetes中实施审计策略</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/26/Cilium-Network-Overview/"
+           data-tag="Cilium"
+           data-author="" >
+            <span class="post-title" title="Cilium网络概述">Cilium网络概述</span>
+            <span class="post-date" title="2021-05-26 00:00:00">2021/05/26</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/19/generating-yaml-for-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="快速生成k8s的yaml配置的4种方法">快速生成k8s的yaml配置的4种方法</span>
+            <span class="post-date" title="2021-05-19 00:00:00">2021/05/19</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2021/04/28/fklek-to-k8s-log/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="使用fklek搭建Kubernetes日志收集工具栈">使用fklek搭建Kubernetes日志收集工具栈</span>
+            <span class="post-date" title="2021-04-28 00:00:00">2021/04/28</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2021/04/27/%E5%8F%AA%E6%9C%89%E9%BB%91%E8%AF%9D%E6%89%8D%E8%83%BD%E6%8B%AF%E6%95%91%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%BA/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="只有黑话，才能拯救互联网人">只有黑话，才能拯救互联网人</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2021/04/27/%E6%BC%AB%E7%94%BB%E4%B8%80%E4%B8%AANB%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%B8%8A%E7%BA%BF%E8%BF%87%E7%A8%8B/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="漫画一个NB互联网项目的上线过程">漫画一个NB互联网项目的上线过程</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 消息系统 "
+           href="/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"
+           data-tag="Pulsar"
+           data-author="" >
+            <span class="post-title" title="Pulsar vs Kafka，CTO 如何抉择">Pulsar vs Kafka，CTO 如何抉择</span>
+            <span class="post-date" title="2021-04-24 00:00:00">2021/04/24</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/21/kubernetes-best-practices-in-production/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="生产环境中的Kubernetes最佳实践">生产环境中的Kubernetes最佳实践</span>
+            <span class="post-date" title="2021-04-21 00:00:00">2021/04/21</span>
+        </a>
+        
+        <a  class="全部文章 职业发展 "
+           href="/2021/04/19/jishuchengzhang/"
+           data-tag="职业发展"
+           data-author="" >
+            <span class="post-title" title="你的技术成长战略是什么">你的技术成长战略是什么</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        <a  class="全部文章 containerd "
+           href="/2021/04/12/nerdctl-to-containerd/"
+           data-tag="containerd"
+           data-author="" >
+            <span class="post-title" title="使用nerdctl玩转containerd">使用nerdctl玩转containerd</span>
+            <span class="post-date" title="2021-04-12 00:00:00">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/09/Kubernetes-network/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes网络和云厂商实践浅析">Kubernetes网络和云厂商实践浅析</span>
+            <span class="post-date" title="2021-04-09 00:00:00">2021/04/09</span>
+        </a>
+        
+        <a  class="全部文章 Ingress "
+           href="/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"
+           data-tag="Ingress"
+           data-author="" >
+            <span class="post-title" title="Kubernetes Ingress 控制器的技术选型技巧">Kubernetes Ingress 控制器的技术选型技巧</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/08/Kubernetes-remen/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes入门-进阶实战">Kubernetes入门-进阶实战</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/03/24/Flannel-Calico/"
+           data-tag="flannel"
+           data-author="" >
+            <span class="post-title" title="Flannel-Calico怎么选择">Flannel-Calico怎么选择</span>
+            <span class="post-date" title="2021-03-24 00:00:00">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 nginx "
+           href="/2021/03/15/nginx-knowledge-graph/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx核心知识100讲知识图谱">nginx核心知识100讲知识图谱</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2021/03/15/performance-optimize-your-program/"
+           data-tag="性能"
+           data-author="" >
+            <span class="post-title" title="性能之癫-优化你的程序">性能之癫-优化你的程序</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-公有云降本增效最佳实践" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">公有云降本增效最佳实践</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="公有云">公有云</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">公有云</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-04-30 15:57:55'>2022-04-30 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93"><span class="toc-text">整体</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E9%80%89%E5%85%AC%E6%9C%89%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%80%8C%E9%9D%9E%E8%87%AA%E5%BB%BA"><span class="toc-text">首选公有云服务而非自建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9A%E5%A5%BD%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4"><span class="toc-text">做好安全防护</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%91%E7%9A%84%E4%BC%98%E5%8A%BF%E6%98%AF%E3%80%8C%E5%88%86%E5%B8%83%E5%BC%8F%E3%80%8D"><span class="toc-text">云的优势是「分布式」</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%91%E7%9A%84%E4%BC%98%E5%8A%BF%E6%98%AF%E3%80%8C%E5%BC%B9%E6%80%A7%E3%80%8D"><span class="toc-text">云的优势是「弹性」</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB"><span class="toc-text">动静分离</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8A%E4%BA%91%E5%89%8D%E5%81%9A%E5%A5%BD%E4%B8%9A%E5%8A%A1%E9%87%8F%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="toc-text">上云前做好业务量的评估</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E5%87%A0%E4%B8%AA%E5%85%AC%E6%9C%89%E4%BA%91%E4%BA%91%E4%BA%A7%E5%93%81"><span class="toc-text">推荐几个公有云云产品</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97"><span class="toc-text">计算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E4%BB%A5%E4%B8%AD%E4%BD%8E%E9%85%8D%E4%B8%BA%E4%B8%BB"><span class="toc-text">云服务器配置以中低配为主</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E6%9C%8D%E5%8A%A1"><span class="toc-text">推荐使用容器服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%89%E9%9C%80%E8%B4%AD%E4%B9%B0"><span class="toc-text">按需购买</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B9%E6%80%A7%E6%89%A9%E5%AE%B9"><span class="toc-text">弹性扩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Ansible-%E7%AD%89-DevOps-%E5%B7%A5%E5%85%B7"><span class="toc-text">使用 Ansible 等 DevOps 工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E9%95%9C%E5%83%8F%E6%8F%90%E5%8D%87%E4%BA%91%E7%AB%AF%E9%83%A8%E7%BD%B2%E6%95%88%E7%8E%87"><span class="toc-text">通过镜像提升云端部署效率</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C"><span class="toc-text">网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E5%A4%87%E6%A1%88%E8%A6%81%E5%85%88%E8%A1%8C"><span class="toc-text">域名备案要先行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E5%BF%85%E5%A4%87-CN-%E5%9F%9F%E5%90%8D"><span class="toc-text">推荐必备 .CN 域名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A5%E7%A6%81%E6%AF%8F%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%BD%E8%83%BD%E8%AE%BF%E9%97%AE%E5%85%AC%E7%BD%91"><span class="toc-text">严禁每台服务器都能访问公网</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81%E5%87%BA%E5%85%AC%E7%BD%91%EF%BC%8C%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8-NAT-%E7%BD%91%E5%85%B3%E8%80%8C%E9%9D%9E%E5%9C%A8%E6%9F%90%E5%8F%B0%E6%9C%BA%E5%99%A8%E7%BB%91%E5%AE%9A%E5%85%AC%E7%BD%91-IP"><span class="toc-text">如果需要出公网，建议使用 NAT 网关而非在某台机器绑定公网 IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E4%BD%8E%E6%88%90%E6%9C%AC%E9%AB%98%E8%B4%9F%E8%BD%BD%E7%9A%84%E6%8C%89%E9%87%8F%E5%B8%A6%E5%AE%BD"><span class="toc-text">利用低成本高负载的按量带宽</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E4%BA%91%E4%B8%8A%E8%BD%AF%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">推荐使用云上软负载均衡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E5%B9%B6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-4-%E5%B1%82%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">高并发情况下，推荐使用 4 层负载均衡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNS-%E8%AE%B0%E5%BD%95%E8%B0%83%E6%95%B4%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="toc-text">DNS 记录调整要注意</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%A7%E5%9E%8B%E4%BC%81%E4%B8%9A-DNS-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%AE%9E%E8%B7%B5"><span class="toc-text">大型企业 - DNS 负载均衡实践</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%90%E8%90%A5%E5%95%86%E7%BA%BF%E8%B7%AF%E8%A7%A3%E6%9E%90"><span class="toc-text">运营商线路解析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%B0%E5%9F%9F%E7%BA%BF%E8%B7%AF%E8%A7%A3%E6%9E%90"><span class="toc-text">地域线路解析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CDN-%E5%B0%B1%E6%98%AF%E6%99%BA%E8%83%BD%E8%A7%A3%E6%9E%90%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">CDN 就是智能解析的最佳实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8"><span class="toc-text">存储</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%91%E4%B8%8A%E5%96%84%E7%94%A8%E3%80%8C%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%E3%80%8D"><span class="toc-text">云上善用「对象存储服务」</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E7%94%A8%E6%B3%95%EF%BC%9ANGINX-%E5%81%9A%E5%85%AC%E7%BD%91%E8%BD%AC%E5%8F%91%E5%88%B0%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8"><span class="toc-text">错误用法：NGINX 做公网转发到对象存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8E%A8%E8%8D%90%E4%BA%91%E6%9C%8D%E5%8A%A1-%E4%B8%94%E5%BF%85%E9%A1%BB%E6%9C%89%E9%AB%98%E5%8F%AF%E7%94%A8%E4%BF%9D%E9%9A%9C"><span class="toc-text">数据库推荐云服务 且必须有高可用保障</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8E%E5%8F%AF%E9%9D%A0%E6%80%A7%E8%A6%81%E6%B1%82%E7%89%B9%E5%88%AB%E9%AB%98%E7%9A%84-DB%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9%E8%B7%A8-AZ-%E9%AB%98%E5%8F%AF%E7%94%A8%E7%9A%84%E9%9B%86%E7%BE%A4%E6%96%B9%E6%A1%88"><span class="toc-text">对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%89%E9%9C%80%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">按需选择合适的数据库</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CDN"><span class="toc-text">CDN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9ACDN-%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8"><span class="toc-text">典型使用场景：CDN + 对象存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8"><span class="toc-text">安全</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%85%E9%A1%BB%E8%AE%BE%E7%BD%AE%E5%BC%BA%E5%AF%86%E7%A0%81"><span class="toc-text">必须设置强密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AE%BF%E9%97%AE%E5%BF%85%E9%A1%BB-HTTPS"><span class="toc-text">客户端访问必须 HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E5%AE%9A%E8%A6%81%E9%85%8D%E7%BD%AE%E5%AE%89%E5%85%A8%E7%BB%84%E5%92%8C-ACL"><span class="toc-text">一定要配置安全组和 ACL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E8%A6%81-root-%E7%9B%B4%E8%BF%9E"><span class="toc-text">不要 root 直连</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E8%AE%AE%E6%9A%B4%E9%9C%B2%E5%85%AC%E7%BD%91%E7%9A%84-SSH-%E7%AB%AF%E5%8F%A3%E4%B8%8D%E8%A6%81%E7%94%A8-22"><span class="toc-text">建议暴露公网的 SSH 端口不要用 22</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%8D%E8%B4%B9%E5%AE%89%E5%85%A8%E4%BA%A7%E5%93%81%E5%88%AB%E5%BF%98%E9%A2%86"><span class="toc-text">免费安全产品别忘领</span></a></li></ol></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/59535/">https://ewhisper.cn/posts/59535/</a></p>
+<blockquote>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="整体"><a href="#整体" class="headerlink" title="整体"></a>整体</h3><h4 id="首选公有云服务而非自建"><a href="#首选公有云服务而非自建" class="headerlink" title="首选公有云服务而非自建"></a>首选公有云服务而非自建</h4><p>公有云除了提供 IaaS（计算、存储、网络等）外，也会提供 PaaS（微服务、中间件、数据库、大数据、开发套件等）和 SaaS 服务。</p>
+<p>在公有云提供的服务（如 MySQL 数据库）可以满足需求的前提下，建议首选公有云上的 MySQL 数据库服务，而非自建。</p>
+<p>理由简单说明如下：</p>
+<p>对比项</p>
+<p>成本</p>
+<p>性能</p>
+<p>伸缩性</p>
+<p>维护方</p>
+<p>可靠性</p>
+<p>监控</p>
+<p>易用性</p>
+<p>自建</p>
+<p>高</p>
+<p>低</p>
+<p>弱</p>
+<p>我方</p>
+<p>低</p>
+<p>无</p>
+<p>难</p>
+<p>云上服务</p>
+<p>中</p>
+<p>高</p>
+<p>高</p>
+<p>云提供商</p>
+<p>高</p>
+<p>有</p>
+<p>易用</p>
+<ul>
+<li><strong>成本</strong>：<ul>
+<li>  自建，需要人员维护和优化的成本，需要自行考虑高可靠（可能需要购买多台服务器）和高性能（可能需要购买高性能存储），使得成本偏高。</li>
+<li>  云上服务，通过规模效应、资源池化、参数调优等实现成本相对不高。</li>
+</ul>
+</li>
+<li><strong>性能</strong>：<ul>
+<li>  自建，不一定知道所有的参数优化项，也不一定同价位能买到专用的高性能硬件。</li>
+<li>  云上服务，性能明码标价，按需选择适合自己的性能配置。</li>
+</ul>
+</li>
+<li><strong>伸缩性</strong><ul>
+<li>  自建，伸缩较麻烦，要不手动，要不通过 历经检验的 DevOps 脚本，伸缩性弱。</li>
+<li>  云上服务，很多 PaaS 类服务可以一键升配。</li>
+</ul>
+</li>
+<li><strong>维护方</strong><ul>
+<li>  自建，我方自行兜底</li>
+<li>  云上服务，云提供商提供 SLA 兜底。</li>
+</ul>
+</li>
+<li><strong>可靠性</strong><ul>
+<li>  自建，不一定能实现该组件的集群模式或高可用模式的全部最佳实践。</li>
+<li>  云上服务，会做好网络高可用（甚至是跨 AZ 的高可用）、存储多副本、计算跨物理服务器 / 机架 /AZ 甚至 region、服务监控及自愈、备份等多种措施保障可靠性。</li>
+</ul>
+</li>
+<li><strong>监控</strong>：<ul>
+<li>  自建，要不没监控，要不监控需要从头（采集端）到尾（告警通知）实现一遍</li>
+<li>  云上服务，监控具备，且和公有云监控无缝对接。</li>
+</ul>
+</li>
+<li><strong>易用性</strong>：<ul>
+<li>  自建：一般没有 Web 界面，需要通过线下或流程平台或 CLI 来申请和操作</li>
+<li>  云上服务：有易用的 web 界面，可以在 web 界面上完成大部分功能。</li>
+</ul>
+</li>
+</ul>
+<p>比如云数据库：</p>
+<ul>
+<li>运维架构：<ul>
+<li>  存储的数据规模及后期扩展，采用的高可用架构；</li>
+<li>  异常切换</li>
+</ul>
+</li>
+<li>硬件及基础环境部署<ul>
+<li>  选择什么配置的服务器，服务器型号及对应磁盘阵列；</li>
+<li>  操作系统环境及内核设置；</li>
+</ul>
+</li>
+<li>数据库安装及优化<ul>
+<li>  数据库版本安装部署及配置；</li>
+<li>  数据库配置参数调优；</li>
+</ul>
+</li>
+<li>SQL 语句优化；<ul>
+<li>  慢查询，对 SQL 语句及索引做优化</li>
+</ul>
+</li>
+<li>数据库日常备份及恢复。<ul>
+<li>  备份；</li>
+<li>  热备还是冷备？物理备份还是逻辑备份？</li>
+<li>  备份策略、周期、频率</li>
+</ul>
+</li>
+</ul>
+<p>使用云数据库，这些步骤云数据库都帮你做了。其他 PaaS（中间件、大数据、微服务、DevOps 等）也类似。</p>
+<h4 id="做好安全防护"><a href="#做好安全防护" class="headerlink" title="做好安全防护"></a>做好安全防护</h4><p>公有云最大的风险就是数据泄露。所以一定要做好安全防护。这个安全防护是多方面的。详细见 <a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/59535/#%E5%AE%89%E5%85%A8">安全</a> 部分。</p>
+<h4 id="云的优势是「分布式」"><a href="#云的优势是「分布式」" class="headerlink" title="云的优势是「分布式」"></a>云的优势是「分布式」</h4><p>如果对比单台服务器，可能云主机的性能差一些。「分布式」是云计算的最大优势。在实践中，不要只追求单台机器的性能，而是要通过分布式的设计思想来保障业务的高性能。最佳实践推荐，服务器标配 4C8G，低配也可以采用 2C4G 的配置。通过分布式充分压榨了单台服务器的资源，从而最大限度地保障了最终的低成本。<br>所以，在云上，一般情况下应用服务器的选择条件是：更多的低配的云服务胜于更少的高配的云服务器。<br>所以，在云上，对于数据库来说，如果数据量非常大，也推荐使用「分布式数据库」，而非在云上自建 Oracle。</p>
+<h4 id="云的优势是「弹性」"><a href="#云的优势是「弹性」" class="headerlink" title="云的优势是「弹性」"></a>云的优势是「弹性」</h4><p>所以，在云上，不要按照业务峰值购买全量的资源，而是推荐：</p>
+<ul>
+<li>  买满足日常需求的资源</li>
+<li>  高峰时，再提前购买一些弹性的资源，弹性扩容。</li>
+</ul>
+<p>另外，不仅仅是服务器资源，对于网络也适用，如果您的系统经常搞活动，网络负载差距很大，那么推荐：「大带宽按量付费」而不是「固定带宽固定计费」。</p>
+<h4 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h4><p>静态：放 CDN + 对象存储上，或者放 NGINX 服务器上也好，不要直接用应用服务器（如 tomcat 或 nodejs）来处理静态资源。（浪费，术业有专攻）<br>动态：典型架构是 LB - NGINX - 应用服务器 - redis - 数据库。</p>
+<h4 id="上云前做好业务量的评估"><a href="#上云前做好业务量的评估" class="headerlink" title="上云前做好业务量的评估"></a>上云前做好业务量的评估</h4><p>上云前做好业务量的评估，为云上的资源规划做好资源预算。<br>可以通过：</p>
+<ul>
+<li>  压测</li>
+<li>  已有监控数据分析</li>
+</ul>
+<p>等方式评估业务量。</p>
+<p>常用的业务量指标如下：</p>
+<p>指标</p>
+<p>计算周期</p>
+<p>指标含义</p>
+<p>PV</p>
+<p>天</p>
+<p>Page View。指 B/S 架构中的 Web 类业务一天内页面的访问次数，每打开或刷新一次页面，算一个 PV。</p>
+<p>UV</p>
+<p>天</p>
+<p>UV 是 Unique Visitor 的简写。指 B/S 架构中 Web 类业务一天内访问站点的用户数（以 cookie 为依据）</p>
+<p>IP</p>
+<p>天</p>
+<p>B/S 架构中 Web 类业务一天内有多少个独立的 IP 浏览了页面，即统计不同的 IP 浏览用户数量。</p>
+<p>用户数</p>
+<p>–</p>
+<p>业务系统的注册用户数</p>
+<p>活跃用户数</p>
+<p>天</p>
+<p>注册用户数中，一天中实际使用了业务系统的用户数量，跟 UV 的概念一样</p>
+<p>在线用户数</p>
+<p>天</p>
+<p>一天的活跃用户数中，用户同时在一定的时间段内在线的数量</p>
+<p>并发用户数</p>
+<p>–</p>
+<p>指在线用户数基础上，某一时刻同时指向服务器发送请求的用户数</p>
+<p>具体的性能监控指标如何和业务指标进行转换就先略过了。</p>
+<h4 id="推荐几个公有云云产品"><a href="#推荐几个公有云云产品" class="headerlink" title="推荐几个公有云云产品"></a>推荐几个公有云云产品</h4><p>这些公有云产品是基本上都会用到的，历经检验，且比较实用的产品。</p>
+<ol>
+<li> 云服务器</li>
+<li> 关系型数据库</li>
+<li> 负载均衡</li>
+<li> 对象存储</li>
+<li> VPC（Virtual Private Cloud）：专有网络</li>
+<li> CDN</li>
+<li> Redis</li>
+<li> 安全类的基本产品（如：安全组、ACL、漏扫、WAF、DDoS 防护等）</li>
+</ol>
+<h3 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h3><h4 id="云服务器配置以中低配为主"><a href="#云服务器配置以中低配为主" class="headerlink" title="云服务器配置以中低配为主"></a>云服务器配置以中低配为主</h4><p>云服务器一般用于承载应用，推荐以更多台数的中低配为主，避免资源的浪费。<br>建议一般配置不要超过：16C32G，主流配置为：</p>
+<ul>
+<li>  4C8G 甚至更低</li>
+<li>  8C16G</li>
+</ul>
+<h4 id="推荐使用容器服务"><a href="#推荐使用容器服务" class="headerlink" title="推荐使用容器服务"></a>推荐使用容器服务</h4><p>容器服务有诸多优势，推荐无状态应用使用容器服务。</p>
+<ul>
+<li>  资源粒度更细，细粒度到: 0.1C, 内存 MB。</li>
+<li>  自动扩缩容更方便</li>
+<li>  扩容后 pod 自动加入负载均衡</li>
+<li>  …</li>
+</ul>
+<h4 id="按需购买"><a href="#按需购买" class="headerlink" title="按需购买"></a>按需购买</h4><p>在云上，不要按照业务峰值购买全量的资源，而是推荐：买满足日常需求的资源</p>
+<h4 id="弹性扩容"><a href="#弹性扩容" class="headerlink" title="弹性扩容"></a>弹性扩容</h4><p>在云上，如果需要搞活动，再通过「容器」或「API + 镜像 + 快照」批量购买、弹性扩容。</p>
+<p>比如在某手机的秒杀活动中，会瞬间开启 200 台机器且持续 2H 来应对，IT 资源花费 600 元人民币：</p>
+<ol>
+<li> 搭建好环境，制作好镜像；</li>
+<li> 活动前通过 API 秒开 200 台服务器来应对活动；</li>
+<li> 活动结束后，通过 API 瞬间释放资源</li>
+</ol>
+<p>这在传统架构中，根本不可想象。比如传统架构，搞「双十一」，都要提前一个月准备 IT 资源。</p>
+<p>另外上面的场景也可以利用 「弹性伸缩服务」或「容器 HPA」来动态调整。</p>
+<h4 id="使用-Ansible-等-DevOps-工具"><a href="#使用-Ansible-等-DevOps-工具" class="headerlink" title="使用 Ansible 等 DevOps 工具"></a>使用 Ansible 等 DevOps 工具</h4><p>既然云的优势是「分布式」，资源多，那么 Ansible 这种批量的 DevOps 工具是必不可少的，可以大幅度提升效率。<br>具体应用，可以通过 Ansible，定制对应的 Playbook，自动化批量安装和运维。</p>
+<h4 id="通过镜像提升云端部署效率"><a href="#通过镜像提升云端部署效率" class="headerlink" title="通过镜像提升云端部署效率"></a>通过镜像提升云端部署效率</h4><p>先开通一台云服务器，并对这台云服务器做运维规范方面的系统调优、安全加固等措施。然后把这台云服务器做成一个基础镜像，批量开通 其他同样环境的服务器，可以大大提升部署效率。</p>
+<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><h4 id="域名备案要先行"><a href="#域名备案要先行" class="headerlink" title="域名备案要先行"></a>域名备案要先行</h4><p>上云的最后一步，是要将域名的 IP 解析到 负载均衡 公网 IP 上。但需要提前在共有云上对域名进行备案，如果到最后域名解析到公有云上后才发现域名被拉黑，业务访问被拒绝，这将会变得非常麻烦。因此需要提前通过公有云进行域名备案，或者已经在其他供应商进行备案，那么需要将域名备案转接入公有云。</p>
+<h4 id="推荐必备-CN-域名"><a href="#推荐必备-CN-域名" class="headerlink" title="推荐必备 .CN 域名"></a>推荐必备 .CN 域名</h4><p>近期国际形势愈演愈烈，中美摩擦进一步升级，形势紧张。要做最坏的打算：美国可能会断掉您的 .COM 域名的解析。<br>另外国家最近有指引，不要使用外国管控的根域名作为基础设施的一级域名。<br>.cn 是国家根域，.com.cn、[net.cn]、[org.cn] 等这些都是可以的。</p>
+<h4 id="严禁每台服务器都能访问公网"><a href="#严禁每台服务器都能访问公网" class="headerlink" title="严禁每台服务器都能访问公网"></a>严禁每台服务器都能访问公网</h4><p>出于安全（受攻击面太大）和成本（公网 IP 都是钱）的考虑。<br>而且没必要，如果是业务访问，入向通过负载均衡进来，出向通过 NAT 网关出去。<br>如果是运维，推荐通过 VPN + 跳板机（中小企业）或专线 + 堡垒机（大企业）来实现运维管理。</p>
+<h4 id="如果需要出公网，建议使用-NAT-网关而非在某台机器绑定公网-IP"><a href="#如果需要出公网，建议使用-NAT-网关而非在某台机器绑定公网-IP" class="headerlink" title="如果需要出公网，建议使用 NAT 网关而非在某台机器绑定公网 IP"></a>如果需要出公网，建议使用 NAT 网关而非在某台机器绑定公网 IP</h4><p>原因：可靠性更高，更安全。</p>
+<h4 id="利用低成本高负载的按量带宽"><a href="#利用低成本高负载的按量带宽" class="headerlink" title="利用低成本高负载的按量带宽"></a>利用低成本高负载的按量带宽</h4><p>对于中小规模企业，如果您的系统经常搞活动，网络负载差距很大，那么推荐：「大带宽按量付费」而不是「固定带宽固定计费」，比如：「1Gbps 峰值带宽按量计费」对比「100Mbps 固定带宽」：</p>
+<ul>
+<li>  费用可能更低</li>
+<li>  带宽更大，活动期间可能会超过 100Mbps，那这时候固定带宽就会影响用户体验，而 1Gbps 峰值带宽是完全可以支撑的住的。</li>
+</ul>
+<p>以某客户上云前后为例，在 IDC 机房，200Mbps 的独享电信带宽，一年的成本大概是 1Mbps/100 元 / 月 x 12 个月 x 200 = 24 万。而在云端，采用 1Gbps 峰值的 BGP 多线 SLB 带宽，在带宽质量上面提升了几个量级。另外，带宽费用采用按量付费，大大降低了维护成本。</p>
+<h4 id="推荐使用云上软负载均衡"><a href="#推荐使用云上软负载均衡" class="headerlink" title="推荐使用云上软负载均衡"></a>推荐使用云上软负载均衡</h4><p>推荐使用公有云提供的负载均衡，可以作为反向代理，防止客户端直连云服务器带来的安全和稳定性风险。</p>
+<p>加入 负载均衡 可以保障架构灵活扩展性：加入 负载均衡 后，架构变得更加灵活。典型场景是将所有域名先绑定到 负载均衡 上，然后转到后端 Nginx，通过 Nginx 做虚拟主机等七层更灵活的控制。</p>
+<h4 id="高并发情况下，推荐使用-4-层负载均衡"><a href="#高并发情况下，推荐使用-4-层负载均衡" class="headerlink" title="高并发情况下，推荐使用 4 层负载均衡"></a>高并发情况下，推荐使用 4 层负载均衡</h4><p>采用 4 层 负载均衡 保障性能：在实践中，面对高并发性能的场景时，发现 7 层的负载均衡，相比 4 层的负载均衡，在性能上面有很大差距。7 层负载均衡只能达到万级别并发，而 4 层的负载均衡能达到几十万级，甚至上百万级的并发量。所以在电商等网站应用中，对于 负载均衡，优先选择 TCP 层。四层 LB 能扛得住 10w-50w 的并发。</p>
+<h4 id="DNS-记录调整要注意"><a href="#DNS-记录调整要注意" class="headerlink" title="DNS 记录调整要注意"></a>DNS 记录调整要注意</h4><p>用户的 DNS TTL 我们是无法控制的，如果调整了某域名的 DNS 记录，可能某些用户已生效，某些用户没有生效。<br>针对这种情况，需要在原有 IP 上做 302 重定向跳转，将依旧访问原 IP 的客户引流到新 IP 上，这将大大提高用户的访问体验。</p>
+<h4 id="大型企业-DNS-负载均衡实践"><a href="#大型企业-DNS-负载均衡实践" class="headerlink" title="大型企业 - DNS 负载均衡实践"></a>大型企业 - DNS 负载均衡实践</h4><p>大规模应用。当后端有一两百台云服务器，而一台负载均衡 性能有限时，可以采用多个 负载均衡，前边通过 DNS 负载均衡。典型如：淘宝、阿里云官网。</p>
+<p>DNS 有个最大的问题，就是 本地 DNS 缓存。</p>
+<ol>
+<li> 可以让 DNS TTL 生效快一点；</li>
+<li> DNS 配置的是负载均衡 IP，而不是云服务器的 IP。</li>
+<li> 如果还是有部分用户出问题，指导用户清理 DNS 缓存，或强制绑定本机 host 指向域名解析。</li>
+</ol>
+<p>智能解析 – 跨地域分布式架构中必不可少。根据 ClientIP，选择返回对应地域、运营商的 IP。</p>
+<h5 id="运营商线路解析"><a href="#运营商线路解析" class="headerlink" title="运营商线路解析"></a>运营商线路解析</h5><p>如：DNS 记录：</p>
+<ul>
+<li>  默认线路：电信服务器 IP</li>
+<li>  网通：网通 IP</li>
+<li>  移动：移动 IP</li>
+<li>  教育网：教育网 IP</li>
+<li>  海外：海外 IP</li>
+</ul>
+<p>如果有 BGP 线路，那就更简单了：</p>
+<ul>
+<li>  默认线路：负载均衡的公网 IP</li>
+</ul>
+<h5 id="地域线路解析"><a href="#地域线路解析" class="headerlink" title="地域线路解析"></a>地域线路解析</h5><p>如：用户请求访问域名，DNS 自动判断访问者 IP 是「上海联通」还是「北京联通」，然后智能返回设置的对应的「上海联通」和「北京联通」的服务器 IP 地址完成域名解析。</p>
+<p>海外：可以选择「海外、海外大洲、海外（国家 / 地区）」来细分解析。</p>
+<p>如:</p>
+<ul>
+<li>  海外 - 亚洲地区 - 新加坡线路：指向新加坡服务器的 IP</li>
+<li>  海外 - 北美洲 - 美国线路：指向美国服务器的 IP</li>
+<li>  海外 - 欧洲 - 德国线路：指向德国服务器的 IP</li>
+<li>  默认线路：指向新加坡服务器的 IP</li>
+</ul>
+<h4 id="CDN-就是智能解析的最佳实践"><a href="#CDN-就是智能解析的最佳实践" class="headerlink" title="CDN 就是智能解析的最佳实践"></a>CDN 就是智能解析的最佳实践</h4><h3 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h3><h4 id="云上善用「对象存储服务」"><a href="#云上善用「对象存储服务」" class="headerlink" title="云上善用「对象存储服务」"></a>云上善用「对象存储服务」</h4><p>云上建议尽量不要使用类 NAS 的共享文件存储服务，而应该使用 <strong>对象存储服务</strong> 来替代。<br>在传统环境，NAS 的典型使用场景如下：</p>
+<ul>
+<li><p><strong>负载均衡</strong>：使用 LB + 多台 云服务器（如：Web 服务器）部署的业务。多台 云服务器 需要访问同一个存储空间，以便多台 云服务器 共享数据。</p>
+<ul>
+<li>  <strong>替代方案</strong>：直接使用普通云数据盘，通过 DevOps 等工具实现批量部署及数据一致。</li>
+</ul>
+</li>
+<li><p><strong>代码共享</strong>：多台 云服务器 应用，部署的代码一致。将代码放在同一个存储空间，提供给多台 云服务器 同时访问。代码集中管理。</p>
+<ul>
+<li>  <strong>替代方案</strong>：代码放在代码仓库中集中管理。</li>
+</ul>
+</li>
+<li><p><strong>日志共享</strong>：多台 云服务器 应用，需要将日志写入到同一个存储空间，以便做集中的日志数据处理和分析</p>
+<ul>
+<li>  <strong>替代方案</strong>：日志定期存储到对象存储中，可以根据策略、冷热数据的实际情况选择分别存储到「标准对象存储」、「低频对象存储」和「归档存储」中进一步压缩成本；或直接使用云上的「日志服务」。</li>
+</ul>
+</li>
+<li><p><strong>企业办公文件共享场景</strong>：企业有公共的文件需要共享给多组业务使用，需要集中的共享存储来存放数据。</p>
+<ul>
+<li>  <strong>替代方案</strong>：使用对象存储来替代。</li>
+</ul>
+</li>
+<li><p><strong>容器服务的场景</strong>：部署的容器服务需要共享访问某个文件数据源，特别是在资源编排的容器服务。对应的容器可能会在不同的服务器中进行服务漂移，所以文件共享访问尤为重要。</p>
+<ul>
+<li>  <strong>替代方案</strong>：这种场景确实需要用到云上文件系统服务。</li>
+</ul>
+</li>
+<li><p><strong>备份的场景</strong>：用户希望将数据备份到云上，可以通过挂载文件系统来存储数据备份。</p>
+<ul>
+<li>  <strong>替代方案</strong>：备份到对象存储的「归档存储」中，进一步降低成本。</li>
+</ul>
+</li>
+</ul>
+<h4 id="错误用法：NGINX-做公网转发到对象存储"><a href="#错误用法：NGINX-做公网转发到对象存储" class="headerlink" title="错误用法：NGINX 做公网转发到对象存储"></a>错误用法：NGINX 做公网转发到对象存储</h4><p>在某个客户场景中，静态资源放到 对象存储 中，前端对静态资源的请求通过 Nginx 反向代理转发给 对象存储。但这种做法，在云端架构上是不推荐的，因为它会带来几个问题：</p>
+<ul>
+<li>  访问静态资源的流量走 云服务器 的带宽流量，特别是中大型的 Web 应用中。流量走 云服务器 的带宽，很可能出现性能瓶颈。</li>
+<li>  Nginx 是通过公网将请求反向代理转发给 对象存储 的，所以在网络传输上会影响速度性能。</li>
+<li>  通过 Nginx 反向代理，不仅增加运维成本，还要维护 Nginx 配置文件等。</li>
+</ul>
+<p>所以，添加 Nginx 做反向代理是多此一举。云端不推荐这么做。该客户这么用，主要原因是业务代码侧，静态资源的请求，都是通过目录划分。如果将静态资源单独放在二级域名，跨域等问题代码侧没很好地解决，从而产生这种不伦不类的架构。最终在业务代码侧进行了优化调整，对 对象存储 静态资源的使用规范如下：</p>
+<ul>
+<li>  业务侧使用单独的二级域名来管理静态资源（如：&lt;<a target="_blank" rel="noopener" href="http://pic-cdn.ewhisper.cn/">pic-cdn.ewhisper.cn</a>&gt;)，静态资源统一放在 对象存储 中；</li>
+<li>  静态资源的二级域名直接将 CNAME 绑定在 对象存储 的 URL 地址上（访问量很少的情况下），这样就直接跳过「使用 Nginx 做反向代理」这个冗余的步骤了</li>
+<li>如果想要进一步提升 对象存储 中存放的静态资源的访问速度，可以无缝接入 CDN。 CDN 的回源请求，会直接通过内网回源请求 对象存储 中的源数据。相比 Nginx 反向代理走公网请求 对象存储，速度和效率会提升得更高，价格特定情况下也会更划算。<ul>
+<li>  👉 <a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/59535/#%E5%85%B8%E5%9E%8B%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9ACDN-%20%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8">典型使用场景：CDN 对象存储</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><h4 id="数据库推荐云服务-且必须有高可用保障"><a href="#数据库推荐云服务-且必须有高可用保障" class="headerlink" title="数据库推荐云服务 且必须有高可用保障"></a>数据库推荐云服务 且必须有高可用保障</h4><p>数据库不推荐自建，推荐直接使用云提供商的相关数据库服务，且推荐必备高可用保障，如集群模式或多副本，以及数据备份。<br>数据库优先采用云提供商的相关数据库服务 ，低成本高效率：如果在云上购买云服务器自建 MySQL 主从部署并维护的模式，使得后期的维护管理成本很大。即我们要监控及维护主从状态，并且在出现问题时需要及时处理，保障业务对数据库读写的连续性。在采用云提供商的相关数据库服务 后，这些问题都可以自动化解决。即对数据库主从的监控、备份、后期维护、故障切换等，都是全自动。</p>
+<h4 id="对于可靠性要求特别高的-DB，可以选择跨-AZ-高可用的集群方案"><a href="#对于可靠性要求特别高的-DB，可以选择跨-AZ-高可用的集群方案" class="headerlink" title="对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案"></a>对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案</h4><p>对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案。比如：Redis、MongoDB、MySQL 都有类似的跨 AZ 高可用的集群方案提供。</p>
+<h4 id="按需选择合适的数据库"><a href="#按需选择合适的数据库" class="headerlink" title="按需选择合适的数据库"></a>按需选择合适的数据库</h4><p>数据库多种多样，根据自己的实际需求进行选择，以下列出部分：</p>
+<ul>
+<li>关系型数据库<ul>
+<li>  MySQL</li>
+<li>  SQL Server</li>
+<li>  Postgresql</li>
+<li>  MariaDB</li>
+<li>  分布式数据库（如 OceanBase 或 TDSQL 等）</li>
+</ul>
+</li>
+<li>非关系型：内存数据库<ul>
+<li>  Redis</li>
+<li>  Memcache</li>
+</ul>
+</li>
+<li>  文档数据库：MongoDB</li>
+<li>列数据库<ul>
+<li>  HBase 等</li>
+</ul>
+</li>
+<li>时序数据库<ul>
+<li>  InfluxDB</li>
+<li>  TSDB</li>
+</ul>
+</li>
+</ul>
+<h3 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h3><h4 id="典型使用场景：CDN-对象存储"><a href="#典型使用场景：CDN-对象存储" class="headerlink" title="典型使用场景：CDN + 对象存储"></a>典型使用场景：CDN + 对象存储</h4><ul>
+<li>  <strong>数据分发</strong>：适用于搭建下载行为较多的 APP、音视频平台、网站等，用户可结合 CDN + 对象存储 的能力，将静态内容（包括音视频、图片等文件）托管在对象存储中，并将热点文件提前下发至 CDN 边缘节点，降低下载访问延迟</li>
+<li>  <strong>网站托管</strong>：适用于官方网站等偏静态的站点，将网站的静态资源快速托管存储在对象存储中，同时通过 CDN + 对象存储 分发，通过 CDN 配置的域名作为静态网站访客的访问地址入口，快速建好一个网站</li>
+</ul>
+<h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><h4 id="必须设置强密码"><a href="#必须设置强密码" class="headerlink" title="必须设置强密码"></a>必须设置强密码</h4><p>典型如：MongoDB、Redis、ES，默认无密码或弱密码，已经发生过多轮、大规模的数据泄露事件，所以针对这些服务，一定要设置强密码。<br>至于云服务器、云账户、关系型数据库等，更是要保障强密码或者更强力的安全措施。</p>
+<h4 id="客户端访问必须-HTTPS"><a href="#客户端访问必须-HTTPS" class="headerlink" title="客户端访问必须 HTTPS"></a>客户端访问必须 HTTPS</h4><p>这个就不多说了。</p>
+<ul>
+<li>  给域名申请证书，放在 Nginx 或 LB 上 管理。</li>
+<li>  业务侧，保留 HTTP 80 端口，做 80 -&gt; 443 的重定向。LB 上 80 和 443 端口监听都要开启。</li>
+</ul>
+<h4 id="一定要配置安全组和-ACL"><a href="#一定要配置安全组和-ACL" class="headerlink" title="一定要配置安全组和 ACL"></a>一定要配置安全组和 ACL</h4><p>最基本的安全防护</p>
+<h4 id="不要-root-直连"><a href="#不要-root-直连" class="headerlink" title="不要 root 直连"></a>不要 root 直连</h4><p>不要 root 直连，用普通用户，登陆过去按需 sudo 切换到 root</p>
+<h4 id="建议暴露公网的-SSH-端口不要用-22"><a href="#建议暴露公网的-SSH-端口不要用-22" class="headerlink" title="建议暴露公网的 SSH 端口不要用 22"></a>建议暴露公网的 SSH 端口不要用 22</h4><p>建议不要用默认的 22 端口，防止被扫描。另外还有建议用证书认证等方式，就不一一赘述了。</p>
+<h4 id="免费安全产品别忘领"><a href="#免费安全产品别忘领" class="headerlink" title="免费安全产品别忘领"></a>免费安全产品别忘领</h4><p>如每开通一台云服务器，都会赠送一些免费额度的「DDoS 防护和主机安全防护」。有基本的防护，会比裸奔安全很多。</p>
+</blockquote>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    Copyright©2016-至今   张天师
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 572px;
+    }
+    .nav.fullscreen {
+        margin-left: -572px;
+    }
+    .nav-left {
+        width: 150px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

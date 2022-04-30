@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SpringBoot性能太差,教你几招轻松搞定 | 张天师</title>
+  <meta name="keywords" content=" SpringBoot ">
+  <meta name="description" content="SpringBoot性能太差,教你几招轻松搞定 | 张天师">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhangyu.info/about/index.html">
+<meta property="og:site_name" content="张天师">
+<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
+<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="article:author" content="张天师">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="张天师" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>张天师</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/mayou33"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(45)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="linux">
+                        
+                        linux
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="架构">
+                        
+                        架构
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="监控">
+                        
+                        监控
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="API网关">
+                        
+                        API网关
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="containerd">
+                        
+                        containerd
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Ingress">
+                        
+                        Ingress
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="k8s">
+                        
+                        k8s
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Kubernetes">
+                        
+                        Kubernetes
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="PaaS">
+                        
+                        PaaS
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Scrum">
+                        
+                        Scrum
+                        <small>(11)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SpringBoot">
+                        
+                        SpringBoot
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SRE">
+                        
+                        SRE
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="优化">
+                        
+                        优化
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="公有云">
+                        
+                        公有云
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="我假装讲，你假装看">
+                        
+                        我假装讲，你假装看
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="日志">
+                        
+                        日志
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="消息系统">
+                        
+                        消息系统
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="职业发展">
+                        
+                        职业发展
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="45">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="https://blog.huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="https://canon88.github.io/">网络安全canon</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux学习</a></li>
+            
+            <li><a target="_blank" href="https://www.makelinux.net/reference/">linux技术参考</a></li>
+            
+            <li><a target="_blank" href="https://coolshell.cn">酷壳CoolShell</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Systems-Performance</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>API网关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cilium</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>containerd</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>flannel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>k8s</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PaaS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pulsar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SpringBoot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SRE</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>优化</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>公有云</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>性能</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>我假装讲，你假装看</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>架构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>监控</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>职业发展</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 SpringBoot "
+           href="/2022/04/30/SpringBoot%E6%80%A7%E8%83%BD%E5%A4%AA%E5%B7%AE,%E6%95%99%E4%BD%A0%E5%87%A0%E6%8B%9B%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A/"
+           data-tag="SpringBoot"
+           data-author="" >
+            <span class="post-title" title="SpringBoot性能太差,教你几招轻松搞定">SpringBoot性能太差,教你几招轻松搞定</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E7%9A%84%E5%8A%9F%E8%83%BD%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关的功能用途及实现方式">API网关的功能用途及实现方式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 PaaS "
+           href="/2022/04/30/%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E7%9A%84PaaS%E6%B7%B7%E5%90%88%E4%BA%91%E7%9A%84%E5%87%A0%E7%A7%8D%E5%BD%A2%E5%BC%8F/"
+           data-tag="PaaS"
+           data-author="" >
+            <span class="post-title" title="基于容器的PaaS混合云的几种形式">基于容器的PaaS混合云的几种形式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 k8s "
+           href="/2022/04/30/%E6%89%93%E7%A0%B4Dockershim%E7%A7%BB%E9%99%A4%E7%84%A6%E8%99%91,%E4%B8%94%E7%9C%8BRancher%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9/"
+           data-tag="k8s"
+           data-author="" >
+            <span class="post-title" title="打破Dockershim移除焦虑,且看Rancher如何应对">打破Dockershim移除焦虑,且看Rancher如何应对</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E4%B8%BAK8s%E5%AE%B9%E5%99%A8%E5%BA%94%E7%94%A8%E9%9B%86%E7%BE%A4%E6%8F%90%E4%BE%9B%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%8E%A5%E5%85%A5%E8%83%BD%E5%8A%9B/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关为K8s容器应用集群提供强大的接入能力">API网关为K8s容器应用集群提供强大的接入能力</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2022/04/30/%E4%BA%91%E5%8E%9F%E7%94%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86-%E5%AD%98%E5%82%A8-%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="云原生环境下的日志采集、存储、分析实践">云原生环境下的日志采集、存储、分析实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/04/30/%E5%85%AC%E6%9C%89%E4%BA%91%E9%99%8D%E6%9C%AC%E5%A2%9E%E6%95%88%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="公有云降本增效最佳实践">公有云降本增效最佳实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2022/04/23/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%92%E8%81%94%E7%BD%91%E5%A4%A7%E5%8E%82%E4%B8%80%E8%BE%B9%E5%A4%A7%E8%A7%84%E6%A8%A1%E8%A3%81%E5%91%98%E5%8F%88%E4%B8%80%E8%BE%B9%E6%8B%9B%E8%81%98/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="为什么互联网大厂一边大规模裁员又一边招聘">为什么互联网大厂一边大规模裁员又一边招聘</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 linux "
+           href="/2022/04/23/Linux%E7%9A%84CPU%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux的CPU上下文切换深入探讨">Linux的CPU上下文切换深入探讨</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%8F%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="微服务架构及设计模式">微服务架构及设计模式</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 监控 "
+           href="/2022/04/23/%E6%89%93%E9%80%A0%E4%B8%80%E5%A5%97%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8A%9F%E8%83%BD%E6%9C%80%E5%85%A8%E7%9A%84APM%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/"
+           data-tag="监控"
+           data-author="" >
+            <span class="post-title" title="打造一套客户端功能最全的APM监控系统">打造一套客户端功能最全的APM监控系统</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E4%BC%81%E4%B8%9A%E5%AE%8C%E6%88%90%E4%BA%91%E8%BD%AC%E5%9E%8B%E7%9A%84%E6%88%90%E5%8A%9F%E4%B9%8B%E9%81%93-%E4%BA%91%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E7%AE%A1%E7%90%86/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="企业完成云转型的成功之道：云成本优化管理">企业完成云转型的成功之道：云成本优化管理</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2022/04/12/%E8%B0%88%E8%B0%88%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%A5%BD%E7%BD%91%E7%AB%99%E7%9A%84URL/"
+           data-tag="优化"
+           data-author="" >
+            <span class="post-title" title="谈谈如何设计好网站的URL">谈谈如何设计好网站的URL</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC01%E8%AF%BE-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%92%8CScrumMaster%E5%9F%BA%E6%9C%AC%E5%8A%9F%E5%9B%9B%E9%83%A8%E6%9B%B2/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲">敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC02%E8%AF%BE-%E5%82%A8%E5%A4%87-Scrum%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第02课-储备-Scrum精要">敏捷教练第02课-储备-Scrum精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第03课-储备-用户故事精要">敏捷教练第03课-储备-用户故事精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC04%E8%AF%BE-%E5%82%A8%E5%A4%87-scrum%E7%9A%8420%E4%B8%AA%E5%AD%90%E6%A8%A1%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第04课-储备-scrum的20个子模式">敏捷教练第04课-储备-scrum的20个子模式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC05%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%B2%BE%E7%9B%8A%E4%BD%93%E7%B3%BB%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第05课-储备-精益体系精要">敏捷教练第05课-储备-精益体系精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC08%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8B%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）">敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC09%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E6%8F%90%E5%8D%87%E4%B8%89%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第09课-技巧-敏捷教练的提升三式">敏捷教练第09课-技巧-敏捷教练的提升三式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC10%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%94%B9%E5%96%84%E5%92%8C%E7%B3%BB%E7%BB%9F%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第10课-技巧-持续改善和系统思考方法">敏捷教练第10课-技巧-持续改善和系统思考方法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC11%E8%AF%BE-%E5%AE%9E%E6%88%98-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%AE%9E%E6%88%98%E5%91%A8%E6%9C%9FV%E5%BD%A2%E5%85%AD%E6%AD%A5%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第11课-实战-敏捷教练实战周期V形六步法">敏捷教练第11课-实战-敏捷教练实战周期V形六步法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC06%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BF%83%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第06课-技巧-敏捷教练的四种心法">敏捷教练第06课-技巧-敏捷教练的四种心法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC07%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8A%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）">敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/03/08/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ECS%E9%80%89%E8%B4%AD%E6%8C%87%E5%8D%97%E5%8F%8A%E7%9C%81%E9%92%B1%E6%B3%95%E5%AE%9D/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="云服务器ECS选购指南及省钱法宝">云服务器ECS选购指南及省钱法宝</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E9%98%BF%E9%87%8C%E4%BA%91%E5%BC%B9%E6%80%A7%E8%AE%A1%E7%AE%97%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E4%BB%8E0%E5%88%B01%E8%87%AA%E5%BB%BASRE%E4%BD%93%E7%B3%BB/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="阿里云弹性计算研发团队如何从0到1自建SRE体系">阿里云弹性计算研发团队如何从0到1自建SRE体系</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E4%BA%91%E4%B8%8A%E8%B5%84%E6%BA%90%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B0%E6%A8%A1%E5%BC%8F/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="云上资源自动化部署新模式">云上资源自动化部署新模式</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/cotainer-init/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="开启shareProcessNamespace后容器异常">开启shareProcessNamespace后容器异常</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/docker-shell-signal/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="k8s中shell脚本启动如何传递信号">k8s中shell脚本启动如何传递信号</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/enforce-audit-policy-in-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="在Kubernetes中实施审计策略">在Kubernetes中实施审计策略</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/26/Cilium-Network-Overview/"
+           data-tag="Cilium"
+           data-author="" >
+            <span class="post-title" title="Cilium网络概述">Cilium网络概述</span>
+            <span class="post-date" title="2021-05-26 00:00:00">2021/05/26</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/19/generating-yaml-for-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="快速生成k8s的yaml配置的4种方法">快速生成k8s的yaml配置的4种方法</span>
+            <span class="post-date" title="2021-05-19 00:00:00">2021/05/19</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2021/04/28/fklek-to-k8s-log/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="使用fklek搭建Kubernetes日志收集工具栈">使用fklek搭建Kubernetes日志收集工具栈</span>
+            <span class="post-date" title="2021-04-28 00:00:00">2021/04/28</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2021/04/27/%E5%8F%AA%E6%9C%89%E9%BB%91%E8%AF%9D%E6%89%8D%E8%83%BD%E6%8B%AF%E6%95%91%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%BA/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="只有黑话，才能拯救互联网人">只有黑话，才能拯救互联网人</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2021/04/27/%E6%BC%AB%E7%94%BB%E4%B8%80%E4%B8%AANB%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%B8%8A%E7%BA%BF%E8%BF%87%E7%A8%8B/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="漫画一个NB互联网项目的上线过程">漫画一个NB互联网项目的上线过程</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 消息系统 "
+           href="/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"
+           data-tag="Pulsar"
+           data-author="" >
+            <span class="post-title" title="Pulsar vs Kafka，CTO 如何抉择">Pulsar vs Kafka，CTO 如何抉择</span>
+            <span class="post-date" title="2021-04-24 00:00:00">2021/04/24</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/21/kubernetes-best-practices-in-production/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="生产环境中的Kubernetes最佳实践">生产环境中的Kubernetes最佳实践</span>
+            <span class="post-date" title="2021-04-21 00:00:00">2021/04/21</span>
+        </a>
+        
+        <a  class="全部文章 职业发展 "
+           href="/2021/04/19/jishuchengzhang/"
+           data-tag="职业发展"
+           data-author="" >
+            <span class="post-title" title="你的技术成长战略是什么">你的技术成长战略是什么</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        <a  class="全部文章 containerd "
+           href="/2021/04/12/nerdctl-to-containerd/"
+           data-tag="containerd"
+           data-author="" >
+            <span class="post-title" title="使用nerdctl玩转containerd">使用nerdctl玩转containerd</span>
+            <span class="post-date" title="2021-04-12 00:00:00">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/09/Kubernetes-network/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes网络和云厂商实践浅析">Kubernetes网络和云厂商实践浅析</span>
+            <span class="post-date" title="2021-04-09 00:00:00">2021/04/09</span>
+        </a>
+        
+        <a  class="全部文章 Ingress "
+           href="/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"
+           data-tag="Ingress"
+           data-author="" >
+            <span class="post-title" title="Kubernetes Ingress 控制器的技术选型技巧">Kubernetes Ingress 控制器的技术选型技巧</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/08/Kubernetes-remen/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes入门-进阶实战">Kubernetes入门-进阶实战</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/03/24/Flannel-Calico/"
+           data-tag="flannel"
+           data-author="" >
+            <span class="post-title" title="Flannel-Calico怎么选择">Flannel-Calico怎么选择</span>
+            <span class="post-date" title="2021-03-24 00:00:00">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 nginx "
+           href="/2021/03/15/nginx-knowledge-graph/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx核心知识100讲知识图谱">nginx核心知识100讲知识图谱</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2021/03/15/performance-optimize-your-program/"
+           data-tag="性能"
+           data-author="" >
+            <span class="post-title" title="性能之癫-优化你的程序">性能之癫-优化你的程序</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-SpringBoot性能太差,教你几招轻松搞定" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">SpringBoot性能太差,教你几招轻松搞定</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="SpringBoot">SpringBoot</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">SpringBoot</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-04-30 18:42:45'>2022-04-30 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link"><span class="toc-text"></span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="toc-text">代码如下：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#-1"><span class="toc-text"></span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#-2"><span class="toc-text"></span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-ComponentScan-%E5%AE%9A%E4%BD%8D%E6%89%AB%E5%8C%85%E6%AF%94-SpringBootApplication-%E6%89%AB%E5%8C%85%E6%9B%B4%E5%BF%AB%E3%80%82"><span class="toc-text">使用 @ComponentScan() 定位扫包比 @SpringBootApplication 扫包更快。</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#-3"><span class="toc-text"></span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#-4"><span class="toc-text"></span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4-Tomcat-%E5%AE%B9%E5%99%A8%E6%94%B9%E4%B8%BA-Undertow%EF%BC%88Jboss-%E4%B8%8B%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8CTomcat-%E5%90%9E%E5%90%90%E9%87%8F-5000%EF%BC%8CUndertow-%E5%90%9E%E5%90%90%E9%87%8F-8000%EF%BC%89"><span class="toc-text">默认 Tomcat 容器改为 Undertow（Jboss 下的服务器，Tomcat 吞吐量 5000，Undertow 吞吐量 8000）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B%EF%BC%9A-1"><span class="toc-text">代码如下：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#-5"><span class="toc-text"></span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#-6"><span class="toc-text"></span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B%EF%BC%9A-2"><span class="toc-text">代码如下：</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SpringBoot性能太差,教你几招轻松搞定 </p>
+<p>Java派 2022-04-30 09:27</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/lreQia3XL5cl0XKrN47KCA">https://mp.weixin.qq.com/s/lreQia3XL5cl0XKrN47KCA</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/lreQia3XL5cl0XKrN47KCA">Spring Boot性能太差，教你几招轻松搞定</a></p>
+<blockquote>
+<p><strong>目录</strong></p>
+<ul>
+<li><p>  异步执行</p>
+</li>
+<li><p>  增加内嵌 Tomcat 的最大连接数</p>
+</li>
+<li><p>  使用 @ComponentScan()</p>
+</li>
+<li><p>  默认 Tomcat 容器改为 Undertow</p>
+</li>
+<li><p>  使用 BufferedWriter 进行缓冲</p>
+</li>
+<li><p>  Deferred 方式实现异步调用</p>
+</li>
+<li><p>  异步调用可以使用 AsyncHandlerInterceptor 进行拦截</p>
+</li>
+</ul>
+<p><strong>异步执行</strong></p>
+<p>实现方式二种：</p>
+<ul>
+<li><p>  使用异步注解 @aysnc、启动类：添加 @EnableAsync 注解</p>
+</li>
+<li><p>  JDK 8 本身有一个非常好用的 Future 类——CompletableFuture</p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@AllArgsConstructor</span><br><span class="line">public class AskThread implements Runnable&#123;</span><br><span class="line">    private CompletableFuture&lt;Integer&gt; re &#x3D; null;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        int myRe &#x3D; 0;</span><br><span class="line">        try &#123;</span><br><span class="line">            myRe &#x3D; re.get() * re.get();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(myRe);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        final CompletableFuture&lt;Integer&gt; future &#x3D; new CompletableFuture&lt;&gt;();</span><br><span class="line">        new Thread(new AskThread(future)).start();</span><br><span class="line">        &#x2F;&#x2F;模拟长时间的计算过程</span><br><span class="line">        Thread.sleep(1000);</span><br><span class="line">        &#x2F;&#x2F;告知完成结果</span><br><span class="line">        future.complete(60);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在该示例中，启动一个线程，此时 AskThread 对象还没有拿到它需要的数据，执行到  myRe = re.get() * re.get() 会阻塞。</p>
+<p>我们用休眠 1 秒来模拟一个长时间的计算过程，并将计算结果告诉 future 执行结果，AskThread 线程将会继续执行。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class Calc &#123;</span><br><span class="line">    public static Integer calc(Integer para) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            &#x2F;&#x2F;模拟一个长时间的执行</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return para * para;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) throws ExecutionException, InterruptedException &#123;</span><br><span class="line">        final CompletableFuture&lt;Void&gt; future &#x3D; CompletableFuture.supplyAsync(() -&gt; calc(50))</span><br><span class="line">                .thenApply((i) -&gt; Integer.toString(i))</span><br><span class="line">                .thenApply((str) -&gt; &quot;\&quot;&quot; + str + &quot;\&quot;&quot;)</span><br><span class="line">                .thenAccept(System.out::println);</span><br><span class="line">        future.get();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>CompletableFuture.supplyAsync 方法构造一个 CompletableFuture 实例，在 supplyAsync() 方法中，它会在一个新线程中，执行传入的参数。</p>
+<p>在这里它会执行 calc() 方法，这个方法可能是比较慢的，但这并不影响 CompletableFuture 实例的构造速度，supplyAsync() 会立即返回。</p>
+<p>而返回的 CompletableFuture 实例就可以作为这次调用的契约，在将来任何场合，用于获得最终的计算结果。</p>
+<p>supplyAsync 用于提供返回值的情况，CompletableFuture 还有一个不需要返回值的异步调用方法 runAsync(Runnable runnable)，一般我们在优化 Controller 时，使用这个方法比较多。</p>
+<p>这两个方法如果在不指定线程池的情况下，都是在 ForkJoinPool.common 线程池中执行，而这个线程池中的所有线程都是 Daemon（守护）线程，所以，当主线程结束时，这些线程无论执行完毕都会退出系统。</p>
+<p>核心代码：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture.runAsync(() -&gt;</span><br><span class="line">   this.afterBetProcessor(betRequest,betDetailResult,appUser,id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>异步调用使用 Callable 来实现：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@RestController  </span><br><span class="line">public class HelloController &#123;</span><br><span class="line">    private static final Logger logger &#x3D; LoggerFactory.getLogger(HelloController.class);</span><br><span class="line">    @Autowired  </span><br><span class="line">    private HelloService hello;</span><br><span class="line">    @GetMapping(&quot;&#x2F;helloworld&quot;)</span><br><span class="line">    public String helloWorldController() &#123;</span><br><span class="line">        return hello.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 异步调用restful</span><br><span class="line">     * 当controller返回值是Callable的时候，springmvc就会启动一个线程将Callable交给TaskExecutor去处理</span><br><span class="line">     * 然后DispatcherServlet还有所有的spring拦截器都退出主线程，然后把response保持打开的状态</span><br><span class="line">     * 当Callable执行结束之后，springmvc就会重新启动分配一个request请求，然后DispatcherServlet就重新</span><br><span class="line">     * 调用和处理Callable异步执行的返回结果， 然后返回视图</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     *&#x2F;  </span><br><span class="line">    @GetMapping(&quot;&#x2F;hello&quot;)</span><br><span class="line">    public Callable&lt;String&gt; helloController() &#123;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 进入helloController方法&quot;);</span><br><span class="line">        Callable&lt;String&gt; callable &#x3D; new Callable&lt;String&gt;() &#123;</span><br><span class="line">            @Override  </span><br><span class="line">            public String call() throws Exception &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 进入call方法&quot;);</span><br><span class="line">                String say &#x3D; hello.sayHello();</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 从helloService方法返回&quot;);</span><br><span class="line">                return say;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 从helloController方法返回&quot;);</span><br><span class="line">        return callable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>异步调用的方式 WebAsyncTask：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">@RestController  </span><br><span class="line">public class HelloController &#123;</span><br><span class="line">    private static final Logger logger &#x3D; LoggerFactory.getLogger(HelloController.class);</span><br><span class="line">    @Autowired  </span><br><span class="line">    private HelloService hello;</span><br><span class="line">        &#x2F;**</span><br><span class="line">     * 带超时时间的异步请求 通过WebAsyncTask自定义客户端超时间</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     *&#x2F;  </span><br><span class="line">    @GetMapping(&quot;&#x2F;world&quot;)</span><br><span class="line">    public WebAsyncTask&lt;String&gt; worldController() &#123;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 进入helloController方法&quot;);</span><br><span class="line">        &#x2F;&#x2F; 3s钟没返回，则认为超时</span><br><span class="line">        WebAsyncTask&lt;String&gt; webAsyncTask &#x3D; new WebAsyncTask&lt;&gt;(3000, new Callable&lt;String&gt;() &#123;</span><br><span class="line">            @Override  </span><br><span class="line">            public String call() throws Exception &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 进入call方法&quot;);</span><br><span class="line">                String say &#x3D; hello.sayHello();</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 从helloService方法返回&quot;);</span><br><span class="line">                return say;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 从helloController方法返回&quot;);</span><br><span class="line">        webAsyncTask.onCompletion(new Runnable() &#123;</span><br><span class="line">            @Override  </span><br><span class="line">            public void run() &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 执行完毕&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        webAsyncTask.onTimeout(new Callable&lt;String&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override  </span><br><span class="line">            public String call() throws Exception &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; onTimeout&quot;);</span><br><span class="line">                &#x2F;&#x2F; 超时的时候，直接抛异常，让外层统一处理超时异常</span><br><span class="line">                throw new TimeoutException(&quot;调用超时&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        return webAsyncTask;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 异步调用，异常处理，详细的处理流程见MyExceptionHandler类</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     *&#x2F;  </span><br><span class="line">    @GetMapping(&quot;&#x2F;exception&quot;)</span><br><span class="line">    public WebAsyncTask&lt;String&gt; exceptionController() &#123;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 进入helloController方法&quot;);</span><br><span class="line">        Callable&lt;String&gt; callable &#x3D; new Callable&lt;String&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override  </span><br><span class="line">            public String call() throws Exception &#123;</span><br><span class="line">                logger.info(Thread.currentThread().getName() + &quot; 进入call方法&quot;);</span><br><span class="line">                throw new TimeoutException(&quot;调用超时!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot; 从helloController方法返回&quot;);</span><br><span class="line">        return new WebAsyncTask&lt;&gt;(20000, callable);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>增加内嵌 Tomcat 的最大连接数</strong></p>
+<h6 id=""><a href="#" class="headerlink" title=""></a></h6><h6 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class TomcatConfig &#123;</span><br><span class="line">    @Bean</span><br><span class="line">    public ConfigurableServletWebServerFactory webServerFactory() &#123;</span><br><span class="line">        TomcatServletWebServerFactory tomcatFactory &#x3D; new TomcatServletWebServerFactory();</span><br><span class="line">        tomcatFactory.addConnectorCustomizers(new MyTomcatConnectorCustomizer());</span><br><span class="line">        tomcatFactory.setPort(8005);</span><br><span class="line">        tomcatFactory.setContextPath(&quot;&#x2F;api-g&quot;);</span><br><span class="line">        return tomcatFactory;</span><br><span class="line">    &#125;</span><br><span class="line">    class MyTomcatConnectorCustomizer implements TomcatConnectorCustomizer &#123;</span><br><span class="line">        public void customize(Connector connector) &#123;</span><br><span class="line">            Http11NioProtocol protocol &#x3D; (Http11NioProtocol) connector.getProtocolHandler();</span><br><span class="line">            &#x2F;&#x2F;设置最大连接数</span><br><span class="line">            protocol.setMaxConnections(20000);</span><br><span class="line">            &#x2F;&#x2F;设置最大线程数</span><br><span class="line">            protocol.setMaxThreads(2000);</span><br><span class="line">            protocol.setConnectionTimeout(30000);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="-1"><a href="#-1" class="headerlink" title=""></a></h6><p><strong>使用 @ComponentScan()</strong></p>
+<h6 id="-2"><a href="#-2" class="headerlink" title=""></a></h6><h6 id="使用-ComponentScan-定位扫包比-SpringBootApplication-扫包更快。"><a href="#使用-ComponentScan-定位扫包比-SpringBootApplication-扫包更快。" class="headerlink" title="使用 @ComponentScan() 定位扫包比 @SpringBootApplication 扫包更快。"></a>使用 @ComponentScan() 定位扫包比 @SpringBootApplication 扫包更快。</h6><h6 id="-3"><a href="#-3" class="headerlink" title=""></a></h6><p><strong>默认 Tomcat 容器改为 Undertow</strong></p>
+<h6 id="-4"><a href="#-4" class="headerlink" title=""></a></h6><h6 id="默认-Tomcat-容器改为-Undertow（Jboss-下的服务器，Tomcat-吞吐量-5000，Undertow-吞吐量-8000）"><a href="#默认-Tomcat-容器改为-Undertow（Jboss-下的服务器，Tomcat-吞吐量-5000，Undertow-吞吐量-8000）" class="headerlink" title="默认 Tomcat 容器改为 Undertow（Jboss 下的服务器，Tomcat 吞吐量 5000，Undertow 吞吐量 8000）"></a>默认 Tomcat 容器改为 Undertow（Jboss 下的服务器，Tomcat 吞吐量 5000，Undertow 吞吐量 8000）</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;exclusions&gt;</span><br><span class="line">  &lt;exclusion&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-boot-starter-tomcat&lt;&#x2F;artifactId&gt;</span><br><span class="line">  &lt;&#x2F;exclusion&gt;</span><br><span class="line">&lt;&#x2F;exclusions&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>改为：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-undertow&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>使用 BufferedWriter 进行缓冲</strong></p>
+<p>这里不给大家举例，可自行尝试。</p>
+<p><strong>Deferred 方式实现异步调用</strong></p>
+<h6 id="代码如下：-1"><a href="#代码如下：-1" class="headerlink" title="代码如下："></a>代码如下：</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class AsyncDeferredController &#123;</span><br><span class="line">    private final Logger logger &#x3D; LoggerFactory.getLogger(this.getClass());</span><br><span class="line">    private final LongTimeTask taskService;</span><br><span class="line">    @Autowired</span><br><span class="line">    public AsyncDeferredController(LongTimeTask taskService) &#123;</span><br><span class="line">        this.taskService &#x3D; taskService;</span><br><span class="line">    &#125;</span><br><span class="line">    @GetMapping(&quot;&#x2F;deferred&quot;)</span><br><span class="line">    public DeferredResult&lt;String&gt; executeSlowTask() &#123;</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot;进入executeSlowTask方法&quot;);</span><br><span class="line">        DeferredResult&lt;String&gt; deferredResult &#x3D; new DeferredResult&lt;&gt;();</span><br><span class="line">        &#x2F;&#x2F; 调用长时间执行任务</span><br><span class="line">        taskService.execute(deferredResult);</span><br><span class="line">        &#x2F;&#x2F; 当长时间任务中使用deferred.setResult(&quot;world&quot;);这个方法时，会从长时间任务中返回，继续controller里面的流程</span><br><span class="line">        logger.info(Thread.currentThread().getName() + &quot;从executeSlowTask方法返回&quot;);</span><br><span class="line">        &#x2F;&#x2F; 超时的回调方法</span><br><span class="line">        deferredResult.onTimeout(new Runnable()&#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void run() &#123;</span><br><span class="line">    logger.info(Thread.currentThread().getName() + &quot; onTimeout&quot;);</span><br><span class="line">    &#x2F;&#x2F; 返回超时信息</span><br><span class="line">    deferredResult.setErrorResult(&quot;time out!&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">        &#x2F;&#x2F; 处理完成的回调方法，无论是超时还是处理成功，都会进入这个回调方法</span><br><span class="line">        deferredResult.onCompletion(new Runnable()&#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void run() &#123;</span><br><span class="line">    logger.info(Thread.currentThread().getName() + &quot; onCompletion&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">        return deferredResult;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="-5"><a href="#-5" class="headerlink" title=""></a></h6><p><strong>异步调用可以使用 AsyncHandlerInterceptor 进行拦截</strong></p>
+<h6 id="-6"><a href="#-6" class="headerlink" title=""></a></h6><h6 id="代码如下：-2"><a href="#代码如下：-2" class="headerlink" title="代码如下："></a>代码如下：</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class MyAsyncHandlerInterceptor implements AsyncHandlerInterceptor &#123;</span><br><span class="line"> private static final Logger logger &#x3D; LoggerFactory.getLogger(MyAsyncHandlerInterceptor.class);</span><br><span class="line"> @Override</span><br><span class="line"> public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)</span><br><span class="line">   throws Exception &#123;</span><br><span class="line">  return true;</span><br><span class="line"> &#125;</span><br><span class="line"> @Override</span><br><span class="line"> public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,</span><br><span class="line">   ModelAndView modelAndView) throws Exception &#123;</span><br><span class="line">&#x2F;&#x2F; HandlerMethod handlerMethod &#x3D; (HandlerMethod) handler;</span><br><span class="line">  logger.info(Thread.currentThread().getName()+ &quot;服务调用完成，返回结果给客户端&quot;);</span><br><span class="line"> &#125;</span><br><span class="line"> @Override</span><br><span class="line"> public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span><br><span class="line">   throws Exception &#123;</span><br><span class="line">  if(null !&#x3D; ex)&#123;</span><br><span class="line">   System.out.println(&quot;发生异常:&quot;+ex.getMessage());</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> @Override</span><br><span class="line"> public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler)</span><br><span class="line">   throws Exception &#123;</span><br><span class="line">  &#x2F;&#x2F; 拦截之后，重新写回数据，将原来的hello world换成如下字符串</span><br><span class="line">  String resp &#x3D; &quot;my name is chhliu!&quot;;</span><br><span class="line">  response.setContentLength(resp.length());</span><br><span class="line">  response.getOutputStream().write(resp.getBytes());</span><br><span class="line">  logger.info(Thread.currentThread().getName() + &quot; 进入afterConcurrentHandlingStarted方法&quot;);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    Copyright©2016-至今   张天师
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 572px;
+    }
+    .nav.fullscreen {
+        margin-left: -572px;
+    }
+    .nav-left {
+        width: 150px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

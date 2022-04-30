@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>API网关为K8s容器应用集群提供强大的接入能力 | 张天师</title>
+  <meta name="keywords" content=" API网关 ">
+  <meta name="description" content="API网关为K8s容器应用集群提供强大的接入能力 | 张天师">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhangyu.info/about/index.html">
+<meta property="og:site_name" content="张天师">
+<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
+<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="article:author" content="张天师">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="张天师" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>张天师</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/mayou33"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(45)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="linux">
+                        
+                        linux
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="架构">
+                        
+                        架构
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="监控">
+                        
+                        监控
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="API网关">
+                        
+                        API网关
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="containerd">
+                        
+                        containerd
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Ingress">
+                        
+                        Ingress
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="k8s">
+                        
+                        k8s
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Kubernetes">
+                        
+                        Kubernetes
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="PaaS">
+                        
+                        PaaS
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Scrum">
+                        
+                        Scrum
+                        <small>(11)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SpringBoot">
+                        
+                        SpringBoot
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SRE">
+                        
+                        SRE
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="优化">
+                        
+                        优化
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="公有云">
+                        
+                        公有云
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="我假装讲，你假装看">
+                        
+                        我假装讲，你假装看
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="日志">
+                        
+                        日志
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="消息系统">
+                        
+                        消息系统
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="职业发展">
+                        
+                        职业发展
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="45">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="https://blog.huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="https://canon88.github.io/">网络安全canon</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux学习</a></li>
+            
+            <li><a target="_blank" href="https://www.makelinux.net/reference/">linux技术参考</a></li>
+            
+            <li><a target="_blank" href="https://coolshell.cn">酷壳CoolShell</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Systems-Performance</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>API网关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cilium</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>containerd</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>flannel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>k8s</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PaaS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pulsar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SpringBoot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SRE</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>优化</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>公有云</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>性能</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>我假装讲，你假装看</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>架构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>监控</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>职业发展</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 SpringBoot "
+           href="/2022/04/30/SpringBoot%E6%80%A7%E8%83%BD%E5%A4%AA%E5%B7%AE,%E6%95%99%E4%BD%A0%E5%87%A0%E6%8B%9B%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A/"
+           data-tag="SpringBoot"
+           data-author="" >
+            <span class="post-title" title="SpringBoot性能太差,教你几招轻松搞定">SpringBoot性能太差,教你几招轻松搞定</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E7%9A%84%E5%8A%9F%E8%83%BD%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关的功能用途及实现方式">API网关的功能用途及实现方式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 PaaS "
+           href="/2022/04/30/%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E7%9A%84PaaS%E6%B7%B7%E5%90%88%E4%BA%91%E7%9A%84%E5%87%A0%E7%A7%8D%E5%BD%A2%E5%BC%8F/"
+           data-tag="PaaS"
+           data-author="" >
+            <span class="post-title" title="基于容器的PaaS混合云的几种形式">基于容器的PaaS混合云的几种形式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 k8s "
+           href="/2022/04/30/%E6%89%93%E7%A0%B4Dockershim%E7%A7%BB%E9%99%A4%E7%84%A6%E8%99%91,%E4%B8%94%E7%9C%8BRancher%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9/"
+           data-tag="k8s"
+           data-author="" >
+            <span class="post-title" title="打破Dockershim移除焦虑,且看Rancher如何应对">打破Dockershim移除焦虑,且看Rancher如何应对</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E4%B8%BAK8s%E5%AE%B9%E5%99%A8%E5%BA%94%E7%94%A8%E9%9B%86%E7%BE%A4%E6%8F%90%E4%BE%9B%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%8E%A5%E5%85%A5%E8%83%BD%E5%8A%9B/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关为K8s容器应用集群提供强大的接入能力">API网关为K8s容器应用集群提供强大的接入能力</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2022/04/30/%E4%BA%91%E5%8E%9F%E7%94%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86-%E5%AD%98%E5%82%A8-%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="云原生环境下的日志采集、存储、分析实践">云原生环境下的日志采集、存储、分析实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/04/30/%E5%85%AC%E6%9C%89%E4%BA%91%E9%99%8D%E6%9C%AC%E5%A2%9E%E6%95%88%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="公有云降本增效最佳实践">公有云降本增效最佳实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2022/04/23/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%92%E8%81%94%E7%BD%91%E5%A4%A7%E5%8E%82%E4%B8%80%E8%BE%B9%E5%A4%A7%E8%A7%84%E6%A8%A1%E8%A3%81%E5%91%98%E5%8F%88%E4%B8%80%E8%BE%B9%E6%8B%9B%E8%81%98/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="为什么互联网大厂一边大规模裁员又一边招聘">为什么互联网大厂一边大规模裁员又一边招聘</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 linux "
+           href="/2022/04/23/Linux%E7%9A%84CPU%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux的CPU上下文切换深入探讨">Linux的CPU上下文切换深入探讨</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%8F%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="微服务架构及设计模式">微服务架构及设计模式</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 监控 "
+           href="/2022/04/23/%E6%89%93%E9%80%A0%E4%B8%80%E5%A5%97%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8A%9F%E8%83%BD%E6%9C%80%E5%85%A8%E7%9A%84APM%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/"
+           data-tag="监控"
+           data-author="" >
+            <span class="post-title" title="打造一套客户端功能最全的APM监控系统">打造一套客户端功能最全的APM监控系统</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E4%BC%81%E4%B8%9A%E5%AE%8C%E6%88%90%E4%BA%91%E8%BD%AC%E5%9E%8B%E7%9A%84%E6%88%90%E5%8A%9F%E4%B9%8B%E9%81%93-%E4%BA%91%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E7%AE%A1%E7%90%86/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="企业完成云转型的成功之道：云成本优化管理">企业完成云转型的成功之道：云成本优化管理</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2022/04/12/%E8%B0%88%E8%B0%88%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%A5%BD%E7%BD%91%E7%AB%99%E7%9A%84URL/"
+           data-tag="优化"
+           data-author="" >
+            <span class="post-title" title="谈谈如何设计好网站的URL">谈谈如何设计好网站的URL</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC01%E8%AF%BE-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%92%8CScrumMaster%E5%9F%BA%E6%9C%AC%E5%8A%9F%E5%9B%9B%E9%83%A8%E6%9B%B2/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲">敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC02%E8%AF%BE-%E5%82%A8%E5%A4%87-Scrum%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第02课-储备-Scrum精要">敏捷教练第02课-储备-Scrum精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第03课-储备-用户故事精要">敏捷教练第03课-储备-用户故事精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC04%E8%AF%BE-%E5%82%A8%E5%A4%87-scrum%E7%9A%8420%E4%B8%AA%E5%AD%90%E6%A8%A1%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第04课-储备-scrum的20个子模式">敏捷教练第04课-储备-scrum的20个子模式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC05%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%B2%BE%E7%9B%8A%E4%BD%93%E7%B3%BB%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第05课-储备-精益体系精要">敏捷教练第05课-储备-精益体系精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC08%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8B%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）">敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC09%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E6%8F%90%E5%8D%87%E4%B8%89%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第09课-技巧-敏捷教练的提升三式">敏捷教练第09课-技巧-敏捷教练的提升三式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC10%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%94%B9%E5%96%84%E5%92%8C%E7%B3%BB%E7%BB%9F%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第10课-技巧-持续改善和系统思考方法">敏捷教练第10课-技巧-持续改善和系统思考方法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC11%E8%AF%BE-%E5%AE%9E%E6%88%98-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%AE%9E%E6%88%98%E5%91%A8%E6%9C%9FV%E5%BD%A2%E5%85%AD%E6%AD%A5%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第11课-实战-敏捷教练实战周期V形六步法">敏捷教练第11课-实战-敏捷教练实战周期V形六步法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC06%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BF%83%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第06课-技巧-敏捷教练的四种心法">敏捷教练第06课-技巧-敏捷教练的四种心法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC07%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8A%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）">敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/03/08/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ECS%E9%80%89%E8%B4%AD%E6%8C%87%E5%8D%97%E5%8F%8A%E7%9C%81%E9%92%B1%E6%B3%95%E5%AE%9D/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="云服务器ECS选购指南及省钱法宝">云服务器ECS选购指南及省钱法宝</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E9%98%BF%E9%87%8C%E4%BA%91%E5%BC%B9%E6%80%A7%E8%AE%A1%E7%AE%97%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E4%BB%8E0%E5%88%B01%E8%87%AA%E5%BB%BASRE%E4%BD%93%E7%B3%BB/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="阿里云弹性计算研发团队如何从0到1自建SRE体系">阿里云弹性计算研发团队如何从0到1自建SRE体系</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E4%BA%91%E4%B8%8A%E8%B5%84%E6%BA%90%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B0%E6%A8%A1%E5%BC%8F/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="云上资源自动化部署新模式">云上资源自动化部署新模式</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/cotainer-init/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="开启shareProcessNamespace后容器异常">开启shareProcessNamespace后容器异常</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/docker-shell-signal/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="k8s中shell脚本启动如何传递信号">k8s中shell脚本启动如何传递信号</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/enforce-audit-policy-in-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="在Kubernetes中实施审计策略">在Kubernetes中实施审计策略</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/26/Cilium-Network-Overview/"
+           data-tag="Cilium"
+           data-author="" >
+            <span class="post-title" title="Cilium网络概述">Cilium网络概述</span>
+            <span class="post-date" title="2021-05-26 00:00:00">2021/05/26</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/19/generating-yaml-for-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="快速生成k8s的yaml配置的4种方法">快速生成k8s的yaml配置的4种方法</span>
+            <span class="post-date" title="2021-05-19 00:00:00">2021/05/19</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2021/04/28/fklek-to-k8s-log/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="使用fklek搭建Kubernetes日志收集工具栈">使用fklek搭建Kubernetes日志收集工具栈</span>
+            <span class="post-date" title="2021-04-28 00:00:00">2021/04/28</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2021/04/27/%E5%8F%AA%E6%9C%89%E9%BB%91%E8%AF%9D%E6%89%8D%E8%83%BD%E6%8B%AF%E6%95%91%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%BA/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="只有黑话，才能拯救互联网人">只有黑话，才能拯救互联网人</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲，你假装看 "
+           href="/2021/04/27/%E6%BC%AB%E7%94%BB%E4%B8%80%E4%B8%AANB%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%B8%8A%E7%BA%BF%E8%BF%87%E7%A8%8B/"
+           data-tag="我假装讲，你假装看"
+           data-author="" >
+            <span class="post-title" title="漫画一个NB互联网项目的上线过程">漫画一个NB互联网项目的上线过程</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 消息系统 "
+           href="/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"
+           data-tag="Pulsar"
+           data-author="" >
+            <span class="post-title" title="Pulsar vs Kafka，CTO 如何抉择">Pulsar vs Kafka，CTO 如何抉择</span>
+            <span class="post-date" title="2021-04-24 00:00:00">2021/04/24</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/21/kubernetes-best-practices-in-production/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="生产环境中的Kubernetes最佳实践">生产环境中的Kubernetes最佳实践</span>
+            <span class="post-date" title="2021-04-21 00:00:00">2021/04/21</span>
+        </a>
+        
+        <a  class="全部文章 职业发展 "
+           href="/2021/04/19/jishuchengzhang/"
+           data-tag="职业发展"
+           data-author="" >
+            <span class="post-title" title="你的技术成长战略是什么">你的技术成长战略是什么</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        <a  class="全部文章 containerd "
+           href="/2021/04/12/nerdctl-to-containerd/"
+           data-tag="containerd"
+           data-author="" >
+            <span class="post-title" title="使用nerdctl玩转containerd">使用nerdctl玩转containerd</span>
+            <span class="post-date" title="2021-04-12 00:00:00">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/09/Kubernetes-network/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes网络和云厂商实践浅析">Kubernetes网络和云厂商实践浅析</span>
+            <span class="post-date" title="2021-04-09 00:00:00">2021/04/09</span>
+        </a>
+        
+        <a  class="全部文章 Ingress "
+           href="/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"
+           data-tag="Ingress"
+           data-author="" >
+            <span class="post-title" title="Kubernetes Ingress 控制器的技术选型技巧">Kubernetes Ingress 控制器的技术选型技巧</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/08/Kubernetes-remen/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes入门-进阶实战">Kubernetes入门-进阶实战</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/03/24/Flannel-Calico/"
+           data-tag="flannel"
+           data-author="" >
+            <span class="post-title" title="Flannel-Calico怎么选择">Flannel-Calico怎么选择</span>
+            <span class="post-date" title="2021-03-24 00:00:00">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 nginx "
+           href="/2021/03/15/nginx-knowledge-graph/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx核心知识100讲知识图谱">nginx核心知识100讲知识图谱</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2021/03/15/performance-optimize-your-program/"
+           data-tag="性能"
+           data-author="" >
+            <span class="post-title" title="性能之癫-优化你的程序">性能之癫-优化你的程序</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-API网关为K8s容器应用集群提供强大的接入能力" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">API网关为K8s容器应用集群提供强大的接入能力</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="API网关">API网关</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">API网关</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-04-30 15:58:02'>2022-04-30 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Kubernetes-%E9%9B%86%E7%BE%A4%E4%BB%8B%E7%BB%8D"><span class="toc-text">1. Kubernetes 集群介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-API%E7%BD%91%E5%85%B3%E4%BD%9C%E4%B8%BAKubernetes%E9%9B%86%E7%BE%A4%E7%9A%84%E6%8E%A5%E5%85%A5%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="toc-text">2. API网关作为Kubernetes集群的接入层架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-API%E7%BD%91%E5%85%B3%E6%8E%A5%E5%85%A5%E8%83%BD%E5%8A%9B"><span class="toc-text">3. API网关接入能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%9C%A8%E9%98%BF%E9%87%8C%E4%BA%91%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AEKubernetes%E9%9B%86%E7%BE%A4%E5%92%8CAPI%E7%BD%91%E5%85%B3"><span class="toc-text">4. 在阿里云快速配置Kubernetes集群和API网关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-Ingress-Control%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="toc-text">4.1 Ingress Control模式的配置方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-1-%E5%88%9B%E5%BB%BA%E5%B8%A6%E6%9C%89Ingress-Control%E7%BB%84%E4%BB%B6%E7%9A%84Kubernetes%E9%9B%86%E7%BE%A4"><span class="toc-text">4.1.1 创建带有Ingress Control组件的Kubernetes集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-2-%E5%9C%A8Kubernetes%E9%9B%86%E7%BE%A4%E5%86%85%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%A4%9A%E5%AE%B9%E5%99%A8%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-text">4.1.2 在Kubernetes集群内创建一个多容器的服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-3-%E5%9C%A8Ingress-Control%E4%B8%8A%E7%BB%99%E6%9C%8D%E5%8A%A1%E5%8A%A0%E4%B8%8A%E8%B7%AF%E7%94%B1"><span class="toc-text">4.1.3 在Ingress Control上给服务加上路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-4-%E5%9C%A8API%E7%BD%91%E5%85%B3%E5%AF%B9Ingress-Control%E7%9A%84%E5%86%85%E7%BD%91SLB%E6%8E%88%E6%9D%83"><span class="toc-text">4.1.4 在API网关对Ingress Control的内网SLB授权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-5-%E5%88%9B%E5%BB%BAAPI"><span class="toc-text">4.1.5 创建API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-6-%E8%B0%83%E7%94%A8%E6%B5%8B%E8%AF%95"><span class="toc-text">4.1.6 调用测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-Kubernetes%E6%9C%8D%E5%8A%A1%E5%86%85%E7%BD%91SLB%E7%BB%93%E5%90%88%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="toc-text">4.2 Kubernetes服务内网SLB结合模式的配置方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-1-%E7%94%9F%E6%88%90%E6%90%BA%E5%B8%A6%E5%86%85%E7%BD%91SLB%E7%9A%84Kubernetes%E6%9C%8D%E5%8A%A1"><span class="toc-text">4.2.1 生成携带内网SLB的Kubernetes服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-2-%E5%9C%A8Kubernetes%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%89%BE%E5%88%B0%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%86%85%E7%BD%91SLB%E5%9C%B0%E5%9D%80"><span class="toc-text">4.2.2 在Kubernetes控制台找到服务的内网SLB地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93"><span class="toc-text">5 总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E9%85%8D%E7%BD%AE%E6%80%BB%E7%BB%93"><span class="toc-text">5.1 配置总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-Ingress-Control%E5%92%8CSLB%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94"><span class="toc-text">5.2 Ingress Control和SLB两种方案对比</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>API网关为K8s容器应用集群提供强大的接入能力<br><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/71623.html">https://help.aliyun.com/document_detail/71623.html</a></p>
+<blockquote>
+<h2 id="1-Kubernetes-集群介绍"><a href="#1-Kubernetes-集群介绍" class="headerlink" title="1. Kubernetes 集群介绍"></a>1. Kubernetes 集群介绍</h2><p>Kubernetes（k8s）作为自动化容器操作的开源平台已经名声大噪，目前已经成为容器玩家主流选择。Kubernetes在容器技术的基础上，增加调度和节点集群间扩展能力，可以非常轻松地让你快速建立一个企业级容器应用集群，这个集群主要拥有以下能力：</p>
+<ul>
+<li><p>  自动化容器的部署和复制</p>
+</li>
+<li><p>  随时扩展或收缩容器规模</p>
+</li>
+<li><p>  将容器组织成组，并且提供容器间的负载均衡</p>
+</li>
+<li><p>  很容易地升级应用程序容器的新版本</p>
+</li>
+<li><p>  提供容器弹性，如果容器失效就替换它</p>
+</li>
+</ul>
+<p>下面是一个典型的Kubernetes架构图：</p>
+<p><img src="http://help-docs-aliyun.aliyuncs.com/assets/pic/71623/cn_zh/1525425558172/d56441427680948fb56a00af57bda690.png"></p>
+<h2 id="2-API网关作为Kubernetes集群的接入层架构"><a href="#2-API网关作为Kubernetes集群的接入层架构" class="headerlink" title="2. API网关作为Kubernetes集群的接入层架构"></a>2. API网关作为Kubernetes集群的接入层架构</h2><p>我们可以看到Kubernetes集群是有足够理由作为应用服务的首选，但是Kubernetes集群没有足够的接入能力，特别在大型应用中，它是不能够直接对用户提供服务的，否则会有非常大的安全风险。而API网关作为成熟的云产品，已经集成了非常丰富的接入能力，把API网关放在Kubernetes集群前面作为应用集群的接入服务使用，将大大提高Kubernetes集群的服务能力，可以作为标准的大型互联网应用的标准架构。下面是使用阿里云架构图：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/4354359951/p96242.png"></p>
+<p><strong>是否启用Ingress Control？</strong></p>
+<p>从架构图中我们可以看到，API网关作为Kubernetes集群的桥头堡，负责处理所有客户端的接入及安全工作，API网关和Kubernetes集群中Ingress Control的内网SLB或者服务的内网SLB进行通信。具体什么时候用Ingress Control呢？如果Kubernetes集群内只有一个服务，网关直接和此服务关联的内网SLB进行通信最高效。如果Kubernetes集群内有多个服务，如果使用服务的内网SLB对网关提供服务，将会生成很多SLB，资源管理起来会比较麻烦，此时我们可以使用Ingress Control做Kubernetes中服务发现与七层代理工作，API网关的所有请求发送到Ingress Control关联的内网SLB上，由Ingress Control将请求分发到Kubernetes集群内的容器内，这样我们也只需要一个内网SLB就能将Kubernetes集群内的所有服务暴露出去了。</p>
+<h2 id="3-API网关接入能力"><a href="#3-API网关接入能力" class="headerlink" title="3. API网关接入能力"></a>3. API网关接入能力</h2><p>读者要问了，接入了API网关具体能为整个架构带来哪些好处呢？下面我们列一下这种架构中，API网关具体能给整个应用带来什么价值。</p>
+<p>1.API网关允许客户端和API网关使用多种协议进行通信，其中包括：</p>
+<pre><code>* HTTP  
+* HTTP2  
+* WebScoket</code></pre>
+<p>2.API网关使用多种方法保证和客户端之间的通信安全：</p>
+<pre><code>* 允许定义API和APP之间的授权关系，只有授权的APP允许调用；
+* 全链路通信都使用签名验证机制，包括客户端和API网关之间的通信和API网关和后端服务之间的通信，保证请求在整个链路上不会被篡改；
+* 支持用户使用自己的SSL证书进行HTTPS通信；
+* 支持OPENID CONNECT；</code></pre>
+<p>3.API网关具备iOS/Android/Java三种SDK的自动生成能力，并且具备API调用文档自动生成能力；</p>
+<p>4.API网关支持入参混排能力，请求中的参数可以映射到后端请求中的任何位置；</p>
+<p>5.API网关提供参数清洗能力，用户定义API的时候可以指定参数的类型，正则等规则，API网关会帮用户确认传输给后端服务的请求是符合规则的数据；</p>
+<p>6.API网关支持流量控制能力，支持的维度为用户/APP/API；</p>
+<p>7.API网关提供双向通信的能力；</p>
+<p>8.API网关提供基于请求数/错误数/应答超时时间/流量监控报警能力，所有的报警信息会使用短信或者邮件在一分钟内发出；</p>
+<p>9.API网关已经和阿里云的SLS产品打通，用户可以将所有请求日志自动上传到用户自己的SLS中，后继好对访问日志进行统计分析；</p>
+<p>10.API网关支持Mock模式，在联调中这个能力非常方便；</p>
+<p>11.API网关支持用户配置调用方的IP白名单和黑名单； 12.API网关结合阿里云的云市场，为Provider提供向API使用者收费的能力。</p>
+<p>阿里云的API网关是一个上线数年的成熟云产品，在稳定性和性能方面，经过了时间和阿里云的工程师的不断打磨，有高性能需求的用户尽管放马过来。</p>
+<h2 id="4-在阿里云快速配置Kubernetes集群和API网关"><a href="#4-在阿里云快速配置Kubernetes集群和API网关" class="headerlink" title="4. 在阿里云快速配置Kubernetes集群和API网关"></a>4. 在阿里云快速配置Kubernetes集群和API网关</h2><p>阿里云支持快速创建Kubernetes集群，同一个Region内的Kubernetes集群和API网关的集成也非常简单，下面我们来一步一步地在阿里云中配置出本文第二节中架构设计。第二节中的架构设计中，API网关和Kubernetes有两种结合的模式，一种是API网关将请求发送到Ingress Control前的SLB，由Ingress Control将请求路由到Kubernetes对应的节点中，第二种是API网关直接将请求发送到Kubernetes中服务前的SLB，由SLB直接将请求转发到Kubernetes中服务对应的节点中。第一种模式只需要Ingress Control前有一个SLB就可以了，由Ingress Contro做服务发现与路由，第二种模式每个服务前都需要申请一个SLB，适合并发量大的场景。</p>
+<h2 id="4-1-Ingress-Control模式的配置方式"><a href="#4-1-Ingress-Control模式的配置方式" class="headerlink" title="4.1 Ingress Control模式的配置方式"></a>4.1 Ingress Control模式的配置方式</h2><h2 id="4-1-1-创建带有Ingress-Control组件的Kubernetes集群"><a href="#4-1-1-创建带有Ingress-Control组件的Kubernetes集群" class="headerlink" title="4.1.1 创建带有Ingress Control组件的Kubernetes集群"></a>4.1.1 创建带有Ingress Control组件的Kubernetes集群</h2><p>首先我们来通过控制台创建一个具备Ingress Control组件的Kubernetes集群。</p>
+<p>1.进入Kubernetes集群管理控制台界面：<a target="_blank" rel="noopener" href="https://cs.console.aliyun.com/#/k8s/cluster/list">https://cs.console.aliyun.com/#/k8s/cluster/list</a></p>
+<p>2.点击左上角“创建Kubernetes集群”按钮，进入</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/4354359951/p96396.png"></p>
+<p>3.在创建Kubernetes集群页面选择不同规格的，具体创建选项和常规创建参数一致，在组件配置子页面，需要注意勾选创建Ingress组件：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/4354359951/p96275.png"></p>
+<p>4.创建成功后可以在Kubernetes列表页面看到刚才创建的集群。</p>
+<h2 id="4-1-2-在Kubernetes集群内创建一个多容器的服务"><a href="#4-1-2-在Kubernetes集群内创建一个多容器的服务" class="headerlink" title="4.1.2 在Kubernetes集群内创建一个多容器的服务"></a>4.1.2 在Kubernetes集群内创建一个多容器的服务</h2><p>现在集群有了，我们需要在集群内创建一个服务，这个服务由2个容器组成，每个容器都由最新的Tomcat镜像生成。容器的端口是8080，Ingress Control提供服务的端口是80。</p>
+<p>1.进入Kubernetes集群管理控制台界面：<a target="_blank" rel="noopener" href="https://cs.console.aliyun.com/#/k8s/cluster/list">https://cs.console.aliyun.com/#/k8s/cluster/list</a></p>
+<p>2.进入Kubernetes集群的控制台页面后，点击左边菜单栏的“应用”菜单下的“无状态”按钮，进入应用列表页面后，点击右上角的“使用模板创建”按钮进入创建页面：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/4354359951/p96278.png"></p>
+<p>3.进入创建页面后，点击使用文本创建按钮，输入下面的资源编排文本点击上传按钮进行创建：</p>
+<pre><code>apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: tomcat-demo
+  labels:
+    app: tomcat
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: tomcat:latest
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: tomcat
+  sessionAffinity: None
+  type: NodePort</code></pre>
+<p>对这段编排模板创建文本做下解释：使用最新的Tomcat镜像创建两个容器的意思，容器的服务端口是8080，并且创建一个命名为tomcat-service的服务，对外服务的端口为80，映射到容器8080的端口；</p>
+<p>好了，目前为止，我们已经创建了一个Kubernetes集群，并且在这个集群下面创建了两个容器，每个容器上面跑着一个最新的Tomcat。这两个容器组成一个无状态应用，并且组成了一个命名为tomcat-service的服务。我们可以进入无状态应用详情页面看到整个应用的运行情况。目前我们的API网关没有办法访问到这个服务，需要我们在Ingress Control上建立一条到这个服务的路由才能把全链路打通</p>
+<h2 id="4-1-3-在Ingress-Control上给服务加上路由"><a href="#4-1-3-在Ingress-Control上给服务加上路由" class="headerlink" title="4.1.3 在Ingress Control上给服务加上路由"></a>4.1.3 在Ingress Control上给服务加上路由</h2><p>现在我们有应用了，还需要在Ingress Control上为这个应用建立一个服务，然后在服务上建立一条路由，这样API网关将请求发送给Ingress Control时，Ingress Control会根据配置的路由信息将请求代理到对应的应用节点上。</p>
+<p>1.在容器服务控制台上点击“路由与负载均衡”菜单下的“服务”按钮，点击右上角的“创建”按钮；</p>
+<p>2.在创建路由页面填写服务对应的域名，所监听的端口等：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96324.png"></p>
+<h2 id="4-1-4-在API网关对Ingress-Control的内网SLB授权"><a href="#4-1-4-在API网关对Ingress-Control的内网SLB授权" class="headerlink" title="4.1.4 在API网关对Ingress Control的内网SLB授权"></a>4.1.4 在API网关对Ingress Control的内网SLB授权</h2><p>API网关如果要访问Ingress Control的内网SLB，需要增加VPC网络的授权，首先我们需要准备VPC的标识和内网SLB的实例ID，我们可以在SLB控制台获取。</p>
+<p>1.在Kubernetes管理控制台的“服务于负载均衡”菜单下点击“服务”菜单，进入服务管理页面后，选择命名空间为”所有命名空间”后可以在列表中看到Ingress Control的内网SLB地址：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96341.png"></p>
+<p>2.登录SLB控制台（<a target="_blank" rel="noopener" href="https://slb.console.aliyun.com/%EF%BC%89%EF%BC%8C%E6%89%BE%E5%88%B0%E5%88%9A%E6%89%8D%E5%88%9B%E5%BB%BAKubernetes%E6%9C%8D%E5%8A%A1%E6%97%B6%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E7%9A%84VPC%EF%BC%8C%E7%82%B9%E5%87%BB%E8%BF%9B%E5%8E%BB%E6%9F%A5%E7%9C%8B%E8%AF%A6%E6%83%85%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%9C%A8%E8%BF%99%E4%B8%AA%E9%A1%B5%E9%9D%A2%E7%9C%8B%E5%88%B0VPC%E7%9A%84%E6%A0%87%E8%AF%86%EF%BC%9A">https://slb.console.aliyun.com/），找到刚才创建Kubernetes服务时自动创建的VPC，点击进去查看详情，我们可以在这个页面看到VPC的标识：</a></p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96332.png"></p>
+<p>好了，目前我们已经获取到了VPC的ID和SLB的实例ID,下面我们来创建API网关的授权：</p>
+<p>3.进入API网关授权页面：<a target="_blank" rel="noopener" href="https://apigateway.console.aliyun.com/#/cn-beijing/vpcAccess/list">https://apigateway.console.aliyun.com/#/cn-beijing/vpcAccess/list</a> ，点击右上角的创建授权按钮，弹出创建VPC授权的小页面，将刚才查询到的VPC标识和SLB实例ID填入到对应的内容中：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96333.png"></p>
+<p>点击确认按钮后，授权关系就创建好了，需要记住刚才填写的授权名称。</p>
+<h2 id="4-1-5-创建API"><a href="#4-1-5-创建API" class="headerlink" title="4.1.5 创建API"></a>4.1.5 创建API</h2><p>在API网关控制台创建API的时候，后端服务这块，有两点需要注意的：</p>
+<p>1.我们需要填写刚才创建的VPC授权名称；</p>
+<p>2.在创建API页面的常量参数添加一个名字为host，位置header的参数，参数值设置为4.1.3节中设置的路由中填写的域名。</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96380.png"></p>
+<h2 id="4-1-6-调用测试"><a href="#4-1-6-调用测试" class="headerlink" title="4.1.6 调用测试"></a>4.1.6 调用测试</h2><p>API建立好了以后，我们把API发布到线上就可以使用API网关的测试工具进行测试，看看能否将请求发送到刚才创建的Kubernetes集群中去。 我们进入刚才创建好的API的详情页面，点击左侧菜单中的调试API，进入调试页面。在调试页面填写好相应的参数，点击“发起请求”按钮。</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96378.png"></p>
+<p>我们可以看到，请求发送到了Kubernetes的集群中的容器中，并且收到了容器中tomcate的404的应答（因为没有配置对应的页面）。</p>
+<h2 id="4-2-Kubernetes服务内网SLB结合模式的配置方式"><a href="#4-2-Kubernetes服务内网SLB结合模式的配置方式" class="headerlink" title="4.2 Kubernetes服务内网SLB结合模式的配置方式"></a>4.2 Kubernetes服务内网SLB结合模式的配置方式</h2><p>通过Kubernetes服务的SLB结合API网关与Kubernetes的模式的配置方式与前一节中通过Ingress Control结合模式的配置方式有两点不同：1.申请Kubernetes中的容器服务时，需要指定生成内网SLB，2.找到这个SLB的VPC ID与SLB ID，使用这两个ID到API网关去进行授权即可。上一节中描述的创建Kubernetes集群的步骤，本节不再冗余描述。本节主要描述创建携带内网SLB的Kubernetes服务，并且找到这个内网SLB的IP地址。在找到SLB的IP地址后，具体授权方法和4.1.4中描述的一致，本节也不再重复描述。</p>
+<h2 id="4-2-1-生成携带内网SLB的Kubernetes服务"><a href="#4-2-1-生成携带内网SLB的Kubernetes服务" class="headerlink" title="4.2.1 生成携带内网SLB的Kubernetes服务"></a>4.2.1 生成携带内网SLB的Kubernetes服务</h2><p>在4.1.1操作之后，我们有了一个Kubernetes集群，现在我们通过资源编排文本在这个集群中创建带有内网SLB的服务。我们注意下，本段资源编排代码和4.1.2中的资源编排代码不同的是，我们把最后一行的Type变成了LoadBalancer，并且指定了这个SLBLoadBalancer为内网：</p>
+<pre><code>apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: tomcat-demo
+  labels:
+    app: tomcat
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: tomcat:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+  annotations:
+    service.beta.kubernetes.io/alicloud-loadbalancer-address-type: intranet
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: tomcat
+  type: LoadBalancer</code></pre>
+<p>对这段编排模板创建文本做下解释：使用最新的Tomcat镜像创建两个容器的意思，容器的服务端口是8080，并且创建一个命名为tomcat-service的服务，这个服务前有一个内网SLB，对外服务的端口为80，映射到容器8080的端口。</p>
+<h2 id="4-2-2-在Kubernetes控制台找到服务的内网SLB地址"><a href="#4-2-2-在Kubernetes控制台找到服务的内网SLB地址" class="headerlink" title="4.2.2 在Kubernetes控制台找到服务的内网SLB地址"></a>4.2.2 在Kubernetes控制台找到服务的内网SLB地址</h2><p>现在我们成功创建了一个携带内网SLB的服务，我们可以在Kubernetes控制台的“路由与负载均衡”菜单的“服务”子页面找到这个内网SLB的内网IP：</p>
+<p><img src="https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/5354359951/p96549.png"></p>
+<p>找到内网SLB之后，就可以像4.1.4中一样，去SLB的控制台找到这个SLB的VPC ID和SLB ID，并且使用这个SLB的VPC ID和SLB ID到API网关去授权了。</p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><p>让我们总结一下本文的内容，在前三节中，我们描述了Kubernetes集群和API网关的各项能力，并且画出了结合他俩作为后端应用服务生产的架构图。我们结合API网关+Kubernetes集群的架构，让系统具备了动态伸缩，动态路由，支持多协议接入，SDK自动生成，双向通信等各项能力，成为可用性更高，更灵活，更可靠的一套架构。</p>
+<h2 id="5-1-配置总结"><a href="#5-1-配置总结" class="headerlink" title="5.1 配置总结"></a>5.1 配置总结</h2><p>在最后一节，我们描述了在阿里云的公有云如何创建一整套API网关加Kubernetes的流程，关键点在于Kubernetes集群通过Ingress Control组件服务发现，在API网关对Ingress Control组件的内网SLB进行授权后，将所有请求发送到SLB上。下面我们再总结一下通过Ingress结合API网关与Kubernetes的步骤：</p>
+<ol>
+<li><p> 创建一个带有Ingress Control组件的Kubernetes的集群；</p>
+</li>
+<li><p> 使用资源编排命令，在Kubernetes集群中创建两个运行这最新版本的Tomcat的容器，并且基于这两个容器创建对应的服务；</p>
+</li>
+<li><p> 在控制台上给Ingress Control加上一条服务路由；</p>
+</li>
+<li><p> 到SLB控制台找到Ingress Control内网SLB的实例ID，在API网关创建一个VPC授权；</p>
+</li>
+<li><p> 在API网关创建API，后端服务使用刚才创建的VPC授权，并且设定一个名为host的参数，参数值使用Ingress Control服务路由设置的域名。API的请求将发送到Kubernetes集群的Ingress Control的SLB上，由Ingress Control将请求路由到容器内部的Tomcat服务上。</p>
+</li>
+</ol>
+<p>在高并发场景或者只有一个服务的场景，我们可以跳过Ingress Control，直接在服务前面架设一个内网SLB，并且将这个内网SLB授权给API网关，供API网关进行访问。</p>
+<h2 id="5-2-Ingress-Control和SLB两种方案对比"><a href="#5-2-Ingress-Control和SLB两种方案对比" class="headerlink" title="5.2 Ingress Control和SLB两种方案对比"></a>5.2 Ingress Control和SLB两种方案对比</h2><p>1. 使用SLB+Ingress Control。Ingress Control可以做Kubernetes集群的服务发现和七层代理工作，如果Kubernetes集群中有多个服务，可以统一使用Ingress Control进行路由，同时只需要一个内网SLB就可以对外暴露多个服务。便于运维管理和Kubernetes集群的服务扩充。推荐使用此种方式。</p>
+<p>2. 直接使用SLB。如果集群中某个服务的业务压力很大，可以考虑为此服务单独建立一个SLB，API网关直接连接此SLB，从而达到更高的通信效率。此种方式的弊端也比较明显，如果Kubernetes集群内有多个服务，需要为每个服务配置一个SLB，因此给运维管理带来较大工作量。</p>
+</blockquote>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    Copyright©2016-至今   张天师
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 572px;
+    }
+    .nav.fullscreen {
+        margin-left: -572px;
+    }
+    .nav-left {
+        width: 150px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>张天师</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="张天师">
+  <title>API网关的功能用途及实现方式 | 张天师</title>
+  <meta name="keywords" content=" API网关 ">
+  <meta name="description" content="API网关的功能用途及实现方式 | 张天师">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
 <meta property="og:type" content="website">
@@ -57,7 +57,7 @@
 
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/"
    class="avatar_target">
@@ -91,7 +91,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(38)</small>
+                <small>(45)</small>
             
         </div>
     </li>
@@ -155,6 +155,20 @@
         
             
                 <li>
+                    <div data-rel="API网关">
+                        
+                        API网关
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
                     <div data-rel="containerd">
                         
                         containerd
@@ -183,6 +197,20 @@
         
             
                 <li>
+                    <div data-rel="k8s">
+                        
+                        k8s
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
                     <div data-rel="Kubernetes">
                         
                         Kubernetes
@@ -197,10 +225,38 @@
         
             
                 <li>
+                    <div data-rel="PaaS">
+                        
+                        PaaS
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
                     <div data-rel="Scrum">
                         
                         Scrum
                         <small>(11)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SpringBoot">
+                        
+                        SpringBoot
+                        <small>(1)</small>
                         
                     </div>
                     
@@ -239,6 +295,20 @@
         
             
                 <li>
+                    <div data-rel="公有云">
+                        
+                        公有云
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
                     <div data-rel="我假装讲，你假装看">
                         
                         我假装讲，你假装看
@@ -256,7 +326,7 @@
                     <div data-rel="日志">
                         
                         日志
-                        <small>(1)</small>
+                        <small>(2)</small>
                         
                     </div>
                     
@@ -292,20 +362,6 @@
             
         
     
-        
-            
-                <li>
-                    <div data-rel="阿里云">
-                        
-                        阿里云
-                        <small>(1)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
 </ul>
 <div class="left-bottom">
     <div class="menus">
@@ -324,7 +380,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="38">
+<input type="hidden" id="yelog_site_posts_number" value="45">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -383,6 +439,10 @@
     <div class="tag-wrapper">
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>API网关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>Cilium</a>
             </li>
         
@@ -391,15 +451,15 @@
             </li>
         
             <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>ECS</a>
-            </li>
-        
-            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>flannel</a>
             </li>
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>k8s</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -415,6 +475,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PaaS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>Pulsar</a>
             </li>
         
@@ -423,11 +487,19 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SpringBoot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>SRE</a>
             </li>
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>优化</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>公有云</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -460,6 +532,62 @@
 
     
     <nav id="title-list-nav">
+        
+        <a  class="全部文章 SpringBoot "
+           href="/2022/04/30/SpringBoot%E6%80%A7%E8%83%BD%E5%A4%AA%E5%B7%AE,%E6%95%99%E4%BD%A0%E5%87%A0%E6%8B%9B%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A/"
+           data-tag="SpringBoot"
+           data-author="" >
+            <span class="post-title" title="SpringBoot性能太差,教你几招轻松搞定">SpringBoot性能太差,教你几招轻松搞定</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E7%9A%84%E5%8A%9F%E8%83%BD%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关的功能用途及实现方式">API网关的功能用途及实现方式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 PaaS "
+           href="/2022/04/30/%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E7%9A%84PaaS%E6%B7%B7%E5%90%88%E4%BA%91%E7%9A%84%E5%87%A0%E7%A7%8D%E5%BD%A2%E5%BC%8F/"
+           data-tag="PaaS"
+           data-author="" >
+            <span class="post-title" title="基于容器的PaaS混合云的几种形式">基于容器的PaaS混合云的几种形式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 k8s "
+           href="/2022/04/30/%E6%89%93%E7%A0%B4Dockershim%E7%A7%BB%E9%99%A4%E7%84%A6%E8%99%91,%E4%B8%94%E7%9C%8BRancher%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9/"
+           data-tag="k8s"
+           data-author="" >
+            <span class="post-title" title="打破Dockershim移除焦虑,且看Rancher如何应对">打破Dockershim移除焦虑,且看Rancher如何应对</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E4%B8%BAK8s%E5%AE%B9%E5%99%A8%E5%BA%94%E7%94%A8%E9%9B%86%E7%BE%A4%E6%8F%90%E4%BE%9B%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%8E%A5%E5%85%A5%E8%83%BD%E5%8A%9B/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关为K8s容器应用集群提供强大的接入能力">API网关为K8s容器应用集群提供强大的接入能力</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2022/04/30/%E4%BA%91%E5%8E%9F%E7%94%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86-%E5%AD%98%E5%82%A8-%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="云原生环境下的日志采集、存储、分析实践">云原生环境下的日志采集、存储、分析实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/04/30/%E5%85%AC%E6%9C%89%E4%BA%91%E9%99%8D%E6%9C%AC%E5%A2%9E%E6%95%88%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="公有云降本增效最佳实践">公有云降本增效最佳实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
         
         <a  class="全部文章 我假装讲，你假装看 "
            href="/2022/04/23/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%92%E8%81%94%E7%BD%91%E5%A4%A7%E5%8E%82%E4%B8%80%E8%BE%B9%E5%A4%A7%E8%A7%84%E6%A8%A1%E8%A3%81%E5%91%98%E5%8F%88%E4%B8%80%E8%BE%B9%E6%8B%9B%E8%81%98/"
@@ -597,9 +725,9 @@
             <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
         </a>
         
-        <a  class="全部文章 阿里云 "
+        <a  class="全部文章 公有云 "
            href="/2022/03/08/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ECS%E9%80%89%E8%B4%AD%E6%8C%87%E5%8D%97%E5%8F%8A%E7%9C%81%E9%92%B1%E6%B3%95%E5%AE%9D/"
-           data-tag="ECS"
+           data-tag="公有云"
            data-author="" >
             <span class="post-title" title="云服务器ECS选购指南及省钱法宝">云服务器ECS选购指南及省钱法宝</span>
             <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
@@ -781,12 +909,47 @@
         </div>
     </div>
 </aside>
-<div id="post" class="index">
+<div id="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-API网关的功能用途及实现方式" class="article article-type-post" itemscope itemprop="blogPost">
     
+        <h1 class="article-title">API网关的功能用途及实现方式</h1>
+    
+    <div class="article-meta">
         
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="API网关">API网关</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">API网关</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-04-30 16:52:54'>2022-04-30 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-API-%E7%BD%91%E5%85%B3%E8%AF%9E%E7%94%9F%E8%83%8C%E6%99%AF"><span class="toc-text">1. API 网关诞生背景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">API 是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-API-%E5%BC%80%E6%94%BE%E6%95%B0%E9%87%8F%E4%B8%8D%E6%96%AD%E5%A2%9E%E5%8A%A0"><span class="toc-text">1. API 开放数量不断增加</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-API-%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0%E5%A4%9A%E6%A0%B7%E5%8C%96"><span class="toc-text">2. API 服务平台多样化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E9%80%90%E6%AD%A5%E6%9B%BF%E6%8D%A2%E5%8E%9F%E6%9C%89%E4%BC%81%E4%B8%9A%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%A8%A1%E5%BC%8F%EF%BC%8CAPI-%E5%8D%B3%E5%95%86%E5%93%81"><span class="toc-text">3. 逐步替换原有企业的服务模式，API 即商品</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API-%E7%BD%91%E5%85%B3%E8%AF%9E%E7%94%9F%E8%83%8C%E6%99%AF"><span class="toc-text">API 网关诞生背景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-API-%E7%BD%91%E5%85%B3%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-text">2. API 网关核心功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-API-%E7%BD%91%E5%85%B3%E7%9A%84%E7%94%A8%E9%80%94"><span class="toc-text">3. API 网关的用途</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenAPI"><span class="toc-text">OpenAPI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3"><span class="toc-text">微服务网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API-%E4%B8%AD%E5%8F%B0"><span class="toc-text">API 中台</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-API-%E7%BD%91%E5%85%B3%E7%9A%84%E4%BB%B7%E5%80%BC"><span class="toc-text">4. API 网关的价值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-API-%E7%BD%91%E5%85%B3%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-text">5. API 网关的实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%B5%81-API-%E7%BD%91%E5%85%B3"><span class="toc-text">主流 API 网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenAPI-1"><span class="toc-text">OpenAPI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3-1"><span class="toc-text">微服务网关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Service-Mesh"><span class="toc-text">Service Mesh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-text">通用反向代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#API-%E7%BD%91%E5%85%B3%E6%A1%86%E6%9E%B6"><span class="toc-text">API 网关框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AC%E6%9C%89%E4%BA%91%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">公有云解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%96%B9%E6%A1%88"><span class="toc-text">其他方案</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -799,11 +962,177 @@
     }
 </style>
 </div>
-            <p>本博客从2016到2020年的文章太多，已经归档线下保存，不在显示了。<br>2021年停了更新，2022年争取时常更新。</p>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>API网关的功能用途及实现方式 - 东风微鸣技术博客<br><a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/52291/">https://ewhisper.cn/posts/52291/</a></p>
+<blockquote>
+<h2 id="1-API-网关诞生背景"><a href="#1-API-网关诞生背景" class="headerlink" title="1. API 网关诞生背景"></a>1. API 网关诞生背景</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>API 经济生态链已经在全球范围覆盖， 绝大多数企业都已经走在数字化转型的道路上，API 成为企业连接业务的核心载体， 并产生巨大的盈利空间。快速增长的 API 规模以及调用量，使得企业 IT 在架构上、模式上面临着更多的挑战。</p>
+<h3 id="API-是什么"><a href="#API-是什么" class="headerlink" title="API 是什么"></a>API 是什么</h3><p>API 网关是一个服务器，是系统的唯一入口。从面向对象设计的角度看，它与外观模式类似。API 网关封装了系统内部架构，为每个客户端提供一个定制的 API。它可能还具有其它职责，如身份验证、监控、负载均衡、缓存、请求分片与管理、静态响应处理。API 网关方式的核心要点是，所有的客户端和消费端都通过统一的网关接入微服务，在网关层处理所有的非业务功能。通常，网关也是提供 REST/HTTP 的访问 API。服务端通过 API-GW 注册和管理服务。</p>
+<h4 id="1-API-开放数量不断增加"><a href="#1-API-开放数量不断增加" class="headerlink" title="1. API 开放数量不断增加"></a>1. API 开放数量不断增加</h4><p>毋庸置疑，随着企业的数据化进展，微服务改造，不同领域的 API 层出不穷，早在 2014 年 ProgrammableWeb 便预测 API 矢量可达到 100,000 到 200,000，并会不断增长。API 开发数量的增加给边缘系统带来机会，也随即演变了 API 网关的出现。大规模的 API 管理系统成为核心的发展趋势。</p>
+<p><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/08/25/56946b95ef344c0b542764b063961940-total-number-of-APis-growth-of-the-API-industry.png" title="The API Economy Disruption and the Business of APIs，Nordic APIs"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/56946b95ef344c0b542764b063961940-total-number-of-APis-growth-of-the-API-industry.png" alt="The API Economy Disruption and the Business of APIs，Nordic APIs"></a></p>
+<p><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/08/25/56946b95ef344c0b542764b063961940-total-number-of-APis-growth-of-the-API-industry.png" title="The API Economy Disruption and the Business of APIs，Nordic APIs">The API Economy Disruption and the Business of APIs，Nordic APIs</a></p>
+<h4 id="2-API-服务平台多样化"><a href="#2-API-服务平台多样化" class="headerlink" title="2. API 服务平台多样化"></a>2. API 服务平台多样化</h4><p>最初的 API 主要针对不同单体应用的网络单元之间信息交互，现已演变到服务间快速通讯。随着人工智能 EI，IOT 的不断演进，依赖 API 的平台不断更新，如 Web，Mobile，终端等，未来将会出现更多的服务体系。包括不限于：</p>
+<ul>
+<li>  浏览器</li>
+<li>  IOS</li>
+<li>  Android</li>
+<li>  macOS</li>
+<li>  Windows</li>
+<li>  Linux</li>
+<li>  IOT</li>
+<li>  其他移动端</li>
+<li>  小程序</li>
+<li>  终端设备（如智慧零售、工业的终端等）</li>
+<li>  …</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/08/25/7a9615fedf5505fd3fc6094d38af448d-20210825104220.png"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/7a9615fedf5505fd3fc6094d38af448d-20210825104220.png"></a></p>
+<h4 id="3-逐步替换原有企业的服务模式，API-即商品"><a href="#3-逐步替换原有企业的服务模式，API-即商品" class="headerlink" title="3. 逐步替换原有企业的服务模式，API 即商品"></a>3. 逐步替换原有企业的服务模式，API 即商品</h4><p>卖计算，卖软件，卖能力，最终的企业的销售模式会逐步转变，能力变现，释放数据价值，依托不同的 API 管理平台创造新的盈利。</p>
+<h3 id="API-网关诞生背景"><a href="#API-网关诞生背景" class="headerlink" title="API 网关诞生背景"></a>API 网关诞生背景</h3><p>随着 API 的整体趋势发展，每个时期都面临着不同的挑战，架构也随之变化，具体如下图：</p>
+<ol>
+<li> 1960-1980：阿帕网、ATTP、TCP</li>
+<li> 1980-1990：点对点</li>
+<li> 1990-2000：消息中间件、ESB（企业服务总线，Enterprise service bus），SOA（面向服务的架构）</li>
+<li> 2000 至今：Integration as a service，RESTful services，API 管理，云上编排</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/08/25/e8fdff5629ec5d463b570ddeb01e8bb5-API-Infographic-Final.webp" title="API economy From systems to business services"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/e8fdff5629ec5d463b570ddeb01e8bb5-API-Infographic-Final.webp" alt="API economy From systems to business services"></a></p>
+<p><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/08/25/e8fdff5629ec5d463b570ddeb01e8bb5-API-Infographic-Final.webp" title="API economy From systems to business services">API economy From systems to business services</a></p>
+<p>从最原始的“传输协议通讯” -&gt; “简单的接口集成” -&gt; “消息中间件” -&gt; “标准 REST”， 可以看到 API 的发展更趋向于简洁， 集成，规范化， 这也促使更多的系统边界组件不断涌现，在承载了万亿级的 API 经济的背景下， API 网关应运而生。</p>
+<p>如果没有合适的 API 管理工具， API 经济不可能顺利开展。 同时提出了对于 API 管理系统的生命周期定义： planning（规划）, design（设计）， implementation（实施）， publication（发布），operation（运维）, consumption（消费）, maintenance（维护） and retirement of APIs（下架）</p>
+<p>如果没有合适的 API 管理工具， API 经济不可能顺利开展。 同时提出了对于 API 管理系统的生命周期定义： planning（规划）, design（设计）， implementation（实施）， publication（发布），operation（运维）, consumption（消费）, maintenance（维护） and retirement of APIs（下架）</p>
+<p>– <em>Magic Quadrant for Full Life Cycle API Management，Gartner, 2016-10-27</em></p>
+<h2 id="2-API-网关核心功能"><a href="#2-API-网关核心功能" class="headerlink" title="2. API 网关核心功能"></a>2. API 网关核心功能</h2><ul>
+<li>API 生命周期管理<ul>
+<li>  planning（规划）</li>
+<li>  design（设计）</li>
+<li>  implementation（实施）</li>
+<li>  publication（发布）</li>
+<li>  operation（运维）</li>
+<li>  consumption（消费）</li>
+<li>  maintenance（维护）</li>
+<li>  retirement（下架）</li>
+</ul>
+</li>
+<li>API 网关基础功能<ul>
+<li>  认证</li>
+<li>  鉴权</li>
+<li>  服务发现和集成</li>
+<li>  负载均衡</li>
+<li>  日志</li>
+<li>  链路追踪</li>
+<li>  监控</li>
+<li>  重试</li>
+<li>  限流</li>
+<li>  QoS</li>
+<li>  熔断器</li>
+<li>  映射</li>
+<li>  缓存</li>
+<li>  Header、query 字符串 等 转义</li>
+<li>  API 文档</li>
+<li>  API 测试</li>
+<li>  SDK 生成</li>
+</ul>
+</li>
+<li>  API 多版本、多环境管理</li>
+<li>  插件</li>
+<li>  API 集中式 metrics、logging、tracing 管理</li>
+<li>安全<ul>
+<li>  HTTPS</li>
+<li>  IP 黑白名单</li>
+</ul>
+</li>
+<li>高可用<ul>
+<li>  可热重启</li>
+</ul>
+</li>
+<li>  高性能</li>
+<li>可扩展性<ul>
+<li>  无状态横向扩展</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-API-网关的用途"><a href="#3-API-网关的用途" class="headerlink" title="3. API 网关的用途"></a>3. API 网关的用途</h2><h3 id="OpenAPI"><a href="#OpenAPI" class="headerlink" title="OpenAPI"></a>OpenAPI</h3><p>企业需要将自身数据、能力等作为开发平台向外开放，通常会以 rest 的方式向外提供。最好的例子就是淘宝开放平台、腾讯公司的 QQ 开发平台、微信开放平台。</p>
+<p>Open API 开放平台必然涉及到客户应用的接入、API 权限的管理、调用次数管理等，必然会有一个统一的入口进行管理，这正是 API 网关可以发挥作用的时候。</p>
+<h3 id="微服务网关"><a href="#微服务网关" class="headerlink" title="微服务网关"></a>微服务网关</h3><p>在微服务架构中，有一个组件可以说是必不可少的，那就是微服务网关，微服务网关处理了负载均衡，缓存，路由，访问控制，服务代理，监控，日志等。</p>
+<p>API 网关在微服务架构中正是以微服务网关的身份存在。</p>
+<h3 id="API-中台"><a href="#API-中台" class="headerlink" title="API 中台"></a>API 中台</h3><p>上述的微服务架构对企业来说有可能实施上是困难的，企业有很多遗留系统，要全部抽取为微服务改动太大，对企业来说成本太高。</p>
+<p>但是由于不同系统间存在大量的 API 服务互相调用，因此需要对系统间服务调用进行管理，清晰地看到各系统调用关系，对系统间调用进行监控等。</p>
+<p>API 网关可以解决这些问题，我们可以认为如果没有大规模的实施微服务架构，那么对企业来说微服务网关就是企业的 API 中台。</p>
+<h2 id="4-API-网关的价值"><a href="#4-API-网关的价值" class="headerlink" title="4. API 网关的价值"></a>4. API 网关的价值</h2><p>通过 API 网关，可以封装后端各种服务，以 API 的形式，提供给各方使用。API 网关产品的优势总结如下：</p>
+<ul>
+<li>  API 全生命周期管理：协助开发者轻松完成 API 的创建、维护、发布、监控等整个生命周期的管理。</li>
+<li>  丰富的服务治理能力：支持 API 限流，参数校验，元数据维护，SDK 生成，批量操作等能力，协助开发者高效管理服务。</li>
+<li>  可观察性：通过 API 网关，支持对调用次数，前后端错误次数等丰富监控指标的可视和告警能力；通过全面的监控告警，保证用户服务的可用性。</li>
+<li>  可运营性：支持 企业 OpenAPI 定价，账单等运营功能</li>
+<li>  服务安全：通过接入多种认证方式，确保用户 API 的访问安全性；通过严格的流量控制，避免用户服务的过载。</li>
+<li>  前后端业务解耦</li>
+<li>  多类型后端打通</li>
+</ul>
+<h2 id="5-API-网关的实现方式"><a href="#5-API-网关的实现方式" class="headerlink" title="5. API 网关的实现方式"></a>5. API 网关的实现方式</h2><h3 id="主流-API-网关"><a href="#主流-API-网关" class="headerlink" title="主流 API 网关"></a>主流 API 网关</h3><ul>
+<li>  Istio</li>
+<li>  Linkerd</li>
+<li>  NGINX 及其商业版</li>
+<li>  KONG</li>
+<li>  Traefik</li>
+<li>  APISIX</li>
+<li>  RedHat 3scale</li>
+<li>  Netflix Zuul</li>
+<li>  Spring Cloud Gateway</li>
+<li>  Amazon API Gateway</li>
+<li>  阿里云 API 网关</li>
+<li>  腾讯云 API 网关</li>
+<li>  MuleSoft</li>
+</ul>
+<h3 id="OpenAPI-1"><a href="#OpenAPI-1" class="headerlink" title="OpenAPI"></a>OpenAPI</h3><p>对于定位 OpenAPI 平台的 API 网关，目前只能选择专业的 API 网关作为解决方案。</p>
+<h3 id="微服务网关-1"><a href="#微服务网关-1" class="headerlink" title="微服务网关"></a>微服务网关</h3><p>对于定位为「微服务网关」的 API 网关，业务有多种实现方式：</p>
+<h4 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h4><p>典型的如 Istio，架构如下：</p>
+<p><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/08/25/942a1801e1aa084b7301e0afedcb05d2-service_mesh_5.png"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/942a1801e1aa084b7301e0afedcb05d2-service_mesh_5.png"></a><br><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/08/25/7a65f5e28f37fa8cb670d84618bb113d-service_mesh_2.png"><img src="https://pic-cdn.ewhisper.cn/img/2021/08/25/7a65f5e28f37fa8cb670d84618bb113d-service_mesh_2.png"></a></p>
+<h4 id="通用反向代理"><a href="#通用反向代理" class="headerlink" title="通用反向代理"></a>通用反向代理<a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/52291/#%E9%80%9A%E7%94%A8%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"></a></h4><p>基于 NGINX 或 NGINX + LUA + OpenResty 的实现。典型如：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.nginx.com/">Nginx 及其 商业版</a><ul>
+<li>  NGINX Controller（API 管理、App 交付）</li>
+<li>  NGINX Plus（API Gateway，负载均衡，仪表板）</li>
+<li>  NGINX Ingress Controller</li>
+<li>  NGINX Service Mesh</li>
+</ul>
+</li>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/Kong/kong">KONG</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://doc.traefik.io/traefik/">Traefik</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://www.redhat.com/en/technologies/jboss-middleware/3scale">3scale</a></li>
+</ul>
+<h4 id="API-网关框架"><a href="#API-网关框架" class="headerlink" title="API 网关框架"></a>API 网关框架</h4><ul>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/Netflix/zuul">Netflix Zuul</a>，zuul 是 spring cloud 的一个推荐组件</li>
+<li>  <a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-gateway">Spring Cloud Gateway</a></li>
+</ul>
+<h4 id="公有云解决方案"><a href="#公有云解决方案" class="headerlink" title="公有云解决方案"></a>公有云解决方案</h4><p>其实公有云的解决方案也是基于以上方案的定制化开发并产品化后发布到公有云上，主流的也是基于：NGINX + LUA + OpenResty 的实现</p>
+<ul>
+<li>  <a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/api-gateway/">Amazon API Gateway</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://www.aliyun.com/product/apigateway/">阿里云 API 网关</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/apigateway">腾讯云 API 网关</a></li>
+</ul>
+<h4 id="其他方案"><a href="#其他方案" class="headerlink" title="其他方案"></a>其他方案</h4><ul>
+<li>  基于 Netty、非阻塞 IO 模型。</li>
+<li>  基于 Node.js 的方案。这种方案是应用了 Node.js 的非阻塞的特性。</li>
+<li>  基于 Java，如 <a target="_blank" rel="noopener" href="https://docs.mulesoft.com/general/">MuleSoft</a></li>
+</ul>
+</blockquote>
 
-        </article>
-        
-        
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">
@@ -812,11 +1141,11 @@
 <p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
     </div>
-</div>
-<div class="full-toc">
-    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
 <a class="" id="rocket" ></a>
 
+    </div>
 </div>
 
 </body>
