@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>基于容器的PaaS混合云的几种形式 | 张天师</title>
-  <meta name="keywords" content=" PaaS ">
-  <meta name="description" content="基于容器的PaaS混合云的几种形式 | 张天师">
+  <title>解决gateway使用nacos重启报503ServiceUnavailable问题 | 张天师</title>
+  <meta name="keywords" content=" nacos ">
+  <meta name="description" content="解决gateway使用nacos重启报503ServiceUnavailable问题 | 张天师">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
 <meta property="og:type" content="website">
@@ -937,9 +937,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-基于容器的PaaS混合云的几种形式" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-解决gateway使用nacos重启报503ServiceUnavailable问题" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">基于容器的PaaS混合云的几种形式</h1>
+        <h1 class="article-title">解决gateway使用nacos重启报503ServiceUnavailable问题</h1>
     
     <div class="article-meta">
         
@@ -949,7 +949,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="PaaS">PaaS</a>
+            <a  data-rel="nacos">nacos</a>
             
         </span>
         
@@ -957,14 +957,14 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color5">PaaS</a>
+            <a class="color1">nacos</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2022-04-30 17:25:35'>2022-04-30 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2022-05-01 14:10:29'>2022-05-01 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -975,7 +975,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6-%E5%AE%B9%E5%99%A8%E5%B9%B3%E5%8F%B0"><span class="toc-text">软件 - 容器平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6-%E5%A4%9A%E4%BA%91%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0"><span class="toc-text">软件 - 多云容器管理平台</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8A%A3"><span class="toc-text">优劣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9B%E5%BA%94%E5%95%86%E5%8F%8A%E4%BA%A7%E5%93%81"><span class="toc-text">供应商及产品</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%98%E7%AE%A1-%E5%85%AC%E6%9C%89%E4%BA%91%E6%89%98%E7%AE%A1-K8S-%E9%9B%86%E7%BE%A4"><span class="toc-text">托管 - 公有云托管 K8S 集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6-%E5%85%AC%E6%9C%89%E4%BA%91-K8S-%E9%9B%86%E7%BE%A4%E4%BA%A7%E5%93%81%E7%A7%81%E6%9C%89%E5%8C%96%E8%BE%93%E5%87%BA"><span class="toc-text">软件 - 公有云 K8S 集群产品私有化输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%98%E7%AE%A1-%E5%85%AC%E6%9C%89%E4%BA%91%E5%A4%9A%E4%BA%91%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0"><span class="toc-text">托管 - 公有云多云容器管理平台</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8A%A3-1"><span class="toc-text">优劣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9B%E5%BA%94%E5%95%86%E5%8F%8A%E4%BA%A7%E5%93%81-1"><span class="toc-text">供应商及产品</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%8E%A9%E5%AE%B6"><span class="toc-text">其他玩家</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gateway%E6%84%9F%E7%9F%A5%E5%85%B6%E5%AE%83%E6%9C%8D%E5%8A%A1%E4%B8%8A%E4%B8%8B%E7%BA%BF"><span class="toc-text">gateway感知其它服务上下线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ribbon"><span class="toc-text">ribbon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ribbon%E7%9A%84%E5%88%B7%E6%96%B0%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="toc-text">ribbon的刷新缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="toc-text">解决思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">最终解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%8A%BD%E8%B1%A1%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-text">1.抽象监听器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89ServerListUpdater"><span class="toc-text">自定义ServerListUpdater</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0ServerListListener%E7%9B%91%E6%8E%A7nacos%E5%B9%B6%E6%B3%A8%E5%85%A5bean%E5%AE%B9%E5%99%A8"><span class="toc-text">实现ServerListListener监控nacos并注入bean容器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%8A%E8%87%AA%E5%AE%9A%E4%B9%89Updater%E6%B3%A8%E5%85%A5bean"><span class="toc-text">把自定义Updater注入bean</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -991,114 +991,280 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p> 基于容器的 PaaS 混合云的几种形式 - 东风微鸣技术博客<br><a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/57201/">https://ewhisper.cn/posts/57201/</a>) </p>
+        <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/70f4c2ce6ac8">https://www.jianshu.com/p/70f4c2ce6ac8</a></p>
 <blockquote>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>这是 Gartner 的一个图，提供了全球的基于容器的 PaaS 公有云、混合云服务的梳理展示：<br><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/09/17/a11d88b4ce770c547025af0bee5102bb-v2-c3e894db6f71442f6f959b09f8ed5cc1_b.jpeg"><img src="https://pic-cdn.ewhisper.cn/img/2021/09/17/a11d88b4ce770c547025af0bee5102bb-v2-c3e894db6f71442f6f959b09f8ed5cc1_b.jpeg"></a></p>
-<p>这里提供一个其他的视角：<br>中国市场，基于容器的 PaaS 混合云（公有云 + 私有云）的相关厂商及产品。</p>
-<p>❗️ 注意：</p>
-<p>文章目前还是初版，只是厂商和产品的一个简单罗列，后面会进一步细化。<br>另外由于作者认知所限，无法罗列所有相关厂商和产品。请见谅。</p>
-<h2 id="软件-容器平台"><a href="#软件-容器平台" class="headerlink" title="软件 - 容器平台"></a>软件 - 容器平台</h2><p>指的是通过售卖软件形式提供的容器平台（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。<br>这里的「容器平台」指的是：基于 Kubernetes 的容器平台，有的容器平台会提供更丰富的功能，如：镜像仓库，监控，日志，Tracing，DevOps，微服务治理，ServiceMesh、Servless 等</p>
-<ol>
-<li> RedHat - OpenShift Container Platform</li>
-<li> Rancher - RKE</li>
-<li> 青云 - Kubesphere</li>
-<li> 时速云 - TCS（TenxCloud Container Service）</li>
-<li> 灵雀云 - ACP（Alauda Container Platform）</li>
-<li> 博云 - BeyondContainer</li>
-<li> DaoCLoud - DaoCloud Enterprise</li>
-<li> 腾讯 - TKE Enterprise（基于灵雀云）</li>
-<li> VMware - VSphere 7+</li>
-</ol>
-<h2 id="软件-多云容器管理平台"><a href="#软件-多云容器管理平台" class="headerlink" title="软件 - 多云容器管理平台"></a>软件 - 多云容器管理平台</h2><p>指的是通过售卖软件形式提供的多云容器管理平台（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。<br>这里的「多云容器管理平台」指的是：基于 Kubernetes 的容器平台，或基于 Kubernetes 联邦（如华为 MCP），或基于自研多集群能力（如 Rancher），实现对异构、公有云及私有云的 Kubernetes 集群的纳管、甚至安装、运维、统一监控等能力。</p>
-<p>❗️ 注意：</p>
-<p>这类「多云容器管理平台」虽然可以纳管异构 Kubernetes 集群，但是某些高级功能，只有使用供应商推荐的 Kubernetes 产品才能使用。<br>如：Rancher 的安装、监控、日志等高级功能；RedHat 的安装、安全策略、GitOps 等功能</p>
-<h3 id="优劣"><a href="#优劣" class="headerlink" title="优劣"></a>优劣</h3><p>优势：</p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>项目使用spring cloud gateway作为网关，nacos作为微服务注册中心，项目搭建好后正常访问都没问题，但是有个很烦人的小瑕疵：</p>
 <ul>
-<li>  灵活</li>
-<li>  适用于：全内网环境（对于安全级别要求高的如金融行业会非常关注）</li>
+<li>  当某个微服务重启后，通过网关调用这个服务时有时会出现<code>503 Service Unavailable(服务不可用)</code>的错误，但过了一会儿又可以访问了，这个等待时间有时很长有时很短，甚至有时候还不会出现</li>
+<li>  导致每次重启某个项目都要顺便启动gateway项目才能保证立即可以访问，时间长了感觉好累，想彻底研究下为什么，并彻底解决</li>
 </ul>
-<p>劣势：</p>
+<p><em>接下来介绍我在解决整个过程的思路，如果没兴趣，可以直接跳到最后的最终解决方案</em></p>
+<h2 id="gateway感知其它服务上下线"><a href="#gateway感知其它服务上下线" class="headerlink" title="gateway感知其它服务上下线"></a>gateway感知其它服务上下线</h2><p>首先在某个微服务上下线时，gateway的控制台可以立即看到有对应的输出</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9112801-0168be1734dd7bf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/793"></p>
+<p>某服务下线gateway输出</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9112801-6a09eaf1f1b91bee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/761"></p>
+<p>某服务上线gateway输出</p>
+<p>这说明nacos提供了这种监听功能，在注册中心服务列表发生时可以第一时间通知客户端，而在我们的依赖<code>spring-cloud-starter-alibaba-nacos-discovery</code>中显然已经帮我们实现了这个监听</p>
+<p>所以也就说明gateway是可以立即感知其它服务的上下线事件，但问题是明明感知到某个服务的上线，那为什么会出现<code>503 Service Unavailable</code>的错误，而且上面的输出有时出现了很久，但调用依然是<code>503 Service Unavailable</code>，对应的某服务明明下线，这是应该是<code>503 Service Unavailable</code>状态，可有时确会有一定时间的<code>500</code>错误</p>
+<h2 id="ribbon"><a href="#ribbon" class="headerlink" title="ribbon"></a>ribbon</h2><p>为了调查事情的真相，我打开了gateway的debug日志模式，找到了503的罪魁祸首  </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9112801-e761406118f10444.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1079"></p>
+<p>503的控制台输出</p>
+<p>在503错误输出前，有一行这样的日志<code>Zone aware logic disabled or there is only one zone</code>，而报这个信息的包就是ribbon-loadbalancer，也就是gateway默认所使用的负载均衡器</p>
+<p>我的gateway配置文件路由方面设置如下</p>
+<pre><code>routes:
+        - id: auth
+          uri: lb://demo-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1</code></pre>
+<p>其中在uri这一行，使用了lb:// ,代表使用了gateway的ribbon负载均衡功能，官方文档说明如下<br><strong>Note that this example also demonstrates (optional) Spring Cloud Netflix Ribbon load-balancing (defined the lb prefix on the destination URI)</strong></p>
+<p>ribbon再调用时首先会获取所有服务列表(ip和端口信息)，然后根据负载均衡策略调用其中一个服务，选择服务的代码如下</p>
+<pre><code>package com.netflix.loadbalancer;
+public class ZoneAwareLoadBalancer&lt;T extends Server&gt; extends DynamicServerListLoadBalancer&lt;T&gt; &#123;
+    // 选择服务的方法
+    public Server chooseServer(Object key) &#123;
+            if (!ENABLED.get() || getLoadBalancerStats().getAvailableZones().size() &lt;= 1) &#123;
+                logger.debug(&quot;Zone aware logic disabled or there is only one zone&quot;);
+                return super.chooseServer(key);
+            &#125;
+    ...     </code></pre>
+<p>这就是上面的<code>Zone aware logic..</code>这行日志的出处，经调试发现在<code>getLoadBalancerStats().getAvailableZones()</code>这一步返回的服务是空列表，说明这里没有存储任何服务信息，所以才导致最终的<code>503 Service Unavailable</code><br>继续跟进去看<code>getAvailableZones</code>的代码，如下</p>
+<pre><code>public class LoadBalancerStats implements IClientConfigAware &#123;
+    // 一个缓存所有服务的map
+    volatile Map&lt;String, List&lt;? extends Server&gt;&gt; upServerListZoneMap = new ConcurrentHashMap&lt;String, List&lt;? extends Server&gt;&gt;();
+    // 获取可用服务keys
+    public Set&lt;String&gt; getAvailableZones() &#123;
+        return upServerListZoneMap.keySet();
+    &#125;</code></pre>
+<p>可以看到ribbon是在LoadBalancerStats中维护了一个map来缓存所有可用服务，而问题的原因也大概明了了：<strong>gateway获取到了服务变更事件，但并没有及时更新ribbon的服务列表缓存</strong></p>
+<h2 id="ribbon的刷新缓存机制"><a href="#ribbon的刷新缓存机制" class="headerlink" title="ribbon的刷新缓存机制"></a>ribbon的刷新缓存机制</h2><p>现在的实际情况是：gateway获取到了服务变更事件，但并没有马上更新ribbon的服务列表缓存，但过一段时间可以访问说明缓存又刷新了，那么接下来就要找到ribbon的缓存怎么刷新的，进而进一步分析为什么没有及时刷新</p>
+<p>在LoadBalancerStats查找到更新缓存的方法是<code>updateZoneServerMapping</code></p>
+<pre><code>public class LoadBalancerStats implements IClientConfigAware &#123;
+    // 一个缓存所有服务的map
+    volatile Map&lt;String, List&lt;? extends Server&gt;&gt; upServerListZoneMap = new ConcurrentHashMap&lt;String, List&lt;? extends Server&gt;&gt;();
+    // 更新缓存
+    public void updateZoneServerMapping(Map&lt;String, List&lt;Server&gt;&gt; map) &#123;
+        upServerListZoneMap = new ConcurrentHashMap&lt;String, List&lt;? extends Server&gt;&gt;(map);
+        // make sure ZoneStats object exist for available zones for monitoring purpose
+        for (String zone: map.keySet()) &#123;
+            getZoneStats(zone);
+        &#125;
+    &#125;</code></pre>
+<p>那么接下来看看这个方法的调用链，调用链有点长，最终找到了<code>DynamicServerListLoadBalancer</code>下的<code>updateListOfServers</code>方法，首先看<code>DynamicServerListLoadBalancer</code>翻译过来”动态服务列表负载均衡器”，说明它有动态获取服务列表的功能，那我们的bug它肯定难辞其咎，而<code>updateListOfServers</code>就是它刷新缓存的手段，那么就看看这个所谓的”动态服务列表负载均衡器”是如何使用<code>updateListOfServers</code>动态刷新缓存的</p>
+<pre><code>public class DynamicServerListLoadBalancer&lt;T extends Server&gt; extends BaseLoadBalancer &#123;
+    // 封装成一个回调
+    protected final ServerListUpdater.UpdateAction updateAction = new ServerListUpdater.UpdateAction() &#123;
+        @Override
+        public void doUpdate() &#123;
+            updateListOfServers();
+        &#125;
+    &#125;;
+    // 初始化
+    public DynamicServerListLoadBalancer(IClientConfig clientConfig, IRule rule, IPing ping,
+                                         ServerList&lt;T&gt; serverList, ServerListFilter&lt;T&gt; filter,
+                                         ServerListUpdater serverListUpdater) &#123;
+        ...
+        this.serverListUpdater = serverListUpdater; // serverListUpdate赋值
+        ...
+        // 初始化时刷新服务
+        restOfInit(clientConfig);
+    &#125;
+
+    void restOfInit(IClientConfig clientConfig) &#123;
+        ...
+        // 开启动态刷新缓存
+        enableAndInitLearnNewServersFeature();
+        // 首先刷新一遍缓存
+        updateListOfServers();
+        ...
+    &#125;
+
+    // 开启动态刷新缓存
+    public void enableAndInitLearnNewServersFeature() &#123;
+        // 把更新的方法传递给serverListUpdater
+        serverListUpdater.start(updateAction);
+    &#125;</code></pre>
+<p>可以看到初始化DynamicServerListLoadBalancer时，首先updateListOfServers获取了一次服务列表并缓存，这只能保证项目启动获取一次服务列表，而真正的动态更新实现是把updateListOfServers方法传递给内部<code>serverListUpdater.start</code>方法，serverListUpdater翻译过来就是“服务列表更新器”，所以再理一下思路：</p>
+<p>DynamicServerListLoadBalancer只所以敢自称“动态服务列表负载均衡器”，是因为它内部有个serverListUpdater(“服务列表更新器”)，也就是<code>serverListUpdater.start</code>才是真正为ribbon提供动态更新服务列表的方法，也就是罪魁祸首</p>
+<p>那么就看看<code>ServerListUpdater</code>到底是怎么实现的动态更新，首先<code>ServerListUpdater</code>是一个接口，它的实现也只有一个PollingServerListUpdater，那么肯定是它了，看一下它的<code>start</code>方法实现</p>
+<pre><code>public class PollingServerListUpdater implements ServerListUpdater &#123;
+    @Override
+    public synchronized void start(final UpdateAction updateAction) &#123;
+        if (isActive.compareAndSet(false, true)) &#123;
+            // 定义一个runable，运行doUpdate放
+            final Runnable wrapperRunnable = new Runnable() &#123;
+                @Override
+                public void run() &#123;
+                    ....
+                    try &#123;
+                        updateAction.doUpdate(); // 执行更新服务列表方法
+                        lastUpdated = System.currentTimeMillis();
+                    &#125; catch (Exception e) &#123;
+                        logger.warn(&quot;Failed one update cycle&quot;, e);
+                    &#125;
+                &#125;
+            &#125;;
+
+            // 定时执行
+            scheduledFuture = getRefreshExecutor().scheduleWithFixedDelay(
+                    wrapperRunnable,
+                    initialDelayMs,
+                    refreshIntervalMs, // 默认30 * 1000
+                    TimeUnit.MILLISECONDS
+            );
+        &#125; else &#123;
+            logger.info(&quot;Already active, no-op&quot;);
+        &#125;
+    &#125;</code></pre>
+<p>至此真相大白了，原来ribbon默认更新服务列表依靠的是<strong>定时任务</strong>，而且默认30秒一次，<strong>也就是说假如某个服务重启了，gateway的nacos客户端也感知到了，但是ribbon内部极端情况需要30秒才会重新获取服务列表</strong>，这也就解释了为什么会有那么长时间的<code>503 Service Unavailable</code>问题</p>
+<p>而且因为定时任务，所以等待时间是0-30秒不等，有可能你刚重启完就获取了正常调用没问题，也有可能刚重启完时刚获取完一次，结果就得等30秒才能访问到新的节点</p>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>问题的原因找到了，接下来就是解决了，最简单暴力的方式莫过于修改定时任务的间隔时间，默认30秒，可以改成10秒，5秒，1秒，只要你机器配置够牛逼</p>
+<p>但是有没有更优雅的解决方案，我们的gateway明明已经感知到服务的变化，如果通知ribbon直接更新，问题不就完美解决了吗，这种思路定时任务都可以去掉了，性能还优化了</p>
+<p>具体解决步骤如下</p>
 <ul>
-<li>  购买方需要提供硬件</li>
-<li>  需要安装搭建，无法开箱即用</li>
+<li>  写一个新的更新器，替换掉默认的PollingServerListUpdater更新器</li>
+<li>  更新器可以监听nacos的服务更新</li>
+<li>  收到服务更新事件时，调用doUpdate方法更新ribbon缓存</li>
 </ul>
-<h3 id="供应商及产品"><a href="#供应商及产品" class="headerlink" title="供应商及产品"></a>供应商及产品</h3><ol>
-<li> Rancher - Rancher</li>
-<li> 华为 - MCP（多云容器平台）</li>
-<li> DaoCloud - DaoCloud Service Platform</li>
-<li> RedHat - ACM（Advanced Cluster Management for Kubernetes）</li>
-<li> 青云 - Kubesphere（<a target="_blank" rel="noopener" href="https://kubesphere.com.cn/docs/multicluster-management/">Kubesphere 3.0 以后支持多集群管理</a>）</li>
-<li> VMware - Tanzu</li>
-</ol>
-<h2 id="托管-公有云托管-K8S-集群"><a href="#托管-公有云托管-K8S-集群" class="headerlink" title="托管 - 公有云托管 K8S 集群"></a>托管 - 公有云托管 K8S 集群</h2><p>指的是公有云提供的 K8S 集群，提供公有云算力，也提供托管 Kubernetes 服务。计费方式为：按量计费或包年包月等。</p>
-<p>✍️ 备注：</p>
-<p>暂不包括公有云实例服务及 Servless 服务。</p>
-<ol>
-<li> Amazon - EKS（Elastic Kubernetes Service）</li>
-<li> 阿里 - ACK（Alibaba Cloud Container Service for Kubernetes）</li>
-<li> 腾讯 - TKE（Tencent Kubernetes Engine）</li>
-<li> 微软 - AKS（Azure Kubernetes Service）</li>
-<li> 华为 - CCE（云容器引擎）</li>
-<li> 青云 - QKE（KubeSphere on QingCloud）</li>
-</ol>
-<h2 id="软件-公有云-K8S-集群产品私有化输出"><a href="#软件-公有云-K8S-集群产品私有化输出" class="headerlink" title="软件 - 公有云 K8S 集群产品私有化输出"></a>软件 - 公有云 K8S 集群产品私有化输出</h2><p>指的是通过售卖软件形式提供的和公有云架构类似的「公有云 K8S 集群产品私有化输出」（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。</p>
-<ol>
-<li> 华为 - CCE（云容器引擎）</li>
-<li> 阿里 - 阿里飞天专有云敏捷版</li>
-<li> 腾讯 - TCS（Tencent Cloud-Native Suite）</li>
-</ol>
-<h2 id="托管-公有云多云容器管理平台"><a href="#托管-公有云多云容器管理平台" class="headerlink" title="托管 - 公有云多云容器管理平台"></a>托管 - 公有云多云容器管理平台</h2><p>指的是公有云提供的 多云容器管理平台，提供公有云算力，也提供管理 Kubernetes 服务。计费方式为：按量计费或包年包月等。<br>但是有个前提：如果是私有云 Kubernetes 集群或其他公有云提供商的 Kubernetes 集群，必须通过专线或互联网等形式与供应商网络联通。</p>
-<h3 id="优劣-1"><a href="#优劣-1" class="headerlink" title="优劣"></a>优劣</h3><p>优势：</p>
-<ul>
-<li>  标准化产品，灵活性欠缺</li>
-<li>  适用于：互联网环境</li>
-<li>  按需付费</li>
-<li>  开箱即用</li>
-</ul>
-<p>劣势：</p>
-<ul>
-<li>  无法纳管 没有互联网或连接公有云专线的 Kubernetes 集群</li>
-<li>  安全性担忧</li>
-<li>  <strong>对于被纳管集群的要求较多</strong>（如：EKS Anywhere 目前仅支持两种特定 Kubernetes 集群的纳管）</li>
-</ul>
-<h3 id="供应商及产品-1"><a href="#供应商及产品-1" class="headerlink" title="供应商及产品"></a>供应商及产品</h3><ol>
-<li> 华为 - MCP（多云容器平台）</li>
-<li> 腾讯 - <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/aERPT13Rs_xgAnrOz2mmvg">TKE Everywhere</a>（❗️ 注意：这个和其他 2 家的 Anywhere 还不太一样，云上云下是 <strong>一个</strong> 集群，云下的 Node 由云上的 Master 纳管。本质上是一个边缘容器管理方案。而且还在内测中。）</li>
-<li> Amazon - <a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/eks/eks-anywhere/">EKS Anywhere</a></li>
-<li> 阿里云 - <a target="_blank" rel="noopener" href="https://www.aliyun.com/product/kubernetes">AKS Anywhere</a></li>
-</ol>
-<p>🧠 <strong>思考：2 家 xxx Anywhere 具体是啥做法？</strong></p>
-<p>2 家的 Anywhere 做法是极为一致的。本质上就是「公有云私有化，线上线下我全都要」。优势是：（兼听则明啊，经过实战检验才知道效果如何…）</p>
-<ul>
-<li>一致体验<ul>
-<li>  统一集群管理</li>
-<li>  统一资源调度</li>
-<li>  统一数据容灾</li>
-<li>  统一应用交付</li>
-</ul>
-</li>
-<li>  弹性算力</li>
-<li>能力下沉<ul>
-<li>  云原生可观测</li>
-<li>  安全防护能力</li>
-<li>  中间件</li>
-<li>  数据库</li>
-<li>  数据分析</li>
-<li>  AI</li>
-</ul>
-</li>
-<li>  简化容灾</li>
-</ul>
-<p>以阿里云为例：<br>阿里云推出了一云多形态的部署架构，提供中心云、本地云、边缘云、云盒等多种部署形态，ACKAnywhere 的全面升级意味着公共云能力向本地化进一步延伸，客户在自建的数据中心内也能体验到低成本、低延迟、本地化的公共云产品。<br>随着云计算的普及和云原生技术的发展，容器服务已成为各大公司上云用云的必备基础设施。…此次升级的 ACK Anywhere 拥有「一致体验、弹性算力、能力下沉、简化容灾」四大核心能力，使企业在任何业务场景下使用容器服务时，都能实现「统一集群管理、统一资源调度、统一数据容灾和统一应用交付」。<br>得益于阿里云公共云丰富的产品能力，ACK Anywhere 可将成熟的云原生可观测、安全防护能力部署到用户环境，更可以将云端先进的中间件、数据分析和 AI 能力下沉到本地，满足客户对于产品丰富度以及数据管控的需求，加速业务创新。</p>
-<p>业务连续性是现代企业 IT 架构关注的重点，ACK Anywhere 内建的备份中心，实现了备份、容灾、迁移一体化；支持 Kubernetes 集群配置与数据卷的备份恢复。结合阿里云丰富的业务多活容灾经验，帮助企业全面提升系统稳定性和业务连续性。</p>
-<p>❗️ 注意：</p>
-<p>由于上面所说的原因：「对于被纳管集群的要求较多」，所以这类产品往往也会推荐用户安装自己提供的 Kubernetes 产品，如：华为的 CCE，腾讯的 TKE 开源版，或 Amazon EKS Anywhere 的 <a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/eks/eks-distro/">EKS Distro</a> 产品，或阿里云的 ACK Distro。</p>
-<h2 id="其他玩家"><a href="#其他玩家" class="headerlink" title="其他玩家"></a>其他玩家</h2><ol>
-<li> 京东云</li>
-<li> UCloud</li>
-<li> 百度云</li>
-<li> 金山云</li>
-</ol>
+<p>接下来一步步解决</p>
+<p>首先看上面DynamicServerListLoadBalancer的代码，发现更新器是构造方法传入的，所以要找到构造方法的调用并替换成自己信息的更新器</p>
+<p>在DynamicServerListLoadBalancer构造方法上打了个断点，看看它是如何被初始化的(<strong>并不是gateway启动就会初始化，而是首次调用某个服务，给对应的服务创建一个LoadBalancer，有点懒加载的意思</strong>)  </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9112801-31bc7100ad4ad37f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1061"></p>
+<p>构造方法断点</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9112801-44f34f0c171f43c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200"></p>
+<p>debugger</p>
+<p>看一下debugger的函数调用，发现一个<code>doCreateBean&gt;&gt;&gt;createBeanInstance</code>的调用，其中createBeanInstance执行到如下地方  </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9112801-7f8a73918993940e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/873"></p>
+<p>createBeanInstance</p>
+<p>熟悉spring源码的朋友应该看得出来DynamicServerListLoadBalancer是spring容器负责创建的，而且是FactoryBean模式。</p>
+<p>这个bean的定义在spring-cloud-netflix-ribbon依赖中的RibbonClientConfiguration类</p>
+<pre><code>package org.springframework.cloud.netflix.ribbon;
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties
+@Import(&#123; HttpClientConfiguration.class, OkHttpRibbonConfiguration.class,
+        RestClientRibbonConfiguration.class, HttpClientRibbonConfiguration.class &#125;)
+public class RibbonClientConfiguration &#123;
+    ...
+    @Bean
+    @ConditionalOnMissingBean
+    public ServerListUpdater ribbonServerListUpdater(IClientConfig config) &#123;
+        return new PollingServerListUpdater(config);
+    &#125;
+    ...
+&#125;</code></pre>
+<p>也就是通过我们熟知的@Configuration+@Bean模式创建的PollingServerListUpdater更新器，而且加了个注解<code>@ConditionalOnMissingBean</code></p>
+<p>也就是说我们自己实现一个ServerListUpdater更新器，并加入spring容器，就可以代替PollingServerListUpdater成为ribbon的更新器</p>
+<h2 id="最终解决方案"><a href="#最终解决方案" class="headerlink" title="最终解决方案"></a>最终解决方案</h2><p>我们的更新器是要订阅nacos的，收到事件做update处理，为了避免ribbon和nacos耦合抽象一个监听器再用nacos实现</p>
+<h5 id="1-抽象监听器"><a href="#1-抽象监听器" class="headerlink" title="1.抽象监听器"></a>1.抽象监听器</h5><pre><code>/**
+ * @Author pq
+ * @Date 2022/4/26 17:19
+ * @Description 抽象监听器
+ */
+public interface ServerListListener &#123;
+    /**
+     * 监听
+     * @param serviceId 服务名
+     * @param eventHandler 回调
+     */
+    void listen(String serviceId, ServerEventHandler eventHandler);
+
+    @FunctionalInterface
+    interface ServerEventHandler &#123;
+        void update();
+    &#125;
+&#125;</code></pre>
+<h5 id="自定义ServerListUpdater"><a href="#自定义ServerListUpdater" class="headerlink" title="自定义ServerListUpdater"></a>自定义ServerListUpdater</h5><pre><code>public class NotificationServerListUpdater implements ServerListUpdater &#123;
+
+    private static final Logger logger = LoggerFactory.getLogger(NotificationServerListUpdater.class);
+
+    private final ServerListListener listener;
+
+    public NotificationServerListUpdater(ServerListListener listener) &#123;
+        this.listener = listener;
+    &#125;
+
+    /**
+     * 开始运行
+     * @param updateAction
+     */
+    @Override
+    public void start(UpdateAction updateAction) &#123;
+        // 创建监听
+        String clientName = getClientName(updateAction);
+        listener.listen(clientName, ()-&gt; &#123;
+            logger.info(&quot;&#123;&#125; 服务变化, 主动刷新服务列表缓存&quot;, clientName);
+            // 回调直接更新
+            updateAction.doUpdate();
+        &#125;);
+    &#125;
+
+    /**
+     * 通过updateAction获取服务名，这种方法比较粗暴
+     * @param updateAction
+     * @return
+     */
+    private String getClientName(UpdateAction updateAction) &#123;
+        try &#123;
+            Class&lt;?&gt; bc = updateAction.getClass();
+            Field field = bc.getDeclaredField(&quot;this$0&quot;);
+            field.setAccessible(true);
+            BaseLoadBalancer baseLoadBalancer = (BaseLoadBalancer) field.get(updateAction);
+            return baseLoadBalancer.getClientConfig().getClientName();
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+            throw new IllegalStateException(e);
+        &#125;
+    &#125;</code></pre>
+<h5 id="实现ServerListListener监控nacos并注入bean容器"><a href="#实现ServerListListener监控nacos并注入bean容器" class="headerlink" title="实现ServerListListener监控nacos并注入bean容器"></a>实现ServerListListener监控nacos并注入bean容器</h5><pre><code>@Slf4j
+@Component
+public class NacosServerListListener implements ServerListListener &#123;
+
+    @Autowired
+    private NacosServiceManager nacosServiceManager;
+
+    private NamingService namingService;
+
+    @Autowired
+    private NacosDiscoveryProperties properties;
+
+    @PostConstruct
+    public void init() &#123;
+        namingService =  nacosServiceManager.getNamingService(properties.getNacosProperties());
+    &#125;
+
+    /**
+     * 创建监听器
+     */
+    @Override
+    public void listen(String serviceId, ServerEventHandler eventHandler) &#123;
+        try &#123;
+            namingService.subscribe(serviceId, event -&gt; &#123;
+                if (event instanceof NamingEvent) &#123;
+                    NamingEvent namingEvent = (NamingEvent) event;
+//                    log.info(&quot;服务名：&quot; + namingEvent.getServiceName());
+//                    log.info(&quot;实例：&quot; + namingEvent.getInstances());
+                    // 实际更新
+                    eventHandler.update();
+                &#125;
+            &#125;);
+        &#125; catch (NacosException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre>
+<h5 id="把自定义Updater注入bean"><a href="#把自定义Updater注入bean" class="headerlink" title="把自定义Updater注入bean"></a>把自定义Updater注入bean</h5><pre><code>@Configuration
+@ConditionalOnRibbonNacos
+public class RibbonConfig &#123;
+    @Bean
+    public ServerListUpdater ribbonServerListUpdater(NacosServerListListener listener) &#123;
+        return new NotificationServerListUpdater(listener);
+    &#125;
+&#125;</code></pre>
+<p>到此，大工告成，效果是gateway访问的某微服务停止后，调用马上503，启动后，马上可以调用</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本来想解决这个问题首先想到的是nacos或ribbon肯定留了扩展，比如说改了配置就可以平滑感知服务下线，但结果看了文档和源码，并没有发现对应的扩展点，所以只能大动干戈来解决问题，其实很多地方都觉得很粗暴，比如获取clientName，但也实在找不到更好的方案，如果谁知道，麻烦评论告诉我一下</p>
+<p>实际上我的项目更新器还保留了定时任务刷新的逻辑，一来刚接触cloud对自己的修改自信不足，二来发现nacos的通知都是udp的通知方式，可能不可靠，不知道是否多余</p>
+<p>nacos的监听主要使用namingService的subscribe方法，里面还有坑，还有一层缓存，以后细讲</p>
 </blockquote>
 
       
