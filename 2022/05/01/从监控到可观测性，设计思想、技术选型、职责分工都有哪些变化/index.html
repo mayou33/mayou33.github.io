@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>基于容器的PaaS混合云的几种形式 | 张天师</title>
-  <meta name="keywords" content=" PaaS ">
-  <meta name="description" content="基于容器的PaaS混合云的几种形式 | 张天师">
+  <title>从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化 | 张天师</title>
+  <meta name="keywords" content=" 监控 ">
+  <meta name="description" content="从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化 | 张天师">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
 <meta property="og:type" content="website">
@@ -945,9 +945,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-基于容器的PaaS混合云的几种形式" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">基于容器的PaaS混合云的几种形式</h1>
+        <h1 class="article-title">从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化</h1>
     
     <div class="article-meta">
         
@@ -957,7 +957,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="PaaS">PaaS</a>
+            <a  data-rel="监控">监控</a>
             
         </span>
         
@@ -965,14 +965,14 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color5">PaaS</a>
+            <a class="color3">监控</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2022-04-30 17:25:35'>2022-04-30 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2022-05-01 21:57:37'>2022-05-01 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -983,7 +983,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6-%E5%AE%B9%E5%99%A8%E5%B9%B3%E5%8F%B0"><span class="toc-text">软件 - 容器平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6-%E5%A4%9A%E4%BA%91%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0"><span class="toc-text">软件 - 多云容器管理平台</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8A%A3"><span class="toc-text">优劣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9B%E5%BA%94%E5%95%86%E5%8F%8A%E4%BA%A7%E5%93%81"><span class="toc-text">供应商及产品</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%98%E7%AE%A1-%E5%85%AC%E6%9C%89%E4%BA%91%E6%89%98%E7%AE%A1-K8S-%E9%9B%86%E7%BE%A4"><span class="toc-text">托管 - 公有云托管 K8S 集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6-%E5%85%AC%E6%9C%89%E4%BA%91-K8S-%E9%9B%86%E7%BE%A4%E4%BA%A7%E5%93%81%E7%A7%81%E6%9C%89%E5%8C%96%E8%BE%93%E5%87%BA"><span class="toc-text">软件 - 公有云 K8S 集群产品私有化输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%98%E7%AE%A1-%E5%85%AC%E6%9C%89%E4%BA%91%E5%A4%9A%E4%BA%91%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0"><span class="toc-text">托管 - 公有云多云容器管理平台</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8A%A3-1"><span class="toc-text">优劣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9B%E5%BA%94%E5%95%86%E5%8F%8A%E4%BA%A7%E5%93%81-1"><span class="toc-text">供应商及产品</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%8E%A9%E5%AE%B6"><span class="toc-text">其他玩家</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Q1%E7%9B%91%E6%8E%A7%E4%B8%8E%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E6%98%AF%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F%E5%8F%AF%E5%90%A6%E4%BB%8E%E4%B8%A4%E8%80%85%E7%9A%84%E5%85%B3%E6%B3%A8%E7%82%B9%E3%80%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E3%80%81%E4%BD%9C%E7%94%A8%E3%80%81%E5%B1%80%E9%99%90%E6%80%A7%E7%AD%89%E6%96%B9%E9%9D%A2%E8%BF%9B%E8%A1%8C%E8%A7%A3%E6%9E%90%EF%BC%9F"><span class="toc-text">Q1监控与可观测性是什么关系？有什么区别？可否从两者的关注点、应用场景、作用、局限性等方面进行解析？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%86%8A%E8%B1%B9"><span class="toc-text">熊豹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E6%AD%A3%E5%9C%A8%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88-%E4%B8%8E-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E8%BF%99%E6%A0%B7%E2%80%9D"><span class="toc-text">“正在发生什么 与 为什么会这样”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%A1%E5%87%8C%E8%BD%A9"><span class="toc-text">匡凌轩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E6%9B%B4%E5%A4%9A%E6%98%AF%E5%AF%B9%E4%B8%9A%E5%8A%A1%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%87%AA%E8%BA%AB%E7%9A%84%E8%A6%81%E6%B1%82%E2%80%9D"><span class="toc-text">“可观测性更多是对业务应用系统自身的要求”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%8B%87"><span class="toc-text">方勇</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E4%BB%8E%E5%B1%80%E9%83%A8%E5%88%B0%E5%85%A8%E5%B1%80%E5%8F%AF%E7%94%A8%E6%80%A7%E8%A7%86%E8%A7%92%E7%9A%84%E5%BB%B6%E4%BC%B8%E2%80%9D"><span class="toc-text">“从局部到全局可用性视角的延伸”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%86%8A%E8%B1%B9-1"><span class="toc-text">熊豹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E8%A6%81%E6%8A%8A%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E7%90%86%E5%BF%B5%E8%B4%AF%E7%A9%BF%E5%88%B0%E6%9E%B6%E6%9E%84%E5%92%8C%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E4%B8%AD%E2%80%9D"><span class="toc-text">“要把可观测性理念贯穿到架构和程序设计中”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%A1%E5%87%8C%E8%BD%A9-1"><span class="toc-text">匡凌轩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E4%BB%8E%E8%A2%AB%E5%8A%A8%E7%9B%91%E6%8E%A7%E5%90%91%E4%B8%BB%E5%8A%A8%E5%8F%91%E7%8E%B0%E4%B8%8E%E5%AE%9A%E4%BD%8D%E9%97%AE%E9%A2%98%E7%9A%84%E8%BD%AC%E5%8F%98%E2%80%9D"><span class="toc-text">“从被动监控向主动发现与定位问题的转变”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%8B%87-1"><span class="toc-text">方勇</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E8%81%8C%E8%B4%A3%E5%88%86%E5%B7%A5%E3%80%81%E8%AE%A4%E7%9F%A5%E6%84%8F%E8%AF%86%E3%80%81%E6%8E%92%E9%9A%9C%E6%95%88%E7%8E%87%E7%9A%84%E8%BD%AC%E5%8F%98%E5%92%8C%E5%8D%87%E7%BA%A7%E2%80%9D"><span class="toc-text">“职责分工、认知意识、排障效率的转变和升级”</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q3%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E7%9A%84%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95%E8%AE%BA-%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">Q3可观测性的核心方法论&#x2F;关键技术有哪些？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%86%8A%E8%B1%B9-2"><span class="toc-text">熊豹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E6%95%B0%E6%8D%AE%E7%9A%84%E9%87%87%E9%9B%86%E3%80%81%E5%AD%98%E5%82%A8%E3%80%81%E5%88%86%E6%9E%90%E6%98%AF%E6%A0%B8%E5%BF%83%E5%85%B3%E6%B3%A8%E7%82%B9%E2%80%9D"><span class="toc-text">“数据的采集、存储、分析是核心关注点”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%A1%E5%87%8C%E8%BD%A9-2"><span class="toc-text">匡凌轩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E9%87%87%E9%9B%86%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%BB%BA%E7%AB%8B%E5%85%B3%E8%81%94%EF%BC%8C%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%9E%8B%E2%80%9D"><span class="toc-text">“采集数据，建立关联，设计模型”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%8B%87-2"><span class="toc-text">方勇</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9CMDD%E6%80%9D%E6%83%B3%E4%B8%BB%E5%BC%A0%E6%8C%87%E6%A0%87%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91%E2%80%9D"><span class="toc-text">“MDD思想主张指标驱动开发”</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q4%E5%A6%82%E4%BD%95%E5%B0%86Metrics%E3%80%81Traces%E3%80%81Logs%E4%B8%89%E8%80%85%E6%89%93%E9%80%9A%E5%B9%B6%E5%8F%91%E6%8C%A5%E6%9C%80%E5%A4%A7%E4%BB%B7%E5%80%BC%EF%BC%9F"><span class="toc-text">Q4如何将Metrics、Traces、Logs三者打通并发挥最大价值？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%86%8A%E8%B1%B9-3"><span class="toc-text">熊豹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E8%8C%83%E5%9B%B4%E5%86%85%E7%9A%84%E7%BB%9F%E8%AE%A1%E5%85%B3%E7%B3%BB%E6%88%96Label%E5%92%8CTraceID%E5%85%B3%E8%81%94%E2%80%9D"><span class="toc-text">“基于时间范围内的统计关系或Label和TraceID关联”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%A1%E5%87%8C%E8%BD%A9-3"><span class="toc-text">匡凌轩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E5%85%A8%E9%93%BE%E8%B7%AF%E9%94%99%E8%AF%AF%E5%AF%BB%E6%A0%B9%E6%98%AF%E4%B8%89%E8%80%85%E6%89%93%E9%80%9A%E7%9A%84%E6%9C%80%E5%A4%A7%E4%BB%B7%E5%80%BC%E2%80%9D"><span class="toc-text">“全链路错误寻根是三者打通的最大价值”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%8B%87-3"><span class="toc-text">方勇</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E6%89%93%E9%80%9A%E5%90%8E%E5%8F%AF%E7%AB%8B%E4%BD%93%E3%80%81%E5%85%A8%E6%81%AF%E5%88%86%E6%9E%90%E6%95%B4%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%8F%AF%E7%94%A8%E6%80%A7%E2%80%9D"><span class="toc-text">“打通后可立体、全息分析整个服务的可用性”</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q5%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E5%B7%A5%E5%85%B7%E5%A6%82%E4%BD%95%E9%80%89%E5%9E%8B%EF%BC%9F%E6%9C%89%E9%80%9A%E7%94%A8%E7%9A%84%E6%A0%87%E5%87%86%E5%90%97%EF%BC%9F"><span class="toc-text">Q5可观测性工具如何选型？有通用的标准吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%86%8A%E8%B1%B9-4"><span class="toc-text">熊豹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E9%AB%98%E5%8F%AF%E7%94%A8%E3%80%81%E5%8F%AF%E4%BC%B8%E7%BC%A9%E3%80%81%E9%99%8D%E6%88%90%E6%9C%AC%E3%80%81%E6%98%93%E8%BF%90%E7%BB%B4%E2%80%9D"><span class="toc-text">“高可用、可伸缩、降成本、易运维”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%A1%E5%87%8C%E8%BD%A9-4"><span class="toc-text">匡凌轩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E6%98%AF%E5%90%A6%E5%9F%BA%E4%BA%8E%E4%B8%9A%E7%95%8C%E6%A0%87%E5%87%86%E4%B8%94%E6%96%B9%E4%BE%BF%E6%89%A9%E5%B1%95%E2%80%9D"><span class="toc-text">“是否基于业界标准且方便扩展”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%8B%87-4"><span class="toc-text">方勇</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E6%A0%B9%E6%8D%AE%E5%B7%B2%E6%9C%89%E6%8A%80%E6%9C%AF%E6%A0%88%E6%8C%89%E9%9C%80%E9%80%89%E6%8B%A9%EF%BC%8C%E4%B8%8D%E5%BF%85%E7%9B%B2%E4%BB%8E%E4%B8%BB%E6%B5%81%E2%80%9D"><span class="toc-text">“根据已有技术栈按需选择，不必盲从主流”</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -999,114 +999,104 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p> 基于容器的 PaaS 混合云的几种形式 - 东风微鸣技术博客<br><a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/57201/">https://ewhisper.cn/posts/57201/</a>) </p>
+        <p><a target="_blank" rel="noopener" href="https://www.51cto.com/article/707455.html">https://www.51cto.com/article/707455.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.51cto.com/article/707455.html">从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化-51CTO.COM</a></p>
 <blockquote>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>这是 Gartner 的一个图，提供了全球的基于容器的 PaaS 公有云、混合云服务的梳理展示：<br><a target="_blank" rel="noopener" href="https://pic-cdn.ewhisper.cn/img/2021/09/17/a11d88b4ce770c547025af0bee5102bb-v2-c3e894db6f71442f6f959b09f8ed5cc1_b.jpeg"><img src="https://pic-cdn.ewhisper.cn/img/2021/09/17/a11d88b4ce770c547025af0bee5102bb-v2-c3e894db6f71442f6f959b09f8ed5cc1_b.jpeg"></a></p>
-<p>这里提供一个其他的视角：<br>中国市场，基于容器的 PaaS 混合云（公有云 + 私有云）的相关厂商及产品。</p>
-<p>❗️ 注意：</p>
-<p>文章目前还是初版，只是厂商和产品的一个简单罗列，后面会进一步细化。<br>另外由于作者认知所限，无法罗列所有相关厂商和产品。请见谅。</p>
-<h2 id="软件-容器平台"><a href="#软件-容器平台" class="headerlink" title="软件 - 容器平台"></a>软件 - 容器平台</h2><p>指的是通过售卖软件形式提供的容器平台（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。<br>这里的「容器平台」指的是：基于 Kubernetes 的容器平台，有的容器平台会提供更丰富的功能，如：镜像仓库，监控，日志，Tracing，DevOps，微服务治理，ServiceMesh、Servless 等</p>
+<p>随着大量云原生技术的应用，IT系统日益复杂，主动感知、预测故障并迅速定位、排障的难度变得越来越大，传统监控方式已无法跟上需求，由此应运而生的可观测性，被视为未来云环境生产部署不可或缺的技术支撑。</p>
+<p>目前大多数传统企业对可观测性仍处于初步了解阶段，不少互联网公司在可观测性建设上也是起步不久。因此，围绕“从监控到可观测性应如何转变与升级”这一话题，本期dbaplus话题接力专栏，特别采访到知乎全链路可观测系统和接入层网络负责人-熊豹、虎牙直播SRE平台研发团队负责人-匡凌轩、好大夫基础架构部高级工程师-方勇三位老师，希望能通过他们在可观测性领域的研究心得和实践经验，帮助广大技术从业者准确认识可观测性、给企业搭建适配自身发展的可观测体系提供建议和启发。</p>
+<h3 id="Q1监控与可观测性是什么关系？有什么区别？可否从两者的关注点、应用场景、作用、局限性等方面进行解析？"><a href="#Q1监控与可观测性是什么关系？有什么区别？可否从两者的关注点、应用场景、作用、局限性等方面进行解析？" class="headerlink" title="Q1监控与可观测性是什么关系？有什么区别？可否从两者的关注点、应用场景、作用、局限性等方面进行解析？"></a>Q1监控与可观测性是什么关系？有什么区别？可否从两者的关注点、应用场景、作用、局限性等方面进行解析？</h3><h4 id="熊豹"><a href="#熊豹" class="headerlink" title="熊豹"></a>熊豹</h4><h4 id="“正在发生什么-与-为什么会这样”"><a href="#“正在发生什么-与-为什么会这样”" class="headerlink" title="“正在发生什么 与 为什么会这样”"></a>“正在发生什么 与 为什么会这样”</h4><p>监控是常见的运维手段，一般是指以观测系统的外部资源使用情况和接口表现来推测系统运行状态，即感知到“正在发生什么”。</p>
+<p>可观测性是一种属性，是指在可以感知系统当前运行状态的性质，提升系统的可被观测的性质有助于我们了解“正在发生什么”以及“为什么会这样”。</p>
+<p>云原生架构在业内逐步落地，给稳定性建设带来了更多新的挑战：迭代发布更迅速、业务系统更庞大、网络链路更复杂、运行环境更动态。在这样的混沌系统中仅仅只是知道问题发生是不够的，在这样纷繁复杂的环境下赤手空拳的我们很难去进行问题的追踪和溯源。我们要依托分层、多维度的观测数据来构建更立体和智能的诊断系统，以更多样的视角来观察和解读系统。</p>
+<h4 id="匡凌轩"><a href="#匡凌轩" class="headerlink" title="匡凌轩"></a>匡凌轩</h4><h4 id="“可观测性更多是对业务应用系统自身的要求”"><a href="#“可观测性更多是对业务应用系统自身的要求”" class="headerlink" title="“可观测性更多是对业务应用系统自身的要求”"></a>“可观测性更多是对业务应用系统自身的要求”</h4><p>我认为监控是可观测性能力的一部分，初期监控主要是外部对业务应用系统的主动行为，运维是传统监控的使用主体，如：通过业务进程状态、系统资源等监控数据的分析和告警来发现问题。而现在可观测性更多是对业务应用系统自身的要求，如何设计去暴露出更多可被观测的应用运行时的数据，并为这些数据之间建立关联，如：微服务框架在请求处理和RPC调用时提供一些AOP扩展的设计，可以更方便地对请求进行Metric度量和Trace追踪，以及异常情况的上下文关联。</p>
+<h4 id="方勇"><a href="#方勇" class="headerlink" title="方勇"></a>方勇</h4><h4 id="“从局部到全局可用性视角的延伸”"><a href="#“从局部到全局可用性视角的延伸”" class="headerlink" title="“从局部到全局可用性视角的延伸”"></a>“从局部到全局可用性视角的延伸”</h4><p>两者的关系：监控和可观测性都旨在辅助建设高可用的服务，缩短故障处理时长，两者往往是密切协作的，界限相对模糊。</p>
+<p>两者的区别：监控往往关注告警触发的瞬时状态，一般围绕告警事件展开，涉及从告警事件的产生到应急响应等一系列动作。关注的视角一般是局部可用性，关注每个具体的监控项，如CPU负载、剩余内存等。监控是个老生常谈的话题，最常见的场景是系统资源监控、进程或服务状态的粗粒度监控。对定制化的业务指标监控不太友好，另外传统的监控体系对云原生的支持、对微服务体系监控的支持也不太友好。</p>
+<p>可观测性可以看作是监控的一种延续，涉及面较广，包括全链路分析（APM）、业务服务质量（SLA）、业务容量等，聚焦服务的整体可用性。关注的视角一般是全局可用性，会忽略不影响服务质量的一些指标，如CPU负载高，服务整体时延波动不大就会忽略这个CPU负载指标。</p>
+<p>可观测性的应用场景一般与业务能力相绑定，通过可视化聚合展示影响SLA的相关指标（SLI），再配合监控告警，通过可观测性看板下钻分析异常根因。另外可观测性打通Metrics/Traces/Logs后可主动识别出服务的潜在风险，能先于用户发现问题。</p>
+<p>可观测性也有所局限，由于需要收集业务数据，对业务具有一定的侵入性，加上打造可视化平台投入成本较高。另外可观测性整体处于初期阶段，很多工具链还不太完善，价值预期其实是被高估了。</p>
+<p>Q2从监控到可观测性都有哪些变化？对运维、开发、架构师等岗位人员分别提出了怎样的新要求？</p>
+<h4 id="熊豹-1"><a href="#熊豹-1" class="headerlink" title="熊豹"></a>熊豹</h4><h4 id="“要把可观测性理念贯穿到架构和程序设计中”"><a href="#“要把可观测性理念贯穿到架构和程序设计中”" class="headerlink" title="“要把可观测性理念贯穿到架构和程序设计中”"></a>“要把可观测性理念贯穿到架构和程序设计中”</h4><p>目标不一样了，除了要知道“正在发生什么”，还要尝试解释“为什么会这样”。我们需要把可观测性的理念贯穿到架构和程序设计中，而不是到事发或事后再来补救。我们需要有意识地设计一些机制来观察业务指标的关联变化、系统架构的数据漏斗模型、程序内逻辑分支的运行开销、外部资源依赖的健康状态，还要暴露程序内的一些资源并发度、池的填充率和命中率、运行时的状态等情况，当运行错误时也要在错误信息中携带足量的上下文信息。</p>
+<p>运维同学要为可观测场景提供更坚实的工具基础，在上述庞大的数据压力下，保障和解决数据存储和查询的性能、资源开销、集群的拓展性和稳定性等问题。</p>
+<h4 id="匡凌轩-1"><a href="#匡凌轩-1" class="headerlink" title="匡凌轩"></a>匡凌轩</h4><h4 id="“从被动监控向主动发现与定位问题的转变”"><a href="#“从被动监控向主动发现与定位问题的转变”" class="headerlink" title="“从被动监控向主动发现与定位问题的转变”"></a>“从被动监控向主动发现与定位问题的转变”</h4><p>我认为最大的变化是应用系统自身角色的转变，从被动监控转向主动发现与定位问题，在设计应用系统架构之初就需要考虑到系统自身的可观测性建设。运维、开发、架构师都是各环节设计的参与者，在协作方式也有一定的改变：</p>
+<ul>
+<li>  运维：深入熟悉产品业务和应用服务，定义并关联业务指标、应用服务指标、系统资源指标等。</li>
+<li>  开发：在框架层设计和实现对分布式应用服务运行时的Metric、Trace、Log数据采集。</li>
+<li>  架构师：业务应用系统和可观测性系统的整体架构设计，需要关注无侵入式采集上报、多维度量聚合、错误寻根分析、整体海量数据处理和存储等。</li>
+</ul>
+<p>总体来说，需要各角色有更多跨技术领域的知识储备、业务思维和模型抽象能力。</p>
+<h4 id="方勇-1"><a href="#方勇-1" class="headerlink" title="方勇"></a>方勇</h4><h4 id="“职责分工、认知意识、排障效率的转变和升级”"><a href="#“职责分工、认知意识、排障效率的转变和升级”" class="headerlink" title="“职责分工、认知意识、排障效率的转变和升级”"></a>“职责分工、认知意识、排障效率的转变和升级”</h4><p>个人认为主要变化有以下几个方面：</p>
+<ul>
+<li>  职责分工的转变，研发关注服务质量后，部分职责从运维侧开始迁移到研发侧。研发上线后不再当甩手掌柜，开始对自己的服务负责。</li>
+<li>  认知意识的提高，从被动响应告警到主动提升服务质量。</li>
+<li>  排障效率的提升，从原先的黑盒排障模式逐渐朝可视化发展。</li>
+</ul>
+<p>对不同岗位人员也有新的要求：</p>
+<ul>
+<li>  运维，需要摆脱传统监控的意识枷锁，拥抱云原生监控体系，同时和其他岗位人员达成共识，共建高可用服务。</li>
+<li>  开发，接棒部分运维职责，聚焦服务可用性，需要有MDD（Metrics-Driven Developmen）的思想，建设具有高韧性的服务。</li>
+<li>  架构师，在架构设计的过程中需要暴露可观测性的指标，同时需要提升数据分析的能力，建模分析Metrics/Traces/Logs数据，识别服务中潜在的风险。围绕可观测性打造相应的工具链及服务治理平台。</li>
+</ul>
+<h3 id="Q3可观测性的核心方法论-关键技术有哪些？"><a href="#Q3可观测性的核心方法论-关键技术有哪些？" class="headerlink" title="Q3可观测性的核心方法论/关键技术有哪些？"></a>Q3可观测性的核心方法论/关键技术有哪些？</h3><h4 id="熊豹-2"><a href="#熊豹-2" class="headerlink" title="熊豹"></a>熊豹</h4><h4 id="“数据的采集、存储、分析是核心关注点”"><a href="#“数据的采集、存储、分析是核心关注点”" class="headerlink" title="“数据的采集、存储、分析是核心关注点”"></a>“数据的采集、存储、分析是核心关注点”</h4><p>可观测性建设的核心关注点还是在数据的采集、存储、分析环节。</p>
+<p>数据采集的覆盖可以以多种角度来看：可尝试梳理完整的数据链路，来覆盖从终端发起、网关、业务、基础设施中间的每一层组件；可以不同的观测视角进行覆盖，比如Metrics、Traces、Logs、Exception Collection、Profiler、Debuger、Changelog等类别的数据或能力都已建设齐备；可以多种维度来观察系统，比如业务维度、资源瓶颈、关联组件等维度进行覆盖的建设。</p>
+<p>数据存储环节要关注多种类型数据的存储和查询系统选型。最为常见的是Metrics、Traces、Logs相关的存储系统，这三者都有非常广泛的基础软件选型。其中相对棘手的是指标维度爆炸、日志和Trace存储成本及性能相关的问题，一般需要搭配预聚合、前采样和后采样、存储分级等策略来解决。</p>
+<p>数据分析环节要关联不同数据源的元信息，糅合以多维视角来构建查询界面。同时，我们也要关注如何在海量的原始数据中找到一些突出和异常的数据，一般需要建设一些流式检测和聚类分析的能力。</p>
+<h4 id="匡凌轩-2"><a href="#匡凌轩-2" class="headerlink" title="匡凌轩"></a>匡凌轩</h4><h4 id="“采集数据，建立关联，设计模型”"><a href="#“采集数据，建立关联，设计模型”" class="headerlink" title="“采集数据，建立关联，设计模型”"></a>“采集数据，建立关联，设计模型”</h4><p>可观测性的核心思考：需要采集什么数据、如何建立关联、如何设计模型，我们以应用服务场景为例：</p>
+<ul>
+<li>  采集：请求量、耗时、错误和容量等，以及线程池、队列、连接池等资源指标。</li>
+<li>  关联：纵向关联请求上下游链路和调用栈，横向关联请求和处理请求所消耗的应用资源。</li>
+<li>  模型：数据采集和关联、异常定义和分析、全链路错误寻根三方面统一的模型化设计。</li>
+</ul>
+<p>以上可指导我们针对不同的业务应用系统进行合理抽象，建设更标准的可观测性能力。</p>
+<h4 id="方勇-2"><a href="#方勇-2" class="headerlink" title="方勇"></a>方勇</h4><h4 id="“MDD思想主张指标驱动开发”"><a href="#“MDD思想主张指标驱动开发”" class="headerlink" title="“MDD思想主张指标驱动开发”"></a>“MDD思想主张指标驱动开发”</h4><p><strong>常用方法论：</strong></p>
+<p>1、SLI选择：</p>
+<ul>
+<li>  参考Google VALET（Volume、Available、Latency、Error、Ticket）模型。</li>
+<li>  Netflix的USE方法，USE是Utilization（使用率）、Saturation（饱和度）、Error（错误）。</li>
+<li>  Weave Cloud的RED方法，Request-Rate（每秒接收的请求数）/Request-Errors（每秒失败的请求数）/Request-Duration（每个请求所花费的时间，用时间间隔表示）。</li>
+</ul>
+<p>2、MDD（Metrics-Driven Development）思想：MDD主张整个应用开发过程由指标驱动，通过实时指标来驱动快速、精确和细粒度的软件迭代。指标驱动开发的理念，不但可以让程序员实时感知生产状态，及时定位并终结问题，还可以帮助产品经理和运维人员一起关注相关的业务指标。</p>
+<p><strong>关键技术：</strong></p>
+<p>1、数据收集：如果是基于Prometheus生态，有丰富的Exporte可用，还可以自研相应的Exporter。如果基于文件日志收集，可考虑Flume、Fluentd等等。</p>
+<p>2、数据分析：可基于Clickhouse SQL分析提炼日志指标，如果是Prometheus体系，也有丰富的PromQL可用来分析相关指标。针对Traces、Logs分析一般采用自研分析引擎，并与Metrics打通。</p>
+<p>3、数据存储：Prometheus本身就是一款很好的时序数据库，但不支持分布式存储。一般采用远程存储引擎搭配使用，常用Clickhouse、InfluxDB等。Traces和Logs一般可采用Elasticsearch存储。</p>
+<p>4、数据展示：数据最终呈现形式，需要契合可视化设计规划，支持上卷/下钻。大部分需求可采用Grafana呈现，Grafana提供了丰富的插件，支持丰富的数据库类型，也可基于Echarts自研。如果托管公有云，可充分利用公有云自有的体系，不过有些需要单独付费。</p>
+<h3 id="Q4如何将Metrics、Traces、Logs三者打通并发挥最大价值？"><a href="#Q4如何将Metrics、Traces、Logs三者打通并发挥最大价值？" class="headerlink" title="Q4如何将Metrics、Traces、Logs三者打通并发挥最大价值？"></a>Q4如何将Metrics、Traces、Logs三者打通并发挥最大价值？</h3><h4 id="熊豹-3"><a href="#熊豹-3" class="headerlink" title="熊豹"></a>熊豹</h4><h4 id="“基于时间范围内的统计关系或Label和TraceID关联”"><a href="#“基于时间范围内的统计关系或Label和TraceID关联”" class="headerlink" title="“基于时间范围内的统计关系或Label和TraceID关联”"></a>“基于时间范围内的统计关系或Label和TraceID关联”</h4><p>我们已知的有两类方式：</p>
+<p>1、基于时间范围内的统计关系：一般的使用习惯是在Metric异常的时间区间里去找到对应时间区间出现异常行为的Traces和Logs，这种方式会依赖对Traces和Logs的聚类分析能力。</p>
+<p>2、基于Label和TraceID关联：基于OpenTelemetry Collector可观测数据采集的框架，我们可以以插件的形式、以Trace Span元数据Label来生成访问指标，也同时将TraceID携带记录到日志的元信息中，这样就能以同样的TraceID或Label维度进行关联查看了。另外当前Prometheus实现了一个exemplar特性可以将Metric与TraceID关联存储，这个设计也挺有意思的。</p>
+<h4 id="匡凌轩-3"><a href="#匡凌轩-3" class="headerlink" title="匡凌轩"></a>匡凌轩</h4><h4 id="“全链路错误寻根是三者打通的最大价值”"><a href="#“全链路错误寻根是三者打通的最大价值”" class="headerlink" title="“全链路错误寻根是三者打通的最大价值”"></a>“全链路错误寻根是三者打通的最大价值”</h4><p>三者打通最大的价值是能做到全链路错误寻根，即从发现请求Metric指标异常，通过指标关联分析，并逐层下钻到明细Trace追踪和具体Error Log，全流程自动化从宏观到明细的错误发现和根因定位。</p>
+<p>虎牙为三者统一设计了应用监控模型，包括应用服务的透明零成本SDK接入，三者数据自动采集和关联，以及在虎牙大型分布式系统充分实践的全链路错误寻根算法。就整体实践经验来说，最终业务价值在于帮助研发和运维提高了应用服务的排障和治理效率。</p>
+<h4 id="方勇-3"><a href="#方勇-3" class="headerlink" title="方勇"></a>方勇</h4><h4 id="“打通后可立体、全息分析整个服务的可用性”"><a href="#“打通后可立体、全息分析整个服务的可用性”" class="headerlink" title="“打通后可立体、全息分析整个服务的可用性”"></a>“打通后可立体、全息分析整个服务的可用性”</h4><p>从投入成本（CapEx）、运维成本（OpEx）、响应能力（Reaction）、查问题的有效程度（Investigation）几个方面分析。Metrics、Logs、Traces具有以下特征：</p>
+<p><img src="https://s5.51cto.com/oss/202204/26/794bc0a70ed8e615f8524332b2b26c8a70383d.jpg"></p>
+<p>Logs和Traces一般采用trace_id打通，trace_id一般在端入口生成，贯穿整个请求的生命周期，业务记录Logs的时候可记录当前的trace_id，这样Logs和Traces就能打通了。</p>
+<p>与Metrics打通一般是采用标签Tags模式，如某个服务servername产生的metrics可与Traces中的servername关联。</p>
+<p>打通后可以服务名的维度，立体、全息分析整个服务的可用性。</p>
+<h3 id="Q5可观测性工具如何选型？有通用的标准吗？"><a href="#Q5可观测性工具如何选型？有通用的标准吗？" class="headerlink" title="Q5可观测性工具如何选型？有通用的标准吗？"></a>Q5可观测性工具如何选型？有通用的标准吗？</h3><h4 id="熊豹-4"><a href="#熊豹-4" class="headerlink" title="熊豹"></a>熊豹</h4><h4 id="“高可用、可伸缩、降成本、易运维”"><a href="#“高可用、可伸缩、降成本、易运维”" class="headerlink" title="“高可用、可伸缩、降成本、易运维”"></a>“高可用、可伸缩、降成本、易运维”</h4><p>我们关注可观测工具系统的这些特性：</p>
+<ul>
+<li>  高可用：可观测系统作为稳定性的守卫者，本身要求更高的可靠性。</li>
+<li>  可伸缩：我们关注存储写入和查询能力的可拓展性，以支持更大的数据量级。</li>
+<li>  降成本：观测类数据会随着时间的推移逐渐失去价值，历史数据最好能低成本地失效或能对存储介质进行降级。</li>
+<li>  易运维：拥有一定的自动化能力或者本身架构足够简单。</li>
+</ul>
+<h4 id="匡凌轩-4"><a href="#匡凌轩-4" class="headerlink" title="匡凌轩"></a>匡凌轩</h4><h4 id="“是否基于业界标准且方便扩展”"><a href="#“是否基于业界标准且方便扩展”" class="headerlink" title="“是否基于业界标准且方便扩展”"></a>“是否基于业界标准且方便扩展”</h4><p>虎牙主要是基于OpenTracing标准进行的深度自研和扩展，通过业界标准来做会有充分的开源代码和社区支持，可以节省很多基础代码的工作，让我们更关注自身的业务系统特性和模型设计。现在OpenTelemetry对Metrics、Traces、Logs三者提供了统一标准，开源社区热度也比较大，是个值得去研究和实践的方向。</p>
+<p>可观测性工具选型建议可考虑两个方面：</p>
 <ol>
-<li> RedHat - OpenShift Container Platform</li>
-<li> Rancher - RKE</li>
-<li> 青云 - Kubesphere</li>
-<li> 时速云 - TCS（TenxCloud Container Service）</li>
-<li> 灵雀云 - ACP（Alauda Container Platform）</li>
-<li> 博云 - BeyondContainer</li>
-<li> DaoCLoud - DaoCloud Enterprise</li>
-<li> 腾讯 - TKE Enterprise（基于灵雀云）</li>
-<li> VMware - VSphere 7+</li>
+<li> 是否基于业界标准，有更多社区和厂商支持。</li>
+<li> 是否方便扩展，更容易把共性和个性结合，最终在此基础上建设符合自身业务特性的可观测性系统。</li>
 </ol>
-<h2 id="软件-多云容器管理平台"><a href="#软件-多云容器管理平台" class="headerlink" title="软件 - 多云容器管理平台"></a>软件 - 多云容器管理平台</h2><p>指的是通过售卖软件形式提供的多云容器管理平台（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。<br>这里的「多云容器管理平台」指的是：基于 Kubernetes 的容器平台，或基于 Kubernetes 联邦（如华为 MCP），或基于自研多集群能力（如 Rancher），实现对异构、公有云及私有云的 Kubernetes 集群的纳管、甚至安装、运维、统一监控等能力。</p>
-<p>❗️ 注意：</p>
-<p>这类「多云容器管理平台」虽然可以纳管异构 Kubernetes 集群，但是某些高级功能，只有使用供应商推荐的 Kubernetes 产品才能使用。<br>如：Rancher 的安装、监控、日志等高级功能；RedHat 的安装、安全策略、GitOps 等功能</p>
-<h3 id="优劣"><a href="#优劣" class="headerlink" title="优劣"></a>优劣</h3><p>优势：</p>
+<h4 id="方勇-4"><a href="#方勇-4" class="headerlink" title="方勇"></a>方勇</h4><h4 id="“根据已有技术栈按需选择，不必盲从主流”"><a href="#“根据已有技术栈按需选择，不必盲从主流”" class="headerlink" title="“根据已有技术栈按需选择，不必盲从主流”"></a>“根据已有技术栈按需选择，不必盲从主流”</h4><p>可观测性分析整个技术栈可参考如下图：</p>
+<p><img src="https://s7.51cto.com/oss/202204/26/79797fd850c3ff8d3dd2788ad4febc3662052a.jpg"></p>
+<p>工具选型：</p>
 <ul>
-<li>  灵活</li>
-<li>  适用于：全内网环境（对于安全级别要求高的如金融行业会非常关注）</li>
+<li>  Metrics：常用Zabbix、Nagios、Prometheus，及相关高可用部署方案如Prometheus-operator、Thanos。</li>
+<li>  Logging：ELK Stack、Fluentd、Loki等。</li>
+<li>  Traceing：常用Jaeger、SkyWalking、Pinpoint、Zipkin、Spring Cloud Sleuth等。</li>
+<li>  可视化：Grafana。</li>
 </ul>
-<p>劣势：</p>
+<p>其实技术选型没什么特定的标准，每个企业不同阶段可能有不同的选择，适合自己的才是最好的，这里总结几点心得：</p>
 <ul>
-<li>  购买方需要提供硬件</li>
-<li>  需要安装搭建，无法开箱即用</li>
+<li>  控制成本预算，企业一般需要从自身的发展阶段实际情况考虑，不必一上来就整全链路可观测性，也许初期只用传统的Zabbix就满足需求了。理性按需选择，大可不必盲从主流。</li>
+<li>  拥抱开源，初期一般采用开源产品，开箱即用，搭顺风车。另外，选型时还需要考虑周边生态的丰富度。</li>
+<li>  根据团队技术栈选择，中间件、业务服务、云原生、物理机监控等选型都要贴合团队已有的技术栈。</li>
 </ul>
-<h3 id="供应商及产品"><a href="#供应商及产品" class="headerlink" title="供应商及产品"></a>供应商及产品</h3><ol>
-<li> Rancher - Rancher</li>
-<li> 华为 - MCP（多云容器平台）</li>
-<li> DaoCloud - DaoCloud Service Platform</li>
-<li> RedHat - ACM（Advanced Cluster Management for Kubernetes）</li>
-<li> 青云 - Kubesphere（<a target="_blank" rel="noopener" href="https://kubesphere.com.cn/docs/multicluster-management/">Kubesphere 3.0 以后支持多集群管理</a>）</li>
-<li> VMware - Tanzu</li>
-</ol>
-<h2 id="托管-公有云托管-K8S-集群"><a href="#托管-公有云托管-K8S-集群" class="headerlink" title="托管 - 公有云托管 K8S 集群"></a>托管 - 公有云托管 K8S 集群</h2><p>指的是公有云提供的 K8S 集群，提供公有云算力，也提供托管 Kubernetes 服务。计费方式为：按量计费或包年包月等。</p>
-<p>✍️ 备注：</p>
-<p>暂不包括公有云实例服务及 Servless 服务。</p>
-<ol>
-<li> Amazon - EKS（Elastic Kubernetes Service）</li>
-<li> 阿里 - ACK（Alibaba Cloud Container Service for Kubernetes）</li>
-<li> 腾讯 - TKE（Tencent Kubernetes Engine）</li>
-<li> 微软 - AKS（Azure Kubernetes Service）</li>
-<li> 华为 - CCE（云容器引擎）</li>
-<li> 青云 - QKE（KubeSphere on QingCloud）</li>
-</ol>
-<h2 id="软件-公有云-K8S-集群产品私有化输出"><a href="#软件-公有云-K8S-集群产品私有化输出" class="headerlink" title="软件 - 公有云 K8S 集群产品私有化输出"></a>软件 - 公有云 K8S 集群产品私有化输出</h2><p>指的是通过售卖软件形式提供的和公有云架构类似的「公有云 K8S 集群产品私有化输出」（可能的售卖方式包括: 买断 + 维保；订阅），供应商不提供算力。</p>
-<ol>
-<li> 华为 - CCE（云容器引擎）</li>
-<li> 阿里 - 阿里飞天专有云敏捷版</li>
-<li> 腾讯 - TCS（Tencent Cloud-Native Suite）</li>
-</ol>
-<h2 id="托管-公有云多云容器管理平台"><a href="#托管-公有云多云容器管理平台" class="headerlink" title="托管 - 公有云多云容器管理平台"></a>托管 - 公有云多云容器管理平台</h2><p>指的是公有云提供的 多云容器管理平台，提供公有云算力，也提供管理 Kubernetes 服务。计费方式为：按量计费或包年包月等。<br>但是有个前提：如果是私有云 Kubernetes 集群或其他公有云提供商的 Kubernetes 集群，必须通过专线或互联网等形式与供应商网络联通。</p>
-<h3 id="优劣-1"><a href="#优劣-1" class="headerlink" title="优劣"></a>优劣</h3><p>优势：</p>
-<ul>
-<li>  标准化产品，灵活性欠缺</li>
-<li>  适用于：互联网环境</li>
-<li>  按需付费</li>
-<li>  开箱即用</li>
-</ul>
-<p>劣势：</p>
-<ul>
-<li>  无法纳管 没有互联网或连接公有云专线的 Kubernetes 集群</li>
-<li>  安全性担忧</li>
-<li>  <strong>对于被纳管集群的要求较多</strong>（如：EKS Anywhere 目前仅支持两种特定 Kubernetes 集群的纳管）</li>
-</ul>
-<h3 id="供应商及产品-1"><a href="#供应商及产品-1" class="headerlink" title="供应商及产品"></a>供应商及产品</h3><ol>
-<li> 华为 - MCP（多云容器平台）</li>
-<li> 腾讯 - <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/aERPT13Rs_xgAnrOz2mmvg">TKE Everywhere</a>（❗️ 注意：这个和其他 2 家的 Anywhere 还不太一样，云上云下是 <strong>一个</strong> 集群，云下的 Node 由云上的 Master 纳管。本质上是一个边缘容器管理方案。而且还在内测中。）</li>
-<li> Amazon - <a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/eks/eks-anywhere/">EKS Anywhere</a></li>
-<li> 阿里云 - <a target="_blank" rel="noopener" href="https://www.aliyun.com/product/kubernetes">AKS Anywhere</a></li>
-</ol>
-<p>🧠 <strong>思考：2 家 xxx Anywhere 具体是啥做法？</strong></p>
-<p>2 家的 Anywhere 做法是极为一致的。本质上就是「公有云私有化，线上线下我全都要」。优势是：（兼听则明啊，经过实战检验才知道效果如何…）</p>
-<ul>
-<li>一致体验<ul>
-<li>  统一集群管理</li>
-<li>  统一资源调度</li>
-<li>  统一数据容灾</li>
-<li>  统一应用交付</li>
-</ul>
-</li>
-<li>  弹性算力</li>
-<li>能力下沉<ul>
-<li>  云原生可观测</li>
-<li>  安全防护能力</li>
-<li>  中间件</li>
-<li>  数据库</li>
-<li>  数据分析</li>
-<li>  AI</li>
-</ul>
-</li>
-<li>  简化容灾</li>
-</ul>
-<p>以阿里云为例：<br>阿里云推出了一云多形态的部署架构，提供中心云、本地云、边缘云、云盒等多种部署形态，ACKAnywhere 的全面升级意味着公共云能力向本地化进一步延伸，客户在自建的数据中心内也能体验到低成本、低延迟、本地化的公共云产品。<br>随着云计算的普及和云原生技术的发展，容器服务已成为各大公司上云用云的必备基础设施。…此次升级的 ACK Anywhere 拥有「一致体验、弹性算力、能力下沉、简化容灾」四大核心能力，使企业在任何业务场景下使用容器服务时，都能实现「统一集群管理、统一资源调度、统一数据容灾和统一应用交付」。<br>得益于阿里云公共云丰富的产品能力，ACK Anywhere 可将成熟的云原生可观测、安全防护能力部署到用户环境，更可以将云端先进的中间件、数据分析和 AI 能力下沉到本地，满足客户对于产品丰富度以及数据管控的需求，加速业务创新。</p>
-<p>业务连续性是现代企业 IT 架构关注的重点，ACK Anywhere 内建的备份中心，实现了备份、容灾、迁移一体化；支持 Kubernetes 集群配置与数据卷的备份恢复。结合阿里云丰富的业务多活容灾经验，帮助企业全面提升系统稳定性和业务连续性。</p>
-<p>❗️ 注意：</p>
-<p>由于上面所说的原因：「对于被纳管集群的要求较多」，所以这类产品往往也会推荐用户安装自己提供的 Kubernetes 产品，如：华为的 CCE，腾讯的 TKE 开源版，或 Amazon EKS Anywhere 的 <a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/eks/eks-distro/">EKS Distro</a> 产品，或阿里云的 ACK Distro。</p>
-<h2 id="其他玩家"><a href="#其他玩家" class="headerlink" title="其他玩家"></a>其他玩家</h2><ol>
-<li> 京东云</li>
-<li> UCloud</li>
-<li> 百度云</li>
-<li> 金山云</li>
-</ol>
 </blockquote>
 
       
