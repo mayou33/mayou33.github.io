@@ -580,7 +580,7 @@
   height: 25px;
 }
 .nav-left ul li {
-  line-height: 40px;
+  line-height: 25px;
   text-align: center;
   border-bottom: 1px solid #fff;
   cursor: pointer;
@@ -1658,7 +1658,7 @@ h2 {
 }
 .hide-list {
   width: 20px;
-  height: 40px;
+  height: 25px;
   position: absolute;
   z-index: 30;
   left: auto;
@@ -1672,7 +1672,7 @@ h2 {
 }
 .hide-list .semicircle {
   width: 20px;
-  height: 40px;
+  height: 25px;
   border-radius: 0 100px 100px 0;
   background-color: #42b983;
   cursor: pointer;
