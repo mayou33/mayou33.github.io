@@ -555,7 +555,7 @@
 .nav-left ul {
   margin: 0;
   padding: 0;
-  font-size: 17px;
+  font-size: 18px;
   border-top: 1px solid #fff;
   list-style: none;
   overflow-y: auto;
@@ -586,7 +586,7 @@
   cursor: pointer;
 }
 .nav-left ul li>div {
-  height: 40px;
+  height: 25px;
   color: rgba(255,255,255,0.7);
   transition: all 0.15s linear;
   position: relative;
@@ -1639,7 +1639,7 @@ h1 {
 }
 h2 {
   padding-bottom: 12px;
-  font-size: 18px;
+  font-size: 24px;
   border-bottom: 1px solid #ececec;
 }
 .nav {
@@ -1658,7 +1658,7 @@ h2 {
 }
 .hide-list {
   width: 20px;
-  height: 25px;
+  height: 40px;
   position: absolute;
   z-index: 30;
   left: auto;
@@ -1672,7 +1672,7 @@ h2 {
 }
 .hide-list .semicircle {
   width: 20px;
-  height: 25px;
+  height: 40px;
   border-radius: 0 100px 100px 0;
   background-color: #42b983;
   cursor: pointer;
