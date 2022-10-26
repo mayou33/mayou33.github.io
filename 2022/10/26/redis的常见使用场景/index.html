@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>redis的常见使用场景 | 张天师</title>
+  <meta name="keywords" content=" redis ">
+  <meta name="description" content="redis的常见使用场景 | 张天师">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhangyu.info/about/index.html">
+<meta property="og:site_name" content="张天师">
+<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
+<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="article:author" content="张天师">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="张天师" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>张天师</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/mayou33"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(53)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="linux">
+                        
+                        linux
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="架构">
+                        
+                        架构
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="监控">
+                        
+                        监控
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="API网关">
+                        
+                        API网关
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="containerd">
+                        
+                        containerd
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Ingress">
+                        
+                        Ingress
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="k8s">
+                        
+                        k8s
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Kubernetes">
+                        
+                        Kubernetes
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nacos">
+                        
+                        nacos
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="PaaS">
+                        
+                        PaaS
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="redis">
+                        
+                        redis
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Scrum">
+                        
+                        Scrum
+                        <small>(11)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SpringBoot">
+                        
+                        SpringBoot
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SRE">
+                        
+                        SRE
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="优化">
+                        
+                        优化
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="公有云">
+                        
+                        公有云
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="微服务">
+                        
+                        微服务
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="我假装讲-你假装看">
+                        
+                        我假装讲-你假装看
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="日志">
+                        
+                        日志
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="消息系统">
+                        
+                        消息系统
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="职业发展">
+                        
+                        职业发展
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="53">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="https://blog.huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="https://canon88.github.io/">网络安全canon</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux学习</a></li>
+            
+            <li><a target="_blank" href="https://www.makelinux.net/reference/">linux技术参考</a></li>
+            
+            <li><a target="_blank" href="https://coolshell.cn">酷壳CoolShell</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Systems-Performance</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>API网关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cilium</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>containerd</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>flannel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>k8s</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nacos</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PaaS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pulsar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SpringBoot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SRE</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>优化</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>公有云</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>微服务</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>性能</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>我假装讲-你假装看</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>架构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>监控</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>职业发展</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 redis "
+           href="/2022/10/26/redis%E7%9A%84%E5%A4%A7Key%E5%AF%B9%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D/"
+           data-tag="redis"
+           data-author="" >
+            <span class="post-title" title="redis的大Key对持久化有什么影响">redis的大Key对持久化有什么影响</span>
+            <span class="post-date" title="2022-10-26 00:00:00">2022/10/26</span>
+        </a>
+        
+        <a  class="全部文章 redis "
+           href="/2022/10/26/redis%E7%9A%84%E5%B8%B8%E8%A7%81%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/"
+           data-tag="redis"
+           data-author="" >
+            <span class="post-title" title="redis的常见使用场景">redis的常见使用场景</span>
+            <span class="post-date" title="2022-10-26 00:00:00">2022/10/26</span>
+        </a>
+        
+        <a  class="全部文章 微服务 "
+           href="/2022/05/28/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"
+           data-tag="微服务"
+           data-author="" >
+            <span class="post-title" title="云原生微服务最佳实践">云原生微服务最佳实践</span>
+            <span class="post-date" title="2022-05-28 00:00:00">2022/05/28</span>
+        </a>
+        
+        <a  class="全部文章 微服务 "
+           href="/2022/05/28/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E6%9C%80%E4%BD%B3%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F/"
+           data-tag="微服务"
+           data-author="" >
+            <span class="post-title" title="微服务之间的最佳调用方式">微服务之间的最佳调用方式</span>
+            <span class="post-date" title="2022-05-28 00:00:00">2022/05/28</span>
+        </a>
+        
+        <a  class="全部文章 nacos "
+           href="/2022/05/01/%E8%A7%A3%E5%86%B3gateway%E4%BD%BF%E7%94%A8nacos%E9%87%8D%E5%90%AF%E6%8A%A5503ServiceUnavailable%E9%97%AE%E9%A2%98/"
+           data-tag="nacos"
+           data-author="" >
+            <span class="post-title" title="解决gateway使用nacos重启报503ServiceUnavailable问题">解决gateway使用nacos重启报503ServiceUnavailable问题</span>
+            <span class="post-date" title="2022-05-01 00:00:00">2022/05/01</span>
+        </a>
+        
+        <a  class="全部文章 监控 "
+           href="/2022/05/01/%E4%BB%8E%E7%9B%91%E6%8E%A7%E5%88%B0%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%EF%BC%8C%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E3%80%81%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E3%80%81%E8%81%8C%E8%B4%A3%E5%88%86%E5%B7%A5%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8F%98%E5%8C%96/"
+           data-tag="监控"
+           data-author="" >
+            <span class="post-title" title="从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化">从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化</span>
+            <span class="post-date" title="2022-05-01 00:00:00">2022/05/01</span>
+        </a>
+        
+        <a  class="全部文章 SpringBoot "
+           href="/2022/04/30/SpringBoot%E6%80%A7%E8%83%BD%E5%A4%AA%E5%B7%AE,%E6%95%99%E4%BD%A0%E5%87%A0%E6%8B%9B%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A/"
+           data-tag="SpringBoot"
+           data-author="" >
+            <span class="post-title" title="SpringBoot性能太差,教你几招轻松搞定">SpringBoot性能太差,教你几招轻松搞定</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E7%9A%84%E5%8A%9F%E8%83%BD%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关的功能用途及实现方式">API网关的功能用途及实现方式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 PaaS "
+           href="/2022/04/30/%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E7%9A%84PaaS%E6%B7%B7%E5%90%88%E4%BA%91%E7%9A%84%E5%87%A0%E7%A7%8D%E5%BD%A2%E5%BC%8F/"
+           data-tag="PaaS"
+           data-author="" >
+            <span class="post-title" title="基于容器的PaaS混合云的几种形式">基于容器的PaaS混合云的几种形式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 k8s "
+           href="/2022/04/30/%E6%89%93%E7%A0%B4Dockershim%E7%A7%BB%E9%99%A4%E7%84%A6%E8%99%91,%E4%B8%94%E7%9C%8BRancher%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9/"
+           data-tag="k8s"
+           data-author="" >
+            <span class="post-title" title="打破Dockershim移除焦虑,且看Rancher如何应对">打破Dockershim移除焦虑,且看Rancher如何应对</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E4%B8%BAK8s%E5%AE%B9%E5%99%A8%E5%BA%94%E7%94%A8%E9%9B%86%E7%BE%A4%E6%8F%90%E4%BE%9B%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%8E%A5%E5%85%A5%E8%83%BD%E5%8A%9B/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关为K8s容器应用集群提供强大的接入能力">API网关为K8s容器应用集群提供强大的接入能力</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2022/04/30/%E4%BA%91%E5%8E%9F%E7%94%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86-%E5%AD%98%E5%82%A8-%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="云原生环境下的日志采集、存储、分析实践">云原生环境下的日志采集、存储、分析实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/04/30/%E5%85%AC%E6%9C%89%E4%BA%91%E9%99%8D%E6%9C%AC%E5%A2%9E%E6%95%88%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="公有云降本增效最佳实践">公有云降本增效最佳实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲-你假装看 "
+           href="/2022/04/23/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%92%E8%81%94%E7%BD%91%E5%A4%A7%E5%8E%82%E4%B8%80%E8%BE%B9%E5%A4%A7%E8%A7%84%E6%A8%A1%E8%A3%81%E5%91%98%E5%8F%88%E4%B8%80%E8%BE%B9%E6%8B%9B%E8%81%98/"
+           data-tag="我假装讲-你假装看"
+           data-author="" >
+            <span class="post-title" title="为什么互联网大厂一边大规模裁员又一边招聘">为什么互联网大厂一边大规模裁员又一边招聘</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 linux "
+           href="/2022/04/23/Linux%E7%9A%84CPU%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux的CPU上下文切换深入探讨">Linux的CPU上下文切换深入探讨</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%8F%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="微服务架构及设计模式">微服务架构及设计模式</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 监控 "
+           href="/2022/04/23/%E6%89%93%E9%80%A0%E4%B8%80%E5%A5%97%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8A%9F%E8%83%BD%E6%9C%80%E5%85%A8%E7%9A%84APM%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/"
+           data-tag="监控"
+           data-author="" >
+            <span class="post-title" title="打造一套客户端功能最全的APM监控系统">打造一套客户端功能最全的APM监控系统</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E4%BC%81%E4%B8%9A%E5%AE%8C%E6%88%90%E4%BA%91%E8%BD%AC%E5%9E%8B%E7%9A%84%E6%88%90%E5%8A%9F%E4%B9%8B%E9%81%93-%E4%BA%91%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E7%AE%A1%E7%90%86/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="企业完成云转型的成功之道：云成本优化管理">企业完成云转型的成功之道：云成本优化管理</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2022/04/12/%E8%B0%88%E8%B0%88%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%A5%BD%E7%BD%91%E7%AB%99%E7%9A%84URL/"
+           data-tag="优化"
+           data-author="" >
+            <span class="post-title" title="谈谈如何设计好网站的URL">谈谈如何设计好网站的URL</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC01%E8%AF%BE-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%92%8CScrumMaster%E5%9F%BA%E6%9C%AC%E5%8A%9F%E5%9B%9B%E9%83%A8%E6%9B%B2/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲">敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC02%E8%AF%BE-%E5%82%A8%E5%A4%87-Scrum%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第02课-储备-Scrum精要">敏捷教练第02课-储备-Scrum精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第03课-储备-用户故事精要">敏捷教练第03课-储备-用户故事精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC04%E8%AF%BE-%E5%82%A8%E5%A4%87-scrum%E7%9A%8420%E4%B8%AA%E5%AD%90%E6%A8%A1%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第04课-储备-scrum的20个子模式">敏捷教练第04课-储备-scrum的20个子模式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC05%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%B2%BE%E7%9B%8A%E4%BD%93%E7%B3%BB%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第05课-储备-精益体系精要">敏捷教练第05课-储备-精益体系精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC08%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8B%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）">敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC09%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E6%8F%90%E5%8D%87%E4%B8%89%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第09课-技巧-敏捷教练的提升三式">敏捷教练第09课-技巧-敏捷教练的提升三式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC10%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%94%B9%E5%96%84%E5%92%8C%E7%B3%BB%E7%BB%9F%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第10课-技巧-持续改善和系统思考方法">敏捷教练第10课-技巧-持续改善和系统思考方法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC11%E8%AF%BE-%E5%AE%9E%E6%88%98-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%AE%9E%E6%88%98%E5%91%A8%E6%9C%9FV%E5%BD%A2%E5%85%AD%E6%AD%A5%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第11课-实战-敏捷教练实战周期V形六步法">敏捷教练第11课-实战-敏捷教练实战周期V形六步法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC06%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BF%83%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第06课-技巧-敏捷教练的四种心法">敏捷教练第06课-技巧-敏捷教练的四种心法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC07%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8A%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）">敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/03/08/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ECS%E9%80%89%E8%B4%AD%E6%8C%87%E5%8D%97%E5%8F%8A%E7%9C%81%E9%92%B1%E6%B3%95%E5%AE%9D/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="云服务器ECS选购指南及省钱法宝">云服务器ECS选购指南及省钱法宝</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E9%98%BF%E9%87%8C%E4%BA%91%E5%BC%B9%E6%80%A7%E8%AE%A1%E7%AE%97%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E4%BB%8E0%E5%88%B01%E8%87%AA%E5%BB%BASRE%E4%BD%93%E7%B3%BB/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="阿里云弹性计算研发团队如何从0到1自建SRE体系">阿里云弹性计算研发团队如何从0到1自建SRE体系</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E4%BA%91%E4%B8%8A%E8%B5%84%E6%BA%90%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B0%E6%A8%A1%E5%BC%8F/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="云上资源自动化部署新模式">云上资源自动化部署新模式</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲-你假装看 "
+           href="/2021/07/22/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8B%96%E5%9E%AE%E4%B8%AD%E5%B0%8F%E5%85%AC%E5%8F%B8%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E7%9A%8410%E5%AE%97%E7%BD%AA/"
+           data-tag="我假装讲-你假装看"
+           data-author="" >
+            <span class="post-title" title="常见的拖垮中小公司技术团队的10宗罪">常见的拖垮中小公司技术团队的10宗罪</span>
+            <span class="post-date" title="2021-07-22 00:00:00">2021/07/22</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2021/07/22/%E6%88%91%E5%81%9A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8E%9F%E5%88%99/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="我做系统架构的一些原则">我做系统架构的一些原则</span>
+            <span class="post-date" title="2021-07-22 00:00:00">2021/07/22</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/cotainer-init/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="开启shareProcessNamespace后容器异常">开启shareProcessNamespace后容器异常</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/docker-shell-signal/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="k8s中shell脚本启动如何传递信号">k8s中shell脚本启动如何传递信号</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/enforce-audit-policy-in-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="在Kubernetes中实施审计策略">在Kubernetes中实施审计策略</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/26/Cilium-Network-Overview/"
+           data-tag="Cilium"
+           data-author="" >
+            <span class="post-title" title="Cilium网络概述">Cilium网络概述</span>
+            <span class="post-date" title="2021-05-26 00:00:00">2021/05/26</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/19/generating-yaml-for-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="快速生成k8s的yaml配置的4种方法">快速生成k8s的yaml配置的4种方法</span>
+            <span class="post-date" title="2021-05-19 00:00:00">2021/05/19</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2021/04/28/fklek-to-k8s-log/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="使用fklek搭建Kubernetes日志收集工具栈">使用fklek搭建Kubernetes日志收集工具栈</span>
+            <span class="post-date" title="2021-04-28 00:00:00">2021/04/28</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲-你假装看 "
+           href="/2021/04/27/%E5%8F%AA%E6%9C%89%E9%BB%91%E8%AF%9D%E6%89%8D%E8%83%BD%E6%8B%AF%E6%95%91%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%BA/"
+           data-tag="我假装讲-你假装看"
+           data-author="" >
+            <span class="post-title" title="只有黑话才能拯救互联网人">只有黑话才能拯救互联网人</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲-你假装看 "
+           href="/2021/04/27/%E6%BC%AB%E7%94%BB%E4%B8%80%E4%B8%AANB%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%B8%8A%E7%BA%BF%E8%BF%87%E7%A8%8B/"
+           data-tag="我假装讲-你假装看"
+           data-author="" >
+            <span class="post-title" title="漫画一个NB互联网项目的上线过程">漫画一个NB互联网项目的上线过程</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 消息系统 "
+           href="/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"
+           data-tag="Pulsar"
+           data-author="" >
+            <span class="post-title" title="Pulsar vs Kafka，CTO 如何抉择">Pulsar vs Kafka，CTO 如何抉择</span>
+            <span class="post-date" title="2021-04-24 00:00:00">2021/04/24</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/21/kubernetes-best-practices-in-production/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="生产环境中的Kubernetes最佳实践">生产环境中的Kubernetes最佳实践</span>
+            <span class="post-date" title="2021-04-21 00:00:00">2021/04/21</span>
+        </a>
+        
+        <a  class="全部文章 职业发展 "
+           href="/2021/04/19/jishuchengzhang/"
+           data-tag="职业发展"
+           data-author="" >
+            <span class="post-title" title="你的技术成长战略是什么">你的技术成长战略是什么</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        <a  class="全部文章 containerd "
+           href="/2021/04/12/nerdctl-to-containerd/"
+           data-tag="containerd"
+           data-author="" >
+            <span class="post-title" title="使用nerdctl玩转containerd">使用nerdctl玩转containerd</span>
+            <span class="post-date" title="2021-04-12 00:00:00">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/09/Kubernetes-network/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes网络和云厂商实践浅析">Kubernetes网络和云厂商实践浅析</span>
+            <span class="post-date" title="2021-04-09 00:00:00">2021/04/09</span>
+        </a>
+        
+        <a  class="全部文章 Ingress "
+           href="/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"
+           data-tag="Ingress"
+           data-author="" >
+            <span class="post-title" title="Kubernetes Ingress 控制器的技术选型技巧">Kubernetes Ingress 控制器的技术选型技巧</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/08/Kubernetes-remen/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes入门-进阶实战">Kubernetes入门-进阶实战</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/03/24/Flannel-Calico/"
+           data-tag="flannel"
+           data-author="" >
+            <span class="post-title" title="Flannel-Calico怎么选择">Flannel-Calico怎么选择</span>
+            <span class="post-date" title="2021-03-24 00:00:00">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 nginx "
+           href="/2021/03/15/nginx-knowledge-graph/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx核心知识100讲知识图谱">nginx核心知识100讲知识图谱</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2021/03/15/performance-optimize-your-program/"
+           data-tag="性能"
+           data-author="" >
+            <span class="post-title" title="性能之癫-优化你的程序">性能之癫-优化你的程序</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-redis的常见使用场景" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">redis的常见使用场景</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="redis">redis</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">redis</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2022-10-26 23:19:01'>2022-10-26 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%BC%93%E5%AD%98"><span class="toc-text">1. 缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E5%85%B1%E4%BA%AB%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-text">2. 数据共享分布式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-text">3、分布式锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%85%A8%E5%B1%80ID"><span class="toc-text">4、全局ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-text">5、计数器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81%E9%99%90%E6%B5%81"><span class="toc-text">6、限流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7%E3%80%81%E4%BD%8D%E7%BB%9F%E8%AE%A1"><span class="toc-text">7、位统计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%97%B6%E9%97%B4%E8%BD%B4%EF%BC%88Timeline%EF%BC%89"><span class="toc-text">8. 时间轴（Timeline）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-text">9. 消息队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E3%80%81%E6%8A%BD%E5%A5%96"><span class="toc-text">10、抽奖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11%E3%80%81%E7%82%B9%E8%B5%9E%E3%80%81%E7%AD%BE%E5%88%B0%E3%80%81%E6%89%93%E5%8D%A1"><span class="toc-text">11、点赞、签到、打卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E5%95%86%E5%93%81%E6%A0%87%E7%AD%BE"><span class="toc-text">12 商品标签</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#13%E3%80%81%E5%A5%BD%E5%8F%8B%E5%85%B3%E7%B3%BB%E3%80%81%E7%94%A8%E6%88%B7%E5%85%B3%E6%B3%A8%E3%80%81%E6%8E%A8%E8%8D%90%E6%A8%A1%E5%9E%8B"><span class="toc-text">13、好友关系、用户关注、推荐模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BE%E4%BE%8B"><span class="toc-text">举例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E6%8E%92%E8%A1%8C%E6%A6%9C"><span class="toc-text">14 .排行榜</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#15-%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">15 .倒排索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-%E6%98%BE%E7%A4%BA%E6%9C%80%E6%96%B0%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%88%97%E8%A1%A8"><span class="toc-text">16 .显示最新的项目列表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#17%E3%80%81%E8%B4%AD%E7%89%A9%E8%BD%A6"><span class="toc-text">17、购物车</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#18%E3%80%81%E5%95%86%E5%93%81%E7%AD%9B%E9%80%89"><span class="toc-text">18、商品筛选</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#19%E3%80%81%E6%8E%92%E8%A1%8C%E6%A6%9C"><span class="toc-text">19、排行榜</span></a>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/Number_oneEngineer/article/details/123229706">https://blog.csdn.net/Number_oneEngineer/article/details/123229706</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/agonie201218/article/details/123640871">https://blog.csdn.net/agonie201218/article/details/123640871</a></p>
+<blockquote>
+<h2 id="1-缓存"><a href="#1-缓存" class="headerlink" title="1. 缓存"></a>1. 缓存</h2><p>作为<code>Key-Value</code>形态的内存数据库，Redis 最先会被想到的应用场景便是作为数据缓存。而使用 Redis 缓存数据非常简单，只需要通过<code>string</code>类型将序列化后的对象存起来即可，不过也有一些需要注意的地方：</p>
+<ul>
+<li><p>  必须保证不同对象的 key 不会重复，并且使 key 尽量短，一般使用类名（表名）加主键拼接而成。</p>
+</li>
+<li><p>  选择一个优秀的序列化方式也很重要，目的是提高序列化的效率和减少内存占用。</p>
+</li>
+<li><p>缓存内容与数据库的一致性，这里一般有两种做法：</p>
+<ol>
+<li> 只在数据库查询后将对象放入缓存，如果对象发生了修改或删除操作，直接清除对应缓存（或设为过期）。</li>
+<li> 在数据库新增和查询后将对象放入缓存，修改后更新缓存，删除后清除对应缓存（或设为过期）。</li>
+</ol>
+</li>
+</ul>
+<p>String类型</p>
+<p>例如：热点数据缓存（例如报表、明星出轨），对象缓存、全页缓存、可以提升热点数据的访问数据。</p>
+<h2 id="2-数据共享分布式"><a href="#2-数据共享分布式" class="headerlink" title="2. 数据共享分布式"></a>2. 数据共享分布式</h2><p>String 类型，因为 Redis 是分布式的独立服务，可以在多个应用之间共享</p>
+<p>例如：分布式Session</p>
+<pre><code>&lt;dependency&gt; 
+ &lt;groupId&gt;org.springframework.session&lt;/groupId&gt; 
+ &lt;artifactId&gt;spring-session-data-redis&lt;/artifactId&gt; 
+&lt;/dependency&gt;</code></pre>
+<h2 id="3、分布式锁"><a href="#3、分布式锁" class="headerlink" title="3、分布式锁"></a>3、分布式锁</h2><p>如今都是分布式的环境下java自带的单体锁已经不适用的。在 Redis 2.6.12 版本开始，<code>string</code>的<code>set</code>命令增加了一些参数：</p>
+<ul>
+<li><p>  <code>EX</code>：设置键的过期时间（单位为秒）</p>
+</li>
+<li><p>  <code>PX</code>：设置键的过期时间（单位为毫秒）</p>
+</li>
+<li><p>  <code>NX</code> ：只在键不存在时，才对键进行设置操作。 <code>SET key value NX</code> 效果等同于 <code>SETNX key value</code> 。</p>
+</li>
+<li><p>  <code>XX</code> ：只在键已经存在时，才对键进行设置操作。</p>
+</li>
+</ul>
+<p>由于这个操作是原子性的，可以简单地以此实现一个分布式的锁，例如：</p>
+<pre><code>　　set lock_key locked NX EX 1 </code></pre>
+<p>如果这个操作返回<code>false</code>，说明 key 的添加不成功，也就是当前有人在占用这把锁。而如果返回<code>true</code>，则说明得了锁，便可以继续进行操作，并且在操作后通过<code>del</code>命令释放掉锁。并且即使程序因为某些原因并没有释放锁，由于设置了过期时间，该锁也会在 1 秒后自动释放，不会影响到其他程序的运行。<br>　　<br>推荐使用 redisson 第三方库实现分布式锁。<br>参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/agonie201218/article/details/122084140">java分布式锁终极解决方案之 redisson</a><br>String 类型setnx方法，只有不存在时才能添加成功，返回true</p>
+<pre><code>public static boolean getLock(String key) &#123;
+    Long flag = jedis.setnx(key, &quot;1&quot;);
+    if (flag == 1) &#123;
+        jedis.expire(key, 10);
+    &#125;
+    return flag == 1;
+&#125;
+
+public static void releaseLock(String key) &#123;
+    jedis.del(key);
+&#125;</code></pre>
+<h2 id="4、全局ID"><a href="#4、全局ID" class="headerlink" title="4、全局ID"></a>4、全局ID</h2><p>int类型，incrby，利用原子性</p>
+<p><code>incrby userid 1000</code></p>
+<p>分库分表的场景，一次性拿一段</p>
+<h2 id="5、计数器"><a href="#5、计数器" class="headerlink" title="5、计数器"></a>5、计数器</h2><p>int类型，incr方法</p>
+<p>例如：文章的阅读量、微博点赞数、允许一定的延迟，先写入Redis再定时同步到数据库</p>
+<p>计数功能应该是最适合 Redis 的使用场景之一了，因为它高频率读写的特征可以完全发挥 Redis 作为内存数据库的高效。在 Redis 的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&spm=1001.2101.3001.7020">数据结构</a>中，<code>string</code>、<code>hash</code>和<code>sorted set</code>都提供了<code>incr</code>方法用于原子性的自增操作，下面举例说明一下它们各自的使用场景：</p>
+<ul>
+<li>  如果应用需要显示每天的注册用户数，便可以使用<code>string</code>作为计数器，设定一个名为<code>REGISTERED_COUNT_TODAY</code>的 key，并在初始化时给它设置一个到凌晨 0 点的过期时间，每当用户注册成功后便使用<code>incr</code>命令使该 key 增长 1，同时当每天凌晨 0 点后，这个计数器都会因为 key 过期使值清零。</li>
+<li>  每条微博都有点赞数、评论数、转发数和浏览数四条属性，这时用<code>hash</code>进行计数会更好，将该计数器的 key 设为<code>weibo:weibo_id</code>，<code>hash</code>的 field 为<code>like_number</code>、<code>comment_number</code>、<code>forward_number</code>和<code>view_number</code>，在对应操作后通过<code>hincrby</code>使<code>hash 中</code>的 field 自增。</li>
+<li>  如果应用有一个发帖排行榜的功能，便选择<code>sorted set</code>吧，将集合的 key 设为<code>POST_RANK</code>。当用户发帖后，使用<code>zincrby</code>将该用户 id 的 score 增长 1。<code>sorted set</code>会重新进行排序，用户所在排行榜的位置也就会得到实时的更新。</li>
+</ul>
+<h2 id="6、限流"><a href="#6、限流" class="headerlink" title="6、限流"></a>6、限流</h2><p>int类型，incr方法</p>
+<p>以访问者的ip和其他信息作为key，访问一次增加一次计数，超过次数则返回false</p>
+<h2 id="7、位统计"><a href="#7、位统计" class="headerlink" title="7、位统计"></a>7、位统计</h2><p>String类型的bitcount（1.6.6的bitmap数据结构介绍）</p>
+<p>字符是以8位二进制存储的</p>
+<pre><code>set k1 a
+setbit k1 6 1
+setbit k1 7 0
+get k1 
+/* 6 7 代表的a的二进制位的修改
+a 对应的ASCII码是97，转换为二进制数据是01100001
+b 对应的ASCII码是98，转换为二进制数据是01100010
+
+因为bit非常节省空间（1 MB=8388608 bit），可以用来做大数据量的统计。
+*/</code></pre>
+<p>例如：在线用户统计，留存用户统计</p>
+<pre><code>setbit onlineusers 01 
+setbit onlineusers 11 
+setbit onlineusers 20</code></pre>
+<p>支持按位与、按位或等等操作</p>
+<pre><code>BITOPANDdestkeykey[key...] ，对一个或多个 key 求逻辑并，并将结果保存到 destkey 。       
+BITOPORdestkeykey[key...] ，对一个或多个 key 求逻辑或，并将结果保存到 destkey 。 
+BITOPXORdestkeykey[key...] ，对一个或多个 key 求逻辑异或，并将结果保存到 destkey 。 
+BITOPNOTdestkeykey ，对给定 key 求逻辑非，并将结果保存到 destkey 。</code></pre>
+<p>计算出7天都在线的用户</p>
+<pre><code>BITOP &quot;AND&quot; &quot;7_days_both_online_users&quot; &quot;day_1_online_users&quot; &quot;day_2_online_users&quot; ...  &quot;day_7_online_users&quot;</code></pre>
+<p>参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/agonie201218/article/details/107161106">使用Redis的bitmaps统计用户留存率、活跃用户</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/agonie201218/article/details/108988577">用户日活月活怎么统计 - Redis HyperLogLog 详解</a></p>
+<h2 id="8-时间轴（Timeline）"><a href="#8-时间轴（Timeline）" class="headerlink" title="8. 时间轴（Timeline）"></a>8. 时间轴（Timeline）</h2><p> <code>list</code>作为双向链表，不光可以作为队列使用。如果将它用作栈便可以成为一个公用的时间轴。当用户发完微博后，都通过<code>lpush</code>将它存放在一个 key 为<code>LATEST_WEIBO</code>的<code>list</code>中，之后便可以通过<code>lrange</code>取出当前最新的微博。</p>
+<h2 id="9-消息队列"><a href="#9-消息队列" class="headerlink" title="9. 消息队列"></a>9. 消息队列</h2><p>Redis 中<code>list</code>的数据结构实现是双向链表，所以可以非常便捷的应用于消息队列（生产者 / 消费者模型）。消息的生产者只需要通过<code>lpush</code>将消息放入 list，消费者便可以通过<code>rpop</code>取出该消息，并且可以保证消息的有序性。如果需要实现带有优先级的消息队列也可以选择<code>sorted set</code>。而<code>pub/sub</code>功能也可以用作发布者 / 订阅者模型的消息。无论使用何种方式，由于 Redis 拥有持久化功能，也不需要担心由于服务器故障导致消息丢失的情况。</p>
+<p>List提供了两个阻塞的弹出操作：blpop/brpop，可以设置超时时间</p>
+<ul>
+<li>  blpop：blpop key1 timeout 移除并获取列表的第一个元素，如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。</li>
+<li>  brpop：brpop key1 timeout 移除并获取列表的最后一个元素，如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。</li>
+</ul>
+<p>上面的操作。其实就是java的阻塞队列。学习的东西越多。学习成本越低</p>
+<ul>
+<li>  队列：先进先除：rpush blpop，左头右尾，右边进入队列，左边出队列</li>
+<li>  栈：先进后出：rpush brpop</li>
+</ul>
+<h3 id="10、抽奖"><a href="#10、抽奖" class="headerlink" title="10、抽奖"></a>10、抽奖</h3><p>利用set结构的无序性,通过 Spop（ Redis Spop 命令用于移除<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E9%9B%86%E5%90%88&spm=1001.2101.3001.7020">集合</a>中的指定 key 的一个或多个随机元素，移除后会返回移除的元素。 ） 随机获得值</p>
+<pre><code>redis&gt; SADD myset &quot;one&quot;
+(integer) 1
+redis&gt; SADD myset &quot;two&quot;
+(integer) 1
+redis&gt; SADD myset &quot;three&quot;
+(integer) 1
+redis&gt; SPOP myset
+&quot;one&quot;
+redis&gt; SMEMBERS myset
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis&gt; SADD myset &quot;four&quot;
+(integer) 1
+redis&gt; SADD myset &quot;five&quot;
+(integer) 1
+redis&gt; SPOP myset 3
+1) &quot;five&quot;
+2) &quot;four&quot;
+3) &quot;two&quot;
+redis&gt; SMEMBERS myset
+1) &quot;three&quot;
+redis&gt; </code></pre>
+<h2 id="11、点赞、签到、打卡"><a href="#11、点赞、签到、打卡" class="headerlink" title="11、点赞、签到、打卡"></a>11、点赞、签到、打卡</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/201157552a906cdee10942c9e3acc2c3.png" alt="图片"></p>
+<p>假如上面的微博ID是t1001，用户ID是u3001</p>
+<p>用 like:t1001 来维护 t1001 这条微博的所有点赞用户</p>
+<ul>
+<li>  点赞了这条微博：sadd like:t1001 u3001</li>
+<li>  取消点赞：srem like:t1001 u3001</li>
+<li>  是否点赞：sismember like:t1001 u3001</li>
+<li>  点赞的所有用户：smembers like:t1001</li>
+<li>  点赞数：scard like:t1001</li>
+</ul>
+<p>是不是比数据库简单多了。</p>
+<h2 id="12-商品标签"><a href="#12-商品标签" class="headerlink" title="12 商品标签"></a>12 商品标签</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/c3af93df9d330c0c490667e497a6846e.png" alt="图片"></p>
+<p>老规矩，用 tags:i5001 来维护商品所有的标签。</p>
+<ul>
+<li>  sadd tags:i5001 画面清晰细腻</li>
+<li>  sadd tags:i5001 真彩清晰显示屏</li>
+<li>  sadd tags:i5001 流程至极</li>
+</ul>
+<h3 id="13、好友关系、用户关注、推荐模型"><a href="#13、好友关系、用户关注、推荐模型" class="headerlink" title="13、好友关系、用户关注、推荐模型"></a>13、好友关系、用户关注、推荐模型</h3><p>这个场景最开始是是一篇介绍微博 Redis 应用的 PPT 中看到的，其中提到微博的 Redis 主要是用在在计数和好友关系两方面上，当时对好友关系方面的用法不太了解，后来看到《Redis 设计与实现》中介绍到作者最开始去使用 Redis 便是希望能通过<code>set</code>解决传统数据库无法快速计算集合中交集这个功能。后来联想到微博当前的业务场景，确实能够以这种方式实现，所以姑且猜测一下：</p>
+<p>对于一个用户 A，将它的关注和粉丝的用户 id 都存放在两个 set 中：</p>
+<ul>
+<li><p>  <code>A:follow</code>：存放 A 所有关注的用户 id</p>
+</li>
+<li><p><code>A:follower</code>：存放 A 所有粉丝的用户 id</p>
+<p>  那么通过<code>sinter</code>命令便可以根据<code>A:follow</code>和<code>A:follower</code>的交集得到与 A 互相关注的用户。当 A 进入另一个用户 B 的主页后，<code>A:follow</code>和<code>B:follow</code>的交集便是 A 和 B 的共同专注，<code>A:follow</code>和<code>B:follower</code>的交集便是 A 关注的人也关注了 B。</p>
+</li>
+</ul>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>follow 关注 fans 粉丝</p>
+<p>相互关注：</p>
+<ul>
+<li>  sadd 1:follow 2</li>
+<li>  sadd 2:fans 1</li>
+<li>  sadd 1:fans 2</li>
+<li>  sadd 2:follow 1</li>
+</ul>
+<p>我关注的人也关注了他(取交集)：</p>
+<ul>
+<li>  sinter 1:follow 2:fans</li>
+</ul>
+<p>可能认识的人：</p>
+<ul>
+<li>  用户1可能认识的人(差集)：sdiff 2:follow 1:follow</li>
+<li>  用户2可能认识的人：sdiff 1:follow 2:follow</li>
+</ul>
+<h2 id="14-排行榜"><a href="#14-排行榜" class="headerlink" title="14 .排行榜"></a>14 .排行榜</h2><p>使用<code>sorted set</code>(有序set)和一个计算热度的算法便可以轻松打造一个热度排行榜，<code>zrevrangebyscore</code>可以得到以分数倒序排列的序列，<code>zrank</code>可以得到一个成员在该排行榜的位置（是分数正序排列时的位置，如果要获取倒序排列时的位置需要用<code>zcard</code>-<code>zrank</code>）。</p>
+<p>id 为6001 的新闻点击数加1：</p>
+<pre><code>zincrby hotNews:20190926 1 n6001</code></pre>
+<p>获取今天点击最多的15条：</p>
+<pre><code>zrevrange hotNews:20190926 0 15 withscores</code></pre>
+<h3 id="15-倒排索引"><a href="#15-倒排索引" class="headerlink" title="15 .倒排索引"></a>15 .倒排索引</h3><p>倒排索引是构造搜索功能的最常见方式，在 Redis 中也可以通过<code>set</code>进行建立倒排索引，这里以简单的拼音 + 前缀搜索城市功能举例：</p>
+<p>假设一个城市<code>北京</code>，通过拼音词库将<code>北京</code>转为<code>beijing</code>，再通过前缀分词将这两个词分为若干个前缀索引，有：<code>北</code>、<code>北京</code>、<code>b</code>、<code>be</code>…<code>beijin</code>和<code>beijing</code>。将这些索引分别作为<code>set</code>的 key（例如:<code>index:北</code>）并存储<code>北京</code>的 id，倒排索引便建立好了。接下来只需要在搜索时通过关键词取出对应的<code>set</code>并得到其中的 id 即可。</p>
+<h2 id="16-显示最新的项目列表"><a href="#16-显示最新的项目列表" class="headerlink" title="16 .显示最新的项目列表"></a><strong>16 .显示最新的项目列表</strong></h2><p>比如说，我们的一个Web应用想要列出用户贴出的最新20条评论。在最新的评论边上我们有一个“显示全部”的链接，点击后就可以获得更多的评论。</p>
+<p>每次新评论发表时，我们会将它的ID添加到一个Redis列表。可以限定列表的长度为5000</p>
+<p>LPUSH latest.comments</p>
+<p>在Redis中我们的最新ID使用了常驻缓存，这是一直更新的。但是我们做了限制不能超过5000个ID，因此我们的获取ID函数会一直询问Redis。只有在超出了这个范围的时候，才需要去访问数据库。</p>
+<h1 id="17、购物车"><a href="#17、购物车" class="headerlink" title="17、购物车"></a>17、购物车</h1><p>String 或hash。所有String可以做的hash都可以做</p>
+<p><img src="https://img-blog.csdnimg.cn/bf8b92966ab448d88c48f0b45a262e0c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5oiR5Lus5LiA6LW35Y675aSn5Y6C,size_9,color_FFFFFF,t_70,g_se,x_16" alt="图片"></p>
+<ul>
+<li>  key：用户id；field：商品id；value：商品数量。</li>
+<li>  +1：hincr。-1：hdecr。删除：hdel。全选：hgetall。商品数：hlen。</li>
+</ul>
+<h1 id="18、商品筛选"><a href="#18、商品筛选" class="headerlink" title="18、商品筛选"></a>18、商品筛选</h1><pre><code>// 获取差集
+sdiff set1 set2
+// 获取交集（intersection ）
+sinter set1 set2
+// 获取并集
+sunion set1 set2</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/d8db8ebb604848bca9646dac0a21859c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5oiR5Lus5LiA6LW35Y675aSn5Y6C,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<p>假如：iPhone11 上市了</p>
+<pre><code>sadd brand:apple iPhone11
+
+sadd brand:ios iPhone11
+
+sad screensize:6.0-6.24 iPhone11
+
+sad screentype:lcd iPhone 11</code></pre>
+<p>赛选商品，苹果的、ios的、屏幕在6.0-6.24之间的，屏幕材质是LCD屏幕</p>
+<pre><code>sinter brand:apple brand:ios screensize:6.0-6.24 screentype:lcd</code></pre>
+<h1 id="19、排行榜"><a href="#19、排行榜" class="headerlink" title="19、排行榜"></a>19、排行榜</h1><p>id 为6001 的新闻点击数加1：</p>
+<blockquote>
+<p>zincrby hotNews:20190926 1 n6001</p>
+</blockquote>
+<p>获取今天点击最多的15条：</p>
+<blockquote>
+<p>zrevrange hotNews:20190926 0 15 withscores</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/e61eb794e182400da1aa9f84b00e7800.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5oiR5Lus5LiA6LW35Y675aSn5Y6C,size_7,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+</blockquote>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    Copyright©2016-至今   张天师
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 572px;
+    }
+    .nav.fullscreen {
+        margin-left: -572px;
+    }
+    .nav-left {
+        width: 150px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
