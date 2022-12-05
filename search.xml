@@ -1,6 +1,2288 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>redis的20种常见使用场景</title>
+    <url>/2022/12/05/redis%E7%9A%8420%E7%A7%8D%E5%B8%B8%E8%A7%81%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/</url>
+    <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/qkuejUUQ-mco-ZX2impZXw">https://mp.weixin.qq.com/s/qkuejUUQ-mco-ZX2impZXw</a><br><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870">https://blog.csdn.net/lupengfei1009/article/details/126266870</a></p>
+<blockquote>
+<h3 id="文章目录"><a href="#文章目录" class="headerlink" title="文章目录"></a>文章目录</h3><ul>
+<li><ul>
+<li><p><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_19">缓存</a></p>
+<ul>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_46">抽奖</a></p>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli__58">Redis-cli 操作</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#SpringBoot__76">SpringBoot 实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli_API_143">Redis-cli API操作</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#SpringBoot__165">SpringBoot 操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_236">排行榜</a></p>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli_254">Redis-cli操作</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#SpringBoot_298">SpringBoot操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#PVincr_365">PV统计（incr自增计数）</a></p>
+</li>
+<li><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli__373">Redis-cli 操作</a></li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#UVHeyperLogLog_384">UV统计（HeyperLogLog）</a></p>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli__402">Redis-cli 操作</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#SpringBootHeyperLogLog_421">SpringBoot操作HeyperLogLog</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#BloomFiler_494">去重（BloomFiler）</a></p>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#BloomFiler__517">BloomFiler 安装</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli_532">Redis-cli操作</a></li>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#SpringBoot_547">SpringBoot整合</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#BitMap_716">用户签到（BitMap）</a></p>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli__746">Redis-cli 操作：</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_784">是否签到、连续签到判断</a></li>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#SpringBoot_847">SpringBoot实现签到</a></li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_851">按月签到</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_1171">指定时间签到</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#GEO_1464">GEO搜附近</a></p>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#GEO_API_Rediscli__1472">GEO API 及Redis-cli 操作：</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#SpringBoot__1579">SpringBoot 操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_1728">简单限流</a></p>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli_1737">Redis-cli操作</a><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#SpringBoot_1752">SpringBoot示例：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#ID_1833">全局ID</a></p>
+</li>
+<li><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli__1841">Redis-cli 客户端测试</a></li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_1856">简单分布式锁</a></p>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_1900">认识的人/好友推荐</a></p>
+</li>
+<li><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli__1917">Redis-cli 客户端测试</a></li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_1944">发布/订阅</a></p>
+</li>
+<li><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli_1953">Redis-cli操作</a></li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_1963">消息队列</a></p>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#session_2073">数据共享（session共享）</a></p>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_2181">商品筛选</a></p>
+</li>
+<li><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli__2194">Redis-cli 客户端测试</a></li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_2245">购物车</a></p>
+</li>
+<li><ul>
+<li>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#Rediscli__2264">Redis-cli 客户端测试</a></li>
+</ul>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#key_2297">定时取消订单（key过期监听）</a></p>
+</li>
+<li><p>  <a href="https://blog.csdn.net/lupengfei1009/article/details/126266870#_2411">物流信息（时间线）</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>大家好，我是一航</p>
+<p>后端程序员，不管是出去面试，还是当面试官，Redis几乎是100%会问到的技术点；究其原因，主要是因为他实在过于强大、使用率太高了；导致项目中几乎无处不在。</p>
+<p>那Redis部分，不出意外，第一个问题就是：<strong>你做的项目，用Redis干了些啥</strong>？大部分人的回答都会是：<strong>缓存</strong>；当问到是否还有其他场景中使用时，部分用的少的朋友就会微微摇头；</p>
+<p>其实也没错，Redis绝不部分使用场景就是用来做缓存；但是，由于Redis 支持比较丰富的数据结构，因此他能实现的功能并不仅限于缓存，而是可以运用到各种业务场景中，开发出既简洁、又高效的系统;</p>
+<p>下面整理了20种 Redis 的妙用场景，每个方案都用一个实际的业务需求并结合数据结构的API来讲解，希望大家能够理解其底层的实现方式，学会举一反三，并运用到项目的方方面面：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2ca50242c26e57209b971a016682275e.png"></p>
+<blockquote>
+<p>本文稍微有点点长，如果时间不够，建议看一下目录，收藏起来，用的时候再翻出来看看。</p>
+</blockquote>
+<p>测试源码：<a href="https://github.com/vehang/ehang-spring-boot/tree/main/spring-boot-011-redis">https://github.com/vehang/ehang-spring-boot/tree/main/spring-boot-011-redis</a></p>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>本文假定你已经了解过Redis，并知晓Redis最基础的一些使用，如果你对Redis的基础API还不了解，可以先看一下菜鸟教程：<a href="https://www.runoob.com/redis%EF%BC%8C%E9%82%A3%E4%B9%88%E7%BC%93%E5%AD%98%E9%83%A8%E5%88%86%E5%8F%8A%E5%9F%BA%E7%A1%80API%E7%9A%84%E6%BC%94%E7%A4%BA%EF%BC%8C%E5%B0%B1%E4%B8%8D%E8%BF%87%E5%A4%9A%E6%9D%A5%E8%AE%B2%E8%A7%A3%E4%BA%86%EF%BC%9B">https://www.runoob.com/redis，那么缓存部分及基础API的演示，就不过多来讲解了；</a></p>
+<p>但是，基本的数据结构，在这里再列举一下，方便后续方案的理解：</p>
+<p>结构类型</p>
+<p>结构存储的值</p>
+<p>结构的读写能力</p>
+<p><strong>String字符串</strong></p>
+<p>可以是字符串、整数或浮点数</p>
+<p>对整个字符串或字符串的一部分进行操作；对整数或浮点数进行自增或自减操作；</p>
+<p><strong>List列表</strong></p>
+<p>一个链表，链表上的每个节点都包含一个字符串</p>
+<p>对链表的两端进行push和pop操作，读取单个或多个元素；根据值查找或删除元素；</p>
+<p><strong>Set集合</strong></p>
+<p>包含字符串的无序集合</p>
+<p>字符串的集合，包含基础的方法有：看是否存在、添加、获取、删除；还包含计算交集、并集、差集等</p>
+<p><strong>Hash散列</strong></p>
+<p>包含键值对的无序散列表</p>
+<p>包含方法有：添加、获取、删除单个元素</p>
+<p><strong>Zset有序集合</strong></p>
+<p>和散列一样，用于存储键值对</p>
+<p>字符串成员与浮点数分数之间的有序映射；元素的排列顺序由分数的大小决定；包含方法有：添加、获取、删除单个元素以及根据分值范围或成员来获取元素</p>
+<ul>
+<li><p>依赖</p>
+<p>  以下所有通过SpringBoot测试的用例，都需要引入 Redis 的依赖</p>
+<pre><code>  &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+  &lt;/dependency&gt;</code></pre>
+</li>
+</ul>
+<h2 id="抽奖"><a href="#抽奖" class="headerlink" title="抽奖"></a>抽奖</h2><p>曾几何时，抽奖是互联网APP热衷的一种推广、拉新的方式，节假日没有好的策划，那就抽个奖吧！一堆用户参与进来，然后随机抽取几个幸运用户给予实物/虚拟的奖品；此时，开发人员就需要写上一个抽奖的算法，来实现幸运用户的抽取；其实我们完全可以利用Redis的集合（Set），就能轻松实现抽奖的功能；</p>
+<p>功能实现需要的API</p>
+<ul>
+<li>  <strong>SADD</strong> key member1 [member2]：添加一个或者多个参与用户；</li>
+<li>  <strong>SRANDMEMBER</strong> KEY [count]：随机返回一个或者多个用户；</li>
+<li>  <strong>SPOP</strong> key：随机返回一个或者多个用户，并删除返回的用户；</li>
+</ul>
+<p>SRANDMEMBER 和 SPOP 主要用于两种不同的抽奖模式，SRANDMEMBER 适用于一个用户可中奖多次的场景（就是中奖之后，不从用户池中移除，继续参与其他奖项的抽取）；而 SPOP 就适用于仅能中一次的场景（一旦中奖，就将用户从用户池中移除，后续的抽奖，就不可能再抽到该用户）； 通常 SPOP 会用的会比较多。</p>
+<h3 id="Redis-cli-操作"><a href="#Redis-cli-操作" class="headerlink" title="Redis-cli 操作"></a>Redis-cli 操作</h3><pre><code>127.0.0.1:6379&gt; SADD raffle user1
+(integer) 1
+127.0.0.1:6379&gt; SADD raffle user2 user3 user4 user5 user6 user7 user8 user9 user10
+(integer) 9
+127.0.0.1:6379&gt; SRANDMEMBER raffle 2
+1) &quot;user5&quot;
+2) &quot;user2&quot;
+127.0.0.1:6379&gt; SPOP raffle 2
+1) &quot;user3&quot;
+2) &quot;user4&quot;
+127.0.0.1:6379&gt; SPOP raffle 2
+1) &quot;user10&quot;
+2) &quot;user9&quot;</code></pre>
+<h3 id="SpringBoot-实现"><a href="#SpringBoot-实现" class="headerlink" title="SpringBoot 实现"></a>SpringBoot 实现</h3><pre><code>import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.List;
+
+/**
+ * @author 一行Java
+ * @title: RaffleMain
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/18 15:17
+ */
+@Slf4j
+@SpringBootTest
+public class RaffleMain &#123;
+    private final String KEY_RAFFLE_PROFIX = &quot;raffle:&quot;;
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Test
+    void test() &#123;
+        Integer raffleId = 1;
+        join(raffleId, 1000, 1001, 2233, 7890, 44556, 74512);
+        List lucky = lucky(raffleId, 2);
+        log.info(&quot;活动：&#123;&#125; 的幸运中奖用户是：&#123;&#125;&quot;, raffleId, lucky);
+    &#125;
+
+    public void join(Integer raffleId, Integer... userIds) &#123;
+        String key = KEY_RAFFLE_PROFIX + raffleId;
+        redisTemplate.opsForSet().add(key, userIds);
+    &#125;
+
+    public List lucky(Integer raffleId, long num) &#123;
+        String key = KEY_RAFFLE_PROFIX + raffleId;
+        // 随机抽取 抽完之后将用户移除奖池
+        List list = redisTemplate.opsForSet().pop(key, num);
+        // 随机抽取 抽完之后用户保留在池子里
+        //List list = redisTemplate.opsForSet().randomMembers(key, num);
+        return list;
+    &#125;
+
+&#125;</code></pre>
+<h2 id="Set实现点赞-收藏功能"><a href="#Set实现点赞-收藏功能" class="headerlink" title="Set实现点赞/收藏功能"></a>Set实现点赞/收藏功能</h2><p>有互动属性APP一般都会有点赞/收藏/喜欢等功能，来提升用户之间的互动。</p>
+<p><strong>传统的实现</strong>：用户点赞之后，在数据库中记录一条数据，同时一般都会在主题库中记录一个点赞/收藏汇总数，来方便显示；</p>
+<p><strong>Redis方案</strong>：基于Redis的集合（Set），记录每个帖子/文章对应的收藏、点赞的用户数据，同时set还提供了检查集合中是否存在指定用户，用户快速判断用户是否已经点赞过</p>
+<p>功能实现需要的API</p>
+<ul>
+<li>  <strong>SADD</strong> key member1 [member2]：添加一个或者多个成员（点赞）</li>
+<li>  <strong>SCARD</strong> key：获取所有成员的数量（点赞数量）</li>
+<li>  <strong>SISMEMBER</strong> key member：判断成员是否存在（是否点赞）</li>
+<li>  <strong>SREM</strong> key member1 [member2] ：移除一个或者多个成员（点赞数量）</li>
+</ul>
+<h3 id="Redis-cli-API操作"><a href="#Redis-cli-API操作" class="headerlink" title="Redis-cli API操作"></a>Redis-cli API操作</h3><pre><code>127.0.0.1:6379&gt; sadd like:article:1 user1
+(integer) 1
+127.0.0.1:6379&gt; sadd like:article:1 user2
+(integer) 1
+# 获取成员数量（点赞数量）
+127.0.0.1:6379&gt; SCARD like:article:1
+(integer) 2
+# 判断成员是否存在（是否点在）
+127.0.0.1:6379&gt; SISMEMBER like:article:1 user1
+(integer) 1
+127.0.0.1:6379&gt; SISMEMBER like:article:1 user3
+(integer) 0
+# 移除一个或者多个成员（取消点赞）
+127.0.0.1:6379&gt; SREM like:article:1 user1
+(integer) 1
+127.0.0.1:6379&gt; SCARD like:article:1
+(integer) 1</code></pre>
+<h3 id="SpringBoot-操作"><a href="#SpringBoot-操作" class="headerlink" title="SpringBoot 操作"></a>SpringBoot 操作</h3><pre><code>import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+
+/**
+ * @author 一行Java
+ * @title: LikeMain
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/18 15:38
+ */
+@Slf4j
+@SpringBootTest
+public class LikeMain &#123;
+    private final String KEY_LIKE_ARTICLE_PROFIX = &quot;like:article:&quot;;
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Test
+    void test() &#123;
+        long articleId = 100;
+        Long likeNum = like(articleId, 1001, 1002, 2001, 3005, 4003);
+        unLike(articleId, 2001);
+        likeNum = likeNum(articleId);
+        boolean b2001 = isLike(articleId, 2001);
+        boolean b3005 = isLike(articleId, 3005);
+        log.info(&quot;文章：&#123;&#125; 点赞数量：&#123;&#125; 用户2001的点赞状态：&#123;&#125; 用户3005的点赞状态：&#123;&#125;&quot;, articleId, likeNum, b2001, b3005);
+    &#125;
+
+    /**
+     * 点赞
+     *
+     * @param articleId 文章ID
+     * @return 点赞数量
+     */
+    public Long like(Long articleId, Integer... userIds) &#123;
+        String key = KEY_LIKE_ARTICLE_PROFIX + articleId;
+        Long add = redisTemplate.opsForSet().add(key, userIds);
+        return add;
+    &#125;
+
+    public Long unLike(Long articleId, Integer... userIds) &#123;
+        String key = KEY_LIKE_ARTICLE_PROFIX + articleId;
+        Long remove = redisTemplate.opsForSet().remove(key, userIds);
+        return remove;
+    &#125;
+
+    public Long likeNum(Long articleId) &#123;
+        String key = KEY_LIKE_ARTICLE_PROFIX + articleId;
+        Long size = redisTemplate.opsForSet().size(key);
+        return size;
+    &#125;
+
+    public Boolean isLike(Long articleId, Integer userId) &#123;
+        String key = KEY_LIKE_ARTICLE_PROFIX + articleId;
+        return redisTemplate.opsForSet().isMember(key, userId);
+    &#125;
+
+&#125;</code></pre>
+<h2 id="排行榜"><a href="#排行榜" class="headerlink" title="排行榜"></a>排行榜</h2><p>排名、排行榜、热搜榜是很多APP、游戏都有的功能，常用于用户活动推广、竞技排名、热门信息展示等功能；</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/161c0b70efd7ac9c13519941aa0b0076.png"></p>
+<p>比如上面的热搜榜，热度数据来源于全网用户的贡献，但用户只关心热度最高的前50条。</p>
+<p><strong>常规的做法</strong>：就是将用户的名次、分数等用于排名的数据更新到数据库，然后查询的时候通过Order by + limit 取出前50名显示，如果是参与用户不多，更新不频繁的数据，采用数据库的方式也没有啥问题，但是一旦出现爆炸性热点资讯（比如：大陆收复湾湾，xxx某些绿了等等），短时间会出现爆炸式的流量，瞬间的压力可能让数据库扛不住；</p>
+<p><strong>Redis方案</strong>：将热点资讯全页缓存，采用Redis的<strong>有序队列</strong>（Sorted Set）来缓存热度（SCORES），即可瞬间缓解数据库的压力，同时轻松筛选出热度最高的50条；</p>
+<p>功能实现需要的命令</p>
+<ul>
+<li>  <strong>ZADD</strong> key score1 member1 [score2 member2]：添加并设置SCORES，支持一次性添加多个；</li>
+<li>  <strong>ZREVRANGE</strong> key start stop [WITHSCORES] ：根据SCORES降序排列；</li>
+<li>  <strong>ZRANGE</strong> key start stop [WITHSCORES] ：根据SCORES降序排列；</li>
+</ul>
+<h3 id="Redis-cli操作"><a href="#Redis-cli操作" class="headerlink" title="Redis-cli操作"></a>Redis-cli操作</h3><pre><code># 单个插入
+127.0.0.1:6379&gt; ZADD ranking 1 user1  
+(integer) 1
+# 批量插入
+127.0.0.1:6379&gt; ZADD ranking 10 user2 50 user3 3 user4 25 user5
+(integer) 4
+# 降序排列 不带SCORES
+127.0.0.1:6379&gt; ZREVRANGE ranking 0 -1 
+1) &quot;user3&quot;
+2) &quot;user5&quot;
+3) &quot;user2&quot;
+4) &quot;user4&quot;
+5) &quot;user1&quot;
+# 降序排列 带SCORES
+127.0.0.1:6379&gt; ZREVRANGE ranking 0 -1 WITHSCORES
+ 1) &quot;user3&quot;
+ 2) &quot;50&quot;
+ 3) &quot;user5&quot;
+ 4) &quot;25&quot;
+ 5) &quot;user2&quot;
+ 6) &quot;10&quot;
+ 7) &quot;user4&quot;
+ 8) &quot;3&quot;
+ 9) &quot;user1&quot;
+10) &quot;1&quot;
+# 升序
+127.0.0.1:6379&gt; ZRANGE ranking 0 -1 WITHSCORES
+ 1) &quot;user1&quot;
+ 2) &quot;1&quot;
+ 3) &quot;user4&quot;
+ 4) &quot;3&quot;
+ 5) &quot;user2&quot;
+ 6) &quot;10&quot;
+ 7) &quot;user5&quot;
+ 8) &quot;25&quot;
+ 9) &quot;user3&quot;
+10) &quot;50&quot;</code></pre>
+<h3 id="SpringBoot操作"><a href="#SpringBoot操作" class="headerlink" title="SpringBoot操作"></a>SpringBoot操作</h3><pre><code>import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.DefaultTypedTuple;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.Set;
+
+/**
+ * @author 一行Java
+ * @title: RankingTest
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/18 15:54
+ */
+@SpringBootTest
+@Slf4j
+public class RankingTest &#123;
+    private final String KEY_RANKING = &quot;ranking&quot;;
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Test
+    void test() &#123;
+        add(1001, (double) 60);
+        add(1002, (double) 80);
+        add(1003, (double) 100);
+        add(1004, (double) 90);
+        add(1005, (double) 70);
+
+        // 取所有
+        Set&lt;DefaultTypedTuple&gt; range = range(0, -1);
+        log.info(&quot;所有用户排序：&#123;&#125;&quot;, range);
+
+        // 前三名
+        range = range(0, 2);
+        log.info(&quot;前三名排序：&#123;&#125;&quot;, range);
+    &#125;
+
+    public Boolean add(Integer userId, Double score) &#123;
+        Boolean add = redisTemplate.opsForZSet().add(KEY_RANKING, userId, score);
+        return add;
+    &#125;
+
+    public Set&lt;DefaultTypedTuple&gt; range(long min, long max) &#123;
+        // 降序
+        Set&lt;DefaultTypedTuple&gt; set = redisTemplate.opsForZSet().reverseRangeWithScores(KEY_RANKING, min, max);
+        // 升序
+        //Set&lt;DefaultTypedTuple&gt; set = redisTemplate.opsForZSet().rangeWithScores(KEY_RANKING, min, max);
+        return set;
+    &#125;
+&#125;</code></pre>
+<p>输出</p>
+<pre><code>所有用户排序：[DefaultTypedTuple [score=100.0, value=1003], DefaultTypedTuple [score=90.0, value=1004], DefaultTypedTuple [score=80.0, value=1002], DefaultTypedTuple [score=70.0, value=1005], DefaultTypedTuple [score=60.0, value=1001]]
+前三名排序：[DefaultTypedTuple [score=100.0, value=1003], DefaultTypedTuple [score=90.0, value=1004], DefaultTypedTuple [score=80.0, value=1002]]</code></pre>
+<h2 id="PV统计（incr自增计数）"><a href="#PV统计（incr自增计数）" class="headerlink" title="PV统计（incr自增计数）"></a>PV统计（incr自增计数）</h2><p>Page View（PV）指的是页面浏览量，是用来衡量流量的一个重要标准，也是数据分析很重要的一个依据；通常统计规则是页面被展示一次，就加一</p>
+<p>功能所需命令</p>
+<ul>
+<li>  <strong>INCR</strong>：将 key 中储存的数字值增一</li>
+</ul>
+<h3 id="Redis-cli-操作-1"><a href="#Redis-cli-操作-1" class="headerlink" title="Redis-cli 操作"></a>Redis-cli 操作</h3><pre><code>127.0.0.1:6379&gt; INCR pv:article:1
+(integer) 1
+127.0.0.1:6379&gt; INCR pv:article:1
+(integer) 2</code></pre>
+<h2 id="UV统计（HeyperLogLog）"><a href="#UV统计（HeyperLogLog）" class="headerlink" title="UV统计（HeyperLogLog）"></a>UV统计（HeyperLogLog）</h2><p>前面，介绍了通过（INCR）方式来实现页面的PV；除了PV之外，UV（独立访客）也是一个很重要的统计数据；</p>
+<p>但是如果要想通过计数（INCR）的方式来实现UV计数，就非常的麻烦，增加之前，需要判断这个用户是否访问过；那判断依据就需要额外的方式再进行记录。</p>
+<p>你可能会说，不是还有Set嘛！一个页面弄个集合，来一个用户塞（SADD）一个用户进去，要统计UV的时候，再通过SCARD汇总一下数量，就能轻松搞定了；此方案确实能实现UV的统计效果，但是忽略了成本；如果是普通页面，几百、几千的访问，可能造成的影响微乎其微，如果一旦遇到爆款页面，动辄上千万、上亿用户访问时，就一个页面UV将会带来非常大的内存开销，对于如此珍贵的内存来说，这显然是不划算的。</p>
+<p>此时，HeyperLogLog数据结构，就能完美的解决这一问题，它提供了一种<strong>不精准的去重计数</strong>方案，注意！这里强调一下，是不精准的，会存在误差，不过误差也不会很大，**标准的误差率是0.81%**，这个误差率对于统计UV计数，是能够容忍的；所以，不要将这个数据结构拿去做精准的去重计数。</p>
+<p>另外，HeyperLogLog 是会<strong>占用12KB的存储空间</strong>，虽然说，Redis 对 HeyperLogLog 进行了优化，在存储数据比较少的时候，采用了稀疏矩阵存储，只有在数据量变大，稀疏矩阵空间占用超过阈值时，才会转为空间为12KB的稠密矩阵；相比于成千、上亿的数据量，这小小的12KB，简直是太划算了；但是还是建议，不要将其用于数据量少，且频繁创建 HeyperLogLog 的场景，避免使用不当，造成资源消耗没减反增的不良效果。</p>
+<p>功能所需命令：</p>
+<ul>
+<li>  <strong>PFADD</strong> key element [element …]：增加计数（统计UV）</li>
+<li>  <strong>PFCOUNT</strong> key [key …]：获取计数（货物UV）</li>
+<li>  <strong>PFMERGE</strong> destkey sourcekey [sourcekey …]：将多个 HyperLogLog 合并为一个 HyperLogLog（多个合起来统计）</li>
+</ul>
+<h3 id="Redis-cli-操作-2"><a href="#Redis-cli-操作-2" class="headerlink" title="Redis-cli 操作"></a>Redis-cli 操作</h3><pre><code># 添加三个用户的访问
+127.0.0.1:6379&gt; PFADD uv:page:1 user1 user2 user3
+(integer) 1
+# 获取UV数量
+127.0.0.1:6379&gt; PFCOUNT uv:page:1
+(integer) 3
+# 再添加三个用户的访问  user3是重复用户
+127.0.0.1:6379&gt; PFADD uv:page:1 user3 user4 user5
+(integer) 1
+# 获取UV数量 user3是重复用户 所以这里返回的是5
+127.0.0.1:6379&gt; PFCOUNT uv:page:1
+(integer) 5</code></pre>
+<h3 id="SpringBoot操作HeyperLogLog"><a href="#SpringBoot操作HeyperLogLog" class="headerlink" title="SpringBoot操作HeyperLogLog"></a>SpringBoot操作HeyperLogLog</h3><p>模拟测试10000个用户访问id为2的页面</p>
+<pre><code>import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+
+/**
+ * @author 一行Java
+ * @title: HeyperLogLog 统计UV
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/19 16:13
+ */
+@SpringBootTest
+@Slf4j
+public class UVTest &#123;
+    private final String KEY_UV_PAGE_PROFIX = &quot;uv:page:&quot;;
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Test
+    public void uvTest() &#123;
+        Integer pageId = 2;
+        for (int i = 0; i &lt; 10000; i++) &#123;
+            uv(pageId, i);
+        &#125;
+        for (int i = 0; i &lt; 10000; i++) &#123;
+            uv(pageId, i);
+        &#125;
+
+        Long uv = getUv(pageId);
+        log.info(&quot;pageId:&#123;&#125; uv:&#123;&#125;&quot;, pageId, uv);
+    &#125;
+
+    /**
+     * 用户访问页面
+     * @param pageId
+     * @param userId
+     * @return
+     */
+    private Long uv(Integer pageId, Integer userId) &#123;
+        String key = KEY_UV_PAGE_PROFIX + pageId;
+        return redisTemplate.opsForHyperLogLog().add(key, userId);
+    &#125;
+
+    /**
+     * 统计页面的UV
+     * @param pageId
+     * @return
+     */
+    private Long getUv(Integer pageId) &#123;
+        String key = KEY_UV_PAGE_PROFIX + pageId;
+        return redisTemplate.opsForHyperLogLog().size(key);
+    &#125;
+&#125;</code></pre>
+<p>日志输出</p>
+<pre><code>pageId:2 uv:10023</code></pre>
+<p>由于存在误差，这里访问的实际访问的数量是1万，统计出来的多了23个，在标准的误差（0.81%）范围内，加上UV数据不是必须要求准确，因此这个误差是可以接受的。</p>
+<h2 id="去重（BloomFiler）"><a href="#去重（BloomFiler）" class="headerlink" title="去重（BloomFiler）"></a>去重（BloomFiler）</h2><p>通过上面HeyperLogLog的学习，我们掌握了一种<strong>不精准的去重计数</strong>方案，但是有没有发现，他没办法获取某个用户是否访问过；理想中，我们是希望有一个<code>PFEXISTS</code>的命令，来判断某个key是否存在，然而HeyperLogLog并没有；要想实现这一需求，就得 BloomFiler 上场了。</p>
+<ul>
+<li><p>什么是Bloom Filter？</p>
+<p>  Bloom Filter是由Bloom在1970年提出的一种多哈希函数映射的快速查找算法。<br>  通常应用在一些需要快速判断某个元素是否属于集合，但是<strong>并不严格要求100%正确的场合</strong>。<br>  基于一种概率数据结构来实现，是一个有趣且强大的算法。</p>
+</li>
+</ul>
+<p><strong>举个例子</strong>：假如你写了一个爬虫，用于爬取网络中的所有页面，当你拿到一个新的页面时，如何判断这个页面是否爬取过？</p>
+<p><strong>普通做法</strong>：每爬取一个页面，往数据库插入一行数据，记录一下URL，每次拿到一个新的页面，就去数据库里面查询一下，存在就说明爬取过；</p>
+<p><strong>普通做法的缺点</strong>：少量数据，用传统方案没啥问题，如果是海量数据，每次爬取前的检索，将会越来越慢；如果你的爬虫只关心内容，对来源数据不太关心的话，这部分数据的存储，也将消耗你很大的物理资源；</p>
+<p>此时通过 BloomFiler 就能以很小的内存空间作为代价，即可轻松判断某个值是否存在。</p>
+<p>同样，BloomFiler 也不那么精准，在默认参数情况下，是存在1%左右的误差；但是 BloomFiler 是允许通过error_rate（误差率）以及initial_size（预计大小）来设置他的误差比例</p>
+<ul>
+<li>  <strong>error_rate</strong>：误差率，越低，需要的空间就越大；</li>
+<li>  <strong>initial_size</strong>：预计放入值的数量，当实际放入的数量大于设置的值时，误差率就会逐渐升高；所以为了避免误差率，可以提前做好估值，避免再次大的误差；</li>
+</ul>
+<h3 id="BloomFiler-安装"><a href="#BloomFiler-安装" class="headerlink" title="BloomFiler 安装"></a>BloomFiler 安装</h3><p>为了方便测试，这里使用 Docker 快速安装</p>
+<pre><code>docker run -d -p 6379:6379 redislabs/rebloom</code></pre>
+<p>功能所需的命令</p>
+<ul>
+<li>  <strong>bf.add</strong> 添加单个元素</li>
+<li>  <strong>bf.madd</strong> 批量田间</li>
+<li>  <strong>bf.exists</strong> 检测元素是否存在</li>
+<li>  <strong>bf.mexists</strong> 批量检测</li>
+</ul>
+<h3 id="Redis-cli操作-1"><a href="#Redis-cli操作-1" class="headerlink" title="Redis-cli操作"></a>Redis-cli操作</h3><pre><code>127.0.0.1:6379&gt; bf.add web:crawler baidu
+(integer) 1
+127.0.0.1:6379&gt; bf.madd web:crawler tencent bing
+1) (integer) 1
+2) (integer) 1
+127.0.0.1:6379&gt; bf.exists web:crawler baidu
+(integer) 1
+127.0.0.1:6379&gt; bf.mexists web:crawler baidu 163
+1) (integer) 1
+2) (integer) 0</code></pre>
+<h3 id="SpringBoot整合"><a href="#SpringBoot整合" class="headerlink" title="SpringBoot整合"></a>SpringBoot整合</h3><ul>
+<li><p>工具类 RedisBloom</p>
+<pre><code>  import org.springframework.beans.factory.annotation.Autowired;
+  import org.springframework.data.redis.core.StringRedisTemplate;
+  import org.springframework.data.redis.core.script.DefaultRedisScript;
+  import org.springframework.data.redis.core.script.RedisScript;
+  import org.springframework.stereotype.Component;
+
+  import java.util.Arrays;
+  import java.util.List;
+
+  /**
+   * redis布隆过滤器
+   *
+   * @author 一行Java
+   * @title: RedisBloom
+   * @projectName ehang-spring-boot
+   * @description: TODO
+   * @date 2022/7/19 17:03
+   */
+  @Component
+  public class RedisBloom &#123;
+
+      private static RedisScript&lt;Boolean&gt; bfreserveScript = new DefaultRedisScript&lt;&gt;(&quot;return redis.call(&#39;bf.reserve&#39;, KEYS[1], ARGV[1], ARGV[2])&quot;, Boolean.class);
+      private static RedisScript&lt;Boolean&gt; bfaddScript = new DefaultRedisScript&lt;&gt;(&quot;return redis.call(&#39;bf.add&#39;, KEYS[1], ARGV[1])&quot;, Boolean.class);
+      private static RedisScript&lt;Boolean&gt; bfexistsScript = new DefaultRedisScript&lt;&gt;(&quot;return redis.call(&#39;bf.exists&#39;, KEYS[1], ARGV[1])&quot;, Boolean.class);
+      private static String bfmaddScript = &quot;return redis.call(&#39;bf.madd&#39;, KEYS[1], %s)&quot;;
+      private static String bfmexistsScript = &quot;return redis.call(&#39;bf.mexists&#39;, KEYS[1], %s)&quot;;
+      @Autowired
+      private StringRedisTemplate redisTemplate;
+
+      /**
+       * 设置错误率和大小（需要在添加元素前调用，若已存在元素，则会报错）
+       * 错误率越低，需要的空间越大
+       *
+       * @param key
+       * @param errorRate   错误率，默认0.01
+       * @param initialSize 默认100，预计放入的元素数量，当实际数量超出这个数值时，误判率会上升，尽量估计一个准确数值再加上一定的冗余空间
+       * @return
+       */
+      public Boolean bfreserve(String key, double errorRate, int initialSize) &#123;
+          return redisTemplate.execute(bfreserveScript, Arrays.asList(key), String.valueOf(errorRate), String.valueOf(initialSize));
+      &#125;
+
+      /**
+       * 添加元素
+       *
+       * @param key
+       * @param value
+       * @return true表示添加成功，false表示添加失败（存在时会返回false）
+       */
+      public Boolean bfadd(String key, String value) &#123;
+          return redisTemplate.execute(bfaddScript, Arrays.asList(key), value);
+      &#125;
+
+      /**
+       * 查看元素是否存在（判断为存在时有可能是误判，不存在是一定不存在）
+       *
+       * @param key
+       * @param value
+       * @return true表示存在，false表示不存在
+       */
+      public Boolean bfexists(String key, String value) &#123;
+          return redisTemplate.execute(bfexistsScript, Arrays.asList(key), value);
+      &#125;
+
+      /**
+       * 批量添加元素
+       *
+       * @param key
+       * @param values
+       * @return 按序 1表示添加成功，0表示添加失败
+       */
+      public List&lt;Integer&gt; bfmadd(String key, String... values) &#123;
+          return (List&lt;Integer&gt;) redisTemplate.execute(this.generateScript(bfmaddScript, values), Arrays.asList(key), values);
+      &#125;
+
+      /**
+       * 批量检查元素是否存在（判断为存在时有可能是误判，不存在是一定不存在）
+       *
+       * @param key
+       * @param values
+       * @return 按序 1表示存在，0表示不存在
+       */
+      public List&lt;Integer&gt; bfmexists(String key, String... values) &#123;
+          return (List&lt;Integer&gt;) redisTemplate.execute(this.generateScript(bfmexistsScript, values), Arrays.asList(key), values);
+      &#125;
+
+      private RedisScript&lt;List&gt; generateScript(String script, String[] values) &#123;
+          StringBuilder sb = new StringBuilder();
+          for (int i = 1; i &lt;= values.length; i++) &#123;
+              if (i != 1) &#123;
+                  sb.append(&quot;,&quot;);
+              &#125;
+              sb.append(&quot;ARGV[&quot;).append(i).append(&quot;]&quot;);
+          &#125;
+          return new DefaultRedisScript&lt;&gt;(String.format(script, sb.toString()), List.class);
+      &#125;
+
+  &#125;</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>测试</p>
+<pre><code>  import lombok.extern.slf4j.Slf4j;
+  import org.junit.jupiter.api.Test;
+  import org.springframework.beans.factory.annotation.Autowired;
+  import org.springframework.boot.test.context.SpringBootTest;
+  import org.springframework.data.redis.core.RedisTemplate;
+
+  import java.util.List;
+
+  /**
+   * @author 一行Java
+   * @title: BFTest
+   * @projectName ehang-spring-boot
+   * @description: TODO
+   * @date 2022/7/19 17:04
+   */
+  @SpringBootTest
+  @Slf4j
+  public class BFTest &#123;
+
+      private final String KEY_WEB_CRAWLER = &quot;web:crawler1&quot;;
+
+      @Autowired
+      RedisBloom bloom;
+
+      @Autowired
+      RedisTemplate redisTemplate;</code></pre>
+</li>
+</ul>
+<pre><code>        @Test
+        public void test() &#123;
+            Boolean hasKey = redisTemplate.hasKey(KEY_WEB_CRAWLER);
+            log.info(&quot;bloom hasKey:&#123;&#125;&quot;, hasKey);
+            if (!hasKey) &#123;
+                // 不存在的时候  再去初始化
+                Boolean bfreserve = bloom.bfreserve(KEY_WEB_CRAWLER, 0.0001, 10000);
+                log.info(&quot;bloom bfreserve:&#123;&#125;&quot;, bfreserve);
+            &#125;
+            List&lt;Integer&gt; madd = bloom.bfmadd(KEY_WEB_CRAWLER, &quot;baidu&quot;, &quot;google&quot;);
+            log.info(&quot;bloom bfmadd:&#123;&#125;&quot;, madd);
+
+            Boolean baidu = bloom.bfexists(KEY_WEB_CRAWLER, &quot;baidu&quot;);
+            log.info(&quot;bloom bfexists baidu:&#123;&#125;&quot;, baidu);
+
+            Boolean bing = bloom.bfexists(KEY_WEB_CRAWLER, &quot;bing&quot;);
+            log.info(&quot;bloom bfexists bing:&#123;&#125;&quot;, bing);
+        &#125;
+    &#125;
+
+
+日志输出
+
+    com.ehang.redis.bloom_filter.BFTest      : bloom hasKey:false
+    com.ehang.redis.bloom_filter.BFTest      : bloom bfreserve:true
+    com.ehang.redis.bloom_filter.BFTest      : bloom bfmadd:[1, 1]
+    com.ehang.redis.bloom_filter.BFTest      : bloom bfexists baidu:true
+    com.ehang.redis.bloom_filter.BFTest      : bloom bfexists bing:false</code></pre>
+<h2 id="用户签到（BitMap）"><a href="#用户签到（BitMap）" class="headerlink" title="用户签到（BitMap）"></a>用户签到（BitMap）</h2><p>很多APP为了拉动用户活跃度，往往都会做一些活动，比如连续签到领积分/礼包等等</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/569538054edab81cad99406f34cad33f.png"></p>
+<p><strong>传统做法</strong>：用户每次签到时，往是数据库插入一条签到数据，展示的时候，把本月（或者指定周期）的签到数据获取出来，用于判断用户是否签到、以及连续签到情况；此方式，简单，理解容易；</p>
+<p><strong>Redis做法</strong>：由于签到数据的关注点就2个：是否签到（0/1）、连续性，因此就完全可以利用BitMap（位图）来实现；</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/dfc6921d1f159dd343f617905b66f031.png" alt="一个月的签到情况，4个字节就记录了（图源：网络）"></p>
+<p>如上图所示，将一个月的31天，用31个位（4个字节）来表示，偏移量（offset）代表当前是第几天，0/1表示当前是否签到，连续签到只需从右往左校验连续为1的位数；</p>
+<p>由于String类型的最大上限是512M，转换为bit则是2^32个bit位。</p>
+<p>所需命令：</p>
+<ul>
+<li><p>  <strong>SETBIT</strong> key offset value：向指定位置offset存入一个0或1</p>
+</li>
+<li><p>  <strong>GETBIT</strong> key offset：获取指定位置offset的bit值</p>
+</li>
+<li><p>  <strong>BITCOUNT</strong> key [start] [end]：统计BitMap中值为1的bit位的数量</p>
+</li>
+<li><p><strong>BITFIELD</strong>: 操作（查询，修改，自增）BitMap中bit 数组中的指定位置offset的值</p>
+<p>  这里最不容易理解的就是：BITFIELD，详情可参考：<a href="https://deepinout.com/redis-cmd/redis-bitmap-cmd/redis-cmd-bitfield.html">https://deepinout.com/redis-cmd/redis-bitmap-cmd/redis-cmd-bitfield.html</a> 而且这部分还必须理解了，否则，该需求的核心部分就没办法理解了；</p>
+</li>
+</ul>
+<p>需求：假如当前为8月4号，检测本月的签到情况，用户分别于1、3、4号签到过</p>
+<h3 id="Redis-cli-操作："><a href="#Redis-cli-操作：" class="headerlink" title="Redis-cli 操作："></a>Redis-cli 操作：</h3><pre><code># 8月1号的签到
+127.0.0.1:6379&gt; SETBIT RangeId:Sign:1:8899 0 1
+(integer) 1
+
+# 8月3号的签到
+127.0.0.1:6379&gt; SETBIT RangeId:Sign:1:8899 2 1
+(integer) 1
+
+# 8月4号的签到
+127.0.0.1:6379&gt; SETBIT RangeId:Sign:1:8899 3 1
+(integer) 1
+
+# 查询各天的签到情况
+# 查询1号
+127.0.0.1:6379&gt; GETBIT RangeId:Sign:1:8899 0
+(integer) 1
+# 查询2号
+127.0.0.1:6379&gt; GETBIT RangeId:Sign:1:8899 1
+(integer) 0
+# 查询3号
+127.0.0.1:6379&gt; GETBIT RangeId:Sign:1:8899 2
+(integer) 1
+# 查询4号
+127.0.0.1:6379&gt; GETBIT RangeId:Sign:1:8899 3
+(integer) 1
+
+# 查询指定区间的签到情况
+127.0.0.1:6379&gt; BITFIELD RangeId:Sign:1:8899 get u4 0
+1) (integer) 11</code></pre>
+<blockquote>
+<p>1-4号的签到情况为：1011（二进制） ==&gt; 11（十进制）</p>
+</blockquote>
+<h3 id="是否签到、连续签到判断"><a href="#是否签到、连续签到判断" class="headerlink" title="是否签到、连续签到判断"></a>是否签到、连续签到判断</h3><p>签到功能中，最不好理解的就是是否签到、连续签到的判断，在下面SpringBoot代码中，就是通过这样的：<code>signFlag &gt;&gt; 1 &lt;&lt; 1 != signFlag</code>来判断的，稍微有一点不好理解，在这里提前讲述一下；</p>
+<p>上面测试了1-4号的签到情况，通过<code>BITFIELD</code>获取出来signFlag = 11（十进制） = 1011（二进制）；</p>
+<p>连续签到的判断依据就是：<strong>从右往左计算连续为1的BIT个数</strong>，二进制 1011 表示连续签到的天数就是2天，2天的计算过程如下：</p>
+<ul>
+<li><p>  第一步，获取signFlag</p>
+</li>
+<li><p>  第二步，循环天数，以上测试用例是4天的签到情况，for循环也就是4次</p>
+</li>
+<li><p>第三步，从右往左循环判断</p>
+<p>  <strong>连续签到</strong>：遇到第一个false的时候，终止并得到连续天数</p>
+<p>  <strong>签到详情</strong>：循环所有天数，true就表示当前签到了，false表示当天未签到；</p>
+<p>  第一次循环</p>
+<pre><code>  signFlag = 1011
+  signFlag &gt;&gt; 1   结果： 101
+  signFlag &lt;&lt; 1   结果：1010
+  1010 != signFlag（1011） 结果：true  //4号已签到，说明连续签到1天
+  signFlag &gt;&gt;= 1  结果： 101   // 此时signFlag = 101</code></pre>
+</li>
+</ul>
+<pre><code>第二次循环
+
+    signFlag = 101  // 前一次循环计算的结果
+    signFlag &gt;&gt; 1   结果： 10
+    signFlag &lt;&lt; 1   结果：100
+    100 != signFlag（101） 结果：true  //3号已签到，说明连续签到2天
+    signFlag &gt;&gt;= 1  结果： 10   // 此时signFlag = 10
+
+
+第三次循环
+
+    signFlag = 10  // 前一次循环计算的结果
+    signFlag &gt;&gt; 1   结果： 1
+    signFlag &lt;&lt; 1   结果：10
+    10 != signFlag（10） 结果：false  //2号未签到，说明连续签到从这里就断了 
+    signFlag &gt;&gt;= 1  结果： 1   // 此时signFlag = 1
+
+
+到这一步，遇到第一个false，说明连续签到中断；
+
+第四次循环：
+
+    signFlag = 1  // 前一次循环计算的结果
+    signFlag &gt;&gt; 1   结果： 0
+    signFlag &lt;&lt; 1   结果： 0
+    0 != signFlag（1） 结果：true  //1号已签到
+
+
+到此，根据`BITFIELD`获取出来11（十进制），就能得到1、3、4号已签到，2号未签到；连续签到2天；</code></pre>
+<p>理解上面的逻辑之后，再来看下面的SpringBoot代码，就会容易很多了；</p>
+<h3 id="SpringBoot实现签到"><a href="#SpringBoot实现签到" class="headerlink" title="SpringBoot实现签到"></a>SpringBoot实现签到</h3><p>签到的方式一般就两种，按月（周）/ 自定义周期，下面将两种方式的签到全部列举出来，以供大家参考：</p>
+<h4 id="按月签到"><a href="#按月签到" class="headerlink" title="按月签到"></a>按月签到</h4><p>签到工具类：</p>
+<pre><code>import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.BitFieldSubCommands;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author 一行Java
+ * @title: 按月签到
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/18 18:28
+ */
+@Slf4j
+@Service
+public class SignByMonthServiceImpl &#123;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+    private int dayOfMonth() &#123;
+        DateTime dateTime = new DateTime();
+        return dateTime.dayOfMonth().get();
+    &#125;
+
+    /**
+     * 按照月份和用户ID生成用户签到标识 UserId:Sign:560:2021-08
+     *
+     * @param userId 用户id
+     * @return
+     */
+    private String signKeyWitMouth(String userId) &#123;
+        DateTime dateTime = new DateTime();
+        DateTimeFormatter fmt = DateTimeFormat.forPattern(&quot;yyyy-MM&quot;);
+
+        StringBuilder builder = new StringBuilder(&quot;UserId:Sign:&quot;);
+        builder.append(userId).append(&quot;:&quot;)
+                .append(dateTime.toString(fmt));
+        return builder.toString();
+    &#125;
+
+    /**
+     * 设置标记位
+     * 标记是否签到
+     *
+     * @param key
+     * @param offset
+     * @param tag
+     * @return
+     */
+    public Boolean sign(String key, long offset, boolean tag) &#123;
+        return this.stringRedisTemplate.opsForValue().setBit(key, offset, tag);
+    &#125;
+
+
+    /**
+     * 统计计数
+     *
+     * @param key 用户标识
+     * @return
+     */
+    public long bitCount(String key) &#123;
+        return stringRedisTemplate.execute((RedisCallback&lt;Long&gt;) redisConnection -&gt; redisConnection.bitCount(key.getBytes()));
+    &#125;
+
+    /**
+     * 获取多字节位域
+     */
+    public List&lt;Long&gt; bitfield(String buildSignKey, int limit, long offset) &#123;
+        return this.stringRedisTemplate
+                .opsForValue()
+                .bitField(buildSignKey, BitFieldSubCommands.create().get(BitFieldSubCommands.BitFieldType.unsigned(limit)).valueAt(offset));
+    &#125;
+
+
+    /**
+     * 判断是否被标记
+     *
+     * @param key
+     * @param offest
+     * @return
+     */
+    public Boolean container(String key, long offest) &#123;
+        return this.stringRedisTemplate.opsForValue().getBit(key, offest);
+    &#125;
+
+
+    /**
+     * 用户今天是否签到
+     *
+     * @param userId
+     * @return
+     */
+    public int checkSign(String userId) &#123;
+        DateTime dateTime = new DateTime();
+
+        String signKey = this.signKeyWitMouth(userId);
+        int offset = dateTime.getDayOfMonth() - 1;
+        int value = this.container(signKey, offset) ? 1 : 0;
+        return value;
+    &#125;
+
+
+    /**
+     * 查询用户当月签到日历
+     *
+     * @param userId
+     * @return
+     */
+    public Map&lt;String, Boolean&gt; querySignedInMonth(String userId) &#123;
+        DateTime dateTime = new DateTime();
+        int lengthOfMonth = dateTime.dayOfMonth().getMaximumValue();
+        Map&lt;String, Boolean&gt; signedInMap = new HashMap&lt;&gt;(dateTime.getDayOfMonth());
+
+        String signKey = this.signKeyWitMouth(userId);
+        List&lt;Long&gt; bitfield = this.bitfield(signKey, lengthOfMonth, 0);
+        if (!CollectionUtils.isEmpty(bitfield)) &#123;
+            long signFlag = bitfield.get(0) == null ? 0 : bitfield.get(0);
+
+            DateTimeFormatter fmt = DateTimeFormat.forPattern(&quot;yyyy-MM-dd&quot;);
+            for (int i = lengthOfMonth; i &gt; 0; i--) &#123;
+
+                DateTime dateTime1 = dateTime.withDayOfMonth(i);
+                signedInMap.put(dateTime1.toString(fmt), signFlag &gt;&gt; 1 &lt;&lt; 1 != signFlag);
+                signFlag &gt;&gt;= 1;
+            &#125;
+        &#125;
+        return signedInMap;
+    &#125;
+
+
+    /**
+     * 用户签到
+     *
+     * @param userId
+     * @return
+     */
+    public boolean signWithUserId(String userId) &#123;
+        int dayOfMonth = this.dayOfMonth();
+        String signKey = this.signKeyWitMouth(userId);
+        long offset = (long) dayOfMonth - 1;
+        boolean re = false;
+        if (Boolean.TRUE.equals(this.sign(signKey, offset, Boolean.TRUE))) &#123;
+            re = true;
+        &#125;
+
+        // 查询用户连续签到次数,最大连续次数为7天
+        long continuousSignCount = this.queryContinuousSignCount(userId, 7);
+        return re;
+    &#125;
+
+    /**
+     * 统计当前月份一共签到天数
+     *
+     * @param userId
+     */
+    public long countSignedInDayOfMonth(String userId) &#123;
+        String signKey = this.signKeyWitMouth(userId);
+        return this.bitCount(signKey);
+    &#125;
+
+
+    /**
+     * 查询用户当月连续签到次数
+     *
+     * @param userId
+     * @return
+     */
+    public long queryContinuousSignCountOfMonth(String userId) &#123;
+        int signCount = 0;
+        String signKey = this.signKeyWitMouth(userId);
+        int dayOfMonth = this.dayOfMonth();
+        List&lt;Long&gt; bitfield = this.bitfield(signKey, dayOfMonth, 0);
+
+        if (!CollectionUtils.isEmpty(bitfield)) &#123;
+            long signFlag = bitfield.get(0) == null ? 0 : bitfield.get(0);
+            DateTime dateTime = new DateTime();
+            // 连续不为0即为连续签到次数，当天未签到情况下
+            for (int i = 0; i &lt; dateTime.getDayOfMonth(); i++) &#123;
+                if (signFlag &gt;&gt; 1 &lt;&lt; 1 == signFlag) &#123;
+                    if (i &gt; 0) break;
+                &#125; else &#123;
+                    signCount += 1;
+                &#125;
+                signFlag &gt;&gt;= 1;
+            &#125;
+        &#125;
+        return signCount;
+    &#125;
+
+
+    /**
+     * 以7天一个周期连续签到次数
+     *
+     * @param period 周期
+     * @return
+     */
+    public long queryContinuousSignCount(String userId, Integer period) &#123;
+        //查询目前连续签到次数
+        long count = this.queryContinuousSignCountOfMonth(userId);
+        //按最大连续签到取余
+        if (period != null &amp;&amp; period &lt; count) &#123;
+            long num = count % period;
+            if (num == 0) &#123;
+                count = period;
+            &#125; else &#123;
+                count = num;
+            &#125;
+        &#125;
+        return count;
+    &#125;
+&#125;</code></pre>
+<p>测试类：</p>
+<pre><code>import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
+import java.util.Map;
+
+/**
+ * @author 一行Java
+ * @title: SignTest2
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/19 12:06
+ */
+@SpringBootTest
+@Slf4j
+public class SignTest2 &#123;
+    @Autowired
+    private SignByMonthServiceImpl signByMonthService;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    /**
+     * 测试用户按月签到
+     */
+    @Test
+    public void querySignDay() &#123;
+        //模拟用户签到
+        //for(int i=5;i&lt;19;i++)&#123;
+        redisTemplate.opsForValue().setBit(&quot;UserId:Sign:560:2022-08&quot;, 0, true);
+        //&#125;
+
+        System.out.println(&quot;560用户今日是否已签到:&quot; + this.signByMonthService.checkSign(&quot;560&quot;));
+        Map&lt;String, Boolean&gt; stringBooleanMap = this.signByMonthService.querySignedInMonth(&quot;560&quot;);
+        System.out.println(&quot;本月签到情况:&quot;);
+        for (Map.Entry&lt;String, Boolean&gt; entry : stringBooleanMap.entrySet()) &#123;
+            System.out.println(entry.getKey() + &quot;: &quot; + (entry.getValue() ? &quot;√&quot; : &quot;-&quot;));
+        &#125;
+        long countSignedInDayOfMonth = this.signByMonthService.countSignedInDayOfMonth(&quot;560&quot;);
+        System.out.println(&quot;本月一共签到:&quot; + countSignedInDayOfMonth + &quot;天&quot;);
+        System.out.println(&quot;目前连续签到:&quot; + this.signByMonthService.queryContinuousSignCount(&quot;560&quot;, 7) + &quot;天&quot;);
+    &#125;
+&#125;</code></pre>
+<p>执行日志：</p>
+<pre><code>c.e.r.bitmap_sign_by_month.SignTest2     : 560用户今日是否已签到:0
+c.e.r.bitmap_sign_by_month.SignTest2     : 本月签到情况:
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-12: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-11: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-10: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-31: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-30: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-19: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-18: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-17: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-16: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-15: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-14: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-13: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-23: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-01: √
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-22: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-21: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-20: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-09: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-08: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-29: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-07: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-28: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-06: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-27: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-05: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-26: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-04: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-25: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-03: √
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-24: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 2022-08-02: -
+c.e.r.bitmap_sign_by_month.SignTest2     : 本月一共签到:2天
+c.e.r.bitmap_sign_by_month.SignTest2     : 目前连续签到:1天</code></pre>
+<h4 id="指定时间签到"><a href="#指定时间签到" class="headerlink" title="指定时间签到"></a>指定时间签到</h4><p>签到工具类：</p>
+<pre><code>package com.ehang.redis.bitmap_sign_by_range;
+
+import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.BitFieldSubCommands;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author 一行Java
+ * @title: SignByRangeServiceImpl
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/19 12:27
+ */
+@Slf4j
+@Service
+public class SignByRangeServiceImpl &#123;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+    /**
+     * 根据区间的id 以及用户id 拼接key
+     *
+     * @param rangeId 区间ID 一般是指定活动的ID等
+     * @param userId  用户的ID
+     * @return
+     */
+    private String signKey(Integer rangeId, Integer userId) &#123;
+        StringBuilder builder = new StringBuilder(&quot;RangeId:Sign:&quot;);
+        builder.append(rangeId).append(&quot;:&quot;)
+                .append(userId);
+        return builder.toString();
+    &#125;
+
+    /**
+     * 获取当前时间与起始时间的间隔天数
+     *
+     * @param start 起始时间
+     * @return
+     */
+    private int intervalTime(LocalDateTime start) &#123;
+        return (int) (LocalDateTime.now().toLocalDate().toEpochDay() - start.toLocalDate().toEpochDay());
+    &#125;
+
+    /**
+     * 设置标记位
+     * 标记是否签到
+     *
+     * @param key    签到的key
+     * @param offset 偏移量 一般是指当前时间离起始时间（活动开始）的天数
+     * @param tag    是否签到  true:签到  false:未签到
+     * @return
+     */
+    private Boolean setBit(String key, long offset, boolean tag) &#123;
+        return this.stringRedisTemplate.opsForValue().setBit(key, offset, tag);
+    &#125;
+
+    /**
+     * 统计计数
+     *
+     * @param key 统计的key
+     * @return
+     */
+    private long bitCount(String key) &#123;
+        return stringRedisTemplate.execute((RedisCallback&lt;Long&gt;) redisConnection -&gt; redisConnection.bitCount(key.getBytes()));
+    &#125;
+
+    /**
+     * 获取多字节位域
+     *
+     * @param key    缓存的key
+     * @param limit  获取多少
+     * @param offset 偏移量是多少
+     * @return
+     */
+    private List&lt;Long&gt; bitfield(String key, int limit, long offset) &#123;
+        return this.stringRedisTemplate
+                .opsForValue()
+                .bitField(key, BitFieldSubCommands.create().get(BitFieldSubCommands.BitFieldType.unsigned(limit)).valueAt(offset));
+    &#125;
+
+    /**
+     * 判断是否签到
+     *
+     * @param key    缓存的key
+     * @param offest 偏移量 指当前时间距离起始时间的天数
+     * @return
+     */
+    private Boolean container(String key, long offest) &#123;
+        return this.stringRedisTemplate.opsForValue().getBit(key, offest);
+    &#125;
+
+    /**
+     * 根据起始时间进行签到
+     *
+     * @param rangeId
+     * @param userId
+     * @param start
+     * @return
+     */
+    public Boolean sign(Integer rangeId, Integer userId, LocalDateTime start) &#123;
+        int offset = intervalTime(start);
+        String key = signKey(rangeId, userId);
+        return setBit(key, offset, true);
+    &#125;
+
+    /**
+     * 根据偏移量签到
+     *
+     * @param rangeId
+     * @param userId
+     * @param offset
+     * @return
+     */
+    public Boolean sign(Integer rangeId, Integer userId, long offset) &#123;
+        String key = signKey(rangeId, userId);
+        return setBit(key, offset, true);
+    &#125;
+
+    /**
+     * 用户今天是否签到
+     *
+     * @param userId
+     * @return
+     */
+    public Boolean checkSign(Integer rangeId, Integer userId, LocalDateTime start) &#123;
+        long offset = intervalTime(start);
+        String key = this.signKey(rangeId, userId);
+        return this.container(key, offset);
+    &#125;
+
+    /**
+     * 统计当前月份一共签到天数
+     *
+     * @param userId
+     */
+    public long countSigned(Integer rangeId, Integer userId) &#123;
+        String signKey = this.signKey(rangeId, userId);
+        return this.bitCount(signKey);
+    &#125;
+
+    public Map&lt;String, Boolean&gt; querySigned(Integer rangeId, Integer userId, LocalDateTime start) &#123;
+        int days = intervalTime(start);
+        Map&lt;String, Boolean&gt; signedInMap = new HashMap&lt;&gt;(days);
+
+        String signKey = this.signKey(rangeId, userId);
+        List&lt;Long&gt; bitfield = this.bitfield(signKey, days + 1, 0);
+        if (!CollectionUtils.isEmpty(bitfield)) &#123;
+            long signFlag = bitfield.get(0) == null ? 0 : bitfield.get(0);
+
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);
+            for (int i = days; i &gt;= 0; i--) &#123;
+                LocalDateTime localDateTime = start.plusDays(i);
+                signedInMap.put(localDateTime.format(fmt), signFlag &gt;&gt; 1 &lt;&lt; 1 != signFlag);
+                signFlag &gt;&gt;= 1;
+            &#125;
+        &#125;
+        return signedInMap;
+    &#125;
+
+    /**
+     * 查询用户当月连续签到次数
+     *
+     * @param userId
+     * @return
+     */
+    public long queryContinuousSignCount(Integer rangeId, Integer userId, LocalDateTime start) &#123;
+        int signCount = 0;
+        String signKey = this.signKey(rangeId, userId);
+        int days = this.intervalTime(start);
+        List&lt;Long&gt; bitfield = this.bitfield(signKey, days + 1, 0);
+
+        if (!CollectionUtils.isEmpty(bitfield)) &#123;
+            long signFlag = bitfield.get(0) == null ? 0 : bitfield.get(0);
+            DateTime dateTime = new DateTime();
+            // 连续不为0即为连续签到次数，当天未签到情况下
+            for (int i = 0; i &lt; dateTime.getDayOfMonth(); i++) &#123;
+                if (signFlag &gt;&gt; 1 &lt;&lt; 1 == signFlag) &#123;
+                    if (i &gt; 0) break;
+                &#125; else &#123;
+                    signCount += 1;
+                &#125;
+                signFlag &gt;&gt;= 1;
+            &#125;
+        &#125;
+        return signCount;
+    &#125;
+&#125;</code></pre>
+<p>测试工具类：</p>
+<pre><code>package com.ehang.redis.bitmap_sign_by_range;
+
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+
+/**
+ * @author 一行Java
+ * @title: SignTest
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/18 16:11
+ */
+@SpringBootTest
+@Slf4j
+public class SignTest &#123;
+    @Autowired
+    SignByRangeServiceImpl signByRangeService;
+
+
+    @Test
+    void test() &#123;
+        DateTimeFormatter isoDateTime = DateTimeFormatter.ISO_DATE_TIME;
+        // 活动开始时间
+        LocalDateTime start = LocalDateTime.of(2022, 8, 1, 1, 0, 0);
+        Integer rangeId = 1;
+        Integer userId = 8899;
+        log.info(&quot;签到开始时间: &#123;&#125;&quot;, start.format(isoDateTime));
+        log.info(&quot;活动ID: &#123;&#125; 用户ID: &#123;&#125;&quot;, rangeId, userId);
+
+        // 手动指定偏移量签到
+        signByRangeService.sign(rangeId, userId, 0);
+
+        // 判断是否签到
+        Boolean signed = signByRangeService.checkSign(rangeId, userId, start);
+        log.info(&quot;今日是否签到: &#123;&#125;&quot;, signed ? &quot;√&quot; : &quot;-&quot;);
+
+        // 签到
+        Boolean sign = signByRangeService.sign(rangeId, userId, start);
+        log.info(&quot;签到操作之前的签到状态：&#123;&#125; （-：表示今日第一次签到，√：表示今天已经签到过了）&quot;, sign ? &quot;√&quot; : &quot;-&quot;);
+
+        // 签到总数
+        long countSigned = signByRangeService.countSigned(rangeId, userId);
+        log.info(&quot;总共签到: &#123;&#125; 天&quot;, countSigned);
+
+        // 连续签到的次数
+        long continuousSignCount = signByRangeService.queryContinuousSignCount(rangeId, userId, start);
+        log.info(&quot;连续签到: &#123;&#125; 天&quot;, continuousSignCount);
+
+        // 签到的详情
+        Map&lt;String, Boolean&gt; stringBooleanMap = signByRangeService.querySigned(rangeId, userId, start);
+        for (Map.Entry&lt;String, Boolean&gt; entry : stringBooleanMap.entrySet()) &#123;
+            log.info(&quot;签到详情&gt; &#123;&#125; : &#123;&#125;&quot;, entry.getKey(), (entry.getValue() ? &quot;√&quot; : &quot;-&quot;));
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>输出日志：</p>
+<pre><code>签到开始时间: 2022-08-01T01:00:00
+活动ID: 1 用户ID: 8899
+今日是否签到: √
+签到操作之前的签到状态：√ （-：表示今日第一次签到，√：表示今天已经签到过了）
+总共签到: 3 天
+连续签到: 2 天
+签到详情&gt; 2022-08-01 : √
+签到详情&gt; 2022-08-04 : √
+签到详情&gt; 2022-08-03 : √
+签到详情&gt; 2022-08-02 : -</code></pre>
+<h2 id="GEO搜附近"><a href="#GEO搜附近" class="headerlink" title="GEO搜附近"></a>GEO搜附近</h2><p>很多生活类的APP都具备一个搜索附近的功能，比如美团搜索附近的商家；</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3431c43e788c0f6b0399a52892ab49ae.png" alt="网图"></p>
+<p>如果自己想要根据经纬度来实现一个搜索附近的功能，是非常麻烦的；但是Redis 在3.2的版本新增了Redis GEO，用于存储地址位置信息，并对支持范围搜索；基于GEO就能轻松且快速的开发一个搜索附近的功能；</p>
+<h3 id="GEO-API-及Redis-cli-操作："><a href="#GEO-API-及Redis-cli-操作：" class="headerlink" title="GEO API 及Redis-cli 操作："></a>GEO API 及Redis-cli 操作：</h3><ul>
+<li><p><strong>geoadd</strong>：新增位置坐标。</p>
+<pre><code>  127.0.0.1:6379&gt; GEOADD drinks 116.62445 39.86206 starbucks 117.3514785 38.7501247 yidiandian 116.538542 39.75412 xicha
+  (integer) 3</code></pre>
+</li>
+</ul>
+<ul>
+<li><p><strong>geopos</strong>：获取位置坐标。</p>
+<pre><code>  127.0.0.1:6379&gt; GEOPOS drinks starbucks
+  1) 1) &quot;116.62445157766342163&quot;
+     2) &quot;39.86206038535793539&quot;
+  127.0.0.1:6379&gt; GEOPOS drinks starbucks yidiandian mxbc
+  1) 1) &quot;116.62445157766342163&quot;
+     2) &quot;39.86206038535793539&quot;
+  2) 1) &quot;117.35148042440414429&quot;
+     2) &quot;38.75012383773680114&quot;
+  3) (nil)</code></pre>
+</li>
+</ul>
+<ul>
+<li><p><strong>geodist</strong>：计算两个位置之间的距离。</p>
+<p>  单位参数：</p>
+<ul>
+<li><p>  m ：米，默认单位。</p>
+</li>
+<li><p>  km ：千米。</p>
+</li>
+<li><p>  mi ：英里。</p>
+</li>
+<li><p>ft ：英尺。</p>
+<p>  127.0.0.1:6379&gt; GEODIST drinks starbucks yidiandian<br>  “138602.4133”<br>  127.0.0.1:6379&gt; GEODIST drinks starbucks xicha<br>  “14072.1255”<br>  127.0.0.1:6379&gt; GEODIST drinks starbucks xicha m<br>  “14072.1255”<br>  127.0.0.1:6379&gt; GEODIST drinks starbucks xicha km<br>  “14.0721”</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>georadius</strong>：根据用户给定的经纬度坐标来获取指定范围内的地理位置集合。</p>
+<p>  参数说明</p>
+<ul>
+<li><p>  m ：米，默认单位。</p>
+</li>
+<li><p>  km ：千米。</p>
+</li>
+<li><p>  mi ：英里。</p>
+</li>
+<li><p>  ft ：英尺。</p>
+</li>
+<li><p>  WITHDIST: 在返回位置元素的同时， 将位置元素与中心之间的距离也一并返回。</p>
+</li>
+<li><p>  WITHCOORD: 将位置元素的经度和纬度也一并返回。</p>
+</li>
+<li><p>  WITHHASH: 以 52 位有符号整数的形式， 返回位置元素经过原始 geohash 编码的有序集合分值。 这个选项主要用于底层应用或者调试， 实际中的作用并不大。</p>
+</li>
+<li><p>  COUNT 限定返回的记录数。</p>
+</li>
+<li><p>  ASC: 查找结果根据距离从近到远排序。</p>
+</li>
+<li><p>DESC: 查找结果根据从远到近排序。</p>
+<p>  127.0.0.1:6379&gt; GEORADIUS drinks 116 39 100 km WITHDIST</p>
+<ol>
+<li><ol>
+<li>“xicha”</li>
+<li>“95.8085”</li>
+</ol>
+</li>
+</ol>
+<p>  127.0.0.1:6379&gt; GEORADIUS drinks 116 39 100 km WITHDIST WITHCOORD</p>
+<ol>
+<li><ol>
+<li>“xicha”</li>
+<li>“95.8085”</li>
+<li><ol>
+<li>“116.53854042291641235”</li>
+<li>“39.75411928478748536”</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>  127.0.0.1:6379&gt; GEORADIUS drinks 116 39 100 km WITHDIST WITHCOORD WITHHASH</p>
+<ol>
+<li><ol>
+<li>“xicha”</li>
+<li>“95.8085”</li>
+<li>(integer) 4069151800882301</li>
+<li><ol>
+<li>“116.53854042291641235”</li>
+<li>“39.75411928478748536”</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>  127.0.0.1:6379&gt; GEORADIUS drinks 116 39 120 km WITHDIST WITHCOORD  COUNT 1</p>
+<ol>
+<li><ol>
+<li>“xicha”</li>
+<li>“95.8085”</li>
+<li><ol>
+<li>“116.53854042291641235”</li>
+<li>“39.75411928478748536”</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>  127.0.0.1:6379&gt; GEORADIUS drinks 116 39 120 km WITHDIST WITHCOORD  COUNT 1 ASC</p>
+<ol>
+<li><ol>
+<li>“xicha”</li>
+<li>“95.8085”</li>
+<li><ol>
+<li>“116.53854042291641235”</li>
+<li>“39.75411928478748536”</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>  127.0.0.1:6379&gt; GEORADIUS drinks 116 39 120 km WITHDIST WITHCOORD  COUNT 1 DESC</p>
+<ol>
+<li><ol>
+<li>“starbucks”</li>
+<li>“109.8703”</li>
+<li><ol>
+<li>“116.62445157766342163”</li>
+<li>“39.86206038535793539”</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>georadiusbymember</strong>：根据储存在位置集合里面的某个地点获取指定范围内的地理位置集合。</p>
+<p>  功能和上面的georadius类似，只是georadius是以经纬度坐标为中心，这个是以某个地点为中心；</p>
+</li>
+<li><p><strong>geohash</strong>：返回一个或多个位置对象的 geohash 值。</p>
+<pre><code>  127.0.0.1:6379&gt; GEOHASH drinks starbucks xicha
+  1) &quot;wx4fvbem6d0&quot;
+  2) &quot;wx4f5vhb8b0&quot;</code></pre>
+</li>
+</ul>
+<h3 id="SpringBoot-操作-1"><a href="#SpringBoot-操作-1" class="headerlink" title="SpringBoot 操作"></a>SpringBoot 操作</h3><p>通过SpringBoot操作GEO的示例如下</p>
+<pre><code>import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.*;
+import org.springframework.data.redis.connection.RedisGeoCommands;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.List;
+
+/**
+ * @author 一行Java
+ * @title: GEOTest
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/7/28 17:29
+ */
+@SpringBootTest
+@Slf4j
+public class GEOTest &#123;
+    private final String KEY = &quot;geo:drinks&quot;;
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Test
+    public void test() &#123;
+        add(&quot;starbucks&quot;, new Point(116.62445, 39.86206));
+        add(&quot;yidiandian&quot;, new Point(117.3514785, 38.7501247));
+        add(&quot;xicha&quot;, new Point(116.538542, 39.75412));
+
+        get(&quot;starbucks&quot;, &quot;yidiandian&quot;, &quot;xicha&quot;);
+
+        GeoResults nearByXY = getNearByXY(new Point(116, 39), new Distance(120, Metrics.KILOMETERS));
+        List&lt;GeoResult&gt; content = nearByXY.getContent();
+        for (GeoResult geoResult : content) &#123;
+            log.info(&quot;&#123;&#125;&quot;, geoResult.getContent());
+        &#125;
+
+        GeoResults nearByPlace = getNearByPlace(&quot;starbucks&quot;, new Distance(120, Metrics.KILOMETERS));
+        content = nearByPlace.getContent();
+        for (GeoResult geoResult : content) &#123;
+            log.info(&quot;&#123;&#125;&quot;, geoResult.getContent());
+        &#125;
+
+        getGeoHash(&quot;starbucks&quot;, &quot;yidiandian&quot;, &quot;xicha&quot;);
+
+        del(&quot;yidiandian&quot;, &quot;xicha&quot;);
+    &#125;
+
+    private void add(String name, Point point) &#123;
+        Long add = redisTemplate.opsForGeo().add(KEY, point, name);
+        log.info(&quot;成功添加名称：&#123;&#125; 的坐标信息信息：&#123;&#125;&quot;, name, point);
+    &#125;
+
+
+    private void get(String... names) &#123;
+        List&lt;Point&gt; position = redisTemplate.opsForGeo().position(KEY, names);
+        log.info(&quot;获取名称为：&#123;&#125; 的坐标信息：&#123;&#125;&quot;, names, position);
+    &#125;
+
+    private void del(String... names) &#123;
+        Long remove = redisTemplate.opsForGeo().remove(KEY, names);
+        log.info(&quot;删除名称为：&#123;&#125; 的坐标信息数量：&#123;&#125;&quot;, names, remove);
+    &#125;
+
+    /**
+     * 根据坐标 获取指定范围的位置
+     *
+     * @param point
+     * @param distance
+     * @return
+     */
+    private GeoResults getNearByXY(Point point, Distance distance) &#123;
+        Circle circle = new Circle(point, distance);
+        RedisGeoCommands.GeoRadiusCommandArgs args = RedisGeoCommands.GeoRadiusCommandArgs.
+                newGeoRadiusArgs().
+                includeDistance(). // 包含距离
+                includeCoordinates(). // 包含坐标
+                sortAscending(). // 排序 还可选sortDescending()
+                limit(5); // 获取前多少个
+        GeoResults geoResults = redisTemplate.opsForGeo().radius(KEY, circle, args);
+        log.info(&quot;根据坐标获取：&#123;&#125; &#123;&#125; 范围的数据：&#123;&#125;&quot;, point, distance, geoResults);
+        return geoResults;
+    &#125;
+
+    /**
+     * 根据一个位置，获取指定范围内的其他位置
+     *
+     * @param name
+     * @param distance
+     * @return
+     */
+    private GeoResults getNearByPlace(String name, Distance distance) &#123;
+        RedisGeoCommands.GeoRadiusCommandArgs args = RedisGeoCommands.GeoRadiusCommandArgs.
+                newGeoRadiusArgs().
+                includeDistance(). // 包含距离
+                includeCoordinates(). // 包含坐标
+                sortAscending(). // 排序 还可选sortDescending()
+                limit(5); // 获取前多少个
+        GeoResults geoResults = redisTemplate.opsForGeo()
+                .radius(KEY, name, distance, args);
+        log.info(&quot;根据位置：&#123;&#125; 获取： &#123;&#125; 范围的数据：&#123;&#125;&quot;, name, distance, geoResults);
+        return geoResults;
+    &#125;
+
+    /**
+     * 获取GEO HASH
+     *
+     * @param names
+     * @return
+     */
+    private List&lt;String&gt; getGeoHash(String... names) &#123;
+        List&lt;String&gt; hash = redisTemplate.opsForGeo().hash(KEY, names);
+        log.info(&quot;names：&#123;&#125; 对应的hash：&#123;&#125;&quot;, names, hash);
+        return hash;
+    &#125;
+&#125;</code></pre>
+<p>执行日志：</p>
+<pre><code>成功添加名称：starbucks 的坐标信息信息：Point [x=116.624450, y=39.862060]
+成功添加名称：yidiandian 的坐标信息信息：Point [x=117.351479, y=38.750125]
+成功添加名称：xicha 的坐标信息信息：Point [x=116.538542, y=39.754120]
+
+获取名称为：[starbucks, yidiandian, xicha] 的坐标信息：[Point [x=116.624452, y=39.862060], Point [x=117.351480, y=38.750124], Point [x=116.538540, y=39.754119]]
+
+根据坐标获取：Point [x=116.000000, y=39.000000] 120.0 KILOMETERS 范围的数据：GeoResults: [averageDistance: 102.8394 KILOMETERS, results: GeoResult [content: RedisGeoCommands.GeoLocation(name=xicha, point=Point [x=116.538540, y=39.754119]), distance: 95.8085 KILOMETERS, ],GeoResult [content: RedisGeoCommands.GeoLocation(name=starbucks, point=Point [x=116.624452, y=39.862060]), distance: 109.8703 KILOMETERS, ]]
+RedisGeoCommands.GeoLocation(name=xicha, point=Point [x=116.538540, y=39.754119])
+RedisGeoCommands.GeoLocation(name=starbucks, point=Point [x=116.624452, y=39.862060])
+
+根据位置：starbucks 获取： 120.0 KILOMETERS 范围的数据：GeoResults: [averageDistance: 7.03605 KILOMETERS, results: GeoResult [content: RedisGeoCommands.GeoLocation(name=starbucks, point=Point [x=116.624452, y=39.862060]), distance: 0.0 KILOMETERS, ],GeoResult [content: RedisGeoCommands.GeoLocation(name=xicha, point=Point [x=116.538540, y=39.754119]), distance: 14.0721 KILOMETERS, ]]
+RedisGeoCommands.GeoLocation(name=starbucks, point=Point [x=116.624452, y=39.862060])
+RedisGeoCommands.GeoLocation(name=xicha, point=Point [x=116.538540, y=39.754119])
+
+names：[starbucks, yidiandian, xicha] 对应的hash：[wx4fvbem6d0, wwgkqqhxzd0, wx4f5vhb8b0]
+
+删除名称为：[yidiandian, xicha] 的坐标信息数量：2</code></pre>
+<h2 id="简单限流"><a href="#简单限流" class="headerlink" title="简单限流"></a>简单限流</h2><p>为了保证项目的安全稳定运行，防止被恶意的用户或者异常的流量打垮整个系统，一般都会加上限流，比如常见的<code>sential</code>、<code>hystrix</code>，都是实现限流控制；如果项目用到了Redis，也可以利用Redis，来实现一个简单的限流功能；</p>
+<p>功能所需命令</p>
+<ul>
+<li>  <strong>INCR</strong>：将 key 中储存的数字值增一</li>
+<li>  <strong>Expire</strong>：设置key的有效期</li>
+</ul>
+<h3 id="Redis-cli操作-2"><a href="#Redis-cli操作-2" class="headerlink" title="Redis-cli操作"></a>Redis-cli操作</h3><pre><code>127.0.0.1:6379&gt; INCR r:f:user1
+(integer) 1
+# 第一次 设置一个过期时间
+127.0.0.1:6379&gt; EXPIRE r:f:user1 5
+(integer) 1
+127.0.0.1:6379&gt; INCR r:f:user1
+(integer) 2
+# 等待5s 再次增加 发现已经重置了
+127.0.0.1:6379&gt; INCR r:f:user1
+(integer) 1</code></pre>
+<h3 id="SpringBoot示例："><a href="#SpringBoot示例：" class="headerlink" title="SpringBoot示例："></a>SpringBoot示例：</h3><pre><code>import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @author 一行Java
+ * @title: 基于Redis的简单限流
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/8/2 9:43
+ */
+@SpringBootTest
+@Slf4j
+public class FreqTest &#123;
+    // 单位时间（秒）
+    private static final Integer TIME = 5;
+    // 允许访问上限次数
+    private static final Integer MAX = 100;
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Test
+    public void test() throws Exception &#123;
+        String userName = &quot;user1&quot;;
+
+        int tag = 1;
+
+        boolean frequency = frequency(userName);
+        log.info(&quot;第&#123;&#125;次是否放行：&#123;&#125;&quot;, tag, frequency);
+        for (int i = 0; i &lt; 100; i++) &#123;
+            tag += 1;
+            frequency(userName);
+        &#125;
+        frequency = frequency(userName);
+        log.info(&quot;第&#123;&#125;次是否放行：&#123;&#125;&quot;, tag, frequency);
+
+        Thread.sleep(5000);
+        frequency = frequency(userName);
+        log.info(&quot;模拟等待5s后，第&#123;&#125;次是否放行：&#123;&#125;&quot;, tag, frequency);
+    &#125;
+
+    /**
+     * 校验访问频率
+     *
+     * @param uniqueId 用于限流的唯一ID 可以是用户ID、或者客户端IP等
+     * @return true：放行  false：拦截
+     */
+    private boolean frequency(String uniqueId) &#123;
+        String key = &quot;r:q:&quot; + uniqueId;
+        Long increment = redisTemplate.opsForValue().increment(key);
+        if (increment == 1) &#123;
+            redisTemplate.expire(key, TIME, TimeUnit.SECONDS);
+        &#125;
+
+        if (increment &lt;= MAX) &#123;
+            return true;
+        &#125;
+
+        return false;
+    &#125;
+&#125;</code></pre>
+<p>运行日志：</p>
+<pre><code>user1 第1次请求是否放行：true
+user1 第101次请求是否放行：false
+模拟等待5s后，user1 第101次请求是否放行：true</code></pre>
+<h2 id="全局ID"><a href="#全局ID" class="headerlink" title="全局ID"></a>全局ID</h2><p>在分布式系统中，很多场景下需要全局的唯一ID，由于Redis是独立于业务服务的其他应用，就可以利用<code>Incr</code>的原子性操作来生成全局的唯一递增ID</p>
+<p>功能所需命令</p>
+<ul>
+<li>  <strong>INCR</strong>：将 key 中储存的数字值增一</li>
+</ul>
+<h3 id="Redis-cli-客户端测试"><a href="#Redis-cli-客户端测试" class="headerlink" title="Redis-cli 客户端测试"></a>Redis-cli 客户端测试</h3><pre><code>127.0.0.1:6379&gt; incr g:uid
+(integer) 1
+127.0.0.1:6379&gt; incr g:uid
+(integer) 2
+127.0.0.1:6379&gt; incr g:uid
+(integer) 3</code></pre>
+<h2 id="简单分布式锁"><a href="#简单分布式锁" class="headerlink" title="简单分布式锁"></a>简单分布式锁</h2><p>在分布式系统中，很多操作是需要用到分布式锁，防止并发操作带来一些问题；因为redis是独立于分布式系统外的其他服务，因此就可以利用redis，来实现一个简单的<strong>不完美</strong>分布式锁；</p>
+<p>功能所需命令</p>
+<ul>
+<li><p><strong>SETNX</strong> key不存在，设置；key存在，不设置</p>
+<pre><code>  # 加锁
+  127.0.0.1:6379&gt; SETNX try_lock 1
+  (integer) 1
+  # 释放锁
+  127.0.0.1:6379&gt; del try_lock
+  (integer) 1</code></pre>
+</li>
+</ul>
+<pre><code>![](https://img-blog.csdnimg.cn/img_convert/014e5bf95c1355c5e09088347222338b.png)</code></pre>
+<ul>
+<li><p>set key value [ex seconds] [nx | xx]</p>
+<p>  上面的方式，虽然能够加锁，但是不难发现，很容易出现死锁的情况；比如，a用户在加锁之后，突然系统挂了，此时a就永远不会释放他持有的锁了，从而导致死锁；为此，我们可以利用redis的过期时间来防止死锁问题</p>
+<pre><code>  set try_lock 1 ex 5 nx</code></pre>
+</li>
+</ul>
+<pre><code>![](https://img-blog.csdnimg.cn/img_convert/763268e3dc3e2b7224e829dce8556ca4.png)</code></pre>
+<p><strong>不完美的锁</strong></p>
+<p>上面的方案，虽然解决了死锁的问题，但是又带来了一个新的问题，执行时间如果长于自动释放的时间（比如自动释放是5秒，但是业务执行耗时了8秒），那么在第5秒的时候，锁就自动释放了，此时其他的线程就能正常拿到锁，简单流程如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a45c37778871ceec7517cba5afd11bca.png"></p>
+<p>此时相同颜色部分的时间区间是由多线程同时在执行。而且此问题在此方案下并<strong>没有完美的解决方案，只能做到尽可能的避免</strong>：</p>
+<ul>
+<li>  方式一，_value设置为随机数（如：1234），在程序释放锁的时候，检测一下是不是自己加的锁_；比如，A线程在第8s释放的锁就是线程B加的，此时在释放的时候，就可以检验一下value是不是自己当初设置的值（1234），是的就释放，不是的就不管了；</li>
+<li>  方式二，_只在时间消耗比较小的业务上选用此方案_，尽可能的避免执行时间超过锁的自动释放时间</li>
+</ul>
+<h2 id="认识的人-好友推荐"><a href="#认识的人-好友推荐" class="headerlink" title="认识的人/好友推荐"></a>认识的人/好友推荐</h2><p>在支付宝、抖音、QQ等应用中，都会看到好友推荐；</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9fc6a60c0dadfb4a3f4bdbc11e6f1687.png"></p>
+<p>好友推荐往往都是基于你的好友关系网来推荐，将你可能认识的人推荐给你，让你去添加好友，如果随意在系统找个人推荐给你，那你认识的可能性是非常小的，此时就失去了推荐的目的；</p>
+<p>比如，A和B是好友，B和C是好友，此时A和C认识的概率是比较大的，就可以在A和C之间的好友推荐；</p>
+<p>基于这个逻辑，就可以利用 Redis 的 Set 集合，缓存各个用户的好友列表，然后以差集的方式，来实现好友推荐；</p>
+<p>功能所需的命令</p>
+<ul>
+<li>  <strong>SADD</strong> key member [member …]：集合中添加元素，缓存好友列表</li>
+<li>  <strong>SDIFF</strong> key [key …]：取两个集合间的差集，找出可以推荐的用户</li>
+</ul>
+<h3 id="Redis-cli-客户端测试-1"><a href="#Redis-cli-客户端测试-1" class="headerlink" title="Redis-cli 客户端测试"></a>Redis-cli 客户端测试</h3><pre><code># 记录 用户1 的好友列表
+127.0.0.1:6379&gt; SADD fl:user1 user2 user3
+(integer) 2
+# 记录 用户2 的好友列表
+127.0.0.1:6379&gt; SADD fl:user2 user1 user4
+(integer) 2
+
+# 用户1 可能认识的人 ，把自己（user1）去掉，user4是可能认识的人
+127.0.0.1:6379&gt; SDIFF fl:user2 fl:user1
+1) &quot;user1&quot;
+2) &quot;user4&quot;
+
+# 用户2 可能认识的人 ，把自己（user2）去掉，user3是可能认识的人
+127.0.0.1:6379&gt; SDIFF fl:user1 fl:user2
+1) &quot;user3&quot;
+2) &quot;user2&quot;</code></pre>
+<p>不过这只是推荐机制中的一种因素，可以借助其他条件，来增强推荐的准确度；</p>
+<h2 id="发布-订阅"><a href="#发布-订阅" class="headerlink" title="发布/订阅"></a>发布/订阅</h2><p>发布/订阅是比较常用的一种模式；在分布式系统中，如果需要实时感知到一些变化，比如：某些配置发生变化需要实时同步，就可以用到发布，订阅功能</p>
+<p>常用API</p>
+<ul>
+<li>  <strong>PUBLISH</strong> channel message：将消息推送到指定的频道</li>
+<li>  <strong>SUBSCRIBE</strong> channel [channel …]：订阅给定的一个或多个频道的信息</li>
+</ul>
+<h3 id="Redis-cli操作-3"><a href="#Redis-cli操作-3" class="headerlink" title="Redis-cli操作"></a>Redis-cli操作</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/227b7269acb0c52d3043ceb9103764cb.gif"></p>
+<p>如上图所示，左侧多个客户端订阅了频道，当右侧客户端往频道发送消息的时候，左侧客户端都能收到对应的消息。</p>
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p>说到消息队列，常用的就是Kafka、RabbitMQ等等，其实 Redis 利用 List 也能实现一个消息队列；</p>
+<p>功能所需的指令</p>
+<ul>
+<li>  <strong>RPUSH</strong> key value1 [value2]：在列表中添加一个或多个值；</li>
+<li>  <strong>BLPOP</strong> key1 [key2] timeout：移出并获取列表的第一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止；</li>
+<li>  <strong>BRPOP</strong> key1 [key2] timeout：移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。</li>
+</ul>
+<p>依赖调整：</p>
+<p>Spring Boot 从 2.0版本开始，将默认的Redis客户端Jedis替换为Lettuce，在测试这块阻塞的时候，会出现一个超时的异常<code>io.lettuce.core.RedisCommandTimeoutException: Command timed out after 1 minute(s)</code>；没有找到一个好的解决方式，所以这里将 Lettuce 换回成 Jedis ，就没有问题了，pom.xml 的配置如下：</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+    &lt;exclusions&gt;
+        &lt;exclusion&gt;
+            &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+            &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+        &lt;exclusion&gt;
+            &lt;artifactId&gt;lettuce-core&lt;/artifactId&gt;
+            &lt;groupId&gt;io.lettuce&lt;/groupId&gt;
+        &lt;/exclusion&gt;
+    &lt;/exclusions&gt;
+&lt;/dependency&gt;
+&lt;!-- jedis客户端 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+    &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;!-- spring2.X集成redis所需common-pool2，使用jedis必须依赖它--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+<p>测试代码：</p>
+<pre><code>import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @author 一行Java
+ * @title: QueueTest
+ * @projectName ehang-spring-boot
+ * @description: TODO
+ * @date 2022/8/5 14:27
+ */
+@SpringBootTest
+@Slf4j
+public class QueueTest &#123;
+    private static final String REDIS_LP_QUEUE = &quot;redis:lp:queue&quot;;
+    private static final String REDIS_RP_QUEUE = &quot;redis:rp:queue&quot;;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+    /**
+     * 先进后出队列
+     */
+    @Test
+    public void rightMonitor() &#123;
+        while (true) &#123;
+            Object o = stringRedisTemplate.opsForList().rightPop(REDIS_LP_QUEUE, 0, TimeUnit.SECONDS);
+            log.info(&quot;先进后出队列 接收到数据：&#123;&#125;&quot;, o);
+        &#125;
+    &#125;
+
+    /**
+     * 先进先出队列
+     */
+    @Test
+    public void leftMonitor() &#123;
+        while (true) &#123;
+            Object o = stringRedisTemplate.opsForList().leftPop(REDIS_RP_QUEUE, 0, TimeUnit.SECONDS);
+            log.info(&quot;先进先出队列 接收到数据：&#123;&#125;&quot;, o);
+        &#125;
+    &#125;
+&#125;</code></pre>
+<ul>
+<li><p>先进先出测试效果</p>
+<p>  <img src="https://img-blog.csdnimg.cn/img_convert/4f6600f6343e16fde052097d5aa28d18.gif"></p>
+</li>
+<li><p>先进后出测试效果</p>
+<p>  <img src="https://img-blog.csdnimg.cn/img_convert/8207be288a3657c262a658548d51a645.gif"></p>
+</li>
+</ul>
+<p>不过，对消息的可靠性要求比较高的场景，建议还是使用专业的消息队列框架，当值被弹出之后，List 中就已经不存在对应的值了，假如此时程序崩溃，就会出现消息的丢失，无法保证可靠性；虽然说也有策略能够保证消息的可靠性，比如，在弹出的同时，将其保存到另外一个队列（BRPOPLPUSH），成功之后，再从另外的队列中移除，当消息处理失败或者异常，再重新进入队列执行，只是这样做就得不偿失了。</p>
+<h2 id="数据共享（session共享）"><a href="#数据共享（session共享）" class="headerlink" title="数据共享（session共享）"></a>数据共享（session共享）</h2><p>既然Redis能持久化数据，就可以用它来实现模块间的数据共享；SpringBoot Session 利用的这个机制来实现 Session 共享；</p>
+<ul>
+<li><p>依赖</p>
+<pre><code>  &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework.session&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-session-data-redis&lt;/artifactId&gt;
+  &lt;/dependency&gt;</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>开启session共享</p>
+<pre><code>  @Configuration
+  @EnableRedisHttpSession
+  public class RedisSessionConfig &#123;
+  &#125;</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>测试代码</p>
+<pre><code>  package com.ehang.redis.controller;
+
+  import org.springframework.web.bind.annotation.GetMapping;
+  import org.springframework.web.bind.annotation.RequestMapping;
+  import org.springframework.web.bind.annotation.RestController;
+
+  import javax.servlet.http.HttpServletRequest;
+  import java.util.Enumeration;
+  import java.util.HashMap;
+  import java.util.Map;
+
+  /**
+   * @author session 共享
+   * @title: RedisSessionController
+   * @projectName ehang-spring-boot
+   * @description: TODO
+   * @date 2022/8/5 15:58
+   */
+  @RestController
+  @RequestMapping(&quot;session&quot;)
+  public class RedisSessionController &#123;
+
+      /**
+       * 设置session的值
+       * @param request
+       * @return
+       */
+      @GetMapping(&quot;set&quot;)
+      public Map set(HttpServletRequest request) &#123;
+          String id = request.getSession().getId();
+          Map&lt;String, String&gt; vas = new HashMap&lt;&gt;();
+
+          String key = &quot;key&quot;;
+          String value = &quot;value&quot;;
+          vas.put(&quot;id&quot;, id);
+          vas.put(key, value);
+          // 自定义session的值
+          request.getSession().setAttribute(key, value);
+
+          return vas;
+      &#125;
+
+      /**
+       * 获取session的值
+       * @param request
+       * @return
+       */
+      @GetMapping(&quot;get&quot;)
+      public Map get(HttpServletRequest request) &#123;
+          Map&lt;String, Object&gt; vas = new HashMap&lt;&gt;();
+
+          // 遍历所有的session值
+          Enumeration&lt;String&gt; attributeNames = request.getSession().getAttributeNames();
+          while (attributeNames.hasMoreElements()) &#123;
+              String k = attributeNames.nextElement();
+              Object va = request.getSession().getAttribute(k);
+              vas.put(k, va);
+          &#125;
+
+          vas.put(&quot;id&quot;, request.getSession().getId());
+
+          return vas;
+      &#125;
+  &#125;</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>测试</p>
+<p>  开启两个服务，分别接听8080和8081，8080调用赋值接口，8081调用获取接口，如下图，可以看到，两个服务共享了一份Session数据；</p>
+<p>  <img src="https://img-blog.csdnimg.cn/img_convert/61a8e6f3a3e50052232d45903052e836.png"></p>
+</li>
+<li><p>Redis中保存的数据</p>
+<pre><code>  127.0.0.1:6379&gt; keys spring:*
+  1) &quot;spring:session:sessions:expires:6f1d7d53-fe01-4e80-9e6a-5ff54fffa92a&quot;
+  2) &quot;spring:session:expirations:1659688680000&quot;
+  3) &quot;spring:session:sessions:6f1d7d53-fe01-4e80-9e6a-5ff54fffa92a&quot;</code></pre>
+</li>
+</ul>
+<h2 id="商品筛选"><a href="#商品筛选" class="headerlink" title="商品筛选"></a>商品筛选</h2><p>商城类的应用，都会有类似于下图的一个商品筛选的功能，来帮用户快速搜索理想的商品；</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/89d0277e8d2321070b6f7135f77b109d.png"></p>
+<p>假如现在iphone 100 、华为mate 5000 已发布，在各大商城上线；下面就通过 Redis 的 set 来实现上述的商品筛选功能；</p>
+<p>功能所需命令</p>
+<ul>
+<li>  <strong>SADD</strong> key member [member …]：添加一个或多个元素</li>
+<li>  <strong>SINTER</strong> key [key …]：返回给定所有集合的交集</li>
+</ul>
+<h3 id="Redis-cli-客户端测试-2"><a href="#Redis-cli-客户端测试-2" class="headerlink" title="Redis-cli 客户端测试"></a>Redis-cli 客户端测试</h3><pre><code># 将iphone100 添加到品牌为苹果的集合
+127.0.0.1:6379&gt; sadd brand:apple iphone100
+(integer) 1
+
+# 将meta5000 添加到品牌为苹果的集合
+127.0.0.1:6379&gt; sadd brand:huawei meta5000
+(integer) 1
+
+# 将 meta5000 iphone100 添加到支持5T内存的集合
+127.0.0.1:6379&gt; sadd ram:5t iphone100 meta5000
+(integer) 2
+
+# 将 meta5000 添加到支持10T内存的集合
+127.0.0.1:6379&gt; sadd ram:10t meta5000
+(integer) 1
+
+# 将 iphone100 添加到操作系统是iOS的集合
+127.0.0.1:6379&gt; sadd os:ios iphone100
+(integer) 1
+
+# 将 meta5000 添加到操作系统是Android的集合
+127.0.0.1:6379&gt; sadd os:android meta5000
+(integer) 1
+
+# 将 iphone100 meta5000 添加到屏幕为6.0-6.29的集合中
+127.0.0.1:6379&gt; sadd screensize:6.0-6.29 iphone100 meta5000
+(integer) 2
+
+# 筛选内存5T、屏幕在6.0-6.29的机型
+127.0.0.1:6379&gt; sinter ram:5t screensize:6.0-6.29
+1) &quot;meta5000&quot;
+2) &quot;iphone100&quot;
+
+# 筛选内存10T、屏幕在6.0-6.29的机型
+127.0.0.1:6379&gt; sinter ram:10t screensize:6.0-6.29
+1) &quot;meta5000&quot;
+
+# 筛选内存5T、系统为iOS的机型
+127.0.0.1:6379&gt; sinter ram:5t screensize:6.0-6.29 os:ios
+1) &quot;iphone100&quot;
+
+# 筛选内存5T、屏幕在6.0-6.29、品牌是华为的机型
+127.0.0.1:6379&gt; sinter ram:5t screensize:6.0-6.29 brand:huawei
+1) &quot;meta5000&quot;</code></pre>
+<h2 id="购物车"><a href="#购物车" class="headerlink" title="购物车"></a>购物车</h2><p><strong>商品缓存</strong></p>
+<p>电商项目中，商品消息，都会做缓存处理，特别是热门商品，访问用户比较多，由于商品的结果比较复杂，店铺信息，产品信息，标题、描述、详情图，封面图；为了方便管理和操作，一般都会采用 Hash 的方式来存储（key为商品ID，field用来保存各项参数，value保存对于的值）</p>
+<p><strong>购物车</strong></p>
+<p>当商品信息做了缓存，购物车需要做的，就是通过Hash记录商品ID，以及需要购买的数量（其中key为用户信息，field为商品ID，value用来记录购买的数量） ；</p>
+<p>功能所需命令</p>
+<ul>
+<li>  <strong>HSET</strong> key field value : 将哈希表 key 中的字段 field 的值设为 value ;</li>
+<li>  <strong>HMSET</strong> key field1 value1 [field2 value2 ] ：同时将多个 field-value (域-值)对设置到哈希表 key 中。</li>
+<li>  <strong>HGET</strong> key field：获取存储在哈希表中指定字段的值。</li>
+<li>  <strong>HGETALL</strong> key ：获取在哈希表中指定 key 的所有字段和值</li>
+<li>  <strong>HINCRBY</strong> key field increment ：为哈希表 key 中的指定字段的整数值加上增量 increment 。</li>
+<li>  <strong>HLEN</strong> key：获取哈希表中字段的数量</li>
+</ul>
+<h3 id="Redis-cli-客户端测试-3"><a href="#Redis-cli-客户端测试-3" class="headerlink" title="Redis-cli 客户端测试"></a>Redis-cli 客户端测试</h3><pre><code># 购物车添加单个商品
+127.0.0.1:6379&gt; HSET sc:u1 c001 1
+(integer) 1
+# 购物车添加多个商品
+127.0.0.1:6379&gt; HMSET sc:u1 c002 1 coo3 2
+OK
+# 添加商品购买数量
+127.0.0.1:6379&gt; HINCRBY sc:u1 c002 1
+(integer) 2
+# 减少商品的购买数量
+127.0.0.1:6379&gt; HINCRBY sc:u1 c003 -1
+(integer) 1
+# 获取单个的购买数量
+127.0.0.1:6379&gt; HGET sc:u1 c002
+&quot;2&quot;
+# 获取购物车的商品数量
+127.0.0.1:6379&gt; HLEN sc:u1
+(integer) 3
+# 购物车详情
+127.0.0.1:6379&gt; HGETALL sc:u1
+1) &quot;c001&quot;
+2) &quot;1&quot;
+3) &quot;c002&quot;
+4) &quot;2&quot;
+5) &quot;coo3&quot;
+6) &quot;2&quot;</code></pre>
+<h2 id="定时取消订单（key过期监听）"><a href="#定时取消订单（key过期监听）" class="headerlink" title="定时取消订单（key过期监听）"></a>定时取消订单（key过期监听）</h2><p>电商类的业务，一般都会有订单30分钟不支付，自动取消的功能，此时就需要用到定时任务框架，Quartz、xxl-job、elastic-job 是比较常用的 Java 定时任务；我们也可以通过 Redis 的定时过期、以及过期key的监听，来实现订单的取消功能；</p>
+<ul>
+<li><p>Redis key 过期提醒配置</p>
+<p>  修改 redis 相关事件配置。找到 redis 配置文件 redis.conf，查看 notify-keyspace-events 配置项，如果没有，添加 notify-keyspace-events Ex，如果有值，则追加 Ex，相关参数说明如下：</p>
+<ul>
+<li><p>  <code>K</code>：keyspace 事件，事件以 keyspace@ 为前缀进行发布</p>
+</li>
+<li><p>  <code>E</code>：keyevent 事件，事件以 keyevent@ 为前缀进行发布</p>
+</li>
+<li><p>  <code>g</code>：一般性的，非特定类型的命令，比如del，expire，rename等</p>
+</li>
+<li><p>  <code>$</code>：字符串特定命令</p>
+</li>
+<li><p>  <code>l</code>：列表特定命令</p>
+</li>
+<li><p>  <code>s</code>：集合特定命令</p>
+</li>
+<li><p>  <code>h</code>：哈希特定命令</p>
+</li>
+<li><p>  <code>z</code>：有序集合特定命令</p>
+</li>
+<li><p>  <code>x</code>：过期事件，当某个键过期并删除时会产生该事件</p>
+</li>
+<li><p>  <code>e</code>：驱逐事件，当某个键因 maxmemore 策略而被删除时，产生该事件</p>
+</li>
+<li><p>  <code>A</code>：g$lshzxe的别名，因此”AKE”意味着所有事件</p>
+</li>
+</ul>
+</li>
+<li><p>添加RedisKeyExpirationListener的监听</p>
+<pre><code>  import org.springframework.context.annotation.Bean;
+  import org.springframework.context.annotation.Configuration;
+  import org.springframework.data.redis.connection.RedisConnectionFactory;
+  import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+
+  @Configuration
+  public class RedisListenerConfig &#123;
+
+      @Bean
+      RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) &#123;
+
+          RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+          container.setConnectionFactory(connectionFactory);
+          return container;
+      &#125;
+  &#125;</code></pre>
+</li>
+</ul>
+<pre><code>`KeyExpirationEventMessageListener` 接口监听所有 db 的过期事件 `keyevent@*:expired&quot;`
+
+    package com.ehang.redis.config;
+
+
+    import lombok.extern.slf4j.Slf4j;
+    import org.springframework.data.redis.connection.Message;
+    import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
+    import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+    import org.springframework.stereotype.Component;
+
+    /**
+     * 监听所有db的过期事件__keyevent@*__:expired&quot;
+     *
+     * @author 一行Java
+     * @title: RedisKeyExpirationListener
+     * @projectName ehang-spring-boot
+     * @description: TODO
+     * @date 2022/8/5 16:36
+     */
+    @Component
+    @Slf4j
+    public class RedisKeyExpirationListener extends KeyExpirationEventMessageListener &#123;
+
+        public RedisKeyExpirationListener(RedisMessageListenerContainer listenerContainer) &#123;
+            super(listenerContainer);
+        &#125;
+
+        /**
+         * 针对 redis 数据失效事件，进行数据处理
+         *
+         * @param message
+         * @param pattern
+         */
+        @Override
+        public void onMessage(Message message, byte[] pattern) &#123;
+
+            // 获取到失效的 key，进行取消订单业务处理
+            // 由于这里是监听了所有的key，如果只处理特定数据的话，需要做特殊处理
+            String expiredKey = message.toString();
+            log.info(&quot;过期的Key：&#123;&#125;&quot;, expiredKey);
+        &#125;
+    &#125;</code></pre>
+<ul>
+<li><p>测试</p>
+<p>  为了快速验证效果，这里 将过期时间调整为2秒；</p>
+<p>  注意，由于过期之后，Redis中的Key已经不存在了，因此，<strong>一定要将订单号作为key</strong>，不能作为值保存，否则监听到过期Key之后，将拿不到过期的订单号；</p>
+<p>  <img src="https://img-blog.csdnimg.cn/img_convert/5e13c6a9c6c611a57435abc7543aee48.gif"></p>
+</li>
+<li><p>不推荐使用</p>
+<p>  基于这一套机制，确实能够实现订单的超时取消，但是还是不太建议使用，这里仅作为一个思路；原因主要有以下几个：</p>
+<ol>
+<li> redis 的过期删除策略是采用定时离线扫描，或者访问时懒性检测删除，并没有办法保证时效性，有可能key已经到期了，但Redis并没有扫描到，导致通知的延迟；</li>
+<li> 消息发送即忘（fire and forget），并不会保证消息的可达性，如果此时服务不在线或者异常，通知就再也收不到了；</li>
+</ol>
+</li>
+</ul>
+<h2 id="物流信息（时间线）"><a href="#物流信息（时间线）" class="headerlink" title="物流信息（时间线）"></a>物流信息（时间线）</h2><p>寄快递、网购的时候，查询物流信息，都会给我们展示xxx时候，快递到达什么地方了，这就是一个典型的时间线列表；</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/eedf461b45361641b2716233077da67c.png"></p>
+<p>数据库的做法，就是每次变更就插入一条带时间的信息记录，然后根据时间和ID（ID是必须的，如果出现两个相同的时间，单纯时间排序，会造成顺序不对），来排序生成时间线；</p>
+<p>我们也可以通过 Redis 的 List 来实现时间线功能，由于 List 采用的是双向链表，因此升序，降序的时间线都能正常满足；</p>
+<ul>
+<li>  <strong>RPUSH</strong> key value1 [value2]：在列表中添加一个或多个值，（升序时间线）</li>
+<li>  <strong>LPUSH</strong> key value1 [value2]：将一个或多个值插入到列表头部（降序时间线）</li>
+<li>  <strong>LRANGE</strong> key start stop：获取列表指定范围内的元素</li>
+</ul>
+<p>Redis-cli 客户端测试</p>
+<ul>
+<li><p>升序</p>
+<pre><code>  127.0.0.1:6379&gt; RPUSH time:line:asc 20220805170000
+  (integer) 1
+  127.0.0.1:6379&gt; RPUSH time:line:asc 20220805170001
+  (integer) 2
+  127.0.0.1:6379&gt; RPUSH time:line:asc 20220805170002
+  (integer) 3
+  127.0.0.1:6379&gt; LRANGE time:line:asc 0 -1
+  1) &quot;20220805170000&quot;
+  2) &quot;20220805170001&quot;
+  3) &quot;20220805170002&quot;</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>降序</p>
+<pre><code>  127.0.0.1:6379&gt; LPUSH time:line:desc 20220805170000
+  (integer) 1
+  127.0.0.1:6379&gt; LPUSH time:line:desc 20220805170001
+  (integer) 2
+  127.0.0.1:6379&gt; LPUSH time:line:desc 20220805170002
+  (integer) 3
+  127.0.0.1:6379&gt; LRANGE time:line:desc 0 -1
+  1) &quot;20220805170002&quot;
+  2) &quot;20220805170001&quot;
+  3) &quot;20220805170000&quot;</code></pre>
+</li>
+</ul>
+<p>好了，关于Redis 的妙用，就介绍到这里；有了这些个场景的运用，下次再有面试官问你，Redis除了缓存还做过什么，相信聊上个1小时，应该不成问题了。</p>
+<blockquote>
+<p>测试源码：<a href="https://github.com/vehang/ehang-spring-boot/tree/main/spring-boot-011-redis">https://github.com/vehang/ehang-spring-boot/tree/main/spring-boot-011-redis</a></p>
+<p>大部分用例都在test目录下</p>
+</blockquote>
+</blockquote>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OKR之剑·理念篇03-OKR理念认同</title>
     <url>/2022/11/30/OKR%E4%B9%8B%E5%89%91%C2%B7%E7%90%86%E5%BF%B5%E7%AF%8703-OKR%E7%90%86%E5%BF%B5%E8%AE%A4%E5%90%8C/</url>
     <content><![CDATA[<blockquote>
@@ -166,7 +2448,6 @@
     <title>Linux性能优化</title>
     <url>/2022/11/30/Linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<p><a href="https://www.ctq6.cn/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">https://www.ctq6.cn/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</a></p>
-<p><a href="https://www.ctq6.cn/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">Linux性能优化 - 德国粗茶淡饭</a></p>
 <blockquote>
 <h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a><a href="https://www.ctq6.cn/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"></a>性能指标</h3><p>高并发和响应快对应着性能优化的两个核心指标：<strong>吞吐</strong>和<strong>延时</strong></p>
 <p><img src="https://xiaozhazi.github.io/2020/05/31/Linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E7%AC%AC%E4%B8%80%E5%91%A8--CPU%E6%80%A7%E8%83%BD%E7%AF%87%28%E4%B8%8A%29/week1_1.png" alt="https://xiaozhazi.github.io/2020/05/31/Linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E7%AC%AC%E4%B8%80%E5%91%A8--CPU%E6%80%A7%E8%83%BD%E7%AF%87(%E4%B8%8A)/week1_1.png" title="https://xiaozhazi.github.io/2020/05/31/Linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E7%AC%AC%E4%B8%80%E5%91%A8--CPU%E6%80%A7%E8%83%BD%E7%AF%87(%E4%B8%8A)/week1_1.png"></p>
@@ -798,7 +3079,6 @@ Average:        0     26870      1.40      0.00 1470212  36084   0.11  promtail<
 
 03:12:16 PM   UID       PID minflt-nr majflt-nr  Command
 03:12:17 PM   995     20955         0         0  java</code></pre>
-<p>更新于 2021-12-26</p>
 </blockquote>
 ]]></content>
       <categories>
