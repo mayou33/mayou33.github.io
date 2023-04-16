@@ -1,6 +1,388 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>用eBPF+XDP来替代LVS-1</title>
+    <url>/2023/04/16/%E7%94%A8eBPF+XDP%E6%9D%A5%E6%9B%BF%E4%BB%A3LVS-1/</url>
+    <content><![CDATA[<p> 以下文章来源于九零后程序员 ，作者mageekchiu </p>
+<p><a href="http://news.sohu.com/a/664404869_121124374">用eBPF/XDP来替代LVS_rs-_ip_部署</a></p>
+<blockquote>
+<p>前文见#lvs合集分析了 LVS 作为负载均衡的原理。随着 eBPF 的发展，我们已经可以将 eBPF/XDP 程序直接部署在普通服务器上来实现负载均衡，从而节省掉用于专门部署 LVS 的机器。</p>
+<p>本文不打算直接到这一步，而是首先看看如何用 eBPF/XDP 按照常规模式来替代 LVS，也就是说我们还是将负载均衡程序（software load balance 简称 SLB）部署在专用机器上，只不过不用 LVS，而是用 eBPF/XDP 来实现。</p>
+<p>实验步骤 创建网络环境 # 不同发行版命令不一样</p>
+<p>systemctl start docker</p>
+<p>docker network create south –subnet 172.19.0.0/16 –gateway 172.19.0.1</p>
+<p># check</p>
+<p>docker network inspect south</p>
+<p># or</p>
+<p>ip link</p>
+<p># 先用 ifconfig 获得刚创建的 network 应的 bridge</p>
+<p># 后续则可以在宿主机上抓取这个 network 的所有 IP 包</p>
+<p>tcpdump -i br-3512959a6150 ip</p>
+<p># 也可以获得某个容器的 veth ,抓取这个容器进出的所有包</p>
+<p>tcpdump -i vethf01d241 ip</p>
+<p># 当然，如果是 offload 的模式，则调试确实不易，需要嗅探本地网络的数据包并抓取了</p>
+<p># 在容器网络里，我们尚有宿主机这个上帝视角，在裸机网络里，则可能得去捯饬路由器了</p>
+<p><img src="https://p3.itc.cn/q_70/images03/20230408/5d4a517204d445f3a8ca8faf9e76b16d.png"></p>
+<p>创建两个RS echo “rs-1” &gt; rs1.html</p>
+<p>echo “rs-2” &gt; rs2.html</p>
+<p>docker run -itd –name rs1 –hostname rs1 –privileged=true –net south -p 8888:80 –ip 172.19.0.2 –mac-address=”02:42:ac:13:00:02” -v “$(pwd)”/rs1.html:/usr/share/nginx/html/index.html:ro nginx:stable</p>
+<p>docker run -itd –name rs2 –hostname rs2 –privileged=true –net south -p 9999:80 –ip 172.19.0.3 –mac-address=”02:42:ac:13:00:03” -v “$(pwd)”/rs2.html:/usr/share/nginx/html/index.html:ro nginx:stable</p>
+<p># check on host</p>
+<p>curl 127.0.0.1:8888</p>
+<p>curl 127.0.0.1:9999</p>
+<p>另：</p>
+<p>即使是 nginx 对于我们调试负载均衡也不是足够简单，调试阶段可以用 nc 来进行调试</p>
+<p>dnf install nc or apt install netcat</p>
+<p>server side nc -l -vv -p 5000</p>
+<p>client side nc 172.19.0.2 5000</p>
+<p>实现SLB</p>
+<p>为了不影响 RS，本文采用 NAT 模式的进一步：Full-NAT 模式实现 SLB。这种模式有缺陷：rs 不能获得真实的 client ip，但是对部署环境要求相对较少（网络相通，无需设置默认网关）。</p>
+<p>实现分析</p>
+<p>源码都在 <a href="https://github.com/MageekChiu/xdp4slb%E3%80%82%E6%AC%A2%E8%BF%8E%E5%A4%A7%E5%AE%B6%E6%8F%90%E5%87%BA%E7%BC%BA%E9%99%B7%E5%92%8C%E5%BB%BA%E8%AE%AE%EF%BC%81">https://github.com/MageekChiu/xdp4slb。欢迎大家提出缺陷和建议！</a></p>
+<p>核心框架如下:</p>
+<p>if(dest_ip = vip &amp;&amp; dest_ port= vport){</p>
+<p>ingress，包来源于 client，要转发给 rs</p>
+<p>挑选本地一个可用的 port1-ip1 作为新包的 src</p>
+<p>使用负载均衡算法挑选一个 rs，并将其 port2-ip2 作为新包的 dst</p>
+<p>相应的修改 src mac 和 dst mac</p>
+<p>此外保存 client 的 port3-ip3 和 port1-ip1 的双向映射关系</p>
+<p>便于后续 ingress 和 egress 使用</p>
+<p>} else{</p>
+<p>egress，包来源于 rs， 要转发给 client</p>
+<p>根据包的 dst 找到 port1-ip1</p>
+<p>根据 ingress 里面的映射找到对应的 client 的 port3-ip3 作为新包的 dst</p>
+<p>使用 vip 和 v port作为新包的 src</p>
+<p>相应的修改 src mac 和 dst mac</p>
+<p>}</p>
+<p>重新计算校验和</p>
+<p>使用 XDP_TX将包从本网卡重新扔回去</p>
+<p>这里面还有些校验细节就不讲了，大家可以直接看代码</p>
+<p>本地测试</p>
+<p>开发完成后，可以先在本地进行编译和load，以提前暴露问题，没问题后，在将目标文件放到容器里进行测试</p>
+<p># CORE, if you want to include vmlinux.h</p>
+<p>bpftool btf dump file /sys/kernel /btf/vmlinux format c &gt; vmlinux.h</p>
+<p># local compile and test</p>
+<p>rm -f /sys/fs /bpf/slb \</p>
+<p>&amp;&amp; rm -f slb.bpf.o \</p>
+<p>&amp;&amp; clang -target bpf -g -O2 -c slb.bpf.c -o slb.bpf.o \</p>
+<p>&amp;&amp; bpftool prog load slb.bpf.o /sys/fs /bpf/slb \</p>
+<p>&amp;&amp; ll /sys/fs /bpf/slb \</p>
+<p># for testing, you can cp newly compiled object to container</p>
+<p>docker cp slb.bpf.o slb: /tmp/部署和配置SLB</p>
+<p>Dockerfile 如下</p>
+<p>FROMdebian:bullseye</p>
+<p># modify source to get faster installation</p>
+<p>RUNsed -i ‘s/deb.debian.org/mirrors.aliyun.com/g’/etc/apt/sources.list \</p>
+<p>&amp;&amp; apt- getupdate -y &amp;&amp; apt- getupgrade -y \</p>
+<p>&amp;&amp; apt install -y procps bpftool iproute2 net-tools telnet kmod curl tcpdump</p>
+<p>WORKDIR /tmp/</p>
+<p>COPY slb.bpf.o /tmp/</p>
+<p>构建镜像并运行</p>
+<p>docker build -t mageek/slb :0.1.</p>
+<p>docker run -itd --nameslb --hostnameslb --privileged=true--netsouth --ip172.19.0.5 --mac-address=”02:42:ac:13:00:05”mageek/slb :0.1</p>
+<p>进入容器加载 xdp 目标文件</p>
+<p>docker exec -it slb bash</p>
+<p># 在SLB中启用VIP</p>
+<p># reuse mac addr from slb ip</p>
+<p># ifconfig eth0:0 172.19.0.10/32 up</p>
+<p># add new mac for vip</p>
+<p>ifconfig eth0: 0172.19. 0.10/ 32hw ether 02: 42:ac: 13: 00: 10up</p>
+<p># to delete</p>
+<p># ifconfig eth0:0 down</p>
+<p>bpftool net detach xdpgeneric dev eth0</p>
+<p>rm /sys/fs /bpf/slb</p>
+<p>bpftool prog load slb.bpf.o /sys/fs /bpf/slb</p>
+<p># ls -l /sys/fs/bpf</p>
+<p>bpftool prog list</p>
+<p># bpftool prog show name xdp_lb –pretty</p>
+<p># bpftool net attach xdpgeneric name xdp_lb dev eth0</p>
+<p># or</p>
+<p>bpftool net attach xdpgeneric id 211dev eth0</p>
+<p># check with</p>
+<p>ip link</p>
+<p>cat /sys/kernel /debug/tracing/trace_pipe</p>
+<p># better use code bellow</p>
+<p>bpftool prog tracelog</p>
+<p># won’t get any result, cause the packets haven’t got there</p>
+<p>tcpdump host 172.19. 0.10</p>
+<p>注意，虽然官方文档上说，attach xdp 会自己选择合适的模式，但是我们在虚拟网卡下面，只能选择 attach xdpgeneric，前者不会生效，估计是个bug。</p>
+<p>测试</p>
+<p>新起一个client容器</p>
+<p>docker run-itd –name client --hostname client --privileged= true--net south -p 10000:80 –ip 172.19.0.9 --mac-address= “02:42:ac:13:00:09”nginx:stable</p>
+<p>进入 client</p>
+<p>dockerexec -it client bash</p>
+<p># visit rs first</p>
+<p>curl172.19.0.2:80</p>
+<p>curl172.19.0.3:80</p>
+<p># visit slb</p>
+<p>curl172.19.0.10:80</p>
+<p>rs- 1</p>
+<p>curl172.19.0.10:80</p>
+<p>rs- 2</p>
+<p>curl172.19.0.10:80</p>
+<p>rs- 1</p>
+<p>curl172.19.0.10:80</p>
+<p>rs- 2</p>
+<p>可见确实实现了 round_robin 算法。</p>
+<p>限制</p>
+<p>TCP的负载均衡是比较复杂的，还有各种条件需要考虑，比如：多实例 SLB 之间的状态同步、conntrack 条目的回收、端口自动管理、arp动态处理等等。完整的实现是非常复杂和体系化的，本文作为一个简单的实现，目的是体验ebpf/xdp，生产级别的实现请自行完成（工作量较大）或参考社区已有版本（虽然不多）。</p>
+<p>参考</p>
+<ul>
+<li><p>  <a href="https://github.com/torvalds/linux/blob/master/net/netfilter/nf/_nat/_core.c#L504">https://github.com/torvalds/linux/blob/master/net/netfilter/nf\_nat\_core.c#L504</a></p>
+</li>
+<li><p>  <a href="https://github.com/lizrice/lb-from-scratch/blob/main/README.MD">https://github.com/lizrice/lb-from-scratch/blob/main/README.MD</a></p>
+</li>
+<li><p>  <a href="https://github.com/xdp-project/xdp-tutorial">https://github.com/xdp-project/xdp-tutorial</a></p>
+</li>
+<li><p>  <a href="https://github.com/iovisor/bcc/issues/2463">https://github.com/iovisor/bcc/issues/2463</a></p>
+</li>
+<li><p>  <a href="https://github.com/facebookincubator/katran/blob/master/katran/lib/bpf/balancer/_helpers.h">https://github.com/facebookincubator/katran/blob/master/katran/lib/bpf/balancer\_helpers.h</a></p>
+</li>
+<li><p>  <a href="https://man.archlinux.org/man/bpftool-net.8.en">https://man.archlinux.org/man/bpftool-net.8.en</a></p>
+</li>
+<li><p>  <a href="https://www.kernel.org/doc/html/latest/core-api/printk-formats.html#ipv4-addresses">https://www.kernel.org/doc/html/latest/core-api/printk-formats.html#ipv4-addresses</a></p>
+</li>
+</ul>
+<p>下文预告</p>
+<p>本文采用了 bpftool 来手动加载 eBPF 程序，并且 VIP 和 RIP 都是 hard code。后面可以使用 libbpf 来支持 eBPF 的程序化加载和 VIP 配置。</p>
+<p>另，本文体验了 xdp 如何替换 LVS 实现负载均衡功能，但是并没有充分体现 xdp 的优势，下回将分析 xdp 的真正优势场景：直接部署在普通服务器上，去掉专用的 LVS 服务</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>eBPF+XDP</category>
+      </categories>
+      <tags>
+        <tag>eBPF+XDP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用eBPF+XDP来替代LVS-2</title>
+    <url>/2023/04/16/%E7%94%A8eBPF+XDP%E6%9D%A5%E6%9B%BF%E4%BB%A3LVS-2/</url>
+    <content><![CDATA[<p> 以下文章来源于九零后程序员 ，作者mageekchiu </p>
+<blockquote>
+<p>随着 eBPF 的发展，我们已经可以将 eBPF/XDP 程序直接部署在普通服务器上来实现负载均衡，从而节省掉用于专门部署 LVS 的机器。</p>
+<p><a href="https://link.juejin.cn/?target=https://mp.weixin.qq.com/s/XjDXyNPjEzMy5jfwfO2AnA" title="https://mp.weixin.qq.com/s/XjDXyNPjEzMy5jfwfO2AnA">前文</a> 分享了如何使用 xdp/ebpf 替换 lvs 来实现 slb，采用的是 slb 独立机器部署模式，并且采用 bpftool 和硬编码配置的形式来进行加载 xdp 程序，这是 <a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/tree/dev-0.1" title="https://github.com/MageekChiu/xdp4slb/tree/dev-0.1">版本 0.1</a>。</p>
+<p><a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/tree/dev-0.2" title="https://github.com/MageekChiu/xdp4slb/tree/dev-0.2">版本 0.2</a> 在 0.1 基础上，修改为基于 <a href="https://link.juejin.cn/?target=https://nakryiko.com/posts/bcc-to-libbpf-howto-guide/%23bpf-skeleton-and-bpf-app-lifecycle" title="https://nakryiko.com/posts/bcc-to-libbpf-howto-guide/#bpf-skeleton-and-bpf-app-lifecycle">bpf skeleton</a> 的程序化加载模式，要想简单地体验下这种工作流而不改动 版本0.1 中整体部署模式的，可以去看看 <a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/tree/dev-0.2" title="https://github.com/MageekChiu/xdp4slb/tree/dev-0.2">github.com/MageekChiu/…</a>。</p>
+<p><a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/tree/dev-0.3" title="https://github.com/MageekChiu/xdp4slb/tree/dev-0.3">版本 0.3</a> 在 0.2 基础上，支持以配置文件和命令行参数的形式动态加载 slb 配置</p>
+<p>本文属于 <a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/blob/dev-0.4/README-0.4.md" title="https://github.com/MageekChiu/xdp4slb/blob/dev-0.4/README-0.4.md">版本 0.4</a>，支持 slb 和 application 混布的模式，去除了专用的 slb 机器。<br>混布模式使得普通机器也能直接做负载均衡，同时不影响应用（off load 模式下可以体现），有成本效益；另外，在路由到本地的场景下，减少了路由跳数，整体性能更好。</p>
+<h2 id="创建网络环境"><a href="#创建网络环境" class="headerlink" title="创建网络环境"></a>创建网络环境</h2><pre><code># 不同发行版命令不一样
+systemctl start docker
+
+docker network create south --subnet 172.19.0.0/16 --gateway 172.19.0.1
+
+# check
+docker network inspect south
+# or
+ip link
+
+# 先用 ifconfig 获得刚创建的 network 应的 bridge
+# 后续则可以在宿主机上抓取这个 network 的所有 IP 包
+tcpdump -i br-3512959a6150 ip
+# 也可以获得某个容器的 veth ,抓取这个容器进出的所有包
+tcpdump -i vethf01d241  ip
+复制代码</code></pre>
+<h1 id="原理解析"><a href="#原理解析" class="headerlink" title="原理解析"></a>原理解析</h1><h2 id="SLB-集群路由"><a href="#SLB-集群路由" class="headerlink" title="SLB 集群路由"></a>SLB 集群路由</h2><p>slb 为了高可用，一般都会集群化部署，那么请求怎么路由到每一台 slb 上呢？一般由（动态）路由协议（ospf bgp）实现 ecmp，使得各个 slb 实例从 router/switch 那里均匀地获得流量。<br>由于配置动态路由协议非常繁杂，不在本文考虑范围之内，这里采用一个简单的脚本来模拟 ecmp。</p>
+<pre><code>#!/bin/bash
+
+dst=&quot;172.19.0.10&quot;
+rs1=&quot;172.19.0.2&quot;
+rs2=&quot;172.19.0.3&quot;
+ip route del $dst/32
+ip route add $dst/32 nexthop via $rs1 dev eth0 weight 1
+while true; do
+    nexthop=$(ip route show $dst/32 | awk &#39;&#123;print $3&#125;&#39;)
+    # nexthop=$(ip route show &quot;$dst&quot; | grep -oP &quot;nexthop \K\S+&quot;)
+    echo &quot;to $&#123;dst&#125; via $&#123;nexthop&#125; now!&quot;
+    sleep 3
+
+    # the requirements for blank is crazy!
+    if [ &quot;$nexthop&quot; = &quot;$rs1&quot; ]; then
+        new_nexthop=&quot;$rs2&quot;
+    else
+        new_nexthop=&quot;$rs1&quot;
+    fi
+    ip route del $dst/32
+    ip route add $dst/32 nexthop via $new_nexthop dev eth0 weight 1
+done
+复制代码</code></pre>
+<p>其实就是将到达 vip 的下一跳在几个 host（混布有 slb 和 app 的机器，以下简称 mix） 之间反复修改即可。</p>
+<h2 id="NAT模式"><a href="#NAT模式" class="headerlink" title="NAT模式"></a>NAT模式</h2><p>版本 0.1~0.3 都采用了 full nat 模式，在当前混布的模式下不再合适，可能会导致数据包无穷循环。因为不对数据包做一些标记的话，xdp 程序无法区分是来自 client 的数据包还是来自另一个 slb 的包。我们采用 DR 模式，除了能避免循环问题以外，性能也更好，因为</p>
+<ol>
+<li> 回包少了一跳</li>
+<li> 包的修改少了，也不用重新计算 ip、tcp 校验和等</li>
+</ol>
+<p>架构图如下，这里做了简化，client 和 mix 之间实际上是有 router/switch 的，但是我们采用上面的模拟脚本把 router/switch 路由功能也直接放 client 里面了。</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1747db8b0dbc441685c941ca95aac2e1~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.image"></p>
+<p>深蓝色表示请求，浅蓝色表示响应。<br>vip 采用了 ecmp，一次请求只会路由到一个 mix 上，mis 上的 slb 可能会把这个转发到本地 app（本文以 Nginx 为例） 或其它 mix，但是响应一定是从 mix 直接回去的，而不会再次经过其它 mix。</p>
+<h2 id="负载均衡算法"><a href="#负载均衡算法" class="headerlink" title="负载均衡算法"></a>负载均衡算法</h2><p>目前支持以下几种算法</p>
+<ul>
+<li>  random</li>
+<li>  round_roubin</li>
+<li>  hash</li>
+</ul>
+<p>本文不在 slb 集群中同步会话状态，所以只能选择 hash 算法，也就是不论请求路由到哪个 slb ，都会被转发到同一个 backend app。</p>
+<h2 id="SLB-路由伪代码"><a href="#SLB-路由伪代码" class="headerlink" title="SLB 路由伪代码"></a>SLB 路由伪代码</h2><pre><code>if (dest_ip = local_ip)&#123;
+    // 直接交给本机协议栈
+    return
+&#125;
+if (dest_ip = vip &amp;&amp; dest_port = vport)&#123;
+    使用负载均衡算法挑选一个 rs
+    若RS就是本机，则 直接交给本机协议栈 并 return
+
+    否则，将rs 的 mac 作为新包的 dst    
+    此外保存 client 和 rs 的双向映射关系
+    便于后续 路由直接 使用
+
+    将本机 mac 作为新包的 src
+
+    将新包扔出去重新路由
+&#125;else&#123;
+    报错，丢包
+&#125;
+复制代码</code></pre>
+<h1 id="配置SLB和应用"><a href="#配置SLB和应用" class="headerlink" title="配置SLB和应用"></a>配置SLB和应用</h1><p>Mix 的 Dockerfile 如下</p>
+<pre><code>FROM debian:bookworm
+RUN apt-get update -y &amp;&amp; apt-get upgrade -y \
+    &amp;&amp; apt install -y nginx procps bpftool iproute2 net-tools telnet kmod curl tcpdump
+
+WORKDIR /tmp/
+COPY src/slb /tmp/
+COPY slb.conf /tmp/
+复制代码</code></pre>
+<p>这里修改镜像是因为我的宿主机 fedora:37 的 libc 版本是 2.36，而 debian:bullseye 对应的版本是 2.31 ，不能直接运行宿主机编译的可执行文件。</p>
+<p>构建镜像并运行 app (这里是 nginx)</p>
+<pre><code>docker build -t mageek/mix:0.1 .
+
+# in case you want to run a brand new container
+docker rm mix1 mix2 -f
+
+docker run -itd --name mix1 --hostname mix1 --privileged=true \
+    --net south -p 8888:80 --ip 172.19.0.2 --mac-address=&quot;02:42:ac:13:00:02&quot; \
+    -v &quot;$(pwd)&quot;/rs1.html:/var/www/html/index.html:ro mageek/mix:0.1 nginx -g &quot;daemon off;&quot;
+
+docker run -itd --name mix2 --hostname mix2 --privileged=true \
+    --net south -p 9999:80 --ip 172.19.0.3 --mac-address=&quot;02:42:ac:13:00:03&quot; \
+    -v &quot;$(pwd)&quot;/rs2.html:/var/www/html/index.html:ro mageek/mix:0.1 nginx -g &quot;daemon off;&quot;
+
+# check on host
+docker ps
+curl 127.0.0.1:8888
+curl 127.0.0.1:9999
+复制代码</code></pre>
+<p>分别进入容器，配置 VIP，由于我们已经有模拟的路由协议了，所以在 mix 中配置好 vip 以后，要关闭 arp，避免影响 client 的包的路由</p>
+<pre><code>docker exec -it mix1 bash
+docker exec -it mix2 bash
+
+ifconfig lo:0 172.19.0.10/32 up
+echo &quot;1&quot;&gt;/proc/sys/net/ipv4/conf/all/arp_ignore
+echo &quot;1&quot;&gt;/proc/sys/net/ipv4/conf/lo/arp_ignore
+echo &quot;2&quot;&gt;/proc/sys/net/ipv4/conf/all/arp_announce
+echo &quot;2&quot;&gt;/proc/sys/net/ipv4/conf/lo/arp_announce
+复制代码</code></pre>
+<p>然后运行 slb</p>
+<pre><code># 启动 slb 并指定网卡和配置文件
+./slb -i eth0 -c ./slb.conf
+
+# in another terminal 
+bpftool prog list
+# bpftool prog show name xdp_lb  --pretty
+
+# check global variables
+# bpftool map list
+# bpftool map dump name slb_bpf.rodata
+
+# check attaching with 
+ip link
+复制代码</code></pre>
+<p>日志直接在宿主机（整机一份）上看即可，不要开好几个终端（会导致日志不完整）</p>
+<p><code>bpftool prog tracelog</code></p>
+<p>此外，测试阶段可以直接在宿主机编译完成可执行文件后，拷贝到容器里(当然，前提是你已经创建好了这些容器和相关的网络)</p>
+<pre><code>docker start mix1 mix2 client
+
+docker cp src/slb mix1:/tmp/ &amp;&amp; \
+docker cp slb.conf mix1:/tmp/ &amp;&amp; \
+docker cp src/slb mix2:/tmp/ &amp;&amp; \
+docker cp slb.conf mix2:/tmp/ &amp;&amp; \
+docker cp routing.sh client:/tmp/ 
+复制代码</code></pre>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>新起一个client容器</p>
+<pre><code>docker run -itd --name client --hostname client --privileged=true \
+    --net south -p 10000:80 --ip 172.19.0.9 --mac-address=&quot;02:42:ac:13:00:09&quot; \
+    -v &quot;$(pwd)&quot;/routing.sh:/tmp/routing.sh mageek/mix:0.1 nginx -g &quot;daemon off;&quot;
+复制代码</code></pre>
+<p>进入 client 配置并运行以下路由脚本脚本</p>
+<pre><code>docker exec -it client bash
+
+sh routing.sh
+复制代码</code></pre>
+<p>另开一个 client terminal 进行请求测试</p>
+<pre><code>docker exec -it client bash
+
+# visit rs first
+curl 172.19.0.2:80
+curl 172.19.0.3:80
+
+# visit slb 
+curl 172.19.0.10:80
+rs-1
+curl 172.19.0.10:80
+rs-2
+复制代码</code></pre>
+<p>我们可以在 client 里面压测一把，但是要注意压测时不要运行 routing.sh ，因为并发场景下存在 <strong>“老路由刚被删，新路由尚未建立的中间态”</strong> 的问题，导致请求失败。</p>
+<pre><code>apt-get install apache2-utils
+
+# 并发 50，总请求数 5000
+ab -c 50 -n 5000 http://172.19.0.10:80/
+复制代码</code></pre>
+<p>压测结果如下，可见都成功了</p>
+<pre><code>erver Software:        nginx/1.22.1
+Server Hostname:        172.19.0.10
+Server Port:            80
+
+Document Path:          /
+Document Length:        5 bytes
+
+Concurrency Level:      50
+Time taken for tests:   3.141 seconds
+Complete requests:      5000
+Failed requests:        0
+Total transferred:      1170000 bytes
+HTML transferred:       25000 bytes
+Requests per second:    1591.81 [#/sec] (mean)
+Time per request:       31.411 [ms] (mean)
+Time per request:       0.628 [ms] (mean, across all concurrent requests)
+Transfer rate:          363.75 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0   15   3.9     15      31
+Processing:     5   16   4.7     16      48
+Waiting:        0   11   4.4     10      34
+Total:         17   31   3.6     30      60
+
+Percentage of the requests served within a certain time (ms)
+  50%     30
+  66%     32
+  75%     32
+  80%     33
+  90%     35
+  95%     37
+  98%     40
+  99%     47
+ 100%     60 (longest request)
+复制代码</code></pre>
+<p>还可以增大并发数测试，并发最大理论值是我们存储 conntrack 条目的 back_map 数量最大值。超过这个并发数，会导致重新路由映射，可能导致 tcp reset。</p>
+<h1 id="下文预告"><a href="#下文预告" class="headerlink" title="下文预告"></a>下文预告</h1><p>要想打造一个完整的 slb，还有许多工作要做，比如利用内核能力进行 mac 自动寻址、许多边界检查等。这都是后面要做的工作，欢迎大家一起参与 <a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/" title="https://github.com/MageekChiu/xdp4slb/">github.com/MageekChiu/…</a>。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>eBPF+XDP</category>
+      </categories>
+      <tags>
+        <tag>eBPF+XDP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux中CPU利用率是如何算出来的</title>
     <url>/2023/03/08/Linux%E4%B8%ADCPU%E5%88%A9%E7%94%A8%E7%8E%87%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%97%E5%87%BA%E6%9D%A5%E7%9A%84/</url>
     <content><![CDATA[<p><a href="https://mp.weixin.qq.com/s/40KWGKNBoa35s533YGWYIQ">https://mp.weixin.qq.com/s/40KWGKNBoa35s533YGWYIQ</a></p>

@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>用eBPF+XDP来替代LVS-2 | 张天师</title>
+  <meta name="keywords" content=" eBPF+XDP ">
+  <meta name="description" content="用eBPF+XDP来替代LVS-2 | 张天师">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://zhangyu.info/about/index.html">
+<meta property="og:site_name" content="张天师">
+<meta property="og:description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-15T13:48:47.000Z">
+<meta property="article:modified_time" content="2021-03-15T15:05:42.638Z">
+<meta property="article:author" content="张天师">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/favicon.ico">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="张天师" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>张天师</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/mayou33"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(66)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="linux">
+                        
+                        linux
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="架构">
+                        
+                        架构
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="监控">
+                        
+                        监控
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="API网关">
+                        
+                        API网关
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="containerd">
+                        
+                        containerd
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="eBPF+XDP">
+                        
+                        eBPF+XDP
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Ingress">
+                        
+                        Ingress
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="k8s">
+                        
+                        k8s
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Kafka">
+                        
+                        Kafka
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Kubernetes">
+                        
+                        Kubernetes
+                        <small>(9)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="mysql">
+                        
+                        mysql
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nacos">
+                        
+                        nacos
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="OKR">
+                        
+                        OKR
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="PaaS">
+                        
+                        PaaS
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="redis">
+                        
+                        redis
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Scrum">
+                        
+                        Scrum
+                        <small>(11)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SpringBoot">
+                        
+                        SpringBoot
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="SRE">
+                        
+                        SRE
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="优化">
+                        
+                        优化
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="公有云">
+                        
+                        公有云
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="安全">
+                        
+                        安全
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="微服务">
+                        
+                        微服务
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="我假装讲-你假装看">
+                        
+                        我假装讲-你假装看
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="日志">
+                        
+                        日志
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="消息系统">
+                        
+                        消息系统
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="职业发展">
+                        
+                        职业发展
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="66">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://blog.csdn.net/shaochenshuo">数据库shao</a></li>
+            
+            <li><a target="_blank" href="https://blog.huoding.com/">火丁笔记</a></li>
+            
+            <li><a target="_blank" href="https://canon88.github.io/">网络安全canon</a></li>
+            
+            <li><a target="_blank" href="https://www.tecmint.com/">linux学习</a></li>
+            
+            <li><a target="_blank" href="https://www.makelinux.net/reference/">linux技术参考</a></li>
+            
+            <li><a target="_blank" href="https://coolshell.cn">酷壳CoolShell</a></li>
+            
+            <li><a target="_blank" href="http://www.brendangregg.com/">Systems-Performance</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>API网关</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Cilium</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>containerd</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>eBPF+XDP</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>flannel</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Ingress</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>k8s</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Kafka</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mysql</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nacos</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>OKR</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>PaaS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Pulsar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Scrum</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SpringBoot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SRE</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>优化</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>公有云</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>安全</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>微服务</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>性能</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>我假装讲-你假装看</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>架构</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>监控</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>职业发展</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 eBPF+XDP "
+           href="/2023/04/16/%E7%94%A8eBPF+XDP%E6%9D%A5%E6%9B%BF%E4%BB%A3LVS-1/"
+           data-tag="eBPF+XDP"
+           data-author="" >
+            <span class="post-title" title="用eBPF+XDP来替代LVS-1">用eBPF+XDP来替代LVS-1</span>
+            <span class="post-date" title="2023-04-16 00:00:00">2023/04/16</span>
+        </a>
+        
+        <a  class="全部文章 eBPF+XDP "
+           href="/2023/04/16/%E7%94%A8eBPF+XDP%E6%9D%A5%E6%9B%BF%E4%BB%A3LVS-2/"
+           data-tag="eBPF+XDP"
+           data-author="" >
+            <span class="post-title" title="用eBPF+XDP来替代LVS-2">用eBPF+XDP来替代LVS-2</span>
+            <span class="post-date" title="2023-04-16 00:00:00">2023/04/16</span>
+        </a>
+        
+        <a  class="全部文章 linux "
+           href="/2023/03/08/Linux%E4%B8%ADCPU%E5%88%A9%E7%94%A8%E7%8E%87%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%97%E5%87%BA%E6%9D%A5%E7%9A%84/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux中CPU利用率是如何算出来的">Linux中CPU利用率是如何算出来的</span>
+            <span class="post-date" title="2023-03-08 00:00:00">2023/03/08</span>
+        </a>
+        
+        <a  class="全部文章 安全 "
+           href="/2023/01/03/%E5%A4%9A%E5%B0%91%E9%81%93%E9%98%B2%E7%BA%BF%E6%89%8D%E8%83%BD%E6%8C%A1%E4%BD%8F%E9%A1%B6%E5%B0%96%E9%BB%91%E5%AE%A2/"
+           data-tag="安全"
+           data-author="" >
+            <span class="post-title" title="多少道防线才能挡住顶尖黑客？">多少道防线才能挡住顶尖黑客？</span>
+            <span class="post-date" title="2023-01-03 00:00:00">2023/01/03</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2023/01/03/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E5%95%A5/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="云原生到底是个啥">云原生到底是个啥</span>
+            <span class="post-date" title="2023-01-03 00:00:00">2023/01/03</span>
+        </a>
+        
+        <a  class="全部文章 Kafka "
+           href="/2023/01/03/%E8%B0%81%E5%86%8D%E9%97%AE%E6%88%91Kafka-%E6%88%91%E6%8A%8A%E8%BF%9943%E5%BC%A0%E5%9B%BE%E7%94%A9%E7%BB%99%E4%BB%96/"
+           data-tag="Kafka"
+           data-author="" >
+            <span class="post-title" title="谁再问我Kafka-我把这43张图甩给他">谁再问我Kafka-我把这43张图甩给他</span>
+            <span class="post-date" title="2023-01-03 00:00:00">2023/01/03</span>
+        </a>
+        
+        <a  class="全部文章 redis "
+           href="/2022/12/05/redis%E7%9A%8420%E7%A7%8D%E5%B8%B8%E8%A7%81%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/"
+           data-tag="redis"
+           data-author="" >
+            <span class="post-title" title="redis的20种常见使用场景">redis的20种常见使用场景</span>
+            <span class="post-date" title="2022-12-05 00:00:00">2022/12/05</span>
+        </a>
+        
+        <a  class="全部文章 OKR "
+           href="/2022/11/30/OKR%E4%B9%8B%E5%89%91%C2%B7%E7%90%86%E5%BF%B5%E7%AF%8703-OKR%E7%90%86%E5%BF%B5%E8%AE%A4%E5%90%8C/"
+           data-tag="OKR"
+           data-author="" >
+            <span class="post-title" title="OKR之剑·理念篇03-OKR理念认同">OKR之剑·理念篇03-OKR理念认同</span>
+            <span class="post-date" title="2022-11-30 00:00:00">2022/11/30</span>
+        </a>
+        
+        <a  class="全部文章 linux "
+           href="/2022/11/30/Linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux性能优化">Linux性能优化</span>
+            <span class="post-date" title="2022-11-30 00:00:00">2022/11/30</span>
+        </a>
+        
+        <a  class="全部文章 linux "
+           href="/2022/11/17/%E7%BD%91%E5%8D%A1%E9%99%90%E9%80%9F%E5%B7%A5%E5%85%B7%E4%B9%8BWonderShaper/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="网卡限速工具之WonderShaper">网卡限速工具之WonderShaper</span>
+            <span class="post-date" title="2022-11-17 00:00:00">2022/11/17</span>
+        </a>
+        
+        <a  class="全部文章 OKR "
+           href="/2022/11/17/OKR%E4%B9%8B%E5%89%91.%E7%90%86%E5%BF%B5%E7%AF%8702-OKR%E5%B8%83%E9%81%93%E4%B9%8B%E6%97%85/"
+           data-tag="OKR"
+           data-author="" >
+            <span class="post-title" title="OKR之剑·理念篇02-OKR布道之旅">OKR之剑·理念篇02-OKR布道之旅</span>
+            <span class="post-date" title="2022-11-17 00:00:00">2022/11/17</span>
+        </a>
+        
+        <a  class="全部文章 mysql "
+           href="/2022/11/17/%E6%90%9E%E6%87%82MySQL%E6%98%AF%E6%80%8E%E4%B9%88%E5%8A%A0%E8%A1%8C%E7%BA%A7%E9%94%81%E7%9A%84/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="搞懂MySQL是怎么加行级锁的">搞懂MySQL是怎么加行级锁的</span>
+            <span class="post-date" title="2022-11-17 00:00:00">2022/11/17</span>
+        </a>
+        
+        <a  class="全部文章 OKR "
+           href="/2022/11/02/OKR%E4%B9%8B%E5%89%91%C2%B7%E7%90%86%E5%BF%B5%E7%AF%8701-OKR%E5%B8%A6%E7%BB%99%E6%88%91%E4%BB%AC%E7%9A%84%E6%94%B9%E5%8F%98%E6%88%91%E4%BB%AC%E7%9A%84%E6%94%B9%E5%8F%98/"
+           data-tag="OKR"
+           data-author="" >
+            <span class="post-title" title="OKR之剑·理念篇01-OKR带给我们的改变我们的改变">OKR之剑·理念篇01-OKR带给我们的改变我们的改变</span>
+            <span class="post-date" title="2022-11-02 00:00:00">2022/11/02</span>
+        </a>
+        
+        <a  class="全部文章 redis "
+           href="/2022/10/26/redis%E7%9A%84%E5%A4%A7Key%E5%AF%B9%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D/"
+           data-tag="redis"
+           data-author="" >
+            <span class="post-title" title="redis的大Key对持久化有什么影响">redis的大Key对持久化有什么影响</span>
+            <span class="post-date" title="2022-10-26 00:00:00">2022/10/26</span>
+        </a>
+        
+        <a  class="全部文章 redis "
+           href="/2022/10/26/redis%E7%9A%84%E5%B8%B8%E8%A7%81%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/"
+           data-tag="redis"
+           data-author="" >
+            <span class="post-title" title="redis的常见使用场景">redis的常见使用场景</span>
+            <span class="post-date" title="2022-10-26 00:00:00">2022/10/26</span>
+        </a>
+        
+        <a  class="全部文章 微服务 "
+           href="/2022/05/28/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"
+           data-tag="微服务"
+           data-author="" >
+            <span class="post-title" title="云原生微服务最佳实践">云原生微服务最佳实践</span>
+            <span class="post-date" title="2022-05-28 00:00:00">2022/05/28</span>
+        </a>
+        
+        <a  class="全部文章 微服务 "
+           href="/2022/05/28/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E6%9C%80%E4%BD%B3%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F/"
+           data-tag="微服务"
+           data-author="" >
+            <span class="post-title" title="微服务之间的最佳调用方式">微服务之间的最佳调用方式</span>
+            <span class="post-date" title="2022-05-28 00:00:00">2022/05/28</span>
+        </a>
+        
+        <a  class="全部文章 nacos "
+           href="/2022/05/01/%E8%A7%A3%E5%86%B3gateway%E4%BD%BF%E7%94%A8nacos%E9%87%8D%E5%90%AF%E6%8A%A5503ServiceUnavailable%E9%97%AE%E9%A2%98/"
+           data-tag="nacos"
+           data-author="" >
+            <span class="post-title" title="解决gateway使用nacos重启报503ServiceUnavailable问题">解决gateway使用nacos重启报503ServiceUnavailable问题</span>
+            <span class="post-date" title="2022-05-01 00:00:00">2022/05/01</span>
+        </a>
+        
+        <a  class="全部文章 监控 "
+           href="/2022/05/01/%E4%BB%8E%E7%9B%91%E6%8E%A7%E5%88%B0%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%EF%BC%8C%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E3%80%81%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E3%80%81%E8%81%8C%E8%B4%A3%E5%88%86%E5%B7%A5%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8F%98%E5%8C%96/"
+           data-tag="监控"
+           data-author="" >
+            <span class="post-title" title="从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化">从监控到可观测性，设计思想、技术选型、职责分工都有哪些变化</span>
+            <span class="post-date" title="2022-05-01 00:00:00">2022/05/01</span>
+        </a>
+        
+        <a  class="全部文章 SpringBoot "
+           href="/2022/04/30/SpringBoot%E6%80%A7%E8%83%BD%E5%A4%AA%E5%B7%AE,%E6%95%99%E4%BD%A0%E5%87%A0%E6%8B%9B%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A/"
+           data-tag="SpringBoot"
+           data-author="" >
+            <span class="post-title" title="SpringBoot性能太差,教你几招轻松搞定">SpringBoot性能太差,教你几招轻松搞定</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E7%9A%84%E5%8A%9F%E8%83%BD%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关的功能用途及实现方式">API网关的功能用途及实现方式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 PaaS "
+           href="/2022/04/30/%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E7%9A%84PaaS%E6%B7%B7%E5%90%88%E4%BA%91%E7%9A%84%E5%87%A0%E7%A7%8D%E5%BD%A2%E5%BC%8F/"
+           data-tag="PaaS"
+           data-author="" >
+            <span class="post-title" title="基于容器的PaaS混合云的几种形式">基于容器的PaaS混合云的几种形式</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 k8s "
+           href="/2022/04/30/%E6%89%93%E7%A0%B4Dockershim%E7%A7%BB%E9%99%A4%E7%84%A6%E8%99%91,%E4%B8%94%E7%9C%8BRancher%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9/"
+           data-tag="k8s"
+           data-author="" >
+            <span class="post-title" title="打破Dockershim移除焦虑,且看Rancher如何应对">打破Dockershim移除焦虑,且看Rancher如何应对</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 API网关 "
+           href="/2022/04/30/API%E7%BD%91%E5%85%B3%E4%B8%BAK8s%E5%AE%B9%E5%99%A8%E5%BA%94%E7%94%A8%E9%9B%86%E7%BE%A4%E6%8F%90%E4%BE%9B%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%8E%A5%E5%85%A5%E8%83%BD%E5%8A%9B/"
+           data-tag="API网关"
+           data-author="" >
+            <span class="post-title" title="API网关为K8s容器应用集群提供强大的接入能力">API网关为K8s容器应用集群提供强大的接入能力</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2022/04/30/%E4%BA%91%E5%8E%9F%E7%94%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86-%E5%AD%98%E5%82%A8-%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="云原生环境下的日志采集、存储、分析实践">云原生环境下的日志采集、存储、分析实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/04/30/%E5%85%AC%E6%9C%89%E4%BA%91%E9%99%8D%E6%9C%AC%E5%A2%9E%E6%95%88%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="公有云降本增效最佳实践">公有云降本增效最佳实践</span>
+            <span class="post-date" title="2022-04-30 00:00:00">2022/04/30</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲-你假装看 "
+           href="/2022/04/23/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%92%E8%81%94%E7%BD%91%E5%A4%A7%E5%8E%82%E4%B8%80%E8%BE%B9%E5%A4%A7%E8%A7%84%E6%A8%A1%E8%A3%81%E5%91%98%E5%8F%88%E4%B8%80%E8%BE%B9%E6%8B%9B%E8%81%98/"
+           data-tag="我假装讲-你假装看"
+           data-author="" >
+            <span class="post-title" title="为什么互联网大厂一边大规模裁员又一边招聘">为什么互联网大厂一边大规模裁员又一边招聘</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 linux "
+           href="/2022/04/23/Linux%E7%9A%84CPU%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux的CPU上下文切换深入探讨">Linux的CPU上下文切换深入探讨</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%8F%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="微服务架构及设计模式">微服务架构及设计模式</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 监控 "
+           href="/2022/04/23/%E6%89%93%E9%80%A0%E4%B8%80%E5%A5%97%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8A%9F%E8%83%BD%E6%9C%80%E5%85%A8%E7%9A%84APM%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/"
+           data-tag="监控"
+           data-author="" >
+            <span class="post-title" title="打造一套客户端功能最全的APM监控系统">打造一套客户端功能最全的APM监控系统</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2022/04/23/%E4%BC%81%E4%B8%9A%E5%AE%8C%E6%88%90%E4%BA%91%E8%BD%AC%E5%9E%8B%E7%9A%84%E6%88%90%E5%8A%9F%E4%B9%8B%E9%81%93-%E4%BA%91%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E7%AE%A1%E7%90%86/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="企业完成云转型的成功之道：云成本优化管理">企业完成云转型的成功之道：云成本优化管理</span>
+            <span class="post-date" title="2022-04-23 00:00:00">2022/04/23</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2022/04/12/%E8%B0%88%E8%B0%88%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%A5%BD%E7%BD%91%E7%AB%99%E7%9A%84URL/"
+           data-tag="优化"
+           data-author="" >
+            <span class="post-title" title="谈谈如何设计好网站的URL">谈谈如何设计好网站的URL</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC01%E8%AF%BE-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%92%8CScrumMaster%E5%9F%BA%E6%9C%AC%E5%8A%9F%E5%9B%9B%E9%83%A8%E6%9B%B2/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲">敏捷教练第01课-敏捷教练和ScrumMaster基本功四部曲</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC02%E8%AF%BE-%E5%82%A8%E5%A4%87-Scrum%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第02课-储备-Scrum精要">敏捷教练第02课-储备-Scrum精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC03%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第03课-储备-用户故事精要">敏捷教练第03课-储备-用户故事精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC04%E8%AF%BE-%E5%82%A8%E5%A4%87-scrum%E7%9A%8420%E4%B8%AA%E5%AD%90%E6%A8%A1%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第04课-储备-scrum的20个子模式">敏捷教练第04课-储备-scrum的20个子模式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC05%E8%AF%BE-%E5%82%A8%E5%A4%87-%E7%B2%BE%E7%9B%8A%E4%BD%93%E7%B3%BB%E7%B2%BE%E8%A6%81/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第05课-储备-精益体系精要">敏捷教练第05课-储备-精益体系精要</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC08%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8B%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）">敏捷教练第08课-技巧-敏捷教练的六脉神剑（下）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC09%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E6%8F%90%E5%8D%87%E4%B8%89%E5%BC%8F/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第09课-技巧-敏捷教练的提升三式">敏捷教练第09课-技巧-敏捷教练的提升三式</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC10%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%94%B9%E5%96%84%E5%92%8C%E7%B3%BB%E7%BB%9F%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第10课-技巧-持续改善和系统思考方法">敏捷教练第10课-技巧-持续改善和系统思考方法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC11%E8%AF%BE-%E5%AE%9E%E6%88%98-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E5%AE%9E%E6%88%98%E5%91%A8%E6%9C%9FV%E5%BD%A2%E5%85%AD%E6%AD%A5%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第11课-实战-敏捷教练实战周期V形六步法">敏捷教练第11课-实战-敏捷教练实战周期V形六步法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC06%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BF%83%E6%B3%95/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第06课-技巧-敏捷教练的四种心法">敏捷教练第06课-技巧-敏捷教练的四种心法</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Scrum "
+           href="/2022/04/12/%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%AC%AC07%E8%AF%BE-%E6%8A%80%E5%B7%A7-%E6%95%8F%E6%8D%B7%E6%95%99%E7%BB%83%E7%9A%84%E5%85%AD%E8%84%89%E7%A5%9E%E5%89%91%EF%BC%88%E4%B8%8A%EF%BC%89/"
+           data-tag="Scrum"
+           data-author="" >
+            <span class="post-title" title="敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）">敏捷教练第07课-技巧-敏捷教练的六脉神剑（上）</span>
+            <span class="post-date" title="2022-04-12 00:00:00">2022/04/12</span>
+        </a>
+        
+        <a  class="全部文章 公有云 "
+           href="/2022/03/08/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ECS%E9%80%89%E8%B4%AD%E6%8C%87%E5%8D%97%E5%8F%8A%E7%9C%81%E9%92%B1%E6%B3%95%E5%AE%9D/"
+           data-tag="公有云"
+           data-author="" >
+            <span class="post-title" title="云服务器ECS选购指南及省钱法宝">云服务器ECS选购指南及省钱法宝</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E9%98%BF%E9%87%8C%E4%BA%91%E5%BC%B9%E6%80%A7%E8%AE%A1%E7%AE%97%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E4%BB%8E0%E5%88%B01%E8%87%AA%E5%BB%BASRE%E4%BD%93%E7%B3%BB/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="阿里云弹性计算研发团队如何从0到1自建SRE体系">阿里云弹性计算研发团队如何从0到1自建SRE体系</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 SRE "
+           href="/2022/03/08/%E4%BA%91%E4%B8%8A%E8%B5%84%E6%BA%90%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B0%E6%A8%A1%E5%BC%8F/"
+           data-tag="SRE"
+           data-author="" >
+            <span class="post-title" title="云上资源自动化部署新模式">云上资源自动化部署新模式</span>
+            <span class="post-date" title="2022-03-08 00:00:00">2022/03/08</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲-你假装看 "
+           href="/2021/07/22/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8B%96%E5%9E%AE%E4%B8%AD%E5%B0%8F%E5%85%AC%E5%8F%B8%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E7%9A%8410%E5%AE%97%E7%BD%AA/"
+           data-tag="我假装讲-你假装看"
+           data-author="" >
+            <span class="post-title" title="常见的拖垮中小公司技术团队的10宗罪">常见的拖垮中小公司技术团队的10宗罪</span>
+            <span class="post-date" title="2021-07-22 00:00:00">2021/07/22</span>
+        </a>
+        
+        <a  class="全部文章 架构 "
+           href="/2021/07/22/%E6%88%91%E5%81%9A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8E%9F%E5%88%99/"
+           data-tag="架构"
+           data-author="" >
+            <span class="post-title" title="我做系统架构的一些原则">我做系统架构的一些原则</span>
+            <span class="post-date" title="2021-07-22 00:00:00">2021/07/22</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/cotainer-init/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="开启shareProcessNamespace后容器异常">开启shareProcessNamespace后容器异常</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/docker-shell-signal/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="k8s中shell脚本启动如何传递信号">k8s中shell脚本启动如何传递信号</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/31/enforce-audit-policy-in-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="在Kubernetes中实施审计策略">在Kubernetes中实施审计策略</span>
+            <span class="post-date" title="2021-05-31 00:00:00">2021/05/31</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/26/Cilium-Network-Overview/"
+           data-tag="Cilium"
+           data-author="" >
+            <span class="post-title" title="Cilium网络概述">Cilium网络概述</span>
+            <span class="post-date" title="2021-05-26 00:00:00">2021/05/26</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/05/19/generating-yaml-for-k8s/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="快速生成k8s的yaml配置的4种方法">快速生成k8s的yaml配置的4种方法</span>
+            <span class="post-date" title="2021-05-19 00:00:00">2021/05/19</span>
+        </a>
+        
+        <a  class="全部文章 日志 "
+           href="/2021/04/28/fklek-to-k8s-log/"
+           data-tag="日志"
+           data-author="" >
+            <span class="post-title" title="使用fklek搭建Kubernetes日志收集工具栈">使用fklek搭建Kubernetes日志收集工具栈</span>
+            <span class="post-date" title="2021-04-28 00:00:00">2021/04/28</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲-你假装看 "
+           href="/2021/04/27/%E5%8F%AA%E6%9C%89%E9%BB%91%E8%AF%9D%E6%89%8D%E8%83%BD%E6%8B%AF%E6%95%91%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%BA/"
+           data-tag="我假装讲-你假装看"
+           data-author="" >
+            <span class="post-title" title="只有黑话才能拯救互联网人">只有黑话才能拯救互联网人</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 我假装讲-你假装看 "
+           href="/2021/04/27/%E6%BC%AB%E7%94%BB%E4%B8%80%E4%B8%AANB%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%B8%8A%E7%BA%BF%E8%BF%87%E7%A8%8B/"
+           data-tag="我假装讲-你假装看"
+           data-author="" >
+            <span class="post-title" title="漫画一个NB互联网项目的上线过程">漫画一个NB互联网项目的上线过程</span>
+            <span class="post-date" title="2021-04-27 00:00:00">2021/04/27</span>
+        </a>
+        
+        <a  class="全部文章 消息系统 "
+           href="/2021/04/24/comparing-pulsar-and-kafka-from-a-ctos-point-of-view/"
+           data-tag="Pulsar"
+           data-author="" >
+            <span class="post-title" title="Pulsar vs Kafka，CTO 如何抉择">Pulsar vs Kafka，CTO 如何抉择</span>
+            <span class="post-date" title="2021-04-24 00:00:00">2021/04/24</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/21/kubernetes-best-practices-in-production/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="生产环境中的Kubernetes最佳实践">生产环境中的Kubernetes最佳实践</span>
+            <span class="post-date" title="2021-04-21 00:00:00">2021/04/21</span>
+        </a>
+        
+        <a  class="全部文章 职业发展 "
+           href="/2021/04/19/jishuchengzhang/"
+           data-tag="职业发展"
+           data-author="" >
+            <span class="post-title" title="你的技术成长战略是什么">你的技术成长战略是什么</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        <a  class="全部文章 containerd "
+           href="/2021/04/12/nerdctl-to-containerd/"
+           data-tag="containerd"
+           data-author="" >
+            <span class="post-title" title="使用nerdctl玩转containerd">使用nerdctl玩转containerd</span>
+            <span class="post-date" title="2021-04-12 00:00:00">2021/04/12</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/09/Kubernetes-network/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes网络和云厂商实践浅析">Kubernetes网络和云厂商实践浅析</span>
+            <span class="post-date" title="2021-04-09 00:00:00">2021/04/09</span>
+        </a>
+        
+        <a  class="全部文章 Ingress "
+           href="/2021/04/08/Technical-selection-of-Kubernetes-Ingress-controller/"
+           data-tag="Ingress"
+           data-author="" >
+            <span class="post-title" title="Kubernetes Ingress 控制器的技术选型技巧">Kubernetes Ingress 控制器的技术选型技巧</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/04/08/Kubernetes-remen/"
+           data-tag="Kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes入门-进阶实战">Kubernetes入门-进阶实战</span>
+            <span class="post-date" title="2021-04-08 00:00:00">2021/04/08</span>
+        </a>
+        
+        <a  class="全部文章 Kubernetes "
+           href="/2021/03/24/Flannel-Calico/"
+           data-tag="flannel"
+           data-author="" >
+            <span class="post-title" title="Flannel-Calico怎么选择">Flannel-Calico怎么选择</span>
+            <span class="post-date" title="2021-03-24 00:00:00">2021/03/24</span>
+        </a>
+        
+        <a  class="全部文章 nginx "
+           href="/2021/03/15/nginx-knowledge-graph/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx核心知识100讲知识图谱">nginx核心知识100讲知识图谱</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <a  class="全部文章 优化 "
+           href="/2021/03/15/%E6%80%A7%E8%83%BD%E4%B9%8B%E5%B7%85-%E4%BC%98%E5%8C%96%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BA%8F/"
+           data-tag="性能"
+           data-author="" >
+            <span class="post-title" title="性能之癫-优化你的程序">性能之癫-优化你的程序</span>
+            <span class="post-date" title="2021-03-15 00:00:00">2021/03/15</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-用eBPF+XDP来替代LVS-2" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">用eBPF+XDP来替代LVS-2</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="eBPF+XDP">eBPF+XDP</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">eBPF+XDP</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2023-04-16 18:00:58'>2023-04-16 00:00</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83"><span class="toc-text">创建网络环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90"><span class="toc-text">原理解析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SLB-%E9%9B%86%E7%BE%A4%E8%B7%AF%E7%94%B1"><span class="toc-text">SLB 集群路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NAT%E6%A8%A1%E5%BC%8F"><span class="toc-text">NAT模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95"><span class="toc-text">负载均衡算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SLB-%E8%B7%AF%E7%94%B1%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-text">SLB 路由伪代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AESLB%E5%92%8C%E5%BA%94%E7%94%A8"><span class="toc-text">配置SLB和应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8B%E6%96%87%E9%A2%84%E5%91%8A"><span class="toc-text">下文预告</span></a>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 以下文章来源于九零后程序员 ，作者mageekchiu </p>
+<blockquote>
+<p>随着 eBPF 的发展，我们已经可以将 eBPF/XDP 程序直接部署在普通服务器上来实现负载均衡，从而节省掉用于专门部署 LVS 的机器。</p>
+<p><a href="https://link.juejin.cn/?target=https://mp.weixin.qq.com/s/XjDXyNPjEzMy5jfwfO2AnA" title="https://mp.weixin.qq.com/s/XjDXyNPjEzMy5jfwfO2AnA">前文</a> 分享了如何使用 xdp/ebpf 替换 lvs 来实现 slb，采用的是 slb 独立机器部署模式，并且采用 bpftool 和硬编码配置的形式来进行加载 xdp 程序，这是 <a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/tree/dev-0.1" title="https://github.com/MageekChiu/xdp4slb/tree/dev-0.1">版本 0.1</a>。</p>
+<p><a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/tree/dev-0.2" title="https://github.com/MageekChiu/xdp4slb/tree/dev-0.2">版本 0.2</a> 在 0.1 基础上，修改为基于 <a href="https://link.juejin.cn/?target=https://nakryiko.com/posts/bcc-to-libbpf-howto-guide/%23bpf-skeleton-and-bpf-app-lifecycle" title="https://nakryiko.com/posts/bcc-to-libbpf-howto-guide/#bpf-skeleton-and-bpf-app-lifecycle">bpf skeleton</a> 的程序化加载模式，要想简单地体验下这种工作流而不改动 版本0.1 中整体部署模式的，可以去看看 <a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/tree/dev-0.2" title="https://github.com/MageekChiu/xdp4slb/tree/dev-0.2">github.com/MageekChiu/…</a>。</p>
+<p><a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/tree/dev-0.3" title="https://github.com/MageekChiu/xdp4slb/tree/dev-0.3">版本 0.3</a> 在 0.2 基础上，支持以配置文件和命令行参数的形式动态加载 slb 配置</p>
+<p>本文属于 <a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/blob/dev-0.4/README-0.4.md" title="https://github.com/MageekChiu/xdp4slb/blob/dev-0.4/README-0.4.md">版本 0.4</a>，支持 slb 和 application 混布的模式，去除了专用的 slb 机器。<br>混布模式使得普通机器也能直接做负载均衡，同时不影响应用（off load 模式下可以体现），有成本效益；另外，在路由到本地的场景下，减少了路由跳数，整体性能更好。</p>
+<h2 id="创建网络环境"><a href="#创建网络环境" class="headerlink" title="创建网络环境"></a>创建网络环境</h2><pre><code># 不同发行版命令不一样
+systemctl start docker
+
+docker network create south --subnet 172.19.0.0/16 --gateway 172.19.0.1
+
+# check
+docker network inspect south
+# or
+ip link
+
+# 先用 ifconfig 获得刚创建的 network 应的 bridge
+# 后续则可以在宿主机上抓取这个 network 的所有 IP 包
+tcpdump -i br-3512959a6150 ip
+# 也可以获得某个容器的 veth ,抓取这个容器进出的所有包
+tcpdump -i vethf01d241  ip
+复制代码</code></pre>
+<h1 id="原理解析"><a href="#原理解析" class="headerlink" title="原理解析"></a>原理解析</h1><h2 id="SLB-集群路由"><a href="#SLB-集群路由" class="headerlink" title="SLB 集群路由"></a>SLB 集群路由</h2><p>slb 为了高可用，一般都会集群化部署，那么请求怎么路由到每一台 slb 上呢？一般由（动态）路由协议（ospf bgp）实现 ecmp，使得各个 slb 实例从 router/switch 那里均匀地获得流量。<br>由于配置动态路由协议非常繁杂，不在本文考虑范围之内，这里采用一个简单的脚本来模拟 ecmp。</p>
+<pre><code>#!/bin/bash
+
+dst=&quot;172.19.0.10&quot;
+rs1=&quot;172.19.0.2&quot;
+rs2=&quot;172.19.0.3&quot;
+ip route del $dst/32
+ip route add $dst/32 nexthop via $rs1 dev eth0 weight 1
+while true; do
+    nexthop=$(ip route show $dst/32 | awk &#39;&#123;print $3&#125;&#39;)
+    # nexthop=$(ip route show &quot;$dst&quot; | grep -oP &quot;nexthop \K\S+&quot;)
+    echo &quot;to $&#123;dst&#125; via $&#123;nexthop&#125; now!&quot;
+    sleep 3
+
+    # the requirements for blank is crazy!
+    if [ &quot;$nexthop&quot; = &quot;$rs1&quot; ]; then
+        new_nexthop=&quot;$rs2&quot;
+    else
+        new_nexthop=&quot;$rs1&quot;
+    fi
+    ip route del $dst/32
+    ip route add $dst/32 nexthop via $new_nexthop dev eth0 weight 1
+done
+复制代码</code></pre>
+<p>其实就是将到达 vip 的下一跳在几个 host（混布有 slb 和 app 的机器，以下简称 mix） 之间反复修改即可。</p>
+<h2 id="NAT模式"><a href="#NAT模式" class="headerlink" title="NAT模式"></a>NAT模式</h2><p>版本 0.1~0.3 都采用了 full nat 模式，在当前混布的模式下不再合适，可能会导致数据包无穷循环。因为不对数据包做一些标记的话，xdp 程序无法区分是来自 client 的数据包还是来自另一个 slb 的包。我们采用 DR 模式，除了能避免循环问题以外，性能也更好，因为</p>
+<ol>
+<li> 回包少了一跳</li>
+<li> 包的修改少了，也不用重新计算 ip、tcp 校验和等</li>
+</ol>
+<p>架构图如下，这里做了简化，client 和 mix 之间实际上是有 router/switch 的，但是我们采用上面的模拟脚本把 router/switch 路由功能也直接放 client 里面了。</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1747db8b0dbc441685c941ca95aac2e1~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.image"></p>
+<p>深蓝色表示请求，浅蓝色表示响应。<br>vip 采用了 ecmp，一次请求只会路由到一个 mix 上，mis 上的 slb 可能会把这个转发到本地 app（本文以 Nginx 为例） 或其它 mix，但是响应一定是从 mix 直接回去的，而不会再次经过其它 mix。</p>
+<h2 id="负载均衡算法"><a href="#负载均衡算法" class="headerlink" title="负载均衡算法"></a>负载均衡算法</h2><p>目前支持以下几种算法</p>
+<ul>
+<li>  random</li>
+<li>  round_roubin</li>
+<li>  hash</li>
+</ul>
+<p>本文不在 slb 集群中同步会话状态，所以只能选择 hash 算法，也就是不论请求路由到哪个 slb ，都会被转发到同一个 backend app。</p>
+<h2 id="SLB-路由伪代码"><a href="#SLB-路由伪代码" class="headerlink" title="SLB 路由伪代码"></a>SLB 路由伪代码</h2><pre><code>if (dest_ip = local_ip)&#123;
+    // 直接交给本机协议栈
+    return
+&#125;
+if (dest_ip = vip &amp;&amp; dest_port = vport)&#123;
+    使用负载均衡算法挑选一个 rs
+    若RS就是本机，则 直接交给本机协议栈 并 return
+
+    否则，将rs 的 mac 作为新包的 dst    
+    此外保存 client 和 rs 的双向映射关系
+    便于后续 路由直接 使用
+
+    将本机 mac 作为新包的 src
+
+    将新包扔出去重新路由
+&#125;else&#123;
+    报错，丢包
+&#125;
+复制代码</code></pre>
+<h1 id="配置SLB和应用"><a href="#配置SLB和应用" class="headerlink" title="配置SLB和应用"></a>配置SLB和应用</h1><p>Mix 的 Dockerfile 如下</p>
+<pre><code>FROM debian:bookworm
+RUN apt-get update -y &amp;&amp; apt-get upgrade -y \
+    &amp;&amp; apt install -y nginx procps bpftool iproute2 net-tools telnet kmod curl tcpdump
+
+WORKDIR /tmp/
+COPY src/slb /tmp/
+COPY slb.conf /tmp/
+复制代码</code></pre>
+<p>这里修改镜像是因为我的宿主机 fedora:37 的 libc 版本是 2.36，而 debian:bullseye 对应的版本是 2.31 ，不能直接运行宿主机编译的可执行文件。</p>
+<p>构建镜像并运行 app (这里是 nginx)</p>
+<pre><code>docker build -t mageek/mix:0.1 .
+
+# in case you want to run a brand new container
+docker rm mix1 mix2 -f
+
+docker run -itd --name mix1 --hostname mix1 --privileged=true \
+    --net south -p 8888:80 --ip 172.19.0.2 --mac-address=&quot;02:42:ac:13:00:02&quot; \
+    -v &quot;$(pwd)&quot;/rs1.html:/var/www/html/index.html:ro mageek/mix:0.1 nginx -g &quot;daemon off;&quot;
+
+docker run -itd --name mix2 --hostname mix2 --privileged=true \
+    --net south -p 9999:80 --ip 172.19.0.3 --mac-address=&quot;02:42:ac:13:00:03&quot; \
+    -v &quot;$(pwd)&quot;/rs2.html:/var/www/html/index.html:ro mageek/mix:0.1 nginx -g &quot;daemon off;&quot;
+
+# check on host
+docker ps
+curl 127.0.0.1:8888
+curl 127.0.0.1:9999
+复制代码</code></pre>
+<p>分别进入容器，配置 VIP，由于我们已经有模拟的路由协议了，所以在 mix 中配置好 vip 以后，要关闭 arp，避免影响 client 的包的路由</p>
+<pre><code>docker exec -it mix1 bash
+docker exec -it mix2 bash
+
+ifconfig lo:0 172.19.0.10/32 up
+echo &quot;1&quot;&gt;/proc/sys/net/ipv4/conf/all/arp_ignore
+echo &quot;1&quot;&gt;/proc/sys/net/ipv4/conf/lo/arp_ignore
+echo &quot;2&quot;&gt;/proc/sys/net/ipv4/conf/all/arp_announce
+echo &quot;2&quot;&gt;/proc/sys/net/ipv4/conf/lo/arp_announce
+复制代码</code></pre>
+<p>然后运行 slb</p>
+<pre><code># 启动 slb 并指定网卡和配置文件
+./slb -i eth0 -c ./slb.conf
+
+# in another terminal 
+bpftool prog list
+# bpftool prog show name xdp_lb  --pretty
+
+# check global variables
+# bpftool map list
+# bpftool map dump name slb_bpf.rodata
+
+# check attaching with 
+ip link
+复制代码</code></pre>
+<p>日志直接在宿主机（整机一份）上看即可，不要开好几个终端（会导致日志不完整）</p>
+<p><code>bpftool prog tracelog</code></p>
+<p>此外，测试阶段可以直接在宿主机编译完成可执行文件后，拷贝到容器里(当然，前提是你已经创建好了这些容器和相关的网络)</p>
+<pre><code>docker start mix1 mix2 client
+
+docker cp src/slb mix1:/tmp/ &amp;&amp; \
+docker cp slb.conf mix1:/tmp/ &amp;&amp; \
+docker cp src/slb mix2:/tmp/ &amp;&amp; \
+docker cp slb.conf mix2:/tmp/ &amp;&amp; \
+docker cp routing.sh client:/tmp/ 
+复制代码</code></pre>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>新起一个client容器</p>
+<pre><code>docker run -itd --name client --hostname client --privileged=true \
+    --net south -p 10000:80 --ip 172.19.0.9 --mac-address=&quot;02:42:ac:13:00:09&quot; \
+    -v &quot;$(pwd)&quot;/routing.sh:/tmp/routing.sh mageek/mix:0.1 nginx -g &quot;daemon off;&quot;
+复制代码</code></pre>
+<p>进入 client 配置并运行以下路由脚本脚本</p>
+<pre><code>docker exec -it client bash
+
+sh routing.sh
+复制代码</code></pre>
+<p>另开一个 client terminal 进行请求测试</p>
+<pre><code>docker exec -it client bash
+
+# visit rs first
+curl 172.19.0.2:80
+curl 172.19.0.3:80
+
+# visit slb 
+curl 172.19.0.10:80
+rs-1
+curl 172.19.0.10:80
+rs-2
+复制代码</code></pre>
+<p>我们可以在 client 里面压测一把，但是要注意压测时不要运行 routing.sh ，因为并发场景下存在 <strong>“老路由刚被删，新路由尚未建立的中间态”</strong> 的问题，导致请求失败。</p>
+<pre><code>apt-get install apache2-utils
+
+# 并发 50，总请求数 5000
+ab -c 50 -n 5000 http://172.19.0.10:80/
+复制代码</code></pre>
+<p>压测结果如下，可见都成功了</p>
+<pre><code>erver Software:        nginx/1.22.1
+Server Hostname:        172.19.0.10
+Server Port:            80
+
+Document Path:          /
+Document Length:        5 bytes
+
+Concurrency Level:      50
+Time taken for tests:   3.141 seconds
+Complete requests:      5000
+Failed requests:        0
+Total transferred:      1170000 bytes
+HTML transferred:       25000 bytes
+Requests per second:    1591.81 [#/sec] (mean)
+Time per request:       31.411 [ms] (mean)
+Time per request:       0.628 [ms] (mean, across all concurrent requests)
+Transfer rate:          363.75 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0   15   3.9     15      31
+Processing:     5   16   4.7     16      48
+Waiting:        0   11   4.4     10      34
+Total:         17   31   3.6     30      60
+
+Percentage of the requests served within a certain time (ms)
+  50%     30
+  66%     32
+  75%     32
+  80%     33
+  90%     35
+  95%     37
+  98%     40
+  99%     47
+ 100%     60 (longest request)
+复制代码</code></pre>
+<p>还可以增大并发数测试，并发最大理论值是我们存储 conntrack 条目的 back_map 数量最大值。超过这个并发数，会导致重新路由映射，可能导致 tcp reset。</p>
+<h1 id="下文预告"><a href="#下文预告" class="headerlink" title="下文预告"></a>下文预告</h1><p>要想打造一个完整的 slb，还有许多工作要做，比如利用内核能力进行 mac 自动寻址、许多边界检查等。这都是后面要做的工作，欢迎大家一起参与 <a href="https://link.juejin.cn/?target=https://github.com/MageekChiu/xdp4slb/" title="https://github.com/MageekChiu/xdp4slb/">github.com/MageekChiu/…</a>。</p>
+</blockquote>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。也可以邮件至 1209453173@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    Copyright©2016-至今   张天师
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 572px;
+    }
+    .nav.fullscreen {
+        margin-left: -572px;
+    }
+    .nav-left {
+        width: 150px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 542px;
+        }
+        .nav.fullscreen {
+            margin-left: -542px;
+        }
+        .nav-left {
+            width: 150px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 542px;
+            margin-left: -542px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
