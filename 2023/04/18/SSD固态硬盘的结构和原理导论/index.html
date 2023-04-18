@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>公有云降本增效最佳实践 | 张天师</title>
-  <meta name="keywords" content=" 公有云 ">
-  <meta name="description" content="公有云降本增效最佳实践 | 张天师">
+  <title>SSD固态硬盘的结构和原理导论 | 张天师</title>
+  <meta name="keywords" content=" SSD ">
+  <meta name="description" content="SSD固态硬盘的结构和原理导论 | 张天师">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="本博客hexo主题基于hexo-theme-3-hexo 修改而来 https:&#x2F;&#x2F;github.com&#x2F;yelog&#x2F;hexo-theme-3-hexo">
 <meta property="og:type" content="website">
@@ -1275,9 +1275,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-公有云降本增效最佳实践" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-SSD固态硬盘的结构和原理导论" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">公有云降本增效最佳实践</h1>
+        <h1 class="article-title">SSD固态硬盘的结构和原理导论</h1>
     
     <div class="article-meta">
         
@@ -1287,7 +1287,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="公有云">公有云</a>
+            <a  data-rel="SSD">SSD</a>
             
         </span>
         
@@ -1295,14 +1295,14 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color4">公有云</a>
+            <a class="color4">SSD</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2022-04-30 15:57:55'>2022-04-30 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-04-18 11:57:22'>2023-04-18 00:00</time>
         
     </div>
     <div class="article-meta">
@@ -1313,7 +1313,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93"><span class="toc-text">整体</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E9%80%89%E5%85%AC%E6%9C%89%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%80%8C%E9%9D%9E%E8%87%AA%E5%BB%BA"><span class="toc-text">首选公有云服务而非自建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9A%E5%A5%BD%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4"><span class="toc-text">做好安全防护</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%91%E7%9A%84%E4%BC%98%E5%8A%BF%E6%98%AF%E3%80%8C%E5%88%86%E5%B8%83%E5%BC%8F%E3%80%8D"><span class="toc-text">云的优势是「分布式」</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%91%E7%9A%84%E4%BC%98%E5%8A%BF%E6%98%AF%E3%80%8C%E5%BC%B9%E6%80%A7%E3%80%8D"><span class="toc-text">云的优势是「弹性」</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB"><span class="toc-text">动静分离</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8A%E4%BA%91%E5%89%8D%E5%81%9A%E5%A5%BD%E4%B8%9A%E5%8A%A1%E9%87%8F%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="toc-text">上云前做好业务量的评估</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E5%87%A0%E4%B8%AA%E5%85%AC%E6%9C%89%E4%BA%91%E4%BA%91%E4%BA%A7%E5%93%81"><span class="toc-text">推荐几个公有云云产品</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97"><span class="toc-text">计算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E4%BB%A5%E4%B8%AD%E4%BD%8E%E9%85%8D%E4%B8%BA%E4%B8%BB"><span class="toc-text">云服务器配置以中低配为主</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E6%9C%8D%E5%8A%A1"><span class="toc-text">推荐使用容器服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%89%E9%9C%80%E8%B4%AD%E4%B9%B0"><span class="toc-text">按需购买</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B9%E6%80%A7%E6%89%A9%E5%AE%B9"><span class="toc-text">弹性扩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Ansible-%E7%AD%89-DevOps-%E5%B7%A5%E5%85%B7"><span class="toc-text">使用 Ansible 等 DevOps 工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E9%95%9C%E5%83%8F%E6%8F%90%E5%8D%87%E4%BA%91%E7%AB%AF%E9%83%A8%E7%BD%B2%E6%95%88%E7%8E%87"><span class="toc-text">通过镜像提升云端部署效率</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C"><span class="toc-text">网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E5%A4%87%E6%A1%88%E8%A6%81%E5%85%88%E8%A1%8C"><span class="toc-text">域名备案要先行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E5%BF%85%E5%A4%87-CN-%E5%9F%9F%E5%90%8D"><span class="toc-text">推荐必备 .CN 域名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A5%E7%A6%81%E6%AF%8F%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%BD%E8%83%BD%E8%AE%BF%E9%97%AE%E5%85%AC%E7%BD%91"><span class="toc-text">严禁每台服务器都能访问公网</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81%E5%87%BA%E5%85%AC%E7%BD%91%EF%BC%8C%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8-NAT-%E7%BD%91%E5%85%B3%E8%80%8C%E9%9D%9E%E5%9C%A8%E6%9F%90%E5%8F%B0%E6%9C%BA%E5%99%A8%E7%BB%91%E5%AE%9A%E5%85%AC%E7%BD%91-IP"><span class="toc-text">如果需要出公网，建议使用 NAT 网关而非在某台机器绑定公网 IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E4%BD%8E%E6%88%90%E6%9C%AC%E9%AB%98%E8%B4%9F%E8%BD%BD%E7%9A%84%E6%8C%89%E9%87%8F%E5%B8%A6%E5%AE%BD"><span class="toc-text">利用低成本高负载的按量带宽</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E4%BA%91%E4%B8%8A%E8%BD%AF%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">推荐使用云上软负载均衡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E5%B9%B6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-4-%E5%B1%82%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">高并发情况下，推荐使用 4 层负载均衡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNS-%E8%AE%B0%E5%BD%95%E8%B0%83%E6%95%B4%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="toc-text">DNS 记录调整要注意</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%A7%E5%9E%8B%E4%BC%81%E4%B8%9A-DNS-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%AE%9E%E8%B7%B5"><span class="toc-text">大型企业 - DNS 负载均衡实践</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%90%E8%90%A5%E5%95%86%E7%BA%BF%E8%B7%AF%E8%A7%A3%E6%9E%90"><span class="toc-text">运营商线路解析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%B0%E5%9F%9F%E7%BA%BF%E8%B7%AF%E8%A7%A3%E6%9E%90"><span class="toc-text">地域线路解析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CDN-%E5%B0%B1%E6%98%AF%E6%99%BA%E8%83%BD%E8%A7%A3%E6%9E%90%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">CDN 就是智能解析的最佳实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8"><span class="toc-text">存储</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%91%E4%B8%8A%E5%96%84%E7%94%A8%E3%80%8C%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%E3%80%8D"><span class="toc-text">云上善用「对象存储服务」</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E7%94%A8%E6%B3%95%EF%BC%9ANGINX-%E5%81%9A%E5%85%AC%E7%BD%91%E8%BD%AC%E5%8F%91%E5%88%B0%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8"><span class="toc-text">错误用法：NGINX 做公网转发到对象存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8E%A8%E8%8D%90%E4%BA%91%E6%9C%8D%E5%8A%A1-%E4%B8%94%E5%BF%85%E9%A1%BB%E6%9C%89%E9%AB%98%E5%8F%AF%E7%94%A8%E4%BF%9D%E9%9A%9C"><span class="toc-text">数据库推荐云服务 且必须有高可用保障</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8E%E5%8F%AF%E9%9D%A0%E6%80%A7%E8%A6%81%E6%B1%82%E7%89%B9%E5%88%AB%E9%AB%98%E7%9A%84-DB%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9%E8%B7%A8-AZ-%E9%AB%98%E5%8F%AF%E7%94%A8%E7%9A%84%E9%9B%86%E7%BE%A4%E6%96%B9%E6%A1%88"><span class="toc-text">对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%89%E9%9C%80%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">按需选择合适的数据库</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CDN"><span class="toc-text">CDN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9ACDN-%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8"><span class="toc-text">典型使用场景：CDN + 对象存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8"><span class="toc-text">安全</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%85%E9%A1%BB%E8%AE%BE%E7%BD%AE%E5%BC%BA%E5%AF%86%E7%A0%81"><span class="toc-text">必须设置强密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AE%BF%E9%97%AE%E5%BF%85%E9%A1%BB-HTTPS"><span class="toc-text">客户端访问必须 HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E5%AE%9A%E8%A6%81%E9%85%8D%E7%BD%AE%E5%AE%89%E5%85%A8%E7%BB%84%E5%92%8C-ACL"><span class="toc-text">一定要配置安全组和 ACL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E8%A6%81-root-%E7%9B%B4%E8%BF%9E"><span class="toc-text">不要 root 直连</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E8%AE%AE%E6%9A%B4%E9%9C%B2%E5%85%AC%E7%BD%91%E7%9A%84-SSH-%E7%AB%AF%E5%8F%A3%E4%B8%8D%E8%A6%81%E7%94%A8-22"><span class="toc-text">建议暴露公网的 SSH 端口不要用 22</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%8D%E8%B4%B9%E5%AE%89%E5%85%A8%E4%BA%A7%E5%93%81%E5%88%AB%E5%BF%98%E9%A2%86"><span class="toc-text">免费安全产品别忘领</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFSSD"><span class="toc-text">1 什么是SSD</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-SSD%E7%9A%84%E5%AD%98%E5%82%A8%E4%BB%8B%E8%B4%A8%E5%88%86%E7%B1%BB"><span class="toc-text">2 SSD的存储介质分类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-SSD%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">3 SSD的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E4%B8%BB%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-text">3.1 主控制器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E5%AD%98%E5%82%A8%E5%8D%95%E5%85%83"><span class="toc-text">3.2 存储单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E9%97%AA%E5%AD%98%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">3.3 闪存的分类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Host%E8%AE%BF%E9%97%AESSD%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">4 Host访问SSD的原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-SSD%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%92%8C%E6%8A%80%E6%9C%AF"><span class="toc-text">5 SSD相关概念和技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E5%A4%9APlane%E6%93%8D%E4%BD%9C"><span class="toc-text">5.1 多Plane操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E5%A4%9ADie%E4%BA%A4%E9%94%99%E6%93%8D%E4%BD%9C"><span class="toc-text">5.2 多Die交错操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-FTL"><span class="toc-text">5.3 FTL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-%E7%A3%A8%E6%8D%9F%E5%B9%B3%E8%A1%A1-Wear-leveling"><span class="toc-text">5.4 磨损平衡(Wear leveling)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6-Garbagecollection"><span class="toc-text">5.5 垃圾回收(Garbagecollection)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-6-Trim"><span class="toc-text">5.6 Trim</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-7-%E9%A2%84%E7%95%99%E7%A9%BA%E9%97%B4-Over-provisioning"><span class="toc-text">5.7 预留空间(Over-provisioning)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-8-%E5%86%99%E5%85%A5%E6%94%BE%E5%A4%A7-Write-amplification"><span class="toc-text">5.8 写入放大(Write amplification)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-9-ECC"><span class="toc-text">5.9 ECC</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1329,311 +1329,133 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/59535/">https://ewhisper.cn/posts/59535/</a></p>
-<blockquote>
-<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="整体"><a href="#整体" class="headerlink" title="整体"></a>整体</h3><h4 id="首选公有云服务而非自建"><a href="#首选公有云服务而非自建" class="headerlink" title="首选公有云服务而非自建"></a>首选公有云服务而非自建</h4><p>公有云除了提供 IaaS（计算、存储、网络等）外，也会提供 PaaS（微服务、中间件、数据库、大数据、开发套件等）和 SaaS 服务。</p>
-<p>在公有云提供的服务（如 MySQL 数据库）可以满足需求的前提下，建议首选公有云上的 MySQL 数据库服务，而非自建。</p>
-<p>理由简单说明如下：</p>
-<p>对比项</p>
-<p>成本</p>
-<p>性能</p>
-<p>伸缩性</p>
-<p>维护方</p>
-<p>可靠性</p>
-<p>监控</p>
-<p>易用性</p>
-<p>自建</p>
-<p>高</p>
-<p>低</p>
-<p>弱</p>
-<p>我方</p>
-<p>低</p>
-<p>无</p>
-<p>难</p>
-<p>云上服务</p>
-<p>中</p>
-<p>高</p>
-<p>高</p>
-<p>云提供商</p>
-<p>高</p>
-<p>有</p>
-<p>易用</p>
-<ul>
-<li><strong>成本</strong>：<ul>
-<li>  自建，需要人员维护和优化的成本，需要自行考虑高可靠（可能需要购买多台服务器）和高性能（可能需要购买高性能存储），使得成本偏高。</li>
-<li>  云上服务，通过规模效应、资源池化、参数调优等实现成本相对不高。</li>
-</ul>
-</li>
-<li><strong>性能</strong>：<ul>
-<li>  自建，不一定知道所有的参数优化项，也不一定同价位能买到专用的高性能硬件。</li>
-<li>  云上服务，性能明码标价，按需选择适合自己的性能配置。</li>
-</ul>
-</li>
-<li><strong>伸缩性</strong><ul>
-<li>  自建，伸缩较麻烦，要不手动，要不通过 历经检验的 DevOps 脚本，伸缩性弱。</li>
-<li>  云上服务，很多 PaaS 类服务可以一键升配。</li>
-</ul>
-</li>
-<li><strong>维护方</strong><ul>
-<li>  自建，我方自行兜底</li>
-<li>  云上服务，云提供商提供 SLA 兜底。</li>
-</ul>
-</li>
-<li><strong>可靠性</strong><ul>
-<li>  自建，不一定能实现该组件的集群模式或高可用模式的全部最佳实践。</li>
-<li>  云上服务，会做好网络高可用（甚至是跨 AZ 的高可用）、存储多副本、计算跨物理服务器 / 机架 /AZ 甚至 region、服务监控及自愈、备份等多种措施保障可靠性。</li>
-</ul>
-</li>
-<li><strong>监控</strong>：<ul>
-<li>  自建，要不没监控，要不监控需要从头（采集端）到尾（告警通知）实现一遍</li>
-<li>  云上服务，监控具备，且和公有云监控无缝对接。</li>
-</ul>
-</li>
-<li><strong>易用性</strong>：<ul>
-<li>  自建：一般没有 Web 界面，需要通过线下或流程平台或 CLI 来申请和操作</li>
-<li>  云上服务：有易用的 web 界面，可以在 web 界面上完成大部分功能。</li>
-</ul>
-</li>
-</ul>
-<p>比如云数据库：</p>
-<ul>
-<li>运维架构：<ul>
-<li>  存储的数据规模及后期扩展，采用的高可用架构；</li>
-<li>  异常切换</li>
-</ul>
-</li>
-<li>硬件及基础环境部署<ul>
-<li>  选择什么配置的服务器，服务器型号及对应磁盘阵列；</li>
-<li>  操作系统环境及内核设置；</li>
-</ul>
-</li>
-<li>数据库安装及优化<ul>
-<li>  数据库版本安装部署及配置；</li>
-<li>  数据库配置参数调优；</li>
-</ul>
-</li>
-<li>SQL 语句优化；<ul>
-<li>  慢查询，对 SQL 语句及索引做优化</li>
-</ul>
-</li>
-<li>数据库日常备份及恢复。<ul>
-<li>  备份；</li>
-<li>  热备还是冷备？物理备份还是逻辑备份？</li>
-<li>  备份策略、周期、频率</li>
-</ul>
-</li>
-</ul>
-<p>使用云数据库，这些步骤云数据库都帮你做了。其他 PaaS（中间件、大数据、微服务、DevOps 等）也类似。</p>
-<h4 id="做好安全防护"><a href="#做好安全防护" class="headerlink" title="做好安全防护"></a>做好安全防护</h4><p>公有云最大的风险就是数据泄露。所以一定要做好安全防护。这个安全防护是多方面的。详细见 <a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/59535/#%E5%AE%89%E5%85%A8">安全</a> 部分。</p>
-<h4 id="云的优势是「分布式」"><a href="#云的优势是「分布式」" class="headerlink" title="云的优势是「分布式」"></a>云的优势是「分布式」</h4><p>如果对比单台服务器，可能云主机的性能差一些。「分布式」是云计算的最大优势。在实践中，不要只追求单台机器的性能，而是要通过分布式的设计思想来保障业务的高性能。最佳实践推荐，服务器标配 4C8G，低配也可以采用 2C4G 的配置。通过分布式充分压榨了单台服务器的资源，从而最大限度地保障了最终的低成本。<br>所以，在云上，一般情况下应用服务器的选择条件是：更多的低配的云服务胜于更少的高配的云服务器。<br>所以，在云上，对于数据库来说，如果数据量非常大，也推荐使用「分布式数据库」，而非在云上自建 Oracle。</p>
-<h4 id="云的优势是「弹性」"><a href="#云的优势是「弹性」" class="headerlink" title="云的优势是「弹性」"></a>云的优势是「弹性」</h4><p>所以，在云上，不要按照业务峰值购买全量的资源，而是推荐：</p>
-<ul>
-<li>  买满足日常需求的资源</li>
-<li>  高峰时，再提前购买一些弹性的资源，弹性扩容。</li>
-</ul>
-<p>另外，不仅仅是服务器资源，对于网络也适用，如果您的系统经常搞活动，网络负载差距很大，那么推荐：「大带宽按量付费」而不是「固定带宽固定计费」。</p>
-<h4 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h4><p>静态：放 CDN + 对象存储上，或者放 NGINX 服务器上也好，不要直接用应用服务器（如 tomcat 或 nodejs）来处理静态资源。（浪费，术业有专攻）<br>动态：典型架构是 LB - NGINX - 应用服务器 - redis - 数据库。</p>
-<h4 id="上云前做好业务量的评估"><a href="#上云前做好业务量的评估" class="headerlink" title="上云前做好业务量的评估"></a>上云前做好业务量的评估</h4><p>上云前做好业务量的评估，为云上的资源规划做好资源预算。<br>可以通过：</p>
-<ul>
-<li>  压测</li>
-<li>  已有监控数据分析</li>
-</ul>
-<p>等方式评估业务量。</p>
-<p>常用的业务量指标如下：</p>
-<p>指标</p>
-<p>计算周期</p>
-<p>指标含义</p>
-<p>PV</p>
-<p>天</p>
-<p>Page View。指 B/S 架构中的 Web 类业务一天内页面的访问次数，每打开或刷新一次页面，算一个 PV。</p>
-<p>UV</p>
-<p>天</p>
-<p>UV 是 Unique Visitor 的简写。指 B/S 架构中 Web 类业务一天内访问站点的用户数（以 cookie 为依据）</p>
-<p>IP</p>
-<p>天</p>
-<p>B/S 架构中 Web 类业务一天内有多少个独立的 IP 浏览了页面，即统计不同的 IP 浏览用户数量。</p>
-<p>用户数</p>
-<p>–</p>
-<p>业务系统的注册用户数</p>
-<p>活跃用户数</p>
-<p>天</p>
-<p>注册用户数中，一天中实际使用了业务系统的用户数量，跟 UV 的概念一样</p>
-<p>在线用户数</p>
-<p>天</p>
-<p>一天的活跃用户数中，用户同时在一定的时间段内在线的数量</p>
-<p>并发用户数</p>
-<p>–</p>
-<p>指在线用户数基础上，某一时刻同时指向服务器发送请求的用户数</p>
-<p>具体的性能监控指标如何和业务指标进行转换就先略过了。</p>
-<h4 id="推荐几个公有云云产品"><a href="#推荐几个公有云云产品" class="headerlink" title="推荐几个公有云云产品"></a>推荐几个公有云云产品</h4><p>这些公有云产品是基本上都会用到的，历经检验，且比较实用的产品。</p>
-<ol>
-<li> 云服务器</li>
-<li> 关系型数据库</li>
-<li> 负载均衡</li>
-<li> 对象存储</li>
-<li> VPC（Virtual Private Cloud）：专有网络</li>
-<li> CDN</li>
-<li> Redis</li>
-<li> 安全类的基本产品（如：安全组、ACL、漏扫、WAF、DDoS 防护等）</li>
-</ol>
-<h3 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h3><h4 id="云服务器配置以中低配为主"><a href="#云服务器配置以中低配为主" class="headerlink" title="云服务器配置以中低配为主"></a>云服务器配置以中低配为主</h4><p>云服务器一般用于承载应用，推荐以更多台数的中低配为主，避免资源的浪费。<br>建议一般配置不要超过：16C32G，主流配置为：</p>
-<ul>
-<li>  4C8G 甚至更低</li>
-<li>  8C16G</li>
-</ul>
-<h4 id="推荐使用容器服务"><a href="#推荐使用容器服务" class="headerlink" title="推荐使用容器服务"></a>推荐使用容器服务</h4><p>容器服务有诸多优势，推荐无状态应用使用容器服务。</p>
-<ul>
-<li>  资源粒度更细，细粒度到: 0.1C, 内存 MB。</li>
-<li>  自动扩缩容更方便</li>
-<li>  扩容后 pod 自动加入负载均衡</li>
-<li>  …</li>
-</ul>
-<h4 id="按需购买"><a href="#按需购买" class="headerlink" title="按需购买"></a>按需购买</h4><p>在云上，不要按照业务峰值购买全量的资源，而是推荐：买满足日常需求的资源</p>
-<h4 id="弹性扩容"><a href="#弹性扩容" class="headerlink" title="弹性扩容"></a>弹性扩容</h4><p>在云上，如果需要搞活动，再通过「容器」或「API + 镜像 + 快照」批量购买、弹性扩容。</p>
-<p>比如在某手机的秒杀活动中，会瞬间开启 200 台机器且持续 2H 来应对，IT 资源花费 600 元人民币：</p>
-<ol>
-<li> 搭建好环境，制作好镜像；</li>
-<li> 活动前通过 API 秒开 200 台服务器来应对活动；</li>
-<li> 活动结束后，通过 API 瞬间释放资源</li>
-</ol>
-<p>这在传统架构中，根本不可想象。比如传统架构，搞「双十一」，都要提前一个月准备 IT 资源。</p>
-<p>另外上面的场景也可以利用 「弹性伸缩服务」或「容器 HPA」来动态调整。</p>
-<h4 id="使用-Ansible-等-DevOps-工具"><a href="#使用-Ansible-等-DevOps-工具" class="headerlink" title="使用 Ansible 等 DevOps 工具"></a>使用 Ansible 等 DevOps 工具</h4><p>既然云的优势是「分布式」，资源多，那么 Ansible 这种批量的 DevOps 工具是必不可少的，可以大幅度提升效率。<br>具体应用，可以通过 Ansible，定制对应的 Playbook，自动化批量安装和运维。</p>
-<h4 id="通过镜像提升云端部署效率"><a href="#通过镜像提升云端部署效率" class="headerlink" title="通过镜像提升云端部署效率"></a>通过镜像提升云端部署效率</h4><p>先开通一台云服务器，并对这台云服务器做运维规范方面的系统调优、安全加固等措施。然后把这台云服务器做成一个基础镜像，批量开通 其他同样环境的服务器，可以大大提升部署效率。</p>
-<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><h4 id="域名备案要先行"><a href="#域名备案要先行" class="headerlink" title="域名备案要先行"></a>域名备案要先行</h4><p>上云的最后一步，是要将域名的 IP 解析到 负载均衡 公网 IP 上。但需要提前在共有云上对域名进行备案，如果到最后域名解析到公有云上后才发现域名被拉黑，业务访问被拒绝，这将会变得非常麻烦。因此需要提前通过公有云进行域名备案，或者已经在其他供应商进行备案，那么需要将域名备案转接入公有云。</p>
-<h4 id="推荐必备-CN-域名"><a href="#推荐必备-CN-域名" class="headerlink" title="推荐必备 .CN 域名"></a>推荐必备 .CN 域名</h4><p>近期国际形势愈演愈烈，中美摩擦进一步升级，形势紧张。要做最坏的打算：美国可能会断掉您的 .COM 域名的解析。<br>另外国家最近有指引，不要使用外国管控的根域名作为基础设施的一级域名。<br>.cn 是国家根域，.com.cn、[net.cn]、[org.cn] 等这些都是可以的。</p>
-<h4 id="严禁每台服务器都能访问公网"><a href="#严禁每台服务器都能访问公网" class="headerlink" title="严禁每台服务器都能访问公网"></a>严禁每台服务器都能访问公网</h4><p>出于安全（受攻击面太大）和成本（公网 IP 都是钱）的考虑。<br>而且没必要，如果是业务访问，入向通过负载均衡进来，出向通过 NAT 网关出去。<br>如果是运维，推荐通过 VPN + 跳板机（中小企业）或专线 + 堡垒机（大企业）来实现运维管理。</p>
-<h4 id="如果需要出公网，建议使用-NAT-网关而非在某台机器绑定公网-IP"><a href="#如果需要出公网，建议使用-NAT-网关而非在某台机器绑定公网-IP" class="headerlink" title="如果需要出公网，建议使用 NAT 网关而非在某台机器绑定公网 IP"></a>如果需要出公网，建议使用 NAT 网关而非在某台机器绑定公网 IP</h4><p>原因：可靠性更高，更安全。</p>
-<h4 id="利用低成本高负载的按量带宽"><a href="#利用低成本高负载的按量带宽" class="headerlink" title="利用低成本高负载的按量带宽"></a>利用低成本高负载的按量带宽</h4><p>对于中小规模企业，如果您的系统经常搞活动，网络负载差距很大，那么推荐：「大带宽按量付费」而不是「固定带宽固定计费」，比如：「1Gbps 峰值带宽按量计费」对比「100Mbps 固定带宽」：</p>
-<ul>
-<li>  费用可能更低</li>
-<li>  带宽更大，活动期间可能会超过 100Mbps，那这时候固定带宽就会影响用户体验，而 1Gbps 峰值带宽是完全可以支撑的住的。</li>
-</ul>
-<p>以某客户上云前后为例，在 IDC 机房，200Mbps 的独享电信带宽，一年的成本大概是 1Mbps/100 元 / 月 x 12 个月 x 200 = 24 万。而在云端，采用 1Gbps 峰值的 BGP 多线 SLB 带宽，在带宽质量上面提升了几个量级。另外，带宽费用采用按量付费，大大降低了维护成本。</p>
-<h4 id="推荐使用云上软负载均衡"><a href="#推荐使用云上软负载均衡" class="headerlink" title="推荐使用云上软负载均衡"></a>推荐使用云上软负载均衡</h4><p>推荐使用公有云提供的负载均衡，可以作为反向代理，防止客户端直连云服务器带来的安全和稳定性风险。</p>
-<p>加入 负载均衡 可以保障架构灵活扩展性：加入 负载均衡 后，架构变得更加灵活。典型场景是将所有域名先绑定到 负载均衡 上，然后转到后端 Nginx，通过 Nginx 做虚拟主机等七层更灵活的控制。</p>
-<h4 id="高并发情况下，推荐使用-4-层负载均衡"><a href="#高并发情况下，推荐使用-4-层负载均衡" class="headerlink" title="高并发情况下，推荐使用 4 层负载均衡"></a>高并发情况下，推荐使用 4 层负载均衡</h4><p>采用 4 层 负载均衡 保障性能：在实践中，面对高并发性能的场景时，发现 7 层的负载均衡，相比 4 层的负载均衡，在性能上面有很大差距。7 层负载均衡只能达到万级别并发，而 4 层的负载均衡能达到几十万级，甚至上百万级的并发量。所以在电商等网站应用中，对于 负载均衡，优先选择 TCP 层。四层 LB 能扛得住 10w-50w 的并发。</p>
-<h4 id="DNS-记录调整要注意"><a href="#DNS-记录调整要注意" class="headerlink" title="DNS 记录调整要注意"></a>DNS 记录调整要注意</h4><p>用户的 DNS TTL 我们是无法控制的，如果调整了某域名的 DNS 记录，可能某些用户已生效，某些用户没有生效。<br>针对这种情况，需要在原有 IP 上做 302 重定向跳转，将依旧访问原 IP 的客户引流到新 IP 上，这将大大提高用户的访问体验。</p>
-<h4 id="大型企业-DNS-负载均衡实践"><a href="#大型企业-DNS-负载均衡实践" class="headerlink" title="大型企业 - DNS 负载均衡实践"></a>大型企业 - DNS 负载均衡实践</h4><p>大规模应用。当后端有一两百台云服务器，而一台负载均衡 性能有限时，可以采用多个 负载均衡，前边通过 DNS 负载均衡。典型如：淘宝、阿里云官网。</p>
-<p>DNS 有个最大的问题，就是 本地 DNS 缓存。</p>
-<ol>
-<li> 可以让 DNS TTL 生效快一点；</li>
-<li> DNS 配置的是负载均衡 IP，而不是云服务器的 IP。</li>
-<li> 如果还是有部分用户出问题，指导用户清理 DNS 缓存，或强制绑定本机 host 指向域名解析。</li>
-</ol>
-<p>智能解析 – 跨地域分布式架构中必不可少。根据 ClientIP，选择返回对应地域、运营商的 IP。</p>
-<h5 id="运营商线路解析"><a href="#运营商线路解析" class="headerlink" title="运营商线路解析"></a>运营商线路解析</h5><p>如：DNS 记录：</p>
-<ul>
-<li>  默认线路：电信服务器 IP</li>
-<li>  网通：网通 IP</li>
-<li>  移动：移动 IP</li>
-<li>  教育网：教育网 IP</li>
-<li>  海外：海外 IP</li>
-</ul>
-<p>如果有 BGP 线路，那就更简单了：</p>
-<ul>
-<li>  默认线路：负载均衡的公网 IP</li>
-</ul>
-<h5 id="地域线路解析"><a href="#地域线路解析" class="headerlink" title="地域线路解析"></a>地域线路解析</h5><p>如：用户请求访问域名，DNS 自动判断访问者 IP 是「上海联通」还是「北京联通」，然后智能返回设置的对应的「上海联通」和「北京联通」的服务器 IP 地址完成域名解析。</p>
-<p>海外：可以选择「海外、海外大洲、海外（国家 / 地区）」来细分解析。</p>
-<p>如:</p>
-<ul>
-<li>  海外 - 亚洲地区 - 新加坡线路：指向新加坡服务器的 IP</li>
-<li>  海外 - 北美洲 - 美国线路：指向美国服务器的 IP</li>
-<li>  海外 - 欧洲 - 德国线路：指向德国服务器的 IP</li>
-<li>  默认线路：指向新加坡服务器的 IP</li>
-</ul>
-<h4 id="CDN-就是智能解析的最佳实践"><a href="#CDN-就是智能解析的最佳实践" class="headerlink" title="CDN 就是智能解析的最佳实践"></a>CDN 就是智能解析的最佳实践</h4><h3 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h3><h4 id="云上善用「对象存储服务」"><a href="#云上善用「对象存储服务」" class="headerlink" title="云上善用「对象存储服务」"></a>云上善用「对象存储服务」</h4><p>云上建议尽量不要使用类 NAS 的共享文件存储服务，而应该使用 <strong>对象存储服务</strong> 来替代。<br>在传统环境，NAS 的典型使用场景如下：</p>
-<ul>
-<li><p><strong>负载均衡</strong>：使用 LB + 多台 云服务器（如：Web 服务器）部署的业务。多台 云服务器 需要访问同一个存储空间，以便多台 云服务器 共享数据。</p>
-<ul>
-<li>  <strong>替代方案</strong>：直接使用普通云数据盘，通过 DevOps 等工具实现批量部署及数据一致。</li>
-</ul>
-</li>
-<li><p><strong>代码共享</strong>：多台 云服务器 应用，部署的代码一致。将代码放在同一个存储空间，提供给多台 云服务器 同时访问。代码集中管理。</p>
-<ul>
-<li>  <strong>替代方案</strong>：代码放在代码仓库中集中管理。</li>
-</ul>
-</li>
-<li><p><strong>日志共享</strong>：多台 云服务器 应用，需要将日志写入到同一个存储空间，以便做集中的日志数据处理和分析</p>
-<ul>
-<li>  <strong>替代方案</strong>：日志定期存储到对象存储中，可以根据策略、冷热数据的实际情况选择分别存储到「标准对象存储」、「低频对象存储」和「归档存储」中进一步压缩成本；或直接使用云上的「日志服务」。</li>
-</ul>
-</li>
-<li><p><strong>企业办公文件共享场景</strong>：企业有公共的文件需要共享给多组业务使用，需要集中的共享存储来存放数据。</p>
-<ul>
-<li>  <strong>替代方案</strong>：使用对象存储来替代。</li>
-</ul>
-</li>
-<li><p><strong>容器服务的场景</strong>：部署的容器服务需要共享访问某个文件数据源，特别是在资源编排的容器服务。对应的容器可能会在不同的服务器中进行服务漂移，所以文件共享访问尤为重要。</p>
-<ul>
-<li>  <strong>替代方案</strong>：这种场景确实需要用到云上文件系统服务。</li>
-</ul>
-</li>
-<li><p><strong>备份的场景</strong>：用户希望将数据备份到云上，可以通过挂载文件系统来存储数据备份。</p>
-<ul>
-<li>  <strong>替代方案</strong>：备份到对象存储的「归档存储」中，进一步降低成本。</li>
-</ul>
-</li>
-</ul>
-<h4 id="错误用法：NGINX-做公网转发到对象存储"><a href="#错误用法：NGINX-做公网转发到对象存储" class="headerlink" title="错误用法：NGINX 做公网转发到对象存储"></a>错误用法：NGINX 做公网转发到对象存储</h4><p>在某个客户场景中，静态资源放到 对象存储 中，前端对静态资源的请求通过 Nginx 反向代理转发给 对象存储。但这种做法，在云端架构上是不推荐的，因为它会带来几个问题：</p>
-<ul>
-<li>  访问静态资源的流量走 云服务器 的带宽流量，特别是中大型的 Web 应用中。流量走 云服务器 的带宽，很可能出现性能瓶颈。</li>
-<li>  Nginx 是通过公网将请求反向代理转发给 对象存储 的，所以在网络传输上会影响速度性能。</li>
-<li>  通过 Nginx 反向代理，不仅增加运维成本，还要维护 Nginx 配置文件等。</li>
-</ul>
-<p>所以，添加 Nginx 做反向代理是多此一举。云端不推荐这么做。该客户这么用，主要原因是业务代码侧，静态资源的请求，都是通过目录划分。如果将静态资源单独放在二级域名，跨域等问题代码侧没很好地解决，从而产生这种不伦不类的架构。最终在业务代码侧进行了优化调整，对 对象存储 静态资源的使用规范如下：</p>
-<ul>
-<li>  业务侧使用单独的二级域名来管理静态资源（如：&lt;<a target="_blank" rel="noopener" href="http://pic-cdn.ewhisper.cn/">pic-cdn.ewhisper.cn</a>&gt;)，静态资源统一放在 对象存储 中；</li>
-<li>  静态资源的二级域名直接将 CNAME 绑定在 对象存储 的 URL 地址上（访问量很少的情况下），这样就直接跳过「使用 Nginx 做反向代理」这个冗余的步骤了</li>
-<li>如果想要进一步提升 对象存储 中存放的静态资源的访问速度，可以无缝接入 CDN。 CDN 的回源请求，会直接通过内网回源请求 对象存储 中的源数据。相比 Nginx 反向代理走公网请求 对象存储，速度和效率会提升得更高，价格特定情况下也会更划算。<ul>
-<li>  👉 <a target="_blank" rel="noopener" href="https://ewhisper.cn/posts/59535/#%E5%85%B8%E5%9E%8B%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9ACDN-%20%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8">典型使用场景：CDN 对象存储</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><h4 id="数据库推荐云服务-且必须有高可用保障"><a href="#数据库推荐云服务-且必须有高可用保障" class="headerlink" title="数据库推荐云服务 且必须有高可用保障"></a>数据库推荐云服务 且必须有高可用保障</h4><p>数据库不推荐自建，推荐直接使用云提供商的相关数据库服务，且推荐必备高可用保障，如集群模式或多副本，以及数据备份。<br>数据库优先采用云提供商的相关数据库服务 ，低成本高效率：如果在云上购买云服务器自建 MySQL 主从部署并维护的模式，使得后期的维护管理成本很大。即我们要监控及维护主从状态，并且在出现问题时需要及时处理，保障业务对数据库读写的连续性。在采用云提供商的相关数据库服务 后，这些问题都可以自动化解决。即对数据库主从的监控、备份、后期维护、故障切换等，都是全自动。</p>
-<h4 id="对于可靠性要求特别高的-DB，可以选择跨-AZ-高可用的集群方案"><a href="#对于可靠性要求特别高的-DB，可以选择跨-AZ-高可用的集群方案" class="headerlink" title="对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案"></a>对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案</h4><p>对于可靠性要求特别高的 DB，可以选择跨 AZ 高可用的集群方案。比如：Redis、MongoDB、MySQL 都有类似的跨 AZ 高可用的集群方案提供。</p>
-<h4 id="按需选择合适的数据库"><a href="#按需选择合适的数据库" class="headerlink" title="按需选择合适的数据库"></a>按需选择合适的数据库</h4><p>数据库多种多样，根据自己的实际需求进行选择，以下列出部分：</p>
-<ul>
-<li>关系型数据库<ul>
-<li>  MySQL</li>
-<li>  SQL Server</li>
-<li>  Postgresql</li>
-<li>  MariaDB</li>
-<li>  分布式数据库（如 OceanBase 或 TDSQL 等）</li>
-</ul>
-</li>
-<li>非关系型：内存数据库<ul>
-<li>  Redis</li>
-<li>  Memcache</li>
-</ul>
-</li>
-<li>  文档数据库：MongoDB</li>
-<li>列数据库<ul>
-<li>  HBase 等</li>
-</ul>
-</li>
-<li>时序数据库<ul>
-<li>  InfluxDB</li>
-<li>  TSDB</li>
-</ul>
-</li>
-</ul>
-<h3 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h3><h4 id="典型使用场景：CDN-对象存储"><a href="#典型使用场景：CDN-对象存储" class="headerlink" title="典型使用场景：CDN + 对象存储"></a>典型使用场景：CDN + 对象存储</h4><ul>
-<li>  <strong>数据分发</strong>：适用于搭建下载行为较多的 APP、音视频平台、网站等，用户可结合 CDN + 对象存储 的能力，将静态内容（包括音视频、图片等文件）托管在对象存储中，并将热点文件提前下发至 CDN 边缘节点，降低下载访问延迟</li>
-<li>  <strong>网站托管</strong>：适用于官方网站等偏静态的站点，将网站的静态资源快速托管存储在对象存储中，同时通过 CDN + 对象存储 分发，通过 CDN 配置的域名作为静态网站访客的访问地址入口，快速建好一个网站</li>
-</ul>
-<h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><h4 id="必须设置强密码"><a href="#必须设置强密码" class="headerlink" title="必须设置强密码"></a>必须设置强密码</h4><p>典型如：MongoDB、Redis、ES，默认无密码或弱密码，已经发生过多轮、大规模的数据泄露事件，所以针对这些服务，一定要设置强密码。<br>至于云服务器、云账户、关系型数据库等，更是要保障强密码或者更强力的安全措施。</p>
-<h4 id="客户端访问必须-HTTPS"><a href="#客户端访问必须-HTTPS" class="headerlink" title="客户端访问必须 HTTPS"></a>客户端访问必须 HTTPS</h4><p>这个就不多说了。</p>
-<ul>
-<li>  给域名申请证书，放在 Nginx 或 LB 上 管理。</li>
-<li>  业务侧，保留 HTTP 80 端口，做 80 -&gt; 443 的重定向。LB 上 80 和 443 端口监听都要开启。</li>
-</ul>
-<h4 id="一定要配置安全组和-ACL"><a href="#一定要配置安全组和-ACL" class="headerlink" title="一定要配置安全组和 ACL"></a>一定要配置安全组和 ACL</h4><p>最基本的安全防护</p>
-<h4 id="不要-root-直连"><a href="#不要-root-直连" class="headerlink" title="不要 root 直连"></a>不要 root 直连</h4><p>不要 root 直连，用普通用户，登陆过去按需 sudo 切换到 root</p>
-<h4 id="建议暴露公网的-SSH-端口不要用-22"><a href="#建议暴露公网的-SSH-端口不要用-22" class="headerlink" title="建议暴露公网的 SSH 端口不要用 22"></a>建议暴露公网的 SSH 端口不要用 22</h4><p>建议不要用默认的 22 端口，防止被扫描。另外还有建议用证书认证等方式，就不一一赘述了。</p>
-<h4 id="免费安全产品别忘领"><a href="#免费安全产品别忘领" class="headerlink" title="免费安全产品别忘领"></a>免费安全产品别忘领</h4><p>如每开通一台云服务器，都会赠送一些免费额度的「DDoS 防护和主机安全防护」。有基本的防护，会比裸奔安全很多。</p>
-</blockquote>
+        <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/vagrant0407/article/details/128986172">https://blog.csdn.net/vagrant0407/article/details/128986172</a></p>
+<p>内容摘要</p>
+<p>1 什么是SSD</p>
+<p>2 SSD的存储介质分类</p>
+<p>3 SSD的结构</p>
+<p>3.1 主控制器</p>
+<p>3.2 存储单元</p>
+<p>3.3 闪存的分类</p>
+<p>4 Host访问SSD的原理</p>
+<p>5 SSD相关概念和技术</p>
+<p>5.1 多Plane操作</p>
+<p>5.2 多Die交错操作</p>
+<p>5.3 FTL</p>
+<p>5.4 磨损平衡(Wear leveling)</p>
+<p>5.5 垃圾回收(Garbagecollection)</p>
+<p>5.6 Trim</p>
+<p>5.7 预留空间(Over-provisioning)</p>
+<p>5.8 写入放大(Write amplification)</p>
+<p>5.9 ECC</p>
+<hr>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>机械硬盘的存储系统由于内部结构,其IO访问性能无法进一步提高,CPU与存储器之间的性能差距逐渐扩大。以Nand Flash为存储介质的固态硬盘技术的发展，性能瓶颈得到缓解。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/efb2ddbf770746c3abdd5338a35a9d3d.jpeg"></p>
+<h1 id="1-什么是SSD"><a href="#1-什么是SSD" class="headerlink" title="1 什么是SSD"></a>1 什么是SSD</h1><p>固态硬盘（Solid State Drives），用固态电子存储芯片阵列而制成的硬盘，由控制单元和存储单元（FLASH芯片、DRAM芯片）组成。固态硬盘被广泛使用于军事方面、车载系统方面、工程控制技术方面、视频监控存储、网络监控存储、网络终端保存、电力系统方面、医疗信息存储方面、航空技术方面、导航设备存储等重要领域。</p>
+<h1 id="2-SSD的存储介质分类"><a href="#2-SSD的存储介质分类" class="headerlink" title="2 SSD的存储介质分类"></a>2 SSD的存储介质分类</h1><p>固态硬盘(SSD)的存储介质分为两种，一种是采用闪存（FLASH芯片）作为存储介质，另外一种是采用DRAM作为存储介质。</p>
+<p>基于闪存类：基于闪存的固态硬盘（IDEFLASH DISK、Serial ATA Flash Disk），采用FLASH芯片作为存储介质，这也是通常所说的SSD。它的外观可以被制作成多种模样，例如：笔记本硬盘、微硬盘、存储卡、U盘等样式。这种SSD固态硬盘最大的优点就是可以移动，而且数据保护不受电源控制，能适应于各种环境，适合于个人用户使用。</p>
+<p>基于DRAM类：基于DRAM的固态硬盘，采用DRAM作为存储介质，应用范围较窄。它仿效传统硬盘的设计，可被绝大部分操作系统的文件系统工具进行卷设置和管理，并提供工业标准的PCI和FC接口用于连接主机或者服务器。应用方式可分为SSD硬盘和SSD硬盘阵列两种。它是一种高性能的存储器，而且使用寿命很长，美中不足的是需要独立电源来保护数据安全。DRAM固态硬盘属于比较非主流的设备。</p>
+<p>基于3D XPoint类：在闪存与<a target="_blank" rel="noopener" href="https://www.elecfans.com/tags/dram/">DRAM</a>之间开创新市场的新一代内存技术， 3D XPoint是一种新的非易失性存储技术，也就是能像NAND闪存那样断电保持数据，但同时又有着极高的速度和性能，能够达到DRAM内存级别，因此它既能做成硬盘，也能做成内存，而且单位容量成本介于二者之间，堪称梦幻黑科技。3D XPoint的首款产品将是“Optane”傲腾品牌的固态硬盘。只有少数高端系列有， 而且已经放弃了3D XPoint技术，可惜了这么强大的技术，性能秒杀各种NAND SSD，最终输给了市场， 昙花一现。</p>
+<h1 id="3-SSD的结构"><a href="#3-SSD的结构" class="headerlink" title="3 SSD的结构"></a>3 SSD的结构</h1><p>SSD主要由主控制器芯片，闪存芯片，缓存芯片（可选），以及跟HOST接口（诸如SATA，SAS, PCIe等）组成。SSD作为数据存储设备， 其实是一种典型的（System on Chip） 单机系统， 有主控CPU、 RAM、 操作加速器、 总线、 数据编码译码等模块（见图2-1） ， 操作对象为协议、 数据命令、 介质， 操作目的是写入和读取用户数据。[7]</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3d645758dce4464bbe135ed0cbce12a6.png"></p>
+<p>图片来源 [11]</p>
+<h2 id="3-1-主控制器"><a href="#3-1-主控制器" class="headerlink" title="3.1 主控制器"></a>3.1 主控制器</h2><p>SSD控制器是固态硬盘的主要控制芯片, 负责指挥、运算和协调SSD设备, FTL (Flash Translation Layer) 算法的运行[8]。目前主流的SSD主控架构如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/73c288d5d6ad4b73ac7238d86b21e855.png"></p>
+<p>主要有三大部分组成：与Host对接的界面(Host interface, ) 称为前端, 闪存转换层FTL，称为中端以及闪存对接界面(Flash interface)，称为后端。</p>
+<p>每个 SSD 都有一个控制器(controller)将存储单元连接到电脑，主控器可以通过若干个通道（channel）并行操作多块FLASH颗粒，类似RAID0，大大提高底层的带宽。控制器是一个执行固件(firmware)代码的嵌入式处理器。主要功能如下：</p>
+<p>Read</p>
+<p>Write</p>
+<p>Trim</p>
+<p>错误检查和纠正(ECC)</p>
+<p>Address Translation——映射管理</p>
+<p>Garbage Collection——垃圾回收</p>
+<p>Wear Leveling——磨损平衡</p>
+<p>Power off Recovery —— 掉电恢复</p>
+<p>Error Handler——坏块管理</p>
+<p>SLC Cache</p>
+<p>Read Disturb &amp; Data Retention</p>
+<p>Over Privision——预留空间</p>
+<p>Latecncy 平滑管理</p>
+<p>WAF写入放大</p>
+<p>缓存控制</p>
+<p>加密</p>
+<p>压缩</p>
+<p>重复数据去冗</p>
+<p>HMB（host memory buffer） 管理</p>
+<p>固件升级</p>
+<p>Self Test</p>
+<h2 id="3-2-存储单元"><a href="#3-2-存储单元" class="headerlink" title="3.2 存储单元"></a>3.2 存储单元</h2><p>尽管有某些厂商推出了基于更高速的 DRAM 内存的产品，但 NAND 闪存依然最常见，占据着绝对主导地位。一般采用 TLC(multi-level cell) 甚至 QLC(Triple Level Cell) 闪存，其特点是容量大、速度慢、可靠性低、存取次数低、价格也低。高端产品一般采用 SLC(single-level cell) 闪存，其特点是技术成熟、容量小、速度快、可靠性高、存取次数高、价格也高。但是事实上，取决于不同产品的内部架构设计，速度和可靠性的差别也可以通过各种技术加以弥补甚至反转。</p>
+<p>闪存内部结构</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6c8f4d98ad014fc38678fa120a352bf5.png"></p>
+<p>一个Die又可以分为多个Plane,而每个Plane又包含多个多个Block,每个Block又分为多个Page。以Samsung 4GB Flash为例，共享8位I/0数据总线和一些控制信号线。每个Die由4个Plane组成，每个Plane包含2048个Block，每个Block又包含64个4KB大小的Page。我们顺序写入4个逻辑页，分别写到不同的plane上，这样写的目的是增加底层的并行性，提升写入性能。</p>
+<p>参考：[<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40838478/article/details/121114961">121114961</a>]</p>
+<h2 id="3-3-闪存的分类"><a href="#3-3-闪存的分类" class="headerlink" title="3.3 闪存的分类"></a>3.3 闪存的分类</h2><p>NAND FLASH 从 SLC -&gt; MLC -&gt; TLC -&gt; QLC，每个单元存储的比特数增加，这样晶圆的存储密度会成倍提高，但对应的整卡可写入/擦除次数(P/E Cycle) 也降低（意味着寿命也越短），读写性能会越差。最重要的单位GB的成本会更低，芯片的成本是和面积直接相关的。面积越小，一个晶圆切出的Die(片)数目就更多，单Die的成本就降下来了。[12]</p>
+<p>各大原厂孜孜不倦地提高每个单元的比特数，目的就是为了减少成本，成本才是王道！</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/149265d1ca124478a13b89583dcb51a0.webp?x-oss-process=image/format,png"></p>
+<h1 id="4-Host访问SSD的原理"><a href="#4-Host访问SSD的原理" class="headerlink" title="4 Host访问SSD的原理"></a>4 Host访问SSD的原理</h1><p>固态硬盘的存储器件采用的是闪存，具有以下几个特点：</p>
+<p>(1)读写基本单位是以页（Page）为单位，擦除是以块（Block）为单位。</p>
+<p>(2)每个物理块，必须先擦除，才能够写入数据。</p>
+<p>基于这些问题，在固态硬盘中引入了闪存转换层映射表。</p>
+<p>Host是通过LBA（Logical BlockAddress，逻辑地址块）访问SSD的，每个LBA代表着一个Sector（一般为512B大小），文件系统一般以4KB为单位访问SSD，我们把Host访问SSD的基本单元叫用户页（Host Page）。而在SSD内部，SSD主控与Flash之间是Flash Page为基本单元访问Flash的，我们称Flash Page为物理页（Physical Page）。Host每写入一个Host Page, SSD主控会找一个Physical Page把Host数据写入，SSD内部同时记录了这样一条映射（Map）。有了这样一个映射关系后，下次Host需要读某个Host Page 时，SSD就知道从Flash的哪个位置把数据读取上来。</p>
+<p>SSD内部维护了一张映射表（Map Table），Host每写入一个Host Page，就会产生一个新的映射关系，这个映射关系会加入（第一次写）或者更改（覆盖写）Map Table；当读取某个Host Page时， SSD首先查找Map Table中该Host Page对应的Physical Page，然后再访问Flash读取相应的Host数据。</p>
+<p>大多数SSD，我们可以看到上面都有板载DRAM，其主要作用就是用来存储这张映射表。也有例外，比如基于Sandforce主控的SSD，它并不支持板载DRAM，那么它的映射表存在哪里呢？SSD工作时，它的绝大部分映射是存储在FLASH里面，还有一部分存储在片上RAM上。当Host需要读取一笔数据时，对有板载DRAM的SSD来说，只要查找DRAM当中的映射表，获取到物理地址后访问Flash从而得到Host数据.这期间只需要访问一次FlashH；而对Sandforce的SSD来说，它首先看看该Host Page对应的映射关系是否在RAM内，如果在，那好办，直接根据映射关系读取FLASH；如果该映射关系不在RAM内，那么它首先需要把映射关系从FLASH里面读取出来，然后再根据这个映射关系读取Host数据，这就意味着相比有DRAM的SSD，它需要读取两次FLASH才能把HOST数据读取出来，底层有效带宽减半。对HOST随机读来说，由于片上RAM有限，映射关系Cache命中(映射关系在片上RAM)的概率很小，所以对它来说，基本每次读都需要访问两次FLASH，所以我们可以看到基于Sandforce主控的SSD随机读取性能是不太理想的。</p>
+<h1 id="5-SSD相关概念和技术"><a href="#5-SSD相关概念和技术" class="headerlink" title="5 SSD相关概念和技术"></a>5 SSD相关概念和技术</h1><h2 id="5-1-多Plane操作"><a href="#5-1-多Plane操作" class="headerlink" title="5.1 多Plane操作"></a>5.1 多Plane操作</h2><p>多 Plane NAND 是一种能够有效提升性能的设计。例如，一个晶片内部分成了4个 Plane，想象我们在操作时，也可以进行多Plane并行操作来提升性能，</p>
+<p>不同的Die 是独立工作的，可以并行操作。</p>
+<p>多个SSD Channel 可以并行操作。</p>
+<h2 id="5-2-多Die交错操作"><a href="#5-2-多Die交错操作" class="headerlink" title="5.2 多Die交错操作"></a>5.2 多Die交错操作</h2><p>交错操作可以成倍提升NAND的传输率，因为NAND颗粒封装时候可能有多Die、多Plane(每个plane都有4KB寄存器)，不同Die操作时候可以交叉操作(第一个plane接到指令后，在操作的同时第二个指令已经发送给了第二个Die，以此类推)，达到接近双倍甚至4倍的传输能力(看闪存颗粒支持度)。</p>
+<h2 id="5-3-FTL"><a href="#5-3-FTL" class="headerlink" title="5.3 FTL"></a>5.3 FTL</h2><p>操作系统通常将硬盘理解为一连串 512B 大小的扇区[注意：操作系统对磁盘进行一次读或写的最小单位并不是扇区，而是文件系统的块，一般为 512B/1KB/4KB 之一(也可能更大)，其具体大小在格式化时设定]，但是闪存的读写单位是 4KB 或 8KB 大小的页，而且闪存的擦除(又叫编程)操作是按照 128 或 256 页大小的块来操作的。更要命的是写入数据前必须要先擦除整个块，而不能直接覆盖。这完全不符合现有的、针对传统硬盘设计的文件系统的操作方式，很明显，我们需要更高级、专门针对 SSD 设计的文件系统来适应这种操作方式。但遗憾的是，目前还没有这样的文件系统。为了兼容现有的文件系统，就出现了 FTL(闪存转换层)，它位于文件系统和物理介质之间，把闪存的操作习惯虚拟成以传统硬盘的 512B 扇区进行操作。这样，操作系统就可以按照传统的扇区方式操作，而不用担心之前说的擦除/读/写问题。一切逻辑到物理的转换，全部由 FTL 层包了。</p>
+<p>FTL 算法，本质上就是一种逻辑到物理的映射，因此，当文件系统发送指令说要写入或者更新一个特定的逻辑扇区时，FTL 实际上写入了另一个空闲物理页，并更新映射表，再把这个页上包含的旧数据标记为无效(更新后的数据已经写入新地址了，旧地址的数据自然就无效了)。</p>
+<h2 id="5-4-磨损平衡-Wear-leveling"><a href="#5-4-磨损平衡-Wear-leveling" class="headerlink" title="5.4 磨损平衡(Wear leveling)"></a>5.4 磨损平衡(Wear leveling)</h2><p>简单说来，磨损平衡是确保闪存的每个块被写入的次数相等的一种机制。</p>
+<p>如果系统中的所有块都定期更新，这就没有问题，因为当页面被标记为无效然后被回收时，磨损均衡几乎会自然发生。通常情况下，在 NAND 块里的数据更新频度是不同的。具体来说：如果我们有一些冷块，即数据永远不会改变的位置，那么我们必须采取措施手动重新定位该数据，否则这些块将永远不会磨损……磨损均衡需要将数据搬移到新的块，这意味着我们也在增加写入工作量，这最终意味着增加磨损。</p>
+<p>因此，简而言之，我们对均匀磨损均衡的要求越高，我们造成的磨损就越多。但不够积极可能会导致热点和冷点，因为磨损变得更加不均匀。一如既往，这是一个找到正确平衡的问题。或者，如果您愿意，找到写入平衡。</p>
+<p>磨损平衡算法分静态和动态。动态磨损算法是基本的磨损算法：只有用户在使用中更新的文件占用的物理页地址被磨损平衡了。而静态磨损算法是更高级的磨损算法：在动态磨损算法的基础上，增加了对于那些不常更新的文件占用的物理地址进行磨损平衡，这才算是真正的全盘磨损平衡。简单点说来，动态算法就是每次都挑最年轻的 NAND 块来用，老的 NAND 块尽量不用。静态算法就是把长期没有修改的老数据从一个年轻 NAND 块里面搬出来，重新找个最老的 NAND 块放着，这样年轻的 NAND 块就能再度进入经常使用区。</p>
+<p>尽管磨损均衡的目的是避免数据重复在某个空间写入，以保证各个存储区域内磨损程度基本一致，从而达到延长固态硬盘的目的。但是，它对固态硬盘的性能有不利影响，并且会增加磨损。</p>
+<h2 id="5-5-垃圾回收-Garbagecollection"><a href="#5-5-垃圾回收-Garbagecollection" class="headerlink" title="5.5 垃圾回收(Garbagecollection)"></a>5.5 垃圾回收(Garbagecollection)</h2><p>当整个SSD写满后，从用户角度来看，如果想写入新的数据，则必须删除一些数据，然后腾出空间再写。用户在删除和写入数据的过程中，会导致一些Block里面的数据变无效或者变老。Block中的数据变老或者无效，是指没有任何映射关系指向它们，用户不会访问到这些FLASH空间，它们被新的映射关系所取代。比如有一个Host Page A，开始它存储在FLASH空间的X,映射关系为A-&gt;X。后来，HOST重写了该Host Page，由于FLASH不能覆盖写，SSD内部必须寻找一个没有写过的位置写入新的数据，假设为Y，这个时候新的映射关系建立：A-&gt;Y，之前的映射关系解除，位置X上的数据变老失效，我们把这些数据叫垃圾数据。随着HOST的持续写入，FLASH存储空间慢慢变小，直到耗尽。如果不及时清除这些垃圾数据，HOST就无法写入。SSD内部都有垃圾回收机制，它的基本原理是把几个Block中的有效数据（非垃圾数据）集中搬到一个新的Block上面去，然后再把这几个Block擦除掉，这样就产生新的可用Block了.</p>
+<p>另一方面，由前面的磨损平衡机制知道，磨损平衡的执行需要有“空白块”来写入更新后的数据。当可以直接写入数据的“备用空白块”数量低于一个阀值后，SSD主控制器就会把那些包含无效数据的块里的所有有效数据合并起来写到新的“空白块”中，然后擦除这个块以增加“备用空白块”的数量。</p>
+<p>有三种垃圾回收策略：</p>
+<p>闲置垃圾回收：很明显在进行垃圾回收时候会消耗大量的主控处理能力和带宽造成处理用户请求的性能下降，SSD 主控制器可以设置在系统闲置时候做“预先”垃圾回收(提前做垃圾回收操作)，保证一定数量的”备用空白块”，让 SSD 在运行时候能够保持较高的性能。闲置垃圾回收的缺点是会增加额外的”写入放大”，因为你刚刚垃圾回收的”有效数据”，也许马上就会被更新后的数据替代而变成”无效数据”，这样就造成之前的垃圾回收做无用功了。</p>
+<p>被动垃圾回收：每个 SSD 都支持的技术，但是对主控制器的性能提出了很高的要求，适合在服务器里用到，SandForce 的主控就属这类。在垃圾回收操作消耗带宽和处理能力的同时处理用户操作数据，如果没有足够强劲的主控制器性能则会造成明显的速度下降。这就是为啥很多 SSD 在全盘写满一次后会出现性能下降的道理，因为要想继续写入数据就必须要边垃圾回收边做写入。</p>
+<p>手动垃圾回收：用户自己手动选择合适的时机运行垃圾回收软件，执行垃圾回收操作。</p>
+<p>可以想象，如果系统经常进行垃圾回收处理，频繁的将一些区块进行擦除操作，那么 SSD 的寿命反而也会进一步下降。由此把握这个垃圾回收的频繁程度，同时确保 SSD 中的闪存芯片拥有更高的使用寿命，这确实需要找到一个完美的平衡点。所以，SSD 必须要支持 Trim 技术，不然 GC 就显不出他的优势了。</p>
+<h2 id="5-6-Trim"><a href="#5-6-Trim" class="headerlink" title="5.6 Trim"></a>5.6 Trim</h2><p>Trim 是一个 ATA 指令，当操作系统删除文件或格式化的时候，由操作系统同时把这个文件地址发送给 SSD 的主控制器，让主控制器知道这个地址的数据无效了。当你删除一个文件的时候，文件系统其实并不会真正去删除它，而只是把这个文件地址标记为“已删除”，可以被再次使用，这意味着这个文件占的地址已经是“无效”的了。这就会带来一个问题，硬盘并不知道操作系统把这个地址标记为“已删除”了，机械盘的话无所谓，因为可以直接在这个地址上重新覆盖写入，但是到了 SSD 上问题就来了。NAND 需要先擦除才能再次写入数据，要得到空闲的 NAND 空间，SSD 必须复制所有的有效页到新的空闲块里，并擦除旧块(垃圾回收)。如果没有 Trim 指令，意味着 SSD 主控制器不知道这个页是“无效”的，除非再次被操作系统要求覆盖上去。</p>
+<p>Trim 只是条指令，让操作系统告诉 SSD 主控制器这个页已经“无效”了。Trim 会减少写入放大，因为主控制器不需要复制“无效”的页(没 Trim 就是“有效”的)到空白块里，这同时代表复制的“有效”页变少了，垃圾回收的效率和 SSD 性能也提升了。Trim 能大量减少伪有效页的数量，它能大大提升垃圾回收的效率。目前，支持 Trim 需要三个要素，</p>
+<p>(1)系统：操作系统必须会发送 Trim 指令，Win7, Win2008R2 , Linux-2.6.33 以上。</p>
+<p>(2)固件： SSD 的厂商在固件里要放有 Trim 算法，也就是 SSD 的主控制器必须认识 Trim 指令。</p>
+<p>(3)驱动： 控制器驱动必须要支持 Trim 指令的传输，也就是能够将 Trim 指令传输到 SSD 控制器。MS 的驱动，Intel 的 AHCI 驱动目前支持。别的要看之后的更新了。</p>
+<p>目前，RAID 阵列里的盘明确不支持 TRIM，不过 RAID 阵列支持 GC。</p>
+<h2 id="5-7-预留空间-Over-provisioning"><a href="#5-7-预留空间-Over-provisioning" class="headerlink" title="5.7 预留空间(Over-provisioning)"></a>5.7 预留空间(Over-provisioning)</h2><p>预留空间是指用户不可操作的容量，为实际物理闪存容量减去用户可用容量。这块区域一般被用来做优化，包括磨损均衡，GC和坏块映射。</p>
+<p>第一层为固定的7.37%，这个数字是如何得出的哪？我们知道机械硬盘和 SSD 的厂商容量是这样算的，1GB 是1,000,000,000字节(10的9 次方)，但是闪存的实际容量是每 GB=1,073,741,824，(2的30次方) ，两者相差7.37%。所以说假设1块 128GB 的 SSD，用户得到的容量是 128,000,000,000 字节，多出来的那个 7.37% 就被主控固件用做OP了。</p>
+<p>第二层来自制造商的设置，通常为 0%，7%，28% 等，打个比方，对于 128G 颗粒的 SandForce 主控 SSD，市场上会有 120G 和 100G 两种型号卖，这个取决于厂商的固件设置，这个容量不包括之前的第一层 7.37% 。</p>
+<p>第三层是用户在日常使用中可以分配的预留空间，用户可以在分区的时候，不分到完全的 SSD 容量来达到这个目的。不过需要注意的是，需要先做安全擦除(Secure Erase)，以保证此空间确实没有被使用过。</p>
+<p>预留空间的具体作用：</p>
+<p>(1)垃圾回收：就是要把数据搬来搬去，那就需要始终有空的地方来放搬的数据。空的越多，搬的越快，多多益善，有些SSD为了更快，还会再拿走一些用户的容量。</p>
+<p>(2)映射表等内部数据保存：SSD里面有一个巨大的映射表，把用户地址转成物理Flash颗粒地址，需要保存，以防掉电丢失。这个大概是千分之三的容量。</p>
+<p>(3)坏块替换：写得多了，坏块会逐渐增加，需要用好的顶替。随着Flash的制程从32nm不断变小，变到现在的14nm，Flash质量越来越差，坏块越来越多，这部分可能会到3%甚至更多。</p>
+<h2 id="5-8-写入放大-Write-amplification"><a href="#5-8-写入放大-Write-amplification" class="headerlink" title="5.8 写入放大(Write amplification)"></a>5.8 写入放大(Write amplification)</h2><p>因为闪存必须先擦除(也叫编程)才能写入，在执行这些操作的时候，移动或覆盖用户数据和元数据(metadata)不止一次。这些额外的操作，不但增加了写入数据量，减少了SSD的使用寿命，而且还吃光了闪存的带宽，间接地影响了随机写入性能。这种效应就叫写入放大(Write amplification)。一个主控的好坏主要体现在写入放大上。</p>
+<p>比如我要写入一个 4KB 的数据，最坏的情况是，一个块里已经没有干净空间了，但是有无效数据可以擦除，所以主控就把所有的数据读到缓存，擦除块，从缓存里更新整个块的数据，再把新数据写回去。这个操作带来的写入放大就是：我实际写4K的数据，造成了整个块(1024KB)的写入操作，那就是256倍放大。同时带来了原本只需要简单的写4KB的操作变成闪存读取(1024KB)，缓存改(4KB)，闪存擦(1024KB)，闪存写(1024KB)，造成了延迟大大增加，速度急剧下降也就是自然的事了。所以，写入放大是影响 SSD 随机写入性能和寿命的关键因素。</p>
+<p>用100%随机4KB来写入 SSD，对于目前的大多数 SSD 主控而言，在最糟糕的情况下，写入放大的实际值可能会达到或超过20倍。当然，用户也可以设置一定的预留空间来减少写入放大，假设你有个 128G 的 SSD，你只分了 64G 的区使用，那么最坏情况下的写入放大就能减少约3倍。</p>
+<p>许多因素影响 SSD 的写入放大。下面列出了主要因素，以及它们如何影响写入放大。</p>
+<p>(1)垃圾回收虽然增加了写入放大(被动垃圾回收不影响，闲置垃圾回收影响)，但是速度有提升。</p>
+<p>(2)预留空间可以减少写入放大，预留空间越大，写入放大越低。</p>
+<p>(3)开启 TRIM 指令后可以减少写入放大</p>
+<p>(4)用户使用中没有用到的空间越大，写入放大越低(需要有 Trim 支持)。</p>
+<p>(5)持续写入可以减少写入放大。理论上来说，持续写入的写入放大为1，但是某些因素还是会影响这个数值。</p>
+<p>(6)随机写入将会大大提升写入放大，因为会写入很多非连续的 LBA。</p>
+<p>(7)磨损平衡机制直接提高了写入放大</p>
+<h2 id="5-9-ECC"><a href="#5-9-ECC" class="headerlink" title="5.9 ECC"></a>5.9 ECC</h2><p>ECC的全称是Error Checking and Correction，是一种用于Nand的差错检测和修正算法。由于NAND Flash的工艺不能保证NAND在其生命周期中保持性能的可靠，因此，在NAND的生产中及使用过程中会产生坏块。为了检测数据的可靠性，在应用NAND Flash的系统中一般都会采用一定的坏区管理机制，而管理坏区的前提是能比较可靠的进行坏区检测。如果操作时序和电路稳定性不存在问题的话，NAND Flash出错的时候一般不会造成整个Block或是Page不能读取或是全部出错，而是整个Page中只有一个或几个bit出错，这时候ECC就能发挥作用了。不同颗粒有不同的基本ECC要求，不同主控制器支持的ECC能力也不同，理论上说主控越强ECC能力越强。</p>
+<p>参考：</p>
+<p>[1] SSD(固态硬盘)简介 <a target="_blank" rel="noopener" href="http://www.jinbuguo.com/storage/ssd_intro.html">http://www.jinbuguo.com/storage/ssd_intro.html</a></p>
+<p>[2] SSD背后的秘密：SSD基本工作原理 <a target="_blank" rel="noopener" href="http://www.ssdfans.com/?p=131">http://www.ssdfans.com/?p=131</a></p>
+<p>[3] 固态硬盘(SSD)原理及相关介绍 <a target="_blank" rel="noopener" href="https://blog.csdn.net/cighao/article/details/48135137">https://blog.csdn.net/cighao/article/details/48135137</a></p>
+<p>[4] [SSD固态硬盘技术 15] FTL映射表的神秘面纱 <a target="_blank" rel="noopener" href="https://blog.csdn.net/vagrant0407/article/details/128983639">https://blog.csdn.net/vagrant0407/article/details/128983639</a></p>
+<p>[5] [SSD固态硬盘技术 9] FTL详解 <a target="_blank" rel="noopener" href="https://blog.csdn.net/vagrant0407/article/details/128978780">https://blog.csdn.net/vagrant0407/article/details/128978780</a></p>
+<p>[6] 王发宽.基于NADA闪存的混合固态硬盘设计研究[D].杭州:杭州电子科技大学,2017.</p>
+<p>[7] SSD Fans.深入浅出SSD[M].机械工业出版社,2018.</p>
+<p>[8] 李想.基于软件架构的固态硬盘FTL设计[D].武汉:华中科技大学,2015.</p>
+<p>[9] 赵鹏,白石.基于随机游走的大容量固态硬盘磨损均衡算法[J].计算机学报,2012,35(5):972-978.</p>
+<p>[10] 周懿,戴紫彬,面向Nand Flash自适应纠错码方案研究与设计[J].计算机工程与设计,2017,38(6):1681-1685.</p>
+<p>[11] 固态硬盘存储技术的分析<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin/_46637351/article/details/126013567">https://blog.csdn.net/weixin\_46637351/article/details/126013567</a></p>
+<p>[12] NOR Flash 和 NAND Flash 闪存详解<a target="_blank" rel="noopener" href="https://blog.csdn.net/vagrant0407/article/details/127813278">https://blog.csdn.net/vagrant0407/article/details/127813278</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。也可以邮件至 1209453173@qq.com </span>

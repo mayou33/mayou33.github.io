@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhangyu.info/2023/04/18/SSD%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E5%8E%9F%E7%90%86%E5%AF%BC%E8%AE%BA/</loc>
+    
+    <lastmod>2023-04-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://zhangyu.info/2023/01/03/%E8%B0%81%E5%86%8D%E9%97%AE%E6%88%91Kafka-%E6%88%91%E6%8A%8A%E8%BF%9943%E5%BC%A0%E5%9B%BE%E7%94%A9%E7%BB%99%E4%BB%96/</loc>
     
     <lastmod>2023-04-18</lastmod>
@@ -839,6 +848,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>http://zhangyu.info/tags/SSD/</loc>
+    <lastmod>2023-04-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -1032,6 +1048,13 @@
   
   <url>
     <loc>http://zhangyu.info/categories/jenkins/</loc>
+    <lastmod>2023-04-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://zhangyu.info/categories/SSD/</loc>
     <lastmod>2023-04-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
